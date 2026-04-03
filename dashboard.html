@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WTF — Workflows That Flow</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; padding: 32px 16px; }
+    .container { max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 28px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
+    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 32px; }
+    h2 { font-size: 16px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin: 32px 0 12px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; margin-bottom: 12px; }
+    .card-title { font-weight: 600; font-size: 15px; color: #f1f5f9; margin-bottom: 6px; }
+    .card-body { font-size: 13px; color: #94a3b8; line-height: 1.7; }
+    .status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .status-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 16px; }
+    .status-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+    .status-value { font-size: 14px; font-weight: 600; }
+    .ok { color: #4ade80; }
+    .warn { color: #facc15; }
+    .na { color: #475569; }
+    .todo-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #1e293b; font-size: 13px; }
+    .todo-item:last-child { border-bottom: none; }
+    .todo-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .todo-text { color: #cbd5e1; }
+    .todo-meta { font-size: 11px; color: #475569; margin-top: 2px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
+    .tag-done { background: #14532d; color: #4ade80; }
+    .tag-todo { background: #1e3a5f; color: #60a5fa; }
+    .tag-block { background: #450a0a; color: #f87171; }
+    code { font-family: 'SF Mono', 'Fira Code', monospace; background: #0f172a; border: 1px solid #334155; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #7dd3fc; }
+    .code-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #7dd3fc; white-space: pre-wrap; margin-top: 8px; }
+    .note { background: #1c1917; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 13px; color: #d6d3d1; margin-top: 8px; }
+    .session-entry { border-left: 2px solid #334155; padding: 8px 0 8px 16px; margin-bottom: 16px; }
+    .session-date { font-size: 11px; color: #475569; margin-bottom: 4px; }
+    .session-summary { font-size: 13px; color: #cbd5e1; }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    @media (max-width: 600px) { .status-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>WTF</h1>
+  <p class="subtitle">Workflows That Flow — Under Construction | 最後更新：2026-04-03</p>
+
+  <!-- 平台同步狀態 -->
+  <h2>平台同步狀態</h2>
+  <div class="status-grid">
+    <div class="status-card">
+      <div class="status-label">Web Claude Code</div>
+      <div class="status-value ok">✅ 已同步</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">所有裝置共用雲端 ~/.claude/</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Desktop Claude Code</div>
+      <div class="status-value warn">⚠️ 需手動設定</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">本機 ~/.claude/ 各機器獨立</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Claude Chat（網頁/app）</div>
+      <div class="status-value warn">⚠️ 待設定</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">Custom Instructions 綁帳號，設一次全通用</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Claude Cowork（桌機）</div>
+      <div class="status-value na">— 本機限定</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">每台機器需個別設定</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Antigravity（桌機）</div>
+      <div class="status-value na">— 同機器共用</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">與 Desktop app 共用同一本機 ~/.claude/</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">iPad / 手機</div>
+      <div class="status-value na">— Chat only</div>
+      <div class="card-body" style="margin-top:6px;font-size:12px;">無 Claude Code，只有 Chat（帳號同步）</div>
+    </div>
+  </div>
+
+  <!-- 首次新裝置備忘 -->
+  <h2>首次新裝置設定備忘</h2>
+  <div class="card">
+    <div class="card-title">Web Claude Code（任何裝置）</div>
+    <div class="card-body">不需要任何設定。登入帳號即自動套用雲端 ~/.claude/。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Desktop Claude Code / Antigravity（每台機器執行一次）</div>
+    <div class="card-body">
+      Clone 設定 repo 並建立 symlink：
+      <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/wtf
+ln -sf ~/wtf/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sf ~/wtf/claude-config/skills ~/.claude/skills</div>
+      <div class="note">Windows 用 mklink /D 取代 ln -sf，或直接手動複製貼上檔案內容。</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude Chat Custom Instructions（設一次，全裝置永久生效）</div>
+    <div class="card-body">
+      前往 Chat 設定 → Custom Instructions，貼上以下指令讓 Claude 自動讀取設定：
+      <div class="code-block">每次對話開始前，請先讀取以下網址的設定後再開始工作：
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md</div>
+    </div>
+  </div>
+
+  <!-- 待辦清單 -->
+  <h2>待辦 / 優化清單</h2>
+  <div class="card">
+    <div class="todo-item">
+      <div class="todo-icon">✅</div>
+      <div>
+        <div class="todo-text">建立 WTF_Under_Construction repo</div>
+        <div class="todo-meta">2026-04-03 完成</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">✅</div>
+      <div>
+        <div class="todo-text">遷移 Dev_Workflow + Quality_Guard skills 到 claude-config/</div>
+        <div class="todo-meta">2026-04-03 完成</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">✅</div>
+      <div>
+        <div class="todo-text">Web Claude Code 雲端 ~/.claude/ 設定完成</div>
+        <div class="todo-meta">2026-04-03 完成</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">Chat Custom Instructions 設定</div>
+        <div class="todo-meta">在 Chat 設定貼上 CLAUDE.md 連結，一次設定全裝置通用</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">Desktop / Antigravity 機器設定</div>
+        <div class="todo-meta">取得 Antigravity 機器的 ~/.claude/ 內容後合併同步</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">設計 AI 開發團隊分工架構</div>
+        <div class="todo-meta">Claude Code (Tech Lead) + Antigravity 提供的其他 AI agents 協作機制</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">自動截圖驗證 skill</div>
+        <div class="todo-meta">UI 改動後自動截圖，Claude 自行驗收，符合需求再給使用者測試</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">Token 用量優化 skill（/optimize-flow）</div>
+        <div class="todo-meta">定期檢視 workflow，產出精簡化建議</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-icon">⬜</div>
+      <div>
+        <div class="todo-text">Antigravity 機器設定取得後整合</div>
+        <div class="todo-meta">幾天後取得原本的 CLAUDE.md 與 skills，與此 repo 合併</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 討論紀錄 -->
+  <h2>討論紀錄</h2>
+  <div class="card">
+    <div class="session-entry">
+      <div class="session-date">2026-04-03 — Session 01KEuPnLDMQqcmD6FvHn47VV（已封存）</div>
+      <div class="session-summary">
+        主題：Claude 跨平台使用設定、AI 開發團隊架構規劃<br>
+        結論：
+        <ul style="margin: 6px 0 0 16px; font-size: 13px; color: #94a3b8;">
+          <li>Web Claude Code 的 ~/.claude/ 存在雲端，所有裝置自動共用</li>
+          <li>Desktop app / Antigravity 各自獨立，需 symlink 同步</li>
+          <li>Chat Custom Instructions 綁帳號，設一次全裝置通用</li>
+          <li>遷移 Dev_Workflow + Quality_Guard 到 WTF repo</li>
+          <li>建立此儀錶板作為單一知識庫</li>
+        </ul>
+      </div>
+    </div>
+    <div class="session-entry">
+      <div class="session-date">2026-04-03 — 本 Session（復原封存對話後）</div>
+      <div class="session-summary">
+        成功讀取封存 session 內容並接續；推送所有設定檔到 WTF_Under_Construction repo。
+      </div>
+    </div>
+  </div>
+
+  <!-- 重要連結 -->
+  <h2>重要連結</h2>
+  <div class="card">
+    <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
+      <div>📁 <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction">WTF_Under_Construction repo</a> — 本儀錶板與設定檔</div>
+      <div>📁 <a href="https://github.com/coldjokenewbie-code/Agent_Skills">Agent_Skills repo</a> — 原始 skills 來源（Windows/Antigravity 版本）</div>
+      <div>⚙️ <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction/blob/main/claude-config/CLAUDE.md">CLAUDE.md</a> — 全域設定</div>
+      <div>🔧 <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction/tree/main/claude-config/skills">Skills 目錄</a> — Dev_Workflow, Quality_Guard</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
