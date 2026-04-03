@@ -1,215 +1,669 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WTF — Workflows That Flow</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; padding: 32px 16px; }
-    .container { max-width: 860px; margin: 0 auto; }
-    h1 { font-size: 28px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 32px; }
-    h2 { font-size: 16px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin: 32px 0 12px; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; margin-bottom: 12px; }
-    .card-title { font-weight: 600; font-size: 15px; color: #f1f5f9; margin-bottom: 6px; }
-    .card-body { font-size: 13px; color: #94a3b8; line-height: 1.7; }
-    .status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-    .status-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 16px; }
-    .status-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
-    .status-value { font-size: 14px; font-weight: 600; }
-    .ok { color: #4ade80; }
-    .warn { color: #facc15; }
-    .na { color: #475569; }
-    .todo-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #1e293b; font-size: 13px; }
-    .todo-item:last-child { border-bottom: none; }
-    .todo-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .todo-text { color: #cbd5e1; }
-    .todo-meta { font-size: 11px; color: #475569; margin-top: 2px; }
-    .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
-    .tag-done { background: #14532d; color: #4ade80; }
-    .tag-todo { background: #1e3a5f; color: #60a5fa; }
-    .tag-block { background: #450a0a; color: #f87171; }
-    code { font-family: 'SF Mono', 'Fira Code', monospace; background: #0f172a; border: 1px solid #334155; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #7dd3fc; }
-    .code-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #7dd3fc; white-space: pre-wrap; margin-top: 8px; }
-    .note { background: #1c1917; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 13px; color: #d6d3d1; margin-top: 8px; }
-    .session-entry { border-left: 2px solid #334155; padding: 8px 0 8px 16px; margin-bottom: 16px; }
-    .session-date { font-size: 11px; color: #475569; margin-bottom: 4px; }
-    .session-summary { font-size: 13px; color: #cbd5e1; }
-    a { color: #60a5fa; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    @media (max-width: 600px) { .status-grid { grid-template-columns: 1fr 1fr; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WTF — Workflows That Flow</title>
+<style>
+:root {
+  --blue:    #4F51FE;
+  --purple:  #8C1E92;
+  --orange:  #FF4E0B;
+  --red:     #CD2019;
+  --maroon:  #441C21;
+
+  /* Dark theme (default) */
+  --bg:        #110a0d;
+  --sidebar:   #1a0f13;
+  --card:      #221219;
+  --card2:     #2a1520;
+  --border:    #3d1f28;
+  --text:      #f0e6f0;
+  --text2:     #9a7d90;
+  --text3:     #6a5060;
+  --radius:    16px;
+  --radius-sm: 10px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:      #faf4f7;
+    --sidebar: #441C21;
+    --card:    #ffffff;
+    --card2:   #f5eef2;
+    --border:  #e0cdd6;
+    --text:    #1a0810;
+    --text2:   #6b4a5a;
+    --text3:   #a07888;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ─── Sidebar ─── */
+.sidebar {
+  width: 64px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 8px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+  border-right: 1px solid var(--border);
+}
+.sidebar-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; color: white;
+  margin-bottom: 16px;
+}
+.nav-btn {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-btn:hover  { background: rgba(255,255,255,0.07); color: var(--text2); }
+.nav-btn.active { background: rgba(79,81,254,0.18);   color: var(--blue); }
+.sidebar-sep { width: 32px; height: 1px; background: var(--border); margin: 4px 0; }
+
+/* ─── Main ─── */
+.main {
+  margin-left: 64px;
+  flex: 1;
+  padding: 28px 24px 48px;
+  max-width: 1100px;
+}
+
+/* ─── Header ─── */
+.header { margin-bottom: 28px; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.header h1 {
+  font-size: 26px; font-weight: 700;
+  background: linear-gradient(90deg, var(--orange), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-sub { color: var(--text2); font-size: 13px; margin-top: 4px; }
+.header-date {
+  font-size: 12px; color: var(--text3);
+  background: var(--card2); border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 20px;
+}
+
+/* ─── Stats Row ─── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.stat-value { font-size: 26px; font-weight: 700; }
+.stat-card.blue   .stat-value { color: var(--blue); }
+.stat-card.orange .stat-value { color: var(--orange); }
+.stat-card.purple .stat-value { color: var(--purple); }
+.stat-card.red    .stat-value { color: var(--red); }
+.stat-note { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+/* ─── Grid ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+/* ─── Card ─── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.ci-blue   { background: rgba(79,81,254,0.15); }
+.ci-orange { background: rgba(255,78,11,0.15); }
+.ci-purple { background: rgba(140,30,146,0.15); }
+.ci-red    { background: rgba(205,32,25,0.15); }
+.ci-gray   { background: rgba(255,255,255,0.06); }
+.card-title { font-size: 14px; font-weight: 600; }
+.card-sub   { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+/* ─── Platform Status ─── */
+.platform-list { display: flex; flex-direction: column; gap: 8px; }
+.platform-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+.platform-name { flex: 1; font-weight: 500; }
+.platform-note { font-size: 11px; color: var(--text3); }
+.badge {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 9px; border-radius: 20px;
+  white-space: nowrap;
+}
+.badge-ok     { background: rgba(79,81,254,0.2);  color: var(--blue); }
+.badge-warn   { background: rgba(255,78,11,0.2);  color: var(--orange); }
+.badge-na     { background: rgba(255,255,255,0.06); color: var(--text3); }
+.badge-done   { background: rgba(140,30,146,0.2); color: var(--purple); }
+
+/* ─── Todo ─── */
+.todo-list { display: flex; flex-direction: column; gap: 6px; }
+.todo-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px; line-height: 1.5;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.todo-item:hover { border-color: var(--blue); }
+.todo-item.done  { opacity: 0.45; }
+.todo-check {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; transition: all 0.15s;
+}
+.todo-item.done .todo-check { background: var(--purple); border-color: var(--purple); color: white; }
+.todo-text  { flex: 1; }
+.todo-tag   { font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-top: 3px; display: inline-block; }
+.tag-urgent  { background: rgba(205,32,25,0.2);  color: var(--red); }
+.tag-waiting { background: rgba(255,78,11,0.15); color: var(--orange); }
+.tag-soon    { background: rgba(79,81,254,0.15); color: var(--blue); }
+
+/* ─── Code Block ─── */
+.code-wrap { position: relative; margin-top: 10px; }
+.code-block {
+  background: #0d060a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 12px;
+  color: #e0c8d8;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+@media (prefers-color-scheme: light) {
+  .code-block { background: #f0e8ec; color: #441C21; }
+}
+.copy-btn {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(79,81,254,0.2);
+  border: 1px solid rgba(79,81,254,0.3);
+  border-radius: 6px;
+  color: var(--blue);
+  font-size: 11px; padding: 3px 9px;
+  cursor: pointer; font-family: inherit;
+  transition: background 0.15s;
+}
+.copy-btn:hover  { background: rgba(79,81,254,0.35); }
+.copy-btn.copied { color: var(--purple); border-color: var(--purple); }
+
+/* ─── Setup Section ─── */
+.setup-steps { display: flex; flex-direction: column; gap: 14px; }
+.setup-step { }
+.setup-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.setup-desc  { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+
+/* ─── Alert ─── */
+.alert {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  font-size: 12px; line-height: 1.5; margin-top: 8px;
+}
+.alert-orange { background: rgba(255,78,11,0.1);  border-left: 3px solid var(--orange); color: var(--text2); }
+.alert-blue   { background: rgba(79,81,254,0.1);  border-left: 3px solid var(--blue);   color: var(--text2); }
+
+/* ─── Log ─── */
+.log-list { display: flex; flex-direction: column; gap: 10px; }
+.log-item { padding: 12px 14px; background: var(--card2); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.log-date  { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-family: monospace; }
+.log-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.log-points { padding-left: 16px; }
+.log-points li { font-size: 12px; color: var(--text2); line-height: 1.7; }
+.log-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-right: 4px; }
+
+/* ─── Links ─── */
+.link-list { display: flex; flex-direction: column; gap: 8px; }
+.link-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px; text-decoration: none; color: var(--text);
+  transition: border-color 0.15s;
+}
+.link-item:hover { border-color: var(--blue); }
+.link-icon { font-size: 16px; }
+.link-label { flex: 1; }
+.link-arrow { color: var(--text3); font-size: 12px; }
+
+/* ─── Section Title ─── */
+.section-label {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 24px 0 10px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 720px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>WTF</h1>
-  <p class="subtitle">Workflows That Flow — Under Construction | 最後更新：2026-04-03</p>
 
-  <!-- 平台同步狀態 -->
-  <h2>平台同步狀態</h2>
-  <div class="status-grid">
-    <div class="status-card">
-      <div class="status-label">Web Claude Code</div>
-      <div class="status-value ok">✅ 已同步</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">所有裝置共用雲端 ~/.claude/</div>
-    </div>
-    <div class="status-card">
-      <div class="status-label">Desktop Claude Code</div>
-      <div class="status-value warn">⚠️ 需手動設定</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">本機 ~/.claude/ 各機器獨立</div>
-    </div>
-    <div class="status-card">
-      <div class="status-label">Claude Chat（網頁/app）</div>
-      <div class="status-value warn">⚠️ 待設定</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">Custom Instructions 綁帳號，設一次全通用</div>
-    </div>
-    <div class="status-card">
-      <div class="status-label">Claude Cowork（桌機）</div>
-      <div class="status-value na">— 本機限定</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">每台機器需個別設定</div>
-    </div>
-    <div class="status-card">
-      <div class="status-label">Antigravity（桌機）</div>
-      <div class="status-value na">— 同機器共用</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">與 Desktop app 共用同一本機 ~/.claude/</div>
-    </div>
-    <div class="status-card">
-      <div class="status-label">iPad / 手機</div>
-      <div class="status-value na">— Chat only</div>
-      <div class="card-body" style="margin-top:6px;font-size:12px;">無 Claude Code，只有 Chat（帳號同步）</div>
+<!-- ─── Sidebar ─── -->
+<div class="sidebar">
+  <div class="sidebar-logo">W</div>
+  <button class="nav-btn active" title="總覽" onclick="scrollTo(0,0)">⊞</button>
+  <button class="nav-btn" title="同步狀態" onclick="scrollToId('sync')">⇄</button>
+  <button class="nav-btn" title="待辦" onclick="scrollToId('todo')">✓</button>
+  <button class="nav-btn" title="裝置設定" onclick="scrollToId('setup')">⚙</button>
+  <button class="nav-btn" title="討論記錄" onclick="scrollToId('log')">📋</button>
+  <div class="sidebar-sep"></div>
+  <button class="nav-btn" title="PRD" onclick="window.open('PRD.md')">📄</button>
+</div>
+
+<!-- ─── Main ─── -->
+<div class="main">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>WTF Dashboard</h1>
+        <div class="header-sub">Workflows That Flow — 協作工作流持續優化中</div>
+      </div>
+      <div class="header-date" id="today-date"></div>
     </div>
   </div>
 
-  <!-- 首次新裝置備忘 -->
-  <h2>首次新裝置設定備忘</h2>
-  <div class="card">
-    <div class="card-title">Web Claude Code（任何裝置）</div>
-    <div class="card-body">不需要任何設定。登入帳號即自動套用雲端 ~/.claude/。</div>
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card blue">
+      <div class="stat-label">平台同步</div>
+      <div class="stat-value">1/6</div>
+      <div class="stat-note">Web ✅，其餘待設定</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">待辦項目</div>
+      <div class="stat-value">7</div>
+      <div class="stat-note">3 高優先</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Skills 已建立</div>
+      <div class="stat-value">2</div>
+      <div class="stat-note">Dev_Workflow、Quality_Guard</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">PRD 版本</div>
+      <div class="stat-value">v0.1</div>
+      <div class="stat-note">待 Insight 報告確認</div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-title">Desktop Claude Code / Antigravity（每台機器執行一次）</div>
-    <div class="card-body">
-      Clone 設定 repo 並建立 symlink：
-      <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/wtf
+
+  <!-- Sync + Todo -->
+  <div class="grid-2">
+
+    <!-- Platform Sync -->
+    <div class="card" id="sync">
+      <div class="card-header">
+        <div class="card-icon ci-blue">⇄</div>
+        <div>
+          <div class="card-title">平台同步狀態</div>
+          <div class="card-sub">最後更新：2026-04-03</div>
+        </div>
+      </div>
+      <div class="platform-list">
+        <div class="platform-item">
+          <span>🌐</span>
+          <span class="platform-name">Web Claude Code</span>
+          <span class="badge badge-ok">已同步</span>
+        </div>
+        <div class="platform-item">
+          <span>🖥</span>
+          <span class="platform-name">Desktop Claude Code</span>
+          <span class="platform-note">本機獨立</span>
+          <span class="badge badge-warn">待設定</span>
+        </div>
+        <div class="platform-item">
+          <span>🔮</span>
+          <span class="platform-name">Antigravity</span>
+          <span class="platform-note">同機器共用</span>
+          <span class="badge badge-warn">待合併</span>
+        </div>
+        <div class="platform-item">
+          <span>💬</span>
+          <span class="platform-name">Claude Chat（網頁/App）</span>
+          <span class="platform-note">Profile Preferences</span>
+          <span class="badge badge-done">已更新</span>
+        </div>
+        <div class="platform-item">
+          <span>🤝</span>
+          <span class="platform-name">Claude Cowork</span>
+          <span class="platform-note">本機限定</span>
+          <span class="badge badge-na">本機</span>
+        </div>
+        <div class="platform-item">
+          <span>📱</span>
+          <span class="platform-name">iPad / 手機</span>
+          <span class="platform-note">Chat only，帳號同步</span>
+          <span class="badge badge-ok">Chat 通用</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Todo -->
+    <div class="card" id="todo">
+      <div class="card-header">
+        <div class="card-icon ci-orange">✓</div>
+        <div>
+          <div class="card-title">待辦清單</div>
+          <div class="card-sub">點擊切換完成狀態</div>
+        </div>
+      </div>
+      <div class="todo-list" id="todo-list">
+
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
+          <div class="todo-text">
+            建立 WTF_Under_Construction repo
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-03</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
+          <div class="todo-text">
+            Web Claude Code 雲端設定 + Skills 遷移
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-03</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
+          <div class="todo-text">
+            Claude Chat Profile Preferences 更新
+            <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成（已自行更新）</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            確認正確 Insight 報告 → 完成 PRD v0.2
+            <div><span class="todo-tag tag-urgent">高優先</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            Antigravity 機器 ~/.claude/ 內容合併
+            <div><span class="todo-tag tag-waiting">等待：幾天後取得</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            建立 Skills 套組：/commit、/review-ui、/consolidate、/optimize-flow
+            <div><span class="todo-tag tag-soon">中優先</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            設定 Hooks（afterEdit 自動 lint）
+            <div><span class="todo-tag tag-soon">中優先</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            AI 開發團隊架構設計（Claude + Antigravity agents 分工）
+            <div><span class="todo-tag tag-soon">中優先</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            自動截圖驗收 skill
+            <div><span class="todo-tag tag-waiting">暫緩：PRD 確認後</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Setup -->
+  <div class="section-label" id="setup">首次新裝置設定</div>
+  <div class="grid-3">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ci-blue">🌐</div>
+        <div><div class="card-title">Web Claude Code</div></div>
+      </div>
+      <div style="font-size:13px; color:var(--text2); line-height:1.6;">
+        登入帳號即自動套用雲端設定，不需任何操作。
+      </div>
+      <div class="alert alert-blue">
+        <span>ℹ️</span><span>所有裝置共用同一份 ~/.claude/</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ci-orange">🖥</div>
+        <div><div class="card-title">Desktop / Antigravity</div><div class="card-sub">每台機器執行一次</div></div>
+      </div>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="setup-label">macOS / Linux</div>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/wtf
 ln -sf ~/wtf/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/wtf/claude-config/skills ~/.claude/skills</div>
-      <div class="note">Windows 用 mklink /D 取代 ln -sf，或直接手動複製貼上檔案內容。</div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="setup-label">Windows（PowerShell，以系統管理員執行）</div>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git $env:USERPROFILE\wtf
+# 手動複製 CLAUDE.md 和 skills 資料夾到 %USERPROFILE%\.claude\</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-title">Claude Chat Custom Instructions（設一次，全裝置永久生效）</div>
-    <div class="card-body">
-      前往 Chat 設定 → Custom Instructions，貼上以下指令讓 Claude 自動讀取設定：
-      <div class="code-block">每次對話開始前，請先讀取以下網址的設定後再開始工作：
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ci-purple">💬</div>
+        <div><div class="card-title">Claude Chat</div><div class="card-sub">設一次，全裝置永久生效</div></div>
+      </div>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="setup-label">Profile Preferences 參考連結</div>
+          <div class="setup-desc">在 Chat 設定中填入工作方式偏好，讓 Claude 了解你的角色與需求。</div>
+        </div>
+        <div class="setup-step">
+          <div class="setup-label">快速載入設定（貼在對話開頭）</div>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <div class="code-block">請先讀取以下設定後再開始工作：
 https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md</div>
-    </div>
-  </div>
-
-  <!-- 待辦清單 -->
-  <h2>待辦 / 優化清單</h2>
-  <div class="card">
-    <div class="todo-item">
-      <div class="todo-icon">✅</div>
-      <div>
-        <div class="todo-text">建立 WTF_Under_Construction repo</div>
-        <div class="todo-meta">2026-04-03 完成</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">✅</div>
-      <div>
-        <div class="todo-text">遷移 Dev_Workflow + Quality_Guard skills 到 claude-config/</div>
-        <div class="todo-meta">2026-04-03 完成</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">✅</div>
-      <div>
-        <div class="todo-text">Web Claude Code 雲端 ~/.claude/ 設定完成</div>
-        <div class="todo-meta">2026-04-03 完成</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">Chat Custom Instructions 設定</div>
-        <div class="todo-meta">在 Chat 設定貼上 CLAUDE.md 連結，一次設定全裝置通用</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">Desktop / Antigravity 機器設定</div>
-        <div class="todo-meta">取得 Antigravity 機器的 ~/.claude/ 內容後合併同步</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">設計 AI 開發團隊分工架構</div>
-        <div class="todo-meta">Claude Code (Tech Lead) + Antigravity 提供的其他 AI agents 協作機制</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">自動截圖驗證 skill</div>
-        <div class="todo-meta">UI 改動後自動截圖，Claude 自行驗收，符合需求再給使用者測試</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">Token 用量優化 skill（/optimize-flow）</div>
-        <div class="todo-meta">定期檢視 workflow，產出精簡化建議</div>
-      </div>
-    </div>
-    <div class="todo-item">
-      <div class="todo-icon">⬜</div>
-      <div>
-        <div class="todo-text">Antigravity 機器設定取得後整合</div>
-        <div class="todo-meta">幾天後取得原本的 CLAUDE.md 與 skills，與此 repo 合併</div>
+      <div class="alert alert-orange">
+        <span>⚠️</span><span>Profile Preferences 的實際可設定範圍待確認</span>
       </div>
     </div>
   </div>
 
-  <!-- 討論紀錄 -->
-  <h2>討論紀錄</h2>
+  <!-- Discussion Log -->
+  <div class="section-label" id="log">討論記錄</div>
   <div class="card">
-    <div class="session-entry">
-      <div class="session-date">2026-04-03 — Session 01KEuPnLDMQqcmD6FvHn47VV（已封存）</div>
-      <div class="session-summary">
-        主題：Claude 跨平台使用設定、AI 開發團隊架構規劃<br>
-        結論：
-        <ul style="margin: 6px 0 0 16px; font-size: 13px; color: #94a3b8;">
-          <li>Web Claude Code 的 ~/.claude/ 存在雲端，所有裝置自動共用</li>
-          <li>Desktop app / Antigravity 各自獨立，需 symlink 同步</li>
-          <li>Chat Custom Instructions 綁帳號，設一次全裝置通用</li>
-          <li>遷移 Dev_Workflow + Quality_Guard 到 WTF repo</li>
-          <li>建立此儀錶板作為單一知識庫</li>
+    <div class="card-header">
+      <div class="card-icon ci-gray">📋</div>
+      <div><div class="card-title">Session 記錄</div><div class="card-sub">每次有實質產出的 session</div></div>
+    </div>
+    <div class="log-list">
+
+      <div class="log-item">
+        <div class="log-date">2026-04-03 — Session 01KEuPnLDMQqcmD6FvHn47VV（已封存）</div>
+        <div class="log-title">跨平台設定同步 + AI 開發團隊架構初探</div>
+        <ul class="log-points">
+          <li>確認 Web Claude Code 雲端 ~/.claude/ 跨裝置通用</li>
+          <li>Desktop / Antigravity 各機器獨立，需 symlink</li>
+          <li>遷移 Dev_Workflow + Quality_Guard skills</li>
+          <li>建立 WTF_Under_Construction repo</li>
+          <li>AI 開發團隊角色定義：PO（User）+ AI Team Lead（Claude）</li>
         </ul>
       </div>
-    </div>
-    <div class="session-entry">
-      <div class="session-date">2026-04-03 — 本 Session（復原封存對話後）</div>
-      <div class="session-summary">
-        成功讀取封存 session 內容並接續；推送所有設定檔到 WTF_Under_Construction repo。
+
+      <div class="log-item">
+        <div class="log-date">2026-04-03 — 本 Session（復原封存對話）</div>
+        <div class="log-title">PRD v0.1 起草 + CLAUDE.md 效益原則更新</div>
+        <ul class="log-points">
+          <li>更新效益優先原則：禁止虛構設定、推測必須標註、禁止聊天語氣</li>
+          <li>起草 WTF PRD v0.1（待正確 Insight 報告確認後升版）</li>
+          <li>Chat Profile Preferences 由 PO 自行更新</li>
+          <li>儀錶板重新設計（Fire Evening 配色 + 現代 dashboard 風格）</li>
+        </ul>
       </div>
+
     </div>
   </div>
 
-  <!-- 重要連結 -->
-  <h2>重要連結</h2>
-  <div class="card">
-    <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
-      <div>📁 <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction">WTF_Under_Construction repo</a> — 本儀錶板與設定檔</div>
-      <div>📁 <a href="https://github.com/coldjokenewbie-code/Agent_Skills">Agent_Skills repo</a> — 原始 skills 來源（Windows/Antigravity 版本）</div>
-      <div>⚙️ <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction/blob/main/claude-config/CLAUDE.md">CLAUDE.md</a> — 全域設定</div>
-      <div>🔧 <a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction/tree/main/claude-config/skills">Skills 目錄</a> — Dev_Workflow, Quality_Guard</div>
+  <!-- Links -->
+  <div class="section-label">快速連結</div>
+  <div class="grid-2">
+    <div class="card">
+      <a class="link-item" href="PRD.md" target="_blank">
+        <span class="link-icon">📄</span>
+        <span class="link-label">PRD v0.1 — 專案需求書</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="claude-config/CLAUDE.md" target="_blank" style="margin-top:8px;">
+        <span class="link-icon">⚙️</span>
+        <span class="link-label">CLAUDE.md — 全域設定</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="claude-config/skills/" target="_blank" style="margin-top:8px;">
+        <span class="link-icon">🔧</span>
+        <span class="link-label">Skills 目錄</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+    <div class="card">
+      <a class="link-item" href="https://github.com/coldjokenewbie-code/WTF_Under_Construction" target="_blank">
+        <span class="link-icon">🐙</span>
+        <span class="link-label">GitHub — WTF_Under_Construction</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-item" href="https://github.com/coldjokenewbie-code/Agent_Skills" target="_blank" style="margin-top:8px;">
+        <span class="link-icon">🐙</span>
+        <span class="link-label">GitHub — Agent_Skills（原始 skills）</span>
+        <span class="link-arrow">↗</span>
+      </a>
     </div>
   </div>
 
-</div>
+</div><!-- /main -->
+
+<script>
+  // Date
+  document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+
+  // Scroll to section
+  function scrollToId(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Toggle todo
+  function toggleTodo(item) {
+    item.classList.toggle('done');
+    const box = item.querySelector('.todo-check');
+    box.textContent = item.classList.contains('done') ? '✓' : '';
+    saveTodos();
+  }
+
+  // Copy code
+  function copyCode(btn) {
+    const block = btn.nextElementSibling;
+    navigator.clipboard.writeText(block.textContent.trim()).then(() => {
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '複製'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // Persist todo state in localStorage
+  function saveTodos() {
+    const items = document.querySelectorAll('.todo-item');
+    const state = [...items].map(i => i.classList.contains('done'));
+    localStorage.setItem('wtf-todos', JSON.stringify(state));
+  }
+  function loadTodos() {
+    const saved = localStorage.getItem('wtf-todos');
+    if (!saved) return;
+    const state = JSON.parse(saved);
+    const items = document.querySelectorAll('.todo-item');
+    items.forEach((item, i) => {
+      if (state[i]) {
+        item.classList.add('done');
+        item.querySelector('.todo-check').textContent = '✓';
+      }
+    });
+  }
+  loadTodos();
+</script>
 </body>
 </html>
