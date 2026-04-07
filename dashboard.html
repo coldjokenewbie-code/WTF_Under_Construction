@@ -443,10 +443,10 @@ body {
         </div>
 
         <div class="todo-item done" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             升版 PRD v0.2（整合 Insight 確認的四項決策）
-            <div><span class="todo-tag tag-urgent">高優先</span></div>
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-07</span></div>
           </div>
         </div>
 
@@ -499,10 +499,10 @@ body {
         </div>
 
         <div class="todo-item done" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             設定凌晨三點排程（/schedule）：每日工作回顧、儀表板更新、CLAUDE.md 清理
-            <div><span class="todo-tag tag-high">高優先</span></div>
+            <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-07</span></div>
           </div>
         </div>
 
@@ -628,6 +628,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>起草 WTF PRD v0.1</li>
           <li>Chat Profile Preferences 由 PO 自行更新</li>
           <li>儀錶板重新設計（Fire Evening 配色 + 現代 dashboard 風格）</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-07 — Nightly 排程（凌晨 03:00）</div>
+        <div class="log-title">每日 git log 掃描 + 儀表板更新 + CLAUDE.md 精簡</div>
+        <ul class="log-points">
+          <li>WTF_Under_Construction：20+ commits — PRD v0.2 升版、Skills 建立（session-end / merge-main / lesson-add / skills-install）、CLAUDE.md 拆分為工具層級設定、儀表板重構</li>
+          <li>Agent_Skills：今日無活動</li>
+          <li>Planner2Line / reader_syc / Assembly_Plant_Mobile_Guide / CDIC_B1 / claude_CDIC_C1 / claude_CDIC_A1：私有 repo，未開放 API 存取，略過</li>
+          <li>儀表板：修正 PRD v0.2 + 排程設定兩項待辦的 checkmark 顯示錯誤</li>
+          <li>CLAUDE.md：移除重複的「溝通與意圖解讀」獨立段落，合併至作業慣例</li>
         </ul>
       </div>
 
