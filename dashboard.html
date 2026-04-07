@@ -319,13 +319,13 @@ body {
   <div class="stats-row">
     <div class="stat-card blue">
       <div class="stat-label">平台同步</div>
-      <div class="stat-value">1/6</div>
-      <div class="stat-note">Web ✅，其餘待設定</div>
+      <div class="stat-value">2/6</div>
+      <div class="stat-note">Web ✅ Chat ✅</div>
     </div>
     <div class="stat-card orange">
       <div class="stat-label">待辦項目</div>
       <div class="stat-value">7</div>
-      <div class="stat-note">3 高優先</div>
+      <div class="stat-note">2 高優先</div>
     </div>
     <div class="stat-card purple">
       <div class="stat-label">Skills 已建立</div>
@@ -335,7 +335,7 @@ body {
     <div class="stat-card red">
       <div class="stat-label">PRD 版本</div>
       <div class="stat-value">v0.1</div>
-      <div class="stat-note">待 Insight 報告確認</div>
+      <div class="stat-note">Insight 確認，待升版 v0.2</div>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ body {
         <div class="card-icon ci-blue">⇄</div>
         <div>
           <div class="card-title">平台同步狀態</div>
-          <div class="card-sub">最後更新：2026-04-03</div>
+          <div class="card-sub">最後更新：2026-04-07</div>
         </div>
       </div>
       <div class="platform-list">
@@ -366,8 +366,8 @@ body {
         <div class="platform-item">
           <span>🔮</span>
           <span class="platform-name">Antigravity</span>
-          <span class="platform-note">同機器共用</span>
-          <span class="badge badge-warn">待合併</span>
+          <span class="platform-note">改 ~/.claude/CLAUDE.md 指向 WTF repo</span>
+          <span class="badge badge-warn">待手動更新</span>
         </div>
         <div class="platform-item">
           <span>💬</span>
@@ -425,10 +425,26 @@ body {
           </div>
         </div>
 
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
+          <div class="todo-text">
+            Insight 報告確認 + CLAUDE.md 作業慣例補充（截圖、增量編輯、意圖解讀、UI 樣式）
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-07</span></div>
+          </div>
+        </div>
+
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
-            確認正確 Insight 報告 → 完成 PRD v0.2
+            Antigravity ~/.claude/CLAUDE.md 手動更新（改指向 WTF repo）
+            <div><span class="todo-tag tag-urgent">高優先 — PO 自行執行</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            升版 PRD v0.2（整合 Insight 確認的四項決策）
             <div><span class="todo-tag tag-urgent">高優先</span></div>
           </div>
         </div>
@@ -436,15 +452,31 @@ body {
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
-            Antigravity 機器 ~/.claude/ 內容合併
-            <div><span class="todo-tag tag-waiting">等待：幾天後取得</span></div>
+            建立 /ui-review skill（UI 修改後驗收 nav bar、字體、版面）
+            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
           </div>
         </div>
 
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
-            建立 Skills 套組：/commit、/review-ui、/consolidate、/optimize-flow
+            設定 Hooks（HTML 編輯後提醒確認版面完整性）
+            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            建立 Playwright 無頭截圖驗收流程（取代手動截圖）
+            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            建立 /commit、/consolidate、/optimize-flow skills
             <div><span class="todo-tag tag-soon">中優先</span></div>
           </div>
         </div>
@@ -452,24 +484,8 @@ body {
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
-            設定 Hooks（afterEdit 自動 lint）
-            <div><span class="todo-tag tag-soon">中優先</span></div>
-          </div>
-        </div>
-
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
-          <div class="todo-text">
-            AI 開發團隊架構設計（Claude + Antigravity agents 分工）
-            <div><span class="todo-tag tag-soon">中優先</span></div>
-          </div>
-        </div>
-
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
-          <div class="todo-text">
-            自動截圖驗收 skill
-            <div><span class="todo-tag tag-waiting">暫緩：PRD 確認後</span></div>
+            AI 開發團隊架構設計（Claude Tech Lead + Antigravity agents 分工）
+            <div><span class="todo-tag tag-waiting">暫緩：PRD v0.2 確認後</span></div>
           </div>
         </div>
 
@@ -571,9 +587,21 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         <div class="log-title">PRD v0.1 起草 + CLAUDE.md 效益原則更新</div>
         <ul class="log-points">
           <li>更新效益優先原則：禁止虛構設定、推測必須標註、禁止聊天語氣</li>
-          <li>起草 WTF PRD v0.1（待正確 Insight 報告確認後升版）</li>
+          <li>起草 WTF PRD v0.1</li>
           <li>Chat Profile Preferences 由 PO 自行更新</li>
           <li>儀錶板重新設計（Fire Evening 配色 + 現代 dashboard 風格）</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-07 — 本 Session</div>
+        <div class="log-title">Insight 報告分析 + PRD 四項決策確認 + CLAUDE.md 作業慣例補充</div>
+        <ul class="log-points">
+          <li>讀取正確 Insight 報告（161 訊息，12 sessions，2026-03-09 至 04-01）</li>
+          <li>三大摩擦點：截圖卡死、需求誤解（方向錯誤 10 次）、過度修改壞 nav bar</li>
+          <li>PRD 四項決策確認：agents 有 scope 邊界、Playwright 取代截圖、session 自動記錄、里程碑觸發 token 優化</li>
+          <li>CLAUDE.md 補充四條作業慣例（截圖限制、增量編輯、意圖解讀、UI 樣式）</li>
+          <li>確認 Antigravity 機器 ~/.claude/CLAUDE.md 內容，制定指向 WTF repo 的更新方式</li>
         </ul>
       </div>
 
