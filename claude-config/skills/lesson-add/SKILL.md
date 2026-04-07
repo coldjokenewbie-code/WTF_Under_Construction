@@ -8,12 +8,13 @@ description: 將觀察整合進 CLAUDE.md，並檢視全文去除矛盾與冗餘
 用法：`/lesson-add [層級] [觀察內容]`
 
 層級：
-- `全域` → `~/.claude/CLAUDE.md` + `claude-config/CLAUDE.md`
-- `工具` → 對應工具段落（Claude Code / Cowork / Chat）
+- `專案` → 當前專案根目錄的 `.claude/CLAUDE.md`
+- `全域` → `~/.claude/CLAUDE.md`（所有專案共用）
+- `工具` → 對應工具設定段落（Claude Code / Cowork）
 
 執行步驟：
 
-1. 讀取對應 CLAUDE.md。
+1. 依層級讀取對應 CLAUDE.md。
 
 2. 將觀察整合進最相關的既有段落（不新增段落，除非真的無處安放）。
 
@@ -23,12 +24,20 @@ description: 將觀察整合進 CLAUDE.md，並檢視全文去除矛盾與冗餘
    - 過時內容 → 移除
    - 每條規則能否一句話說清楚 → 精簡
 
-4. 同步更新兩份（`~/.claude/CLAUDE.md` + GitHub repo 的 `claude-config/CLAUDE.md`）。
+4. 存檔：
+   - `專案` → 只更新當前專案的 `.claude/CLAUDE.md`
+   - `全域` → 更新 `~/.claude/CLAUDE.md`；若在 WTF 專案中，同步更新 `claude-config/CLAUDE.md`
 
 5. Commit 並 push：
    ```
+   # 專案層級
+   git add .claude/CLAUDE.md
+   git commit -m "lesson-add(專案): [一句話摘要]"
+   git push
+
+   # 全域層級（在 WTF 專案中）
    git add claude-config/CLAUDE.md
-   git commit -m "lesson-add: [一句話摘要]"
+   git commit -m "lesson-add(全域): [一句話摘要]"
    git push
    ```
 
