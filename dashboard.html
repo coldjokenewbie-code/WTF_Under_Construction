@@ -132,6 +132,7 @@ body {
 /* ─── Grid ─── */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 
 /* ─── Card ─── */
 .card {
@@ -283,7 +284,7 @@ body {
 /* ─── Responsive ─── */
 @media (max-width: 720px) {
   .stats-row { grid-template-columns: 1fr 1fr; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -378,8 +379,8 @@ body {
         <div class="platform-item">
           <span>🤝</span>
           <span class="platform-name">Claude Cowork</span>
-          <span class="platform-note">本機限定</span>
-          <span class="badge badge-na">本機</span>
+          <span class="platform-note">沙盒環境，每 session 清除，需每次載入</span>
+          <span class="badge badge-warn">每次手動</span>
         </div>
         <div class="platform-item">
           <span>📱</span>
@@ -495,7 +496,7 @@ body {
 
   <!-- Device Setup -->
   <div class="section-label" id="setup">首次新裝置設定</div>
-  <div class="grid-3">
+  <div class="grid-4">
 
     <div class="card">
       <div class="card-header">
@@ -533,6 +534,27 @@ ln -sf ~/wtf/claude-config/skills ~/.claude/skills</div>
 # 手動複製 CLAUDE.md 和 skills 資料夾到 %USERPROFILE%\.claude\</div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ci-red">🤝</div>
+        <div><div class="card-title">Claude Cowork</div><div class="card-sub">沙盒環境，每 session 重新載入</div></div>
+      </div>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="setup-label">每次對話開頭貼上</div>
+          <div class="setup-desc">設定存在沙盒中，對話結束後清除，無法持久化。</div>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <div class="code-block">請先讀取以下設定後再開始工作：
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md</div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-orange">
+        <span>⚠️</span><span>Cowork 的 CLAUDE.md 路徑在沙盒內，對 Windows 磁碟無效。每次 session 手動載入是唯一方式。</span>
       </div>
     </div>
 
