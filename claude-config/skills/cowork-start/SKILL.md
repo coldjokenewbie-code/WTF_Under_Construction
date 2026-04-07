@@ -13,6 +13,7 @@ Cowork 的設定存在沙盒中，每次 session 結束後清除。
 
 請先讀取以下設定後再開始工作：
 https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/cowork.md
 
 本次任務：[在這裡填入任務描述]
 
