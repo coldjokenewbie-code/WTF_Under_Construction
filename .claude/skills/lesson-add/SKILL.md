@@ -26,19 +26,14 @@ description: 將觀察整合進 CLAUDE.md，並檢視全文去除矛盾與冗餘
 
 4. 存檔：
    - `專案` → 只更新當前專案的 `.claude/CLAUDE.md`
-   - `全域` → 更新 `~/.claude/CLAUDE.md`；若在 WTF 專案中，同步更新 `claude-config/CLAUDE.md`
+   - `全域` → 更新 `~/.claude/CLAUDE.md`
 
-5. Commit 並 push：
+5. Commit 並 push（專案層級）：
    ```
-   # 專案層級
    git add .claude/CLAUDE.md
    git commit -m "lesson-add(專案): [一句話摘要]"
    git push
-
-   # 全域層級（在 WTF 專案中）
-   git add claude-config/CLAUDE.md
-   git commit -m "lesson-add(全域): [一句話摘要]"
-   git push
    ```
+   全域層級直接更新 `~/.claude/CLAUDE.md`，無需 git commit。
 
 6. 回報：新增了什麼、刪除或合併了什麼、精簡前後行數變化。
