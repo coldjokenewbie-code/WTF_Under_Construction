@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <title>Claude Code 使用分析</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #334155; line-height: 1.65; padding: 48px 24px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { font-size: 32px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    h2 { font-size: 20px; font-weight: 600; color: #0f172a; margin-top: 48px; margin-bottom: 16px; }
+    .subtitle { color: #64748b; font-size: 15px; margin-bottom: 32px; }
+    .nav-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 32px 0; padding: 16px; background: white; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .nav-toc a { font-size: 12px; color: #64748b; text-decoration: none; padding: 6px 12px; border-radius: 6px; background: #f1f5f9; transition: all 0.15s; }
+    .nav-toc a:hover { background: #e2e8f0; color: #334155; }
+    .stats-row { display: flex; gap: 24px; margin-bottom: 40px; padding: 20px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #0f172a; }
+    .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; }
+    .at-a-glance { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+    .glance-title { font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 16px; }
+    .glance-sections { display: flex; flex-direction: column; gap: 12px; }
+    .glance-section { font-size: 14px; color: #78350f; line-height: 1.6; }
+    .glance-section strong { color: #92400e; }
+    .see-more { color: #b45309; text-decoration: none; font-size: 13px; white-space: nowrap; }
+    .see-more:hover { text-decoration: underline; }
+    .project-areas { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .project-area { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; }
+    .area-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .area-name { font-weight: 600; font-size: 15px; color: #0f172a; }
+    .area-count { font-size: 12px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 4px; }
+    .area-desc { font-size: 14px; color: #475569; line-height: 1.5; }
+    .narrative { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+    .narrative p { margin-bottom: 12px; font-size: 14px; color: #475569; line-height: 1.7; }
+    .key-insight { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 14px; color: #166534; }
+    .section-intro { font-size: 14px; color: #64748b; margin-bottom: 16px; }
+    .big-wins { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .big-win { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; }
+    .big-win-title { font-weight: 600; font-size: 15px; color: #166534; margin-bottom: 8px; }
+    .big-win-desc { font-size: 14px; color: #15803d; line-height: 1.5; }
+    .friction-categories { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    .friction-category { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 16px; }
+    .friction-title { font-weight: 600; font-size: 15px; color: #991b1b; margin-bottom: 6px; }
+    .friction-desc { font-size: 13px; color: #7f1d1d; margin-bottom: 10px; }
+    .friction-examples { margin: 0 0 0 20px; font-size: 13px; color: #334155; }
+    .friction-examples li { margin-bottom: 4px; }
+    .claude-md-section { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+    .claude-md-section h3 { font-size: 14px; font-weight: 600; color: #1e40af; margin: 0 0 12px 0; }
+    .claude-md-actions { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #dbeafe; }
+    .copy-all-btn { background: #2563eb; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .copy-all-btn:hover { background: #1d4ed8; }
+    .copy-all-btn.copied { background: #16a34a; }
+    .claude-md-item { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; padding: 10px 0; border-bottom: 1px solid #dbeafe; }
+    .claude-md-item:last-child { border-bottom: none; }
+    .cmd-checkbox { margin-top: 2px; }
+    .cmd-code { background: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; color: #1e40af; border: 1px solid #bfdbfe; font-family: monospace; display: block; white-space: pre-wrap; word-break: break-word; flex: 1; }
+    .cmd-why { font-size: 12px; color: #64748b; width: 100%; padding-left: 24px; margin-top: 4px; }
+    .features-section, .patterns-section { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .feature-card { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 16px; }
+    .pattern-card { background: #f0f9ff; border: 1px solid #7dd3fc; border-radius: 8px; padding: 16px; }
+    .feature-title, .pattern-title { font-weight: 600; font-size: 15px; color: #0f172a; margin-bottom: 6px; }
+    .feature-oneliner { font-size: 14px; color: #475569; margin-bottom: 8px; }
+    .pattern-summary { font-size: 14px; color: #475569; margin-bottom: 8px; }
+    .feature-why, .pattern-detail { font-size: 13px; color: #334155; line-height: 1.5; }
+    .feature-examples { margin-top: 12px; }
+    .feature-example { padding: 8px 0; border-top: 1px solid #d1fae5; }
+    .feature-example:first-child { border-top: none; }
+    .example-desc { font-size: 13px; color: #334155; margin-bottom: 6px; }
+    .example-code-row { display: flex; align-items: flex-start; gap: 8px; }
+    .example-code { flex: 1; background: #f1f5f9; padding: 8px 12px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #334155; overflow-x: auto; white-space: pre-wrap; }
+    .copyable-prompt-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+    .copyable-prompt-row { display: flex; align-items: flex-start; gap: 8px; }
+    .copyable-prompt { flex: 1; background: #f8fafc; padding: 10px 12px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #334155; border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 1.5; }
+    .feature-code { background: #f8fafc; padding: 12px; border-radius: 6px; margin-top: 12px; border: 1px solid #e2e8f0; display: flex; align-items: flex-start; gap: 8px; }
+    .feature-code code { flex: 1; font-family: monospace; font-size: 12px; color: #334155; white-space: pre-wrap; }
+    .pattern-prompt { background: #f8fafc; padding: 12px; border-radius: 6px; margin-top: 12px; border: 1px solid #e2e8f0; }
+    .pattern-prompt code { font-family: monospace; font-size: 12px; color: #334155; display: block; white-space: pre-wrap; margin-bottom: 8px; }
+    .prompt-label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .copy-btn { background: #e2e8f0; border: none; border-radius: 4px; padding: 4px 8px; font-size: 11px; cursor: pointer; color: #475569; flex-shrink: 0; }
+    .copy-btn:hover { background: #cbd5e1; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; }
+    .chart-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; }
+    .chart-title { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 12px; }
+    .bar-row { display: flex; align-items: center; margin-bottom: 6px; }
+    .bar-label { width: 100px; font-size: 11px; color: #475569; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-track { flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; margin: 0 8px; }
+    .bar-fill { height: 100%; border-radius: 3px; }
+    .bar-value { width: 28px; font-size: 11px; font-weight: 500; color: #64748b; text-align: right; }
+    .empty { color: #94a3b8; font-size: 13px; }
+    .horizon-section { display: flex; flex-direction: column; gap: 16px; }
+    .horizon-card { background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%); border: 1px solid #c4b5fd; border-radius: 8px; padding: 16px; }
+    .horizon-title { font-weight: 600; font-size: 15px; color: #5b21b6; margin-bottom: 8px; }
+    .horizon-possible { font-size: 14px; color: #334155; margin-bottom: 10px; line-height: 1.5; }
+    .horizon-tip { font-size: 13px; color: #6b21a8; background: rgba(255,255,255,0.6); padding: 8px 12px; border-radius: 4px; }
+    .fun-ending { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #fbbf24; border-radius: 12px; padding: 24px; margin-top: 40px; text-align: center; }
+    .fun-headline { font-size: 18px; font-weight: 600; color: #78350f; margin-bottom: 8px; }
+    .fun-detail { font-size: 14px; color: #92400e; }
+    @media (max-width: 640px) { .charts-row { grid-template-columns: 1fr; } .stats-row { justify-content: center; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Claude Code 使用分析</h1>
+    <p class="subtitle">161 則訊息，橫跨 12 個 session（共 28 個）｜ 2026-03-09 至 2026-04-01</p>
+
+    <div class="at-a-glance">
+      <div class="glance-title">總覽</div>
+      <div class="glance-sections">
+        <div class="glance-section"><strong>做得好的：</strong>你把 Claude 當成全端生產力夥伴在用——從 Outlook→LINE 轉發系統的多檔修復與自動推送，到以競品分析驅動博物館導覽 App 的 UX 迭代，都有實際產出。主動建立共用 Skills 與自動同步腳本，顯示你在思考長期效率累積，這是進階用法。 <a href="#section-wins" class="see-more">出色表現 →</a></div>
+        <div class="glance-section"><strong>阻礙你的：</strong>Claude 這端頻繁在第一次就猜錯意圖——把有效的表單欄位 ID 當垃圾字元清掉、搞錯 UI 優先順序、字體改過頭導致 nav bar 壞掉。你這端最大的阻礙是截圖格式問題（GIF、過大檔案），已讓多個 debug session 完全卡死。 <a href="#section-friction" class="see-more">摩擦點 →</a></div>
+        <div class="glance-section"><strong>立即可改善：</strong>嘗試用 <strong>Task Agents</strong> 將 UI 樣式與邏輯修改分開執行——這樣就不會在同一次 edit 中連帶壞掉 nav bar。你已經在用 Skills 了，可以再建立一個專門給 UI 編輯流程的 skill，裡面寫死「只改指定元素，不動其他任何東西」。 <a href="#section-features" class="see-more">值得嘗試 →</a></div>
+        <div class="glance-section"><strong>未來展望：</strong>隨著模型能力提升，Claude 將能自動生成 HTML、啟動無頭瀏覽器、以程式比對截圖並自我修正，完全消除截圖分享的摩擦。你也可以讓兩個 agent 並行運作——一個負責 UI 元件，另一個負責路由與邏輯，並以共用規格防止衝突。 <a href="#section-horizon" class="see-more">未來展望 →</a></div>
+      </div>
+    </div>
+
+    <nav class="nav-toc">
+      <a href="#section-work">工作內容</a>
+      <a href="#section-usage">使用習慣</a>
+      <a href="#section-wins">出色表現</a>
+      <a href="#section-friction">摩擦點</a>
+      <a href="#section-features">值得嘗試</a>
+      <a href="#section-patterns">新用法</a>
+      <a href="#section-horizon">未來展望</a>
+    </nav>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-value">161</div><div class="stat-label">訊息數</div></div>
+      <div class="stat"><div class="stat-value">+5,933/-513</div><div class="stat-label">程式行數</div></div>
+      <div class="stat"><div class="stat-value">33</div><div class="stat-label">檔案數</div></div>
+      <div class="stat"><div class="stat-value">8</div><div class="stat-label">天數</div></div>
+      <div class="stat"><div class="stat-value">20.1</div><div class="stat-label">訊息/天</div></div>
+    </div>
+
+    <h2 id="section-work">你在做什麼</h2>
+    <div class="project-areas">
+      <div class="project-area">
+        <div class="area-header">
+          <span class="area-name">博物館導覽 App UX</span>
+          <span class="area-count">~3 sessions</span>
+        </div>
+        <div class="area-desc">對博物館行動導覽 App 進行迭代式 UX 重構與 UI 精修，包含競品分析、Context Map 優先順序調整、字體大小修正，以及與外部 AI Agent 建立雙軌開發流程。Claude Code 大量用於 TypeScript/HTML 編輯，但批次修改有時導致 UI 壞掉需要 rollback。</div>
+      </div>
+      <div class="project-area">
+        <div class="area-header">
+          <span class="area-name">LINE Desktop 自動化</span>
+          <span class="area-count">~3 sessions</span>
+        </div>
+        <div class="area-desc">使用 pywinauto 開發 LINE Desktop 訊息自動化，包含修正搜尋框座標、嘗試跨程序視窗文字輸入。Claude Code 協助程式編輯與除錯，但因自動化方案反覆失敗及無法處理大型截圖而產生大量摩擦。</div>
+      </div>
+      <div class="project-area">
+        <div class="area-header">
+          <span class="area-name">Outlook→LINE 轉發系統</span>
+          <span class="area-count">~1 session</span>
+        </div>
+        <div class="area-desc">修復並擴充 Outlook→LINE 訊息轉發系統，涵蓋 URL 截斷、編碼問題、空行處理、文件更新及 GitHub 推送。Claude Code 用於多檔編輯、config 修改及 git 操作，幾乎完成所有請求任務。</div>
+      </div>
+      <div class="project-area">
+        <div class="area-header">
+          <span class="area-name">互動式 HTML / Kiosk 應用</span>
+          <span class="area-count">~2 sessions</span>
+        </div>
+        <div class="area-desc">建立離線獨立 HTML 應用，包含含影片素材的 Kiosk 時間軸 App 與翻卡互動 UI。Claude Code 用於建立資料夾結構並迭代精修版面，但因版面誤解、預覽問題與輸出 token 上限而產生摩擦。</div>
+      </div>
+      <div class="project-area">
+        <div class="area-header">
+          <span class="area-name">簡報與文件製作</span>
+          <span class="area-count">~2 sessions</span>
+        </div>
+        <div class="area-desc">製作 HTML 與 PPTX 格式的 UX 簡報供主管報告，以及建立 Claude Code 共用 skill symlink 與自動同步腳本。Claude Code 處理檔案生成、字體調整及開發流程設定。</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">任務類型</div>
+        <div class="bar-row"><div class="bar-label">除錯</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#2563eb"></div></div><div class="bar-value">11</div></div>
+        <div class="bar-row"><div class="bar-label">UI 樣式調整</div><div class="bar-track"><div class="bar-fill" style="width:72.7%;background:#2563eb"></div></div><div class="bar-value">8</div></div>
+        <div class="bar-row"><div class="bar-label">Bug 修復</div><div class="bar-track"><div class="bar-fill" style="width:36.4%;background:#2563eb"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">程式編輯</div><div class="bar-track"><div class="bar-fill" style="width:36.4%;background:#2563eb"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">功能實作</div><div class="bar-track"><div class="bar-fill" style="width:36.4%;background:#2563eb"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">UI 設計</div><div class="bar-track"><div class="bar-fill" style="width:36.4%;background:#2563eb"></div></div><div class="bar-value">4</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">最常用工具</div>
+        <div class="bar-row"><div class="bar-label">Edit</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#0891b2"></div></div><div class="bar-value">94</div></div>
+        <div class="bar-row"><div class="bar-label">Read</div><div class="bar-track"><div class="bar-fill" style="width:95.7%;background:#0891b2"></div></div><div class="bar-value">90</div></div>
+        <div class="bar-row"><div class="bar-label">Bash</div><div class="bar-track"><div class="bar-fill" style="width:64.9%;background:#0891b2"></div></div><div class="bar-value">61</div></div>
+        <div class="bar-row"><div class="bar-label">Write</div><div class="bar-track"><div class="bar-fill" style="width:19.1%;background:#0891b2"></div></div><div class="bar-value">18</div></div>
+        <div class="bar-row"><div class="bar-label">Glob</div><div class="bar-track"><div class="bar-fill" style="width:18.1%;background:#0891b2"></div></div><div class="bar-value">17</div></div>
+        <div class="bar-row"><div class="bar-label">ToolSearch</div><div class="bar-track"><div class="bar-fill" style="width:7.4%;background:#0891b2"></div></div><div class="bar-value">7</div></div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">程式語言</div>
+        <div class="bar-row"><div class="bar-label">TypeScript</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#10b981"></div></div><div class="bar-value">87</div></div>
+        <div class="bar-row"><div class="bar-label">Markdown</div><div class="bar-track"><div class="bar-fill" style="width:42.5%;background:#10b981"></div></div><div class="bar-value">37</div></div>
+        <div class="bar-row"><div class="bar-label">HTML</div><div class="bar-track"><div class="bar-fill" style="width:42.5%;background:#10b981"></div></div><div class="bar-value">37</div></div>
+        <div class="bar-row"><div class="bar-label">Python</div><div class="bar-track"><div class="bar-fill" style="width:31.0%;background:#10b981"></div></div><div class="bar-value">27</div></div>
+        <div class="bar-row"><div class="bar-label">JSON</div><div class="bar-track"><div class="bar-fill" style="width:11.5%;background:#10b981"></div></div><div class="bar-value">10</div></div>
+        <div class="bar-row"><div class="bar-label">CSS</div><div class="bar-track"><div class="bar-fill" style="width:1.1%;background:#10b981"></div></div><div class="bar-value">1</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Session 類型</div>
+        <div class="bar-row"><div class="bar-label">迭代精修</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#8b5cf6"></div></div><div class="bar-value">6</div></div>
+        <div class="bar-row"><div class="bar-label">多任務</div><div class="bar-track"><div class="bar-fill" style="width:66.7%;background:#8b5cf6"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">探索</div><div class="bar-track"><div class="bar-fill" style="width:16.7%;background:#8b5cf6"></div></div><div class="bar-value">1</div></div>
+        <div class="bar-row"><div class="bar-label">單一任務</div><div class="bar-track"><div class="bar-fill" style="width:16.7%;background:#8b5cf6"></div></div><div class="bar-value">1</div></div>
+      </div>
+    </div>
+
+    <h2 id="section-usage">你如何使用 Claude Code</h2>
+    <div class="narrative">
+      <p>你是一位<strong>動手除錯、迭代精修型</strong>的使用者，橫跨多種專案——從 LINE Desktop 自動化（pywinauto）、博物館導覽 App UX，到 HTML 簡報和 Kiosk 應用。你的 session 以<strong>除錯與 UI 樣式任務</strong>為主（佔前幾大目標中的 19 個），習慣帶著問題進來、中途才加入 Claude，而不是一開始就給完整規格。你常用中文溝通並提供截圖作為視覺參考，但這在 Claude 無法處理圖片時造成了阻礙。Edit-heavy 的工具使用方式（94 次 Edit、90 次 Read）顯示你是在持續微調，而不是大量生成程式碼。</p>
+      <p>另一個明顯模式是你的<strong>高度耐挫力</strong>——在 LINE 自動化 session 中，你撐過多次失敗嘗試才交接給其他 agent；在 Kiosk 時間軸專案中也撐過版面誤解和預覽問題。你的摩擦率明顯偏高：<strong>方向錯誤（10次）和程式有 Bug（8次）</strong>是最大痛點，顯示 Claude 第一次常猜錯你的意圖。不滿意次數（13）幾乎和滿意次數（11）持平，但你仍把大多數 session 評為中等至非常有幫助，說明你接受迭代是工作流程的一部分。12 個 session、150 小時、只有 3 次 commit，顯示你習慣長時間開著 session 隨時回來繼續，而不是密集短衝。</p>
+      <div class="key-insight"><strong>核心模式：</strong>你是一位耐挫力高、接受反覆修正的迭代型 debugger，在長時間開著的 session 中跨多個專案作業，聚焦於視覺與 UI 精修。</div>
+    </div>
+
+    <div class="chart-card" style="margin: 24px 0;">
+      <div class="chart-title">使用者回應時間分佈</div>
+      <div class="bar-row"><div class="bar-label">2-10 秒</div><div class="bar-track"><div class="bar-fill" style="width:10%;background:#6366f1"></div></div><div class="bar-value">4</div></div>
+      <div class="bar-row"><div class="bar-label">10-30 秒</div><div class="bar-track"><div class="bar-fill" style="width:27.5%;background:#6366f1"></div></div><div class="bar-value">11</div></div>
+      <div class="bar-row"><div class="bar-label">30秒-1分</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#6366f1"></div></div><div class="bar-value">16</div></div>
+      <div class="bar-row"><div class="bar-label">1-2 分</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#6366f1"></div></div><div class="bar-value">40</div></div>
+      <div class="bar-row"><div class="bar-label">2-5 分</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#6366f1"></div></div><div class="bar-value">34</div></div>
+      <div class="bar-row"><div class="bar-label">5-15 分</div><div class="bar-track"><div class="bar-fill" style="width:57.5%;background:#6366f1"></div></div><div class="bar-value">23</div></div>
+      <div class="bar-row"><div class="bar-label">&gt;15 分</div><div class="bar-track"><div class="bar-fill" style="width:17.5%;background:#6366f1"></div></div><div class="bar-value">7</div></div>
+      <div style="font-size: 12px; color: #64748b; margin-top: 8px;">中位數：112.3 秒 &bull; 平均：233.1 秒</div>
+    </div>
+
+    <div class="chart-card" style="margin: 24px 0;">
+      <div class="chart-title">多工並行 Session</div>
+      <div style="display: flex; gap: 24px; margin: 12px 0;">
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 700; color: #7c3aed;">3</div><div style="font-size: 11px; color: #64748b; text-transform: uppercase;">重疊事件</div></div>
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 700; color: #7c3aed;">5</div><div style="font-size: 11px; color: #64748b; text-transform: uppercase;">相關 Sessions</div></div>
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 700; color: #7c3aed;">13%</div><div style="font-size: 11px; color: #64748b; text-transform: uppercase;">訊息佔比</div></div>
+      </div>
+      <p style="font-size: 13px; color: #475569; margin-top: 12px;">你會同時開啟多個 Claude Code session。當 session 在時間上重疊時，即偵測到多工並行，代表你在平行推進多個工作流。</p>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title" style="display: flex; align-items: center; gap: 12px;">
+          每日訊息時段分佈
+          <select id="timezone-select" style="font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid #e2e8f0;">
+            <option value="0">PT (UTC-8)</option>
+            <option value="3">ET (UTC-5)</option>
+            <option value="8">倫敦 (UTC)</option>
+            <option value="9">CET (UTC+1)</option>
+            <option value="17">台北 (UTC+8)</option>
+            <option value="custom">自訂時區...</option>
+          </select>
+          <input type="number" id="custom-offset" placeholder="UTC 偏移" style="display: none; width: 80px; font-size: 12px; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+        </div>
+        <div id="hour-histogram">
+          <div class="bar-row"><div class="bar-label">早上 (6-12)</div><div class="bar-track"><div class="bar-fill" style="width:11.9%;background:#8b5cf6"></div></div><div class="bar-value">13</div></div>
+          <div class="bar-row"><div class="bar-label">下午 (12-18)</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#8b5cf6"></div></div><div class="bar-value">109</div></div>
+          <div class="bar-row"><div class="bar-label">晚上 (18-24)</div><div class="bar-track"><div class="bar-fill" style="width:35.8%;background:#8b5cf6"></div></div><div class="bar-value">39</div></div>
+          <div class="bar-row"><div class="bar-label">深夜 (0-6)</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#8b5cf6"></div></div><div class="bar-value">0</div></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">工具錯誤類型</div>
+        <div class="bar-row"><div class="bar-label">其他</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#dc2626"></div></div><div class="bar-value">11</div></div>
+        <div class="bar-row"><div class="bar-label">指令失敗</div><div class="bar-track"><div class="bar-fill" style="width:36.4%;background:#dc2626"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">找不到檔案</div><div class="bar-track"><div class="bar-fill" style="width:18.2%;background:#dc2626"></div></div><div class="bar-value">2</div></div>
+        <div class="bar-row"><div class="bar-label">編輯失敗</div><div class="bar-track"><div class="bar-fill" style="width:9.1%;background:#dc2626"></div></div><div class="bar-value">1</div></div>
+        <div class="bar-row"><div class="bar-label">檔案過大</div><div class="bar-track"><div class="bar-fill" style="width:9.1%;background:#dc2626"></div></div><div class="bar-value">1</div></div>
+      </div>
+    </div>
+
+    <h2 id="section-wins">出色表現</h2>
+    <p class="section-intro">2026 年 3 月，橫跨 12 個 session，你在 TypeScript、Python、HTML 專案中建立自動化工具與精緻互動 UI。</p>
+    <div class="big-wins">
+      <div class="big-win">
+        <div class="big-win-title">建立多系統自動化流水線</div>
+        <div class="big-win-desc">你建立了 Outlook→LINE 轉發系統，涵蓋 URL 處理、編碼修復與 config 修改，並全部推送到 GitHub。在單一高產能 session 中同時堆疊多個 bug 修復與文件更新，展現了強大的系統性專案管理能力。</div>
+      </div>
+      <div class="big-win">
+        <div class="big-win-title">以競品分析驅動 UX 迭代</div>
+        <div class="big-win-desc">針對博物館行動導覽 App，你進行競品分析並以此驅動 UI 重構，同時與外部 AI Agent 建立雙軌開發流程。這展示了一種成熟的產品設計方式——善用 Claude 快速迭代，同時協調更廣泛的開發工作。</div>
+      </div>
+      <div class="big-win">
+        <div class="big-win-title">建立 Claude Code 技能共用機制</div>
+        <div class="big-win-desc">你主動建立共用 skill symlink 與自動同步腳本，優化自己的工具流程。這種「讓 AI 輔助開發隨時間變得更有效率」的元生產力投資，是會持續複利累積的進階用法。</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">最有幫助的能力</div>
+        <div class="bar-row"><div class="bar-label">正確的程式修改</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">有效除錯</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a"></div></div><div class="bar-value">4</div></div>
+        <div class="bar-row"><div class="bar-label">清楚說明</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:#16a34a"></div></div><div class="bar-value">2</div></div>
+        <div class="bar-row"><div class="bar-label">多檔案修改</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#16a34a"></div></div><div class="bar-value">1</div></div>
+        <div class="bar-row"><div class="bar-label">主動協助</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#16a34a"></div></div><div class="bar-value">1</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">任務成果</div>
+        <div class="bar-row"><div class="bar-label">未達成</div><div class="bar-track"><div class="bar-fill" style="width:12.5%;background:#8b5cf6"></div></div><div class="bar-value">1</div></div>
+        <div class="bar-row"><div class="bar-label">部分達成</div><div class="bar-track"><div class="bar-fill" style="width:37.5%;background:#8b5cf6"></div></div><div class="bar-value">3</div></div>
+        <div class="bar-row"><div class="bar-label">大致達成</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#8b5cf6"></div></div><div class="bar-value">8</div></div>
+      </div>
+    </div>
+
+    <h2 id="section-friction">摩擦點</h2>
+    <p class="section-intro">你的 session 以除錯和反覆修正為主，Claude 頻繁誤解你的意圖或採取錯誤方向，造成大量來回修正。</p>
+    <div class="friction-categories">
+      <div class="friction-category">
+        <div class="friction-title">截圖與檔案處理失敗</div>
+        <div class="friction-desc">你頻繁分享 Claude 無法處理的截圖和檔案，完全阻斷工作流程。建議分享前先調整圖片大小、避免 GIF 格式，或直接貼上錯誤文字。</div>
+        <ul class="friction-examples">
+          <li>Claude 反覆無法處理 LINE 自動化截圖（超過 API 上限），導致整個 debug session 無法推進</li>
+          <li>Claude 無法讀取 GIF 截圖，要求改貼錯誤資訊，在你期待視覺除錯支援時造成額外摩擦</li>
+        </ul>
+      </div>
+      <div class="friction-category">
+        <div class="friction-title">需求誤解導致反覆重做</div>
+        <div class="friction-desc">Claude 常在第一次就誤解你的意圖——不論是 UI 優先順序、有效資料格式或版面結構——迫使你進入多輪修正循環。事先提供更明確的規格或使用結構化 prompt 能有效減少迭代。</div>
+        <ul class="friction-examples">
+          <li>Claude 把有效的預填表單 ID 當成垃圾字元清掉，需要你手動糾正</li>
+          <li>Claude 搞錯 Context Map 優先順序（沒把「選擇導覽」設為主功能），也對 Kiosk App 的雙欄卡片結構做出錯誤假設</li>
+        </ul>
+      </div>
+      <div class="friction-category">
+        <div class="friction-title">編輯時過度修改導致壞掉</div>
+        <div class="friction-desc">當你要求針對性修改時，Claude 常常改過頭或引入回歸——壞掉 nav bar、字體改太小，或移除你沒要求改的元素。可以透過要求更小的隔離修改、明確列出哪些東西不能動來緩解這個問題。</div>
+        <ul class="friction-examples">
+          <li>Claude 把正面標題字體改太小，又沒注意到背面標題還在換行，需要多輪修正</li>
+          <li>Agent 驅動的修改壞掉了行動版 nav bar 並移除了手機外框，被迫 rollback 才能還原</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">主要摩擦類型</div>
+        <div class="bar-row"><div class="bar-label">方向錯誤</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#dc2626"></div></div><div class="bar-value">10</div></div>
+        <div class="bar-row"><div class="bar-label">程式有 Bug</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#dc2626"></div></div><div class="bar-value">8</div></div>
+        <div class="bar-row"><div class="bar-label">誤解需求</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#dc2626"></div></div><div class="bar-value">7</div></div>
+        <div class="bar-row"><div class="bar-label">工具限制</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:#dc2626"></div></div><div class="bar-value">5</div></div>
+        <div class="bar-row"><div class="bar-label">過度修改</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:#dc2626"></div></div><div class="bar-value">2</div></div>
+        <div class="bar-row"><div class="bar-label">速率限制</div><div class="bar-track"><div class="bar-fill" style="width:10%;background:#dc2626"></div></div><div class="bar-value">1</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">推估滿意度</div>
+        <div class="bar-row"><div class="bar-label">挫折</div><div class="bar-track"><div class="bar-fill" style="width:4.2%;background:#eab308"></div></div><div class="bar-value">1</div></div>
+        <div class="bar-row"><div class="bar-label">不滿意</div><div class="bar-track"><div class="bar-fill" style="width:54.2%;background:#eab308"></div></div><div class="bar-value">13</div></div>
+        <div class="bar-row"><div class="bar-label">可能滿意</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#eab308"></div></div><div class="bar-value">24</div></div>
+        <div class="bar-row"><div class="bar-label">滿意</div><div class="bar-track"><div class="bar-fill" style="width:45.8%;background:#eab308"></div></div><div class="bar-value">11</div></div>
+        <div class="bar-row"><div class="bar-label">很滿意</div><div class="bar-track"><div class="bar-fill" style="width:4.2%;background:#eab308"></div></div><div class="bar-value">1</div></div>
+      </div>
+    </div>
+
+    <h2 id="section-features">值得嘗試的功能</h2>
+    <div class="claude-md-section">
+      <h3>建議加入 CLAUDE.md 的內容</h3>
+      <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">直接貼到 Claude Code 即可加入你的 CLAUDE.md。</p>
+      <div class="claude-md-actions">
+        <button class="copy-all-btn" onclick="copyAllCheckedClaudeMd()">複製所有勾選項目</button>
+      </div>
+      <div class="claude-md-item">
+        <input type="checkbox" id="cmd-0" class="cmd-checkbox" checked data-text="新增 ## 截圖與圖片處理 段落：&#10;&#10;當使用者分享截圖或說「請見截圖」時，確認圖片處理有限制（不支援 GIF，最大約 5MB）。若需要，請使用者改以 PNG/JPG 重新分享，或直接貼上相關文字內容。">
+        <label for="cmd-0">
+          <code class="cmd-code">當使用者分享截圖或說「請見截圖」時，確認圖片處理有限制（不支援 GIF，最大約 5MB）。若需要，請使用者改以 PNG/JPG 重新分享，或直接貼上相關文字內容。</code>
+          <button class="copy-btn" onclick="copyCmdItem(0)">複製</button>
+        </label>
+        <div class="cmd-why">多個 session 因 Claude 無法處理截圖（格式或大小限制）而完全卡死，且未及時引導使用者採用替代方式。</div>
+      </div>
+      <div class="claude-md-item">
+        <input type="checkbox" id="cmd-1" class="cmd-checkbox" checked data-text="新增 ## 程式編輯慣例 段落：&#10;&#10;主要語言：TypeScript、HTML、Python。編輯 UI 程式時，採小幅增量修改而非批次重寫。修改後務必確認 nav bar 與版面框架完整保留。">
+        <label for="cmd-1">
+          <code class="cmd-code">主要語言：TypeScript、HTML、Python。編輯 UI 程式時，採小幅增量修改而非批次重寫。修改後務必確認 nav bar 與版面框架完整保留。</code>
+          <button class="copy-btn" onclick="copyCmdItem(1)">複製</button>
+        </label>
+        <div class="cmd-why">多個 session 因過度修改導致 nav bar、版面壞掉或需要 rollback，特別是在博物館 App 和 Kiosk 時間軸專案中。</div>
+      </div>
+      <div class="claude-md-item">
+        <input type="checkbox" id="cmd-2" class="cmd-checkbox" checked data-text="新增 ## 溝通偏好 段落（放在 CLAUDE.md 最上方）：&#10;&#10;使用者以繁體中文（台灣用語）溝通。當使用者給出簡短指示如「長這樣」或引用座標/表單 ID 時，視為字面意義直接執行——不要當成垃圾資料捨棄或重新詮釋。只有在真正模糊不清時才詢問確認。">
+        <label for="cmd-2">
+          <code class="cmd-code">使用者以繁體中文（台灣用語）溝通。當使用者給出簡短指示如「長這樣」或引用座標/表單 ID 時，視為字面意義直接執行——不要當成垃圾資料捨棄或重新詮釋。只有在真正模糊不清時才詢問確認。</code>
+          <button class="copy-btn" onclick="copyCmdItem(2)">複製</button>
+        </label>
+        <div class="cmd-why">Claude 反覆誤解使用者意圖、把有效表單 ID 當垃圾處理，以及在指示明確時仍提出不必要的確認問題。</div>
+      </div>
+      <div class="claude-md-item">
+        <input type="checkbox" id="cmd-3" class="cmd-checkbox" checked data-text="新增 ## UI 樣式準則 段落：&#10;&#10;字體大小與樣式修改採保守幅度（每次 1-2px），套用前先與使用者確認。絕不過度縮小。">
+        <label for="cmd-3">
+          <code class="cmd-code">字體大小與樣式修改採保守幅度（每次 1-2px），套用前先與使用者確認。絕不過度縮小。</code>
+          <button class="copy-btn" onclick="copyCmdItem(3)">複製</button>
+        </label>
+        <div class="cmd-why">Claude 在多個 session 中改過頭導致文字換行問題，需要多輪修正循環。</div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">直接貼到 Claude Code，它會協助你設定。</p>
+    <div class="features-section">
+      <div class="feature-card">
+        <div class="feature-title">Hooks</div>
+        <div class="feature-oneliner">在特定生命週期事件（如 pre-commit 或 post-edit）自動執行 shell 指令。</div>
+        <div class="feature-why"><strong>對你的用途：</strong>你大量進行 debug 和 UI 樣式調整，需要頻繁的 edit-check 循環。一個在 HTML 編輯後自動提醒的 hook 能減少你在版面驗證上的摩擦。</div>
+        <div class="feature-examples">
+          <div class="feature-example">
+            <div class="example-code-row">
+              <code class="example-code">// .claude/settings.json
+{
+  "hooks": {
+    "postEdit": {
+      "command": "if echo $EDITED_FILE | grep -q '.html'; then echo '⚠️ 記得確認 nav bar 與版面完整性'; fi"
+    }
+  }
+}</code>
+              <button class="copy-btn" onclick="copyText(this)">複製</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">自訂 Skills</div>
+        <div class="feature-oneliner">以 Markdown 檔案建立可重複使用的 prompt，透過 /command 觸發。</div>
+        <div class="feature-why"><strong>對你的用途：</strong>你已在使用 Skills（4 次呼叫）並建立了 symlink。可以建立 /debug-line skill 給 LINE 自動化流程，以及 /ui-review skill 讓 Claude 在完成前確認 nav bar、字體大小與版面完整性。</div>
+        <div class="feature-examples">
+          <div class="feature-example">
+            <div class="example-code-row">
+              <code class="example-code">// .claude/skills/ui-review/SKILL.md
+# UI 審查清單
+1. 確認所有頁面的 nav bar 可見
+2. 確認字體大小不造成文字換行
+3. 確認行動版框架/版面完整
+4. 測試所有互動元素
+5. 列出所有修改的檔案並簡述原因</code>
+              <button class="copy-btn" onclick="copyText(this)">複製</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">Task Agents</div>
+        <div class="feature-oneliner">Claude 生成專注的子 agent 進行平行探索。</div>
+        <div class="feature-why"><strong>對你的用途：</strong>你的 debug session（11 次！）常需要探索多種方式——如 LINE 搜尋框輸入問題循環嘗試了多種失敗策略。子 agent 能平行探索替代方案，同時保持主 session 的專注度。</div>
+        <div class="feature-examples">
+          <div class="feature-example">
+            <div class="example-code-row">
+              <code class="example-code">用一個 agent 探索所有可能的方式，將文字輸入到跨程序 Windows GUI 搜尋框（使用 pywinauto），包含 SendKeys、set_text、type_keys、剪貼簿貼上與 UI Automation 模式。回報哪些方式有效、哪些失敗及原因。</code>
+              <button class="copy-btn" onclick="copyText(this)">複製</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="section-patterns">新的使用方式</h2>
+    <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">直接貼到 Claude Code，它會引導你執行。</p>
+    <div class="patterns-section">
+      <div class="pattern-card">
+        <div class="pattern-title">事先給足背景，減少除錯來回</div>
+        <div class="pattern-summary">開始 debug session 時，先提供錯誤訊息、預期與實際行為，以及你已試過的方法。</div>
+        <div class="pattern-detail">除錯是你的第一大活動（11 次），但「方向錯誤」發生 10 次、「誤解需求」7 次。許多輪次是因為 Claude 在猜問題而非理解問題。事先給足背景——尤其是座標或 GUI 自動化相關的工作——能大幅減少迭代次數。</div>
+        <div class="copyable-prompt-section">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <div class="copyable-prompt-row">
+            <code class="copyable-prompt">我在除錯 [X]。預期行為：[Y]。實際行為：[Z]。我已試過：[A、B、C]。相關程式在 [檔案]。請先讀取檔案，再以最小修改範圍建議修復方案。</code>
+            <button class="copy-btn" onclick="copyText(this)">複製</button>
+          </div>
+        </div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-title">UI 修改要求增量執行</div>
+        <div class="pattern-summary">對 UI/樣式任務，明確要求 Claude 一次只做一個修改。</div>
+        <div class="pattern-detail">UI 樣式是你的第二大任務（8+ sessions），批次修改導致壞掉——nav bar 消失、字體改過頭、版面壞掉。要求 Claude 增量作業可以避免在博物館 App 和 Kiosk 專案中反覆 rollback 的循環。</div>
+        <div class="copyable-prompt-section">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <div class="copyable-prompt-row">
+            <code class="copyable-prompt">只做以下這一個修改：[描述修改]。不要動其他任何元素、nav bar 或版面。完成後給我 diff 看你改了什麼。</code>
+            <button class="copy-btn" onclick="copyText(this)">複製</button>
+          </div>
+        </div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-title">改用文字描述替代截圖</div>
+        <div class="pattern-summary">分享視覺背景時，改貼文字描述或使用 5MB 以下的 PNG，不要用 GIF 或大型檔案。</div>
+        <div class="pattern-detail">至少 2 個 session 因 Claude 無法處理截圖而嚴重受阻，其中一個完全卡死。養成貼錯誤文字或使用壓縮 PNG 的習慣，能避免這個反覆出現的摩擦點卡住你的工作。</div>
+        <div class="copyable-prompt-section">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <div class="copyable-prompt-row">
+            <code class="copyable-prompt">我在分享問題的截圖。如果你無法處理，以下是它呈現的內容：[描述畫面]。錯誤訊息寫著：[貼上錯誤文字]。相關 UI 元素在 [座標/位置]。</code>
+            <button class="copy-btn" onclick="copyText(this)">複製</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="section-horizon">未來展望</h2>
+    <p class="section-intro">你的工作流程充滿大量除錯與 UI 迭代循環，這些都可以透過自主、測試驅動的 Claude Code 工作流大幅加速。</p>
+    <div class="horizon-section">
+      <div class="horizon-card">
+        <div class="horizon-title">測試驅動除錯：自主迭代到通過</div>
+        <div class="horizon-possible">你有 11 次 debug session 且頻繁遇到「方向錯誤」的摩擦，可以讓 Claude 自主撰寫捕捉 bug 的測試，然後反覆修正直到通過。這能消除讓你在近三分之一互動中不滿意的來回修正循環。</div>
+        <div class="horizon-tip"><strong>如何開始：</strong>在 CLAUDE.md 中加入測試優先除錯的指示。對你的 TypeScript 和 Python 專案，定義 Claude 可透過 Bash 自主執行的測試指令。</div>
+        <div class="pattern-prompt">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <code>我的自動化腳本有個 bug：[描述 bug]。修改前先：1) 寫一個重現並斷言正確行為的測試，2) 執行測試確認失敗，3) 修復程式碼，4) 執行測試確認通過，5) 執行所有現有測試確認沒有回歸。自主迭代直到所有測試通過。步驟之間不需要詢問我確認。</code>
+          <button class="copy-btn" onclick="copyText(this)">複製</button>
+        </div>
+      </div>
+      <div class="horizon-card">
+        <div class="horizon-title">UI 與邏輯平行 Agent</div>
+        <div class="horizon-possible">你的博物館 App session 顯示 UI 重構和邏輯修改同時進行時，nav bar 容易被破壞。你可以讓兩個平行 Claude Code agent 分工——一個處理 UI/樣式元件，另一個處理商業邏輯和路由——並以共用規格防止衝突。這完全符合你已有的雙軌開發流程，但讓它更全自動化。</div>
+        <div class="horizon-tip"><strong>如何開始：</strong>以各自作用域的 CLAUDE.md 指示啟動兩個 Claude Code 實例。使用兩個 agent 修改前都會讀取的共用開發規格檔，並讓每個 agent 完成後執行完整 build。</div>
+        <div class="pattern-prompt">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <code>你是 UI agent。讀取 /docs/dev-spec.md 了解目前元件結構。你的作用域只有 /components/ui/ 和 /styles/ 裡的檔案。不要修改路由或邏輯檔案。任務：精修行動版 nav bar 版面和字體大小，確保在 375px 視窗下沒有文字換行。每次修改後執行 'npm run build' 確認沒有東西壞掉。完成後列出你修改的每個檔案。</code>
+          <button class="copy-btn" onclick="copyText(this)">複製</button>
+        </div>
+      </div>
+      <div class="horizon-card">
+        <div class="horizon-title">無截圖視覺驗證流水線</div>
+        <div class="horizon-possible">多個 session 因 Claude 無法處理截圖而卡死。你可以建立一個自主視覺驗證流水線——Claude 生成 HTML、透過 Bash 啟動無頭瀏覽器、以程式方式擷取並比對截圖、自我修正版面問題——完全不需要手動分享截圖。這能消除你最嚴重的阻礙模式。</div>
+        <div class="horizon-tip"><strong>如何開始：</strong>在專案中安裝 Playwright 或 Puppeteer。Claude 可用 Bash 執行無頭截圖擷取與參考版面的像素級比對。</div>
+        <div class="pattern-prompt">
+          <div class="prompt-label">貼到 Claude Code：</div>
+          <code>我需要你驗證 /app/index.html 的 UI。自主執行：1) 若未安裝則安裝 Playwright，2) 撰寫腳本在 375px 和 1024px 寬度的無頭 Chromium 開啟 HTML，3) 擷取截圖存到 /test/screenshots/，4) 確認沒有元素超出容器且所有文字在不換行的狀態下可見，5) 若有問題，修復 HTML/CSS 並重新擷取直到版面正確。回報你修了什麼。</code>
+          <button class="copy-btn" onclick="copyText(this)">複製</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fun-ending">
+      <div class="fun-headline">「Claude 反覆嘗試自動化 LINE Desktop 訊息發送，每次都壯烈失敗——每種新方法在搜尋框輸入文字上也都失敗，最後使用者放棄並把任務交給了另一個 AI agent」</div>
+      <div class="fun-detail">橫跨多個 session，使用者使用 pywinauto 建立 Outlook→LINE 轉發系統。跨程序鍵盤焦點問題導致 LINE 搜尋框文字輸入一再失敗——每個聰明的 workaround 都只是引入新的失敗方式。最終使用者說了聲「夠了」，把接力棒傳給了另一個 AI agent 繼續嘗試。</div>
+    </div>
+
+  </div>
+  <script>
+    function copyText(btn) {
+      const code = btn.previousElementSibling;
+      navigator.clipboard.writeText(code.textContent).then(() => {
+        btn.textContent = '已複製！';
+        setTimeout(() => { btn.textContent = '複製'; }, 2000);
+      });
+    }
+    function copyCmdItem(idx) {
+      const checkbox = document.getElementById('cmd-' + idx);
+      if (checkbox) {
+        const text = checkbox.dataset.text;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = checkbox.nextElementSibling.querySelector('.copy-btn');
+          if (btn) { btn.textContent = '已複製！'; setTimeout(() => { btn.textContent = '複製'; }, 2000); }
+        });
+      }
+    }
+    function copyAllCheckedClaudeMd() {
+      const checkboxes = document.querySelectorAll('.cmd-checkbox:checked');
+      const texts = [];
+      checkboxes.forEach(cb => { if (cb.dataset.text) { texts.push(cb.dataset.text); } });
+      const combined = texts.join('\n');
+      const btn = document.querySelector('.copy-all-btn');
+      if (btn) {
+        navigator.clipboard.writeText(combined).then(() => {
+          btn.textContent = '已複製 ' + texts.length + ' 項！';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = '複製所有勾選項目'; btn.classList.remove('copied'); }, 2000);
+        });
+      }
+    }
+    const rawHourCounts = {"10":2,"11":11,"12":19,"13":25,"14":33,"15":22,"16":4,"17":6,"18":14,"19":23,"20":2};
+    function updateHourHistogram(offsetFromPT) {
+      const periods = [
+        { label: "早上 (6-12)", range: [6,7,8,9,10,11] },
+        { label: "下午 (12-18)", range: [12,13,14,15,16,17] },
+        { label: "晚上 (18-24)", range: [18,19,20,21,22,23] },
+        { label: "深夜 (0-6)", range: [0,1,2,3,4,5] }
+      ];
+      const adjustedCounts = {};
+      for (const [hour, count] of Object.entries(rawHourCounts)) {
+        const newHour = (parseInt(hour) + offsetFromPT + 24) % 24;
+        adjustedCounts[newHour] = (adjustedCounts[newHour] || 0) + count;
+      }
+      const periodCounts = periods.map(p => ({
+        label: p.label,
+        count: p.range.reduce((sum, h) => sum + (adjustedCounts[h] || 0), 0)
+      }));
+      const maxCount = Math.max(...periodCounts.map(p => p.count)) || 1;
+      const container = document.getElementById('hour-histogram');
+      container.textContent = '';
+      periodCounts.forEach(p => {
+        const row = document.createElement('div'); row.className = 'bar-row';
+        const label = document.createElement('div'); label.className = 'bar-label'; label.textContent = p.label;
+        const track = document.createElement('div'); track.className = 'bar-track';
+        const fill = document.createElement('div'); fill.className = 'bar-fill';
+        fill.style.width = (p.count / maxCount) * 100 + '%'; fill.style.background = '#8b5cf6';
+        track.appendChild(fill);
+        const value = document.createElement('div'); value.className = 'bar-value'; value.textContent = p.count;
+        row.appendChild(label); row.appendChild(track); row.appendChild(value);
+        container.appendChild(row);
+      });
+    }
+    document.getElementById('timezone-select').addEventListener('change', function() {
+      const customInput = document.getElementById('custom-offset');
+      if (this.value === 'custom') {
+        customInput.style.display = 'inline-block'; customInput.focus();
+      } else {
+        customInput.style.display = 'none'; updateHourHistogram(parseInt(this.value));
+      }
+    });
+    document.getElementById('custom-offset').addEventListener('change', function() {
+      updateHourHistogram(parseInt(this.value) + 8);
+    });
+    // 預設台北時區 (UTC+8 = PT+16)
+    document.getElementById('timezone-select').value = '17';
+    updateHourHistogram(17);
+  </script>
+</body>
+</html>
