@@ -1,33 +1,35 @@
 ---
 name: lesson-add
-description: 將觀察或教訓加入對應層級的 Lessons-learned.md。用法：/lesson-add [層級] [內容]
+description: 將觀察整合進 CLAUDE.md，並檢視全文去除矛盾與冗餘，精簡後存檔。用法：/lesson-add [層級] [內容]
 ---
 
 # Lesson Add
 
 用法：`/lesson-add [層級] [觀察內容]`
 
-層級選項：
-- `全域` — 適用所有 Claude 工具
-- `工具` — 特定工具（Claude Code / Cowork / Chat）
-- `專案` — 特定專案（WTF / Planner2Line / 其他）
+層級：
+- `全域` → `~/.claude/CLAUDE.md` + `claude-config/CLAUDE.md`
+- `工具` → 對應工具段落（Claude Code / Cowork / Chat）
 
 執行步驟：
 
-1. 讀取 `Lessons-learned.md`（若不存在則建立）。
+1. 讀取對應 CLAUDE.md。
 
-2. 在對應層級段落加入新條目，格式：
-   ```
-   - [YYYY-MM-DD] [觀察內容] → [建議做法]
-   ```
+2. 將觀察整合進最相關的既有段落（不新增段落，除非真的無處安放）。
 
-3. 若觀察內容適合做成 Skill，標註：`→ 建議建立 /[skill名稱]`
+3. 檢視整份 CLAUDE.md：
+   - 互相矛盾 → 保留較新、較具體的版本
+   - 重複或疊床架屋 → 合併或刪除
+   - 過時內容 → 移除
+   - 每條規則能否一句話說清楚 → 精簡
 
-4. Commit：
+4. 同步更新兩份（`~/.claude/CLAUDE.md` + GitHub repo 的 `claude-config/CLAUDE.md`）。
+
+5. Commit 並 push：
    ```
-   git add Lessons-learned.md
-   git commit -m "lesson-add: [層級] [一句話摘要]"
+   git add claude-config/CLAUDE.md
+   git commit -m "lesson-add: [一句話摘要]"
    git push
    ```
 
-5. 回報：已加入哪個層級，完整條目內容。
+6. 回報：新增了什麼、刪除或合併了什麼、精簡前後行數變化。
