@@ -325,7 +325,7 @@ body {
     </div>
     <div class="stat-card orange">
       <div class="stat-label">待辦項目</div>
-      <div class="stat-value">7</div>
+      <div class="stat-value">5</div>
       <div class="stat-note">1 高優先</div>
     </div>
     <div class="stat-card purple">
@@ -482,11 +482,11 @@ body {
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             AI 開發團隊架構設計（Claude Tech Lead + Antigravity agents 分工）
-            <div><span class="todo-tag tag-waiting">暫緩：PRD v0.2 確認後</span></div>
+            <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08（ai-team skill 上線）</span></div>
           </div>
         </div>
 
@@ -650,6 +650,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>PRD 四項決策確認：agents 有 scope 邊界、Playwright 取代截圖、session 自動記錄、里程碑觸發 token 優化</li>
           <li>CLAUDE.md 補充四條作業慣例（截圖限制、增量編輯、意圖解讀、UI 樣式）</li>
           <li>確認 Antigravity 機器 ~/.claude/CLAUDE.md 內容，制定指向 WTF repo 的更新方式</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-08 — Nightly 自動回顧（claude/nightly-20260408）</div>
+        <div class="log-title">AI Team Skill 上線 + Antigravity 設定同步 + 儀表板修復</div>
+        <ul class="log-points">
+          <li>掃描 8 個追蹤 repo（projects.md）：WTF_Under_Construction 有 4 筆提交，其餘 7 個 repo 今日無提交</li>
+          <li><strong>WTF_Under_Construction</strong>：新增 ai-team skill（Claude Tech Lead + Antigravity Agent 分工框架）</li>
+          <li>同步 Antigravity 設定：新增跨工具 AGENTS.md / GEMINI.md</li>
+          <li>儀表板修復：done 項目缺 ✓ 的 bug 已修正，skills-install 待辦打勾</li>
+          <li>CLAUDE.md 清理：合併重複的「溝通與意圖解讀」規則，移除作業慣例中的冗餘段落</li>
         </ul>
       </div>
 
