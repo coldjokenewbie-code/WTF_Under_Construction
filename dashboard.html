@@ -538,8 +538,12 @@ body {
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
             <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/wtf
+# Claude Code
 ln -sf ~/wtf/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/wtf/claude-config/skills ~/.claude/skills</div>
+ln -sf ~/wtf/claude-config/skills ~/.claude/skills
+# Antigravity / Gemini
+ln -sf ~/wtf/claude-config/AGENTS.md ~/.gemini/AGENTS.md
+ln -sf ~/wtf/claude-config/GEMINI.md ~/.gemini/GEMINI.md</div>
           </div>
         </div>
         <div class="setup-step">
@@ -547,7 +551,13 @@ ln -sf ~/wtf/claude-config/skills ~/.claude/skills</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
             <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git $env:USERPROFILE\wtf
-# 手動複製 CLAUDE.md 和 skills 資料夾到 %USERPROFILE%\.claude\</div>
+# Claude Code
+cmd /c mklink /J "$env:USERPROFILE\.claude\skills" "$env:USERPROFILE\wtf\claude-config\skills"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\CLAUDE.md" -Target "$env:USERPROFILE\wtf\claude-config\CLAUDE.md"
+# Antigravity / Gemini
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\AGENTS.md" -Target "$env:USERPROFILE\wtf\claude-config\AGENTS.md"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Target "$env:USERPROFILE\wtf\claude-config\GEMINI.md"
+# 注意：需管理員或開啟 Developer Mode；若目標已存在需先刪除</div>
           </div>
         </div>
       </div>
