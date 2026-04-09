@@ -11,14 +11,22 @@
 - 知識寫入需橋接：Chat 輸出 lesson 候選 → 使用者在 Claude Code 執行 `/lesson-add`
 - Projects 提供跨 session 持久化（instruction + 上傳文件）
 
+## 知識三層架構
+
+| 層級 | 檔案位置 | 內容 |
+|------|---------|------|
+| 全域 | `claude-config/CLAUDE.md` | 所有工具共用原則 |
+| 工具 | `claude-config/claude-chat.md`（本檔）| Chat 操作慣例 |
+| 專案 | `chat-project-lessons/[專案名稱].md` | 各專案知識庫 |
+
 ## Session 開場協議
 
 每次對話開始，確認已讀取：
 1. 全域設定（CLAUDE.md）
 2. 本檔案（claude-chat.md）
-3. 若有專案：該專案的 lesson 檔案（由 Project instruction 指定）
+3. 若有專案：`chat-project-lessons/[專案名稱].md`
 
-讀取完成後簡述：「已載入全域設定 + Chat 工具設定」，再詢問任務。
+讀取完成後簡述：「已載入全域 + Chat 工具 + [專案名稱] 設定」，再詢問任務。
 
 ## Lesson 候選輸出格式
 
