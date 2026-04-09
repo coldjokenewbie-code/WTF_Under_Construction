@@ -493,7 +493,7 @@ body {
         <div class="todo-item done" onclick="toggleTodo(this)">
           <div class="todo-check">✓</div>
           <div class="todo-text">
-            Claude Chat 學習機制建立（claude-chat.md + lesson-add 工具層支援 + Project Instruction 模板）
+            Claude Chat 學習機制建立（claude-chat.md + lesson-add 工具層支援 + Project Instruction 範本）
             <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-09</span></div>
           </div>
         </div>
@@ -607,40 +607,22 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
       </div>
       <div class="setup-steps">
         <div class="setup-step">
-          <div class="setup-label">Chat Project Instruction 模板（各專案貼一次）</div>
-          <div class="setup-desc">在 claude.ai Projects 的 Instruction 欄位貼入，每次對話自動載入全域 + Chat 工具設定。</div>
+          <div class="setup-label">產出 Project Instruction（貼入 claude.ai Projects）</div>
+          <div class="setup-desc">輸入專案名稱，產出含正確 URL 的指令，直接複製貼入。</div>
+          <div style="display:flex; gap:8px; margin-bottom:10px;">
+            <input id="chat-project-name" type="text" placeholder="例：ui-motion-lab"
+              style="flex:1; padding:8px 12px; background:var(--card2); border:1px solid var(--border);
+                     border-radius:8px; color:var(--text); font-size:13px; outline:none;"
+              oninput="generateChatInstruction()" />
+          </div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">每次對話開始，請依序執行以下步驟，完成後回應「已載入設定」再開始工作：
-
-1. 讀取全域設定：
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md
-
-2. 讀取 Chat 工具設定：
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/claude-chat.md
-
-3. 讀取本專案知識庫：
-將「本專案」名稱代入以下 URL 後 fetch：
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/chat-project-lessons/[本專案名稱].md
-（例：本專案為「ui-motion-lab」→ fetch .../chat-project-lessons/ui-motion-lab.md）
-若檔案不存在（404），回應「[本專案] 知識庫尚未建立」，繼續工作。
-
----
-本專案：[本專案]
-
-當使用者說「本對話獲得經驗」或「lesson learned here」，輸出本次對話值得保留的經驗：
-
-# chat-prj-[本專案][YYMMDD]
-
-【Lesson 候選】
-層級建議：全域 / 工具(chat) / 專案([本專案])
-內容：[一句話規則]
-觀察來源：[情境]</div>
+            <div class="code-block" id="chat-instruction-output">← 輸入專案名稱後自動產出</div>
           </div>
         </div>
         <div class="setup-step">
           <div class="setup-label">Lesson 橋接（方案 A，手動）</div>
-          <div class="setup-desc">說「整理 lesson」→ Chat 輸出候選 → 複製到 Claude Code 執行 /lesson-add 工具 chat [內容]</div>
+          <div class="setup-desc">說「本對話獲得經驗」→ Chat 輸出候選 → 複製到 Claude Code 執行 /lesson-add</div>
         </div>
       </div>
       <div class="alert alert-blue">
@@ -712,7 +694,7 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>確立三層知識架構：全域 + 工具層（chat/cowork/code）+ 專案層，全部存於 WTF repo</li>
           <li>新增 claude-config/claude-chat.md（Chat 工具層設定 + lesson 累積區塊 + 輸出格式）</li>
           <li>更新 lesson-add skill：加入工具層（chat/cowork/code）支援、層級分析邏輯、Chat lesson 橋接格式</li>
-          <li>設計 Chat Project Instruction 通用模板：一次設定，每 session 自動讀取 WTF repo 最新設定</li>
+          <li>設計 Chat Project Instruction 通用範本：一次設定，每 session 自動讀取 WTF repo 最新設定</li>
           <li>確立 Lesson 橋接流程：Chat 說「整理 lesson」輸出候選 → Claude Code /lesson-add → WTF repo 更新 → 複利累積</li>
         </ul>
       </div>
@@ -790,6 +772,37 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
     const box = item.querySelector('.todo-check');
     box.textContent = item.classList.contains('done') ? '✓' : '';
     saveTodos();
+  }
+
+  // Chat Project Instruction 產生器
+  function generateChatInstruction() {
+    const name = document.getElementById('chat-project-name').value.trim();
+    const out  = document.getElementById('chat-instruction-output');
+    if (!name) { out.textContent = '← 輸入專案名稱後自動產出'; return; }
+    const base = 'https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main';
+    out.textContent = `每次對話開始，請依序執行以下步驟，完成後回應「已載入設定」再開始工作：
+
+1. 讀取全域設定：
+${base}/claude-config/CLAUDE.md
+
+2. 讀取 Chat 工具設定：
+${base}/claude-config/claude-chat.md
+
+3. 讀取本專案知識庫：
+${base}/chat-project-lessons/${name}.md
+若檔案不存在（404），回應「${name} 知識庫尚未建立」，繼續工作。
+
+---
+本專案：${name}
+
+當使用者說「本對話獲得經驗」或「lesson learned here」，輸出本次對話值得保留的經驗：
+
+# chat-prj-${name}[YYMMDD]
+
+【Lesson 候選】
+層級建議：全域 / 工具(chat) / 專案(${name})
+內容：[一句話規則]
+觀察來源：[情境]`;
   }
 
   // Copy code
