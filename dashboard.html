@@ -611,16 +611,19 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <div class="setup-desc">在 claude.ai Projects 的 Instruction 欄位貼入，每次對話自動載入全域 + Chat 工具設定。</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">每次對話開始，請依序讀取以下設定，完成後回應「已載入設定」再開始工作：
+            <div class="code-block">每次對話開始，請依序執行以下步驟，完成後回應「已載入設定」再開始工作：
 
-[全域設定]
+1. 讀取全域設定：
 https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md
 
-[Chat 工具設定]
+2. 讀取 Chat 工具設定：
 https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/claude-chat.md
 
-[專案知識庫]
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/chat-project-lessons/[本專案].md
+3. 讀取本專案知識庫：
+將「本專案」名稱代入以下 URL 後 fetch：
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/chat-project-lessons/[本專案名稱].md
+（例：本專案為「ui-motion-lab」→ fetch .../chat-project-lessons/ui-motion-lab.md）
+若檔案不存在（404），回應「[本專案] 知識庫尚未建立」，繼續工作。
 
 ---
 本專案：[本專案]
