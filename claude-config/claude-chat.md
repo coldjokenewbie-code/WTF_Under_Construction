@@ -58,4 +58,8 @@
 **[2026-04-09] 開場主動 fetch 專案 PRD**
 新對話開場應主動 fetch 專案 PRD 文件 URL，確認範圍後再接任務，避免遺漏模組。
 來源：用戶提示儀表板不只出勤查核，顯示上下文交接不完整。
+
+**[2026-04-09] GIF 錄製避免 gif.js**
+gif.js 在 file:// 或受限環境因 CORS 靜默失敗卡死；改用原生 `MediaRecorder + canvas.captureStream()` 零等待解決。
+來源：錄製後卡在 encoding GIF 超過 10 分鐘無進度。
 <!-- lessons-end -->
