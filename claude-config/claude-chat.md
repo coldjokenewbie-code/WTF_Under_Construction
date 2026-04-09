@@ -41,7 +41,7 @@
 
 ## Session 結束協議
 
-對話結束前，若有值得保留的經驗，主動輸出 lesson 候選清單（格式同上）。
+使用者說「本對話獲得經驗」或「lesson learned here」時，輸出本次對話值得保留的經驗（格式同上）。
 使用者可直接複製後在 Claude Code 執行 `/lesson-add`。
 
 ---
