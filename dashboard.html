@@ -689,13 +689,14 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
 
       <div class="log-item">
         <div class="log-date">2026-04-09 — 本 Session</div>
-        <div class="log-title">Claude Chat 知識累積機制設計與建立</div>
+        <div class="log-title">Claude Chat 完整知識累積機制上線</div>
         <ul class="log-points">
-          <li>確立三層知識架構：全域 + 工具層（chat/cowork/code）+ 專案層，全部存於 WTF repo</li>
-          <li>新增 claude-config/claude-chat.md（Chat 工具層設定 + lesson 累積區塊 + 輸出格式）</li>
-          <li>更新 lesson-add skill：加入工具層（chat/cowork/code）支援、層級分析邏輯、Chat lesson 橋接格式</li>
-          <li>設計 Chat Project Instruction 通用範本：一次設定，每 session 自動讀取 WTF repo 最新設定</li>
-          <li>確立 Lesson 橋接流程：Chat 說「整理 lesson」輸出候選 → Claude Code /lesson-add → WTF repo 更新 → 複利累積</li>
+          <li>確立三層知識架構（全域 / 工具 chat / 專案），全部存於 WTF repo，下次 session 自動讀取</li>
+          <li>新增 claude-config/claude-chat.md + chat-project-lessons/ 資料夾（含 README + _template.md）</li>
+          <li>更新 lesson-add skill：支援工具層與 Chat 專案層（專案 chat [名稱]）</li>
+          <li>實際歸檔三個專案 PRD + lessons：MS-Office-自動化流程、MS365-員工儀表板、ui-motion-lab</li>
+          <li>累積全域 lesson 3 條（禁止臆測、專案需求存檔、需求確認分工）、Chat 工具 lesson 3 條</li>
+          <li>儀表板 Chat 卡片改為專案名稱輸入產生器，直接輸出含正確 URL 的 Project Instruction，無佔位符</li>
         </ul>
       </div>
 
