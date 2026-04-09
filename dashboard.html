@@ -493,6 +493,22 @@ body {
         <div class="todo-item done" onclick="toggleTodo(this)">
           <div class="todo-check">✓</div>
           <div class="todo-text">
+            Claude Chat 學習機制建立（claude-chat.md + lesson-add 工具層支援 + Project Instruction 模板）
+            <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-09</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
+            Chat lesson 自動化上傳（方案 B：Webhook → WTF repo inbox → 三點排程歸檔）
+            <div><span class="todo-tag tag-soon">中優先 — 方案 A 手動橋接先行</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
+          <div class="todo-text">
             對其他專案執行 /skills-install，啟用跨專案經驗累積機制
             <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08</span></div>
           </div>
@@ -587,24 +603,44 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
     <div class="card">
       <div class="card-header">
         <div class="card-icon ci-purple">💬</div>
-        <div><div class="card-title">Claude Chat</div><div class="card-sub">設一次，全裝置永久生效</div></div>
+        <div><div class="card-title">Claude Chat</div><div class="card-sub">各專案設一次 Project Instruction，永久生效</div></div>
       </div>
       <div class="setup-steps">
         <div class="setup-step">
-          <div class="setup-label">Profile Preferences 參考連結</div>
-          <div class="setup-desc">在 Chat 設定中填入工作方式偏好，讓 Claude 了解你的角色與需求。</div>
-        </div>
-        <div class="setup-step">
-          <div class="setup-label">快速載入設定（貼在對話開頭）</div>
+          <div class="setup-label">Chat Project Instruction 模板（各專案貼一次）</div>
+          <div class="setup-desc">在 claude.ai Projects 的 Instruction 欄位貼入，每次對話自動載入全域 + Chat 工具設定。</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">請先讀取以下設定後再開始工作：
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md</div>
+            <div class="code-block">每次對話開始，請依序讀取以下設定，完成後回應「已載入設定」再開始工作：
+
+[全域設定]
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md
+
+[Chat 工具設定]
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/claude-chat.md
+
+---
+本專案：[本專案]
+
+當使用者說「整理 lesson」，輸出本次對話值得保留的經驗：
+
+# chat-prj-[本專案][YYMMDD]
+
+【Lesson 候選】
+層級建議：全域 / 工具(chat) / 專案([本專案])
+內容：[一句話規則]
+觀察來源：[情境]
+
+（可多條）</div>
           </div>
         </div>
+        <div class="setup-step">
+          <div class="setup-label">Lesson 橋接（方案 A，手動）</div>
+          <div class="setup-desc">說「整理 lesson」→ Chat 輸出候選 → 複製到 Claude Code 執行 /lesson-add 工具 chat [內容]</div>
+        </div>
       </div>
-      <div class="alert alert-orange">
-        <span>⚠️</span><span>Profile Preferences 的實際可設定範圍待確認</span>
+      <div class="alert alert-blue">
+        <span>ℹ️</span><span>全域 + Chat 工具 lesson 存於 WTF repo，下次 session 自動讀到新版本（複利）</span>
       </div>
     </div>
   </div>
@@ -662,6 +698,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>PRD 四項決策確認：agents 有 scope 邊界、Playwright 取代截圖、session 自動記錄、里程碑觸發 token 優化</li>
           <li>CLAUDE.md 補充四條作業慣例（截圖限制、增量編輯、意圖解讀、UI 樣式）</li>
           <li>確認 Antigravity 機器 ~/.claude/CLAUDE.md 內容，制定指向 WTF repo 的更新方式</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-09 — 本 Session</div>
+        <div class="log-title">Claude Chat 知識累積機制設計與建立</div>
+        <ul class="log-points">
+          <li>確立三層知識架構：全域 + 工具層（chat/cowork/code）+ 專案層，全部存於 WTF repo</li>
+          <li>新增 claude-config/claude-chat.md（Chat 工具層設定 + lesson 累積區塊 + 輸出格式）</li>
+          <li>更新 lesson-add skill：加入工具層（chat/cowork/code）支援、層級分析邏輯、Chat lesson 橋接格式</li>
+          <li>設計 Chat Project Instruction 通用模板：一次設定，每 session 自動讀取 WTF repo 最新設定</li>
+          <li>確立 Lesson 橋接流程：Chat 說「整理 lesson」輸出候選 → Claude Code /lesson-add → WTF repo 更新 → 複利累積</li>
         </ul>
       </div>
 
