@@ -1,5 +1,6 @@
 # Global Agent Configuration
 > 適用：所有 Claude 工具共用
+> **載入協議**：本設定檔讀取完成後，須向用戶說明「已載入全域設定」，再開始工作。
 
 ## WTF 專案核心目標
 
