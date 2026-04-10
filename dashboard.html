@@ -702,11 +702,11 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
 
       <div class="log-item">
         <div class="log-date">2026-04-09 — Nightly 自動回顧（claude/nightly-20260409）</div>
-        <div class="log-title">Chat 學習機制 10 次 commit + 私有 repo API 確認</div>
+        <div class="log-title">Chat 學習機制 10 次 commit + MCP Scope 限制確認</div>
         <ul class="log-points">
           <li><strong>WTF_Under_Construction</strong>：10 筆提交 — Claude Chat 三層知識歸檔、MS-Office / MS365 / ui-motion-lab PRD 存檔、儀表板 Chat 卡片改版、lesson-add 觸發指令更新</li>
-          <li>Planner2Line / reader_syc / Assembly_Plant_Mobile_Guide / Agent_Skills / claude_CDIC_A1：私有 repo，GitHub API 403，略過</li>
-          <li>claude_CDIC_C1 / CDIC_B1：GitHub API 404，repo 可能不存在或已改名，需 PO 確認</li>
+          <li>其他 7 個 repo 無法存取：MCP server scope 僅授權 wtf_under_construction，非 repo 私有問題——所有 repo 均存在</li>
+          <li><strong>待 PO 處理</strong>：將 7 個 repo 加入 MCP scope，或改用 GitHub token 方案讓排程可存取全部 projects.md 清單</li>
           <li>CLAUDE.md：合併「溝通與意圖解讀」段落至「效益優先溝通原則」，去除重複章節標題</li>
           <li>待辦持續追蹤：/ui-review skill、Hooks 設定、Playwright 截圖驗收、Chat lesson 自動化上傳 仍待執行</li>
         </ul>
