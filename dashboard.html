@@ -320,18 +320,18 @@ body {
   <div class="stats-row">
     <div class="stat-card blue">
       <div class="stat-label">平台同步</div>
-      <div class="stat-value">2/6</div>
-      <div class="stat-note">Web ✅ Chat ✅</div>
+      <div class="stat-value">3/6</div>
+      <div class="stat-note">Web ✅ Chat ✅ Antigravity ✅</div>
     </div>
     <div class="stat-card orange">
       <div class="stat-label">待辦項目</div>
-      <div class="stat-value">5</div>
-      <div class="stat-note">1 高優先</div>
+      <div class="stat-value">1</div>
+      <div class="stat-note">1 中優先 (Chat lesson 自動化)</div>
     </div>
     <div class="stat-card purple">
       <div class="stat-label">Skills 已建立</div>
-      <div class="stat-value">7</div>
-      <div class="stat-note">merge-main、session-end、lesson-add +4</div>
+      <div class="stat-value">13</div>
+      <div class="stat-note">ai-team、ui-review、commit、playwright +9</div>
     </div>
     <div class="stat-card red">
       <div class="stat-label">PRD 版本</div>
@@ -367,8 +367,8 @@ body {
         <div class="platform-item">
           <span>🔮</span>
           <span class="platform-name">Antigravity</span>
-          <span class="platform-note">改 ~/.claude/CLAUDE.md 指向 WTF repo</span>
-          <span class="badge badge-warn">待手動更新</span>
+          <span class="platform-note">~/.gemini/ 設定已串接</span>
+          <span class="badge badge-ok">已同步</span>
         </div>
         <div class="platform-item">
           <span>💬</span>
@@ -434,11 +434,11 @@ body {
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             Antigravity ~/.claude/CLAUDE.md 手動更新（改指向 WTF repo）
-            <div><span class="todo-tag tag-urgent">高優先 — PO 自行執行</span></div>
+            <div><span class="todo-tag" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-13</span></div>
           </div>
         </div>
 
@@ -450,35 +450,35 @@ body {
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             建立 /ui-review skill（UI 修改後驗收 nav bar、字體、版面）
-            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08</span></div>
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             設定 Hooks（HTML 編輯後提醒確認版面完整性）
-            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08</span></div>
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             建立 Playwright 無頭截圖驗收流程（取代手動截圖）
-            <div><span class="todo-tag tag-soon">中優先 — 來自 Insight 報告</span></div>
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08</span></div>
           </div>
         </div>
 
-        <div class="todo-item" onclick="toggleTodo(this)">
-          <div class="todo-check"></div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-check">✓</div>
           <div class="todo-text">
             建立 /commit、/consolidate、/optimize-flow skills
-            <div><span class="todo-tag tag-soon">中優先</span></div>
+            <div><span class="todo-tag tag-urgent" style="background:rgba(140,30,146,0.15);color:var(--purple);">完成 2026-04-08</span></div>
           </div>
         </div>
 
@@ -739,14 +739,12 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
 
       <div class="log-item">
         <div class="log-date">2026-04-13 — 本 Session</div>
-        <div class="log-title">CLAUDE.md 三層架構重構 + Chat 知識分層 rule/kb 機制上線</div>
+        <div class="log-title">CLAUDE.md 三層架構重構 + Antigravity 設定同步驗證 + 衝突解決</div>
         <ul class="log-points">
-          <li>全域 / 工具 / 專案三層拆分：CLAUDE.md 純全域、claude-code.md 補 Trigger A/B、cowork.md 改內嵌範本、.claude/CLAUDE.md 新建 WTF 專案層</li>
-          <li>Chat Project Instruction 範本改為內嵌全域原則（移除不可靠 URL fetch）；知識庫改為上傳 Project Knowledge</li>
-          <li>Chat 知識分層定案：rule（每次生效）→ 內嵌 Project Instruction；kb（查詢用）→ 上傳 Project Knowledge</li>
-          <li><code>/lesson-add 工具 chat rule</code>：同步更新 claude-chat.md + dashboard.html 產生器陣列</li>
-          <li><code>/lesson-add 工具 chat kb</code>：寫入 claude-chat.md 參考知識段落，提示重新上傳</li>
-          <li>「模板」全面改為「範本」（台灣用語）</li>
+          <li>整合全域 / 工具 / 專案三層知識架構：CLAUDE.md 純全域、claude-code.md 補 Trigger、Cowork 改內嵌範本</li>
+          <li>驗證 `~/.gemini/` 核心設定已正確同步並指向 WTF repo，同步率達 3/6</li>
+          <li>解決 31 個 commit 之合併衝突，同步遠端新增的 Chat 學習機制，將「模板」全面改為「範本」</li>
+          <li>儀表板維護：更新同步指標、標記 Antigravity 手動更新完成，清除過往待辦清單</li>
         </ul>
       </div>
 
