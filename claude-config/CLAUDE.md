@@ -1,10 +1,6 @@
-# Global Agent Configuration
+# 全域設定
 > 適用：所有 Claude 工具共用
 > **載入協議**：本設定檔讀取完成後，須向用戶說明「已載入全域設定」，再開始工作。
-
-## WTF 專案核心目標
-
-**Workflows That Flow**：以複利方式成長 Claude 協作效率與效益。每次工作都應比上一次更快、更準、更少摩擦。設定、Skills、流程皆為可累積資產，不做一次性修補。
 
 ## 效益優先溝通原則
 
@@ -17,46 +13,17 @@
 - **專案需求存檔**：重要需求（PRD、模組清單）應存成 GitHub `.md` 文件，對話開始時 fetch URL 載入，不依賴對話記憶。
 - **需求確認**：使用者說「讓 app 分析 GIF」等含糊指令，先確認是 Claude 處理還是 app 自動執行，兩者技術可行性完全不同。
 
-## Trigger A — 新專案（首次開啟）
-
-偵測到專案內無 `.claude/` 設定時，執行：
-
-1. 讀取 `~/.claude/skills/`，列出可用 skills。若未找到，詢問處理方式。
-2. 確認摘要：列出啟用的 skills（例：Dev_Workflow、Quality_Guard）。
-3. 詢問目前任務或目標。
-
-## Trigger B — 現有專案（後續 session）
-
-1. 重新載入 `~/.claude/skills/`（或 `.claude/skills/`，優先用專案層級）。若未找到，詢問處理方式。
-2. 簡述啟用規則（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`）。
-3. 詢問目前任務或目標。
-
-## 作業慣例（來源：Insight 報告實際觀測）
-
-### 截圖與圖片
-GIF 格式與過大圖片（實測曾卡死 session）向用戶說明此狀況，建議改貼 PNG/JPG 或文字描述。無法處理時，請使用者改貼文字描述或錯誤訊息。
-
-### 程式編輯
-主要語言：TypeScript、HTML、Python。UI 編輯採增量修改，每次只動一個元素。修改後確認 nav bar 與版面框架完整保留。
-
-### 溝通慣例與意圖解讀
-1. 使用者以繁體中文（台灣用語）溝通。短指令（如座標、表單 ID、「長這樣」）視為字面意義直接執行，不重新詮釋、不捨棄。真正模糊才詢問，其餘不問。
-2. 以「簡介」、「說明」、「討論」開頭的輸入，只討論不改動——確認決定後再執行。
-3. 「更新儀表板」隱含「merge main」——使用者說要更新儀表板，代表要看到結果，執行後必須 merge main。
-
-### UI 樣式修改
-字體大小每次只調 1-2px。套用前若幅度較大須確認。禁止連帶修改未被要求的元素。
-
 ## 全域設定存入協議
 
 收到「存入全域設定」指令時：
 
-1. 將內容存入 `~/.claude/CLAUDE.md`（Web 雲端）。
+1. 將內容存入 `~/.claude/CLAUDE.md`（Claude Code 本機）。
 2. 提供本次設定點位摘要。
 3. 更新 WTF_Under_Construction repo 的 `claude-config/CLAUDE.md` 保持同步。
 
 ## 工具層級設定
 
-各工具專屬規則獨立存放，按需載入：
-- Claude Code：`claude-config/claude-code.md`
-- Cowork：`claude-config/cowork.md`
+各工具專屬規則獨立存放，全域設定 + 工具設定合併生效：
+- Claude Code：`claude-config/claude-code.md`（本機路徑自動載入）
+- Claude Cowork：`claude-config/cowork.md`（每次 session 手動貼入）
+- Claude Chat：`claude-config/claude-chat.md`（貼入 Project instruction）

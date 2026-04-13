@@ -737,6 +737,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         </ul>
       </div>
 
+      <div class="log-item">
+        <div class="log-date">2026-04-13 — 本 Session</div>
+        <div class="log-title">CLAUDE.md 三層架構重構：全域 / 工具 / 專案拆分完成</div>
+        <ul class="log-points">
+          <li>全域 <code>claude-config/CLAUDE.md</code>：移除 WTF 專案目標、Trigger A/B、作業慣例 → 只保留溝通原則 + 全域存入協議</li>
+          <li><code>claude-config/claude-code.md</code>：補入 Trigger A/B + 溝通慣例與意圖解讀（Claude Code 專屬）</li>
+          <li><code>claude-config/cowork.md</code>：移除 URL 依賴，改為內嵌全域原則的貼入模板（Cowork 無法讀 raw.githubusercontent.com）</li>
+          <li><code>.claude/CLAUDE.md</code>（WTF 專案層）：新建，寫入 WTF 專案核心目標</li>
+          <li><code>~/.claude/CLAUDE.md</code>：補上 claude-code.md 載入指示（原只載入全域）</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 
