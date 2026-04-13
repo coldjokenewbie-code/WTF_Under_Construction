@@ -27,7 +27,7 @@
 | config / CLAUDE.md / AGENT_SPEC | Claude | 定義 Agent 邊界，不可讓 Agent 自訂 |
 | 驗收審查 | Claude | 品質把關在 Tech Lead |
 | 單一元件的 CSS / 視覺實作 | Agent | 範圍明確，影響可隔離 |
-| 新頁面模板（遵循既有 pattern） | Agent | 有參照，複製延伸即可 |
+| 新頁面範本（遵循既有 pattern） | Agent | 有參照，複製延伸即可 |
 | 純 HTML/CSS 靜態頁面 | Agent | 無跨檔案邏輯 |
 | 根據 Claude 提供的資料填充 UI | Agent | 資料由 Claude 確認，Agent 只負責呈現 |
 
