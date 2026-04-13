@@ -812,6 +812,15 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
     saveTodos();
   }
 
+  // Chat 工具固定規則（由 /lesson-add 工具 chat rule 自動維護）
+  // 更新此區塊後，使用者需從儀表板重新複製 Project Instruction 貼回 claude.ai
+  // === CHAT-TOOL-RULES-START ===
+  const chatToolRules = [
+    '對話過長時（超過 30 來回或開始重複犯同樣錯誤），主動建議開新對話並產出交接文件。',
+    '開場確認專案範圍，若有 PRD，詢問使用者提供後再接任務，避免遺漏模組。',
+  ].map(r => `- ${r}`).join('\n');
+  // === CHAT-TOOL-RULES-END ===
+
   // Chat Project Instruction 產生器
   function generateChatInstruction() {
     const name = document.getElementById('chat-project-name').value.trim();
@@ -832,12 +841,11 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
 ## Chat 工具規則
 - 無檔案系統、無 git 操作能力。
 - 知識寫入需橋接：輸出 Lesson 候選 → 使用者在 Claude Code 執行 /lesson-add。
-- 對話過長時（超過 30 來回或開始重複錯誤），主動建議開新對話並產出交接文件。
-- 開場確認專案範圍，若有 PRD，詢問使用者提供後再接任務。
+${chatToolRules}
 
 ## 本專案
 名稱：${name}
-知識庫：已上傳至 Project Knowledge（chat-project-lessons/${name}.md）。若無，繼續工作。
+知識庫：已上傳至 Project Knowledge（claude-chat.md + chat-project-lessons/${name}.md）。若無，繼續工作。
 
 ---
 
@@ -846,7 +854,7 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
 # chat-prj-${name}[YYMMDD]
 
 【Lesson 候選】
-層級建議：全域 / 工具(chat) / 專案(${name})
+層級建議：全域 / 工具(chat) rule / 工具(chat) kb / 專案(${name})
 內容：[一句話規則]
 觀察來源：[情境]`;
   }
