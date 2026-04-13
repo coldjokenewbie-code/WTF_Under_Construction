@@ -1,31 +1,33 @@
 ---
 name: skills-install
-description: 將 WTF repo 的 skills 安裝到目標專案。用法：/skills-install [目標專案路徑]
+description: 將 WTF repo 的 skills 同步到全域環境或目標專案。用法：/skills-install [--global] | [目標專案路徑]
 ---
 
 # Skills Install
 
-將 WTF repo 的 `.claude/skills/` 複製到目標專案，讓該專案可使用所有共用 skills。
+將 WTF repo 的 `claude-config/skills/` 複製到全域環境或目標專案，確保工具鏈同步。
 
-用法：`/skills-install [目標專案絕對路徑]`
+用法：
+- `/skills-install` 或 `/skills-install --global`: 同步至 Claude 與 Antigravity 全域環境。
+- `/skills-install [目標專案絕對路徑]`: 同步至特定專案目錄。
 
 執行步驟：
 
-1. 確認來源與目標：
-   ```
-   來源：~/WTF_Under_Construction/.claude/skills/
-   目標：[目標專案路徑]/.claude/skills/
-   ```
+1. 確認模式與目標：
+   - **全域模式**（無參數或 `--global`）：
+     - Claude 全域：`~/.claude/skills/`
+     - Antigravity 全域：`~/.gemini/antigravity/global_skills/`
+   - **專案模式**（提供路徑）：
+     - 目標：`[路徑]/.claude/skills/`
 
-2. 確認目標專案路徑存在，若 `.claude/` 不存在則建立：
-   ```
-   mkdir -p [目標專案路徑]/.claude/skills
-   ```
+2. 確認目的地存在：
+   - 全域目錄通常已存在，若不存在則建立。
+   - 專案模式下，若 `[路徑]/.claude/` 不存在則建立。
 
-3. 複製所有 skills（覆蓋舊版本）：
-   ```
-   cp -r ~/WTF_Under_Construction/.claude/skills/. [目標專案路徑]/.claude/skills/
-   ```
+3. 執行複製（覆蓋舊版本）：
+   - 來源：`~/WTF_Under_Construction/claude-config/skills/`
+   - 使用 `cp -r` 或 `xcopy` 將所有 skill 子目錄同步至目的地。
+
 
 4. 確認目標專案有 `.claude/CLAUDE.md`；若無，建立基本結構：
    ```markdown
