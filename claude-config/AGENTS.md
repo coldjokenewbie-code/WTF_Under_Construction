@@ -49,3 +49,12 @@
 
 ### 截圖與圖片
 GIF 格式與過大圖片可能造成問題，建議改貼 PNG/JPG 或文字描述。
+
+## 任務通訊協議 (Task Signal Protocol)
+
+跨工具協作時，使用專案根目錄的 `AGENT_SIGNAL.log` 作為訊號傳遞：
+
+1. **Antigravity (Agent) 完成任務**：寫入 `DONE|<AgentID>|<FileName>|<Timestamp>`。
+2. **Claude Code (Tech Lead) 監聽**：偵測到後自動執行驗收（TS 編譯 + diff 審查）。
+3. **Claude Code 回寫**：`VERIFIED|<AgentID>|PASS|<Timestamp>` 並產出 HANDOFF 報告。
+4. **驗收失敗**：Claude Code 回寫 `VERIFIED|<AgentID>|FAIL|<Timestamp>`，由 Tech Lead 接手修復或退回。
