@@ -2,6 +2,17 @@
 > 適用：所有 AI agents 共用（Claude Code、Antigravity、Cursor 等）
 > 來源：WTF_Under_Construction repo — Single Source of Truth
 
+## Skills 載入協議
+
+每次 session 開始，依序執行：
+
+1. **全域 skills**：讀取 UI / 工具設定的全域路徑（`WTF_Under_Construction/claude-config/skills/`）。
+2. **專案層 skills**：
+   - Claude Code 專案：`.claude/skills/`
+   - Antigravity 專案：`._agents/skills/`（若無則改找 `.claude/skills/`）
+3. **專案設定**：若有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
+4. 簡述已啟用的 skills（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`），再詢問任務。
+
 ## WTF 專案核心目標
 
 **Workflows That Flow**：以複利方式成長 AI 協作效率與效益。每次工作都應比上一次更快、更準、更少摩擦。設定、Skills、流程皆為可累積資產，不做一次性修補。
