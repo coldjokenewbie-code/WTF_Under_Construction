@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(git -C \"c:\\\\Users\\\\2025.DESKTOP-7SF21LR\\\\Documents\\\\Git_foler_anti\\\\WTF_Under_Construction\" log --oneline -5)",
-      "Bash(git -C \"c:\\\\Users\\\\2025.DESKTOP-7SF21LR\\\\Documents\\\\Git_foler_anti\\\\WTF_Under_Construction\" branch --show-current)"
+      "Bash(git -C \"c:\\\\Users\\\\2025.DESKTOP-7SF21LR\\\\Documents\\\\Git_foler_anti\\\\WTF_Under_Construction\" branch --show-current)",
+      "Bash(cp -r c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/. c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/.claude/skills/)",
+      "Bash(cp -r c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/. c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/)",
+      "Bash(cp -r c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/. c:/Users/2025.DESKTOP-7SF21LR/.gemini/antigravity/global_skills/)",
+      "Bash(rm c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/Dev_Workflow c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/Quality_Guard)",
+      "Bash(ln -s c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/Dev_Workflow c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/Dev_Workflow)",
+      "Bash(ln -s c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/Quality_Guard c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/Quality_Guard)",
+      "Read(//c/Users/2025.DESKTOP-7SF21LR/.gemini/antigravity/global_skills/**)",
+      "Bash(python3 -c \"import os; p='~/wtf'; print\\(os.path.islink\\(p\\), os.path.isdir\\(p\\)\\)\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install"
     ]
   }
 }
