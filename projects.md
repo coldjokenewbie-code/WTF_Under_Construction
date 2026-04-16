@@ -12,3 +12,4 @@
 | claude_CDIC_C1 | coldjokenewbie-code/claude_CDIC_C1 | CDIC 展覽 C1 | ✅ |
 | claude_CDIC_A1 | coldjokenewbie-code/claude_CDIC_A1 | 單一 HTML flip UI | ✅ |
 | CDIC_B1 | coldjokenewbie-code/CDIC_B1 | 年表區互動觸控螢幕 | ✅ |
+| claude_CDIC_O4 | coldjokenewbie-code/claude_CDIC_O4 | CDIC 史料館 O 區投影牆歷史事件影片，Remotion 製作（6 支 1920×1080 MP4） | ✅ |

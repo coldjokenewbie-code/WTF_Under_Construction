@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv \"claude-config/skills/ai-team/AI_TEAM_DIVISION.md\" \"claude-config/skills/ai-team/AI_TEAM_DIVISION_TEMPLATE.md\")",
+      "Bash(mv \"claude-config/skills/ai-team/AI_TEAM_WORKFLOW.md\" \"claude-config/skills/ai-team/AI_TEAM_WORKFLOW_TEMPLATE.md\")",
+      "Bash(mv \".claude/skills/ai-team/AI_TEAM_DIVISION.md\" \".claude/skills/ai-team/AI_TEAM_DIVISION_TEMPLATE.md\")",
+      "Bash(mv \".claude/skills/ai-team/AI_TEAM_WORKFLOW.md\" \".claude/skills/ai-team/AI_TEAM_WORKFLOW_TEMPLATE.md\")",
+      "Edit(/.claude/skills/ai-team/**)",
+      "Edit(/.claude/skills/skills-install/**)",
+      "Bash([ -d \"$BASE/$proj/claude-config\" ])"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\ai-team",
+      "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
+      "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\Plnner2Line"
+    ]
+  }
+}

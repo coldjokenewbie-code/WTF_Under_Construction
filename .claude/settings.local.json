@@ -11,17 +11,26 @@
       "Bash(ln -s c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/Quality_Guard c:/Users/2025.DESKTOP-7SF21LR/.claude/skills/Quality_Guard)",
       "Read(//c/Users/2025.DESKTOP-7SF21LR/.gemini/antigravity/global_skills/**)",
       "Bash(python3 -c \"import os; p='~/wtf'; print\\(os.path.islink\\(p\\), os.path.isdir\\(p\\)\\)\")",
-      "Read(//c/Users/user/.claude/skills/**)",
-      "Bash(git pull:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git fetch:*)",
-      "Bash(git push:*)",
-      "Edit(~/.claude/skills/ai-team/**)"
+      "Read(//c/Users/2025.DESKTOP-7SF21LR/.gemini/**)",
+      "Bash(cp \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/GEMINI.md\" \"c:/Users/2025.DESKTOP-7SF21LR/.gemini/GEMINI.md\")",
+      "Bash(cp \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/AGENTS.md\" \"c:/Users/2025.DESKTOP-7SF21LR/.gemini/AGENTS.md\")",
+      "Bash(cp -r c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/. c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/__TRACKED_VAR__/.claude/skills/)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(playwright --version)",
+      "Bash(node -e \"const { chromium } = require\\('playwright'\\); chromium.launch\\(\\).then\\(b => { console.log\\('Chromium OK'\\); b.close\\(\\); }\\).catch\\(e => console.error\\(e.message\\)\\)\")",
+      "Bash(npm list:*)",
+      "Bash(npm root:*)",
+      "Bash(NODE_PATH=\"C:/Users/2025.DESKTOP-7SF21LR/AppData/Roaming/npm/node_modules\" node -e \"const { chromium } = require\\('playwright'\\); chromium.launch\\(\\).then\\(b => { console.log\\('Chromium OK'\\); b.close\\(\\); }\\).catch\\(e => console.error\\(e.message\\)\\)\")",
+      "Edit(~/.claude/skills/ui-review/**)",
+      "Bash(NODE_PATH=\"C:/Users/2025.DESKTOP-7SF21LR/AppData/Roaming/npm/node_modules\" node _ui_review.mjs dashboard.html)",
+      "Bash(node _ui_review.mjs dashboard.html)",
+      "Bash(cp -r \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/.\" \"C:/Users/2025.DESKTOP-7SF21LR/.claude/skills/\")",
+      "Bash(cp -r \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/.\" \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/.claude/skills/\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
-      "C:\\Users\\user\\.claude\\skills\\ai-team"
+      "C:\\Users\\2025.DESKTOP-7SF21LR\\.claude\\skills"
     ]
   }
 }
