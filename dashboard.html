@@ -501,6 +501,14 @@ body {
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
+            [Assembly] InteractionPage Bug 修復 — Agent 執行中：版面橫向溢出 + 拖曳 drop 偵測（AGENT_SPEC 已交付，待 AGENT_SIGNAL.log DONE 信號）
+            <div><span class="todo-tag tag-urgent">高優先 — 2026-04-17 交付 Antigravity</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
             Chat lesson 自動化上傳（方案 B：Webhook → WTF repo inbox → 三點排程歸檔）
             <div><span class="todo-tag tag-soon">中優先 — 方案 A 手動橋接先行</span></div>
           </div>
@@ -758,6 +766,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>ARDemoPage：全屏底圖 準備AR服務中.jpg，底部顯示圖檔名文字</li>
           <li>EditableImage 機制：編輯模式下兩頁均可換圖，Picker 列出 public/images/ 所有圖片並縮圖預覽，選後可儲存至 content-overrides.json</li>
           <li>vite.config.ts：新增 /api/list-images 端點 + pages.* 存檔支援</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-17 — 本 Session</div>
+        <div class="log-title">Assembly Plant Mobile Guide — 每日任務互動頁（拼圖 + 測驗）架構完成，Bug 待 Agent 修</div>
+        <ul class="log-points">
+          <li>types.ts：TaskType 加入 <code>'interactive'</code>，task-interactive-01 新增至 tasks.ts</li>
+          <li>components/InteractionPage.tsx：建立蒸汽機車拼圖遊戲 + CK124 測驗元件（SVG 動畫、拖曳組裝、知識說明彈窗）</li>
+          <li>TaskBanner.tsx：interactive 類型任務改為「開始互動任務」按鈕，點擊後全螢幕 modal 開啟，完成後呼叫 onAnswer 標記任務</li>
+          <li>兩個未解 Bug 交給 Antigravity Agent：版面橫向溢出（手機寬度）、拖曳 drop 偵測失敗（零件彈回）</li>
+          <li>AGENT_SPEC.md 寫定：onDrag ref 追蹤方案 + window.scrollX/Y 校正 + overflow-x-hidden 修法</li>
         </ul>
       </div>
 
