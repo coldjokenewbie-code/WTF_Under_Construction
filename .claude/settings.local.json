@@ -26,7 +26,12 @@
       "Bash(NODE_PATH=\"C:/Users/2025.DESKTOP-7SF21LR/AppData/Roaming/npm/node_modules\" node _ui_review.mjs dashboard.html)",
       "Bash(node _ui_review.mjs dashboard.html)",
       "Bash(cp -r \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/.\" \"C:/Users/2025.DESKTOP-7SF21LR/.claude/skills/\")",
-      "Bash(cp -r \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/.\" \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/.claude/skills/\")"
+      "Bash(cp -r \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/claude-config/skills/.\" \"c:/Users/2025.DESKTOP-7SF21LR/Documents/Git_foler_anti/WTF_Under_Construction/.claude/skills/\")",
+      "Read(//c/Users/user/.claude/**)",
+      "Read(//c/Users/user/Documents/GitHub_place//**)",
+      "Bash(xargs -I{} dirname {})",
+      "Bash(xargs -I{} basename {})",
+      "Edit(/.claude/skills/auto-approve/**)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
