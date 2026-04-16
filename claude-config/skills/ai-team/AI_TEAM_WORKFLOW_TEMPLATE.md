@@ -28,6 +28,7 @@ PO 下需求
     [Agent] 執行
       • 在 spec 內完成實作
       • 有疑問擱置不自決
+      • 完成後寫入 AGENT_SIGNAL.log（見下方格式）
       • 完成後回傳 handoff report
           │
           ▼
@@ -83,7 +84,24 @@ PO 下需求
 
 ---
 
-### B. Agent → Claude（完成回報）
+### B. Agent 完成信號（AGENT_SIGNAL.log）
+
+Agent 完成後，**必須**在專案根目錄寫入（append）一行：
+
+```
+DONE {任務ID} {YYYY-MM-DD}
+```
+
+範例：
+```
+DONE AppShell-header-devtools 2026-04-16
+```
+
+Claude 監控此檔偵測到信號後自動接手 ui-review，不需使用者通知。
+
+---
+
+### C. Agent → Claude（完成回報）
 
 ```markdown
 ## 完成回報
