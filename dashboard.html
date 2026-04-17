@@ -509,6 +509,14 @@ body {
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
+            [Assembly] RoutePage UI 驗收 — 三條非任務路線（重點推薦/科學工藝/人文歷史）展品列表頁，待 localhost 實機確認
+            <div><span class="todo-tag tag-soon">中優先 — 2026-04-17 完成架構</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
             Chat lesson 自動化上傳（方案 B：Webhook → WTF repo inbox → 三點排程歸檔）
             <div><span class="todo-tag tag-soon">中優先 — 方案 A 手動橋接先行</span></div>
           </div>
@@ -789,6 +797,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>確認 Antigravity 不在 npx skills 生態系支援清單（共 30 個 agent，無 Antigravity），npx skills 路線無效</li>
           <li>採方案一：在 AGENT_SPEC_TEMPLATE.md 新增「品質準則」區塊，直接嵌入 Quality_Guard 硬性限制、失敗熔斷、驗證交付格式</li>
           <li>每份 AGENT_SPEC 自帶準則，Antigravity 不需額外設定即可獲得品質約束</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-17 — 本 Session（第三段）</div>
+        <div class="log-title">Assembly Plant — AudienceGroupId 換版後導航串接 + RoutePage 新建 + UI 細節修復</div>
+        <ul class="log-points">
+          <li>接手 HANDOFF：AudienceGroupId 已從 school/foreign/family/deep 換為 highlight/science/history/mission</li>
+          <li>App.tsx：實作 handleSelectGroup — mission → /tasks，其餘 → /route/:routeId，並呼叫 setAudienceGroup 寫入 localStorage</li>
+          <li>新建 pages/RoutePage.tsx：通用路線展品列表頁，依 exhibitIds 順序顯示展品卡片，點擊進入 /exhibit/:id</li>
+          <li>data/routes.ts：RouteInfo 加 exhibitIds 欄位，四條路線各自定義展品順序</li>
+          <li>UI 修復：附近展品標題移除英文 RECOMMEND、DAILY_TASKS 多語化、AudiencePage 移除確認按鈕（點卡直接導航）、1B 首圖換圖、NearbyExhibits 破圖隱藏、1B 預設頁籤改深入、掃描快門鈕下移 15%</li>
         </ul>
       </div>
 
