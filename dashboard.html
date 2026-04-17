@@ -781,6 +781,17 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         </ul>
       </div>
 
+      <div class="log-item">
+        <div class="log-date">2026-04-17 — 本 Session（第二段）</div>
+        <div class="log-title">Antigravity Skills 載入問題診斷 + AGENT_SPEC 嵌入 Quality_Guard</div>
+        <ul class="log-points">
+          <li>實證評估 Gemini Flash 3 agent 的 skills 載入失敗說明：部分真實（路徑確實影響 agent tag），「Google Codelab 標準」說法疑似虛構，建議遷移路徑有破壞風險</li>
+          <li>確認 Antigravity 不在 npx skills 生態系支援清單（共 30 個 agent，無 Antigravity），npx skills 路線無效</li>
+          <li>採方案一：在 AGENT_SPEC_TEMPLATE.md 新增「品質準則」區塊，直接嵌入 Quality_Guard 硬性限制、失敗熔斷、驗證交付格式</li>
+          <li>每份 AGENT_SPEC 自帶準則，Antigravity 不需額外設定即可獲得品質約束</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 
