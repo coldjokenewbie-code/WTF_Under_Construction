@@ -801,6 +801,19 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
       </div>
 
       <div class="log-item">
+        <div class="log-date">2026-04-25 — 本 Session</div>
+        <div class="log-title">CDIC O4 — 字幕修正 + Event1999 圖檔路徑修復 + Event2011 新增開場照片 + 全片音訊靜音強化</div>
+        <ul class="log-points">
+          <li>Event1985 字幕修正：旁白 3 保障金額「一百萬元」→「70萬元」</li>
+          <li>Event1999 圖檔路徑修復：補齊 _1_/_2_/_3_/_4_ 數字前綴（Agent 建檔時遺漏），圖片首次正常顯示；第三段最後字幕 filter 截斷問題修正（8s→5s）</li>
+          <li>Event2011 開場新增兩張台北街景照片（各 2s Ken Burns），整體時間軸後移 100f，總長度 1110→1210f；clip-2011 加 scale(1.4) 去除黑邊</li>
+          <li>全片 OffthreadVideo 加 volume={0}（原僅 muted，Studio preview 仍洩漏音軌）；Opening 跳針根因確認為 WhentheWorldBreaks.mp4 Sequence 在 frame 513 unmount 時音訊衝突</li>
+          <li>KenBurnsClip 補 extrapolateLeft:'clamp'（premount 場景下 frame 為負時的保護）</li>
+          <li>確認所有 composition props 自動儲存正常運作（schema + inline literal 架構驗證）</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
         <div class="log-date">2026-04-17 — 本 Session（第三段）</div>
         <div class="log-title">Assembly Plant — AudienceGroupId 換版後導航串接 + RoutePage 新建 + UI 細節修復</div>
         <ul class="log-points">
