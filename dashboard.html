@@ -517,6 +517,14 @@ body {
         <div class="todo-item" onclick="toggleTodo(this)">
           <div class="todo-check"></div>
           <div class="todo-text">
+            [CDIC O4] clip-2019_digital_city_envato.mov（ProRes 4444）需用 HandBrake / ffmpeg 轉 H.264 MP4，才能在 Studio 預覽
+            <div><span class="todo-tag tag-soon">中優先 — 2026-04-26 診斷確認</span></div>
+          </div>
+        </div>
+
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-check"></div>
+          <div class="todo-text">
             Chat lesson 自動化上傳（方案 B：Webhook → WTF repo inbox → 三點排程歸檔）
             <div><span class="todo-tag tag-soon">中優先 — 方案 A 手動橋接先行</span></div>
           </div>
@@ -810,6 +818,18 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
           <li>全片 OffthreadVideo 加 volume={0}（原僅 muted，Studio preview 仍洩漏音軌）；Opening 跳針根因確認為 WhentheWorldBreaks.mp4 Sequence 在 frame 513 unmount 時音訊衝突</li>
           <li>KenBurnsClip 補 extrapolateLeft:'clamp'（premount 場景下 frame 為負時的保護）</li>
           <li>確認所有 composition props 自動儲存正常運作（schema + inline literal 架構驗證）</li>
+        </ul>
+      </div>
+
+      <div class="log-item">
+        <div class="log-date">2026-04-26 — 本 Session</div>
+        <div class="log-title">CDIC O4 — 全 compo 開頭去淡入 + Event2019 影片素材替換 + ProRes 問題診斷</div>
+        <ul class="log-points">
+          <li>全 6 支 composition 掃描：Event1997、Event2019 的 dOp 在 from=0 時 opacity 從 0 開始（淡入），其餘 4 支已正確（只淡出）</li>
+          <li>修正 Event1997 / Event2019 的 dOp 函式：新增 <code>if (from === 0)</code> 分支，跳過淡入，直接從 opacity=1 開始</li>
+          <li>Event2019：前兩支 gettyimages 影片合併成單一 slot，換成 <code>clip-2019-security-processor-evanto.mov</code>，from=0 to=155（Root.tsx Studio 值）</li>
+          <li>Event2019：嘗試將 digital_city_envato 改為 .mov → 診斷出 ProRes 4444（ap4h），Chrome 不支援 → 改回 .mp4</li>
+          <li>ProRes .mov 結論：Remotion render 可用（FFmpeg），Studio 瀏覽器預覽不可；.mov 素材若需 Studio 預覽必須先轉 H.264 MP4</li>
         </ul>
       </div>
 
