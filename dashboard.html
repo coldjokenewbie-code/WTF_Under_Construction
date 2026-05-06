@@ -577,26 +577,28 @@ body {
           <div class="setup-label">macOS / Linux</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/wtf
+            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/git_folder/WTF_Under_Construction
 # Claude Code
-ln -sf ~/wtf/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/wtf/claude-config/skills ~/.claude/skills
+rm -rf ~/.claude/skills
+ln -sf ~/git_folder/WTF_Under_Construction/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sf ~/git_folder/WTF_Under_Construction/claude-config/skills ~/.claude/skills
 # Antigravity / Gemini
-ln -sf ~/wtf/claude-config/AGENTS.md ~/.gemini/AGENTS.md
-ln -sf ~/wtf/claude-config/GEMINI.md ~/.gemini/GEMINI.md</div>
+ln -sf ~/git_folder/WTF_Under_Construction/claude-config/AGENTS.md ~/.gemini/AGENTS.md
+ln -sf ~/git_folder/WTF_Under_Construction/claude-config/GEMINI.md ~/.gemini/GEMINI.md</div>
           </div>
         </div>
         <div class="setup-step">
           <div class="setup-label">Windows（PowerShell，以系統管理員執行）</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git $env:USERPROFILE\wtf
+            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git $env:USERPROFILE\git_folder\WTF_Under_Construction
 # Claude Code
-cmd /c mklink /J "$env:USERPROFILE\.claude\skills" "$env:USERPROFILE\wtf\claude-config\skills"
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\CLAUDE.md" -Target "$env:USERPROFILE\wtf\claude-config\CLAUDE.md"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills" -ErrorAction SilentlyContinue
+cmd /c mklink /J "$env:USERPROFILE\.claude\skills" "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\skills"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\CLAUDE.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\CLAUDE.md"
 # Antigravity / Gemini
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\AGENTS.md" -Target "$env:USERPROFILE\wtf\claude-config\AGENTS.md"
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Target "$env:USERPROFILE\wtf\claude-config\GEMINI.md"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\AGENTS.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\AGENTS.md"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\GEMINI.md"
 # 注意：需管理員或開啟 Developer Mode；若目標已存在需先刪除</div>
           </div>
         </div>

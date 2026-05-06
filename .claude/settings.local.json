@@ -31,12 +31,24 @@
       "Read(//c/Users/user/Documents/GitHub_place//**)",
       "Bash(xargs -I{} dirname {})",
       "Bash(xargs -I{} basename {})",
-      "Edit(/.claude/skills/auto-approve/**)"
+      "Edit(/.claude/skills/auto-approve/**)",
+      "Read(//Users/coma/.claude/skills/**)",
+      "Read(//Users/coma/wtf/claude-config/skills/**)",
+      "Read(//Users/coma/wtf/**)",
+      "Bash(rm -rf ~/.claude/skills)",
+      "Bash(ln -sf ~/wtf/claude-config/skills ~/.claude/skills)",
+      "Bash(ln -sf ~/git_folder/WTF_Under_Construction/claude-config/CLAUDE.md ~/.claude/CLAUDE.md)",
+      "Bash(ln -sf ~/git_folder/WTF_Under_Construction/claude-config/skills ~/.claude/skills)",
+      "Bash(ln -sf ~/git_folder/WTF_Under_Construction/claude-config/AGENTS.md ~/.gemini/AGENTS.md)",
+      "Bash(ln -sf ~/git_folder/WTF_Under_Construction/claude-config/GEMINI.md ~/.gemini/GEMINI.md)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
       "C:\\Users\\2025.DESKTOP-7SF21LR\\.claude\\skills",
-      "C:\\Users\\user\\Documents\\GitHub_place\\WTF_Under_Construction\\.claude\\skills\\auto-approve"
+      "C:\\Users\\user\\Documents\\GitHub_place\\WTF_Under_Construction\\.claude\\skills\\auto-approve",
+      "/Users/coma/wtf"
     ]
   }
 }
