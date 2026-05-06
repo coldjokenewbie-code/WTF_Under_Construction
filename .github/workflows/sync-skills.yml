@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'claude-config/skills/**'
+  workflow_dispatch:
 
 jobs:
   sync:
