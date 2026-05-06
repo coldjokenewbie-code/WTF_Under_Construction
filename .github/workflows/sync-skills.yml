@@ -27,12 +27,8 @@ jobs:
           git clone https://x-access-token:${GH_TOKEN}@github.com/coldjokenewbie-code/${{ matrix.repo }}.git /tmp/target
           mkdir -p /tmp/target/.claude/skills
           cp -r claude-config/skills/. /tmp/target/.claude/skills/
-          echo "=== copied files ==="
-          ls /tmp/target/.claude/skills/
           cd /tmp/target
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git add -f .claude/skills
-          echo "=== staged files ==="
-          git diff --staged --name-only
           git diff --staged --quiet && echo "no changes" || (git commit -m "chore: sync skills from WTF_Under_Construction" && git push)
