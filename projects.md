@@ -14,3 +14,5 @@
 | CDIC_B1 | coldjokenewbie-code/CDIC_B1 | 年表區互動觸控螢幕 | ✅ |
 | claude_CDIC_O4 | coldjokenewbie-code/claude_CDIC_O4 | CDIC 史料館 O 區投影牆歷史事件影片，Remotion 製作（6 支 1920×1080 MP4） | ✅ |
 | cowork_CDIC | coldjokenewbie-code/cowork_CDIC | CDIC 專案 Cowork 工作區 — 文件處理與 UI 設計 | ✅ |
+| HsinchuScienceEducationCenter | coldjokenewbie-code/HsinchuScienceEducationCenter | 新竹科教館前期研究案 | ✅ |
+| Remotion_fun | coldjokenewbie-code/Remotion_fun | 測試 Remotion 各種功能 | ✅ |
