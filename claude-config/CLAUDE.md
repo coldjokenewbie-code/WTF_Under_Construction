@@ -1,22 +1,34 @@
 # 全域設定
 > 適用：所有 Claude 工具共用
-> **載入協議**：本設定檔讀取完成後，執行以下步驟，再向用戶說明「已載入全域設定」，再開始工作：
-> 1. 檢查並補齊工作區資料夾（若不存在則建立）：`_context/`、`rules/`、`workingfiles/_screenshots/`、`workingfiles/_scripts/`
-> 2. 若 `rules/workingfiles-conventions.md` 不存在，建立並寫入預設內容：
->    ```
->    # workingfiles 命名規範
->    `workingfiles/` 存放暫時性工作檔案與素材，不納入正式輸出。
->    ## 子資料夾
->    | 資料夾 | 用途 |
->    |--------|------|
->    | `_screenshots/` | AI 擷圖存放處，供視覺驗收使用 |
->    | `_scripts/` | AI 撰寫的本專案處理腳本 |
->    ## 原則
->    - 內容為暫時性，驗收或任務完成後可清除
->    - `_scripts/` 腳本由 AI 產生，用途明確後可移至 `tools/` 或刪除
->    - `_screenshots/` 截圖驗收完成後可清除
->    ```
-> 3. 讀取 `_context/` 和 `rules/` 中所有 `.md` 檔案
+**【強制載入協議】本設定檔讀取完成後，必須立即執行以下步驟，不得跳過：**
+
+**步驟一：補齊工作區資料夾**（不存在則建立）
+- `_context/`
+- `rules/`
+- `workingfiles/_screenshots/`
+- `workingfiles/_scripts/`
+
+**步驟二：建立預設規範**（若 `rules/workingfiles-conventions.md` 不存在）
+建立該檔並寫入：
+```
+# workingfiles 命名規範
+`workingfiles/` 存放暫時性工作檔案與素材，不納入正式輸出。
+## 子資料夾
+| 資料夾 | 用途 |
+|--------|------|
+| `_screenshots/` | AI 擷圖存放處，供視覺驗收使用 |
+| `_scripts/` | AI 撰寫的本專案處理腳本 |
+## 原則
+- 內容為暫時性，驗收或任務完成後可清除
+- `_scripts/` 腳本由 AI 產生，用途明確後可移至 `tools/` 或刪除
+- `_screenshots/` 截圖驗收完成後可清除
+```
+
+**步驟三：讀取專案知識**
+- 讀取 `_context/` 中所有 `.md` 檔案
+- 讀取 `rules/` 中所有 `.md` 檔案
+
+**步驟四：向用戶說明「已載入全域設定」，再開始工作。**
 
 ## 效益優先溝通原則
 
