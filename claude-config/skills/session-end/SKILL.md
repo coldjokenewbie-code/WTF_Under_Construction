@@ -16,3 +16,5 @@ description: commit 本次產出、更新 lessons-learned、merge 到 main。
    - 存檔
 
 3. 回報本次 session 摘要（3-5 條）。
+
+> 儀表板討論記錄、lesson-add 由凌晨 Nightly 自動從 transcript 處理，無需手動執行。

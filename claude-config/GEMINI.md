@@ -7,6 +7,7 @@
 Session 開始時，依序讀取（詳見 `~/.gemini/AGENTS.md` 的 Skills 載入協議）：
 1. 全域 skills（UI 自訂路徑：`WTF_Under_Construction/claude-config/skills/`）
 2. 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）
+3. 若專案有 `_context/`，讀取其中所有 `.md`；若有 `rules/`，讀取其中所有 `.md`
 
 ## 全域設定存入協議
 

@@ -12,7 +12,8 @@
    - 若專案存在同名 skill，**必須使用專案版本，忽略全域同名路徑**。
 2. **全域 skills**（Fallback）：專案層沒有的 skill，才從全域路徑載入（`WTF_Under_Construction/claude-config/skills/`）。
 3. **專案設定**：若有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
-4. 簡述已啟用的 skills（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`），再詢問任務。
+4. **專案知識**：若專案根目錄有 `_context/`，讀取其中所有 `.md` 檔案；若有 `rules/`，讀取其中所有 `.md` 檔案。
+5. 簡述已啟用的 skills（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`），再詢問任務。
 
 ## WTF 專案核心目標
 

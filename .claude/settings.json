@@ -7,7 +7,11 @@
       "Bash(mv \".claude/skills/ai-team/AI_TEAM_WORKFLOW.md\" \".claude/skills/ai-team/AI_TEAM_WORKFLOW_TEMPLATE.md\")",
       "Edit(/.claude/skills/ai-team/**)",
       "Edit(/.claude/skills/skills-install/**)",
-      "Bash([ -d \"$BASE/$proj/claude-config\" ])"
+      "Bash([ -d \"$BASE/$proj/claude-config\" ])",
+      "Bash(git commit -m ' *)",
+      "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/workingfiles/_screenshots)",
+      "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/workingfiles/_scripts)",
+      "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/rules)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\ai-team",
