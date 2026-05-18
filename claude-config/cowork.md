@@ -5,7 +5,7 @@
 ## 工具特性與限制
 
 - 沙盒環境，session 結束後設定清除
-- 無本機檔案系統存取、無 git 操作能力
+- 無 git 操作能力
 - 無法可靠讀取外部 URL（raw.githubusercontent.com 不穩定）
 - 知識需透過手動貼入或 /cowork-start skill 載入
 
@@ -17,10 +17,32 @@
 
 請遵循以下全域設定後再開始工作：
 
+### 工作區初始化
+檢查並補齊以下資料夾（若不存在則建立）：
+- `_context/`
+- `rules/`
+- `workingfiles/_screenshots/`
+- `workingfiles/_scripts/`
+
+若 `rules/workingfiles-conventions.md` 不存在，建立並寫入預設內容：
+```
+# workingfiles 命名規範
+`workingfiles/` 存放暫時性工作檔案與素材，不納入正式輸出。
+## 子資料夾
+| 資料夾 | 用途 |
+|--------|------|
+| `_screenshots/` | AI 擷圖存放處，供視覺驗收使用 |
+| `_scripts/` | AI 撰寫的本專案處理腳本 |
+## 原則
+- 內容為暫時性，驗收或任務完成後可清除
+- `_scripts/` 腳本由 AI 產生，用途明確後可移至 `tools/` 或刪除
+- `_screenshots/` 截圖驗收完成後可清除
+```
+
 ### 專案資料載入
 讀取以下資料夾的所有 .md 檔案後再開始：
-1. `_context/` — 專案背景、任務交接、當前進度
-2. `rules/` — 命名規範、工作規則
+1. `_context/`
+2. `rules/`
 
 
 ### 效益優先溝通原則
