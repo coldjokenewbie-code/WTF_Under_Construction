@@ -25,10 +25,10 @@ PO 下需求
       • 預期 output checklist
           │
           ▼
-    [Claude] 派發 + 啟動監控（自動，不等使用者）
+    [Claude] 派發（Monitor 已常駐，不需重新啟動）
       • 寫入 AGENT_SIGNAL.log：REQUEST|<agent>|<spec_path>|<ts>
-      • 立即啟動 Monitor：
-        tail -f AGENT_SIGNAL.log | grep --line-buffered "DONE|<AgentID>"
+      • Monitor 全域常駐（session 開始時啟動一次）：
+        tail -n 0 -f AGENT_SIGNAL.log | grep --line-buffered -E "DONE|ANALYSIS|DISCUSSION|QUESTION|FAIL|ERROR"
           │
           ▼
     [Agent] 執行

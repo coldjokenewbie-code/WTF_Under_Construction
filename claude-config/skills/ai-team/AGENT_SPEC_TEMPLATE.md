@@ -12,10 +12,11 @@
 REQUEST|[gemini/codex]|_context/AGENT_SPEC_[任務名稱].md|<Timestamp>
 ```
 
-**Claude 監控指令**（派發後自動啟動）：
+**Claude 監控指令**（session 開始時啟動一次，常駐整個 session）：
 ```bash
-tail -f AGENT_SIGNAL.log | grep --line-buffered "DONE|[Antigravity/Codex]"
+tail -n 0 -f AGENT_SIGNAL.log | grep --line-buffered -E "DONE|ANALYSIS|DISCUSSION|QUESTION|FAIL|ERROR"
 ```
+> 不需要每次派任務重新啟動。一個 session 一個 monitor 即可。
 
 **Agent 完成信號**（Agent 寫入 `AGENT_SIGNAL.log`）：
 ```
