@@ -57,9 +57,9 @@
 
 ## 任務通訊協議執行
 
-Codex 在完成單一原子任務時，應主動更新 `AGENT_SIGNAL.log`：
-- 格式：`DONE|<AgentID>|<FileName>|<Timestamp>`
-- 此舉旨在觸發 Claude Code 的自動驗收與 Handoff 流程。
+**僅在 AGENT_SPEC 明確要求時**才寫入 `AGENT_SIGNAL.log`：
+- 格式：`DONE|Codex|<FileName>|<Timestamp>`
+- 獨立小任務、自主分析、非派發工作不需寫入。
 
 ## 全域設定存入協議
 
