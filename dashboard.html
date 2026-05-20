@@ -847,6 +847,20 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         </ul>
       </div>
 
+      <div class="log-item">
+        <div class="log-date">2026-05-20 — Nightly 自動回顧（claude/nightly-20260520）</div>
+        <div class="log-title">ai-team 自動監控協議完善 + 溝通用語規範 + CODEX.md 新增</div>
+        <ul class="log-points">
+          <li><strong>WTF_Under_Construction</strong>：9 筆提交 — ai-team 監控全面自動化、AGENT_SIGNAL 範圍修正、CODEX.md 建立、溝通用語規範統一</li>
+          <li>Monitor 工具修正：<code>tail -n 0 -f</code> 取代 <code>tail -f</code>，session 開始一次啟動常駐 monitor 即可</li>
+          <li>ai-team：session 開始自動讀取 MONITOR_INSTRUCTION；任務結束清理 MONITOR_INSTRUCTION 避免持續監控</li>
+          <li>AGENT_SIGNAL：只在 AGENT_SPEC 明確指示時才需要回寫 DONE，獨立小任務不觸發信號</li>
+          <li>全域設定：建立 CODEX.md（對稱 GEMINI.md）；使用者／業主角色定義同步至 AGENTS.md 與 GEMINI.md</li>
+          <li>其餘 7 個 repo 今日無活動</li>
+          <li>lesson-add skill：新增自行觀察模式，支援不帶參數自動分析記錄</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 
