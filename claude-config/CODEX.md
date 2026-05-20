@@ -10,6 +10,9 @@
    - 全域 skills（`/Users/coma/git_folder/WTF_Under_Construction/claude-config/skills/`）
    - 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）
    - 若專案有 `_context/`，讀取其中所有 `.md`；若有 `rules/`，讀取其中所有 `.md`
+3. **若專案有 `_context/MONITOR_INSTRUCTION_codex.md`，執行以下兩步驟：**
+   a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。
+   b. 在背景執行監控指令（檔案中的 `tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發。執行新任務後繼續保持監控。
 
 ## 溝通原則
 
