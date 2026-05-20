@@ -67,6 +67,13 @@
 - 未驗收就交付 = 把處理成本轉嫁給使用者，這是不對的。
 - 此規則優先於「完成速度」，寧可多花一輪修改，也不讓使用者收到需要再處理的東西。
 
+## Multi-Agent 協作底線（ai-team / cross-IDE agent）
+
+- **沒 CLI 介面的外部 agent 本質是「半自動」**：tail signal 只是顯示，agent 不會自動消費；MONITOR_INSTRUCTION 待辦清單比 tail signal 更可靠。派發時雙路徑同時走（log 寫 REQUEST + MONITOR_INSTRUCTION 列待辦）。不要對使用者承諾「全自動」。
+- **派發 REQUEST 後 60 秒沒動 = 假設 agent 重啟過 monitor**：用 `_RESEND` 後綴重發一次，不要等使用者通知。`tail -n 0 -f` 只看啟動後新增的行，重啟前的 signal 會漏掉。
+- **agent 退場立即動態切人**：若某 agent 持續無回應、CLI 不存在、或使用者要求換人，立刻把任務重新打包派給其他 agent 或降為單人制（Claude 自己做）。不要硬等死掉的 agent 拖延任務。
+- **Content Pack 隔離模式**（業務內容 + 純技術實作的混合任務）：Claude 主筆撰寫 content pack（JSON/Markdown，含完整文案、資料對應、視覺需求），agent 只做技術整合（資料填入、UI 渲染、CSS 套用）。文案掌控不外包，避免 agent 自行創作偏離需求。
+
 ## 全域設定存入協議
 
 收到「存入全域設定」指令時：
