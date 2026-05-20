@@ -1,7 +1,26 @@
 # AGENT_SPEC — [任務名稱]
 > 建立時間：YYYY-MM-DD  
 > 建立者：Claude Tech Lead  
-> 執行者：Antigravity Agent
+> 執行者：[Antigravity / Codex]
+
+---
+
+## 派發協議（Claude 填寫）
+
+**REQUEST 信號**（Claude 寫入 `AGENT_SIGNAL.log`）：
+```
+REQUEST|[gemini/codex]|_context/AGENT_SPEC_[任務名稱].md|<Timestamp>
+```
+
+**Claude 監控指令**（派發後自動啟動）：
+```bash
+tail -f AGENT_SIGNAL.log | grep --line-buffered "DONE|[Antigravity/Codex]"
+```
+
+**Agent 完成信號**（Agent 寫入 `AGENT_SIGNAL.log`）：
+```
+DONE|[Antigravity/Codex]|[修改的主檔案路徑]|<Timestamp>
+```
 
 ---
 
@@ -68,7 +87,20 @@
 
 ---
 
-## 完成回報格式（Agent 填寫）
+## 完成流程（Agent 執行）
+
+1. 完成所有修改
+2. 寫入 `AGENT_SIGNAL.log`（格式見上方派發協議）
+3. **Claude 的 Monitor 收到信號後自動驗收**，不需另行通知
+
+**有疑問時**：不要自行決定。列在 `AGENT_SIGNAL.log` 信號後另起一行：
+```
+QUESTION|[Antigravity/Codex]|[任務名稱]|<問題描述>|<Timestamp>
+```
+
+---
+
+## 完成回報格式（Agent 填寫，寫入對應 RESPONSE 檔或直接附在信號後）
 
 ```
 ### 修改的檔案
@@ -78,7 +110,7 @@
 [簡短說明，不超過 5 行]
 
 ### 驗證狀態
-- [ ] TypeScript 編譯通過
+- [ ] 編譯 / 語法檢查通過
 - [ ] 視覺符合預期產出清單
 
 ### 待確認（需 Claude 決定）

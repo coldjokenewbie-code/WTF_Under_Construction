@@ -25,13 +25,18 @@ PO 下需求
       • 預期 output checklist
           │
           ▼
-    [Agent] 執行
-      • 在 spec 內完成實作
-      • 有疑問擱置不自決
-      • 完成後寫入 AGENT_SIGNAL.log（見下方格式）
-      • 完成後回傳 handoff report
+    [Claude] 派發 + 啟動監控（自動，不等使用者）
+      • 寫入 AGENT_SIGNAL.log：REQUEST|<agent>|<spec_path>|<ts>
+      • 立即啟動 Monitor：
+        tail -f AGENT_SIGNAL.log | grep --line-buffered "DONE|<AgentID>"
           │
           ▼
+    [Agent] 執行
+      • 收到 REQUEST 信號後讀取 spec 開始作業
+      • 在 spec 內完成實作，有疑問擱置不自決
+      • 完成後寫入 AGENT_SIGNAL.log：DONE|<AgentID>|<主檔案>|<ts>
+          │
+          ▼ Monitor 自動觸發
     [Claude] 驗收審查
       • Review diff
       • 確認無 scope 蔓延
@@ -45,9 +50,19 @@ PO 下需求
 
 ## Handoff 格式
 
-### A. Claude → Agent（任務下派）
+### A. Claude → Agent（任務下派 + 自動監控）
 
-使用 `AGENT_SPEC_TEMPLATE.md` 填寫。核心區塊：
+使用 `AGENT_SPEC_TEMPLATE.md` 填寫。派發後**立即**執行以下兩步，不等使用者觸發：
+
+```bash
+# 步驟 1：寫入 REQUEST 信號（Agent 的 monitor 自動收到）
+echo "REQUEST|<gemini/codex>|<spec_path>|$(date -Iseconds)" >> AGENT_SIGNAL.log
+
+# 步驟 2：Claude 啟動 Monitor（自動等待完成）
+# → 使用 Monitor tool，watching: DONE|<AgentID>
+```
+
+核心 AGENT_SPEC 區塊：
 
 ```markdown
 ## 任務說明
@@ -86,18 +101,19 @@ PO 下需求
 
 ### B. Agent 完成信號（AGENT_SIGNAL.log）
 
-Agent 完成後，**必須**在專案根目錄寫入（append）一行：
+Agent 完成後，**必須** append 一行：
 
 ```
-DONE {任務ID} {YYYY-MM-DD}
+DONE|<AgentID>|<修改的主檔案路徑>|<Timestamp>
 ```
 
 範例：
 ```
-DONE AppShell-header-devtools 2026-04-16
+DONE|Antigravity|output/B_HTML/css/B_style.css|2026-05-21T01:00:06+08:00
+DONE|Codex|output/B_HTML/B_JS/B_app.js|2026-05-21T00:59:58+0800
 ```
 
-Claude 監控此檔偵測到信號後自動接手 ui-review，不需使用者通知。
+Claude 的 Monitor（已在派發時自動啟動）偵測到信號後立即接手驗收，不需使用者通知。
 
 ---
 
