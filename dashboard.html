@@ -577,14 +577,14 @@ body {
           <div class="setup-label">macOS / Linux</div>
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git ~/git_folder/WTF_Under_Construction
+            <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction"
 # Claude Code
 rm -rf ~/.claude/skills
-ln -sf ~/git_folder/WTF_Under_Construction/claude-config/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/git_folder/WTF_Under_Construction/claude-config/skills ~/.claude/skills
+ln -sf "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/CLAUDE_CODE.md" ~/.claude/CLAUDE.md
+ln -sf "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/skills" ~/.claude/skills
 # Antigravity / Gemini
-ln -sf ~/git_folder/WTF_Under_Construction/claude-config/AGENTS.md ~/.gemini/AGENTS.md
-ln -sf ~/git_folder/WTF_Under_Construction/claude-config/GEMINI.md ~/.gemini/GEMINI.md</div>
+ln -sf "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/AGENTS.md" ~/.gemini/AGENTS.md
+ln -sf "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/GEMINI.md" ~/.gemini/GEMINI.md</div>
           </div>
         </div>
         <div class="setup-step">
@@ -594,11 +594,11 @@ ln -sf ~/git_folder/WTF_Under_Construction/claude-config/GEMINI.md ~/.gemini/GEM
             <div class="code-block">git clone https://github.com/coldjokenewbie-code/WTF_Under_Construction.git $env:USERPROFILE\git_folder\WTF_Under_Construction
 # Claude Code
 Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills" -ErrorAction SilentlyContinue
-cmd /c mklink /J "$env:USERPROFILE\.claude\skills" "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\skills"
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\CLAUDE.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\CLAUDE.md"
+cmd /c mklink /J "$env:USERPROFILE\.claude\skills" "$env:USERPROFILE\git_folder\WTF_Under_Construction\wtf-config\skills"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\CLAUDE.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\wtf-config\CLAUDE_CODE.md"
 # Antigravity / Gemini
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\AGENTS.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\AGENTS.md"
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\claude-config\GEMINI.md"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\AGENTS.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\wtf-config\AGENTS.md"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Target "$env:USERPROFILE\git_folder\WTF_Under_Construction\wtf-config\GEMINI.md"
 # 注意：需管理員或開啟 Developer Mode；若目標已存在需先刪除</div>
           </div>
         </div>
@@ -617,12 +617,13 @@ New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\GEMINI.md" -Targ
           <div class="code-wrap">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
             <div class="code-block">請先讀取以下設定後再開始工作：
-https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/claude-config/CLAUDE.md</div>
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/wtf-config/GLOBAL.md
+https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/wtf-config/CLAUDE_COWORK.md</div>
           </div>
         </div>
       </div>
       <div class="alert alert-orange">
-        <span>⚠️</span><span>Cowork 的 CLAUDE.md 路徑在沙盒內，對 Windows 磁碟無效。每次 session 手動載入是唯一方式。</span>
+        <span>⚠️</span><span>Cowork 的 GLOBAL.md 路徑在沙盒內，對 Windows 磁碟無效。每次 session 手動載入是唯一方式。</span>
       </div>
     </div>
 
@@ -718,7 +719,7 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         <div class="log-title">Claude Chat 完整知識累積機制上線</div>
         <ul class="log-points">
           <li>確立三層知識架構（全域 / 工具 chat / 專案），全部存於 WTF repo，下次 session 自動讀取</li>
-          <li>新增 claude-config/claude-chat.md + chat-project-lessons/ 資料夾（含 README + _template.md）</li>
+          <li>新增 wtf-config/CLAUDE_CHAT.md + chat-project-lessons/ 資料夾（含 README + _template.md）</li>
           <li>更新 lesson-add skill：支援工具層與 Chat 專案層（專案 chat [名稱]）</li>
           <li>實際歸檔三個專案 PRD + lessons：MS-Office-自動化流程、MS365-員工儀表板、ui-motion-lab</li>
           <li>累積全域 lesson 3 條（禁止臆測、專案需求存檔、需求確認分工）、Chat 工具 lesson 3 條</li>
@@ -864,12 +865,12 @@ https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/mai
         <span class="link-label">每日排程 — 凌晨 03:00 工作回顧</span>
         <span class="link-arrow">→</span>
       </a>
-      <a class="link-item" href="claude-config/CLAUDE.md" target="_blank" style="margin-top:8px;">
+      <a class="link-item" href="wtf-config/GLOBAL.md" target="_blank" style="margin-top:8px;">
         <span class="link-icon">⚙️</span>
-        <span class="link-label">CLAUDE.md — 全域設定</span>
+        <span class="link-label">GLOBAL.md — 全域設定</span>
         <span class="link-arrow">→</span>
       </a>
-      <a class="link-item" href="claude-config/skills/" target="_blank" style="margin-top:8px;">
+      <a class="link-item" href="wtf-config/skills/" target="_blank" style="margin-top:8px;">
         <span class="link-icon">🔧</span>
         <span class="link-label">Skills 目錄</span>
         <span class="link-arrow">→</span>

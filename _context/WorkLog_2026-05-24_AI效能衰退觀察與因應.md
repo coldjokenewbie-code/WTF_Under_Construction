@@ -42,4 +42,4 @@
 - [x] 全域 lesson 已寫入 `claude-config/CLAUDE.md`（新增「AI 效能與可信度衰退因應」段落）
 - [x] 修復 `~/.claude/CLAUDE.md` 斷裂的 symlink（2026-05-24，改指向 Google Drive 路徑）
 - [x] 修復 `~/.claude/skills` 斷裂的 symlink（同上，`git_folder` 已整體移至 Google Drive）
-- [ ] 評估是否將 ai-team 框架中 Claude 的角色調整為執行層
+- [x] 評估是否將 ai-team 框架中 Claude 的角色調整為執行層（2026-05-24 已完成「動態 Tech Lead」架構升級，Claude 可完全降為執行層，由使用者動態委派 Tech Lead 角色，並由指定的 Tech Lead 負責撰寫相關協作文件與 SPEC）

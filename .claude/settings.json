@@ -11,7 +11,9 @@
       "Bash(git commit -m ' *)",
       "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/workingfiles/_screenshots)",
       "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/workingfiles/_scripts)",
-      "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/rules)"
+      "Bash(mkdir -p /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/CDIC/rules)",
+      "Bash(ln -sf \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/claude-config/CLAUDE.md\" /Users/coma/.claude/CLAUDE.md)",
+      "Bash(ln -sf \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/claude-config/skills\" /Users/coma/.claude/skills)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\ai-team",

@@ -19,5 +19,5 @@
 ## Lesson 層級決策
 
 - 只跟此專案有關 → 此資料夾
-- Chat 工具通用慣例 → `claude-config/claude-chat.md`
-- 所有工具都適用 → `claude-config/CLAUDE.md`
+- Chat 工具通用慣例 → `wtf-config/CLAUDE_CHAT.md`
+- 所有工具與 Agents 都適用 → `wtf-config/GLOBAL.md`

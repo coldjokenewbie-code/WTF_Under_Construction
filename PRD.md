@@ -28,21 +28,21 @@
 ### 3.1 設定同步（跨裝置、跨工具）
 - Web Claude Code：雲端 `~/.claude/` 自動通用 ✅
 - Desktop / Antigravity：本機設定需與 WTF repo 同步（symlink 或手動複製）
-- Cowork：沙盒環境，每次 session 需貼入 CLAUDE.md + cowork.md 載入指令
+- Cowork：沙盒環境，每次 session 需貼入 GLOBAL.md + CLAUDE_COWORK.md 載入指令
 - Claude Chat：Profile Preferences（帳號層級同步，設定範圍有限）
 - 目標：新裝置上線成本 < 5 分鐘
 
 ### 3.2 知識累積機制
 - WTF repo 為**唯一真理來源（Single Source of Truth）**
 - 三層累積架構：
-  - **全域**（`~/.claude/CLAUDE.md`）：跨所有工具、所有專案共用
-  - **工具層**（`claude-config/claude-code.md`、`cowork.md`）：各工具專屬慣例
-  - **專案層**（各專案 `.claude/CLAUDE.md`）：專案特定規則，透過 `/skills-install` 部署
+  - **全域**（`wtf-config/GLOBAL.md`）：跨所有工具、所有專案共用
+  - **工具層**（`wtf-config/CLAUDE_CODE.md`、`GEMINI.md`、`CODEX.md` 等）：各工具專屬慣例
+  - **專案層**（各專案 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`）：專案特定規則，透過 `/skills-install` 部署
 - `/lesson-add` skill：隨時將觀察整合進對應層級，去冗餘後存檔
 - `/session-end` skill：每次 session 結束記錄產出、更新儀表板
 
 ### 3.3 AI 開發團隊架構（Insight 確認）
-- Claude 擔任 Tech Lead：任務分解、決定 what & why、品質把關、最終交付
+- 動態指派 Tech Lead：任務分解、決定 what & why、品質把關、最終交付
 - Agents（Antigravity 平台）：有明確 scope 邊界，執行 how，不做獨立決策
 - 成果驗收：**Playwright 自動化取代截圖**（截圖易卡 session，改用程式化驗證）
 - 通過驗收才交 PO 做里程碑確認
