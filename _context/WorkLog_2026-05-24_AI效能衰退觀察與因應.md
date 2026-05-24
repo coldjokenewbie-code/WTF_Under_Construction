@@ -40,5 +40,6 @@
 ## 後續行動
 
 - [x] 全域 lesson 已寫入 `claude-config/CLAUDE.md`（新增「AI 效能與可信度衰退因應」段落）
-- [ ] 修復 `~/.claude/CLAUDE.md` 斷裂的 symlink（目前指向不存在的 `git_folder`）
+- [x] 修復 `~/.claude/CLAUDE.md` 斷裂的 symlink（2026-05-24，改指向 Google Drive 路徑）
+- [x] 修復 `~/.claude/skills` 斷裂的 symlink（同上，`git_folder` 已整體移至 Google Drive）
 - [ ] 評估是否將 ai-team 框架中 Claude 的角色調整為執行層
