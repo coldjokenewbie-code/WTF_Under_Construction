@@ -42,6 +42,15 @@
 - 有序列進場動畫（如英雄依序亮起）的頁面，Playwright 腳本必須等動畫跑完才能互動。
 - 計算方式：`itemCount × intervalMs + buffer`（例：7 個英雄 × 260ms + 400ms buffer = 2220ms）。
 - 若按鈕有 `pointer-events:none`（等狀態才開放），`page.click()` 會因 pointer-events 問題失敗；改用 `page.evaluate(() => el.click())` 繞過。
+- 頁面用 transform `scale()` 縮放的整體舞台，子元素 `page.click()` 會被父層攔截（intercepts pointer events）；同樣改 `el.click()` 繞過。
+- `waitUntil:"networkidle"` 遇到頁面載入 Google Fonts（或任何 CDN）常會卡到 30s timeout；改用 `domcontentloaded` + `waitForTimeout(700)`。
+- 直書（`writing-mode:vertical-rl`）數欄數：逐字 `getBoundingClientRect` 不可靠；用 `range.selectNodeContents(el); range.getClientRects()`，每個 line box＝一欄。
+
+## pptx / 簡報 版面對位
+
+- **別硬從 OOXML XML 抽 layout 數值**：簡報常含 group transform（群組座標系）與多個同類文字框，直接讀 `off/ext`、`sz`、`lnSpc` 會量到互相矛盾的數字。
+- 正解：`soffice --headless --convert-to pdf --outdir <dir> <檔>` 算繪成 PDF（macOS LibreOffice 在 `/Applications/LibreOffice.app/Contents/MacOS/soffice`），再 `pdftoppm -f N -l N -r 130 -png` 取出指定頁為高解析 PNG，對「算繪結果」做視覺／像素量測比對。
+- CSS 直書踩坑：百分比 `padding` 是相對**容器寬度**算（非元素自身），書頁邊距要用固定 px；`height:100%+aspect-ratio` 會使尺寸隨容器浮動、量測不穩，改固定 px。
 
 ## gen 腳本與「只改 X」指令
 
