@@ -31,6 +31,7 @@ ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork
 PROJECTS_DIR = ROOT / "projects"
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
+EXTRA_DIRS_FILE = CLAUDE_DIR / "wtf-extra-dirs.txt"
 
 MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
@@ -69,10 +70,22 @@ def looks_like_symlink_remnant(text):
     return False
 
 
+def extra_dirs():
+    if not EXTRA_DIRS_FILE.exists():
+        return []
+    dirs = []
+    for line in EXTRA_DIRS_FILE.read_text(encoding="utf-8").splitlines():
+        p = Path(line.strip())
+        if p.is_dir():
+            dirs.extend(sorted([d for d in p.iterdir() if d.is_dir()]))
+    return dirs
+
+
 def project_dirs():
     if not PROJECTS_DIR.exists():
         sys.exit(f"[錯誤] 找不到 projects 目錄: {PROJECTS_DIR}")
-    return sorted([d for d in PROJECTS_DIR.iterdir() if d.is_dir()])
+    base = sorted([d for d in PROJECTS_DIR.iterdir() if d.is_dir()])
+    return base + extra_dirs()
 
 
 def classify(target, ssot_body):
