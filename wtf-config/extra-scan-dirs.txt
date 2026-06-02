@@ -1,0 +1,5 @@
+# 各機器額外掃描目錄（格式：hostname:絕對路徑）
+# 由 sync_config.py 讀取，各機器只套用自己 hostname 的行
+# 新增機器：hostname 見 machines.md
+
+comaMacBookAir.local:/Users/coma/Git_work

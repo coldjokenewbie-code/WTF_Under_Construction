@@ -31,7 +31,7 @@ ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork
 PROJECTS_DIR = ROOT / "projects"
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
-EXTRA_DIRS_FILE = CLAUDE_DIR / "wtf-extra-dirs.txt"
+EXTRA_DIRS_FILE = SCRIPT_DIR / "extra-scan-dirs.txt"
 
 MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
@@ -73,9 +73,18 @@ def looks_like_symlink_remnant(text):
 def extra_dirs():
     if not EXTRA_DIRS_FILE.exists():
         return []
+    hostname = socket.gethostname()
     dirs = []
     for line in EXTRA_DIRS_FILE.read_text(encoding="utf-8").splitlines():
-        p = Path(line.strip())
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if ":" not in line:
+            continue
+        host, _, path = line.partition(":")
+        if host.strip() != hostname:
+            continue
+        p = Path(path.strip())
         if p.is_dir():
             dirs.extend(sorted([d for d in p.iterdir() if d.is_dir()]))
     return dirs
