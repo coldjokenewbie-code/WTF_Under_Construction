@@ -14,6 +14,7 @@
 |---|---|---|---|
 | 根 | 2026-05-03 | 七步驟工作流步驟4「執行不打擾」：卡關寫 `_blocker_*.md` 跳過，不中途問頁數/換工具 | `_context/lessons-learned.md` |
 | 根 | 2026-05-03 | docx 註腳用 Word 頁尾 footnote，多次引用各生獨立 footnote，直改 `footnotes.xml` | `_context/lessons-learned.md` |
+| WTF | 2026-06-02 | 接手時交接待辦狀態用 git/檔案實況核對，不照單全收文件陳述（可能過時） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-05-24 | 溝通原則硬限制（禁「您」、回應字數上限）有效降 token、防發散 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-05-24 | 開場「已載入設定」一個 session 只報一次，後續直接進主題 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-05-24 | ⚠️已被推翻：原 symlink 去中心化方案，因 Drive 不支援跨平台 symlink 改為實體同步（見 `sync_config.py`） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
