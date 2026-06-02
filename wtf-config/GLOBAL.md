@@ -128,7 +128,7 @@
 ### 目錄結構（每專案標準子夾）
 | 子夾 | 用途 |
 |---|---|
-| `_context/` | 知識與紀錄（INDEX、PRD、WorkLog、Handover、lessons）|
+| `_context/` | 知識與紀錄（INDEX、PRD、TaskLog、Handover、lessons、archive）|
 | `rules/` | 專案規則 |
 | `workingfiles/` | 暫時工作檔（`_screenshots/`、`_scripts/`）|
 | `outputs/` | 正式輸出成果；舊版進 `outputs/OLD/` |
@@ -144,10 +144,10 @@
 | 現況總覽 | `_context/INDEX.md` |
 | 需求文件 | `_context/PRD_YYYY-MM-DD_主題.md` |
 | 實作計畫 | `_context/Plan_YYYY-MM-DD_主題.md` |
-| 工作紀錄 | `_context/WorkLog_YYYY-MM-DD_主題.md` |
+| 工作紀錄（進行中）| `_context/TaskLog_YYYY-MM-DD_主題.md` |
+| 工作紀錄（已結案）| `_context/archive/ClosedTaskLog_YYYY-MM-DD_主題.md` |
 | 交接文件 | `_context/Handover_YYYY-MM-DD_主題.md` |
 | 教訓紀錄 | `_context/lessons-learned.md` |
-| 結案歸檔 | `_context/archive/`（原檔名不變，移入即可）|
 | 舊版成果歸檔 | `outputs/OLD/` |
 | 工具腳本 | `tools/<功能>.py` |
 | 規則文件 | `rules/<規則名>.md` |
@@ -160,9 +160,12 @@
 - 每專案維護 `_context/INDEX.md`：當前狀態／進行中任務／最新 Handover 連結／關鍵檔位置。
 - **進場先讀 INDEX**，不必掃全部 `_context/`。
 
-### 結案歸檔（archive）
-- WorkLog／Handover 結案後移入 `_context/archive/`，`_context/` 只留進行中。
-- 移檔不改名、不刪除（保留歷史）。
+### 結案歸檔（archive）— 加 Closed 前綴 + 移 archive（兩者都要）
+- 工作紀錄結案：`TaskLog_` → 改前綴 `ClosedTaskLog_`，**並**移入 `_context/archive/`。
+- 交接文件被讀取（=接手）或結案後：移入 `_context/archive/`（接手即完成使命，免重複讀）。
+- `_context/` 只留進行中。移檔保留歷史，不刪除。
+- AI 載入專案時：讀 `_context/TaskLog_*` 與 `lessons-learned.md`，**跳過 `archive/` 與 `ClosedTaskLog_*`**（除非使用者點名查舊紀錄）。
+- 細節見 `tasklog-naming` skill。
 
 ### 教訓兩層（lessons）
 - **工作層（即時記錄）**：根 `_context/lessons-learned.md`（跨專案／根層）＋各專案 `_context/lessons-learned.md`（專案層）。工作中隨手寫。
