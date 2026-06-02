@@ -115,3 +115,27 @@
 - OpenAI Codex：`wtf-config/CODEX.md`（本機路徑自動載入）
 - Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（每次 session 手動貼入）
 - Claude Chat：`wtf-config/CLAUDE_CHAT.md`（貼入 Project instruction）
+
+## 檔案、命名與輸出規範
+
+### 檔案存放
+- 所有工作檔案一律存在使用者選定的工作資料夾內，不存他處。
+- 專案相關檔案（含輸出成果）→ `projects/<專案名>/` 底下。
+- 一次性、不屬於任何專案的輸出 → `outputs/`。
+
+### 命名慣例
+| 類型 | 格式 |
+|---|---|
+| 需求文件 | `_context/PRD_YYYY-MM-DD_主題.md` |
+| 工作紀錄 | `_context/WorkLog_YYYY-MM-DD_主題.md` |
+| 交接文件 | `_context/Handover_YYYY-MM-DD_主題.md` |
+| 舊版歸檔 | `output/OLD/` |
+| 工具腳本 | `tools/<功能>.py` |
+| 規則文件 | `rules/<規則名>.md` |
+
+需求／工作紀錄／交接文件一律依「類型_日期_主題」命名，不用通用檔名（如 `prd.md`）。
+同一專案可有多版本或多份，以主題與日期區分。
+
+### 輸出格式
+- 文件輸出一律用 HTML（`.html`），不用 Word（`.docx`）。
+- 輸出 HTML 前，先讀取 `_context/rules/html-preferences.md` 確認風格設定。
