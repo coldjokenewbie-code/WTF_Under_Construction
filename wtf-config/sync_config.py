@@ -2,20 +2,22 @@
 # -*- coding: utf-8 -*-
 """
 sync_config.py — WTF 設定真相源同步腳本
-真相源(SSOT): wtf-config/AGENTS.md
-用途: 把 SSOT 實體複製到各專案 AGENTS.md（取代跨平台失效的 symlink）
+真相源(SSOT): wtf-config/AGENTS.md、CLAUDE_CODE.md、skills/
+用途: 把 SSOT 實體複製到各專案 AGENTS.md 與本機 ~/.claude/（取代跨平台失效的 symlink）
 
 子命令:
-  python sync_config.py check     掃描所有專案 AGENTS.md，回報 OK / 失效，不改檔
-  python sync_config.py sync      把 SSOT 實體複製到每個專案 AGENTS.md
+  python sync_config.py check     掃描所有專案 AGENTS.md 與 ~/.claude/，回報 OK / 失效，不改檔
+  python sync_config.py sync      把 SSOT 實體複製到每個專案 AGENTS.md 與 ~/.claude/
   python sync_config.py register  偵測本機並寫入 machines.md（每台電腦首次執行）
 
 設計備註:
   - Drive 不支援跨平台 symlink，故改用實體複製。
   - 產生的副本頂部含 HTML 註記標頭，用於辨識「自動產生」並比對是否過期。
   - 失效偵測為內容式判斷，與機器無關，Cowork 沙盒內亦可執行。
+  - ~/.claude/ 部署：CLAUDE_CODE.md → ~/.claude/CLAUDE.md，skills/ → ~/.claude/skills/
 """
 import sys
+import shutil
 import socket
 import platform
 import datetime
@@ -23,11 +25,14 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
+SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真相源
+SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
 ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork
 PROJECTS_DIR = ROOT / "projects"
 MACHINES = SCRIPT_DIR / "machines.md"
+CLAUDE_DIR = Path.home() / ".claude"
 
-MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"                  # 標頭辨識字串
+MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
 
 
@@ -51,7 +56,6 @@ def build_copy(ssot_body, hostname):
 
 
 def extract_body(text):
-    """若為自動產生檔，回傳標頭之後的內容；否則回傳 None。"""
     if MARK_BEGIN in text and MARK_END in text:
         idx = text.find(MARK_END)
         return text[idx + len(MARK_END):].lstrip("\n")
@@ -59,7 +63,6 @@ def extract_body(text):
 
 
 def looks_like_symlink_remnant(text):
-    """Drive 同步壞掉的 symlink：通常是單行檔案路徑字串。"""
     lines = [l for l in text.splitlines() if l.strip()]
     if len(lines) == 1 and "wtf-config/AGENTS.md" in lines[0]:
         return True
@@ -73,7 +76,6 @@ def project_dirs():
 
 
 def classify(target, ssot_body):
-    """回傳 (狀態, 說明)"""
     if not target.exists():
         return ("MISSING", "檔案不存在")
     text = target.read_text(encoding="utf-8", errors="replace")
@@ -89,7 +91,80 @@ def classify(target, ssot_body):
     return ("FOREIGN", "非自動產生的內容（疑似手改或他用），sync 不會覆蓋")
 
 
+def check_claude_dir():
+    """回傳 (claude_md_ok, skills_ok, 說明list)"""
+    notes = []
+    claude_md = CLAUDE_DIR / "CLAUDE.md"
+    skills_dst = CLAUDE_DIR / "skills"
+
+    if not SSOT_CLAUDE.exists():
+        notes.append(f"  ! [SKIP  ] ~/.claude/CLAUDE.md — 真相源 {SSOT_CLAUDE} 不存在")
+        claude_md_ok = None
+    elif not claude_md.exists():
+        notes.append(f"  x [MISSING] ~/.claude/CLAUDE.md")
+        claude_md_ok = False
+    elif claude_md.is_symlink():
+        notes.append(f"  x [SYMLINK] ~/.claude/CLAUDE.md — 仍為 symlink，需改為實體檔")
+        claude_md_ok = False
+    elif claude_md.read_text(encoding="utf-8", errors="replace").rstrip() == SSOT_CLAUDE.read_text(encoding="utf-8").rstrip():
+        notes.append(f"  v [OK     ] ~/.claude/CLAUDE.md")
+        claude_md_ok = True
+    else:
+        notes.append(f"  x [STALE  ] ~/.claude/CLAUDE.md — 內容與真相源不符")
+        claude_md_ok = False
+
+    if not SSOT_SKILLS.exists():
+        notes.append(f"  ! [SKIP  ] ~/.claude/skills/ — 真相源 {SSOT_SKILLS} 不存在")
+        skills_ok = None
+    elif not skills_dst.exists():
+        notes.append(f"  x [MISSING] ~/.claude/skills/")
+        skills_ok = False
+    elif skills_dst.is_symlink():
+        notes.append(f"  x [SYMLINK] ~/.claude/skills/ — 仍為 symlink，需改為實體目錄")
+        skills_ok = False
+    else:
+        ssot_skills = sorted([p.name for p in SSOT_SKILLS.iterdir() if p.is_dir()])
+        dst_skills = sorted([p.name for p in skills_dst.iterdir() if p.is_dir()])
+        if ssot_skills == dst_skills:
+            notes.append(f"  v [OK     ] ~/.claude/skills/ （{len(ssot_skills)} 個 skill）")
+            skills_ok = True
+        else:
+            notes.append(f"  x [STALE  ] ~/.claude/skills/ — skill 清單不符")
+            skills_ok = False
+
+    return claude_md_ok, skills_ok, notes
+
+
+def deploy_claude_dir():
+    """複製 CLAUDE_CODE.md → ~/.claude/CLAUDE.md，skills/ → ~/.claude/skills/"""
+    results = []
+    CLAUDE_DIR.mkdir(exist_ok=True)
+
+    if SSOT_CLAUDE.exists():
+        dst = CLAUDE_DIR / "CLAUDE.md"
+        if dst.is_symlink():
+            dst.unlink()
+        shutil.copy2(SSOT_CLAUDE, dst)
+        results.append(f"  v 寫入 ~/.claude/CLAUDE.md")
+    else:
+        results.append(f"  - 略過 ~/.claude/CLAUDE.md（真相源不存在）")
+
+    if SSOT_SKILLS.exists():
+        dst = CLAUDE_DIR / "skills"
+        if dst.is_symlink():
+            dst.unlink()
+        if dst.exists():
+            shutil.rmtree(dst)
+        shutil.copytree(SSOT_SKILLS, dst)
+        results.append(f"  v 寫入 ~/.claude/skills/")
+    else:
+        results.append(f"  - 略過 ~/.claude/skills/（真相源不存在）")
+
+    return results
+
+
 def cmd_check():
+    sys.stdout.reconfigure(encoding="utf-8")
     ssot_body = read_ssot()
     print(f"真相源: {SSOT}")
     print(f"掃描範圍: {PROJECTS_DIR}\n")
@@ -100,13 +175,18 @@ def cmd_check():
         target = d / "AGENTS.md"
         status, note = classify(target, ssot_body)
         counts[status] = counts.get(status, 0) + 1
-        flag = "✓" if status == "OK" else "✗"
+        flag = "v" if status == "OK" else "x"
         print(f"  {flag} [{status:7}] {d.name}/AGENTS.md  — {note}")
         if status in ("MISSING", "BROKEN", "STALE"):
             broken.append(d.name)
-        # 偵測 Drive 重複命名孤兒檔
         for dup in d.glob("AGENTS (*).md"):
             orphans.append(str(dup.relative_to(ROOT)))
+
+    print("\n--- ~/.claude/ ---")
+    _, _, notes = check_claude_dir()
+    for n in notes:
+        print(n)
+
     print("\n--- 統計 ---")
     for k, v in sorted(counts.items()):
         print(f"  {k}: {v}")
@@ -118,11 +198,12 @@ def cmd_check():
         print(f"\n[需修復] {len(broken)} 個專案 AGENTS.md 失效/過期: {', '.join(broken)}")
         print("執行 `python sync_config.py sync` 修復。")
         return 1
-    print("\n[OK] 全部 AGENTS.md 與真相源一致。")
+    print("\n[OK] 全部與真相源一致。")
     return 0
 
 
 def cmd_sync():
+    sys.stdout.reconfigure(encoding="utf-8")
     ssot_body = read_ssot()
     hostname = socket.gethostname()
     _, content = build_copy(ssot_body, hostname)
@@ -138,14 +219,19 @@ def cmd_sync():
             continue
         target.write_text(content, encoding="utf-8")
         written += 1
-        print(f"  ✓ 寫入 {d.name}/AGENTS.md")
-    print(f"\n完成: 寫入 {written} 個。")
+        print(f"  v 寫入 {d.name}/AGENTS.md")
+    print(f"\n完成: 寫入 {written} 個專案 AGENTS.md。")
     if skipped:
-        print(f"略過 {len(skipped)} 個 FOREIGN（需人工確認）: {', '.join(skipped)}")
+        print(f"略過 {len(skipped)} 個 FOREIGN: {', '.join(skipped)}")
+
+    print("\n--- ~/.claude/ 部署 ---")
+    for r in deploy_claude_dir():
+        print(r)
     return 0
 
 
 def cmd_register():
+    sys.stdout.reconfigure(encoding="utf-8")
     hostname = socket.gethostname()
     osname = f"{platform.system()} {platform.release()}"
     root = str(ROOT)
@@ -158,7 +244,6 @@ def cmd_register():
     found = False
     for i, l in enumerate(lines):
         if l.startswith(f"| {hostname} |"):
-            # 更新最後出現時間，保留別名欄
             cols = [c.strip() for c in l.strip().strip("|").split("|")]
             alias = cols[3] if len(cols) > 3 else "(待填)"
             lines[i] = f"| {hostname} | {osname} | `{root}` | {alias} | {now} |"
