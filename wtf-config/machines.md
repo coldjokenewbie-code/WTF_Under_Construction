@@ -15,3 +15,4 @@
 
 | hostname | OS | workspace_root | 別名 | 最後出現 |
 |---|---|---|---|---|
+| DESKTOP-7SF21LR | Windows 10 | `E:\Claude_cowork` | tachart_ihuy | 2026-06-02 17:24:02 |

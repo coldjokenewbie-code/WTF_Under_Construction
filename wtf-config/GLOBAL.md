@@ -8,6 +8,8 @@
 - `rules/`
 - `workingfiles/_screenshots/`
 - `workingfiles/_scripts/`
+- `outputs/`
+- `tools/`
 
 **步驟二：建立預設規範**（若 `rules/workingfiles-conventions.md` 不存在）
 建立該檔並寫入：
@@ -120,22 +122,53 @@
 
 ### 檔案存放
 - 所有工作檔案一律存在使用者選定的工作資料夾內，不存他處。
-- 專案相關檔案（含輸出成果）→ `projects/<專案名>/` 底下。
-- 一次性、不屬於任何專案的輸出 → `outputs/`。
+- 專案相關檔案 → `projects/<專案名>/` 底下，依子夾分流（見「目錄結構」）。
+- 一次性、不屬於任何專案的輸出 → 根層 `outputs/`。
+
+### 目錄結構（每專案標準子夾）
+| 子夾 | 用途 |
+|---|---|
+| `_context/` | 知識與紀錄（INDEX、PRD、WorkLog、Handover、lessons）|
+| `rules/` | 專案規則 |
+| `workingfiles/` | 暫時工作檔（`_screenshots/`、`_scripts/`）|
+| `outputs/` | 正式輸出成果；舊版進 `outputs/OLD/` |
+| `tools/` | 本專案處理腳本 |
+
+- **根目錄只放設定檔與入口檔**（CLAUDE.md、README 等）；其餘一律歸子夾：素材→`workingfiles/`、成果→`outputs/`、腳本→`tools/`。
+- **輸出資料夾一律用複數 `outputs/`**（消除 output／outputs 歧義）。專案成果與根層一次性輸出皆用此名。既有單數 `output/` 待整理時改名（暫不自動搬）。
+- **版本歸檔制**：最新版留工作區，舊版移 `outputs/OLD/`，禁止 `v1.0`／`v1.5` 等多版本平鋪並存。
 
 ### 命名慣例
 | 類型 | 格式 |
 |---|---|
+| 現況總覽 | `_context/INDEX.md` |
 | 需求文件 | `_context/PRD_YYYY-MM-DD_主題.md` |
+| 實作計畫 | `_context/Plan_YYYY-MM-DD_主題.md` |
 | 工作紀錄 | `_context/WorkLog_YYYY-MM-DD_主題.md` |
 | 交接文件 | `_context/Handover_YYYY-MM-DD_主題.md` |
-| 舊版歸檔 | `output/OLD/` |
+| 教訓紀錄 | `_context/lessons-learned.md` |
+| 結案歸檔 | `_context/archive/`（原檔名不變，移入即可）|
+| 舊版成果歸檔 | `outputs/OLD/` |
 | 工具腳本 | `tools/<功能>.py` |
 | 規則文件 | `rules/<規則名>.md` |
 
-需求／工作紀錄／交接文件一律依「類型_日期_主題」命名，不用通用檔名（如 `prd.md`）。
-同一專案可有多版本或多份，以主題與日期區分。
+- 一律依「類型_日期_主題」命名，不用通用檔名（如 `prd.md`、`task.md`、`HANDOFF.md`）。
+- **交接文件統一寫 `Handover`**，廢除 `Handoff`／`HANDOFF`／`handoff_prompt` 等異體。
+- 同一專案可有多版本或多份，以主題與日期區分。
+
+### 現況總覽（INDEX.md）
+- 每專案維護 `_context/INDEX.md`：當前狀態／進行中任務／最新 Handover 連結／關鍵檔位置。
+- **進場先讀 INDEX**，不必掃全部 `_context/`。
+
+### 結案歸檔（archive）
+- WorkLog／Handover 結案後移入 `_context/archive/`，`_context/` 只留進行中。
+- 移檔不改名、不刪除（保留歷史）。
+
+### 教訓兩層（lessons）
+- **工作層（即時記錄）**：根 `_context/lessons-learned.md`（跨專案／根層）＋各專案 `_context/lessons-learned.md`（專案層）。工作中隨手寫。
+- **雲端層（SSOT，最終彙整）**：`wtf-config/LESSONS.md` — 全域索引，彙整各層 lessons，每條格式 `專案｜日期｜一句話｜連結`，可跨專案檢索，隨 git 同步至所有機器。
+- **同步原則**：工作層新增 lesson 後，須同步登錄一行到 `wtf-config/LESSONS.md`；雲端層為最終真相源，工作層時時與其對齊。詳述留工作層檔案，雲端層只放指標（避免雙真相源）。
 
 ### 輸出格式
 - 文件輸出一律用 HTML（`.html`），不用 Word（`.docx`）。
-- 輸出 HTML 前，先讀取 `_context/rules/html-preferences.md` 確認風格設定。
+- 輸出 HTML 前，先讀取 `rules/html-preferences.md` 確認風格設定。
