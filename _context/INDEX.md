@@ -1,34 +1,32 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。最後更新：2026-06-03
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-06-03
 
 ## 一句話目標
-Workflows That Flow：以複利方式累積 Claude 協作效率與效益。設定、Skills、流程皆為可累積資產，不做一次性修補。本專案即跨工具（Claude Code / Cowork / Codex / Antigravity）設定與 Skills 的真相源（SSOT）。
+Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
 
-## 目前狀態 / 進度
-- SSOT 設定已就緒：`wtf-config/`（GLOBAL.md、AGENTS.md、LESSONS.md、machines.md、sync_config.py、audit_structure.py、organize_files.py、skills/）。
-- 設定檢查 7/7 AGENTS.md 一致；working tree 乾淨（HEAD `5b98a90`，截至 2026-06-02 交接）。
-- Mac 現況：`~/.claude/CLAUDE_CODE.md` 與 `~/.claude/skills` 仍為指向 `wtf-config/` 的 symlink。
-- `sync_config.py` 範圍僅 `projects/*/AGENTS.md`，不處理 `~/.claude/`。
+## 現況（一句話）
+SSOT 跨機同步架構已定案；階段一重構執行中——Mac 端 `sync_config.py`／skills／git 已改完待 commit，Windows 端 settings 清理與 hook 腳本已備（hook 啟用待用戶授權）。
 
-## 關鍵檔案
-- 最新交接：`_context/Handover_2026-06-02_設定載入與交接狀態核對.md`
-- 最新工作紀錄：`_context/TaskLog_2026-06-02_設定載入與交接狀態核對.md`
-- SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`
+## 關鍵檔
+- SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`、`wtf-config/sync_config.py`、`wtf-config/projects-registry.md`（專案×機器×路徑，取代 extra-scan-dirs.txt）
+- 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
+- 階段一執行／驗收紀錄：`workingfiles/階段一執行_2026-06-03.md`（含信號區）
+- 最新交接：`_context/Handover_2026-06-03_全域設定自動同步架構重整.md`
+- 最新工作紀錄：`_context/TaskLog_2026-06-03_全域設定自動同步架構重整.md`
 - lessons：`_context/lessons-learned.md`、雲端層 `wtf-config/LESSONS.md`
-- archive：`_context/archive/`（已結案交接）
+- archive：`_context/archive/`
 
-## 待辦 / 下一步
-1. ✅ **T5**：孤兒 `AGENTS (1).md` 本次盤點未發現（已清/僅存他機）。
-2. ✅ 各專案建 `_context/INDEX.md`（Drive 8 個 + Git_work 4 個，2026-06-03 完成）。
-3. ✅ **T2 skills 漂移**（2026-06-03 完成）：handover `WorkLog_→TaskLog_`、skills-install 改實體複製、確立**混合架構**（共用走全域、專案只留專屬）、移除各專案共用副本與 symlink 殘留、清 Git_work `._agents` 殘渣。詳見 lessons-learned 2026-06-03。
-4. **T6/T7 收尾**：26 項 MANUAL 搬檔（`output/`→`outputs/` 改名前先 grep 引用）、lessons 逐專案彙整進 `wtf-config/LESSONS.md`。
-5. repo 移出 Drive 後續：lesson「Drive 同步 .git 會損壞 repo」寫進 GLOBAL.md、修 lesson-add skill 路徑、notebooklm-skill remote 決策、跨機部署。
-6. **P2**：修 `sync_config.py` 編碼（Windows cp950 `✓` UnicodeEncodeError）。
+## 架構要點（已定案）
+- 全實體副本，放棄 symlink（Drive 跨平台失效）。
+- 自動同步＝UserPromptSubmit hook + 5 分冷卻（兩端統一）；`session-start` skill 只核對＋讀知識，不重工。
+- `sync_config.py` 由 `projects-registry.md` 取本機 hostname 的專案清單；`deploy_claude_dir()` 逐 skill 容錯覆蓋（不整批 rmtree）。
+- 階段二（待擇時）：`wtf-config` 抽成 Drive 外獨立 git repo，根除 .git lock。
 
-## Git_work 區提醒（需在實機 commit）
-- Git_work 4 repo 的 skills 清理與新增 `_context/INDEX.md` 皆為 working tree 變更，待使用者在各 repo 自行 commit。
-- `claude_CDIC_O4` 有 P0 待辦：`git reset --hard origin/main` + `git stash pop`（見其 INDEX）。
+## 待用戶拍板（決策閘，非工作線 todo）
+1. 授權啟用 Windows `UserPromptSubmit` hook（settings.json）。
+2. 授權 commit 階段一變更（main branch）。
+3. 階段二（wtf-config 抽離 Drive）執行時機。
+4. Antigravity 原生 Gemini 是否只認 `GEMINI.md`（需實測，決定要不要產第二種副本）。
 
 ## 備註
-- 待確認（Windows）：`~/.claude/CLAUDE.md` 是否存在且為 WTF 設定；若無需決定擴充 sync_config.py 覆蓋 `~/.claude/` 或手動複製。
-- `sync_config.py check` 在 Windows（cp950）會因 `✓` UnicodeEncodeError 中斷；執行前須 `$env:PYTHONIOENCODING="utf-8"`。
+- Windows 跑 `sync_config.py` 若遇 cp950 中文錯誤，先 `$env:PYTHONIOENCODING="utf-8"`（腳本已 reconfigure，多數情境免）。

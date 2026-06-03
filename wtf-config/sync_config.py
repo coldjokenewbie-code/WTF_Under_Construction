@@ -27,11 +27,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
 SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真相源
 SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
-ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork
-PROJECTS_DIR = ROOT / "projects"
+ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork（僅供 register 記錄 workspace_root）
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
-EXTRA_DIRS_FILE = SCRIPT_DIR / "extra-scan-dirs.txt"
+REGISTRY = SCRIPT_DIR / "projects-registry.md"         # 專案註冊表（取代 extra-scan-dirs.txt 與 PROJECTS_DIR 推導）
 
 MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
@@ -70,31 +69,39 @@ def looks_like_symlink_remnant(text):
     return False
 
 
-def extra_dirs():
-    if not EXTRA_DIRS_FILE.exists():
-        return []
+def registry_dirs():
+    """讀 projects-registry.md，回傳本機 hostname 對應的專案目錄清單。
+
+    取代舊的 PROJECTS_DIR 推導與 extra-scan-dirs.txt。
+    registry 為 markdown 表格：| project | machine (hostname) | path |
+    只取 machine == 本機 hostname、path 非佔位且實際存在的列。
+    """
+    if not REGISTRY.exists():
+        sys.exit(f"[錯誤] 找不到專案註冊表: {REGISTRY}")
     hostname = socket.gethostname()
     dirs = []
-    for line in EXTRA_DIRS_FILE.read_text(encoding="utf-8").splitlines():
+    for line in REGISTRY.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
+        if not line.startswith("|"):
             continue
-        if ":" not in line:
+        cols = [c.strip() for c in line.strip("|").split("|")]
+        if len(cols) < 3:
             continue
-        host, _, path = line.partition(":")
-        if host.strip() != hostname:
+        project, machine, path = cols[0], cols[1], cols[2]
+        if machine == "machine (hostname)":          # 表頭
             continue
-        p = Path(path.strip())
+        if set(project) <= {"-", " "}:                # 分隔列 |---|
+            continue
+        if machine != hostname:                       # 非本機
+            continue
+        if not path or path.startswith("（"):          # 佔位/未部署
+            continue
+        p = Path(path)
         if p.is_dir():
-            dirs.extend(sorted([d for d in p.iterdir() if d.is_dir()]))
+            dirs.append(p)
+        else:
+            print(f"  ! [WARN] registry 路徑不存在，略過: {project} → {path}", file=sys.stderr)
     return dirs
-
-
-def project_dirs():
-    if not PROJECTS_DIR.exists():
-        sys.exit(f"[錯誤] 找不到 projects 目錄: {PROJECTS_DIR}")
-    base = sorted([d for d in PROJECTS_DIR.iterdir() if d.is_dir()])
-    return base + extra_dirs()
 
 
 def classify(target, ssot_body):
@@ -110,6 +117,8 @@ def classify(target, ssot_body):
         return ("BROKEN", "空檔")
     if looks_like_symlink_remnant(text):
         return ("BROKEN", "Drive 失效 symlink 殘跡（單行路徑）")
+    if text.rstrip() == ssot_body.rstrip():
+        return ("ADOPT", "無標頭但內容與真相源一致，sync 將補標頭接管")
     return ("FOREIGN", "非自動產生的內容（疑似手改或他用），sync 不會覆蓋")
 
 
@@ -172,13 +181,31 @@ def deploy_claude_dir():
         results.append(f"  - 略過 ~/.claude/CLAUDE.md（真相源不存在）")
 
     if SSOT_SKILLS.exists():
-        dst = CLAUDE_DIR / "skills"
-        if dst.is_symlink():
-            dst.unlink()
-        if dst.exists():
-            shutil.rmtree(dst)
-        shutil.copytree(SSOT_SKILLS, dst)
-        results.append(f"  v 寫入 ~/.claude/skills/")
+        dst_root = CLAUDE_DIR / "skills"
+        if dst_root.is_symlink():
+            dst_root.unlink()
+        dst_root.mkdir(parents=True, exist_ok=True)
+        # 逐 skill 複製：dirs_exist_ok 合併、單一鎖定只略過該項，不整批 rmtree
+        ssot_names = set()
+        ok = 0
+        for skill_src in sorted(SSOT_SKILLS.iterdir()):
+            if not skill_src.is_dir():
+                continue
+            ssot_names.add(skill_src.name)
+            try:
+                shutil.copytree(skill_src, dst_root / skill_src.name, dirs_exist_ok=True)
+                ok += 1
+            except Exception as e:
+                results.append(f"  ! 略過 skills/{skill_src.name}（{e}）")
+        results.append(f"  v 寫入 ~/.claude/skills/（{ok} 個 skill）")
+        # 容錯移除 SSOT 已不存在的舊 skill
+        for old in sorted(dst_root.iterdir()):
+            if old.is_dir() and old.name not in ssot_names:
+                try:
+                    shutil.rmtree(old)
+                    results.append(f"  - 移除舊 skill skills/{old.name}（SSOT 已無）")
+                except Exception as e:
+                    results.append(f"  ! 無法移除 skills/{old.name}（{e}）")
     else:
         results.append(f"  - 略過 ~/.claude/skills/（真相源不存在）")
 
@@ -189,11 +216,11 @@ def cmd_check():
     sys.stdout.reconfigure(encoding="utf-8")
     ssot_body = read_ssot()
     print(f"真相源: {SSOT}")
-    print(f"掃描範圍: {PROJECTS_DIR}\n")
+    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）\n")
     counts = {}
     broken = []
     orphans = []
-    for d in project_dirs():
+    for d in registry_dirs():
         target = d / "AGENTS.md"
         status, note = classify(target, ssot_body)
         counts[status] = counts.get(status, 0) + 1
@@ -212,6 +239,9 @@ def cmd_check():
     print("\n--- 統計 ---")
     for k, v in sorted(counts.items()):
         print(f"  {k}: {v}")
+    adopt_n = counts.get("ADOPT", 0)
+    if adopt_n:
+        print(f"\n[可接管] {adopt_n} 個無標頭但內容與真相源一致，跑 `sync` 自動補標頭接管。")
     if orphans:
         print("\n--- 重複命名孤兒檔（Drive 產生，sync 不動，建議確認後手動清理）---")
         for o in orphans:
@@ -232,16 +262,19 @@ def cmd_sync():
     print(f"真相源: {SSOT}")
     print(f"本機: {hostname}\n")
     written, skipped = 0, []
-    for d in project_dirs():
+    for d in registry_dirs():
         target = d / "AGENTS.md"
         status, note = classify(target, ssot_body)
         if status == "FOREIGN":
             skipped.append(d.name)
             print(f"  - 略過 {d.name}/AGENTS.md（{note}）")
             continue
+        if target.is_symlink():            # 防寫穿 symlink 污染真相源（root AGENTS.md）
+            target.unlink()
         target.write_text(content, encoding="utf-8")
         written += 1
-        print(f"  v 寫入 {d.name}/AGENTS.md")
+        tag = "接管" if status == "ADOPT" else "寫入"
+        print(f"  v {tag} {d.name}/AGENTS.md")
     print(f"\n完成: 寫入 {written} 個專案 AGENTS.md。")
     if skipped:
         print(f"略過 {len(skipped)} 個 FOREIGN: {', '.join(skipped)}")

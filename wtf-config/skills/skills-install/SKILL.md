@@ -7,7 +7,7 @@ description: 部署 WTF skills（混合架構：共用 skill 走全域 ~/.claude
 
 ## 架構：共用走全域、專案放專屬（混合架構）
 
-- **共用 skill（SSOT 11 個）**：Dev_Workflow、Quality_Guard、ai-team、cowork-start、handover、lesson-add、merge-main、session-end、skills-install、tasklog-naming、ui-review。
+- **共用 skill（SSOT 12 個）**：Dev_Workflow、Quality_Guard、ai-team、cowork-start、handover、lesson-add、merge-main、session-start、session-end、skills-install、tasklog-naming、ui-review。
   - 來源（SSOT）：`wtf-config/skills/`
   - 部署目標：**全域** `~/.claude/skills/`（每台機器各自一份實體副本，任何專案都讀得到）。
   - 部署方式：`python sync_config.py sync`（實體複製，順帶部署 `~/.claude/CLAUDE.md`）。

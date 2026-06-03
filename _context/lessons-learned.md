@@ -14,6 +14,7 @@
 * **Git_work（非 Drive 純 git 區）同樣適用無-symlink**：git 在 Mac 存實體目錄沒問題，但 Windows checkout 無權限時 symlink 會變文字檔。Git_work 各 repo 的共用 skill 已移除（靠全域），只留專屬。
 * **zsh 不對未加引號變數做斷詞**：`for s in $VAR` 在 zsh（macOS 預設）不會把空白分隔的字串拆成多個詞，整串被當單一參數 → `rm -rf "$path/$VAR"` 靜默無效（有 -f 不報錯）。改用字面清單或陣列，或 `${=VAR}`。
 * **`ai-team` 是共用 skill 的例外（範本＋就地實例）**：其 SKILL.md 規定專案文件（`AI_TEAM_DIVISION.md`/`AI_TEAM_WORKFLOW.md`/`agent-specs/*`）就地建在 `.claude/skills/ai-team/` 內。本次清理「共用副本」時整個刪掉 ai-team，連帶刪了 claude_CDIC_O4 的 7 支 Event agent-specs 與多專案填寫的 DIVISION/WORKFLOW（Git_work 已從 git 全數還原）。**教訓**：批次刪「共用 skill」前，先確認該 skill 資料夾內有無專案專屬巢狀檔；ai-team 這類「範本型」skill 在有客製的專案要整包保留。**Drive 區無 git，誤刪只能靠 Google Drive 網頁垃圾桶救**（約 30 天）——動 Drive 區檔案前更要先確認。
+* **`sync_config.py` 全域部署用破壞性 rmtree，Windows 遇鎖定整批失敗**：`deploy_claude_dir()`（sync_config.py:174-181）對 `~/.claude/skills/` 做 `shutil.rmtree` 整批刪除再 `copytree`。Windows 上若任一 skill 資料夾被佔用（實測 ai-team 噴 `PermissionError WinError 5`，根因未驗證——推測編輯器/程序鎖定或防毒掃描），rmtree 中途失敗 → 全域 skills 整批沒部署（AGENTS.md 那段不受影響，照常寫 7 專案）。當下繞過法：單獨 `copytree` 目標 skill。**與 ai-team「絕不整包刪」是同一風險**：破壞性整批操作在 Drive／跨平台環境本就脆弱（同 symlink 失效、.git lock）。**修正方向（待施作）**：改逐 skill 就地覆蓋 `copytree(..., dirs_exist_ok=True)`，每 skill 包 try/except，單一鎖定只略過該項並回報，不毀全部；SSOT 已移除的舊 skill 再容錯刪除。此修正歸入 SSOT 同步架構討論的「階段一」（見 `workingfiles/SSOT同步架構討論_2026-06-03.md`）。
 
 ## 2026-06-02 (設定整合 T1/T6/T7 與結案規範)
 
