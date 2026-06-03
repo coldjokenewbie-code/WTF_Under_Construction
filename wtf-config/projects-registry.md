@@ -30,9 +30,8 @@
 | Assembly_Plant_Mobile_Guide | comaMacBookAir.local | /Users/coma/Git_work/Assembly_Plant_Mobile_Guide |
 | Assembly_Plant_Mobile_Guide | DESKTOP-7SF21LR | E:\Git_work\Assembly_Plant_Mobile_Guide |
 | Planner2Line | comaMacBookAir.local | /Users/coma/Git_work/Planner2Line |
-| Planner2Line | DESKTOP-7SF21LR | E:\Git_work\Plnner2Line |
+| Planner2Line | DESKTOP-7SF21LR | E:\Git_work\Planner2Line |
 | Remotion_fun | comaMacBookAir.local | /Users/coma/Git_work/Remotion_fun |
 | Remotion_fun | DESKTOP-7SF21LR | E:\Git_work\Remotion_fun |
 | claude_CDIC_O4 | comaMacBookAir.local | /Users/coma/Git_work/claude_CDIC_O4 |
 | claude_CDIC_O4 | DESKTOP-7SF21LR | E:\Git_work\claude_CDIC_O4 |
-| notebooklm-skill | DESKTOP-7SF21LR | E:\Git_work\notebooklm-skill |
