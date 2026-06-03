@@ -6,6 +6,8 @@
 * **SSOT 檔內禁寫單機絕對路徑**：`AGENTS/CODEX/GEMINI.md` 來源註記原寫死 Mac Drive 絕對路徑，跨機或搬遷即失準。多機共用的 SSOT 檔內路徑一律機器中立（指向 `projects-registry.md`），不放任一台的絕對路徑。
 * **repo 搬離原階層 → `parents[N]`／`relative_to` 推導全崩**：`ROOT=SCRIPT_DIR.parents[2]` 假設 repo 在 `Claude_cowork/projects/WTF`；搬到 `Git_work` 後 parents[2] 變天，且 `dup.relative_to(ROOT)` 對仍在 Drive 的專案直接拋 ValueError（check 遇孤兒檔即崩）。凡靠相對層級推導的路徑，repo 一搬就壞；改用絕對 registry 路徑或 `SCRIPT_DIR.parent` 自身。
 * **hook 不該 auto-commit**：用戶定調——register 改 machines.md 時間戳不該自動 commit；只有用戶明說「更新全域設定/skills/規範」才手動 commit。hook 收斂為純 `git pull`＋`sync`（讀取最新＋部署副本），不 push、不清 lock（repo 已離 Drive）。
+* **Drive 跨機協調檔：單一作者 ＋ 不掛常駐 `tail -F`**：repo 移出 Drive 後改用 Drive 資料夾做即時跨機信號，踩兩坑：(1) 用 `tail -n 0 -F` 常駐 monitor 盯 Drive 檔，會**持有檔案 handle 鎖住檔案**，Drive 要用對方版覆蓋時被擋→「你的電腦不允許同步處理某些檔案」。(2) 單一共用檔被兩機輪流寫＝Drive 先天產生衝突副本。**正解**：每機只寫自己的檔（`signals_WIN.md`／`signals_MAC.md`，單寫者無衝突，對方唯讀）；Drive 檔**禁掛常駐 tail -F**，改輪詢式 monitor（每 ~20s `stat` 比 mtime/行數，有變才開檔一瞬即關，靠 sleep 釋放 handle），或 on-demand 讀。
+* **「鎖檔擋同步」是 Windows 專屬，Mac 是另一種坑**：(1) 坑(1) Windows 檔案鎖強硬，handle 開著時 Drive 覆蓋/rename 被拒→報「不允許同步處理」；macOS/Unix 允許替換開啟中的檔（advisory lock），**不報此錯**（Mac 端未實測，依 Unix 語意推斷）。(2) 但 Mac `tail -f` 抓舊 inode，Drive 換檔後**靜默看不到新內容**（需 `tail -F` 按檔名重開）→ 不報錯卻漏訊。(3) 單一共用檔雙寫產生衝突副本＝**兩機都中**，與 OS 無關。故 per-machine 單寫檔＋輪詢不鎖檔對兩機皆有益。
 
 ## 2026-06-03 (階段一執行：跨機協作 + hook/git 實戰)
 

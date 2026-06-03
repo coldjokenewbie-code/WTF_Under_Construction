@@ -16,6 +16,7 @@
 | 根 | 2026-05-03 | docx 註腳用 Word 頁尾 footnote，多次引用各生獨立 footnote，直改 `footnotes.xml` | `_context/lessons-learned.md` |
 | WTF | 2026-06-03 | 整個 repo 移出雲端硬碟＞只 split 子目錄；前提變了（用戶已整包移出）就重評方案、別照交接照單執行 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | SSOT 檔禁寫單機絕對路徑；repo 一搬 `parents[N]`/`relative_to` 推導全崩，改絕對 registry/SCRIPT_DIR.parent | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-03 | Drive 跨機協調檔：每機只寫自己的檔（單寫者免衝突）；禁掛常駐 tail -F（鎖檔擋 Drive 同步），改 on-demand 讀 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 跨機 AI 協作＝共用檔案＋雙向 monitor（grep 限定 [TAG-R數字]、prev 設啟動基線避免自觸） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-06-03 | Drive 同步 .git 跨機不可靠→各機自己 add、單一端 commit，另端 reset 淨空 index | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-06-03 | 設定檔自動執行 hook 屬自我修改，classifier 擋需用戶明授；破壞操作別繞過改靜態驗收 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
