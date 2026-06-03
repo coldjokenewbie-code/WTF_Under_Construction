@@ -24,14 +24,18 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 2. 讀取 _context 知識
 
-1. 根知識：讀取 `_context/about-me.md`、`_context/lessons-learned.md`、`_context/rules/` 全部 `.md`。
-2. 進入專案後：讀取該專案 `_context/` 的 PRD 與 `lessons-learned.md`、`rules/` 全部 `.md`。
+1. 根知識：讀取 `_context/about-me.md`、`_context/lessons-learned.md`。
+2. 進入專案後：讀取該專案 `_context/` 的 PRD 與 `lessons-learned.md`。
    - 工作紀錄依 `tasklog-naming` 規則：只讀 `TaskLog_`／`Handover_`／`INDEX.md`，跳過 `ClosedTaskLog_`。
    - 先看 `INDEX.md` 掌握全貌，再按需展開個別檔案。
 
+## 3. 讀取並套用 rules 規範
+
+讀取 repo 根 `rules/` 全部 `.md`（如 `workingfiles-conventions.md`），套用其規範（檔案存放、命名慣例、輸出格式等）；進入專案後一併讀該專案 `rules/` 全部 `.md`，**專案規範優先於根規範**。
+
 ## 完成回報
 
-兩步完成後回報「已載入全域設定」，附一行 check 狀態（全 OK／已 fallback sync 修復 N 項），再詢問本次任務。
+三步完成後回報「已載入全域設定」，附一行 check 狀態（全 OK／已 fallback sync 修復 N 項），再詢問本次任務。
 
 > 工作區異常處置：若 `git status` 顯示工作區有未提交變更或無法快轉，**停下通知使用者**，不擅自 merge／rebase／覆蓋（此情境 hook 也會在 pull 失敗時回報）。
 

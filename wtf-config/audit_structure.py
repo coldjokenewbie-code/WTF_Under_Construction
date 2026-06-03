@@ -36,7 +36,7 @@ PROJECTS_DIR = ROOT / "projects"
 STD_SUBDIRS = ["_context", "rules", "workingfiles", "outputs", "tools"]
 
 # _context 內允許的檔名前綴（依 GLOBAL.md 命名慣例）
-CTX_PREFIXES = ("INDEX", "PRD_", "Plan_", "WorkLog_", "Handover_",
+CTX_PREFIXES = ("INDEX", "PRD_", "Plan_", "TaskLog_", "Handover_",
                 "lessons-learned", "about-me", "ClosedTaskLog_")
 CTX_ALLOWED_DIRS = ("archive", "rules")
 
@@ -101,7 +101,7 @@ def audit_project(d):
                 continue
             if name.startswith(CTX_PREFIXES):
                 # 需日期的型別缺日期
-                if name.startswith(("PRD_", "Plan_", "WorkLog_", "Handover_")) \
+                if name.startswith(("PRD_", "Plan_", "TaskLog_", "Handover_")) \
                         and not DATED_PATTERN.search(name):
                     findings.append(("WARN", f"_context/{name}：缺 YYYY-MM-DD 日期段"))
                 continue

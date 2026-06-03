@@ -7,9 +7,10 @@ description: 產出工作紀錄、呼叫 lesson-add 萃取教訓、commit 並 me
 
 執行以下步驟，不需逐步確認：
 
-1. **產出/更新工作紀錄 (WorkLog)**：
-   - 在 `_context/` 下建立或更新 `WorkLog_YYYY-MM-DD_[當前主題].md`。
+1. **產出/更新工作紀錄 (TaskLog)**：
+   - 在 `_context/` 下建立或更新 `TaskLog_YYYY-MM-DD_[當前主題].md`（依 `rules`／GLOBAL.md 命名慣例，不用 `WorkLog_` 等通用名）。
    - 記錄本次 Session 完成項目、未解決問題與下一步建議。
+   - 任務若已結案：依 `tasklog-naming` 規則改前綴 `ClosedTaskLog_` 並移入 `_context/archive/`。
 
 2. **執行 `lesson-add`（更新教訓）**：
    - 讀取 `_context/lessons-learned.md`（不存在則建立）。
