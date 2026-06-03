@@ -1,5 +1,13 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-03 (skills 漂移整治與混合架構定案)
+
+* **skills 採「混合架構」**：共用 skill（SSOT 11 個）只部署到全域 `~/.claude/skills/`（每台機器各一份實體副本，由 `sync_config.py sync` 維護），**不再複製進各專案 `.claude/skills/`**；專案層只放「專屬 skill」（如 data-verify、thumbnail-aware-images、remotion-best-practices）。理由：`sync_config.py` 從不同步專案層 skills，過去把共用 skill 複製進每個專案 → 各自過期成孤兒副本，是 skills 漂移的根因。
+* **任何 skills/設定一律實體複製，禁止 symlink（再次踩雷確認）**：本次依舊版 `skills-install` skill 把專案 `.claude/skills` 改成 symlink，隨即發現違反既有鐵律——Drive/git 同步到 Windows 會變死檔。已全部還原為實體目錄。**過期的 skill/文件本身也會反過來誤導 agent**：修 SSOT 規則時，要連帶修「教學用的 skill 文件」（如 skills-install），否則下個 agent 照舊文又走錯。
+* **Git_work（非 Drive 純 git 區）同樣適用無-symlink**：git 在 Mac 存實體目錄沒問題，但 Windows checkout 無權限時 symlink 會變文字檔。Git_work 各 repo 的共用 skill 已移除（靠全域），只留專屬。
+* **zsh 不對未加引號變數做斷詞**：`for s in $VAR` 在 zsh（macOS 預設）不會把空白分隔的字串拆成多個詞，整串被當單一參數 → `rm -rf "$path/$VAR"` 靜默無效（有 -f 不報錯）。改用字面清單或陣列，或 `${=VAR}`。
+* **`ai-team` 是共用 skill 的例外（範本＋就地實例）**：其 SKILL.md 規定專案文件（`AI_TEAM_DIVISION.md`/`AI_TEAM_WORKFLOW.md`/`agent-specs/*`）就地建在 `.claude/skills/ai-team/` 內。本次清理「共用副本」時整個刪掉 ai-team，連帶刪了 claude_CDIC_O4 的 7 支 Event agent-specs 與多專案填寫的 DIVISION/WORKFLOW（Git_work 已從 git 全數還原）。**教訓**：批次刪「共用 skill」前，先確認該 skill 資料夾內有無專案專屬巢狀檔；ai-team 這類「範本型」skill 在有客製的專案要整包保留。**Drive 區無 git，誤刪只能靠 Google Drive 網頁垃圾桶救**（約 30 天）——動 Drive 區檔案前更要先確認。
+
 ## 2026-06-02 (設定整合 T1/T6/T7 與結案規範)
 
 * **寫新規則前先 grep 既有 skill/設定**：本次先在 GLOBAL.md 自訂「結案移 archive」與「WorkLog_」命名，事後才發現 `tasklog-naming` skill 早有「ClosedTaskLog_ 前綴」「TaskLog_」規範，造成兩處雙真相源衝突。新增任何規範前，先全域搜尋同主題是否已存在，否則必製造漂移。

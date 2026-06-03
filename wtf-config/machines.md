@@ -16,3 +16,4 @@
 | hostname | OS | workspace_root | 別名 | 最後出現 |
 |---|---|---|---|---|
 | DESKTOP-7SF21LR | Windows 10 | `E:\Claude_cowork` | tachart_ihuy | 2026-06-02 17:24:02 |
+| comaMacBookAir.local | Darwin 25.5.0 | `/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork` | (coma_MacB   ookAir) | 2026-06-02 23:00:34 |

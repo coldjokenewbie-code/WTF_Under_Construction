@@ -1,64 +1,43 @@
 ---
 name: skills-install
-description: 將 WTF repo 的 skills 同步到當前專案或所有專案。用法：/skills-install（本專案）| /skills-install all（所有專案）| /skills-install update（預覽 diff 後安裝到本專案）
+description: 部署 WTF skills（混合架構：共用 skill 走全域 ~/.claude/skills，專案只放專屬 skill；全程實體複製不用 symlink）。用法：/skills-install（部署全域）| /skills-install check（檢查狀態）
 ---
 
 # Skills Install
 
-將 WTF repo 的 `wtf-config/skills/` 同步到目標專案的 `._agents/skills/` 實體目錄，並自動建立 `.claude/skills/` 軟連結指向它。
+## 架構：共用走全域、專案放專屬（混合架構）
 
-來源路徑（固定）：
-```
-/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/skills/
-```
+- **共用 skill（SSOT 11 個）**：Dev_Workflow、Quality_Guard、ai-team、cowork-start、handover、lesson-add、merge-main、session-end、skills-install、tasklog-naming、ui-review。
+  - 來源（SSOT）：`wtf-config/skills/`
+  - 部署目標：**全域** `~/.claude/skills/`（每台機器各自一份實體副本，任何專案都讀得到）。
+  - 部署方式：`python sync_config.py sync`（實體複製，順帶部署 `~/.claude/CLAUDE.md`）。
+- **專案專屬 skill**（如 `data-verify`、`thumbnail-aware-images`、`codex-global-instruction`、`remotion-best-practices`）：
+  - 直接存活在該專案 `.claude/skills/`，隨專案（git repo 或 Drive）一起走，**不進全域、不進 SSOT**。
 
----
+> 🔸 **`ai-team` 是特例（共用範本＋專案就地實例）**：其 SKILL.md 規定 Tech Lead 把專案文件（`AI_TEAM_DIVISION.md`、`AI_TEAM_WORKFLOW.md`、`agent-specs/*`）就地建立在 `.claude/skills/ai-team/` 內、與 `_TEMPLATE` 範本並存。因此**有客製內容的專案要保留完整的 `.claude/skills/ai-team/`**（SKILL.md＋3 範本＋專案實例），當作覆蓋全域的專案級 skill；**清理共用副本時，絕不可整個刪掉含專案實例的 ai-team**。未客製 ai-team 的專案則靠全域即可。
 
-## 模式說明
-
-### `/skills-install`（預設）
-安裝到**當前 working directory** 的 `._agents/skills/` 實體目錄，並建立軟連結相容性。
-
-執行步驟：
-1. 確認目標 `._agents/skills/` 實體目錄存在，不存在則建立。
-2. `cp -r [來源]/. [當前專案]/._agents/skills/`
-3. 建立軟連結相容性：確認專案層 `.claude/` 目率存在（不存在則建立），執行 `ln -s ../._agents/skills [當前專案]/.claude/skills`。
-4. 回報：已安裝的 skill 清單、相容性軟連結狀態。
+> ⚠️ **兩條鐵律**
+> 1. **絕不用 symlink**。Drive／git 跨平台同步（Mac↔Windows）後 symlink 變死檔（見 lessons-learned「symlink 去中心化方案已被推翻」）。一律實體複製。
+> 2. **共用 skill 不再複製進各專案 `.claude/skills/`**。那會造成每個專案各自過期的孤兒副本（過去 skills 漂移的根因）。共用一律靠全域。
 
 ---
 
-### `/skills-install all`
-安裝到 `projects.md` 清單中**所有已知專案**，以及本機全域環境。
+## 用法
 
-專案清單路徑：
-```
-/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/projects.md
-```
+### `/skills-install`（部署全域共用 skill）
+等同 `python sync_config.py sync`：把 SSOT 11 個 skill 實體複製到 `~/.claude/skills/`，並部署 `~/.claude/CLAUDE.md`。
+- 新機器首次設定、或改過 `wtf-config/skills/` 後執行。
+- 各機器都要各跑一次（全域副本是 per-machine）。
 
-本機路徑對應規則：專案名稱 → `/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/[專案名稱]/`
-
-執行步驟：
-1. 讀取 `projects.md` 取得所有專案名稱。
-2. 逐一對每個專案執行安裝（同預設模式）。
-3. 同步全域：
-   - Claude Code 全域：`~/.claude/skills/`
-   - Codex 全域：`~/.codex/skills/`
-   - Gemini 全域：`/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/skills/`（ symlink 維護）
-4. 回報：每個專案的安裝結果（成功 / 路徑不存在跳過）。
+### `/skills-install check`（檢查狀態）
+等同 `python sync_config.py check`：回報全域 `~/.claude/skills/` 與各專案 `AGENTS.md` 是否與 SSOT 一致，並列出 symlink 殘跡／孤兒檔。
 
 ---
 
-### `/skills-install update`
-預覽變更後，由用戶確認再安裝到**當前 working directory**。
+## 新增 / 修改 skill
+- **共用 skill**：改 `wtf-config/skills/<name>/`（SSOT）→ 各機器跑 `sync_config.py sync` 重新部署全域。
+- **專案專屬 skill**：直接在該專案 `.claude/skills/<name>/` 編輯，隨專案版控／同步。
 
-執行步驟：
-1. 對比來源與目標的每個 skill 目錄，找出差異（新增 / 修改 / 刪除）。
-2. 使用 `diff -r --brief` 或逐檔比較，列出具體變更內容（哪個檔案、改了什麼）。
-3. 向用戶簡報差異清單，**等待確認**。
-4. 確認後執行安裝（同預設模式）。
-
----
-
-## 備註
-- 不會覆蓋目標專案的 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`（專案設定各自獨立）。
-- `projects.md` 中路徑不存在的專案會跳過並回報。
+## 重要限制
+- 不覆蓋 `.claude/CLAUDE.md`、專案 `AGENTS.md`（由 sync_config 另行管理）。
+- 專案層 `.claude/skills/` 只應含「專屬 skill」；若發現共用 skill 的孤兒副本，應刪除（改靠全域）。
