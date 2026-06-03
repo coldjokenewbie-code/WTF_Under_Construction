@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-03 (階段二：wtf-config 移出 Drive — 前提反轉)
+
+* **整個 repo 移出雲端硬碟 ＞ 只 split 子目錄**：`.git` lock 的根因是雲端硬碟同步搶 `.git`。把**整個 WTF repo** 移出 Drive（兩機 Git_work）一步根除；原交接的「案 C：抽 wtf-config 成獨立 repo」是「想把大專案留 Drive、只讓 SSOT 逃出」的折衷，徒增兩 repo／submodule／跨機 clone 對齊成本。**用戶已先做了整包移出 → 前提變了，案 C 變不必要**。接手別照交接照單執行：先用檔案系統實況核對前提（本次 cwd 已在 `E:\Git_work`、Drive 副本已消失），前提變就重評方案。
+* **SSOT 檔內禁寫單機絕對路徑**：`AGENTS/CODEX/GEMINI.md` 來源註記原寫死 Mac Drive 絕對路徑，跨機或搬遷即失準。多機共用的 SSOT 檔內路徑一律機器中立（指向 `projects-registry.md`），不放任一台的絕對路徑。
+* **repo 搬離原階層 → `parents[N]`／`relative_to` 推導全崩**：`ROOT=SCRIPT_DIR.parents[2]` 假設 repo 在 `Claude_cowork/projects/WTF`；搬到 `Git_work` 後 parents[2] 變天，且 `dup.relative_to(ROOT)` 對仍在 Drive 的專案直接拋 ValueError（check 遇孤兒檔即崩）。凡靠相對層級推導的路徑，repo 一搬就壞；改用絕對 registry 路徑或 `SCRIPT_DIR.parent` 自身。
+* **hook 不該 auto-commit**：用戶定調——register 改 machines.md 時間戳不該自動 commit；只有用戶明說「更新全域設定/skills/規範」才手動 commit。hook 收斂為純 `git pull`＋`sync`（讀取最新＋部署副本），不 push、不清 lock（repo 已離 Drive）。
+
 ## 2026-06-03 (階段一執行：跨機協作 + hook/git 實戰)
 
 * **跨機 AI 協作＝共用檔案＋雙向 monitor**：兩端 AI（Win/Mac）在 Drive 同步的 markdown 交替 append、各自開 persistent Monitor 偵測對方標記（`[WIN-Rn]`/`[MAC-Rn]`、`DONE`/`VERIFIED` 信號），即可討論收斂＋分工執行＋互驗，免人工轉貼。**monitor pattern 兩個坑**：(1) grep 要限定 `[TAG-R數字]`，否則規則說明行裡的 `[MAC-Rn]` 範例會誤觸；(2) 基線 `prev` 要設為「啟動時的現有計數」，否則自己寫的信號會誤報成對方回覆。

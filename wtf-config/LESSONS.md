@@ -4,7 +4,7 @@
 > **這是指標，不是副本**：每條只放「專案｜日期｜一句話｜連結」，完整內容留在工作層檔案，避免雙真相源。
 > 工作層新增 lesson 後，須同步登錄一行到此表（見 `GLOBAL.md`「教訓兩層」）。
 >
-> 連結為工作區相對路徑（自 `E:\Claude_cowork` 根起算）。
+> 連結為相對路徑：Drive 專案自 `Claude_cowork` 根起算；WTF 自身已移出 Drive，連結標「（WTF repo）」者相對 WTF repo 根。
 
 ---
 
@@ -14,6 +14,8 @@
 |---|---|---|---|
 | 根 | 2026-05-03 | 七步驟工作流步驟4「執行不打擾」：卡關寫 `_blocker_*.md` 跳過，不中途問頁數/換工具 | `_context/lessons-learned.md` |
 | 根 | 2026-05-03 | docx 註腳用 Word 頁尾 footnote，多次引用各生獨立 footnote，直改 `footnotes.xml` | `_context/lessons-learned.md` |
+| WTF | 2026-06-03 | 整個 repo 移出雲端硬碟＞只 split 子目錄；前提變了（用戶已整包移出）就重評方案、別照交接照單執行 | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-03 | SSOT 檔禁寫單機絕對路徑；repo 一搬 `parents[N]`/`relative_to` 推導全崩，改絕對 registry/SCRIPT_DIR.parent | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 跨機 AI 協作＝共用檔案＋雙向 monitor（grep 限定 [TAG-R數字]、prev 設啟動基線避免自觸） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-06-03 | Drive 同步 .git 跨機不可靠→各機自己 add、單一端 commit，另端 reset 淨空 index | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-06-03 | 設定檔自動執行 hook 屬自我修改，classifier 擋需用戶明授；破壞操作別繞過改靜態驗收 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |

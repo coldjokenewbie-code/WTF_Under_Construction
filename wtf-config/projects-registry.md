@@ -9,11 +9,12 @@
 > - 新增專案或換機 → 只改本表。
 > - `path` 留空 = sync 跳過該機該專案（尚未部署）。
 > - 機器 hostname 見 machines.md。
+> - WTF_Under_Construction repo 本身已移出 Drive（兩機 Git_work），故其 path 指 Git_work；其餘專案仍在 Drive。
 
 | project | machine (hostname) | path |
 |---|---|---|
-| WTF_Under_Construction | comaMacBookAir.local | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction |
-| WTF_Under_Construction | DESKTOP-7SF21LR | E:\Claude_cowork\projects\WTF_Under_Construction |
+| WTF_Under_Construction | comaMacBookAir.local | /Users/coma/Git_work/WTF_Under_Construction |
+| WTF_Under_Construction | DESKTOP-7SF21LR | E:\Git_work\WTF_Under_Construction |
 | Aseembly_Plant | comaMacBookAir.local | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant |
 | Aseembly_Plant | DESKTOP-7SF21LR | E:\Claude_cowork\projects\Aseembly_Plant |
 | HsinchuScienceEducationCenter | comaMacBookAir.local | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter |

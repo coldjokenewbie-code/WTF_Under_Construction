@@ -27,7 +27,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
 SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真相源
 SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
-ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork（僅供 register 記錄 workspace_root）
+REPO_ROOT = SCRIPT_DIR.parent                         # WTF repo 根（已移出 Drive，供 register 記錄）
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
 REGISTRY = SCRIPT_DIR / "projects-registry.md"         # 專案註冊表（取代 extra-scan-dirs.txt 與 PROJECTS_DIR 推導）
@@ -229,7 +229,7 @@ def cmd_check():
         if status in ("MISSING", "BROKEN", "STALE"):
             broken.append(d.name)
         for dup in d.glob("AGENTS (*).md"):
-            orphans.append(str(dup.relative_to(ROOT)))
+            orphans.append(str(dup))
 
     print("\n--- ~/.claude/ ---")
     _, _, notes = check_claude_dir()
@@ -289,7 +289,7 @@ def cmd_register():
     sys.stdout.reconfigure(encoding="utf-8")
     hostname = socket.gethostname()
     osname = f"{platform.system()} {platform.release()}"
-    root = str(ROOT)
+    root = str(REPO_ROOT)
     now = ts()
     if not MACHINES.exists():
         sys.exit(f"[錯誤] 找不到 {MACHINES}，請先確認 machines.md 存在。")

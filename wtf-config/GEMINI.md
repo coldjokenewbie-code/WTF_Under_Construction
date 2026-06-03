@@ -1,6 +1,6 @@
 # Antigravity 工具層設定
 > 適用：Google Antigravity 專屬
-> 來源：WTF_Under_Construction repo — Single Source of Truth（實體路徑：/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/）
+> 來源：WTF_Under_Construction repo — Single Source of Truth（git repo，已移出雲端硬碟；各機實體路徑見 wtf-config/projects-registry.md）
 > 載入方式：`~/.gemini/GEMINI.md` 本機存放為 symlink；`~/.gemini/AGENTS.md` 為 `wtf-config/AGENTS.md` 的 symlink
 
 **【強制初始化協議】對話開始時，必須立即執行以下步驟，不得跳過：**
@@ -15,7 +15,7 @@
 
 ## Skills 載入
 
-1. 全域 skills（實體路徑：`/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/skills/`）
+1. 全域 skills（真相源 `wtf-config/skills/`）
 2. 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）
 3. 若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`，執行以下兩步驟：
    a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。

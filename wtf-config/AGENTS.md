@@ -1,6 +1,6 @@
 # Cross-Tool Agent Rules
 > 適用：所有 AI agents 共用（Claude Code、Antigravity、Cursor 等）
-> 來源：WTF_Under_Construction repo — Single Source of Truth（實體路徑：/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/）
+> 來源：WTF_Under_Construction repo — Single Source of Truth（git repo，已移出雲端硬碟；各機實體路徑見 wtf-config/projects-registry.md）
 
 ## Skills 載入協議
 
@@ -10,7 +10,7 @@
    - 統一以 `._agents/skills/` 作為工具中立的實體專案技能目錄。
    - Claude Code 透過軟連結（symlink）將 `.claude/skills/` 指向 `._agents/skills/`。
    - 若專案存在同名 skill，**必須使用專案版本，忽略全域同名路徑**。
-2. **全域 skills**（Fallback）：專案層沒有的 skill，才從全域路徑載入（實體路徑：/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/WTF_Under_Construction/wtf-config/skills/）。
+2. **全域 skills**（Fallback）：專案層沒有的 skill，才從全域路徑載入（真相源 `wtf-config/skills/`，部署後在 `~/.claude/skills/`）。
 
 3. **專案設定**：若有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
 4. **專案知識**：若專案根目錄有 `_context/`，讀取其中所有 `.md` 檔案；若有 `rules/`，讀取其中所有 `.md` 檔案。
