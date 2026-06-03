@@ -11,8 +11,8 @@ SSOT 跨機同步架構已定案；階段一重構執行中——Mac 端 `sync_c
 - SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`、`wtf-config/sync_config.py`、`wtf-config/projects-registry.md`（專案×機器×路徑，取代 extra-scan-dirs.txt）
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
 - 階段一執行／驗收紀錄：`workingfiles/階段一執行_2026-06-03.md`（含信號區）
-- 最新交接：`_context/Handover_2026-06-03_全域設定自動同步架構重整.md`
-- 最新工作紀錄：`_context/TaskLog_2026-06-03_全域設定自動同步架構重整.md`
+- 最新交接：`_context/Handover_2026-06-03_階段二-wtf-config移出Drive.md`（階段二）
+- 最新工作紀錄：`_context/TaskLog_2026-06-03_階段一-SSOT同步重構.md`
 - lessons：`_context/lessons-learned.md`、雲端層 `wtf-config/LESSONS.md`
 - archive：`_context/archive/`
 

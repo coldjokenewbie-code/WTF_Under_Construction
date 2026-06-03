@@ -1,5 +1,14 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-03 (階段一執行：跨機協作 + hook/git 實戰)
+
+* **跨機 AI 協作＝共用檔案＋雙向 monitor**：兩端 AI（Win/Mac）在 Drive 同步的 markdown 交替 append、各自開 persistent Monitor 偵測對方標記（`[WIN-Rn]`/`[MAC-Rn]`、`DONE`/`VERIFIED` 信號），即可討論收斂＋分工執行＋互驗，免人工轉貼。**monitor pattern 兩個坑**：(1) grep 要限定 `[TAG-R數字]`，否則規則說明行裡的 `[MAC-Rn]` 範例會誤觸；(2) 基線 `prev` 要設為「啟動時的現有計數」，否則自己寫的信號會誤報成對方回覆。
+* **Drive 同步的 `.git` 跨機不可靠 → 各機自己 add、單一端 commit**：staged index（`.git/index`）與 lock 跨 Drive 同步不可靠。跨機分工時檔案內容靠 Drive 一致即可，但 `git add`/`commit` 必須由一端在自己機器做，另一端 `git reset` 淨空 index 不重複 commit，否則歷史分叉。本次 Mac 改完→reset，TL(Windows) 自己 add+commit+push。
+* **設定檔裡「自動執行的 hook」屬自我修改，classifier 會擋，需用戶明確授權**：agent 設計的 UserPromptSubmit hook（自動跑腳本、ExecutionPolicy Bypass）即使在分工 spec 內，寫入 `settings.json` 仍被 auto-mode classifier 擋下；要用戶在對話明確授權才放行。**破壞性或可疑操作（rmtree、跑被標記為有 bug 的舊版 sync）也會被擋——這是好護欄，別繞過**，改靜態驗收（讀碼確認）或請用戶授權。
+* **UserPromptSubmit hook 一律 `exit 0`**：非零退出會阻擋使用者送出 prompt（Claude Code 行為）。Drive/git 偶發失敗不該擋使用者，hook 錯誤只印出、永遠 exit 0。Mac 版原 exit 1，Windows port 刻意改 exit 0。
+* **註冊表＝單一部署清單**：`projects-registry.md`（專案×機器×絕對路徑）同時是「跨機路徑查表」與「sync/skills-install 的本機部署清單」，取代 `extra-scan-dirs.txt`＋相對路徑推導。新增專案／換機只改這一表，sync 取本機 hostname 的列即為部署目標。
+* **git 追蹤的衍生副本會跨機 typechange**：root `AGENTS.md` 在 Mac 被 git 記為 symlink(mode 120000)、Windows 是實體檔 → 每次 pull 都 typechange、`M AGENTS.md` 永遠髒。解法：衍生副本一律 `.gitignore`＋`git rm --cached`（不入庫），由 sync 各機寫實體。
+
 ## 2026-06-03 (全域設定自動同步架構重整)
 
 * **開場協議靠 hook，不靠 agent 自律**：CLAUDE.md 的「強制執行」依賴 agent 主動判斷，實踐中常跳過。唯一可靠方式：`settings.json` UserPromptSubmit hook 讓 harness 強制觸發，agent 無法繞過。hook 輸出透過 system-reminder 回報給 agent，agent 再向用戶確認。
