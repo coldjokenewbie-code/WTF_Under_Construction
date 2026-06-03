@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-03 (全域設定自動同步架構重整)
+
+* **開場協議靠 hook，不靠 agent 自律**：CLAUDE.md 的「強制執行」依賴 agent 主動判斷，實踐中常跳過。唯一可靠方式：`settings.json` UserPromptSubmit hook 讓 harness 強制觸發，agent 無法繞過。hook 輸出透過 system-reminder 回報給 agent，agent 再向用戶確認。
+* **Drive 路徑下 git pull 需先清 .lock**：Google Drive 同步 .git 會在 `refs/remotes/` 產生殘留 `.lock` 檔，導致 git pull 失敗。解法：pull 前 `find .git -name "*.lock" -delete`。已整合進 wtf-sync.sh。
+* **機器專屬路徑的設定檔應放 repo，用 hostname:path 格式**：放在 `~/.claude/` 只有 Claude Code 能管理；放在 `wtf-config/extra-scan-dirs.txt` 加 `hostname:path` 格式，所有 agent 都能讀寫，各機器只套用自己那行。
+* **AI 效能衰退的判斷與因應**：同一對話內發生事實歸因錯誤（把自己的提議誤記為用戶說的）屬能力衰退，不是正常波動。同一 model ID 不保證行為一致（可能靜默更新）。因應：降為執行層、關鍵狀態寫檔不依賴 AI 口述、開場協議改為用戶主動觸發、流程容錯優先。
+
 ## 2026-06-03 (skills 漂移整治與混合架構定案)
 
 * **skills 採「混合架構」**：共用 skill（SSOT 11 個）只部署到全域 `~/.claude/skills/`（每台機器各一份實體副本，由 `sync_config.py sync` 維護），**不再複製進各專案 `.claude/skills/`**；專案層只放「專屬 skill」（如 data-verify、thumbnail-aware-images、remotion-best-practices）。理由：`sync_config.py` 從不同步專案層 skills，過去把共用 skill 複製進每個專案 → 各自過期成孤兒副本，是 skills 漂移的根因。
