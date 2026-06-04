@@ -42,6 +42,9 @@
 | HsinchuSEC | 2026-05 | 論點必須有實際數字支撐，不可用結構推論代替數據 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南 | 2026-05 | 量不準先換手段：抽 pptx XML 會被 group transform 干擾，改算繪成圖再量測 | `projects/國圖南/_context/lessons-learned.md` |
 | 國圖南 | 2026-05 | 並行 repo commit 只 stage 自己任務的檔，勿 `git add -A` | `projects/國圖南/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-04 | 可微調文字位移用 margin 不用 transform：fill:both 進場動畫/translateY(-50%) 會壓過 inline transform | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-04 | SVG 裝飾網格灰點只能在 ≥2 線匯聚處：寫腳本點到線段距離測試驗證、新線平行既有方向、線端出血避免懸空 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-04 | File System Access 存檔報 user aborted＝取消選擇器非 bug；選同一檔允許寫入、handle 存 IndexedDB免重選 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
