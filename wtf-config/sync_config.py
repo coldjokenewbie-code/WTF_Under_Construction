@@ -249,8 +249,15 @@ def deploy_other_tools():
             pass
         ok = 0
         for name in sorted(ssot_names):
+            dst = dst_root / name
+            # 與 SSOT 同名的 symlink（含舊架構死連結）會讓 copytree 報 FileExistsError
+            # 而被略過 → 工具讀到斷鏈或舊版。複製前先拆掉它，改寫實體副本。
+            # 只拆「佔用 WTF skill 名稱」者；工具自有的其他 symlink（如 find-skills）名稱
+            # 不在 ssot_names，不受影響。
+            if dst.is_symlink():
+                dst.unlink()
             try:
-                shutil.copytree(SSOT_SKILLS / name, dst_root / name, dirs_exist_ok=True)
+                shutil.copytree(SSOT_SKILLS / name, dst, dirs_exist_ok=True)
                 ok += 1
             except Exception as e:
                 results.append(f"  ! 略過 {base.name}/skills/{name}（{e}）")

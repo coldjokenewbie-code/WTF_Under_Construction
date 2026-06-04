@@ -1,5 +1,10 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-04 (跨工具 skill 部署：dangling symlink 盲點)
+
+* **舊架構死 symlink 會被誤當「工具自有」保留，擋住實體覆蓋**：Mac `~/.codex/skills/` 殘留 5 月舊 symlink 架構的連結，指向已不存在的 `/Users/coma/git_folder/.../claude-config/skills/`（`git_folder`→今 `Git_work`、`claude-config`→今 `wtf-config`）。`deploy_other_tools()` 的 `copytree(dirs_exist_ok=True)` 對 symlink 拋 `FileExistsError(Errno 17)` 而略過 → codex 讀到斷鏈、skill 從沒被更新（gemini 是實體目錄故正常，差異即線索）。`sync` 報「寫入 1 個」而非 10 個就是徵兆。原設計「symlink＝工具自有（find-skills）要保護」假設**沒涵蓋死連結**。**修**：複製前 `if dst.is_symlink(): dst.unlink()`——只拆與 SSOT **同名**的 symlink（find-skills 等不同名不受影響），再 copytree 寫實體。換機/復原免再手動清。已注入 dangling symlink 實測自動修復通過。
+* **同步報表的數字要核**：`sync` 印「寫入 N 個 skill」，N 與預期（10）不符就是部署沒全成；別只看末行 `v 寫入` 就當完成。
+
 ## 2026-06-03 (階段二：wtf-config 移出 Drive — 前提反轉)
 
 * **整個 repo 移出雲端硬碟 ＞ 只 split 子目錄**：`.git` lock 的根因是雲端硬碟同步搶 `.git`。把**整個 WTF repo** 移出 Drive（兩機 Git_work）一步根除；原交接的「案 C：抽 wtf-config 成獨立 repo」是「想把大專案留 Drive、只讓 SSOT 逃出」的折衷，徒增兩 repo／submodule／跨機 clone 對齊成本。**用戶已先做了整包移出 → 前提變了，案 C 變不必要**。接手別照交接照單執行：先用檔案系統實況核對前提（本次 cwd 已在 `E:\Git_work`、Drive 副本已消失），前提變就重評方案。

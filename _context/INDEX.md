@@ -1,18 +1,18 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-06-03
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-06-04
 
 ## 一句話目標
 Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
 
 ## 現況（一句話）
-階段二完成、**兩機收斂、Mac 驗收 PASS、無分叉**：整個 WTF repo 移出 Drive（兩機 Git_work），放棄 split。hook 只 `git pull`＋`sync`、不 auto-commit。skills 命名/規範已對齊（TaskLog_、session-start 增 rules＋身分宣告）；registry 已登記 Windows Git_work repos；新增跨機/跨工具「記錄署名」慣例。WTF skills 已跨工具部署（Windows 的 Codex／Gemini，`deploy_other_tools()`）；常駐 monitor 僅 ai-team＋明示跨機討論才開（餘靠 INDEX/TaskLog 非同步交棒）。主控/可視：`sync_config.py status`／`dashboard`（產 `outputs/dashboard.html`）。夜間 routine 已 realign（commit 進 main 只推加性檔；全域設定**只建議不自改**→寫 `nightly-notify.md`→session-start 浮出待核准；不碰 dashboard）。
+**階段二已結案（2026-06-04 Mac pull+sync+跨工具部署驗證完成，TaskLog 移 archive）**。整個 WTF repo 移出 Drive（兩機 Git_work），放棄 split。hook 只 `git pull`＋`sync`、不 auto-commit。skills 命名/規範已對齊（TaskLog_、session-start 增 rules＋身分宣告）；registry 已登記 Windows Git_work repos；新增跨機/跨工具「記錄署名」慣例。WTF skills 已跨工具部署（Windows 的 Codex／Gemini，`deploy_other_tools()`）；常駐 monitor 僅 ai-team＋明示跨機討論才開（餘靠 INDEX/TaskLog 非同步交棒）。主控/可視：`sync_config.py status`／`dashboard`（產 `outputs/dashboard.html`）。夜間 routine 已 realign（commit 進 main 只推加性檔；全域設定**只建議不自改**→寫 `nightly-notify.md`→session-start 浮出待核准；不碰 dashboard）。
 
 ## 關鍵檔
 - SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`、`wtf-config/sync_config.py`、`wtf-config/projects-registry.md`（專案×機器×路徑）
 - 🖥️跨機即時協調（Drive，非 repo）：`E:\Claude_cowork\projects\Git_work_agents\WTFrepo\signals_WIN.md`／`signals_MAC.md`（per-machine 單寫檔，見下「讀取指引」）
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
-- 最新工作紀錄：`_context/TaskLog_2026-06-03_階段二-移出Drive.md`
-- 交接/階段一已 archive：`_context/archive/`
+- 最新工作紀錄：（無進行中）；階段二已結案 `_context/archive/ClosedTaskLog_2026-06-03_階段二-移出Drive.md`
+- 交接/階段一/階段二已 archive：`_context/archive/`
 - lessons：`_context/lessons-learned.md`、雲端層 `wtf-config/LESSONS.md`
 
 ## 讀取指引（指路，只讀必要文件）

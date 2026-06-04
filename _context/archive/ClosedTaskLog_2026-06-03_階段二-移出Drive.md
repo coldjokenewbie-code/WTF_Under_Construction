@@ -1,5 +1,7 @@
 # 工作紀錄 2026-06-03 — 階段二：wtf-config 移出 Drive（前提反轉）
 
+> **結案 2026-06-04 [Claude@Mac]**：§4 待 Mac 事項全數驗證完成 — HEAD=origin/main=`7d107d0`（已含後續 nightly/dashboard commit）、`check` 11 OK、codex/gemini skills 已部署。§5 死路徑清理轉用戶（未做）。本檔結案歸檔。
+
 > 承接 `Handover_2026-06-03_階段二-wtf-config移出Drive.md`（已移 archive，其「案 C：抽 wtf-config 成獨立 repo」計畫被現實反轉而作廢）。
 
 ## 1. 前提反轉（關鍵）
