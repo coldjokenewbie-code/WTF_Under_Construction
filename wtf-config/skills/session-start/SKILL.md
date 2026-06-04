@@ -22,6 +22,7 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
    - **僅當** check 報 `STALE`／`BROKEN`／`MISSING`（hook 未生效或失敗）→ fallback 執行
      `python "<WTF_ROOT>/wtf-config/sync_config.py" sync` 修復，並回報。
 3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
+4. **全域設定修改建議**：讀 `<WTF_ROOT>/_context/nightly-notify.md`（不存在則略過）。若有**未勾 `- [ ]`** 項 → 開場**優先醒目提醒**：「💡 nightly 建議修改全域設定：<列出>，要採用嗎？採用我幫你套用並移除該行，不採用就刪行。」夜間 routine **只建議不自改**全域設定，由用戶在此核准（routine 寫建議→commit main→本機 pull→此處浮出）。
 
 ## 2. 讀取 _context 知識
 

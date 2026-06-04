@@ -19,6 +19,8 @@
 | WTF | 2026-06-03 | Drive 跨機協調檔：每機只寫自己的檔（單寫者免衝突）；禁掛常駐 tail -F（鎖檔擋 Drive 同步），改 on-demand 讀 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 跨工具 skill 部署：實體複製到 codex/gemini，保留其自有 skill、不 prune；base 夾存在才部署（跨平台同碼） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 常駐 monitor 只在 ai-team+明示跨機討論才開；一般交棒靠更新 INDEX/TaskLog、對方新對話自然讀（非同步） | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-04 | 雲端 routine commit 死分支＝自動更新沒生效；要 pull--rebase→改→push main。雲端看不到本機 transcript，學習靠 git commit | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-04 | 雲端→用戶通知靠 NOTIFY 檔(nightly-notify.md)+session-start 浮出（wtf-root 錨點），零外部設定、漏不掉 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 技能精簡：規則型 skill 併回 GLOBAL.md、redundant 刪；移 skill 要清四處引用+git rm 後實體刪空目錄 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | Windows Python rmtree 被鎖(WinError5) 改 bash rm -rf 可繞過；MSYS symlink is_symlink() 不可靠靠 rmtree 守門 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-03 | 跨機 AI 協作＝共用檔案＋雙向 monitor（grep 限定 [TAG-R數字]、prev 設啟動基線避免自觸） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |

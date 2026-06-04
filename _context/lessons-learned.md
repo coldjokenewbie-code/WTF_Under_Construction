@@ -9,6 +9,13 @@
 * **Drive 跨機協調檔：單一作者 ＋ 不掛常駐 `tail -F`**：repo 移出 Drive 後改用 Drive 資料夾做即時跨機信號，踩兩坑：(1) 用 `tail -n 0 -F` 常駐 monitor 盯 Drive 檔，會**持有檔案 handle 鎖住檔案**，Drive 要用對方版覆蓋時被擋→「你的電腦不允許同步處理某些檔案」。(2) 單一共用檔被兩機輪流寫＝Drive 先天產生衝突副本。**正解**：每機只寫自己的檔（`signals_WIN.md`／`signals_MAC.md`，單寫者無衝突，對方唯讀）；Drive 檔**禁掛常駐 tail -F**，改輪詢式 monitor（每 ~20s `stat` 比 mtime/行數，有變才開檔一瞬即關，靠 sleep 釋放 handle），或 on-demand 讀。
 * **「鎖檔擋同步」是 Windows 專屬，Mac 是另一種坑**：(1) 坑(1) Windows 檔案鎖強硬，handle 開著時 Drive 覆蓋/rename 被拒→報「不允許同步處理」；macOS/Unix 允許替換開啟中的檔（advisory lock），**不報此錯**（Mac 端未實測，依 Unix 語意推斷）。(2) 但 Mac `tail -f` 抓舊 inode，Drive 換檔後**靜默看不到新內容**（需 `tail -F` 按檔名重開）→ 不報錯卻漏訊。(3) 單一共用檔雙寫產生衝突副本＝**兩機都中**，與 OS 無關。故 per-machine 單寫檔＋輪詢不鎖檔對兩機皆有益。
 
+## 2026-06-04 (夜間 routine 評估與 realign)
+
+* **雲端 routine commit 到死分支＝自動更新沒生效**：nightly 排程每晚 commit 到 `claude/nightly-*`／`kind-knuth-*` 分支、**從不併 main**，故它的 lesson-add／GLOBAL 精簡全卡在死分支，真 SSOT 從沒拿到。用戶以為「自動學習」有在跑，實際 main 上的 lessons 都是本機工作時 lesson-add 進去的。**要讓排程的自動更新生效，必須 `git pull --rebase origin main`→改→`push origin main`（衝突即 abort 不硬推），不要推到永不 merge 的分支。**
+* **雲端 ephemeral container 看不到本機 transcript**：排程跑在雲端、工作 session 在本機 → 「分析 transcript 自動學 lesson」結構性失效（log 自己反覆寫「transcript 只有 nightly 本身」）。學習來源改以**已 push 上 GitHub 的 git commit messages**為準，別假裝分析不存在的 session。
+* **全域設定：routine 只建議不自改；通知靠「NOTIFY 檔＋session-start 浮出」**：用戶定調——夜間 routine **可自動加性更新 lessons，但全域設定（GLOBAL.md/SSOT 設定檔）只能「建議」、不得自行修改**（改動權保留給用戶）。建議 append 到 `_context/nightly-notify.md`（commit main，且 commit 只 `git add` 加性檔、不 `-A`，確保設定檔不被誤提交）→ 本機 hook pull → **session-start 開場讀此檔、有未勾項就提醒用戶核准**（靠 `wtf-root.txt` 錨點任何專案都讀得到）。用戶「一坐下就看到」、漏不掉、零外部設定，且**自動不越權改設定**。
+* **routine 別碰會被自動產的產物**：舊 nightly 手改 `dashboard.html`，但儀表板已改本機 `sync_config.py dashboard` 自動產 → routine 不該再維護它（雙真相源）。自動產的產物由產生器負責，排程只碰它「唯一來源」的東西。
+
 ## 2026-06-03 (全域技能精簡 12→10 + 刪檔鎖定)
 
 * **技能精簡：規則型 skill 併回 GLOBAL.md，輸出型 redundant skill 刪除**：GLOBAL.md 步驟四（>10 全域 skill）觸發。`tasklog-naming` 本質是規則（命名/結案/INDEX-TaskLog 分工）且大量重疊 GLOBAL.md → 併回 GLOBAL.md（每次必載、單一來源，比 skill 更不漂移），session-start/session-end 引用改指 GLOBAL.md。`cowork-start`（輸出 Cowork 開場 URL 貼文）與 CLAUDE_COWORK.md 既有自含開場段重複、且用不穩的 raw URL → 直接刪。12→10。**移 skill 要連帶清四處引用**（GLOBAL.md 指標、兩 skill 內文、skills-install 清單）。
