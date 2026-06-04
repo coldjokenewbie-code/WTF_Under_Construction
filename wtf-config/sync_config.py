@@ -9,6 +9,8 @@ sync_config.py — WTF 設定真相源同步腳本
   python sync_config.py check     掃描所有專案 AGENTS.md 與 ~/.claude/，回報 OK / 失效，不改檔
   python sync_config.py sync      把 SSOT 實體複製到每個專案 AGENTS.md 與 ~/.claude/
   python sync_config.py register  偵測本機並寫入 machines.md（每台電腦首次執行）
+  python sync_config.py status    彙整本機所有註冊專案的現況＋git＋最新 TaskLog（治理/可視，唯讀）
+  python sync_config.py dashboard 產 outputs/dashboard.html：現況＋git＋待辦的網頁儀表板（RWD，手機友善）
 
 設計備註:
   - Drive 不支援跨平台 symlink，故改用實體複製。
@@ -21,6 +23,9 @@ import shutil
 import socket
 import platform
 import datetime
+import subprocess
+import html
+import re
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
@@ -373,11 +378,153 @@ def cmd_register():
     return 0
 
 
+def _git_state(d):
+    """回傳專案 git 一句話狀態（branch + clean/dirty + ahead/behind）。"""
+    if not (d / ".git").exists():
+        return "non-git"
+    try:
+        out = subprocess.run(["git", "-C", str(d), "status", "--porcelain", "--branch"],
+                             capture_output=True, text=True, encoding="utf-8",
+                             errors="replace", timeout=10)
+        lines = out.stdout.splitlines()
+        branch = lines[0][3:].strip() if lines and lines[0].startswith("##") else "?"
+        dirty = sum(1 for l in lines[1:] if l.strip())
+        return f"{branch}｜{'dirty('+str(dirty)+')' if dirty else 'clean'}"
+    except Exception as e:
+        return f"git?（{e}）"
+
+
+def _index_now(d):
+    """從專案 _context/INDEX.md 取『## 現況』後第一行非空內容。"""
+    idx = d / "_context" / "INDEX.md"
+    if not idx.exists():
+        return "（無 INDEX.md）"
+    txt = idx.read_text(encoding="utf-8", errors="replace").splitlines()
+    for i, line in enumerate(txt):
+        if line.startswith("## 現況"):
+            for nl in txt[i + 1:]:
+                if nl.strip():
+                    return nl.strip()[:90]
+    return "（INDEX 無現況段）"
+
+
+def cmd_status():
+    """治理/可視：彙整本機所有註冊專案的現況＋git＋最新 TaskLog（唯讀）。"""
+    sys.stdout.reconfigure(encoding="utf-8")
+    host = socket.gethostname()
+    dirs = registry_dirs()
+    print(f"WTF 專案現況彙整（本機 {host}，{len(dirs)} 個專案）\n")
+    for d in dirs:
+        tasklogs = sorted(d.glob("_context/TaskLog_*.md"))
+        latest = (tasklogs[-1].name[len("TaskLog_"):-3] if tasklogs else "—")
+        print(f"● {d.name}")
+        print(f"   現況: {_index_now(d)}")
+        print(f"   git : {_git_state(d)}   |  最新 TaskLog: {latest}")
+    return 0
+
+
+def _latest_tasklog(d):
+    tls = sorted(d.glob("_context/TaskLog_*.md"))
+    return tls[-1] if tls else None
+
+
+def _todos(d, limit=8):
+    """從最新 TaskLog 抽待辦：優先未勾選 checkbox，否則抓『下一步/未完成/待辦…』段條列。"""
+    tl = _latest_tasklog(d)
+    if not tl:
+        return []
+    txt = tl.read_text(encoding="utf-8", errors="replace").splitlines()
+    box = [l.strip()[5:].strip() for l in txt if l.strip().startswith("- [ ]")]
+    if box:
+        return box[:limit]
+    todos, capturing = [], False
+    for l in txt:
+        if l.lstrip().startswith("#"):
+            capturing = bool(re.search(r"(下一步|未完成|未解決|待辦|TODO|建議)", l))
+            continue
+        if capturing:
+            s = l.strip()
+            if re.match(r"^([-*]|\d+[.、)])\s+", s):
+                item = re.sub(r"^([-*]|\d+[.、)])\s+", "", s)
+                if item and not item.startswith("~~"):   # 跳過刪節線(已完成)
+                    todos.append(item)
+    return todos[:limit]
+
+
+def cmd_dashboard():
+    """治理/可視：產 outputs/dashboard.html，彙整所有專案 現況＋git＋待辦（RWD，手機友善）。"""
+    sys.stdout.reconfigure(encoding="utf-8")
+    host = socket.gethostname()
+    now = ts()
+    dirs = registry_dirs()
+    cards = []
+    for d in dirs:
+        gits = _git_state(d)
+        cls = ("clean" if "clean" in gits else
+               "ahead" if ("ahead" in gits or "behind" in gits) else
+               "nogit" if gits == "non-git" else "dirty")
+        tl = _latest_tasklog(d)
+        tlname = tl.name[len("TaskLog_"):-3] if tl else "—"
+        todos = _todos(d)
+        todo_html = ("".join(f"<li>{html.escape(t)}</li>" for t in todos)
+                     if todos else '<li class="none">（無待辦或無 TaskLog）</li>')
+        cards.append(f"""    <div class="card {cls}">
+      <h2>{html.escape(d.name)}</h2>
+      <p class="now">{html.escape(_index_now(d))}</p>
+      <div class="meta"><span class="git {cls}">{html.escape(gits)}</span>
+        <span class="tl">TaskLog: {html.escape(tlname)}</span></div>
+      <ul class="todos">{todo_html}</ul>
+    </div>""")
+    page = f"""<!DOCTYPE html><html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WTF 專案儀表板</title>
+<style>
+:root{{color-scheme:light dark}}
+*{{box-sizing:border-box}}
+body{{font-family:system-ui,"Segoe UI","Microsoft JhengHei",sans-serif;margin:0;padding:16px;
+background:#f4f5f7;color:#1a1a1a}}
+@media(prefers-color-scheme:dark){{body{{background:#16181d;color:#e6e6e6}}.card{{background:#222630!important}}}}
+header{{max-width:980px;margin:0 auto 14px}}
+h1{{font-size:1.25rem;margin:0 0 2px}}
+.sub{{color:#888;font-size:.8rem}}
+.grid{{max-width:980px;margin:0 auto;display:grid;gap:12px;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}}
+.card{{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.08);
+border-left:5px solid #bbb}}
+.card.clean{{border-left-color:#2e9e5b}} .card.dirty{{border-left-color:#e0a106}}
+.card.ahead{{border-left-color:#2f7fe0}} .card.nogit{{border-left-color:#999}}
+.card h2{{font-size:1rem;margin:0 0 6px}}
+.now{{font-size:.85rem;color:#555;margin:0 0 8px;line-height:1.4}}
+@media(prefers-color-scheme:dark){{.now{{color:#aaa}}}}
+.meta{{display:flex;flex-wrap:wrap;gap:6px;font-size:.72rem;margin-bottom:8px}}
+.git{{padding:2px 7px;border-radius:99px;color:#fff;font-weight:600}}
+.git.clean{{background:#2e9e5b}} .git.dirty{{background:#e0a106}}
+.git.ahead{{background:#2f7fe0}} .git.nogit{{background:#999}}
+.tl{{padding:2px 7px;border-radius:99px;background:#eceef1;color:#444}}
+@media(prefers-color-scheme:dark){{.tl{{background:#333;color:#ccc}}}}
+.todos{{margin:0;padding-left:18px;font-size:.84rem;line-height:1.5}}
+.todos .none{{list-style:none;margin-left:-18px;color:#999}}
+</style></head><body>
+<header><h1>WTF 專案儀表板</h1>
+<div class="sub">本機 {html.escape(host)}｜{len(dirs)} 個專案｜產生 {now}</div></header>
+<div class="grid">
+{chr(10).join(cards)}
+</div></body></html>"""
+    out_dir = REPO_ROOT / "outputs"
+    out_dir.mkdir(exist_ok=True)
+    out = out_dir / "dashboard.html"
+    out.write_text(page, encoding="utf-8")
+    print(f"已產生儀表板：{out}（{len(dirs)} 個專案）")
+    return 0
+
+
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in ("check", "sync", "register"):
+    cmds = {"check": cmd_check, "sync": cmd_sync, "register": cmd_register,
+            "status": cmd_status, "dashboard": cmd_dashboard}
+    if len(sys.argv) < 2 or sys.argv[1] not in cmds:
         print(__doc__)
         return 2
-    return {"check": cmd_check, "sync": cmd_sync, "register": cmd_register}[sys.argv[1]]()
+    return cmds[sys.argv[1]]()
 
 
 if __name__ == "__main__":
