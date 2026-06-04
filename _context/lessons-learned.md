@@ -9,6 +9,11 @@
 * **Drive 跨機協調檔：單一作者 ＋ 不掛常駐 `tail -F`**：repo 移出 Drive 後改用 Drive 資料夾做即時跨機信號，踩兩坑：(1) 用 `tail -n 0 -F` 常駐 monitor 盯 Drive 檔，會**持有檔案 handle 鎖住檔案**，Drive 要用對方版覆蓋時被擋→「你的電腦不允許同步處理某些檔案」。(2) 單一共用檔被兩機輪流寫＝Drive 先天產生衝突副本。**正解**：每機只寫自己的檔（`signals_WIN.md`／`signals_MAC.md`，單寫者無衝突，對方唯讀）；Drive 檔**禁掛常駐 tail -F**，改輪詢式 monitor（每 ~20s `stat` 比 mtime/行數，有變才開檔一瞬即關，靠 sleep 釋放 handle），或 on-demand 讀。
 * **「鎖檔擋同步」是 Windows 專屬，Mac 是另一種坑**：(1) 坑(1) Windows 檔案鎖強硬，handle 開著時 Drive 覆蓋/rename 被拒→報「不允許同步處理」；macOS/Unix 允許替換開啟中的檔（advisory lock），**不報此錯**（Mac 端未實測，依 Unix 語意推斷）。(2) 但 Mac `tail -f` 抓舊 inode，Drive 換檔後**靜默看不到新內容**（需 `tail -F` 按檔名重開）→ 不報錯卻漏訊。(3) 單一共用檔雙寫產生衝突副本＝**兩機都中**，與 OS 無關。故 per-machine 單寫檔＋輪詢不鎖檔對兩機皆有益。
 
+## 2026-06-03 (跨工具 skill 部署 + monitor 啟動時機)
+
+* **跨工具 skill 部署：實體複製＋保留工具自有 skill＋不 prune**：WTF 共用 skills 原只進 `~/.claude/skills/`；擴 `sync_config.py` 的 `deploy_other_tools()` 也部署到已安裝的 Codex（`~/.codex/skills`）／Gemini（`~/.gemini/skills`）。**關鍵兩坑**：(1) 這些工具的 skills 夾有自己的 skill（如 `find-skills` symlink 指 `~/.agents/skills`），故**只加 WTF skills、不可套用 ~/.claude 那套「prune SSOT 沒有的舊 skill」邏輯**（會誤刪 find-skills）。(2) 用「base 夾存在才部署」判斷工具是否安裝（`~/.codex`/`~/.gemini` 存在），跨平台同碼（Mac pull+sync 自動部署到它有的工具，免分支）。取代舊 symlink `sync-skills.sh`（symlink 禁律）。
+* **常駐 monitor 只在密集跨機協作才開**：Drive per-machine `signals_*`＋雙方常駐 monitor 成本高（鎖檔/漏訊風險），**只在 `ai-team`＋使用者明示「跨機討論」時啟動**。一般交棒：處理完更新 `INDEX`/`TaskLog`，對方新對話開場自然讀到（非同步），不開 monitor。已寫入 GLOBAL.md Multi-Agent 底線。
+
 ## 2026-06-03 (階段一執行：跨機協作 + hook/git 實戰)
 
 * **跨機 AI 協作＝共用檔案＋雙向 monitor**：兩端 AI（Win/Mac）在 Drive 同步的 markdown 交替 append、各自開 persistent Monitor 偵測對方標記（`[WIN-Rn]`/`[MAC-Rn]`、`DONE`/`VERIFIED` 信號），即可討論收斂＋分工執行＋互驗，免人工轉貼。**monitor pattern 兩個坑**：(1) grep 要限定 `[TAG-R數字]`，否則規則說明行裡的 `[MAC-Rn]` 範例會誤觸；(2) 基線 `prev` 要設為「啟動時的現有計數」，否則自己寫的信號會誤報成對方回覆。

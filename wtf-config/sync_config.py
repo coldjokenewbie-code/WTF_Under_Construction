@@ -212,6 +212,35 @@ def deploy_claude_dir():
     return results
 
 
+# 其他工具（Codex／Gemini）skills 部署目標：僅對「已安裝」工具部署
+OTHER_TOOL_SKILL_DIRS = [Path.home() / ".codex" / "skills",
+                         Path.home() / ".gemini" / "skills"]
+
+
+def deploy_other_tools():
+    """把 SSOT skills 實體複製到 codex／gemini 的 skills/（present 才做）。
+    保留工具自有 skill（如 find-skills），不做 prune（避免誤刪非 WTF skill）。"""
+    results = []
+    if not SSOT_SKILLS.exists():
+        return results
+    for dst_root in OTHER_TOOL_SKILL_DIRS:
+        base = dst_root.parent
+        if not base.is_dir():
+            continue  # 工具未安裝，跳過
+        dst_root.mkdir(parents=True, exist_ok=True)
+        ok = 0
+        for skill_src in sorted(SSOT_SKILLS.iterdir()):
+            if not skill_src.is_dir():
+                continue
+            try:
+                shutil.copytree(skill_src, dst_root / skill_src.name, dirs_exist_ok=True)
+                ok += 1
+            except Exception as e:
+                results.append(f"  ! 略過 {base.name}/skills/{skill_src.name}（{e}）")
+        results.append(f"  v 寫入 ~/{base.name}/skills/（{ok} 個 WTF skill；保留工具自有 skill，不 prune）")
+    return results
+
+
 def cmd_check():
     sys.stdout.reconfigure(encoding="utf-8")
     ssot_body = read_ssot()
@@ -282,6 +311,12 @@ def cmd_sync():
     print("\n--- ~/.claude/ 部署 ---")
     for r in deploy_claude_dir():
         print(r)
+
+    other = deploy_other_tools()
+    if other:
+        print("\n--- 其他工具（Codex／Gemini）skills 部署 ---")
+        for r in other:
+            print(r)
     return 0
 
 

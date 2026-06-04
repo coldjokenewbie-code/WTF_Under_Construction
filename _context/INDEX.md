@@ -5,7 +5,7 @@
 Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
 
 ## 現況（一句話）
-階段二完成、**兩機收斂、Mac 驗收 PASS、無分叉**：整個 WTF repo 移出 Drive（兩機 Git_work），放棄 split。hook 只 `git pull`＋`sync`、不 auto-commit。skills 命名/規範已對齊（TaskLog_、session-start 增 rules＋身分宣告）；registry 已登記 Windows Git_work repos；新增跨機/跨工具「記錄署名」慣例。
+階段二完成、**兩機收斂、Mac 驗收 PASS、無分叉**：整個 WTF repo 移出 Drive（兩機 Git_work），放棄 split。hook 只 `git pull`＋`sync`、不 auto-commit。skills 命名/規範已對齊（TaskLog_、session-start 增 rules＋身分宣告）；registry 已登記 Windows Git_work repos；新增跨機/跨工具「記錄署名」慣例。WTF skills 已跨工具部署（Windows 的 Codex／Gemini，`deploy_other_tools()`）；常駐 monitor 僅 ai-team＋明示跨機討論才開（餘靠 INDEX/TaskLog 非同步交棒）。
 
 ## 關鍵檔
 - SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`、`wtf-config/sync_config.py`、`wtf-config/projects-registry.md`（專案×機器×路徑）

@@ -30,9 +30,12 @@
 11. **Drive 協調檔同步衝突修正**：`tail -F` 常駐鎖檔（Windows 專屬）擋 Drive 同步；改 **per-machine 單寫檔**（`signals_WIN.md`／`signals_MAC.md`）＋**輪詢式 monitor**（stat 比 mtime，不鎖檔）。
 12. 知識：INDEX／lessons-learned／LESSONS 更新（含 Drive 協調、Windows 鎖檔專屬性兩條 lesson）。
 
-## 4. 未完成／待 Mac
-- Mac：`git pull` 取 `8010806`（skills）→ `sync`+`check` → 回報寫 `signals_MAC.md`。monitor `b60bhvme3` 盯回報。
-- 整個 TaskLog 待 Mac 此項確認後可結案（改 `ClosedTaskLog_` 移 archive）。
+## 4. 未完成／待 Mac（非同步，Mac 新對話自然處理；無跨機討論故無 monitor）
+- Mac：`git pull`（取最新 main）→ `python3 wtf-config/sync_config.py sync`。
+  - sync 會自動：部署 12 skills 到 `~/.claude/skills/`，**並依 `deploy_other_tools()` 自動部署到 Mac 有的 Codex／Gemini（`~/.codex/skills`、`~/.gemini/skills`，保留其 find-skills、不 prune）**。
+  - `check` 應全 OK。Mac 端記錄改採署名 `[Claude@Mac]`。
+- 跨工具 skill 部署：Windows 已完成（codex/gemini 各 12）；Mac 靠上面 sync 自動完成。
+- 整個 TaskLog 待 Mac pull＋sync 後可結案（改 `ClosedTaskLog_` 移 archive）。
 
 ## 5. 未處理（轉用戶）
 - project `.claude/settings.json` 殘留死路徑（claude-config 舊名、Mac Drive 絕對路徑、Git_foler_anti）：agent 改 settings 被 auto-mode 擋，待用戶手動清。

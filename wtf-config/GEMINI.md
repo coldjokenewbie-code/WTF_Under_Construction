@@ -15,7 +15,7 @@
 
 ## Skills 載入
 
-1. 全域 skills（真相源 `wtf-config/skills/`）
+1. 全域 skills（真相源 `wtf-config/skills/`，由 `sync_config.py sync` 實體複製到 `~/.gemini/skills/`，保留工具自有 skill）
 2. 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）
 3. 若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`，執行以下兩步驟：
    a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。

@@ -14,9 +14,9 @@
 
 ## Session 開始時執行
 
-1. 執行 `~/.codex/sync-skills.sh` — 自動將 WTF repo 新增的 skills symlink 到 `~/.codex/skills/`
+1. 全域 skills 由 `sync_config.py sync` **實體複製**到 `~/.codex/skills/`（取代舊 symlink `sync-skills.sh`；保留工具自有 skill 如 find-skills）。開場直接讀，無需手動 sync。
 2. 依序讀取：
-   - 全域 skills（真相源 `wtf-config/skills/`）
+   - 全域 skills（真相源 `wtf-config/skills/`，已部署於 `~/.codex/skills/`）
    - 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）
 3. 若專案有 `_context/MONITOR_INSTRUCTION_codex.md`，執行以下兩步驟：
    a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。
