@@ -451,64 +451,97 @@ def _todos(d, limit=8):
     return todos[:limit]
 
 
+def _md_inline(s):
+    """inline markdown → HTML：先 escape，再 **粗體**、`code`（解決 todo 文字未渲染）。"""
+    s = html.escape(s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    return s
+
+
 def cmd_dashboard():
-    """治理/可視：產 outputs/dashboard.html，彙整所有專案 現況＋git＋待辦（RWD，手機友善）。"""
+    """治理/可視：產 outputs/dashboard.html — Fire Evening 主題＋stats＋即時專案卡（待辦 markdown 渲染）。"""
     sys.stdout.reconfigure(encoding="utf-8")
     host = socket.gethostname()
     now = ts()
     dirs = registry_dirs()
-    cards = []
+    rows = []
+    n_dirty = n_todo = n_drive = 0
     for d in dirs:
         gits = _git_state(d)
         cls = ("clean" if "clean" in gits else
                "ahead" if ("ahead" in gits or "behind" in gits) else
                "nogit" if gits == "non-git" else "dirty")
+        if cls == "dirty":
+            n_dirty += 1
+        if gits == "non-git":
+            n_drive += 1
         tl = _latest_tasklog(d)
         tlname = tl.name[len("TaskLog_"):-3] if tl else "—"
         todos = _todos(d)
-        todo_html = ("".join(f"<li>{html.escape(t)}</li>" for t in todos)
+        if todos:
+            n_todo += 1
+        todo_html = ("".join(f"<li>{_md_inline(t)}</li>" for t in todos)
                      if todos else '<li class="none">（無待辦或無 TaskLog）</li>')
-        cards.append(f"""    <div class="card {cls}">
-      <h2>{html.escape(d.name)}</h2>
-      <p class="now">{html.escape(_index_now(d))}</p>
-      <div class="meta"><span class="git {cls}">{html.escape(gits)}</span>
-        <span class="tl">TaskLog: {html.escape(tlname)}</span></div>
+        rows.append(f"""    <div class="card {cls}">
+      <div class="card-h"><h2>{html.escape(d.name)}</h2>
+        <span class="git {cls}">{html.escape(gits)}</span></div>
+      <p class="now">{_md_inline(_index_now(d))}</p>
+      <div class="tl">📋 {html.escape(tlname)}</div>
       <ul class="todos">{todo_html}</ul>
     </div>""")
+    stats = [("專案", len(dirs), "blue"), ("git dirty", n_dirty, "orange"),
+             ("有待辦", n_todo, "purple"), ("Drive(非git)", n_drive, "red")]
+    stat_html = "".join(
+        f'<div class="stat {c}"><div class="sl">{l}</div><div class="sv">{v}</div></div>'
+        for l, v, c in stats)
     page = f"""<!DOCTYPE html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WTF 專案儀表板</title>
 <style>
-:root{{color-scheme:light dark}}
-*{{box-sizing:border-box}}
-body{{font-family:system-ui,"Segoe UI","Microsoft JhengHei",sans-serif;margin:0;padding:16px;
-background:#f4f5f7;color:#1a1a1a}}
-@media(prefers-color-scheme:dark){{body{{background:#16181d;color:#e6e6e6}}.card{{background:#222630!important}}}}
-header{{max-width:980px;margin:0 auto 14px}}
-h1{{font-size:1.25rem;margin:0 0 2px}}
-.sub{{color:#888;font-size:.8rem}}
-.grid{{max-width:980px;margin:0 auto;display:grid;gap:12px;
-grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}}
-.card{{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.08);
-border-left:5px solid #bbb}}
-.card.clean{{border-left-color:#2e9e5b}} .card.dirty{{border-left-color:#e0a106}}
-.card.ahead{{border-left-color:#2f7fe0}} .card.nogit{{border-left-color:#999}}
-.card h2{{font-size:1rem;margin:0 0 6px}}
-.now{{font-size:.85rem;color:#555;margin:0 0 8px;line-height:1.4}}
-@media(prefers-color-scheme:dark){{.now{{color:#aaa}}}}
-.meta{{display:flex;flex-wrap:wrap;gap:6px;font-size:.72rem;margin-bottom:8px}}
-.git{{padding:2px 7px;border-radius:99px;color:#fff;font-weight:600}}
-.git.clean{{background:#2e9e5b}} .git.dirty{{background:#e0a106}}
-.git.ahead{{background:#2f7fe0}} .git.nogit{{background:#999}}
-.tl{{padding:2px 7px;border-radius:99px;background:#eceef1;color:#444}}
-@media(prefers-color-scheme:dark){{.tl{{background:#333;color:#ccc}}}}
-.todos{{margin:0;padding-left:18px;font-size:.84rem;line-height:1.5}}
-.todos .none{{list-style:none;margin-left:-18px;color:#999}}
-</style></head><body>
-<header><h1>WTF 專案儀表板</h1>
-<div class="sub">本機 {html.escape(host)}｜{len(dirs)} 個專案｜產生 {now}</div></header>
+:root{{--blue:#4F51FE;--purple:#8C1E92;--orange:#FF4E0B;--red:#CD2019;
+--bg:#110a0d;--card:#221219;--card2:#2a1520;--border:#3d1f28;--text:#f0e6f0;--t2:#9a7d90;--t3:#6a5060}}
+@media(prefers-color-scheme:light){{:root{{--bg:#faf4f7;--card:#fff;--card2:#f5eef2;--border:#e0cdd6;--text:#1a0810;--t2:#6b4a5a;--t3:#a07888}}}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:-apple-system,"Segoe UI","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text);padding:20px 16px 48px}}
+.wrap{{max-width:1100px;margin:0 auto}}
+h1{{font-size:24px;background:linear-gradient(90deg,var(--orange),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}}
+.sub{{color:var(--t2);font-size:13px;margin:2px 0 18px}}
+.stats{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}}
+.stat{{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}}
+.sl{{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}}
+.sv{{font-size:24px;font-weight:700;margin-top:4px}}
+.stat.blue .sv{{color:var(--blue)}}.stat.orange .sv{{color:var(--orange)}}.stat.purple .sv{{color:var(--purple)}}.stat.red .sv{{color:var(--red)}}
+.grid{{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
+.card{{background:var(--card);border:1px solid var(--border);border-left:5px solid var(--t3);border-radius:14px;padding:16px 18px}}
+.card.clean{{border-left-color:var(--blue)}}.card.dirty{{border-left-color:var(--orange)}}
+.card.ahead{{border-left-color:var(--purple)}}.card.nogit{{border-left-color:var(--t3)}}
+.card-h{{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}}
+.card-h h2{{font-size:15px;font-weight:600}}
+.git{{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;color:#fff}}
+.git.clean{{background:var(--blue)}}.git.dirty{{background:var(--orange)}}.git.ahead{{background:var(--purple)}}.git.nogit{{background:var(--t3)}}
+.now{{font-size:12.5px;color:var(--t2);line-height:1.45;margin-bottom:8px}}
+.tl{{font-size:11px;color:var(--t3);margin-bottom:8px;font-family:monospace}}
+.todos{{padding-left:18px;font-size:12.5px;line-height:1.6}}
+.todos li{{margin-bottom:3px;color:var(--text)}}
+.todos .none{{list-style:none;margin-left:-18px;color:var(--t3)}}
+code{{background:var(--card2);padding:1px 5px;border-radius:4px;font-size:.92em}}
+footer{{margin-top:22px;font-size:12px;color:var(--t3)}}
+footer a{{color:var(--blue);text-decoration:none;margin-right:14px}}
+@media(max-width:720px){{.stats{{grid-template-columns:1fr 1fr}}}}
+</style></head><body><div class="wrap">
+<h1>WTF 專案儀表板</h1>
+<div class="sub">本機 {html.escape(host)}｜產生 {now}｜資料源：registry × INDEX × 最新 TaskLog × git</div>
+<div class="stats">{stat_html}</div>
 <div class="grid">
-{chr(10).join(cards)}
+{chr(10).join(rows)}
+</div>
+<footer>
+<a href="https://github.com/coldjokenewbie-code/WTF_Under_Construction">GitHub</a>
+<a href="wtf-config/GLOBAL.md">GLOBAL.md</a>
+<a href="wtf-config/projects-registry.md">registry</a>
+重生：<code>python wtf-config/sync_config.py dashboard</code>
+</footer>
 </div></body></html>"""
     out_dir = REPO_ROOT / "outputs"
     out_dir.mkdir(exist_ok=True)
