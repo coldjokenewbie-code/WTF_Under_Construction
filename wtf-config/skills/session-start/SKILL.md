@@ -12,15 +12,16 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 1. 核對全域設定
 
+0. **定位 SSOT（絕對路徑）**：讀 `~/.claude/wtf-root.txt` 取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`（hook／`sync_config.py` 寫出）。以下一律用 `<WTF_ROOT>` 組**絕對路徑**——`wtf-config` 已移出工作區，**非 WTF 專案用相對 `wtf-config/` 會抓不到**。讀不到 wtf-root.txt → 讀專案本地 `AGENTS.md`（已部署）並回報「SSOT 錨點缺失，請先跑一次 hook 或 sync」。
 1. 偵測電腦：本機（Claude Code／終端機）執行
-   `python wtf-config/sync_config.py register`
+   `python "<WTF_ROOT>/wtf-config/sync_config.py" register`
    （Cowork 沙盒內跳過 `register`，沙盒抓不到實體機名）。
 2. 設定檢查：執行
-   `python wtf-config/sync_config.py check`
+   `python "<WTF_ROOT>/wtf-config/sync_config.py" check`
    - 全 OK（hook 已同步）→ 不需動作。
    - **僅當** check 報 `STALE`／`BROKEN`／`MISSING`（hook 未生效或失敗）→ fallback 執行
-     `python wtf-config/sync_config.py sync` 修復，並回報。
-3. 載入 SSOT：讀取 `wtf-config/GLOBAL.md` 與 `wtf-config/AGENTS.md`。
+     `python "<WTF_ROOT>/wtf-config/sync_config.py" sync` 修復，並回報。
+3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
 
 ## 2. 讀取 _context 知識
 

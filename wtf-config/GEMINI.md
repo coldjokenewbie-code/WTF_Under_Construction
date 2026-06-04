@@ -4,8 +4,9 @@
 > 載入方式：`~/.gemini/GEMINI.md` 本機存放為 symlink；`~/.gemini/AGENTS.md` 為 `wtf-config/AGENTS.md` 的 symlink
 
 **【強制初始化協議】對話開始時，必須立即執行以下步驟，不得跳過：**
-1. **讀取全域原則**：立即以 `view_file` 讀取 `wtf-config/GLOBAL.md` 載入全域溝通與效益原則。
-2. **讀取 Agent 協議**：立即以 `view_file` 讀取 `wtf-config/AGENTS.md` 載入跨工具 Agent 協作與信號通訊協議。
+0. **定位 SSOT（絕對路徑）**：讀 `~/.gemini/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，**不可用相對路徑**。
+1. **讀取全域原則**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 載入全域溝通與效益原則。
+2. **讀取 Agent 協議**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/AGENTS.md` 載入跨工具 Agent 協作與信號通訊協議。
 3. **讀取專案知識與實體技能**：
    - 讀取 `_context/` 中所有 `.md` 檔案。
    - 讀取 `rules/` 中所有 `.md` 檔案（若存在）。

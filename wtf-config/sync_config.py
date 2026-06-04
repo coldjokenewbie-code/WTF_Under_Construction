@@ -171,6 +171,13 @@ def deploy_claude_dir():
     results = []
     CLAUDE_DIR.mkdir(exist_ok=True)
 
+    # 絕對路徑錨點：供 session-start／CLAUDE.md 從任何 cwd（含非 WTF 專案）定位 WTF repo 讀 SSOT
+    try:
+        (CLAUDE_DIR / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
+        results.append(f"  v 寫入 ~/.claude/wtf-root.txt（{REPO_ROOT}）")
+    except Exception as e:
+        results.append(f"  ! 略過 ~/.claude/wtf-root.txt（{e}）")
+
     if SSOT_CLAUDE.exists():
         dst = CLAUDE_DIR / "CLAUDE.md"
         if dst.is_symlink():
@@ -228,6 +235,11 @@ def deploy_other_tools():
         if not base.is_dir():
             continue  # 工具未安裝，跳過
         dst_root.mkdir(parents=True, exist_ok=True)
+        # 同寫錨點到工具 home，供該工具從任何 cwd 定位 WTF repo
+        try:
+            (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
+        except Exception:
+            pass
         ok = 0
         for skill_src in sorted(SSOT_SKILLS.iterdir()):
             if not skill_src.is_dir():
