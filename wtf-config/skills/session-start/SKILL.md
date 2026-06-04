@@ -27,7 +27,7 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 1. 根知識：讀取 `_context/about-me.md`、`_context/lessons-learned.md`。
 2. 進入專案後：讀取該專案 `_context/` 的 PRD 與 `lessons-learned.md`。
-   - 工作紀錄依 `tasklog-naming` 規則：只讀 `TaskLog_`／`Handover_`／`INDEX.md`，跳過 `ClosedTaskLog_`。
+   - 工作紀錄依 GLOBAL.md「結案歸檔」規則：只讀 `TaskLog_`／`Handover_`／`INDEX.md`，跳過 `ClosedTaskLog_`／`archive/`。
    - 先看 `INDEX.md` 掌握全貌，再按需展開個別檔案。
 
 ## 3. 讀取並套用 rules 規範

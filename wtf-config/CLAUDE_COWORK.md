@@ -7,7 +7,7 @@
 - 沙盒環境，session 結束後設定清除
 - 無 git 操作能力
 - 無法可靠讀取外部 URL（raw.githubusercontent.com 不穩定）
-- 知識需透過手動貼入或 /cowork-start skill 載入
+- 知識透過手動貼入下方「Session 開場載入指令」段
 
 ## Session 開場載入指令
 

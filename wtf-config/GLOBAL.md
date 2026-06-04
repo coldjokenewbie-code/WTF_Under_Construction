@@ -168,13 +168,14 @@
 ### 現況總覽（INDEX.md）
 - 每專案維護 `_context/INDEX.md`：當前狀態／進行中任務／最新 Handover 連結／關鍵檔位置。
 - **進場先讀 INDEX**，不必掃全部 `_context/`。
+- **鐵律：todo／進度的唯一真相源＝當前 `TaskLog_`；INDEX 只放連結與現況快照，不複製 todo 細節**（雙真相源必漂移）。進場順序：先讀 INDEX 知「現在在哪、最新 TaskLog 哪份」→ 再讀該 TaskLog 拿細節。例外：少數「待用戶拍板的決策閘」可在 INDEX 短列（非工作線 todo）。
 
 ### 結案歸檔（archive）— 加 Closed 前綴 + 移 archive（兩者都要）
 - 工作紀錄結案：`TaskLog_` → 改前綴 `ClosedTaskLog_`，**並**移入 `_context/archive/`。
 - 交接文件被讀取（=接手）或結案後：移入 `_context/archive/`（接手即完成使命，免重複讀）。
 - `_context/` 只留進行中。移檔保留歷史，不刪除。
-- AI 載入專案時：讀 `_context/TaskLog_*` 與 `lessons-learned.md`，**跳過 `archive/` 與 `ClosedTaskLog_*`**（除非使用者點名查舊紀錄）。
-- 細節見 `tasklog-naming` skill。
+- AI 載入專案時：讀 `_context/TaskLog_*`、`Handover_*`、`INDEX.md` 與 `lessons-learned.md`（lessons 永遠讀），**跳過 `archive/` 與 `ClosedTaskLog_*`**（除非使用者點名查舊紀錄）。
+- 結案狀態轉換：工作達「已交付／目標達成無後續／使用者說結案收尾」任一 → 改前綴並移 archive（一步到位）。
 
 ### 教訓兩層（lessons）
 - **工作層（即時記錄）**：根 `_context/lessons-learned.md`（跨專案／根層）＋各專案 `_context/lessons-learned.md`（專案層）。工作中隨手寫。

@@ -226,10 +226,12 @@ OTHER_TOOL_SKILL_DIRS = [Path.home() / ".codex" / "skills",
 
 def deploy_other_tools():
     """把 SSOT skills 實體複製到 codex／gemini 的 skills/（present 才做）。
-    保留工具自有 skill（如 find-skills），不做 prune（避免誤刪非 WTF skill）。"""
+    保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
+    保護工具自有 skill（symlink 如 find-skills、dotted 如 .system）。"""
     results = []
     if not SSOT_SKILLS.exists():
         return results
+    ssot_names = {s.name for s in SSOT_SKILLS.iterdir() if s.is_dir()}
     for dst_root in OTHER_TOOL_SKILL_DIRS:
         base = dst_root.parent
         if not base.is_dir():
@@ -241,15 +243,24 @@ def deploy_other_tools():
         except Exception:
             pass
         ok = 0
-        for skill_src in sorted(SSOT_SKILLS.iterdir()):
-            if not skill_src.is_dir():
-                continue
+        for name in sorted(ssot_names):
             try:
-                shutil.copytree(skill_src, dst_root / skill_src.name, dirs_exist_ok=True)
+                shutil.copytree(SSOT_SKILLS / name, dst_root / name, dirs_exist_ok=True)
                 ok += 1
             except Exception as e:
-                results.append(f"  ! 略過 {base.name}/skills/{skill_src.name}（{e}）")
-        results.append(f"  v 寫入 ~/{base.name}/skills/（{ok} 個 WTF skill；保留工具自有 skill，不 prune）")
+                results.append(f"  ! 略過 {base.name}/skills/{name}（{e}）")
+        # 保守 prune：刪 SSOT 已移除的孤兒 WTF skill。
+        # 保護工具自有 skill：dotted（.system）跳過；symlink（find-skills）由 rmtree 自身拒刪
+        # 並靜默略過（Windows MSYS symlink 之 is_symlink() 偵測不可靠，故靠 rmtree 守門）。
+        for entry in sorted(dst_root.iterdir()):
+            if (entry.is_dir() and not entry.name.startswith(".")
+                    and entry.name not in ssot_names):
+                try:
+                    shutil.rmtree(entry)
+                    results.append(f"  - 移除 {base.name}/skills/{entry.name}（SSOT 已無）")
+                except Exception:
+                    pass  # symlink 或鎖定 → 視為工具自有，保留
+        results.append(f"  v 寫入 ~/{base.name}/skills/（{ok} 個 WTF skill；保護 symlink/dotted 自有 skill）")
     return results
 
 
