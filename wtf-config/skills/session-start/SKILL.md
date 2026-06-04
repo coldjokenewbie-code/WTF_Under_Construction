@@ -35,7 +35,13 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 完成回報
 
-三步完成後回報「已載入全域設定」，附一行 check 狀態（全 OK／已 fallback sync 修復 N 項），再詢問本次任務。
+三步完成後回報「已載入全域設定」，依序帶出：
+1. **身分宣告**：`我是 {AI}@{hostname}（{OS}）、repo 在 {path}`。
+   - `{AI}`＝本工具類型（Claude／Gemini／Codex，自知）；`{hostname}`／`{OS}`／`{path}` 取自 `register`／`machines.md`／`projects-registry.md` 本機列。
+   - 目的：跨機（兩台 Claude）／跨工具協作時，一眼可知「誰在講、哪台、什麼 OS」，避免接手 agent 誤判他人作為己作。
+2. 一行 check 狀態（全 OK／已 fallback sync 修復 N 項）。
+
+再詢問本次任務。
 
 > 工作區異常處置：若 `git status` 顯示工作區有未提交變更或無法快轉，**停下通知使用者**，不擅自 merge／rebase／覆蓋（此情境 hook 也會在 pull 失敗時回報）。
 

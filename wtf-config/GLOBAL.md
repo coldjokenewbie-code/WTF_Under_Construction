@@ -157,6 +157,13 @@
 - **交接文件統一寫 `Handover`**，廢除 `Handoff`／`HANDOFF`／`handoff_prompt` 等異體。
 - 同一專案可有多版本或多份，以主題與日期區分。
 
+### 記錄署名（跨機／跨工具協作）
+- 跨機或跨工具協作產生的記錄（TaskLog、Handover、lessons、Drive 信號）—— **每段或每條帶作者 byline `[{AI}@{機器別名}]`**（如 `[Claude@Win]`、`[Claude@Mac]`、`[Gemini@Win]`、`[Codex@Mac]`）。
+- 目的：接手 agent 看 byline 即知「該段非己作、屬哪台機器／哪個工具」，**不必重讀全部去判斷歸屬**（解決「這不是我做的，重讀」的反覆）。
+- `{AI}`＝工具類型（自知）；`{機器別名}`＝ `machines.md` 的別名欄（無別名用 hostname 簡寫）。
+- Drive 即時信號沿用既有簡寫 `[WIN]`／`[MAC]` 亦可（同義），但跨工具情境一律用完整 `[{AI}@{機器}]`。
+- 單機、單一作者、不跨機的記錄免署名。
+
 ### 現況總覽（INDEX.md）
 - 每專案維護 `_context/INDEX.md`：當前狀態／進行中任務／最新 Handover 連結／關鍵檔位置。
 - **進場先讀 INDEX**，不必掃全部 `_context/`。
