@@ -46,6 +46,8 @@
 | cowork_CDIC | 2026-06-04 | 可微調文字位移用 margin 不用 transform：fill:both 進場動畫/translateY(-50%) 會壓過 inline transform | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-04 | SVG 裝飾網格灰點只能在 ≥2 線匯聚處：寫腳本點到線段距離測試驗證、新線平行既有方向、線端出血避免懸空 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-04 | File System Access 存檔報 user aborted＝取消選擇器非 bug；選同一檔允許寫入、handle 存 IndexedDB免重選 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | docx 同格雙語：deepcopy 中文段→換 w:t→addnext，保留 compress_type；⚠ 欄名可能與實際內容錯位，先看哪格有字 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | 新增同類元素避開既有編輯器固定計數(count:3)，改用獨立 class；白字配暗 text-shadow 提升淺底圖對比 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
