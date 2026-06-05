@@ -47,7 +47,11 @@
 | cowork_CDIC | 2026-06-04 | SVG 裝飾網格灰點只能在 ≥2 線匯聚處：寫腳本點到線段距離測試驗證、新線平行既有方向、線端出血避免懸空 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-04 | File System Access 存檔報 user aborted＝取消選擇器非 bug；選同一檔允許寫入、handle 存 IndexedDB免重選 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-05 | docx 同格雙語：deepcopy 中文段→換 w:t→addnext，保留 compress_type；⚠ 欄名可能與實際內容錯位，先看哪格有字 | `projects/cowork_CDIC/_context/lessons-learned.md` |
-| cowork_CDIC | 2026-06-05 | 新增同類元素避開既有編輯器固定計數(count:3)，改用獨立 class；白字配暗 text-shadow 提升淺底圖對比 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | 新增同類元素避開既有編輯器固定計數(count:3)，改用獨立 class；白字配暗 text-shadow 提升淺底圖對比 | `_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | CJK 全形字寬≈1em、拉丁數字≈0.5em，「同字級≠同寬/同視覺」；兩行等寬須反向調字級，變動字數需 JS 動態算 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | 多行區塊跨欄 baseline 對齊：兩者用相同 line-height 行框 + Range.getClientRects 量 bottom、margin-top 微調校到 0-3px | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-05 | 「留白/靠上排列」常是設計取捨非 bug，先確認再動（自作主張改 flex 撐滿被否決） | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| WTF | 2026-06-05 | Session 啟動必須強制執行 wtf-config/sync_config.py check 與標準身分宣告，不可等用戶指示 | `_context/lessons-learned.md`（WTF repo） |
 
 ---
 
