@@ -116,7 +116,7 @@
 - Claude Code：`wtf-config/CLAUDE_CODE.md`（本機路徑自動載入）
 - Antigravity / Gemini：`wtf-config/GEMINI.md`（本機路徑自動載入）
 - OpenAI Codex：`wtf-config/CODEX.md`（本機路徑自動載入）
-- Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（每次 session 手動貼入）
+- Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（Cowork 全域指令框填本檔 raw URL，每 session 自動 fetch；Cowork 已可讀外部 URL）
 - Claude Chat：`wtf-config/CLAUDE_CHAT.md`（貼入 Project instruction）
 
 ## 檔案、命名與輸出規範

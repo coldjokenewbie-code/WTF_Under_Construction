@@ -34,7 +34,7 @@
 | WTF | 2026-05-24 | 溝通原則硬限制（禁「您」、回應字數上限）有效降 token、防發散 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-05-24 | 開場「已載入設定」一個 session 只報一次，後續直接進主題 | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
 | WTF | 2026-05-24 | ⚠️已被推翻：原 symlink 去中心化方案，因 Drive 不支援跨平台 symlink 改為實體同步（見 `sync_config.py`） | `projects/WTF_Under_Construction/_context/lessons-learned.md` |
-| cowork_CDIC | 2026-05-21 | Cowork 沙盒封鎖外網，外部 URL 一律標「（未驗證）」或請使用者瀏覽器確認 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-05-21 | ⚠️已被推翻(2026-06-07)：Cowork 現可讀外部 URL（實測 fetch raw.githubusercontent 成功）→ Cowork 全域設定改填 CLAUDE_COWORK.md raw URL 自動載入，不再每次貼入 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-05-21 | 分工：Cowork 讀寫本機/批次/長流程；Claude Chat 網頁瀏覽/WebSearch，互補不互換 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-05-21 | 簡報/文件大綱先問實際過程再動筆，禁依主題名稱臆測內容 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-05-21 | PRD 與 Prompt 功能不同不重複；Prompt 只放執行端所需，細節留 PRD | `projects/cowork_CDIC/_context/lessons-learned.md` |
