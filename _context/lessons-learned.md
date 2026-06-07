@@ -1,5 +1,10 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-07 (技能載入：原生 lazy-load 已涵蓋，勿開場強制讀全部)
+
+* **別重複工具原生已做的事**：GLOBAL/AGENTS 原規定「開場 `view_file` 讀取所有啟用中 SKILL.md body、禁止僅口頭宣示」。但 Claude Code 原生已把每個 skill 的**名稱＋描述**自動列在可用清單，body 只在 `Skill` 觸發時才需讀。開場強讀全部 body＝每個 session 付一次冤枉 token，且隨 skill 增多線性惡化。**改**：開場只認自動清單＋簡述相關 skill，觸發才讀 body。寫「強制載入」類規則前先確認工具是否已原生提供，否則是疊床架屋。
+* **「數量門檻」常是錯的代理指標**：原「全域 skill >10 即提示精簡」是在補「開場讀全部」的成本洞；一旦 body 不在開場載入，**數量不再有 context 成本**，門檻失去意義。廢除數量門檻，改以「功能重疊／描述含混」為精簡準則——治本（移除成本來源）後，治標的閾值就該一併撤除，否則留著製造假警報。
+
 ## 2026-06-04 (跨工具 skill 部署：dangling symlink 盲點)
 
 * **舊架構死 symlink 會被誤當「工具自有」保留，擋住實體覆蓋**：Mac `~/.codex/skills/` 殘留 5 月舊 symlink 架構的連結，指向已不存在的 `/Users/coma/git_folder/.../claude-config/skills/`（`git_folder`→今 `Git_work`、`claude-config`→今 `wtf-config`）。`deploy_other_tools()` 的 `copytree(dirs_exist_ok=True)` 對 symlink 拋 `FileExistsError(Errno 17)` 而略過 → codex 讀到斷鏈、skill 從沒被更新（gemini 是實體目錄故正常，差異即線索）。`sync` 報「寫入 1 個」而非 10 個就是徵兆。原設計「symlink＝工具自有（find-skills）要保護」假設**沒涵蓋死連結**。**修**：複製前 `if dst.is_symlink(): dst.unlink()`——只拆與 SSOT **同名**的 symlink（find-skills 等不同名不受影響），再 copytree 寫實體。換機/復原免再手動清。已注入 dangling symlink 實測自動修復通過。

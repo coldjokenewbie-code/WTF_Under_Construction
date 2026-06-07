@@ -14,7 +14,7 @@
 
 3. **專案設定**：若有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
 4. **專案知識**：若專案根目錄有 `_context/`，讀取其中所有 `.md` 檔案；若有 `rules/`，讀取其中所有 `.md` 檔案。
-5. **實體讀取技能並簡述**：必須主動以 `view_file` 讀取所有啟用中技能（`SKILL.md`）的內容以確實完成載入，禁止僅口頭宣示；完成後簡述已啟用的 skills（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`），再詢問任務。
+5. **技能載入並簡述（lazy-load，開場不讀 body）**：工具已自動列出所有 skill 名稱＋描述於可用清單；**開場不需 `view_file` 讀取 `SKILL.md` body**，僅在實際觸發該 skill 時才讀。完成載入後簡述與本案相關的 skills（例：`[Dev_Workflow] [Quality_Guard]`），再詢問任務。
 ## 效益優先溝通原則
 
 
