@@ -11,6 +11,7 @@ sync_config.py — WTF 設定真相源同步腳本
   python sync_config.py register  偵測本機並寫入 machines.md（每台電腦首次執行）
   python sync_config.py status    彙整本機所有註冊專案的現況＋git＋最新 TaskLog（治理/可視，唯讀）
   python sync_config.py dashboard 產 outputs/dashboard.html：現況＋git＋待辦的網頁儀表板（RWD，手機友善）
+  python sync_config.py inbox-info 輸出 JSON：本機 inbox vault 路徑＋待分流「工作」開頭檔＋專案路由表（供 /inbox skill）
 
 設計備註:
   - Drive 不支援跨平台 symlink，故改用實體複製。
@@ -36,6 +37,7 @@ REPO_ROOT = SCRIPT_DIR.parent                         # WTF repo 根（已移出
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
 REGISTRY = SCRIPT_DIR / "projects-registry.md"         # 專案註冊表（取代 extra-scan-dirs.txt 與 PROJECTS_DIR 推導）
+INBOX_CONFIG = SCRIPT_DIR / "inbox-config.md"          # 語音速記 inbox 的 per-machine vault 路徑
 
 MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
@@ -74,39 +76,111 @@ def looks_like_symlink_remnant(text):
     return False
 
 
-def registry_dirs():
-    """讀 projects-registry.md，回傳本機 hostname 對應的專案目錄清單。
+def registry_rows():
+    """讀 projects-registry.md（專案為主格式），回傳本機相關的 row dict 清單。
 
-    取代舊的 PROJECTS_DIR 推導與 extra-scan-dirs.txt。
-    registry 為 markdown 表格：| project | machine (hostname) | path |
-    只取 machine == 本機 hostname、path 非佔位且實際存在的列。
+    registry 表頭：| project | github | <hostname-A> | <hostname-B> | ...
+    依本機 hostname 找對應「機器欄」，回傳 [{project, github, path}]。
+    只含 path 非佔位（非全形「（」開頭）且非空的列；不檢查目錄是否存在。
     """
     if not REGISTRY.exists():
         sys.exit(f"[錯誤] 找不到專案註冊表: {REGISTRY}")
     hostname = socket.gethostname()
-    dirs = []
+    rows = []
+    header = None
+    host_idx = None
+    gh_idx = None
     for line in REGISTRY.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line.startswith("|"):
+            continue
+        cols = [c.strip() for c in line.strip("|").split("|")]
+        if header is None:                            # 第一個表格列＝表頭
+            header = cols
+            if hostname in header:
+                host_idx = header.index(hostname)
+            if "github" in header:
+                gh_idx = header.index("github")
+            continue
+        if cols and set("".join(cols)) <= {"-", " "}:  # 分隔列 |---|
+            continue
+        if host_idx is None:                          # 本機無對應欄
+            continue
+        if len(cols) <= host_idx:
+            continue
+        project = cols[0]
+        path = cols[host_idx]
+        github = cols[gh_idx] if (gh_idx is not None and len(cols) > gh_idx) else ""
+        if not path or path.startswith("（"):          # 佔位/未部署
+            continue
+        rows.append({"project": project, "github": github, "path": path})
+    if host_idx is None:
+        print(f"  ! [WARN] registry 表頭無本機 hostname 欄: {hostname}", file=sys.stderr)
+    return rows
+
+
+def registry_dirs():
+    """回傳本機 hostname 對應、實際存在的專案目錄清單。"""
+    dirs = []
+    for row in registry_rows():
+        p = Path(row["path"])
+        if p.is_dir():
+            dirs.append(p)
+        else:
+            print(f"  ! [WARN] registry 路徑不存在，略過: {row['project']} → {row['path']}", file=sys.stderr)
+    return dirs
+
+
+def inbox_vault():
+    """讀 inbox-config.md，回傳本機 hostname 對應的 (vault_path, clippings_dir) 或 (None, None)。
+
+    表格：| machine (hostname) | vault_path | inbox 子夾 |
+    佔位（全形「（」開頭）視為未設定。
+    """
+    if not INBOX_CONFIG.exists():
+        return None, None
+    hostname = socket.gethostname()
+    for line in INBOX_CONFIG.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line.startswith("|"):
             continue
         cols = [c.strip() for c in line.strip("|").split("|")]
         if len(cols) < 3:
             continue
-        project, machine, path = cols[0], cols[1], cols[2]
-        if machine == "machine (hostname)":          # 表頭
+        machine, vault, subdir = cols[0], cols[1], cols[2]
+        if machine != hostname:
             continue
-        if set(project) <= {"-", " "}:                # 分隔列 |---|
-            continue
-        if machine != hostname:                       # 非本機
-            continue
-        if not path or path.startswith("（"):          # 佔位/未部署
-            continue
-        p = Path(path)
-        if p.is_dir():
-            dirs.append(p)
-        else:
-            print(f"  ! [WARN] registry 路徑不存在，略過: {project} → {path}", file=sys.stderr)
-    return dirs
+        if not vault or vault.startswith("（"):
+            return None, None
+        return vault, str(Path(vault) / subdir)
+    return None, None
+
+
+def cmd_inbox_info():
+    """輸出本機 inbox 分流所需資訊（JSON）：vault clippings 路徑、待分流檔、專案路由表。
+
+    供 /inbox skill 跨平台取資料（自行處理 Windows 反斜線）。
+    """
+    import json
+    vault, clippings = inbox_vault()
+    pending = []
+    if clippings and Path(clippings).is_dir():
+        for f in sorted(Path(clippings).iterdir()):
+            if f.is_file() and f.name.startswith("工作"):
+                pending.append(f.name)
+    projects = [{"project": r["project"], "path": r["path"],
+                 "github": r["github"], "has_github": not r["github"].startswith("（")}
+                for r in registry_rows()]
+    out = {
+        "hostname": socket.gethostname(),
+        "vault": vault,
+        "clippings": clippings,
+        "ingested": str(Path(vault) / "Ingested") if vault else None,
+        "pending": pending,
+        "projects": projects,
+    }
+    print(json.dumps(out, ensure_ascii=False, indent=2))
+    return 0
 
 
 def classify(target, ssot_body):
@@ -560,7 +634,7 @@ footer a{{color:var(--blue);text-decoration:none;margin-right:14px}}
 
 def main():
     cmds = {"check": cmd_check, "sync": cmd_sync, "register": cmd_register,
-            "status": cmd_status, "dashboard": cmd_dashboard}
+            "status": cmd_status, "dashboard": cmd_dashboard, "inbox-info": cmd_inbox_info}
     if len(sys.argv) < 2 or sys.argv[1] not in cmds:
         print(__doc__)
         return 2
