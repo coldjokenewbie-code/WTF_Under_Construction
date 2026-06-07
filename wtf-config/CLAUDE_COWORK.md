@@ -30,5 +30,26 @@
 - 檔名依「類型_日期_主題」，不用通用檔名。
 - 文件輸出一律 HTML（`.html`），不用 Word（`.docx`）。
 
+## 可用 Skills（需要時自行 fetch raw URL）
+
+Cowork 讀不到本機 `~/.claude/skills/`，故 skill 不會自動出現在清單。**需要某 skill 時，fetch 它的 raw URL 取得 SKILL.md 內容再依其步驟執行**。
+Base：`https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/wtf-config/skills/<name>/SKILL.md`
+
+| skill | 用途 | Cowork 適用 |
+|---|---|---|
+| `handover` | 產出 TaskLog + Handover 交接文件、交接 prompt | ✅ 純文件 |
+| `lesson-add` | 把觀察整合進設定檔、去冗餘存檔 | ✅（記錄用；push 需本機代勞） |
+| `Dev_Workflow` | 專案開發標準工作流 | ⚠️ 寫程式才用 |
+| `Quality_Guard` | 程式碼品質守門 | ⚠️ 寫程式才用 |
+| `ai-team` | 動態 Tech Lead 協作框架 | ⚠️ Cowork 當執行層時 |
+| `ui-review` | Playwright 無頭截圖驗收 | ❓ 沙盒未必有 Playwright（未驗證） |
+| `inbox` | 語音速記分流 | ❌ 需本機 Drive |
+| `merge-main` | git merge 到 main | ❌ Cowork 無 git |
+| `session-end` | 收尾 commit/merge | ❌ 含 git |
+| `session-start` | 開場載入 SSOT | ❌ Cowork 用本檔 bootstrap 代替 |
+| `skills-install` | 部署 skills 到各工具 | ❌ 本機部署用 |
+
+fetch 範例：需要交接時 → fetch `…/skills/handover/SKILL.md` 後照做。
+
 ## 模型建議
 - 展演腳本、文件類輕量任務建議切 Haiku 以節省額度。
