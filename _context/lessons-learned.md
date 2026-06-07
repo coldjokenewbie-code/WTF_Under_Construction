@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-07 (跨工具開場載入對等：per-machine 部署洞 + 各工具原生檔名)
+
+* **每個工具認自己的原生檔名，別憑同名假設**：Codex 原生開場讀 `~/.codex/AGENTS.md`，**不讀 `~/.codex/CODEX.md`**（用 `codex debug prompt-input` 實測注入內容確認）；Antigravity 讀 `~/.gemini/GEMINI.md`。WTF 早期把 SSOT 用「同名 symlink」掛上去（CODEX.md／GEMINI.md），既非工具原生入口、又因 repo 移出 Drive 而 dangling，導致 codex/gemini 開場一個月沒載入任何全域設定。**部署到工具原生會讀的檔名，並用實體副本（symlink 跨平台/搬遷必斷）**。跨工具設定前，先問該工具「你開場實際讀哪個檔」（headless 可實證），不要照 Claude 的習慣套。
+* **per-machine 部署是無聲洞，要主動驗 + 寫對機待辦**：`deploy_other_tools()` 只部署 skills，漏了全域指令檔，且 `check` 從不驗 ~/.codex、~/.gemini → 斷鏈無告警。修法：`check` 把「工具原生指令檔存在且非空」納入掃描（斷鏈/空檔即報 BROKEN/MISSING）。本機修好 ≠ 另一台修好；每次這類部署收尾必寫 Windows 待辦（見記憶 cross-system-sync-always）。
+* **三工具都有 headless CLI → ai-team 同機改 CLI 直驅**：`claude -p`／`codex exec`／`agy --print` 可同步互叫。同機協作不再需 `AGENT_SIGNAL.log`＋MONITOR 中繼（那是為無 CLI 的 GUI agent 設計）；信號檔降為跨機/GUI/持久化 fallback。headless 皆單次無狀態，多輪由 lead 每輪餵脈絡；卡住要追原因重跑、不跳過。
+
 ## 2026-06-07 (技能載入：原生 lazy-load 已涵蓋，勿開場強制讀全部)
 
 * **別重複工具原生已做的事**：GLOBAL/AGENTS 原規定「開場 `view_file` 讀取所有啟用中 SKILL.md body、禁止僅口頭宣示」。但 Claude Code 原生已把每個 skill 的**名稱＋描述**自動列在可用清單，body 只在 `Skill` 觸發時才需讀。開場強讀全部 body＝每個 session 付一次冤枉 token，且隨 skill 增多線性惡化。**改**：開場只認自動清單＋簡述相關 skill，觸發才讀 body。寫「強制載入」類規則前先確認工具是否已原生提供，否則是疊床架屋。

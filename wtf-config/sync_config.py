@@ -32,6 +32,8 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
 SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真相源
+SSOT_CODEX = SCRIPT_DIR / "CODEX.md"                   # ~/.codex/AGENTS.md 真相源（Codex 原生讀 AGENTS.md）
+SSOT_GEMINI = SCRIPT_DIR / "GEMINI.md"                 # ~/.gemini/GEMINI.md 真相源（Antigravity 原生讀 GEMINI.md）
 SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
 REPO_ROOT = SCRIPT_DIR.parent                         # WTF repo 根（已移出 Drive，供 register 記錄）
 MACHINES = SCRIPT_DIR / "machines.md"
@@ -298,29 +300,55 @@ def deploy_claude_dir():
     return results
 
 
-# 其他工具（Codex／Gemini）skills 部署目標：僅對「已安裝」工具部署
-OTHER_TOOL_SKILL_DIRS = [Path.home() / ".codex" / "skills",
-                         Path.home() / ".gemini" / "skills"]
+# 其他工具（Codex／Gemini）部署設定：僅對「已安裝」(home 存在) 工具部署。
+#   home        ：工具 home 目錄
+#   instr_src   ：全域指令檔真相源（bootstrap 檔）
+#   instr_dst   ：部署到 home 下的檔名 —— **此工具原生開場會讀的檔名**
+#                 Codex 原生讀 AGENTS.md（非 CODEX.md，codex debug prompt-input 實證）；
+#                 Antigravity 原生讀 GEMINI.md。
+#   stale       ：要清掉的舊／斷鏈檔名（多為移出 Drive 後 dangling 的 symlink）
+OTHER_TOOLS = [
+    {"home": Path.home() / ".codex",  "instr_src": SSOT_CODEX,  "instr_dst": "AGENTS.md", "stale": ["CODEX.md"]},
+    {"home": Path.home() / ".gemini", "instr_src": SSOT_GEMINI, "instr_dst": "GEMINI.md", "stale": ["AGENTS.md"]},
+]
 
 
 def deploy_other_tools():
-    """把 SSOT skills 實體複製到 codex／gemini 的 skills/（present 才做）。
-    保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
-    保護工具自有 skill（symlink 如 find-skills、dotted 如 .system）。"""
+    """把 SSOT skills + 全域指令檔實體複製到 codex／gemini（present 才做）。
+    skills 保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
+    保護工具自有 skill（symlink 如 find-skills、dotted 如 .system）。
+    全域指令檔：複製前拆同名 symlink（含斷鏈）寫實體；清掉 stale 斷鏈檔。"""
     results = []
     if not SSOT_SKILLS.exists():
         return results
     ssot_names = {s.name for s in SSOT_SKILLS.iterdir() if s.is_dir()}
-    for dst_root in OTHER_TOOL_SKILL_DIRS:
-        base = dst_root.parent
+    for tool in OTHER_TOOLS:
+        base = tool["home"]
         if not base.is_dir():
             continue  # 工具未安裝，跳過
+        dst_root = base / "skills"
         dst_root.mkdir(parents=True, exist_ok=True)
         # 同寫錨點到工具 home，供該工具從任何 cwd 定位 WTF repo
         try:
             (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
         except Exception:
             pass
+        # 全域指令檔（bootstrap）：實體複製到該工具原生會讀的檔名
+        instr_src = tool["instr_src"]
+        if instr_src.exists():
+            dst = base / tool["instr_dst"]
+            if dst.is_symlink():
+                dst.unlink()
+            shutil.copy2(instr_src, dst)
+            results.append(f"  v 寫入 ~/{base.name}/{tool['instr_dst']}（全域指令）")
+        else:
+            results.append(f"  - 略過 ~/{base.name}/{tool['instr_dst']}（真相源 {instr_src.name} 不存在）")
+        # 清掉斷鏈／舊指令檔（如移出 Drive 後 dangling 的 symlink）
+        for name in tool["stale"]:
+            p = base / name
+            if p.is_symlink():
+                p.unlink()
+                results.append(f"  - 移除斷鏈/舊檔 ~/{base.name}/{name}（symlink）")
         ok = 0
         for name in sorted(ssot_names):
             dst = dst_root / name
@@ -374,6 +402,30 @@ def cmd_check():
     for n in notes:
         print(n)
 
+    # 其他工具（Codex／Gemini）全域指令檔：驗證原生會讀的檔名存在且非空
+    other_notes = []
+    for tool in OTHER_TOOLS:
+        base = tool["home"]
+        if not base.is_dir():
+            continue
+        dst = base / tool["instr_dst"]
+        if dst.is_symlink() and not dst.exists():
+            other_notes.append(f"  x [BROKEN ] ~/{base.name}/{tool['instr_dst']} 斷鏈(dangling symlink)")
+            broken.append(f"{base.name}/{tool['instr_dst']}")
+        elif not dst.exists() or dst.stat().st_size == 0:
+            other_notes.append(f"  x [MISSING] ~/{base.name}/{tool['instr_dst']} 不存在或空檔")
+            broken.append(f"{base.name}/{tool['instr_dst']}")
+        else:
+            other_notes.append(f"  v [OK     ] ~/{base.name}/{tool['instr_dst']}（全域指令）")
+        for name in tool["stale"]:
+            p = base / name
+            if p.is_symlink():
+                other_notes.append(f"  ! [STALE  ] ~/{base.name}/{name} 殘留 symlink（sync 會清）")
+    if other_notes:
+        print("\n--- 其他工具（Codex／Gemini）全域指令 ---")
+        for n in other_notes:
+            print(n)
+
     print("\n--- 統計 ---")
     for k, v in sorted(counts.items()):
         print(f"  {k}: {v}")
@@ -423,7 +475,7 @@ def cmd_sync():
 
     other = deploy_other_tools()
     if other:
-        print("\n--- 其他工具（Codex／Gemini）skills 部署 ---")
+        print("\n--- 其他工具（Codex／Gemini）全域指令＋skills 部署 ---")
         for r in other:
             print(r)
     return 0

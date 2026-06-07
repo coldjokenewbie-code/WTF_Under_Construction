@@ -13,6 +13,7 @@
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
 | WTF | 2026-06-07 | 技能載入：原生已自動列 skill 名稱+描述、body 觸發才讀；開場強讀全部 SKILL.md 是疊床架屋→廢除；「>10 數量門檻」隨成本消失一併撤，改以功能重疊為精簡準則 | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-07 | 跨工具：各工具認自己原生檔名（Codex 讀 ~/.codex/AGENTS.md 非 CODEX.md，實證）、用實體副本非 symlink；per-machine 部署洞要 check 驗+寫對機待辦；三工具都有 headless CLI(claude -p/codex exec/agy --print)→ai-team 同機改 CLI 直驅、信號檔降 fallback | `_context/lessons-learned.md`（WTF repo） |
 | 根 | 2026-05-03 | 七步驟工作流步驟4「執行不打擾」：卡關寫 `_blocker_*.md` 跳過，不中途問頁數/換工具 | `_context/lessons-learned.md` |
 | 根 | 2026-05-03 | docx 註腳用 Word 頁尾 footnote，多次引用各生獨立 footnote，直改 `footnotes.xml` | `_context/lessons-learned.md` |
 | WTF | 2026-06-03 | 整個 repo 移出雲端硬碟＞只 split 子目錄；前提變了（用戶已整包移出）就重評方案、別照交接照單執行 | `_context/lessons-learned.md`（WTF repo） |
