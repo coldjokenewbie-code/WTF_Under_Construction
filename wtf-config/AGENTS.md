@@ -7,9 +7,9 @@
 每次 session 開始，依序執行：
 
 1. **專案層 skills**（優先）：
-   - 統一以 `._agents/skills/` 作為工具中立的實體專案技能目錄。
-   - Claude Code 透過軟連結（symlink）將 `.claude/skills/` 指向 `._agents/skills/`。
-   - 若專案存在同名 skill，**必須使用專案版本，忽略全域同名路徑**。
+   - **統一放 `._agents/skills/`**（工具中立的實體專案技能目錄）。所有工具（Claude／Codex／Antigravity）一律到此找專案 skill。
+   - 原生自動清單只涵蓋全域 `~/.<tool>/skills/`，**不含 `._agents/skills/`**；故進專案時**主動列 `._agents/skills/` 各 `SKILL.md` 的名稱＋描述**（lazy，不讀 body），觸發才讀。**廢除舊 symlink 機制**（Drive 跨平台會斷鏈）。
+   - 若專案存在同名 skill，**必須用專案版本，忽略全域同名**。
 2. **全域 skills**（Fallback）：專案層沒有的 skill，才從全域路徑載入（真相源 `wtf-config/skills/`，部署後在 `~/.claude/skills/`）。
 
 3. **專案設定**：若有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。

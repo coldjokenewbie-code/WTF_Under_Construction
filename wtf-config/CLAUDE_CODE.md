@@ -22,7 +22,7 @@
 
 ## Trigger B — 現有專案（後續 session）
 
-1. 重新載入 `~/.claude/skills/`（或 `.claude/skills/`，優先用專案層級）。若未找到，詢問處理方式。
+1. 重新載入 `~/.claude/skills/`（全域，原生自動列）。**專案 skill 一律放專案內 `._agents/skills/`**——原生清單不含此目錄，進專案時主動列其 SKILL.md 名稱＋描述（lazy）；優先於全域同名。若未找到，詢問處理方式。
 2. 簡述啟用規則（例：`[Dev_Workflow 啟用中] [Quality_Guard 啟用中]`）。
 3. 詢問目前任務或目標。
 

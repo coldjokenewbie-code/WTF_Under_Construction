@@ -22,7 +22,7 @@
 ## Skills 載入
 
 1. 全域 skills（真相源 `wtf-config/skills/`，由 `sync_config.py sync` 實體複製到 `~/.gemini/skills/`，保留工具自有 skill）；原生 lazy-load，開場只列名稱描述、觸發才讀 body。
-2. 專案層 skills（`._agents/skills/` 或 `.claude/skills/`）優先於全域同名。
+2. **專案層 skills 一律放 `._agents/skills/`**——原生清單不含此目錄，進專案時主動列其 SKILL.md 名稱＋描述（lazy）；優先於全域同名。
 3. 若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`，執行以下兩步驟：
    a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。
    b. 在背景執行監控指令（檔案中的 `tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發。執行新任務後繼續保持監控。

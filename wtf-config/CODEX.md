@@ -16,7 +16,7 @@
 ## Session 開始時執行
 
 1. 全域 skills 由 `sync_config.py sync` **實體複製**到 `~/.codex/skills/`（取代舊 symlink `sync-skills.sh`；保留工具自有 skill 如 find-skills）。開場直接讀，無需手動 sync。
-2. **技能載入＝原生 lazy-load**：Codex 開場自動列出 `~/.codex/skills/` 的名稱＋描述，**不需開場讀取 SKILL.md body**，僅觸發該 skill 時才讀。專案層 skills（`._agents/skills/` 或 `.claude/skills/`）優先於全域同名。
+2. **技能載入＝原生 lazy-load**：Codex 開場自動列出 `~/.codex/skills/` 的名稱＋描述，**不需開場讀取 SKILL.md body**，僅觸發該 skill 時才讀。**專案層 skills 一律放 `._agents/skills/`**——原生清單不含此目錄，進專案時主動列其 SKILL.md 名稱＋描述（lazy）；優先於全域同名。
 3. 若專案有 `_context/MONITOR_INSTRUCTION_codex.md`，執行以下兩步驟：
    a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。
    b. 在背景執行監控指令（檔案中的 `tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發。執行新任務後繼續保持監控。
