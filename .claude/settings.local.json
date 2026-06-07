@@ -64,14 +64,33 @@
       "Bash([ -f \"$f\" ])",
       "Read(//c/Program Files \\(x86\\)/Microsoft/Edge/Application/**)",
       "Read(//c/Program Files/Microsoft/Edge/Application/**)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(P1=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案\" *)",
+      "Bash(mv /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/我的雲端硬碟/ObsidianCJN/Clippings/工作修正出勤專案的儀表板.md /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/我的雲端硬碟/ObsidianCJN/Ingested/)",
+      "Bash(mv '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/我的雲端硬碟/ObsidianCJN/Clippings/工作檔案 Assembly print interactive machine 獨立工廠互動機具設計裡面要加設計教具設計教案加入導覽App.md' /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/我的雲端硬碟/ObsidianCJN/Ingested/)",
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案 add _context/INBOX.md)",
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案 commit -m 'inbox: 收錄語音速記 1 筆')",
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine add _context/INBOX.md)",
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine commit -m 'inbox: 收錄語音速記 1 筆')",
+      "Bash(kill 29707)",
+      "Bash(pkill -f \"agy --print\")",
+      "Bash(agy --print '第2輪跨工具收斂（繁中、精簡條列、只檢視不改檔，直接回答勿過度探索）。 *)",
+      "Bash(agy --print '第3輪最終簽核（繁中，極簡，只回 YES/NO+最後遺漏一句，勿過度探索）。 *)",
+      "Bash(python3 sync_config.py sync)",
+      "Bash(python3 sync_config.py check)",
+      "Bash(sed -n '/其他工具/,/統計/p')",
+      "Bash(echo \"exit=$?\")",
+      "Bash(echo \"check 總 exit=$?\")",
+      "Bash(agy --print \"極簡回答（勿過度探索）。檢視你 ~/.gemini/GEMINI.md 全域指令：\\(1\\)【強制初始化協議】要你先讀哪個檔定位 WTF repo？\\(2\\) 接著 view_file 讀哪兩個 SSOT 檔名？\\(3\\) 技能載入是用原生 lazy-load 還是開場讀全部 SKILL.md body？三點各一句。\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
       "C:\\Users\\2025.DESKTOP-7SF21LR\\.claude\\skills",
       "C:\\Users\\user\\Documents\\GitHub_place\\WTF_Under_Construction\\.claude\\skills\\auto-approve",
       "/Users/coma/wtf",
-      "E:\\Claude_cowork\\projects\\Git_work_agents\\WTFrepo"
+      "E:\\Claude_cowork\\projects\\Git_work_agents\\WTFrepo",
+      "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案/_context",
+      "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine/_context"
     ]
   }
 }

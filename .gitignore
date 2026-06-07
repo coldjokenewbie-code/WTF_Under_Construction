@@ -1,3 +1,5 @@
 _screenshots/
 /AGENTS.md
 outputs/dashboard.html
+.DS_Store
+.antigravitycli/
