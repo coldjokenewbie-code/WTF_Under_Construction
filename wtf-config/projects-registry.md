@@ -19,7 +19,7 @@
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/Git_work/Planner2Line | E:\Git_work\Planner2Line |
 | Remotion_fun | https://github.com/coldjokenewbie-code/Remotion_fun.git | /Users/coma/Git_work/Remotion_fun | E:\Git_work\Remotion_fun |
 | claude_CDIC_O4 | https://github.com/coldjokenewbie-code/claude_CDIC_O4.git | /Users/coma/Git_work/claude_CDIC_O4 | E:\Git_work\claude_CDIC_O4 |
-| Aseembly_Plant | （待確認：此鏡像無 .git，大檔不入 git） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant | E:\Claude_cowork\projects\Aseembly_Plant |
+| Aseembly_Plant_Interactive_machine | （待確認：此鏡像無 .git，大檔不入 git） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine | E:\Claude_cowork\projects\Aseembly_Plant_Interactive_machine |
 | HsinchuScienceEducationCenter | git@github.com:coldjokenewbie-code/HsinchuScienceEducationCenter.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter | E:\Claude_cowork\projects\HsinchuScienceEducationCenter |
 | cowork_CDIC | https://github.com/coldjokenewbie-code/cowork_CDIC.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC | E:\Claude_cowork\projects\cowork_CDIC |
 | 出勤專案 | （待確認：此鏡像無 .git，大檔不入 git） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案 | E:\Claude_cowork\projects\出勤專案 |

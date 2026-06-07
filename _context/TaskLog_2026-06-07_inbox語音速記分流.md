@@ -26,12 +26,12 @@
 > claude@windows 下次開場讀到此段即執行。完成後回寫本段打勾。
 
 - [ ] **補 Windows vault 路徑**：在 `wtf-config/inbox-config.md` 把 `DESKTOP-7SF21LR` 列的 `vault_path` 由佔位改為實際 My Drive 掛載點（如 `G:\我的雲端硬碟\ObsidianCJN`，請實查磁碟機代號）。改完跑 `python sync_config.py inbox-info` 確認 vault 非 null。
-- [ ] **確認 3 專案 github**（Mac 鏡像無 .git，可能 Windows 端才有）：Aseembly_Plant、出勤專案、南科再生水廠。各跑 `git -C "E:\Claude_cowork\projects\<專案>" remote get-url origin`，有就把 registry github 欄佔位換成實際 URL；確無 git 則註明。
+- [ ] **確認 3 專案 github**（Mac 鏡像無 .git，可能 Windows 端才有）：Aseembly_Plant_Interactive_machine、出勤專案、南科再生水廠。各跑 `git -C "E:\Claude_cowork\projects\<專案>" remote get-url origin`，有就把 registry github 欄佔位換成實際 URL；確無 git 則註明。
 
 ## 4. 待用戶（找時間補）
 
 - 3 專案 github URL（同上，若 Windows 端也無，需用戶決定是否建 repo）。
-- Aseembly_Plant、出勤專案、南科再生水廠 在 has_github=false 期間，`/inbox` 不分流到它們（會列「待補 github」跳過）。
+- Aseembly_Plant_Interactive_machine、出勤專案、南科再生水廠 在 has_github=false 期間，`/inbox` 不分流到它們（會列「待補 github」跳過）。
 
 ## 5. 注意
 
