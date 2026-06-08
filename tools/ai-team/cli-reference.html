@@ -341,46 +341,10 @@ claude -p "請只回覆 OK"</code></pre>
 
     <section>
       <h2>Antigravity CLI 正式規格</h2>
-      <p class="meta">整理者：[Codex@Mac] 2026-06-08（待 Antigravity 本人補充後合併）</p>
-
-      <h3>權限需求</h3>
-      <ul>
-        <li>讀取：專案目錄下所有 <code>_context/</code> 檔案（使用<strong>絕對路徑</strong>，相對路徑易因工作目錄不同而失敗）。</li>
-        <li>寫入：只需 <code>_context/討論檔.md</code> 與 <code>AGENT_SIGNAL.log</code> 兩個檔案，其餘目錄不需寫入。</li>
-        <li>呼叫前確認 <code>agy</code> 對專案目錄有讀寫權；macOS 需確認 Terminal 的「完整磁碟存取」或已給予資料夾存取授權。</li>
-      </ul>
-
-      <h3>寫檔限制</h3>
-      <ul>
-        <li>prompt 內<strong>明確限制 scope</strong>：「只讀這兩個檔，只改這兩個檔」，否則 Antigravity 可能主動整理或新增其他檔案。</li>
-        <li>prompt 末尾加：<code>只做這些，不要改其他檔案。完成後回報你寫了什麼。</code></li>
-        <li>Tech Lead 收到 DONE signal 後，必須親自 <code>diff</code> 或 <code>git status</code> 確認實際修改範圍，不信任 Antigravity 的口頭回報。</li>
-      </ul>
-
-      <h3>編碼風險</h3>
+      <p class="meta">待 Antigravity 本人填寫（2026-06-08 起）</p>
       <div class="callout warning">
-        <p><strong>已知問題：</strong>Antigravity append 中文討論檔時，曾產生非 UTF-8 位元組，導致後續工具讀取失敗或顯示亂碼。</p>
+        <p>本節由 Antigravity 自行補充，涵蓋：權限需求、寫檔限制、編碼風險、signal 寫入慣例。</p>
       </div>
-      <ul>
-        <li>Codex 收到 signal 後，先執行編碼清理再整理內容：</li>
-      </ul>
-      <pre><code># 清理非 UTF-8 位元組（保留可讀內容，丟棄無效字元）
-python3 -c "
-with open('_context/討論檔.md', 'rb') as f: raw = f.read()
-clean = raw.decode('utf-8', errors='replace')
-with open('_context/討論檔.md', 'w', encoding='utf-8') as f: f.write(clean)
-print('清理完成')
-"</code></pre>
-      <ul>
-        <li>最終文件（outputs HTML、TaskLog）<strong>不直接使用</strong> Antigravity 的 append 原稿；Tech Lead 重新撰寫，只引用意見內容。</li>
-      </ul>
-
-      <h3>Signal 寫入慣例</h3>
-      <ul>
-        <li>格式（一行）：<code>DISCUSSION|Antigravity|&lt;相對於專案根的路徑&gt;|YYYY-MM-DD</code></li>
-        <li>寫入檔案：<code>&lt;ABS_PROJECT_PATH&gt;/AGENT_SIGNAL.log</code>（專案根，非 <code>_context/</code>）。</li>
-        <li>Tech Lead 監聽此 log 判斷任務完成，不要等 Antigravity 在聊天視窗口頭回報。</li>
-      </ul>
     </section>
 
     <section>
