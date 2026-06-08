@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-08 (互動 HTML 產出物自驗：全域 playwright + file:// 中文檔名)
+
+* **互動 HTML 交付前用 playwright 自驗、不靠肉眼**：產出帶 JS 互動（tab 切換、判斷器、複製鈕）的 HTML，落地前跑 headless 煙霧測試——掛 `pageerror`／`console error` listener 抓 JS 錯，再 `click` 幾個互動點斷言 class/文字變化（如判斷器走指定分支驗結論）。比只截一張圖更能抓到「畫面對但互動壞」。截圖驗完即刪（放 `workingfiles/_screenshots/`）。
+* **專案沒裝 playwright 時走全域絕對路徑 require**：本機 playwright 是 `npm -g`（`~/AppData/Roaming/npm/node_modules/playwright`），專案 `node_modules` 沒有 → `require('playwright')` 失敗；改 `require('C:/.../npm/node_modules/playwright')` 絕對路徑即可，不必在專案 `npm i`。chromium 已在 `~/AppData/Local/ms-playwright`。
+* **`file://` 開中文檔名要先 URL-encode**：`file:///E:/.../ai-team-協作說明.html` 直接丟 `page.goto` 在 Windows 會找不到；中文片段需 `encodeURIComponent`（空格→`%20`、中文→百分比碼）才載得到。
+
 ## 2026-06-08 (ai-team cli-reference 分段 + sync gap + agent 規格禁推測)
 
 * **ai-team cli-reference 應按角色分段，各 agent 只讀自己那段**：多 agent 共用的技術文件改為三段（Codex TL / Antigravity TL / Claude TL），共用概念獨立一節；每個 agent 進場只讀自己的段落，降低 context 耗費與認知負載。同樣原則適用任何 multi-agent 操作手冊。

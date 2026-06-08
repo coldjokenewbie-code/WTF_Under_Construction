@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-06-08 | 互動 HTML 交付前用 headless playwright 自驗（掛 pageerror/console listener+click 斷言互動），抓「畫面對但互動壞」；專案沒裝 playwright 走全域絕對路徑 require；file:// 開中文檔名先 URL-encode | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | ai-team cli-reference 按角色分段：各 agent 只讀自己那段（Codex TL/Antigravity TL/Claude TL），共用概念獨立一節，降低 context 耗費 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | sync_config.py deploy_other_tools() 只清 symlink、不清實體舊檔；換機/重裝後 stale 實體舊檔需手動清（已知 gap，待修）| `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | 禁止推測填入未實測的 agent CLI 規格（呼應誠實告知）：規格必須由當事 agent 實測或自報後再落檔，他方推測會把自己行為誤當對方的 | `_context/lessons-learned.md`（WTF repo） |

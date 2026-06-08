@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Team 三方協作 — 設計與實作說明</title>
+<style>
+  :root{
+    --ink:#1f2937; --muted:#667085; --line:#d0d7de; --paper:#fff; --soft:#f6f8fa;
+    --bg:#eef2f7; --accent:#0f766e; --accent-soft:#e6f4f1;
+    --warn:#9a3412; --warn-soft:#fff7ed; --code:#111827; --ok:#15803d; --ok-soft:#ecfdf3;
+    --codex:#1e40af; --codex-soft:#eff6ff;
+    --agy:#6d28d9; --agy-soft:#f5f3ff;
+    --claude:#0f766e; --claude-soft:#e6f4f1;
+    --lead:#b45309; --lead-soft:#fffbeb;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.7}
+
+  /* sticky nav */
+  nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line)}
+  nav .wrap{width:min(1120px,calc(100% - 32px));margin:0 auto;display:flex;gap:6px;flex-wrap:wrap;
+    align-items:center;padding:10px 0}
+  nav .brand{font-weight:800;font-size:15px;margin-right:8px}
+  nav a{padding:6px 13px;border-radius:20px;font-size:13.5px;font-weight:600;text-decoration:none;
+    color:var(--muted);transition:.15s}
+  nav a:hover{background:var(--soft);color:var(--ink)}
+
+  main{width:min(1120px,calc(100% - 32px));margin:26px auto 64px}
+  header.hero{background:linear-gradient(160deg,#ffffff 0%,#f3f7fb 100%);
+    border:1px solid var(--line);border-radius:14px;padding:38px 40px;margin-bottom:24px;
+    box-shadow:0 18px 45px rgba(15,23,42,.07)}
+  header.hero h1{margin:0 0 10px;font-size:31px;line-height:1.25}
+  header.hero p.lede{font-size:17px;color:#374151;margin:0 0 4px;max-width:760px}
+  .meta{color:var(--muted);font-size:13.5px}
+
+  section.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:30px 36px;margin-bottom:22px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+  h2{font-size:23px;margin:0 0 6px;line-height:1.3}
+  h2 .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;
+    background:var(--accent);color:#fff;font-size:15px;margin-right:10px;vertical-align:2px}
+  .sub{color:var(--muted);margin:0 0 18px;font-size:15px}
+  h3{font-size:17px;margin:24px 0 8px}
+  p{margin:0 0 12px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  .role{border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:var(--soft)}
+  .role.lead{border-left:5px solid var(--lead);background:var(--lead-soft)}
+  .role.exec{border-left:5px solid #64748b;background:#f8fafc}
+  .role h4{margin:0 0 8px;font-size:16px}
+  .role ul{margin:6px 0 0;padding-left:20px}
+  .role li{margin:5px 0;font-size:14.5px}
+
+  .pill{display:inline-block;padding:3px 11px;border-radius:20px;font-size:12.5px;font-weight:700;letter-spacing:.02em}
+  .p-codex{background:var(--codex-soft);color:var(--codex)}
+  .p-agy{background:var(--agy-soft);color:var(--agy)}
+  .p-claude{background:var(--claude-soft);color:var(--claude)}
+  .p-lead{background:var(--lead-soft);color:var(--lead)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-weight:650}
+  td.y{color:var(--ok);font-weight:700;white-space:nowrap}
+  td.n{color:var(--lead);font-weight:700;white-space:nowrap}
+
+  .callout{padding:14px 16px;border:1px solid #a7d7ce;border-left:5px solid var(--accent);
+    border-radius:10px;background:var(--accent-soft);margin:14px 0}
+  .callout.warn{border-color:#fed7aa;border-left-color:var(--warn);background:var(--warn-soft)}
+  .callout.ok{border-color:#bbf7d0;border-left-color:var(--ok);background:var(--ok-soft)}
+  .callout p{margin:0}
+
+  code{color:var(--code);background:#eef2f7;padding:2px 6px;border-radius:5px;
+    font-family:"SFMono-Regular",Consolas,monospace;font-size:.9em}
+
+  .codeblock{position:relative;margin:12px 0 18px}
+  pre{margin:0;padding:15px 16px;overflow-x:auto;color:#f1f5f9;background:var(--code);
+    border-radius:10px;font-size:13.5px;line-height:1.6}
+  pre code{color:inherit;background:transparent;padding:0;font-size:inherit}
+  .copybtn{position:absolute;top:9px;right:9px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;
+    font-size:12px;font-weight:600;padding:4px 11px;border-radius:7px;cursor:pointer;transition:.15s}
+  .copybtn:hover{background:#334155;color:#fff}
+  .copybtn.done{background:var(--ok);border-color:var(--ok);color:#fff}
+
+  /* flow */
+  .flow{display:flex;flex-direction:column;gap:0;margin:8px 0}
+  .step{display:flex;gap:14px;align-items:flex-start;padding:14px 0;position:relative}
+  .step:not(:last-child)::before{content:"";position:absolute;left:17px;top:42px;bottom:-14px;width:2px;background:var(--line)}
+  .step .dot{flex:0 0 36px;height:36px;border-radius:50%;display:grid;place-items:center;
+    background:var(--accent);color:#fff;font-weight:700;font-size:15px;z-index:1}
+  .step .body{flex:1}
+  .step .body b{font-size:15.5px}
+  .step .body p{margin:3px 0 0;font-size:14.5px;color:#475569}
+  .step.alt .dot{background:var(--lead)}
+
+  /* role picker */
+  .picker{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}
+  .picker button{padding:10px 18px;border-radius:11px;border:2px solid var(--line);background:#fff;
+    cursor:pointer;font-size:15px;font-weight:700;transition:.15s;color:var(--muted)}
+  .picker button:hover{border-color:#94a3b8}
+  .picker button.active.b-codex{border-color:var(--codex);background:var(--codex-soft);color:var(--codex)}
+  .picker button.active.b-agy{border-color:var(--agy);background:var(--agy-soft);color:var(--agy)}
+  .picker button.active.b-claude{border-color:var(--claude);background:var(--claude-soft);color:var(--claude)}
+  .role-panel{display:none}
+  .role-panel.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* triage tool */
+  .triage{border:1px solid var(--line);border-radius:12px;padding:22px 24px;background:var(--soft)}
+  .q{font-size:16px;font-weight:650;margin-bottom:14px}
+  .q .qn{color:var(--accent);font-weight:800;margin-right:6px}
+  .choices{display:flex;gap:10px;flex-wrap:wrap}
+  .choices button{flex:1;min-width:130px;padding:12px;border-radius:10px;border:2px solid var(--line);
+    background:#fff;cursor:pointer;font-size:15px;font-weight:600;transition:.15s}
+  .choices button:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .verdict{margin-top:18px;padding:18px 20px;border-radius:11px;display:none}
+  .verdict.show{display:block;animation:fade .25s}
+  .verdict.lead{background:var(--lead-soft);border:1px solid #fcd34d}
+  .verdict.exec{background:var(--ok-soft);border:1px solid #bbf7d0}
+  .verdict h4{margin:0 0 6px;font-size:18px}
+  .verdict p{margin:0 0 4px;font-size:14.5px}
+  .restart{margin-top:12px;background:none;border:none;color:var(--accent);cursor:pointer;
+    font-size:14px;font-weight:600;text-decoration:underline;padding:0}
+  .pbar{height:6px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .pbar>i{display:block;height:100%;background:var(--accent);width:0;transition:.3s}
+
+  /* collapsible */
+  details.mat{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+  details.mat>summary{cursor:pointer;padding:16px 20px;font-weight:700;font-size:16px;list-style:none;
+    display:flex;align-items:center;gap:10px;background:var(--soft)}
+  details.mat>summary::-webkit-details-marker{display:none}
+  details.mat>summary .chev{margin-left:auto;transition:.2s;color:var(--muted)}
+  details.mat[open]>summary .chev{transform:rotate(90deg)}
+  details.mat>summary .tag{font-size:12px;font-weight:600;color:var(--muted);background:#fff;
+    border:1px solid var(--line);padding:2px 9px;border-radius:20px}
+  .mat-body{padding:6px 22px 20px}
+
+  ul.clean{padding-left:20px}
+  ul.clean li{margin:6px 0}
+  .why{background:var(--accent-soft);border-radius:8px;padding:3px 9px;font-size:13px;font-weight:600;color:var(--accent)}
+
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:10px 0 0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">🤝 AI Team</span>
+    <a href="#concept">設計概念</a>
+    <a href="#how">執行方式</a>
+    <a href="#when">適用場景</a>
+    <a href="#triage">任務判斷器</a>
+    <a href="#material">素材＋快速測試</a>
+  </div>
+</nav>
+
+<main>
+
+  <header class="hero">
+    <h1>AI Team — 三方 AI 協作框架</h1>
+    <p class="lede">讓 <strong>Claude</strong>、<strong>Codex</strong>、<strong>Antigravity</strong> 三個 AI 工具在同一個專案上分工協作：一個當「指揮」，其餘當「執行」，可即時互相呼叫、派工、驗收。本頁說明它的設計概念、怎麼跑、什麼時候用，並附上可直接複製測試的素材。</p>
+    <p class="meta">產出：Claude@DESKTOP-7SF21LR · 2026-06-08 · 來源：WTF <code>ai-team</code> skill ＋ <code>tools/ai-team/cli-reference.html</code>（出勤專案實測）</p>
+  </header>
+
+  <!-- 一句話 -->
+  <section class="card">
+    <h2><span class="num">★</span>一句話總結</h2>
+    <p class="sub">給沒時間看完的人</p>
+    <p style="font-size:17px">三個 AI 各有專長且<strong>都有命令列（headless CLI）</strong>，所以可以在同一台機器上由其中一個當 <span class="pill p-lead">Tech Lead（指揮層）</span>，用一行指令直接呼叫另外兩個當 <span class="pill" style="background:#f1f5f9;color:#475569">Execution（執行層）</span>，把「討論 → 派工 → 收回 → 驗收」串成一條流水線。<strong>誰當指揮是動態指派的</strong>，依當下哪個工具最適合決定。</p>
+    <div class="callout">
+      <p>💡 核心價值：<strong>單一 AI 的盲點由另一個 AI 補</strong>。指揮層掌控「做什麼、為什麼」與最終品質；執行層只在明確 scope 內做「怎麼做」，不亂發揮。</p>
+    </div>
+  </section>
+
+  <!-- 1. 設計概念 -->
+  <section class="card" id="concept">
+    <h2><span class="num">1</span>設計概念</h2>
+    <p class="sub">兩個角色層 ＋ 動態指派</p>
+
+    <div class="grid2">
+      <div class="role lead">
+        <h4>🎯 Tech Lead（指揮層 / Orchestrator）</h4>
+        <p style="font-size:14px;margin:0 0 6px;color:#78350f">決定「做什麼、為什麼」，對最終品質負責。</p>
+        <ul>
+          <li>需求分析、評估影響範圍、決定執行路徑</li>
+          <li>撰寫 <code>AGENT_SPEC</code>（任務規格）派工</li>
+          <li>架構 / 資料 / 跨檔 / 診斷類<strong>自己做</strong></li>
+          <li>收回執行層成果後做<strong>驗收審查</strong></li>
+        </ul>
+      </div>
+      <div class="role exec">
+        <h4>🔧 Execution Agent（執行層）</h4>
+        <p style="font-size:14px;margin:0 0 6px;color:#475569">在指揮給定的 scope 內做「怎麼做」。</p>
+        <ul>
+          <li>嚴格依 spec 執行，<strong>不超出 scope</strong></li>
+          <li>純視覺 / 單一元件 / 有參照可複製的任務</li>
+          <li>不做架構判斷；<strong>有疑問擱置回報，不自己猜</strong></li>
+          <li>填充指揮提供的資料，不自行發明 pattern</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>動態指派：誰當指揮不是固定的</h3>
+    <p>預設 Tech Lead 是<strong>使用者本人</strong>。也可在對話開頭一句話指派某個 AI：例如「<code>指派 Codex 擔任 Tech Lead</code>」。被指派者升為指揮，其餘兩個（含原本的 Claude）<strong>降為執行層</strong>。三者完全對稱——任何一個都能當指揮、驅動另外兩個。</p>
+
+    <div class="grid3">
+      <div class="role"><h4><span class="pill p-claude">Claude</span></h4><p style="font-size:13.5px;margin:0;color:#475569">codebase 推理、跨檔重構、文件產出。Claude Code 本身就是 headless CLI。</p></div>
+      <div class="role"><h4><span class="pill p-codex">Codex</span></h4><p style="font-size:13.5px;margin:0;color:#475569">沙盒執行、嚴謹步驟拆解。<code>codex exec</code> 驅動。</p></div>
+      <div class="role"><h4><span class="pill p-agy">Antigravity</span></h4><p style="font-size:13.5px;margin:0;color:#475569">視覺實作、IDE 整合。<code>agy --print</code> 驅動。</p></div>
+    </div>
+
+    <h3>三條設計原則（為什麼這樣設計）</h3>
+    <ul class="clean">
+      <li><b>權責分離降低出錯</b> — <span class="why">理由</span> 單一 AI 既決策又實作，容易 scope 蔓延、順手亂改。把「決策／品質」收在指揮層，「實作」限制在執行層的明確 scope，錯誤可隔離。</li>
+      <li><b>規格驅動，不靠口頭</b> — <span class="why">理由</span> 派工用書面 <code>AGENT_SPEC</code>（任務、scope、禁止清單、參照），執行層照規格做。避免「猜名稱、改錯主題、發明新樣式」這類實戰踩過的坑。</li>
+      <li><b>禁止推測別人的行為</b> — <span class="why">理由</span> 各 AI 的 CLI 規格（登入、寫檔限制、signal 慣例）必須由<strong>當事 AI 實測</strong>後才落檔，不得他方推測補充，否則會把自己的習慣當成對方的。</li>
+    </ul>
+  </section>
+
+  <!-- 2. 執行方式 -->
+  <section class="card" id="how">
+    <h2><span class="num">2</span>執行方式</h2>
+    <p class="sub">同機優先「CLI 直驅」；跨機 / GUI 才用「信號檔」</p>
+
+    <h3>通道 A：headless CLI 直驅（同一台機器，首選）</h3>
+    <p>三個工具都有命令列模式。指揮層直接用一行 Bash 同步呼叫另外兩個、即時拿回答，<strong>不需</strong>中繼檔、不需常駐監聽。</p>
+    <table>
+      <thead><tr><th>工具</th><th>headless 指令</th><th>關鍵陷阱</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill p-claude">Claude</span></td><td><code>claude -p "&lt;prompt&gt;"</code></td><td>prompt 別要求它讀寫檔，只要求輸出文字，否則卡住</td></tr>
+        <tr><td><span class="pill p-codex">Codex</span></td><td><code>codex exec "&lt;prompt&gt;" &lt; /dev/null</code></td><td>少了 <code>&lt; /dev/null</code> 會等 stdin 卡死</td></tr>
+        <tr><td><span class="pill p-agy">Antigravity</span></td><td><code>agy --print "&lt;prompt&gt;"</code></td><td>寫檔權限彈窗會卡；加 <code>--dangerously-skip-permissions</code></td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><p>⚠️ 三者 headless 都是<strong>單次無狀態</strong>（每次新 session）。多輪討論要由指揮每次把脈絡重新餵進 prompt。卡住超過 ~90 秒：砍程序、縮短 prompt、重跑——不要無限等也不要跳過。</p></div>
+
+    <h3>通道 B：信號檔（跨機 Windows↔Mac / GUI 模式 / 需持久化）</h3>
+    <p>當 Bash 叫不到對方的 CLI（不同電腦、或對方在 IDE 互動跑），改用專案根目錄的 <code>AGENT_SIGNAL.log</code> 當訊息板：指揮寫 <code>REQUEST</code>，執行層做完寫 <code>DONE</code>，指揮的 monitor 偵測到就接手驗收。</p>
+    <table>
+      <thead><tr><th>事件</th><th>信號格式</th></tr></thead>
+      <tbody>
+        <tr><td>派工</td><td><code>REQUEST|&lt;AgentID&gt;|&lt;spec_path&gt;|&lt;Timestamp&gt;</code></td></tr>
+        <tr><td>討論完成</td><td><code>DISCUSSION|&lt;AgentID&gt;|&lt;路徑&gt;|&lt;日期&gt;</code></td></tr>
+        <tr><td>任務完成</td><td><code>DONE|&lt;AgentID&gt;|&lt;修改的主檔&gt;|&lt;Timestamp&gt;</code></td></tr>
+        <tr><td>驗收結果</td><td><code>VERIFIED|&lt;AgentID&gt;|PASS 或 FAIL|&lt;Timestamp&gt;</code></td></tr>
+        <tr><td>有疑問</td><td><code>QUESTION|&lt;AgentID&gt;|&lt;任務&gt;|&lt;問題&gt;|&lt;Timestamp&gt;</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>完整任務生命週期</h3>
+    <div class="flow">
+      <div class="step"><div class="dot">1</div><div class="body"><b>PO（使用者）下需求</b><p>指派或預設 Tech Lead。</p></div></div>
+      <div class="step"><div class="dot">2</div><div class="body"><b>Tech Lead 需求分析</b><p>釐清 what &amp; why、評估影響範圍、決定執行路徑。</p></div></div>
+      <div class="step alt"><div class="dot">3a</div><div class="body"><b>分支 A：指揮自己做</b><p>架構 / 資料 / 跨檔（&gt;3 檔）/ 診斷類——不下放。</p></div></div>
+      <div class="step"><div class="dot">3b</div><div class="body"><b>分支 B：下派執行層</b><p>純視覺 / 單一元件 / 有明確參照 → 撰寫 <code>AGENT_SPEC</code> → 派發（CLI 直呼或寫 REQUEST 信號）。</p></div></div>
+      <div class="step"><div class="dot">4</div><div class="body"><b>執行層執行</b><p>在 scope 內完成；有疑問擱置回報，不自決。完成回傳 handoff report / 寫 DONE。</p></div></div>
+      <div class="step"><div class="dot">5</div><div class="body"><b>Tech Lead 驗收審查</b><p>檢查：diff 只動 scope 內檔案？有無引入新設計語言？編譯通過？</p></div></div>
+      <div class="step"><div class="dot">✓</div><div class="body"><b>PASS → commit 並通知 PO ／ FAIL → 退回或指揮接手修正</b></div></div>
+    </div>
+
+    <h3 id="picker-h">依「誰當指揮」看實際指令</h3>
+    <p class="sub" style="margin-bottom:10px">點選誰是 Tech Lead，下方顯示它驅動另外兩個的實測指令（出勤專案 2026-06-08）。</p>
+    <div class="picker">
+      <button class="b-codex" data-role="codex" onclick="pickRole('codex')">Codex 當指揮</button>
+      <button class="b-agy" data-role="agy" onclick="pickRole('agy')">Antigravity 當指揮</button>
+      <button class="b-claude active" data-role="claude" onclick="pickRole('claude')">Claude 當指揮</button>
+    </div>
+
+    <div class="role-panel" id="rp-codex">
+      <div class="callout ok"><p>✅ 出勤專案實測通過。</p></div>
+      <div class="grid2">
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-claude">呼叫 Claude</span></h4>
+          <div class="codeblock"><pre><code>claude -p "$(cat /tmp/claude_prompt.txt)"</code></pre></div>
+          <p style="font-size:13.5px;color:#475569">沙盒內若 <code>Not logged in</code>：使用者 Terminal 跑 <code>claude /login</code>，再沙盒外核准執行一次。禁止 prompt 要求 Claude 讀寫檔。</p>
+        </div>
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-agy">呼叫 Antigravity</span></h4>
+          <div class="codeblock"><pre><code>agy --print "$(cat /tmp/agy_prompt.txt)"</code></pre></div>
+          <p style="font-size:13.5px;color:#475569">可讓它直接 append 指定檔，但 prompt 內務必<strong>明確限制 scope</strong>。中文檔曾出現非 UTF-8 位元組，收回後先跑清理腳本。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="rp-agy">
+      <div class="callout ok"><p>✅ 出勤專案實測通過。</p></div>
+      <div class="grid2">
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-claude">呼叫 Claude</span></h4>
+          <div class="codeblock"><pre><code>claude -p "&lt;prompt&gt;" &lt; /dev/null</code></pre></div>
+          <p style="font-size:13.5px;color:#475569"><code>&lt; /dev/null</code> 防 stdin 阻塞。只要求輸出文字。</p>
+        </div>
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-codex">呼叫 Codex</span></h4>
+          <div class="codeblock"><pre><code>codex exec "&lt;prompt&gt;" &lt; /dev/null</code></pre></div>
+          <p style="font-size:13.5px;color:#475569"><code>&lt; /dev/null</code> 必加，否則卡在 <code>Reading additional input from stdin...</code>。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel show" id="rp-claude">
+      <div class="callout"><p>ℹ️ Claude 當指揮尚未完整實測，以下為依其他 agent 實測的預期做法，使用前先驗證。</p></div>
+      <div class="grid2">
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-agy">呼叫 Antigravity</span></h4>
+          <div class="codeblock"><pre><code>agy -p "&lt;prompt&gt;"</code></pre></div>
+          <p style="font-size:13.5px;color:#475569">權限彈窗加 <code>--dangerously-skip-permissions</code>。只要求輸出文字，Claude 統一落檔。</p>
+        </div>
+        <div>
+          <h4 style="margin:6px 0"><span class="pill p-codex">呼叫 Codex</span></h4>
+          <div class="codeblock"><pre><code>codex exec "&lt;prompt&gt;" &lt; /dev/null</code></pre></div>
+          <p style="font-size:13.5px;color:#475569"><code>&lt; /dev/null</code> 必加防 stdin 阻塞。Claude Code 透過 Bash tool 呼叫即可。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 適用場景 -->
+  <section class="card" id="when">
+    <h2><span class="num">3</span>適用場景與理由</h2>
+    <p class="sub">什麼時候該下派、什麼時候指揮自己做</p>
+
+    <h3>分工矩陣</h3>
+    <table>
+      <thead><tr><th>任務類型</th><th>誰做</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>架構決策（資料結構、路由、型別）</td><td class="n">指揮</td><td>影響全局，不可下放</td></tr>
+        <tr><td><code>types.ts</code> / 介面定義</td><td class="n">指揮</td><td>牽一髮動全身</td></tr>
+        <tr><td>資料檔案 <code>data/*.ts</code></td><td class="n">指揮</td><td>需領域知識驗證，下放會猜錯內容</td></tr>
+        <tr><td>跨多檔邏輯修改（&gt;3 檔）</td><td class="n">指揮</td><td>執行層缺乏全局上下文</td></tr>
+        <tr><td>Bug 診斷</td><td class="n">指揮</td><td>需讀懂根因，不只症狀</td></tr>
+        <tr><td>config / CLAUDE.md / AGENT_SPEC</td><td class="n">指揮</td><td>定義執行層邊界，不可讓它自訂</td></tr>
+        <tr><td>單一元件 CSS / 視覺實作</td><td class="y">執行層</td><td>範圍明確，影響可隔離</td></tr>
+        <tr><td>新頁面範本（遵循既有 pattern）</td><td class="y">執行層</td><td>有參照，複製延伸即可</td></tr>
+        <tr><td>純 HTML/CSS 靜態頁</td><td class="y">執行層</td><td>無跨檔邏輯</td></tr>
+        <tr><td>把指揮給的資料填進 UI</td><td class="y">執行層</td><td>資料已由指揮確認，只負責呈現</td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="role" style="border-left:5px solid var(--ok)">
+        <h4>👍 適合用 AI Team 的場景</h4>
+        <ul>
+          <li>任務可切成「決策」＋「明確 scope 實作」兩段</li>
+          <li>有多個視覺元件 / 頁面可平行下派</li>
+          <li>想要第二個 AI 對方案提意見（討論收斂）</li>
+          <li>需要互相驗收、降低單一 AI 盲點</li>
+        </ul>
+      </div>
+      <div class="role" style="border-left:5px solid var(--lead)">
+        <h4>👎 不適合 / 沒必要的場景</h4>
+        <ul>
+          <li>小改動、單檔、自己幾分鐘搞定——派工開銷更大</li>
+          <li>需要深度業務邏輯、整體上下文才能做對</li>
+          <li>探索性除錯（scope 一直變，無法寫死 spec）</li>
+          <li>純跨機非同步交棒：更新 INDEX/TaskLog 即可，<strong>不必</strong>開常駐 monitor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><p>原則：<strong>猶豫時，預設由指揮自己做</strong>。下派的前提是 scope 能寫清楚、有參照可複製。</p></div>
+  </section>
+
+  <!-- 4. 互動判斷器 -->
+  <section class="card" id="triage">
+    <h2><span class="num">4</span>任務判斷器</h2>
+    <p class="sub">回答幾個問題，告訴你這個任務該指揮自己做、還是下派執行層</p>
+    <div class="triage">
+      <div class="pbar"><i id="pbar"></i></div>
+      <div id="qbox">
+        <div class="q"><span class="qn" id="qn">Q1</span><span id="qtext">這個任務需要讀懂業務邏輯 / 領域知識才能做對嗎？</span></div>
+        <div class="choices">
+          <button onclick="answer(true)">是</button>
+          <button onclick="answer(false)">否</button>
+        </div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+  </section>
+
+  <!-- 5. 素材 -->
+  <section class="card" id="material">
+    <h2><span class="num">5</span>素材：讓你快速測試協作</h2>
+    <p class="sub">展開即可複製。同事可拿這些直接在自己的專案跑一次三方協作。</p>
+
+    <h3>① 5 分鐘快速測試（同機，CLI 直驅）</h3>
+    <p>前提：本機已安裝並登入 <code>claude</code>、<code>codex</code>、<code>agy</code> 三個 CLI 其中至少兩個。以下示範你（或 Claude）當指揮，呼叫另外兩個對同一問題給意見：</p>
+    <div class="codeblock"><pre><code># 1) 呼叫 Codex 給意見（注意結尾 < /dev/null）
+codex exec "用繁體中文，針對『要不要把設定檔從 JSON 改成 YAML』給三點建議，只輸出文字不要讀寫檔" < /dev/null
+
+# 2) 呼叫 Antigravity 給意見
+agy --print "用繁體中文，針對同一主題給三點建議，只輸出文字"
+
+# 3) 你（指揮）彙整兩邊意見，做決定、落檔</code></pre></div>
+    <div class="callout"><p>測試重點：感受「指揮收集多方意見 → 自己拍板」的流程。卡住就照上面「執行方式」的陷阱欄排查（多半是少了 <code>&lt; /dev/null</code> 或要求了讀寫檔）。</p></div>
+
+    <h3>② 派工 prompt 範本（呼叫執行層做事）</h3>
+    <div class="codeblock"><pre><code>你是 Antigravity，被納入一個 ai-team 協作，Tech Lead 是我。
+請依序：
+1. 讀任務規格：&lt;ABS_PATH&gt;/_context/AGENT_SPEC_xxx.md
+2. 在 scope 內完成實作（只改 spec 列出的檔案，不改其他）
+3. 完成後在 &lt;ABS_PATH&gt;/AGENT_SIGNAL.log append：
+   DONE|Antigravity|&lt;你改的主檔&gt;|&lt;時間戳&gt;
+有疑問不要自己決定，列在回報的「待確認」區塊。
+只做這些，完成後回報你改了什麼。</code></pre></div>
+
+    <h3>② 討論 prompt 範本（只要意見、不動檔）</h3>
+    <div class="codeblock"><pre><code>請用繁體中文台灣用語，針對 &lt;任務主題&gt; 給 Tech Lead 意見。
+背景：
+- &lt;環境 / 資料來源 / 架構&gt;
+卡關：
+- &lt;卡關點&gt;
+請只輸出四段：## Recommendation / ## Detailed Steps / ## Risks / ## Validation
+不要讀寫檔。</code></pre></div>
+
+    <h3>③ AGENT_SPEC 任務規格範本</h3>
+    <p>指揮派工給執行層時填這份。<strong>「禁止修改」清單是關鍵</strong>——少了它，執行層容易 scope 蔓延。</p>
+    <div class="codeblock"><pre><code># AGENT_SPEC — [任務名稱]
+> 建立者：Tech Lead ｜ 執行者：[Antigravity / Codex]
+
+## 任務說明
+[1-2 句說做什麼，不說為什麼]
+
+## Scope（只動這些檔案）
+- `components/XxxComponent.tsx`
+- `components/XxxComponent.css`
+
+## 禁止修改
+- types.ts 或任何型別定義
+- data/*.ts 資料檔
+- CSS 變數（--color-* 等）
+- 路由 / config / CLAUDE.md / settings.json
+- Scope 以外的所有檔案
+
+## 設計系統約束
+- 背景色：[#xxxxxx]　強調色：[#xxxxxx]
+- 字型：[主字型] / [mono 字型]
+- Panel 樣式：參照 .[class-name]
+
+## 參照元件（「看這個來做」，別自行發明 pattern）
+- 結構參照：components/ExistingComponent.tsx
+- 樣式參照：index.css 的 .glass-panel
+
+## 預期產出
+- [ ] [功能 / 視覺條件 1]
+- [ ] [功能 / 視覺條件 2]
+- [ ] 編譯無錯誤　- [ ] 無修改 scope 外檔案
+
+## 有疑問時
+不要自行決定，列在回報「待確認」區塊，由 Tech Lead 決定。</code></pre></div>
+
+    <h3>④ 完成回報範本（執行層交回指揮）</h3>
+    <div class="codeblock"><pre><code>## 完成回報
+### 修改的檔案
+- components/XxxComponent.tsx（修改）
+
+### 做了什麼
+[不超過 5 行]
+
+### 驗證狀態
+- [x] 編譯 / 語法檢查通過
+- [x] 視覺符合預期產出清單
+
+### 待確認（需 Tech Lead 決定）
+1. [疑問]
+
+### 已知限制
+- [限制]</code></pre></div>
+
+    <h3>⑤ 完整文件素材（WTF repo 內）</h3>
+    <details class="mat">
+      <summary>📦 ai-team skill 與範本檔位置 <span class="tag">複製路徑</span><span class="chev">›</span></summary>
+      <div class="mat-body">
+        <ul class="clean">
+          <li><b>skill 主檔</b>：<code>wtf-config/skills/ai-team/SKILL.md</code> — 啟動時機、協作通道、角色、生命週期、驗收</li>
+          <li><b>分工定義範本</b>：<code>wtf-config/skills/ai-team/AI_TEAM_DIVISION_TEMPLATE.md</code> — 分工矩陣、授權邊界、常見踩坑</li>
+          <li><b>工作流範本</b>：<code>wtf-config/skills/ai-team/AI_TEAM_WORKFLOW_TEMPLATE.md</code> — 生命週期、handoff 格式</li>
+          <li><b>任務規格範本</b>：<code>wtf-config/skills/ai-team/AGENT_SPEC_TEMPLATE.md</code> — 上方範本③的原檔</li>
+          <li><b>CLI 實測手冊</b>：<code>tools/ai-team/cli-reference.html</code> — 三 agent 各自當指揮的實測指令、stdin 陷阱、卡住處理</li>
+        </ul>
+        <div class="callout"><p>啟動方式：在 Claude Code 對話輸入 <code>/ai-team</code> 載入 skill，或開頭一句「<code>指派 [AgentName] 擔任 Tech Lead</code>」指派指揮。</p></div>
+      </div>
+    </details>
+
+    <details class="mat">
+      <summary>⚠️ 常見踩坑（實戰教訓）<span class="tag">先看少踩雷</span><span class="chev">›</span></summary>
+      <div class="mat-body">
+        <table>
+          <thead><tr><th>問題</th><th>根因</th><th>對策</th></tr></thead>
+          <tbody>
+            <tr><td>執行層擅自改回舊主題 / 樣式</td><td>spec 只說要做什麼，沒列禁止事項</td><td>AGENT_SPEC 必有「禁止修改」清單</td></tr>
+            <tr><td>資料內容錯誤（猜測名稱）</td><td>資料任務下放給執行層</td><td>資料類一律指揮完成或提供完整清單</td></tr>
+            <tr><td>Scope 蔓延（順手調別處）</td><td>缺明確檔案邊界</td><td>spec 明列「本次只動這些檔」</td></tr>
+            <tr><td>Codex 卡死在 stdin</td><td>少了 <code>&lt; /dev/null</code></td><td>呼叫 codex 一律補上</td></tr>
+            <tr><td>中文檔出現亂碼</td><td>Antigravity append 產生非 UTF-8 位元組</td><td>收回後跑 UTF-8 清理腳本再用</td></tr>
+            <tr><td>headless 多輪「忘記」前文</td><td>單次無狀態，每次新 session</td><td>指揮每輪把脈絡重新餵進 prompt</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <footer>WTF · ai-team 協作說明 · 互動頁可離線開啟</footer>
+</main>
+
+<script>
+  // ── copy buttons ──
+  document.querySelectorAll('.codeblock').forEach(function(cb){
+    var btn=document.createElement('button');
+    btn.className='copybtn';btn.textContent='複製';
+    btn.onclick=function(){
+      var t=cb.querySelector('code').innerText;
+      navigator.clipboard.writeText(t).then(function(){
+        btn.textContent='已複製 ✓';btn.classList.add('done');
+        setTimeout(function(){btn.textContent='複製';btn.classList.remove('done');},1500);
+      });
+    };
+    cb.appendChild(btn);
+  });
+
+  // ── role picker ──
+  function pickRole(r){
+    document.querySelectorAll('.picker button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.role===r);
+    });
+    document.querySelectorAll('.role-panel').forEach(function(p){p.classList.remove('show');});
+    document.getElementById('rp-'+r).classList.add('show');
+  }
+
+  // ── triage tool ──
+  var QS=[
+    {t:"這個任務需要讀懂業務邏輯 / 領域知識才能做對嗎？", yes:'lead'},
+    {t:"會改到型別定義（types.ts）或資料檔（data/*.ts）嗎？", yes:'lead'},
+    {t:"會影響超過 3 個檔案嗎？", yes:'lead'},
+    {t:"是純視覺 / 單一元件，而且有明確參照可以複製嗎？", yes:'exec', no:'lead'}
+  ];
+  var qi=0;
+  function setProg(){document.getElementById('pbar').style.width=(qi/QS.length*100)+'%';}
+  function showQ(){
+    var q=QS[qi];
+    document.getElementById('qn').textContent='Q'+(qi+1);
+    document.getElementById('qtext').textContent=q.t;
+    document.getElementById('qbox').style.display='block';
+    document.getElementById('verdict').classList.remove('show');
+    setProg();
+  }
+  function answer(yes){
+    var q=QS[qi];
+    if(yes && q.yes==='lead'){return finish('lead');}
+    if(yes && q.yes==='exec'){return finish('exec');}
+    if(!yes && q.no==='lead'){return finish('lead');}
+    qi++;
+    if(qi>=QS.length){return finish('lead');}
+    showQ();
+  }
+  function finish(kind){
+    qi=QS.length;setProg();
+    document.getElementById('qbox').style.display='none';
+    var v=document.getElementById('verdict');
+    v.className='verdict show '+kind;
+    if(kind==='lead'){
+      v.innerHTML='<h4>🎯 由 Tech Lead（指揮層）自己做</h4>'+
+        '<p>這個任務涉及領域知識、型別/資料、跨檔或缺乏明確參照——下放給執行層容易出錯或 scope 蔓延。</p>'+
+        '<p>指揮直接執行，或先呼叫另一個 AI 討論收斂後再做。</p>'+
+        '<button class="restart" onclick="restart()">↻ 再測一次</button>';
+    }else{
+      v.innerHTML='<h4>🔧 可以下派 Execution Agent（執行層）</h4>'+
+        '<p>範圍明確、影響可隔離、有參照可複製——適合寫一份 AGENT_SPEC 下派。</p>'+
+        '<p>記得在 spec 補「禁止修改」清單與「參照元件」，避免亂發揮。範本見下方素材③。</p>'+
+        '<button class="restart" onclick="restart()">↻ 再測一次</button>';
+    }
+  }
+  function restart(){qi=0;showQ();}
+  setProg();
+</script>
+</body>
+</html>
