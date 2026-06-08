@@ -25,7 +25,7 @@
 
 > claude@windows 下次開場讀到此段即執行。完成後回寫本段打勾。
 
-- [ ] **補 Windows vault 路徑**：在 `wtf-config/inbox-config.md` 把 `DESKTOP-7SF21LR` 列的 `vault_path` 由佔位改為實際 My Drive 掛載點（如 `G:\我的雲端硬碟\ObsidianCJN`，請實查磁碟機代號）。改完跑 `python sync_config.py inbox-info` 確認 vault 非 null。
+- [x] **補 Windows vault 路徑**（2026-06-07 [Claude@Win]）：用戶提供 `E:\CJN_drive\我的雲端硬碟\ObsidianCJN`，已填入 inbox-config.md DESKTOP 列；`inbox-info` 驗證 vault/clippings/ingested 解析成功、11 專案路由表完整、pending 空。**兩機 vault 路徑齊備，`/inbox` 可雙機跑。**
 - [x] **確認 3 專案 github**（2026-06-07 用戶已補，registry 已填）：Aseembly_Plant_Interactive_machine、出勤專案（repo `attendance-dashboard`）、南科再生水廠（repo `S-reclaimed-water-plant`）。**11 專案全有 github，`/inbox` 可分流到全部。**
 
 ## 4. 待用戶（找時間補）

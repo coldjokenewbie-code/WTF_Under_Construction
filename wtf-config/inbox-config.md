@@ -9,7 +9,7 @@
 | machine (hostname) | vault_path | inbox 子夾 |
 |---|---|---|
 | comaMacBookAir.local | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/我的雲端硬碟/ObsidianCJN | Clippings |
-| DESKTOP-7SF21LR | （待補：Windows My Drive 掛載點，如 `G:\我的雲端硬碟\ObsidianCJN`） | Clippings |
+| DESKTOP-7SF21LR | E:\CJN_drive\我的雲端硬碟\ObsidianCJN | Clippings |
 
 ## 分流規則
 
