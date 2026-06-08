@@ -59,6 +59,8 @@
 | cowork_CDIC | 2026-06-05 | 多行區塊跨欄 baseline 對齊：兩者用相同 line-height 行框 + Range.getClientRects 量 bottom、margin-top 微調校到 0-3px | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-05 | 「留白/靠上排列」常是設計取捨非 bug，先確認再動（自作主張改 flex 撐滿被否決） | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | WTF | 2026-06-05 | Session 啟動必須強制執行 wtf-config/sync_config.py check 與標準身分宣告，不可等用戶指示 | `_context/lessons-learned.md`（WTF repo） |
+| cowork_CDIC | 2026-06-08 | getBoundingClientRect 量容器寬≠文字寬；文字寬用 Range.getClientRects；scale stage 在 2160px viewport(scale=1) 量消除縮放干擾；CJK 差掃每 2px 找精確 letter-spacing | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-08 | CSS transform:scale 子元素 hit area 膨脹→pointer-events:none；雙向動畫：index 減小加 backward class 切反向 keyframe，isWrapForward 排除末→首循環邊界 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
