@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-08 (Nightly routine 雲端跨 repo 掃描：靠 trigger 預掛載，不能 clone)
+
+* **雲端 routine 掃多 repo 只能靠 trigger 預掛載，不能 `git clone`**：雲端 ephemeral container 直連 github.com 無憑證（git 認證走 local proxy、無 `GITHUB_TOKEN`），`git clone https://github.com/...` 必失敗（實測 `could not read Username`）。可掃的 repo＝已在 trigger「Repositories」欄掛載、由環境**預先 clone 到 `/home/user/<repo>`** 的那些；對它們只能 `git -C pull/log`。v2.0 一度把 v1.0 的「靠預掛載」改成「從 registry 動態 clone」，反而比 v1.0 掃得更少（clone 全失敗、只剩 WTF 自己）——**動態 clone 是對雲端無效的死碼，真正開關是 trigger 掛載清單**。registry 增刪 repo 後必須回 trigger UI（CLI `/schedule update` 對話式可改 repo、無 flag 式批次）同步重掛，否則靜默漏掉。
+* **「實證能跑」要先釐清靠的是哪個機制再下結論**：v1.0 能掃他 repo 不是因為 clone 成功，而是它**從不 clone**、直接讀 trigger 預掛載的目錄。只看 prompt 文字會把「致命」歸錯因；對照 trigger 設定（掛載 repo 清單）＋實測 clone 才看清真正機制。
+* **雲端 routine 時區用 `TZ='Asia/Taipei'` 定義「今日」**：container 預設 UTC，`date +%Y-%m-%d` 與 `git log --since` 會把台灣晚間（UTC+8）的 commit 切到不同 UTC 日 → 漏抓/誤抓。掃描與 commit 步驟前 `export TZ='Asia/Taipei'`、`git log` 加 `--date=local`。
+* **`git log --oneline` 與 `--format` 並用，前者被覆蓋**：`--oneline`=`--pretty=oneline --abbrev-commit`，後接 `--format` 會勝出使 `--oneline` 失效（不報錯、語意混亂）。要自訂格式就只留 `--format`。
+
 ## 2026-06-07 (跨工具開場載入對等：per-machine 部署洞 + 各工具原生檔名)
 
 * **每個工具認自己的原生檔名，別憑同名假設**：Codex 原生開場讀 `~/.codex/AGENTS.md`，**不讀 `~/.codex/CODEX.md`**（用 `codex debug prompt-input` 實測注入內容確認）；Antigravity 讀 `~/.gemini/GEMINI.md`。WTF 早期把 SSOT 用「同名 symlink」掛上去（CODEX.md／GEMINI.md），既非工具原生入口、又因 repo 移出 Drive 而 dangling，導致 codex/gemini 開場一個月沒載入任何全域設定。**部署到工具原生會讀的檔名，並用實體副本（symlink 跨平台/搬遷必斷）**。跨工具設定前，先問該工具「你開場實際讀哪個檔」（headless 可實證），不要照 Claude 的習慣套。
