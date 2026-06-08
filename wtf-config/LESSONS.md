@@ -12,6 +12,9 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-06-08 | ai-team cli-reference 按角色分段：各 agent 只讀自己那段（Codex TL/Antigravity TL/Claude TL），共用概念獨立一節，降低 context 耗費 | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-08 | sync_config.py deploy_other_tools() 只清 symlink、不清實體舊檔；換機/重裝後 stale 實體舊檔需手動清（已知 gap，待修）| `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-08 | 禁止推測填入未實測的 agent CLI 規格（呼應誠實告知）：規格必須由當事 agent 實測或自報後再落檔，他方推測會把自己行為誤當對方的 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | 雲端 routine 掃多 repo 只能靠 trigger 預掛載（直連 github 無憑證、clone 必敗）；registry 增刪要回 /schedule update 同步掛載；TZ=Asia/Taipei 定義「今日」避免 UTC 切日 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-07 | 技能載入：原生已自動列 skill 名稱+描述、body 觸發才讀；開場強讀全部 SKILL.md 是疊床架屋→廢除；「>10 數量門檻」隨成本消失一併撤，改以功能重疊為精簡準則 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-07 | 跨工具：各工具認自己原生檔名（Codex 讀 ~/.codex/AGENTS.md 非 CODEX.md，實證）、用實體副本非 symlink；per-machine 部署洞要 check 驗+寫對機待辦；三工具都有 headless CLI(claude -p/codex exec/agy --print)→ai-team 同機改 CLI 直驅、信號檔降 fallback | `_context/lessons-learned.md`（WTF repo） |

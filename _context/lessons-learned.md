@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-06-08 (ai-team cli-reference 分段 + sync gap + agent 規格禁推測)
+
+* **ai-team cli-reference 應按角色分段，各 agent 只讀自己那段**：多 agent 共用的技術文件改為三段（Codex TL / Antigravity TL / Claude TL），共用概念獨立一節；每個 agent 進場只讀自己的段落，降低 context 耗費與認知負載。同樣原則適用任何 multi-agent 操作手冊。
+* **`sync_config.py deploy_other_tools()` 只清 symlink、不清實體舊檔**：換機或工具重裝後，`~/.gemini/AGENTS.md` 等實體舊檔以 stale 版本殘留，`deploy` 不會覆蓋；需手動清除後再跑 sync（已知 gap，待修 `deploy_other_tools` 邏輯，改為：同名實體舊檔先 `unlink` 再複製）。
+* **禁止推測填入未實測的 agent CLI 規格**：另一 agent 的行為規格（指令格式、寫檔限制、信號慣例）必須由**當事 agent 實測或自報後再落檔**，不得由他方推測補充（推測結果會把自己的行為當成對方的）。呼應「誠實告知」但在 ai-team 中需明訂。
+
 ## 2026-06-08 (Nightly routine 雲端跨 repo 掃描：靠 trigger 預掛載，不能 clone)
 
 * **雲端 routine 掃多 repo 只能靠 trigger 預掛載，不能 `git clone`**：雲端 ephemeral container 直連 github.com 無憑證（git 認證走 local proxy、無 `GITHUB_TOKEN`），`git clone https://github.com/...` 必失敗（實測 `could not read Username`）。可掃的 repo＝已在 trigger「Repositories」欄掛載、由環境**預先 clone 到 `/home/user/<repo>`** 的那些；對它們只能 `git -C pull/log`。v2.0 一度把 v1.0 的「靠預掛載」改成「從 registry 動態 clone」，反而比 v1.0 掃得更少（clone 全失敗、只剩 WTF 自己）——**動態 clone 是對雲端無效的死碼，真正開關是 trigger 掛載清單**。registry 增刪 repo 後必須回 trigger UI（CLI `/schedule update` 對話式可改 repo、無 flag 式批次）同步重掛，否則靜默漏掉。
