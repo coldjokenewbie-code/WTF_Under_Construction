@@ -12,16 +12,27 @@
 
 ---
 
-## 1. Git Log 掃描（5 個現役 GitHub repo）
+## 1. Git Log 掃描（從 `projects-registry.md` 動態取全部 github repo）
+
+**不要硬編 repo 清單**——一律從 `wtf-config/projects-registry.md` 的 `github` 欄取（新增專案免改本檔）。雲端先 clone WTF 取得 registry，再逐 repo clone/pull＋掃今日 commit：
 
 ```
 TODAY=$(date +%Y-%m-%d)
-for repo in WTF_Under_Construction Assembly_Plant_Mobile_Guide Planner2Line Remotion_fun claude_CDIC_O4; do
-  echo "### $repo"
-  git -C /home/user/$repo log --oneline --since="$TODAY 00:00" --format="%h %ai %s" 2>/dev/null
-done
+cd /home/user
+REG=/home/user/WTF_Under_Construction/wtf-config/projects-registry.md
+# 解析表格：col1=project、col2=github；跳過表頭/分隔/未確認「（」開頭；git@ 轉 https 供雲端 token 認證
+grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
+ | awk -F'|' 'NR>2 && $2 ~ /github/ && $2 !~ /^（/ {print $1"\t"$2}' \
+ | while IFS=$'\t' read -r project url; do
+     url=$(echo "$url" | sed 's|git@github.com:|https://github.com/|')
+     dir=$(basename "$url" .git)
+     if [ -d "/home/user/$dir/.git" ]; then git -C "/home/user/$dir" pull -q 2>/dev/null
+     else git clone -q "$url" "/home/user/$dir" 2>/dev/null; fi
+     echo "### $project ($dir)"
+     git -C "/home/user/$dir" log --oneline --since="$TODAY 00:00" --format="%h %ai %s" 2>/dev/null || echo "  （clone/pull 失敗或今日無活動）"
+   done
 ```
-整理各 repo 今日提交清單（無提交者標「今日無活動」）。
+整理各 repo 今日提交清單（無提交者標「今日無活動」；clone 失敗者標「無法存取」）。目前 registry 含 11 專案，全有 github。
 
 ---
 
