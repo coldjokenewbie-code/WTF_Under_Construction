@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Team CLI 協作流程參考</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d7de;
+      --paper: #ffffff;
+      --soft: #f6f8fa;
+      --accent: #0f766e;
+      --accent-soft: #e6f4f1;
+      --warn: #9a3412;
+      --warn-soft: #fff7ed;
+      --code: #111827;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #edf2f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      line-height: 1.65;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    header, section {
+      padding: 28px 36px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child { border-bottom: 0; }
+
+    header {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: 1.3;
+    }
+
+    h1 { font-size: 30px; margin-bottom: 8px; }
+    h2 { font-size: 22px; margin-bottom: 14px; }
+    h3 { font-size: 17px; margin: 22px 0 8px; }
+
+    p { margin: 0 0 12px; }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .callout {
+      padding: 14px 16px;
+      border: 1px solid #a7d7ce;
+      border-left: 5px solid var(--accent);
+      border-radius: 8px;
+      background: var(--accent-soft);
+      margin: 12px 0;
+    }
+
+    .warning {
+      border-color: #fed7aa;
+      border-left-color: var(--warn);
+      background: var(--warn-soft);
+    }
+
+    ol, ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li { margin: 7px 0; }
+
+    code {
+      color: var(--code);
+      background: #eef2f7;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 12px 0 18px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      color: #f8fafc;
+      background: var(--code);
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      color: inherit;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      font-weight: 650;
+    }
+
+    @media (max-width: 760px) {
+      main { width: 100%; margin: 0; border-radius: 0; }
+      header, section { padding: 24px 20px; }
+      h1 { font-size: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>AI Team CLI 協作流程參考</h1>
+      <p class="meta">[Codex@Mac] 初版 2026-06-08｜[Claude@comaMacBookAir] 補充 Claude / Antigravity 正式規格 2026-06-08</p>
+      <p>用途：記錄由 Codex 擔任 Tech Lead，呼叫 Antigravity 與 Claude 補充意見的完整流程、提示詞、腳本與各 agent 正式規格，系統化為 WTF 共用 ai-team CLI 協作手冊。</p>
+    </header>
+
+    <section>
+      <h2>本次成功模式</h2>
+      <div class="callout">
+        <p><strong>使用者只跟 Codex 溝通；Codex 透過 CLI 呼叫其他 agent。</strong></p>
+        <p>Antigravity 可直接讀指定檔案並 append 討論檔。Claude 直接讀寫檔案時曾卡住，改成只要求輸出文字意見，再由 Codex 寫入檔案，較穩定。</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>呼叫方式</th>
+            <th>本次狀態</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Antigravity</td>
+            <td><code>agy --print "&lt;prompt&gt;"</code></td>
+            <td>成功讀檔、append 討論檔、寫入 <code>AGENT_SIGNAL.log</code>；曾產生非 UTF-8 亂碼，需由 Codex 清理。</td>
+          </tr>
+          <tr>
+            <td>Claude</td>
+            <td><code>claude -p "&lt;prompt&gt;"</code></td>
+            <td>使用者 Terminal 已登入後，Codex 需用沙盒外核准執行。直接讀寫檔案會卡住；短 prompt 只輸出文字可成功。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>建議流程</h2>
+      <ol>
+        <li>Codex 先建立討論檔，例如 <code>_context/AI_TEAM_DISCUSSION_YYYY-MM-DD_topic.md</code>。</li>
+        <li>討論檔放完整背景、資料路徑、問題、回覆格式與 Codex 初始立場。</li>
+        <li>先呼叫 Antigravity，scope 限定只讀指定檔案、只 append 指定討論檔與 signal。</li>
+        <li>呼叫 Claude 時，優先使用「只輸出文字，不讀寫檔」模式。</li>
+        <li>Codex 讀取各 agent 回覆後，親自整理進討論檔與最終文件。</li>
+        <li>寫入 <code>AGENT_SIGNAL.log</code> 作為流程紀錄。</li>
+        <li>若 agent 卡住超過 90 秒，查程序並停止，改用短 prompt 或檔案中繼。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Antigravity Prompt 範本</h2>
+      <pre><code>你是 Antigravity，被納入一個 ai-team 協作。Tech Lead 是 Codex，它已開了一份討論檔要你回覆。
+
+請依序：
+1. 讀討論檔：&lt;ABS_PROJECT_PATH&gt;/_context/AI_TEAM_DISCUSSION_YYYY-MM-DD_topic.md
+2. 讀交接文件補背景：&lt;ABS_PROJECT_PATH&gt;/_context/&lt;handover-file&gt;.md
+3. 在討論檔末尾 append 你的回覆段，標題格式：## Antigravity Reply — YYYY-MM-DD
+   內容用以下結構（繁體中文台灣用語）：
+   ### Recommendation
+   ### Detailed Steps
+   ### Formulas / Properties
+   ### Risks
+   ### Validation
+4. 完成後在 &lt;ABS_PROJECT_PATH&gt;/AGENT_SIGNAL.log append 一行：
+   DISCUSSION|Antigravity|_context/AI_TEAM_DISCUSSION_YYYY-MM-DD_topic.md|YYYY-MM-DD
+
+只做這些，不要改其他檔案。完成後回報你寫了什麼。</code></pre>
+
+      <h3>Antigravity 呼叫腳本</h3>
+      <pre><code>cat &gt; /tmp/agy_prompt.txt &lt;&lt; 'EOF'
+&lt;貼上 Antigravity Prompt&gt;
+EOF
+
+agy --print "$(cat /tmp/agy_prompt.txt)"</code></pre>
+    </section>
+
+    <section>
+      <h2>Claude Prompt 範本</h2>
+      <div class="callout warning">
+        <p><strong>本次教訓：</strong>不要一開始就要求 Claude 讀寫檔案。先要求它只輸出結構化文字，Codex 再落檔。</p>
+      </div>
+      <pre><code>請用繁體中文台灣用語，針對 &lt;任務主題&gt; 給 Tech Lead 意見。
+
+背景：
+- &lt;環境&gt;
+- &lt;資料來源&gt;
+- &lt;欄位或架構&gt;
+
+卡關：
+- &lt;卡關點一&gt;
+- &lt;卡關點二&gt;
+- &lt;卡關點三&gt;
+
+請只輸出五段：
+## Recommendation
+## Detailed Steps
+## Formulas / Properties
+## Risks
+## Validation
+
+不要讀寫檔。</code></pre>
+
+      <h3>Claude 呼叫腳本</h3>
+      <pre><code>claude -p "$(cat /tmp/claude_prompt.txt)"</code></pre>
+
+      <h3>登入與測試</h3>
+      <pre><code># 在使用者 Terminal 先登入
+claude /login
+
+# 回到 shell 後測試
+claude -p "請只回覆 OK"</code></pre>
+    </section>
+
+    <section>
+      <h2>卡住處理</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>症狀</th>
+            <th>處理</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>claude -p</code> 回 <code>Not logged in</code></td>
+            <td>請使用者在 Terminal 執行 <code>claude /login</code>，回 shell 後再測 <code>claude -p "請只回覆 OK"</code>。</td>
+          </tr>
+          <tr>
+            <td>使用者 Terminal 可用，但 Codex 仍回未登入</td>
+            <td>改用沙盒外核准執行 <code>claude -p</code>。本次實測可成功。</td>
+          </tr>
+          <tr>
+            <td>Claude 讀寫檔案 prompt 卡住</td>
+            <td>停止程序，改用「不要讀寫檔，只輸出文字」短 prompt。</td>
+          </tr>
+          <tr>
+            <td>討論檔出現非 UTF-8 亂碼</td>
+            <td>由 Codex 清理無效位元組後再整理內容。最終文件不要直接使用外部 agent append 的原稿。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Claude CLI 正式規格</h2>
+      <p class="meta">補充者：[Claude@comaMacBookAir] 2026-06-08</p>
+
+      <h3>登入</h3>
+      <ol>
+        <li>在<strong>使用者 Terminal</strong>（非 Codex 沙盒）執行：<code>claude /login</code>，瀏覽器完成 OAuth。</li>
+        <li>登入後驗證：<code>claude -p "請只回覆 OK"</code>，若回 <code>OK</code> 即成功。</li>
+        <li>Codex 沙盒若仍回 <code>Not logged in</code>：讓使用者「允許（沙盒外核准）」該指令執行一次，Codex 即可繼續呼叫。<strong>token 本身不需要重新登入</strong>；問題是沙盒執行權限，不是認證失效。</li>
+      </ol>
+
+      <h3>短 prompt 原則</h3>
+      <ul>
+        <li>使用 <code>claude -p "&lt;prompt&gt;"</code>（非互動，單一輸出後結束）。</li>
+        <li>背景資料直接貼進 prompt 文字，不靠 Claude 自行讀取檔案。</li>
+        <li>prompt 結尾明確標注輸出格式（<code>## Recommendation / ## Risks</code> 等），Tech Lead 直接複製。</li>
+        <li>prompt 過長（> 2000 字）時，先存 <code>/tmp/claude_prompt.txt</code>，用 <code>claude -p "$(cat /tmp/claude_prompt.txt)"</code> 呼叫，避免 shell 轉義斷行。</li>
+      </ul>
+
+      <h3>避免直接讀寫檔</h3>
+      <div class="callout warning">
+        <p><strong>已知問題：</strong>要求 Claude 在 CLI 模式下讀取或 append 檔案，會因等待 stdin/stdout 確認而卡住，90 秒後 timeout。</p>
+      </div>
+      <ul>
+        <li><strong>禁止</strong>在 prompt 內加入「讀 <code>_context/xxx.md</code>」「append 到 <code>討論檔</code>」等指令。</li>
+        <li><strong>正確模式</strong>：背景文字貼進 prompt → Claude 只輸出結構化文字 → Tech Lead（Codex）寫入檔案。</li>
+        <li>若背景檔案很大：<code>cat &lt;file&gt;</code> 管入 prompt 字串（見 prompt 範本）。Tech Lead 自行控制截斷長度。</li>
+      </ul>
+
+      <h3>卡住處理（Claude 專項）</h3>
+      <table>
+        <thead><tr><th>症狀</th><th>處理</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Not logged in</code></td>
+            <td>使用者 Terminal 執行 <code>claude /login</code>，再用沙盒外核准讓 Codex 呼叫。</td>
+          </tr>
+          <tr>
+            <td>90 秒無輸出</td>
+            <td><code>Ctrl+C</code>，確認 prompt 是否含讀寫檔指令，改用純輸出模式再試。</td>
+          </tr>
+          <tr>
+            <td>輸出中斷（截半）</td>
+            <td>prompt 末尾加 <code>請分段回覆，每段不超過 400 字</code>，或改用 <code>/tmp</code> 檔案中繼。</td>
+          </tr>
+          <tr>
+            <td>反覆失敗</td>
+            <td>改用最短 prompt 驗證（<code>claude -p "請只回覆 OK"</code>），確認工具本身是否正常，再逐步加回背景。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Antigravity CLI 正式規格</h2>
+      <p class="meta">整理者：[Codex@Mac] 2026-06-08（待 Antigravity 本人補充後合併）</p>
+
+      <h3>權限需求</h3>
+      <ul>
+        <li>讀取：專案目錄下所有 <code>_context/</code> 檔案（使用<strong>絕對路徑</strong>，相對路徑易因工作目錄不同而失敗）。</li>
+        <li>寫入：只需 <code>_context/討論檔.md</code> 與 <code>AGENT_SIGNAL.log</code> 兩個檔案，其餘目錄不需寫入。</li>
+        <li>呼叫前確認 <code>agy</code> 對專案目錄有讀寫權；macOS 需確認 Terminal 的「完整磁碟存取」或已給予資料夾存取授權。</li>
+      </ul>
+
+      <h3>寫檔限制</h3>
+      <ul>
+        <li>prompt 內<strong>明確限制 scope</strong>：「只讀這兩個檔，只改這兩個檔」，否則 Antigravity 可能主動整理或新增其他檔案。</li>
+        <li>prompt 末尾加：<code>只做這些，不要改其他檔案。完成後回報你寫了什麼。</code></li>
+        <li>Tech Lead 收到 DONE signal 後，必須親自 <code>diff</code> 或 <code>git status</code> 確認實際修改範圍，不信任 Antigravity 的口頭回報。</li>
+      </ul>
+
+      <h3>編碼風險</h3>
+      <div class="callout warning">
+        <p><strong>已知問題：</strong>Antigravity append 中文討論檔時，曾產生非 UTF-8 位元組，導致後續工具讀取失敗或顯示亂碼。</p>
+      </div>
+      <ul>
+        <li>Codex 收到 signal 後，先執行編碼清理再整理內容：</li>
+      </ul>
+      <pre><code># 清理非 UTF-8 位元組（保留可讀內容，丟棄無效字元）
+python3 -c "
+with open('_context/討論檔.md', 'rb') as f: raw = f.read()
+clean = raw.decode('utf-8', errors='replace')
+with open('_context/討論檔.md', 'w', encoding='utf-8') as f: f.write(clean)
+print('清理完成')
+"</code></pre>
+      <ul>
+        <li>最終文件（outputs HTML、TaskLog）<strong>不直接使用</strong> Antigravity 的 append 原稿；Tech Lead 重新撰寫，只引用意見內容。</li>
+      </ul>
+
+      <h3>Signal 寫入慣例</h3>
+      <ul>
+        <li>格式（一行）：<code>DISCUSSION|Antigravity|&lt;相對於專案根的路徑&gt;|YYYY-MM-DD</code></li>
+        <li>寫入檔案：<code>&lt;ABS_PROJECT_PATH&gt;/AGENT_SIGNAL.log</code>（專案根，非 <code>_context/</code>）。</li>
+        <li>Tech Lead 監聽此 log 判斷任務完成，不要等 Antigravity 在聊天視窗口頭回報。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>本次實際訊號</h2>
+      <pre><code>DISCUSSION|Antigravity|_context/AI_TEAM_DISCUSSION_2026-06-08_dashboard-rebuild.md|2026-06-08
+DISCUSSION|Claude|_context/AI_TEAM_DISCUSSION_2026-06-08_dashboard-rebuild.md|2026-06-08</code></pre>
+    </section>
+  </main>
+</body>
+</html>
