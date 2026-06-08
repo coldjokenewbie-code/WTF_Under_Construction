@@ -177,6 +177,15 @@
           </tr>
         </tbody>
       </table>
+      <div class="callout" style="margin-top: 18px;">
+        <p><strong>Antigravity 擔任 Tech Lead（2026-06-08 實測）</strong></p>
+        <p>Antigravity 作為 Tech Lead 時，透過終端指令成功以 headless 方式調用 <code>claude</code> 與 <code>codex</code>。實測以「純文字回傳 + Tech Lead 統一寫檔」為最穩定路徑。</p>
+        <ul>
+          <li><strong>呼叫 Claude</strong>：<code>claude -p "[PROMPT]" &lt; /dev/null</code></li>
+          <li><strong>呼叫 Codex</strong>：<code>codex exec "[PROMPT]" &lt; /dev/null</code>（重導向 <code>&lt; /dev/null</code> 可避免 stdin 阻塞等待）</li>
+          <li>實測輸出皆寫入 <a href="file:///Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/%E5%85%B6%E4%BB%96%E9%9B%BB%E8%85%A6/tachart_ihuy/Claude_cowork/projects/%E5%87%BA%E5%8B%A4%E5%B0%88%E6%A1%88/workingfiles/test_ai_team.md">workingfiles/test_ai_team.md</a>。</li>
+        </ul>
+      </div>
     </section>
 
     <section>
@@ -341,10 +350,63 @@ claude -p "請只回覆 OK"</code></pre>
 
     <section>
       <h2>Antigravity CLI 正式規格</h2>
-      <p class="meta">待 Antigravity 本人填寫（2026-06-08 起）</p>
+      <p class="meta">由 Antigravity 本人補充｜最後更新 2026-06-08</p>
+      
+      <h3>基本指令與模式</h3>
+      <ul>
+        <li><strong>互動模式</strong>：<code>agy -i "&lt;prompt&gt;"</code>，啟動一個互動式 Session。</li>
+        <li><strong>非互動（列印）模式</strong>：<code>agy -p "&lt;prompt&gt;"</code>，執行單一 Prompt 並印出結果後結束。</li>
+        <li><strong>繼續對話</strong>：<code>agy -c</code>，繼續最近一次的對話。</li>
+        <li><strong>指定模型</strong>：<code>agy --model &lt;model_name&gt;</code>，指定執行模型。</li>
+      </ul>
+
+      <h3>權限需求與安全</h3>
+      <ul>
+        <li>當由其他 Agent（如 Codex）在 Sandbox 內透過 CLI 呼叫 <code>agy</code> 時，若 <code>agy</code> 需要進行檔案讀寫或執行終端指令，會觸發系統的權限請求。</li>
+        <li><strong>自動授權參數</strong>：可在指令後加上 <code>--dangerously-skip-permissions</code> 以自動同意所有權限請求（適用於信任的內部自動化腳本），避免因等待使用者授權而導致 CLI 卡死 Timeout。</li>
+      </ul>
+
+      <h3>寫檔限制與最佳實踐</h3>
+      <ul>
+        <li><strong>限制</strong>：在 CLI 非互動模式下，直接寫入檔案可能因權限確認或 Sandbox 限制而卡住（超過 90 秒 Timeout）。</li>
+        <li><strong>最佳實踐</strong>：優先使用「只輸出結構化文字，不讀寫檔」模式，讓調用方（Tech Lead）讀取輸出後，再由調用方落檔。</li>
+        <li>若必須由 <code>agy</code> 寫檔，請提供<strong>絕對路徑</strong>，並在 Prompt 中限定只修改單一特定檔案。</li>
+      </ul>
+
+      <h3>編碼風險與防範</h3>
+      <ul>
+        <li><strong>亂碼風險</strong>：跨平台或透過 pipe (<code>|</code>) 轉義輸出時，可能因 Locale 設定不一致產生非 UTF-8 亂碼。</li>
+        <li><strong>防範</strong>：在呼叫 <code>agy</code> 前，確保 Shell 環境變數已設定 <code>export LANG=zh_TW.UTF-8</code> 或 <code>export LANG=en_US.UTF-8</code>。</li>
+      </ul>
+
+      <h3>Signal 寫入慣例</h3>
+      <ul>
+        <li>配合 Task Signal Protocol，完成指派任務後，應主動向 <code>AGENT_SIGNAL.log</code> 寫入訊號。</li>
+        <li><strong>討論訊號格式</strong>：<code>DISCUSSION|Antigravity|&lt;相對路徑檔案&gt;|&lt;YYYY-MM-DD&gt;</code></li>
+        <li><strong>任務完成訊號格式</strong>：<code>DONE|Antigravity|&lt;相對路徑檔案&gt;|&lt;Timestamp&gt;</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Codex CLI 正式規格</h2>
+      <p class="meta">由 Antigravity 整理補充｜最後更新 2026-06-08</p>
+
+      <h3>基本指令與模式</h3>
+      <ul>
+        <li><strong>互動模式</strong>：<code>codex "[PROMPT]"</code>，進入互動式 TUI。</li>
+        <li><strong>非互動（執行）模式</strong>：<code>codex exec "[PROMPT]" &lt; /dev/null</code> 或 <code>codex e "[PROMPT]" &lt; /dev/null</code>，執行單一任務並輸出結果。</li>
+      </ul>
+
+      <h3>重導向防止卡死（核心）</h3>
       <div class="callout warning">
-        <p>本節由 Antigravity 自行補充，涵蓋：權限需求、寫檔限制、編碼風險、signal 寫入慣例。</p>
+        <p><strong>注意：</strong>在 headless 模式中執行 <code>codex exec</code> 時，必須使用 <code>&lt; /dev/null</code>。否則 Codex 會因為偵測到 shell 互動式 stdin 而等待額外輸入，導致指令卡死在 <code>Reading additional input from stdin...</code>。</p>
       </div>
+
+      <h3>寫檔限制與最佳實踐</h3>
+      <ul>
+        <li><strong>限制</strong>：直接操作檔案讀寫容易受到 sandbox 權限設定（如 <code>workspace-write</code>）與使用者審查的干擾，增加 headless 模式的 Timeout 風險。</li>
+        <li><strong>最佳實踐</strong>：在 Prompt 中限定為「只輸出結構化文字，不讀寫檔」，由調用方的 Tech Lead（如 Antigravity）攔截輸出，再以專屬工具寫入對應的測試檔或討論檔中。</li>
+      </ul>
     </section>
 
     <section>
