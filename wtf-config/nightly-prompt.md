@@ -8,31 +8,37 @@
 
 先 `cd` 到 WTF repo（雲端 clone 路徑，通常 `/home/user/WTF_Under_Construction`），回應「已開始 Nightly」後依序執行。
 
-> 環境註記：本排程跑在雲端 ephemeral container，**拿不到本機（Win/Mac）的工作 transcript**。故學習來源＝**各 repo 今日 git commit messages**（真實工作已 push 上 GitHub），不嘗試分析不存在的本機 session。
+> 環境註記：本排程跑在雲端 ephemeral container。
+> 1. **拿不到本機（Win/Mac）的工作 transcript** → 學習來源＝**各 repo 今日 git commit messages**（真實工作已 push 上 GitHub），不分析不存在的本機 session。
+> 2. **雲端直連 github.com 無憑證、不能 `git clone`**。可掃的 repo＝**已在 trigger「Repositories」欄掛載、由環境預先 clone 到 `/home/user/<repo>` 的那些**。registry 增刪 repo 後，**必須回 trigger UI（claude.ai/code → Routines → 每日工作回顧 → Edit → Repositories）同步重掛**，否則掃不到。
 
 ---
 
-## 1. Git Log 掃描（從 `projects-registry.md` 動態取全部 github repo）
+## 1. Git Log 掃描（從 `projects-registry.md` 取清單，掃已掛載 repo）
 
-**不要硬編 repo 清單**——一律從 `wtf-config/projects-registry.md` 的 `github` 欄取（新增專案免改本檔）。雲端先 clone WTF 取得 registry，再逐 repo clone/pull＋掃今日 commit：
+**不硬編 repo 清單**——從 `wtf-config/projects-registry.md` 的 `github` 欄取。對每個 repo：已掛載者 pull＋掃今日 commit；未掛載者明確標出，不靜默漏掉。
 
 ```
+export TZ='Asia/Taipei'                 # 用台灣時區定義「今日」，避免 UTC 切日漏抓晚間 commit
 TODAY=$(date +%Y-%m-%d)
-cd /home/user
 REG=/home/user/WTF_Under_Construction/wtf-config/projects-registry.md
-# 解析表格：col1=project、col2=github；跳過表頭/分隔/未確認「（」開頭；git@ 轉 https 供雲端 token 認證
+# 解析表格：col1=project、col2=github；跳過表頭/分隔/未確認「（」開頭。dir=repo basename（git@ 與 https 皆適用）
 grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
  | awk -F'|' 'NR>2 && $2 ~ /github/ && $2 !~ /^（/ {print $1"\t"$2}' \
  | while IFS=$'\t' read -r project url; do
-     url=$(echo "$url" | sed 's|git@github.com:|https://github.com/|')
      dir=$(basename "$url" .git)
-     if [ -d "/home/user/$dir/.git" ]; then git -C "/home/user/$dir" pull -q 2>/dev/null
-     else git clone -q "$url" "/home/user/$dir" 2>/dev/null; fi
      echo "### $project ($dir)"
-     git -C "/home/user/$dir" log --oneline --since="$TODAY 00:00" --format="%h %ai %s" 2>/dev/null || echo "  （clone/pull 失敗或今日無活動）"
+     if [ -d "/home/user/$dir/.git" ]; then
+       git -C "/home/user/$dir" pull -q 2>/dev/null
+       git -C "/home/user/$dir" log --since="$TODAY 00:00" --date=local \
+         --format="%h %ad %s" 2>/dev/null || echo "  （今日無活動）"
+     else
+       echo "  （未掛載：trigger Repositories 未含此 repo，無法掃描 → 需回 trigger 補掛）"
+     fi
    done
 ```
-整理各 repo 今日提交清單（無提交者標「今日無活動」；clone 失敗者標「無法存取」）。目前 registry 含 11 專案，全有 github。
+
+整理各 repo 今日提交清單（無提交標「今日無活動」；未掛載標「未掛載」並在最終回報提醒補掛）。
 
 ---
 
@@ -40,7 +46,7 @@ grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
 
 讀今日各 repo commit messages（尤其 `lesson-add` / `fix` / `refactor` / 踩坑修正類），判斷：
 - 是否有**尚未寫入 SSOT** 的可重用教訓（跨工具原則／Claude Code 操作／特定專案邏輯）。
-- **多數 lesson 在本機工作時已 lesson-add**；只補「commit 顯示有�take-away 但 SSOT 還沒記」的淨新項，避免重複。
+- **多數 lesson 在本機工作時已 lesson-add**；只補「commit 顯示有 take-away 但 SSOT 還沒記」的淨新項，避免重複。
 
 層級：跨工具原則→`全域`(GLOBAL.md)；Claude Code 操作→`工具 code`(CLAUDE_CODE.md)；專案邏輯→`專案`(該 repo `_context/lessons-learned.md`)。
 
@@ -64,7 +70,7 @@ grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
 <全域變更通知區塊，見第 6 步——放最上方>
 
 ## 今日 Git 活動
-- [repo]：[提交摘要]
+- [repo]：[提交摘要]（未掛載者另列，提醒補掛）
 
 ## 自動歸檔 Lessons
 - [層級] [內容]（或「本次無淨新 lesson」）
@@ -94,6 +100,7 @@ grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
 
 - 此檔 commit 進 main → 用戶本機 hook pull → **下次 session-start 開場浮出**（見 session-start skill）。用戶核准後自行套用並清除該行；不核准就刪該行。
 - 最終回報開頭：有建議→`## 💡 本次有 N 項全域設定修改建議（已寫入 nightly-notify.md，待你核准）`＋列出；無→`✅ 本次無全域設定修改建議`。
+- 若第 1 步有 repo 標「未掛載」，於回報附一句：`⚠️ 下列 repo 未掛載 trigger、本次未掃：…，請回 trigger Repositories 補掛`。
 - **強調：routine 從不直接改全域設定檔，只寫建議。**
 
 ---
@@ -101,6 +108,7 @@ grep '^|' "$REG" | sed 's/^| *//; s/ *| */|/g' \
 ## 7. Commit & Push（只推**加性**內容進 main）
 
 ```
+export TZ='Asia/Taipei'
 YYYYMMDD=$(date +%Y%m%d)
 cd /home/user/WTF_Under_Construction
 git pull --rebase origin main || { echo "rebase 衝突，abort 不硬推，回報需人工處理"; git rebase --abort; exit 0; }
@@ -111,6 +119,6 @@ git push origin main
 ```
 
 - **只 `git add` 加性檔**（session-logs／lessons／LESSONS／nightly-notify），**不 `git add -A`**——確保全域設定檔即使被誤動也不會被提交。
-- **改用 commit 進 main**（取代舊版「push 到永不 merge 的 `claude/nightly-*` 分支」——那讓自動更新全卡死分支、不生效）。
+- **commit 進 main**（取代舊版「push 到永不 merge 的 `claude/nightly-*` 分支」——那讓自動更新全卡死、不生效）。
 - **衝突一律 abort 不硬推**，回報標「需人工」，不破壞 main。
 - 各 repo 的專案層 lesson 若有改，於該 repo 同樣 `pull --rebase → commit → push origin main`，衝突即 abort。
