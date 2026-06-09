@@ -61,6 +61,8 @@
 | cowork_CDIC | 2026-06-05 | 「留白/靠上排列」常是設計取捨非 bug，先確認再動（自作主張改 flex 撐滿被否決） | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | WTF | 2026-06-05 | Session 啟動必須強制執行 wtf-config/sync_config.py check 與標準身分宣告，不可等用戶指示 | `_context/lessons-learned.md`（WTF repo） |
 | cowork_CDIC | 2026-06-09 | 視覺驗收必須新舊疊圖 pixel-diff＋大面積純色定點取樣；只看新版好不好看會漏整片底色差(D區 P2/P5/P6 灰vs橘)；vision-based agent 漏純色差、像素取樣才抓得到；高頻照片區 diff% 是假象需 band 定位區分 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-09 | 「視覺僵硬」≠微調問題：根因常是版面構成（全左靠=行政表單感），AI 多輪微調救不回來；先根因診斷再換構圖重做一版；多 AI 獨立評比交叉驗證可提高 PO 採信度 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-09 | CSS/SVG 優於 mp4 做規矩進場動畫（淡入/描線/位移/序列）；mp4 代價：解析度鎖死/首屏等載入/字體烘焙/雙份維護漂移/autoplay 風險；mp4 真正出場=粒子/流體/3D/生成式光影/真實影片素材 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
@@ -70,9 +72,10 @@
 
 | 專案 | 涵蓋主題 | 連結 |
 |---|---|---|
-| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
+| ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定） | `projects/ppt_map_mark/_context/lessons-learned.md` |
 
 ---
 
