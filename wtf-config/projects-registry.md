@@ -25,3 +25,4 @@
 | 出勤專案 | git@github.com:coldjokenewbie-code/attendance-dashboard.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案 | E:\Claude_cowork\projects\出勤專案 |
 | 南科再生水廠 | https://github.com/coldjokenewbie-code/S-reclaimed-water-plant.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠 | E:\Claude_cowork\projects\南科再生水廠 |
 | 國圖南 | git@github.com:coldjokenewbie-code/SouthLibrary.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/國圖南 | E:\Claude_cowork\projects\國圖南 |
+| ppt_map_mark | git@github.com:coldjokenewbie-code/ppt_map_mark.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ppt_map_mark | E:\Claude_cowork\projects\ppt_map_mark |
