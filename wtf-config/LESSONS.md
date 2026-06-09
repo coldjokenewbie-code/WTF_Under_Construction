@@ -59,6 +59,7 @@
 | cowork_CDIC | 2026-06-05 | 多行區塊跨欄 baseline 對齊：兩者用相同 line-height 行框 + Range.getClientRects 量 bottom、margin-top 微調校到 0-3px | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-05 | 「留白/靠上排列」常是設計取捨非 bug，先確認再動（自作主張改 flex 撐滿被否決） | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | WTF | 2026-06-05 | Session 啟動必須強制執行 wtf-config/sync_config.py check 與標準身分宣告，不可等用戶指示 | `_context/lessons-learned.md`（WTF repo） |
+| cowork_CDIC | 2026-06-09 | 視覺驗收必須新舊疊圖 pixel-diff＋大面積純色定點取樣；只看新版好不好看會漏整片底色差(D區 P2/P5/P6 灰vs橘)；vision-based agent 漏純色差、像素取樣才抓得到；高頻照片區 diff% 是假象需 band 定位區分 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
