@@ -63,6 +63,8 @@
 | cowork_CDIC | 2026-06-09 | 視覺驗收必須新舊疊圖 pixel-diff＋大面積純色定點取樣；只看新版好不好看會漏整片底色差(D區 P2/P5/P6 灰vs橘)；vision-based agent 漏純色差、像素取樣才抓得到；高頻照片區 diff% 是假象需 band 定位區分 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-09 | 「視覺僵硬」≠微調問題：根因常是版面構成（全左靠=行政表單感），AI 多輪微調救不回來；先根因診斷再換構圖重做一版；多 AI 獨立評比交叉驗證可提高 PO 採信度 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-09 | CSS/SVG 優於 mp4 做規矩進場動畫（淡入/描線/位移/序列）；mp4 代價：解析度鎖死/首屏等載入/字體烘焙/雙份維護漂移/autoplay 風險；mp4 真正出場=粒子/流體/3D/生成式光影/真實影片素材 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-10 | PO 要放大/延伸既有視覺素材時禁自生成新藝術替換，沿用原素材「複製既有元素平移補位」延伸(波紋連退三次教訓) | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-10 | 「任何方向都觸發副作用」需求當心邊界 early-return 吞掉它(解除暫停放邊界判斷前)；驗收要含邊界案例 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
