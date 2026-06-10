@@ -36,3 +36,22 @@
 ## 5. 注意
 
 - 全域技能數 10→**11**（加 inbox），超過 GLOBAL「>10 提示精簡」門檻。下次審查可評估是否合併/精簡。
+
+## 6. 首次實跑（2026-06-07 晚，三輪）
+
+- **第 1 輪**：pending 空 → 回報無待分流。
+- **第 2 輪（2 筆）**：
+  - `工作修正出勤專案的儀表板` → **出勤專案** ✅（commit `17f5ddb`）
+  - `工作檔案 Assembly…加入導覽App` → **Aseembly_Plant_Interactive_machine** ✅（commit `00d5804`，連 `_context/` 一併建立）
+  - 兩 Drive 鏡像 repo 皆有既存未暫存改動 → `pull --rebase` 拒絕，但 push 為 fast-forward 成功，無衝突。
+- **第 3 輪（3 筆）**：
+  - `工作相關_cdic_要作電子導覽書` → **cowork_CDIC** ✅（commit `df7d52e`；兩個 CDIC 候選，依近期活躍/性質自行歸納，未問用戶）
+  - `工作相關_remotion動態測試` → **Remotion_fun** ✅（commit `6919b0d`）
+  - `工作修正出勤專案的儀表板`（與第 2 輪同名）→ 判為**重複**，未再寫入 INBOX，僅移檔到 Ingested 清掉。
+
+### 實跑校準（用戶當場定調 → 已落 lesson + memory）
+
+- **`/inbox` 是快速捕捉工具，下指令後一路處理完、禁中途問**（問歸屬＝浪費用戶時間，他自己標注更快）。本輪我用 AskUserQuestion 問 CDIC 歸屬被打斷糾正。
+- **標題式速記（正文空）是多數常態**，不是異常，不必當問題回報。
+- **重複速記不重收**（同名/同內容 → 只移檔清掉）。
+- 觀察：原 SKILL.md 第 2 步寫「判定有疑慮先列給用戶確認」與此定調衝突，建議下次修 skill 源（`wtf-config/skills/inbox/SKILL.md`）改為「自行歸納、不中途問；判不出才落 WTF 未分類」。
