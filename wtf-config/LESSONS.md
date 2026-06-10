@@ -68,6 +68,8 @@
 | cowork_CDIC | 2026-06-10 | PO 要放大/延伸既有視覺素材時禁自生成新藝術替換，沿用原素材「複製既有元素平移補位」延伸(波紋連退三次教訓) | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | 「任何方向都觸發副作用」需求當心邊界 early-return 吞掉它(解除暫停放邊界判斷前)；驗收要含邊界案例 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | Asembly_PPT | 2026-06-10 | python-pptx 換圖零變形＝frame 比例必須=截圖比例(圖片 stretch-fill 整框)，保高度調寬度置中；換圖用 blip rEmbed 重指向新 image part 且先清 a:srcRect 免誤裁；Win 無 soffice 改 PowerPoint COM Slide.Export 算繪驗收；app 截圖注入 CSS 隱藏 dev toolbar，fullPage 會讓 fixed bottom nav 浮頁面中段→改標準 viewport | `projects/Asembly_PPT/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-10 | kiosk 多裝置同步：狀態同步(傳JSON各機自渲染)優於畫面廣播；Node SSE必加 Cache-Control:no-store 防 kiosk 快取「改了沒生效」；動畫 func early-return 被吞需雙保險(事後硬切+每350ms reconcile 自癒)；Android WebView file:// 需 INTERNET+cleartext+universalAccess；macOS build APK=openjdk@17+commandlinetools+gradle-wrapper 釘版 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-10 | 大量外站擷圖批次管線：容錯腳本逐站不中斷+WebGL 動態站等待 9s+cookie 牆換乾淨源；PNG 轉 JPG 瘦身(sips 或 playwright type:jpeg quality:80)；file:// 本地頁用 JS 變數(window.DATA=...)替代 fetch json 免 CORS | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
@@ -77,7 +79,7 @@
 
 | 專案 | 涵蓋主題 | 連結 |
 |---|---|---|
-| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap、多裝置同步(狀態vs廣播/SSE/APK 建置)、外站擷圖批次管線 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
