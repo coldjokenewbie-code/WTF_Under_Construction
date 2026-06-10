@@ -80,7 +80,7 @@
 | cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
-| ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定） | `projects/ppt_map_mark/_context/lessons-learned.md` |
+| ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
 | Asembly_PPT（導覽 app 簡報） | python-pptx 換圖保位置(blip rEmbed+清 srcRect)、ppt 圖片零變形(frame 比例=截圖比例)、PowerPoint COM 算繪驗收、Playwright 截 app 隱藏 dev toolbar、fullPage vs fixed 元素 | `projects/Asembly_PPT/_context/lessons-learned.md` |
 
 ---
