@@ -12,6 +12,8 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 竹科教館 | 2026-06-10 | ai-team skill 指名的 cli-reference.html 動工前必讀；鐵則「被呼叫 agent 只輸出文字、不讀寫檔，Tech Lead 把內容餵進 prompt/stdin」；第一次失敗即回查指名文件，勿試 bypass/換 shell/怪硬碟等臆測繞法 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
+| 竹科教館 | 2026-06-10 | agy headless 在 Claude 工具中需 node-pty 建 ConPTY 才會輸出（偵測非 TTY 就空輸出；winpty/pywinpty 本機失敗）；`--dangerously-skip-permissions` 必加；輸出含 ANSI+重繪重複行需清理；外部 agent 結論仍須逐項回查驗證 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | WTF | 2026-06-09 | 判讀/指派工作紀律：①無證據絕不硬湊（找不到依據標「未知」交審，禁「挑個附近沒用到的」填值）②先建高對比/可追蹤檢視再判定（缺工具就肉眼瞎猜＝高錯誤）③鄰近≠連線、高信心幾何(端點距≈0)不得被肉眼印象推翻 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | 互動 HTML 交付前用 headless playwright 自驗（掛 pageerror/console listener+click 斷言互動），抓「畫面對但互動壞」；專案沒裝 playwright 走全域絕對路徑 require；file:// 開中文檔名先 URL-encode | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-08 | ai-team cli-reference 按角色分段：各 agent 只讀自己那段（Codex TL/Antigravity TL/Claude TL），共用概念獨立一節，降低 context 耗費 | `_context/lessons-learned.md`（WTF repo） |
@@ -65,6 +67,7 @@
 | cowork_CDIC | 2026-06-09 | CSS/SVG 優於 mp4 做規矩進場動畫（淡入/描線/位移/序列）；mp4 代價：解析度鎖死/首屏等載入/字體烘焙/雙份維護漂移/autoplay 風險；mp4 真正出場=粒子/流體/3D/生成式光影/真實影片素材 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | PO 要放大/延伸既有視覺素材時禁自生成新藝術替換，沿用原素材「複製既有元素平移補位」延伸(波紋連退三次教訓) | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | 「任何方向都觸發副作用」需求當心邊界 early-return 吞掉它(解除暫停放邊界判斷前)；驗收要含邊界案例 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| Asembly_PPT | 2026-06-10 | python-pptx 換圖零變形＝frame 比例必須=截圖比例(圖片 stretch-fill 整框)，保高度調寬度置中；換圖用 blip rEmbed 重指向新 image part 且先清 a:srcRect 免誤裁；Win 無 soffice 改 PowerPoint COM Slide.Export 算繪驗收；app 截圖注入 CSS 隱藏 dev toolbar，fullPage 會讓 fixed bottom nav 浮頁面中段→改標準 viewport | `projects/Asembly_PPT/_context/lessons-learned.md` |
 
 ---
 
@@ -78,6 +81,7 @@
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定） | `projects/ppt_map_mark/_context/lessons-learned.md` |
+| Asembly_PPT（導覽 app 簡報） | python-pptx 換圖保位置(blip rEmbed+清 srcRect)、ppt 圖片零變形(frame 比例=截圖比例)、PowerPoint COM 算繪驗收、Playwright 截 app 隱藏 dev toolbar、fullPage vs fixed 元素 | `projects/Asembly_PPT/_context/lessons-learned.md` |
 
 ---
 
