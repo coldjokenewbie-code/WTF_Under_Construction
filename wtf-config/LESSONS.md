@@ -12,6 +12,9 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| CDIC | 2026-06-11 | 擋全域輸入掛 window capture 不掛 document（同節點同相位照註冊序，攔不到更早註冊者）；驗收要驗「過程中從未動過」(MutationObserver) 非只驗最終狀態；Playwright mouse.wheel 可能無效改合成 WheelEvent、觸控用 CDP dispatchTouchEvent | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-06-11 | Windows 免 Android Studio 建 APK：JDK 用 Temurin ZIP（MSI 卡 UAC）、licenses 寫 hash 檔跳過互動、packageDebug tmp 鎖清 incremental 重跑；build 失敗後禁接 adb install（會裝回舊 APK，必驗 versionName）；PS5.1 .ps1 必須 ASCII/BOM；`>` 重導 adb 二進位會毀檔 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-06-11 | kiosk 區網部署 checklist 必含防火牆：Public profile 預設擋入站且 headless node 不跳允許視窗（localhost 全通、外部全斷零錯誤訊息）；平板端 `adb shell toybox nc` 驗連通；同步測試 guide 是唯一真相源、手動 POST 會被其輪詢蓋掉 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | 竹科教館 | 2026-06-10 | ai-team skill 指名的 cli-reference.html 動工前必讀；鐵則「被呼叫 agent 只輸出文字、不讀寫檔，Tech Lead 把內容餵進 prompt/stdin」；第一次失敗即回查指名文件，勿試 bypass/換 shell/怪硬碟等臆測繞法 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 竹科教館 | 2026-06-10 | agy headless 在 Claude 工具中需 node-pty 建 ConPTY 才會輸出（偵測非 TTY 就空輸出；winpty/pywinpty 本機失敗）；`--dangerously-skip-permissions` 必加；輸出含 ANSI+重繪重複行需清理；外部 agent 結論仍須逐項回查驗證 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | WTF | 2026-06-09 | 判讀/指派工作紀律：①無證據絕不硬湊（找不到依據標「未知」交審，禁「挑個附近沒用到的」填值）②先建高對比/可追蹤檢視再判定（缺工具就肉眼瞎猜＝高錯誤）③鄰近≠連線、高信心幾何(端點距≈0)不得被肉眼印象推翻 | `_context/lessons-learned.md`（WTF repo） |
