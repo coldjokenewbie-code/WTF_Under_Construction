@@ -77,6 +77,7 @@
 | cowork_CDIC | 2026-06-10 | kiosk 多裝置同步：狀態同步(傳JSON各機自渲染)優於畫面廣播；Node SSE必加 Cache-Control:no-store 防 kiosk 快取「改了沒生效」；動畫 func early-return 被吞需雙保險(事後硬切+每350ms reconcile 自癒)；Android WebView file:// 需 INTERNET+cleartext+universalAccess；macOS build APK=openjdk@17+commandlinetools+gradle-wrapper 釘版 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | 大量外站擷圖批次管線：容錯腳本逐站不中斷+WebGL 動態站等待 9s+cookie 牆換乾淨源；PNG 轉 JPG 瘦身(sips 或 playwright type:jpeg quality:80)；file:// 本地頁用 JS 變數(window.DATA=...)替代 fetch json 免 CORS | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-12 | 素材需求清單縮圖欄＝素材原圖非畫面裁切；溯源必查業主簡報 pptx 內嵌媒體(zipfile 抽 ppt/media，「找不到」的圖多在簡報裡)；檔案歸屬靠位置+轉檔目視雙驗證(HEIC 歸屬翻案)；審查 HTML 用相對路徑免 localhost；Win 無 soffice 用 Word COM 轉 PDF 驗收；多 AI 平行只 add 自己的檔 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| 南科再生水廠 | 2026-06-12 | 實體互動板設計迭代若只停在「換機制名字的提案簡報」層，等於卡住：需拆出「現場流程劇本」（誰拿/何時揭曉）＋「1:1 板面設計稿」兩個交付物；六指標框架（全員參與/誤導揭曉/發光活用/知識連結/耗材歸零/張力持續）逐版填表可快速定位致命缺陷 | `projects/南科再生水廠/_context/lessons-learned.md` |
 
 ---
 
