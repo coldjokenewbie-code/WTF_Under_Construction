@@ -76,6 +76,7 @@
 | Asembly_PPT | 2026-06-10 | python-pptx 換圖零變形＝frame 比例必須=截圖比例(圖片 stretch-fill 整框)，保高度調寬度置中；換圖用 blip rEmbed 重指向新 image part 且先清 a:srcRect 免誤裁；Win 無 soffice 改 PowerPoint COM Slide.Export 算繪驗收；app 截圖注入 CSS 隱藏 dev toolbar，fullPage 會讓 fixed bottom nav 浮頁面中段→改標準 viewport | `projects/Asembly_PPT/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | kiosk 多裝置同步：狀態同步(傳JSON各機自渲染)優於畫面廣播；Node SSE必加 Cache-Control:no-store 防 kiosk 快取「改了沒生效」；動畫 func early-return 被吞需雙保險(事後硬切+每350ms reconcile 自癒)；Android WebView file:// 需 INTERNET+cleartext+universalAccess；macOS build APK=openjdk@17+commandlinetools+gradle-wrapper 釘版 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-10 | 大量外站擷圖批次管線：容錯腳本逐站不中斷+WebGL 動態站等待 9s+cookie 牆換乾淨源；PNG 轉 JPG 瘦身(sips 或 playwright type:jpeg quality:80)；file:// 本地頁用 JS 變數(window.DATA=...)替代 fetch json 免 CORS | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-12 | 素材需求清單縮圖欄＝素材原圖非畫面裁切；溯源必查業主簡報 pptx 內嵌媒體(zipfile 抽 ppt/media，「找不到」的圖多在簡報裡)；檔案歸屬靠位置+轉檔目視雙驗證(HEIC 歸屬翻案)；審查 HTML 用相對路徑免 localhost；Win 無 soffice 用 Word COM 轉 PDF 驗收；多 AI 平行只 add 自己的檔 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
