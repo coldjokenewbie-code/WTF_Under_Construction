@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 出勤 | 2026-06-14 | 舊交接記的環境限制（「Power Apps YAML 無法貼入」）要再驗別當永久前提：官方 pa.yaml paste code 新功能上線後實測可貼入並執行，舊結論是當時舊格式的；過時前提會讓整條路線繞遠路 | `projects/出勤專案/_context/lessons-learned.md` |
 | CDIC | 2026-06-11 | 擋全域輸入掛 window capture 不掛 document（同節點同相位照註冊序，攔不到更早註冊者）；驗收要驗「過程中從未動過」(MutationObserver) 非只驗最終狀態；Playwright mouse.wheel 可能無效改合成 WheelEvent、觸控用 CDP dispatchTouchEvent | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-06-11 | Windows 免 Android Studio 建 APK：JDK 用 Temurin ZIP（MSI 卡 UAC）、licenses 寫 hash 檔跳過互動、packageDebug tmp 鎖清 incremental 重跑；build 失敗後禁接 adb install（會裝回舊 APK，必驗 versionName）；PS5.1 .ps1 必須 ASCII/BOM；`>` 重導 adb 二進位會毀檔 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-06-11 | kiosk 區網部署 checklist 必含防火牆：Public profile 預設擋入站且 headless node 不跳允許視窗（localhost 全通、外部全斷零錯誤訊息）；平板端 `adb shell toybox nc` 驗連通；同步測試 guide 是唯一真相源、手動 POST 會被其輪詢蓋掉 | `projects/cowork_CDIC/_context/lessons-learned.md` |
