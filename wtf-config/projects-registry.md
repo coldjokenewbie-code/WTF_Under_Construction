@@ -15,6 +15,7 @@
 | project | github | comaMacBookAir.local | DESKTOP-7SF21LR |
 |---|---|---|---|
 | WTF_Under_Construction | https://github.com/coldjokenewbie-code/WTF_Under_Construction.git | /Users/coma/Git_work/WTF_Under_Construction | E:\Git_work\WTF_Under_Construction |
+| ai-team-todo | https://github.com/coldjokenewbie-code/ai-team-todo.git | /Users/coma/Git_work/ai-team-todo | E:\Git_work\ai-team-todo |
 | Assembly_Plant_Mobile_Guide | https://github.com/coldjokenewbie-code/Assembly_Plant_Mobile_Guide.git | /Users/coma/Git_work/Assembly_Plant_Mobile_Guide | E:\Git_work\Assembly_Plant_Mobile_Guide |
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/Git_work/Planner2Line | E:\Git_work\Planner2Line |
 | Remotion_fun | https://github.com/coldjokenewbie-code/Remotion_fun.git | /Users/coma/Git_work/Remotion_fun | E:\Git_work\Remotion_fun |
