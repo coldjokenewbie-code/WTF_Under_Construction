@@ -80,6 +80,7 @@
 | cowork_CDIC | 2026-06-10 | 大量外站擷圖批次管線：容錯腳本逐站不中斷+WebGL 動態站等待 9s+cookie 牆換乾淨源；PNG 轉 JPG 瘦身(sips 或 playwright type:jpeg quality:80)；file:// 本地頁用 JS 變數(window.DATA=...)替代 fetch json 免 CORS | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-12 | 素材需求清單縮圖欄＝素材原圖非畫面裁切；溯源必查業主簡報 pptx 內嵌媒體(zipfile 抽 ppt/media，「找不到」的圖多在簡報裡)；檔案歸屬靠位置+轉檔目視雙驗證(HEIC 歸屬翻案)；審查 HTML 用相對路徑免 localhost；Win 無 soffice 用 Word COM 轉 PDF 驗收；多 AI 平行只 add 自己的檔 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-06-12 | 實體互動板設計迭代若只停在「換機制名字的提案簡報」層，等於卡住：需拆出「現場流程劇本」（誰拿/何時揭曉）＋「1:1 板面設計稿」兩個交付物；六指標框架（全員參與/誤導揭曉/發光活用/知識連結/耗材歸零/張力持續）逐版填表可快速定位致命缺陷 | `projects/南科再生水廠/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-06-15 | E區投影牆波浪車道：canvas 裁 bbox(alpha>16)再置中；postMessage+BroadcastChannel 雙管→時間戳 t+lastT 去重；緩動用 smootherstep(6t^5-15t^4+10t^3)頭尾不突兀；平行波浪=同波項+差 base→永不交叉，±15%速差破整齊；波長太長≈直線(需畫面含 1.5 個起伏)；焦點元素給專用車道+從最右端進=零碰撞；動畫程式化取樣逐幀 getBCR(x,y)驗弧線+減速；kiosk 高來回→常數三組獨立命名(AMP/WL/ENTER_MS/速度因子)方便逐項微調 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
@@ -89,7 +90,7 @@
 
 | 專案 | 涵蓋主題 | 連結 |
 |---|---|---|
-| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap、多裝置同步(狀態vs廣播/SSE/APK 建置)、外站擷圖批次管線 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap、多裝置同步(狀態vs廣播/SSE/APK 建置)、外站擷圖批次管線、投影牆波浪車道動態(smootherstep/平行車道/程式化動畫取樣驗收) | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
