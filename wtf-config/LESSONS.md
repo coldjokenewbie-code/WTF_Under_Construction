@@ -96,6 +96,7 @@
 | 國圖南（現正出版中） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制 | `projects/國圖南/_context/lessons-learned.md` |
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
 | Asembly_PPT（導覽 app 簡報） | python-pptx 換圖保位置(blip rEmbed+清 srcRect)、ppt 圖片零變形(frame 比例=截圖比例)、PowerPoint COM 算繪驗收、Playwright 截 app 隱藏 dev toolbar、fullPage vs fixed 元素 | `projects/Asembly_PPT/_context/lessons-learned.md` |
+| 南科再生水廠（環教中心展示） | 回顧型互動別做成記憶測驗、別把前段已強調的點當最終驚喜、PO要「有技術+要思考」≠記憶(給新問題用原理推)、ai-team 中 Antigravity headless(agy --print)非TTY回空只能走信號檔異步、Codex headless 直驅(< /dev/null)、D-4 Excel 勿過 LibreOffice recalc | `projects/南科再生水廠/_context/lessons-learned.md` |
 
 ---
 
