@@ -30,6 +30,7 @@
 | WTF | 2026-06-08 | 雲端 routine 掃多 repo 只能靠 trigger 預掛載（直連 github 無憑證、clone 必敗）；registry 增刪要回 /schedule update 同步掛載；TZ=Asia/Taipei 定義「今日」避免 UTC 切日 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-07 | 技能載入：原生已自動列 skill 名稱+描述、body 觸發才讀；開場強讀全部 SKILL.md 是疊床架屋→廢除；「>10 數量門檻」隨成本消失一併撤，改以功能重疊為精簡準則 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-06-07 | 跨工具：各工具認自己原生檔名（Codex 讀 ~/.codex/AGENTS.md 非 CODEX.md，實證）、用實體副本非 symlink；per-machine 部署洞要 check 驗+寫對機待辦；三工具都有 headless CLI(claude -p/codex exec/agy --print)→ai-team 同機改 CLI 直驅、信號檔降 fallback | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-06-16 | Claude 當 ai-team TL 實測：agy 在 IDE 內建 shell(非 TTY) 一律 EXIT0 空輸出(根因非 TTY，非登入；log 的 not-logged-in 是紅鯡魚)→換獨立終端機跑；codex exec 加 `-s read-only`(否則自跑開場觸 Win sandbox helper 報錯，但末句答案仍正常)+`< /dev/null`；`--dangerously-skip-permissions` 在 Claude Code 被 auto-mode classifier 擋 | `tools/ai-team/cli-reference.html`（WTF repo，Claude TL 段） |
 | 根 | 2026-05-03 | 七步驟工作流步驟4「執行不打擾」：卡關寫 `_blocker_*.md` 跳過，不中途問頁數/換工具 | `_context/lessons-learned.md` |
 | 根 | 2026-05-03 | docx 註腳用 Word 頁尾 footnote，多次引用各生獨立 footnote，直改 `footnotes.xml` | `_context/lessons-learned.md` |
 | WTF | 2026-06-03 | 整個 repo 移出雲端硬碟＞只 split 子目錄；前提變了（用戶已整包移出）就重評方案、別照交接照單執行 | `_context/lessons-learned.md`（WTF repo） |
