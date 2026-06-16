@@ -16,8 +16,14 @@ description: 產出工作紀錄、呼叫 lesson-add 萃取教訓、commit 並 me
    - 讀取 `_context/lessons-learned.md`（不存在則建立）。
    - 呼叫 `lesson-add` 邏輯，從本次對話萃取有價值的教訓（錯誤修正、新規則、流程改善），追加至檔案中。
 
-3. **合併與推送 (`merge-main`)**：
+3. **清理視覺驗證擷圖**：
+   - AI 工作過程用於視覺驗證的擷圖屬暫時性產物，結案時一律清除，不入 commit、不長期堆積。
+   - 清除範圍：本專案 `workingfiles/_screenshots/` 下本次工作產生的擷圖（含各區子夾如 `_screenshots/ebook/`）。
+   - **保留例外**：已被 TaskLog／審查文件／交付物**引用**的圖，或使用者明確指定保留者，不刪。不確定是否被引用先 grep 檔名，再決定。
+   - 刪除前列出將清除的檔案清單；只清 `workingfiles/_screenshots/`，不碰 `outputs/`、`assets/` 等正式素材。
+
+4. **合併與推送 (`merge-main`)**：
    - 執行 `/merge-main` 將本次產出 commit、push 並 merge 至 main 分支。
 
-4. **回報摘要**：
+5. **回報摘要**：
    - 在對話中回報本次 Session 簡短摘要（3-5 條）。
