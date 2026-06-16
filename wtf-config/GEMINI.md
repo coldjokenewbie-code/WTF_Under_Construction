@@ -56,3 +56,7 @@
   - 格式：`DONE|Antigravity|<FileName>|<Timestamp>`
   - 獨立小任務、自主分析、非派發工作不需寫入。
 - **身為 Tech Lead（指揮層）**：無須寫入 `DONE` 訊號。負責發送 `REQUEST` 信號與持續監控 `AGENT_SIGNAL.log`，並在驗收通過後回寫 `VERIFIED` 信號。
+
+## 背景監控與自動喚醒機制
+
+- **定時喚醒防卡死**：在背景執行監控指令（如 tail 監控 `AGENT_SIGNAL.log`）時，**必須配合 `schedule` 啟動定時器（例如 90 秒，`TimerCondition` 依情境設定）**。禁止被動等待喚醒；必須藉由計時器定時喚醒自己，以主動檢查背景監控腳本狀態與日誌更新，確保監控不因 AI 進入 idle 狀態而中斷。
