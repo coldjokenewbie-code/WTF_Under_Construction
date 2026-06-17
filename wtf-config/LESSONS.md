@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 出勤 | 2026-06-16 | 低代碼儲存選型：唯讀＋小表（<2000列）＋低頻走 Excel 直連(須Table；如請假餘額/team_member，建清單反多餘)；多人並發寫＋需欄位/項目權限＋可能累積的走 SharePoint 清單(如出勤主檔：員工填回覆+行政填狀態+自動寫入三方並寫、實際出勤狀態要員工唯讀)——Excel 會鎖檔/覆蓋、無欄位權限、非委派2000列頂；按讀寫特性分流，非全清單或全Excel | `projects/出勤專案/_context/lessons-learned.md` |
 | 出勤 | 2026-06-14 | 舊交接記的環境限制（「Power Apps YAML 無法貼入」）要再驗別當永久前提：官方 pa.yaml paste code 新功能上線後實測可貼入並執行，舊結論是當時舊格式的；過時前提會讓整條路線繞遠路 | `projects/出勤專案/_context/lessons-learned.md` |
 | ai-team-todo | 2026-06-15 | Supabase 新金鑰(publishable/secret 在 Settings→API Keys)；個人單用戶 magic link 會撞寄信限額/Gmail預掃吃token→改 email+password(admin API 建帳號)；公開靜態部署只傳 build 子集排除機敏檔，Cloudflare Pages 未知路徑回 index.html(200) 驗洩漏要看內容非 HTTP code；DDL 不能用 secret key 跑(需 SQL Editor)；RLS 單租戶要 email allowlist | `https://github.com/coldjokenewbie-code/ai-team-todo` `_context/lessons-learned.md` |
 | CDIC | 2026-06-11 | 擋全域輸入掛 window capture 不掛 document（同節點同相位照註冊序，攔不到更早註冊者）；驗收要驗「過程中從未動過」(MutationObserver) 非只驗最終狀態；Playwright mouse.wheel 可能無效改合成 WheelEvent、觸控用 CDP dispatchTouchEvent | `projects/cowork_CDIC/_context/lessons-learned.md` |

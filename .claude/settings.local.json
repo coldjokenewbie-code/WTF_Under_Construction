@@ -81,7 +81,14 @@
       "Bash(sed -n '/其他工具/,/統計/p')",
       "Bash(echo \"exit=$?\")",
       "Bash(echo \"check 總 exit=$?\")",
-      "Bash(agy --print \"極簡回答（勿過度探索）。檢視你 ~/.gemini/GEMINI.md 全域指令：\\(1\\)【強制初始化協議】要你先讀哪個檔定位 WTF repo？\\(2\\) 接著 view_file 讀哪兩個 SSOT 檔名？\\(3\\) 技能載入是用原生 lazy-load 還是開場讀全部 SKILL.md body？三點各一句。\")"
+      "Bash(agy --print \"極簡回答（勿過度探索）。檢視你 ~/.gemini/GEMINI.md 全域指令：\\(1\\)【強制初始化協議】要你先讀哪個檔定位 WTF repo？\\(2\\) 接著 view_file 讀哪兩個 SSOT 檔名？\\(3\\) 技能載入是用原生 lazy-load 還是開場讀全部 SKILL.md body？三點各一句。\")",
+      "Bash(python \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" check)",
+      "Bash(git stash *)",
+      "Bash(python3 tools/todo-cli.py add --help)",
+      "Bash(python3 tools/todo-cli.py update --help)",
+      "Bash(lsof -ti:8799)",
+      "Bash(xargs kill)",
+      "Bash(rm -rf /tmp/ttest /tmp/table_test.js /tmp/table.png /tmp/ttest.log)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",

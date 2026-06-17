@@ -117,6 +117,13 @@
 2. 提供本次設定點位摘要。
 3. 更新 WTF_Under_Construction repo 的 `wtf-config/GLOBAL.md` 保持同步。
 
+## 共用資源（機器感知）
+
+- 資源清單 SSOT＝`wtf-config/RESOURCES.md`，是**機器感知的登記表**：登記每台機器/OS 有哪些資源、放哪、能不能用。
+- **資源實體（venv、大檔、腳本）不放 WTF、不跨機同步**；放各機本地 `Git_work/gen-tools/` 等，各機獨立建置。WTF 只留清單。
+- Agent 需要某資源時：先依**所在機器/OS**查 `RESOURCES.md` → 本機有就用登記路徑；無但需要就依「建立方式」建**對應系統版本**，建好回填該表。
+- **生成式影像／影片（GCP Vertex AI）**：帳號級能力、跨機通用（ADC 直呼 Imagen／Nano Banana／Veo）；腳本與 rembg 去背 `.venv` 則是機器專用資源，依上述查表。**任何專案的 agent 都可用**，別誤以為「不能生圖」。
+
 ## 工具層級設定
 
 各工具專屬規則獨立存放，全域設定 + 工具設定合併生效：
