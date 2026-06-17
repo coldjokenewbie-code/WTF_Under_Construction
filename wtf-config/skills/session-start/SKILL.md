@@ -12,15 +12,17 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 1. 核對全域設定
 
+> **python 指令依平台選（毋須試錯）**：環境 block 的 `Platform` 已標明 OS——macOS／Linux（darwin/linux）用 `python3`，Windows（win32）用 `python`。下文 `<PY>` 即代表此指令；別固定寫死，否則 Mac 上 `python` 不存在會報 `command not found`。
+
 0. **定位 SSOT（絕對路徑）**：讀 `~/.claude/wtf-root.txt` 取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`（hook／`sync_config.py` 寫出）。以下一律用 `<WTF_ROOT>` 組**絕對路徑**——`wtf-config` 已移出工作區，**非 WTF 專案用相對 `wtf-config/` 會抓不到**。讀不到 wtf-root.txt → 讀專案本地 `AGENTS.md`（已部署）並回報「SSOT 錨點缺失，請先跑一次 hook 或 sync」。
 1. 偵測電腦：本機（Claude Code／終端機）執行
-   `python "<WTF_ROOT>/wtf-config/sync_config.py" register`
+   `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" register`
    （Cowork 沙盒內跳過 `register`，沙盒抓不到實體機名）。
 2. 設定檢查：執行
-   `python "<WTF_ROOT>/wtf-config/sync_config.py" check`
+   `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" check`
    - 全 OK（hook 已同步）→ 不需動作。
    - **僅當** check 報 `STALE`／`BROKEN`／`MISSING`（hook 未生效或失敗）→ fallback 執行
-     `python "<WTF_ROOT>/wtf-config/sync_config.py" sync` 修復，並回報。
+     `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" sync` 修復，並回報。
 3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
 4. **全域設定修改建議**：讀 `<WTF_ROOT>/_context/nightly-notify.md`（不存在則略過）。若有**未勾 `- [ ]`** 項 → 開場**優先醒目提醒**：「💡 nightly 建議修改全域設定：<列出>，要採用嗎？採用我幫你套用並移除該行，不採用就刪行。」夜間 routine **只建議不自改**全域設定，由用戶在此核准（routine 寫建議→commit main→本機 pull→此處浮出）。
 
@@ -48,4 +50,4 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 > 工作區異常處置：若 `git status` 顯示工作區有未提交變更或無法快轉，**停下通知使用者**，不擅自 merge／rebase／覆蓋（此情境 hook 也會在 pull 失敗時回報）。
 
 > 本 skill 為共用 SSOT，位於 `wtf-config/skills/session-start/`。
-> 修改後需各機器執行 `python wtf-config/sync_config.py sync` 重新部署至全域 `~/.claude/skills/`。
+> 修改後需各機器執行 `<PY> wtf-config/sync_config.py sync`（`<PY>`：Mac/Linux=`python3`、Windows=`python`）重新部署至全域 `~/.claude/skills/`。
