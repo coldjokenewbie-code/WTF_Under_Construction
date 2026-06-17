@@ -88,7 +88,10 @@
       "Bash(python3 tools/todo-cli.py update --help)",
       "Bash(lsof -ti:8799)",
       "Bash(xargs kill)",
-      "Bash(rm -rf /tmp/ttest /tmp/table_test.js /tmp/table.png /tmp/ttest.log)"
+      "Bash(rm -rf /tmp/ttest /tmp/table_test.js /tmp/table.png /tmp/ttest.log)",
+      "PowerShell(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" register)",
+      "PowerShell(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" check)",
+      "PowerShell(git *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
