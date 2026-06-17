@@ -7,6 +7,10 @@
 * **重複速記不重收**：同名/同內容且先前已收錄者（本例 Drive 回寫使「工作修正出勤專案的儀表板」二度出現），**不再寫入 INBOX，只把原檔移出 Clippings 到 Ingested 清掉**，避免 INBOX 長出重複條目。
 * **skill 源與用戶當場定調衝突要回頭修源**：原 `wtf-config/skills/inbox/SKILL.md` 第 2 步寫「判定有疑慮先列給用戶確認」，正是它誘導我去問而被糾正。當場校準後應回修 skill 源並 `sync` 重新部署，否則下次照舊文又走錯（呼應「過期文件會反過來誤導 agent」）。
 
+## 2026-06-17 (session-start python 指令依平台選擇)
+
+* **`session-start` hook 呼叫 python 需依平台選指令**：環境 block 已含 `Platform` 欄位（`mac`/`linux`=`python3`，`windows`=`python`）。若寫死 `python` 在 Mac/Linux 回 `command not found`；寫死 `python3` 在 Windows 可能失敗。正確做法：讀 Platform → 選 `<PY>` → 代入指令，免試錯。此規則適用所有在 session-start 跑的 shell 腳本。
+
 ## 2026-06-09 (判讀／指派工作紀律：禁無證據硬湊、先建驗證視圖再判定)
 
 * **無證據絕不硬湊一個值**：配對/指派時若某項找不到依據，正確做法是標「未知」交人工審核，**禁止「找個附近沒用到的選項」填上去**。實例：PPT 拉線標註把 `2B-1` 錯讓出正確的 `td21` 後，因無引線依據，竟隨手挑一個附近沒用到的 `td224` 填給 `2B-1`——等於製造一筆假資料。寧可空、寧可標問號，不可憑空捏。
