@@ -90,6 +90,10 @@
 | cowork_CDIC | 2026-06-15 | E區投影牆波浪車道：canvas 裁 bbox(alpha>16)再置中；postMessage+BroadcastChannel 雙管→時間戳 t+lastT 去重；緩動用 smootherstep(6t^5-15t^4+10t^3)頭尾不突兀；平行波浪=同波項+差 base→永不交叉，±15%速差破整齊；波長太長≈直線(需畫面含 1.5 個起伏)；焦點元素給專用車道+從最右端進=零碰撞；動畫程式化取樣逐幀 getBCR(x,y)驗弧線+減速；kiosk 高來回→常數三組獨立命名(AMP/WL/ENTER_MS/速度因子)方便逐項微調 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-16 | 多團隊並行 repo 原子 add+commit：`git add` 後 staged 暴露給全 repo、別組 commit 會帶走→`add <自己檔> && commit` 一個 Bash call 內完成（縮短暴露窗）；commit 前 `diff --cached --name-only` 核對只含自己的檔，夾帶別組檔先 `reset` 再精準加 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | cowork_CDIC | 2026-06-16 | 電子書手機→桌機 RWD 三坑：①scale-to-fit `overflow:hidden` 殘留擋捲動（html 唯一垂直捲容器、body `overflow:visible`、`overscroll-behavior:auto`）②ken-burns `scale` 溢出須在直接容器加 `overflow:hidden` 裁③同特異度後者蓋前者破版需確認宣告序；前台文字編輯通用做法：葉節點 `contenteditable`+`data-ek` key；「存為預設值」＝File System Access 寫回 HTML `<script id="eb-defaults">` 任何裝置都讀得到；Content Pack+subagent 分版保文案一致不重複擷取 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| 出勤 | 2026-06-22 | Power Automate 四大坑：①運算式必用「fx token 插入」(直接打字變字面字串，症狀：輸出整段運算式文字)②SharePoint 欄「內部名≠顯示名」(中文欄常成 field_N，從執行 JSON key 確認)③Condition 無進階模式→左值用 fx、右值 fx 打 boolean true(直接打 `true` 是字串→永遠 false)④連動改有順序依賴：資料源→迴圈來源→內層運算式 | `attendance-dashboard/_context/lessons-learned.md` |
+| 出勤 | 2026-06-22 | 接手既有 Power Automate 流程先解壓匯出 zip 的 definition.json：真 action 名/欄繫結/URL/連線參照全在裡面，一次坐實病灶(「Select 映 null＝欄內部名是 field_3」等)，讓指南用真名寫、可直接照改 | `attendance-dashboard/_context/lessons-learned.md` |
+| 出勤 | 2026-06-22 | 同 repo 兩個 Claude CLI 並行：各 `git worktree add` 獨立目錄+分支，working tree/index 完全隔離不互踩 `git add`；共用紀錄檔(TaskLog/lessons)改「各寫各的新檔」避免 merge 衝突；各自完工後 merge main（後者先 pull） | `attendance-dashboard/_context/lessons-learned.md` |
+| 出勤 | 2026-06-22 | 採納外部 agent(Codex)建議要用自有系統知識守門：Codex 不知專屬架構(如 Planner2Line 路由靠主旨，To 必須是中繼信箱)，涉及專屬系統的建議 Tech Lead 須以掌握的架構否決，不照單全收 | `attendance-dashboard/_context/lessons-learned.md` |
 
 ---
 
@@ -105,6 +109,7 @@
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
 | Asembly_PPT（導覽 app 簡報） | python-pptx 換圖保位置(blip rEmbed+清 srcRect)、ppt 圖片零變形(frame 比例=截圖比例)、PowerPoint COM 算繪驗收、Playwright 截 app 隱藏 dev toolbar、fullPage vs fixed 元素 | `projects/Asembly_PPT/_context/lessons-learned.md` |
 | 南科再生水廠（環教中心展示） | 回顧型互動別做成記憶測驗、別把前段已強調的點當最終驚喜、PO要「有技術+要思考」≠記憶(給新問題用原理推)、ai-team 中 Antigravity headless(agy --print)非TTY回空只能走信號檔異步、Codex headless 直驅(< /dev/null)、D-4 Excel 勿過 LibreOffice recalc | `projects/南科再生水廠/_context/lessons-learned.md` |
+| 出勤（attendance-dashboard） | Power Apps/Power Automate 平台踩坑(運算式fx token/欄內部名field_N/Filter array相對迴圈/Select型別/Condition布林/連動改順序/OData $filter限制/convertFromUtc/Email欄型別/GroupBy v3語法/pa.yaml一畫面一檔/app不跑錯欄實為來源資料錯)、接手 PA 流程先解壓 definition.json、git worktree 並行 Claude CLI 隔離、外部 agent 建議須系統知識守門、PA 元件屢卡改等價更穩做法（Select去重→名冊迴圈）、沙盒 provenance xattr 問題 | `attendance-dashboard/_context/lessons-learned.md` |
 
 ---
 

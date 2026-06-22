@@ -7,4 +7,5 @@
 
 ---
 
-（目前無待核准建議）
+- [ ] 2026-06-23 nightly 建議修改全域設定（待用戶核准）
+  - `wtf-config/CLAUDE_CODE.md`：新增「同 repo 多個 Claude CLI 並行工作，應各自 `git worktree add <dir> <branch>` 建獨立目錄＋分支，working tree/index 完全隔離不互踩 `git add`；共用紀錄檔（TaskLog/lessons/INDEX）改「各寫各的新檔」避免 merge 衝突；各自完工後 merge main（後者先 pull）」—— 來源：attendance-dashboard 2026-06-22 實戰彙整
