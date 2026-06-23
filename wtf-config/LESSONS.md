@@ -94,6 +94,9 @@
 | 出勤 | 2026-06-22 | 接手既有 Power Automate 流程先解壓匯出 zip 的 definition.json：真 action 名/欄繫結/URL/連線參照全在裡面，一次坐實病灶(「Select 映 null＝欄內部名是 field_3」等)，讓指南用真名寫、可直接照改 | `attendance-dashboard/_context/lessons-learned.md` |
 | 出勤 | 2026-06-22 | 同 repo 兩個 Claude CLI 並行：各 `git worktree add` 獨立目錄+分支，working tree/index 完全隔離不互踩 `git add`；共用紀錄檔(TaskLog/lessons)改「各寫各的新檔」避免 merge 衝突；各自完工後 merge main（後者先 pull） | `attendance-dashboard/_context/lessons-learned.md` |
 | 出勤 | 2026-06-22 | 採納外部 agent(Codex)建議要用自有系統知識守門：Codex 不知專屬架構(如 Planner2Line 路由靠主旨，To 必須是中繼信箱)，涉及專屬系統的建議 Tech Lead 須以掌握的架構否決，不照單全收 | `attendance-dashboard/_context/lessons-learned.md` |
+| CDIC | 2026-06-23 | 交付文件必先問「給誰看」：給程式開發團隊只給 asset 檔名+結構，拿掉業主端內容（出處/來源/審稿/索取管道）；用語「廠商→開發團隊」「網站→多媒體展示項目」—— PO 連退數輪才 OK | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-06-23 | iPhone HEVC(hvc1) 在未裝擴充的 Chromium videoWidth=0，但 readyState=4/err=null/時長正常→極易誤判正常；判定要看 videoWidth>0 且查 fourcc(avc1/hvc1)；ffmpeg h264_videotoolbox 轉碼＋保留原檔名＋原檔移 OLD 備份 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-06-23 | Playwright 驗影片/圖兩大假象：①`page.setContent` 是 about:blank origin→file:// 影片回 err4 假失敗，需用真實 file:// HTML；②只滾到頂再數 naturalWidth=0 被 lazy 圖假陽性，判前須先全頁滾動觸發 lazy | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
@@ -103,7 +106,7 @@
 
 | 專案 | 涵蓋主題 | 連結 |
 |---|---|---|
-| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap、多裝置同步(狀態vs廣播/SSE/APK 建置)、外站擷圖批次管線、投影牆波浪車道動態(smootherstep/平行車道/程式化動畫取樣驗收)、多團隊並行 add+commit 原子化、手機→RWD scale-to-fit 陷阱(html 唯一捲動容器)、ken-burns 直接容器裁切、前台 contenteditable 編輯器(葉節點+data-ek)、File System Access 存為預設值(寫回 HTML)、Content Pack+subagent 分版 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC（CDIC 存保史料館） | 術語參照表優先、展品編號來源、年表整合、歷史照片來源、LibreOffice 渲染、素材主題真實相關、文案權威來源、三欄卡片版型、kiosk 互動、Playwright 視覺驗收、PPT QA 用 subagent、批次截圖固定寬、版面構圖診斷、CSS vs mp4 動畫判準、kiosk 簽名 canvas dpr cap、多裝置同步(狀態vs廣播/SSE/APK 建置)、外站擷圖批次管線、投影牆波浪車道動態(smootherstep/平行車道/程式化動畫取樣驗收)、多團隊並行 add+commit 原子化、手機→RWD scale-to-fit 陷阱(html 唯一捲動容器)、ken-burns 直接容器裁切、前台 contenteditable 編輯器(葉節點+data-ek)、File System Access 存為預設值(寫回 HTML)、Content Pack+subagent 分版、交付文件分對象(業主端vs開發團隊)、素材包分版(內部完整v1+冪等gen v2)、iPhone HEVC→H.264 轉碼、Playwright file://影片假失敗/lazy圖假陽性、大型素材包靠 Drive 同步不推 git、3.6MB minified HTML 外科改動(replace_once+div平衡計數)、中翻英對照表從目標檔抽 key | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | HsinchuSEC（科教館） | docx 多腳本執行順序（lxml 先字串後）、Word paraId 重生、雙螢幕截圖座標、FTE 與人頭數分標、面積非員額決定因素 | `projects/HsinchuScienceEducationCenter/_context/lessons-learned.md` |
 | 國圖南（SouthLibrary 互動展項） | PPT 頁碼會變動以內容為準、直書版面對位心法、字級名目pt≠render px、編輯模式存檔機制；互動展項：自動逾時計時器需在每條離開路徑清除（多輪 Playwright 才驗出）、baked 文字補丁疊蓋法、版面變形器(outro 結尾頁/待機 idle.png)、B-7-1 與書相遇(資料驅動場所底圖/感應台循環)、多展項並行只 stage 自己的檔 | `SouthLibrary/_context/lessons-learned.md` |
 | ppt_map_mark（PPT 拉線標註） | PPT COM 自動化匯出 PNG、跨頁底圖 bbox 座標對位（srcRect+group transform 正規化映射）、引線起點=文字實際結尾（Range/像素掃描）、定位法定案（染紅渲染+綠遮罩+td編號）、孤兒 pin 禁距離硬指派、工作紀律（無證據標未知/先建驗證視圖再判定）、圖示色塊用圖例 prstGeom（別預設方形）、xlsx 刪內嵌圖須清 ws._images（openpyxl round-trip 會保留圖）、Excel 多工作表+地圖舊編號≠資料表須標題比對 | `projects/ppt_map_mark/_context/lessons-learned.md` |
