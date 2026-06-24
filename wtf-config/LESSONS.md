@@ -97,6 +97,8 @@
 | CDIC | 2026-06-23 | 交付文件必先問「給誰看」：給程式開發團隊只給 asset 檔名+結構，拿掉業主端內容（出處/來源/審稿/索取管道）；用語「廠商→開發團隊」「網站→多媒體展示項目」—— PO 連退數輪才 OK | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-06-23 | iPhone HEVC(hvc1) 在未裝擴充的 Chromium videoWidth=0，但 readyState=4/err=null/時長正常→極易誤判正常；判定要看 videoWidth>0 且查 fourcc(avc1/hvc1)；ffmpeg h264_videotoolbox 轉碼＋保留原檔名＋原檔移 OLD 備份 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-06-23 | Playwright 驗影片/圖兩大假象：①`page.setContent` 是 about:blank origin→file:// 影片回 err4 假失敗，需用真實 file:// HTML；②只滾到頂再數 naturalWidth=0 被 lazy 圖假陽性，判前須先全頁滾動觸發 lazy | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| 出勤 | 2026-06-24 | Power Automate「更新項目(PatchItem)」不要填 Title，否則報「Item/Title 已不存在於作業模式中」孤兒參照（Save As 複本帶失效繫結／Title 改過顯示名 schema 無此 key）；修法＝直接移除 Title 那格即可，不必整個動作重建。更新用 id 定位既有列、Title 留空不會被清空；只有「建立項目」才必填 Title（兼唯一鍵） | `attendance-dashboard/_context/lessons-learned.md` |
+| 組立導覽 | 2026-06-24 | 博物館導覽 App 定位：導覽≠策展（導覽是中介既有展場、不創造新敘事，別把貫穿主線/旅程隱喻當導覽）；實體展已是沉浸主秀(機具劇場/剖面動畫/燈光秀/導覽員)時 App 別複製內容或做奇觀＝跟實體+真人搶注意力且必輸，價值在散客缺口(逐人化/帶路/記憶)；鉤子屬展項本身、豐富(AR/音訊)只過三缺口閘(物件不在現地/看不見聽不到/時間維度)；帶路＝空間+內容+服務三維(有意圖拉/無意圖推同引擎、預設推拉一鍵)；音訊優先但須文字雙軌(否則擋聽障)、觸發用編號鍵入勝QR；舊投標規劃(人×事×物/RFID/Beacon)製作期須重新核對非規格 | `Assembly_Plant_Mobile_Guide/_context/lessons-learned.md` |
 
 ---
 
