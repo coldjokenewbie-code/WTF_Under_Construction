@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>時光旅人版 — 組立工場導覽</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"PingFang TC","Noto Sans TC",sans-serif;background:#eef2f6;color:#16202b;
+ display:flex;flex-direction:column;height:100svh;overflow:hidden}
+.top{display:flex;gap:8px;padding:14px 16px 6px}
+.chip{background:#fff;border:1px solid #d3dde7;border-radius:20px;padding:8px 14px;font-size:15px;
+ min-height:40px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+/* 情境時間橫幅 */
+.now{margin:8px 16px 0;background:linear-gradient(135deg,#0f4c81,#1c6fb3);color:#fff;border-radius:20px;
+ padding:16px 18px;box-shadow:0 8px 22px rgba(15,76,129,.28);position:relative;overflow:hidden}
+.now .pulse{position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;
+ background:radial-gradient(circle,rgba(255,255,255,.25),transparent 70%);animation:rad 3s ease-out infinite}
+@keyframes rad{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.4);opacity:0}}
+.now .lab{font-size:14px;opacity:.9}.now .big{font-size:23px;font-weight:800;margin:3px 0}
+.now .cta{margin-top:8px;display:inline-block;background:#fff;color:#0f4c81;font-weight:800;
+ border-radius:14px;padding:10px 16px;font-size:16px;min-height:44px}
+/* 情境撥盤 */
+.dial{display:flex;gap:8px;overflow-x:auto;padding:14px 16px 4px;scrollbar-width:none}
+.dial::-webkit-scrollbar{display:none}
+.seg{flex:0 0 auto;background:#fff;border:1px solid #d3dde7;border-radius:16px;padding:10px 14px;
+ font-size:15px;font-weight:700;min-height:44px;display:flex;align-items:center;gap:6px}
+.seg.on{background:#16202b;color:#fff;border-color:#16202b}
+/* 路線卡 + 流光路徑 */
+.route{flex:1;overflow-y:auto;padding:6px 16px 4px}
+.route h2{font-size:15px;color:#5b6b7a;margin:8px 2px}
+.line{position:relative;padding-left:26px}
+.line::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;border-radius:3px;
+ background:linear-gradient(#1c6fb3,#8fc0e6);}
+.line::after{content:"";position:absolute;left:6px;top:0;width:9px;height:9px;border-radius:50%;
+ background:#1c6fb3;box-shadow:0 0 0 4px rgba(28,111,179,.2);
+ animation:flow 3s ease-in-out infinite}
+@keyframes flow{0%{top:2%}100%{top:92%}}
+.rc{background:#fff;border:1px solid #e0e7ee;border-radius:16px;padding:13px 15px;margin-bottom:10px;
+ display:flex;gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.rc .n{width:30px;height:30px;border-radius:50%;background:#eaf2fa;color:#0f4c81;font-weight:800;
+ display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+.rc h3{font-size:17px}.rc p{color:#5b6b7a;font-size:14px;margin-top:2px}
+.rc .t{margin-left:auto;color:#0f4c81;font-weight:700;font-size:14px}
+/* 底部音訊膠囊 */
+.dock{padding:10px 14px calc(14px + env(safe-area-inset-bottom));background:#eef2f6}
+.cap{background:#16202b;color:#fff;border-radius:20px;padding:12px 14px;display:flex;align-items:center;gap:12px;
+ box-shadow:0 10px 26px rgba(0,0,0,.22)}
+.cap .art{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#c8621f,#e7b55b);
+ display:flex;align-items:center;justify-content:center;font-size:22px;flex:0 0 44px}
+.cap .meta{flex:1;min-width:0}.cap .meta b{font-size:15px;display:block}
+.cap .meta span{font-size:13px;color:#9fb0c0}
+.cap .wave{display:flex;gap:2px;align-items:flex-end;height:20px}
+.cap .wave i{width:3px;background:#e7b55b;border-radius:2px;animation:eq 1s ease-in-out infinite}
+.cap .wave i:nth-child(2){animation-delay:.2s}.cap .wave i:nth-child(3){animation-delay:.4s}
+.cap .wave i:nth-child(4){animation-delay:.6s}.cap .wave i:nth-child(5){animation-delay:.8s}
+@keyframes eq{0%,100%{height:30%}50%{height:100%}}
+.cap .pp{width:46px;height:46px;border-radius:50%;background:#e7b55b;color:#16202b;border:none;
+ font-size:20px;flex:0 0 46px;font-weight:900}
+.hand{width:38px;height:4px;border-radius:2px;background:#c3cfda;margin:2px auto 8px}
+</style></head><body>
+  <div class="top"><span class="chip">🌐 中文</span><span class="chip">♿ 無障礙</span><span class="chip">Ａ⁺ 大字</span></div>
+
+  <div class="now"><div class="pulse"></div>
+    <div class="lab">現在 14:15・你在 蒸汽機廣場附近</div>
+    <div class="big">下一場真人導覽 14:30</div>
+    <span class="cta">▶ 先聽 15 分鐘・剛好接上</span>
+  </div>
+
+  <div class="dial">
+    <span class="seg on">⏱ 40 分鐘必看</span>
+    <span class="seg">🕑 接 14:30 場</span>
+    <span class="seg">🚂 鐵道迷自由查</span>
+    <span class="seg">♿ 無障礙路線</span>
+  </div>
+
+  <div class="route">
+    <h2>幫你排好的 40 分鐘・4 站</h2>
+    <div class="line">
+      <div class="rc"><span class="n">1</span><div><h3>蒸汽機廣場</h3><p>老職工開場・鎮館之寶</p></div><span class="t">8 分</span></div>
+      <div class="rc"><span class="n">2</span><div><h3>車床區・AR 還原</h3><p>看不見的機具重新運轉</p></div><span class="t">10 分</span></div>
+      <div class="rc"><span class="n">3</span><div><h3>鉚接工坊</h3><p>聽當年的鉚釘聲</p></div><span class="t">7 分</span></div>
+      <div class="rc"><span class="n">4</span><div><h3>接 14:30 真人導覽</h3><p>集合點就在前方</p></div><span class="t">現場</span></div>
+    </div>
+  </div>
+
+  <div class="dock"><div class="hand"></div>
+    <div class="cap">
+      <div class="art">🎧</div>
+      <div class="meta"><b>老職工帶路・蒸汽機廣場</b><span>音訊導覽・02:14 / 06:30</span></div>
+      <div class="wave"><i></i><i></i><i></i><i></i><i></i></div>
+      <button class="pp">⏸</button>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 中立自主任務助理框架 — 方案與實作（2026-06-24）</title>
+<style>
+:root{--bg:#0f1220;--card:#1a1f35;--ink:#e8eaf2;--mut:#9aa3c0;--line:#2a3150;
+ --ok:#46d39a;--warn:#ffcf5c;--blue:#6ea8ff;--pink:#ff8fb1;--rec:#7c5cff}
+*{box-sizing:border-box}
+body{font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);
+ color:var(--ink);max-width:980px;margin:0 auto;padding:28px 18px 60px;line-height:1.6}
+h1{font-size:25px;margin:0 0 4px}h2{font-size:19px;margin:34px 0 12px;border-left:4px solid var(--rec);padding-left:10px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:8px}
+.tag{display:inline-block;background:#23284a;color:var(--blue);border:1px solid var(--line);
+ border-radius:20px;padding:2px 11px;font-size:12px;margin:2px 4px 2px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.card.rec{border-color:var(--rec);box-shadow:0 0 0 1px var(--rec) inset}
+.card h3{margin:0 0 6px;font-size:16px}.card .lv{font-size:12px;color:var(--mut)}
+.card ul{margin:8px 0 0;padding-left:18px}.card li{font-size:13px;margin:3px 0}
+.badge{float:right;background:var(--rec);color:#fff;font-size:11px;padding:2px 8px;border-radius:8px}
+.pillar{display:grid;grid-template-columns:140px 1fr;gap:0 14px;align-items:start;
+ border-bottom:1px solid var(--line);padding:12px 0}
+.pillar b{color:var(--ok)}.pillar .e{color:var(--mut);font-size:13px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+pre{background:#0b0e1a;border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+ overflow:auto;color:#c7d0f5;font-size:12.5px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}th{background:#20264a;color:var(--mut)}
+.ok{color:var(--ok);font-weight:700}.metric{font-size:22px;color:var(--ok);font-weight:800}
+.flow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;
+ font-size:13px;color:#cdd5f5}.flow b{color:var(--blue)}
+.note{background:#171b30;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;
+ color:var(--mut);font-size:13px;margin-top:10px}
+footer{color:var(--mut);font-size:12px;margin-top:34px;text-align:center;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.pillar{grid-template-columns:1fr}}
+</style></head><body>
+
+<h1>🤖 AI 中立的自主任務助理框架</h1>
+<div class="sub">方案規劃 + 實作測試｜2026-06-24｜ai-team 三方協作（Tech Lead: Claude／執行驗收: Codex · Antigravity）</div>
+<span class="tag">不綁特定 AI</span><span class="tag">自主執行</span><span class="tag">省 API 額度</span>
+<span class="tag">低風險（不亂操作網站）</span><span class="tag">自動學習</span>
+
+<h2>三個建置層級方案（請 PO 選）</h2>
+<div class="sub">三方討論收斂出同一骨架（本地確定性核心 + 薄 AI 接口 + 安全閘 + 學習迴圈），差別在「建多少」。</div>
+<div class="grid">
+  <div class="card">
+    <h3>方案 A</h3><div class="lv">就地擴充 WTF · 最省</div>
+    <ul>
+      <li>用既有 hook / skill / lessons / nightly 延伸</li>
+      <li>加「本地優先路由查表 + lesson→skill 升級管線」</li>
+      <li>✅ 最快、風險最低</li>
+      <li>⚠️ orchestration 仍半自動（靠 session 觸發）</li>
+    </ul>
+  </div>
+  <div class="card rec">
+    <span class="badge">已實作 · 推薦</span>
+    <h3>方案 B</h3><div class="lv">獨立本地 Orchestrator · 中度</div>
+    <ul>
+      <li>本地 Python <span class="mono">assistant/</span>：Broker + Registry + Adapter + Policy Gate + 學習器</li>
+      <li>任務用 Spec 描述、本地確定性執行為主</li>
+      <li>✅ 中立/自主/省API/可學習皆到位，可分階段</li>
+      <li>本次已做出 MVP 並通過驗收（見下）</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>方案 C</h3><div class="lv">全自動事件驅動 daemon · 重</div>
+    <ul>
+      <li>B + 常駐 daemon + 任務佇列 + 跨機自動派工</li>
+      <li>+ 複利成本 dashboard</li>
+      <li>✅ 最自主</li>
+      <li>⚠️ 建置/維運/安全成本最高</li>
+    </ul>
+  </div>
+</div>
+
+<h2>核心設計：五大支柱（皆已用實測證據驗證）</h2>
+<div class="pillar"><div><b>AI 中立</b></div>
+  <div class="e"><span class="mono">adapter.py</span> 把「呼叫 LLM」抽象成統一介面，底層 claude / codex / agy 可換；
+  各 AI 只是行為引擎、不持有任務真相源。<br>證據：測試證實同一介面下三家 argv 正確抽換。</div></div>
+<div class="pillar"><div><b>自主執行</b></div>
+  <div class="e">一道 <span class="mono">run_task.py &lt;spec&gt;</span> 從分類→路由→執行→產物全自動，無人介入。<br>
+  證據：project_digest 自動掃 10 個 repo 出 HTML 摘要。</div></div>
+<div class="pillar"><div><b>省 API 額度</b></div>
+  <div class="e">本地優先：命中 registry 就跑確定性腳本、<b>完全不呼叫 LLM</b>；只有未本地化/失敗才 fallback，且預設 dry（不花錢）。<br>
+  證據：<span class="metric">llm_calls_per_task = 0.0</span></div></div>
+<div class="pillar"><div><b>低風險</b></div>
+  <div class="e">Policy Gate 雙層 + 受控 executor：拒 網路操作 / <span class="mono">rm -rf</span> / git push·clone·pull / 注入字元 / 路徑穿越 / symlink 改名 / 寫入區執行檔；只能寫白名單目錄、永不 <span class="mono">shell=True</span>。</div></div>
+<div class="pillar"><div><b>自動學習</b></div>
+  <div class="e">每步寫結構化事件 → <span class="mono">learn.py</span> 算複利指標、偵測「重複 fallback」→ 自動產<b>升級草案</b>（待 PO 審核，不自動生效）→ 升級成 handler 後該類任務 llm_calls→0。<br>
+  證據：summarize_pdf 連 2 次 fallback 被偵測，自動產 <span class="mono">.draft</span>。</div></div>
+
+<div class="flow" style="margin-top:14px">
+  <b>資料流：</b>任務 Spec → 分類 →
+  <b>命中 registry？</b> 是 → 本地確定性 handler（llm_calls=0）→ Policy Gate 每步攔截 → 產物
+  ｜ 否 → Fallback Adapter（dry 預設不花 API，帶已完成軌跡避免重做）→ 寫事件 →
+  <b>learn</b> 偵測重複 → 升級草案 → PO 審核 → 本地化（下次零 LLM）
+</div>
+
+<h2>實作成果（方案 B MVP，已測）</h2>
+<table>
+  <tr><th>項目</th><th>結果</th></tr>
+  <tr><td>程式規模</td><td>889 行 Python，<b>零外部依賴</b>（連 schema 驗證都自寫，不裝套件＝省、可離線、跨機免安裝）</td></tr>
+  <tr><td>自驗測試套件</td><td class="ok">30 / 30 全過（可離線跑）</td></tr>
+  <tr><td>PoC 任務 project_digest</td><td>掃本機 10 個 repo → 13 區 HTML 摘要，<span class="ok">llm_calls=0</span></td></tr>
+  <tr><td>config_sync_check</td><td>複用 sync_config check，<span class="ok">llm_calls=0</span></td></tr>
+  <tr><td>學習指標</td><td>llm_calls_per_task=0.0、local_resolution_rate=0.667、policy_block_rate=0.325</td></tr>
+  <tr><td>自動學習</td><td>偵測重複 fallback → 自動產升級草案 .draft（待審核）</td></tr>
+</table>
+
+<div class="note">
+<b>輪流驗收（ai-team 鐵則：不自驗自過）：</b>
+Codex → <b>PASS</b>（12/12）；Antigravity → <b>PASS with notes</b>，抓到 3 個真實安全洞
+（寫入區 write-then-execute / git 網路未擋 / symlink 改名繞過）→ Claude 全數修補並加 6 項回歸測試 →
+Antigravity 複驗 <b>CLOSED-PASS</b>。
+</div>
+
+<h2>怎麼用</h2>
+<pre>python3 tools/assistant/run_task.py tools/assistant/tasks/project-digest.task.json   # 跑任務（零 LLM）
+python3 tools/assistant/tests/test_safety.py     # 自驗 30 項（離線）
+python3 tools/assistant/learn.py                 # 算複利指標 + 產升級草案
+python3 tools/assistant/run_task.py --dump-registry            # 看能力契約
+# fallback 預設 dry 不花 API；要真呼叫 LLM 才加 --allow-llm --backend codex|claude|agy</pre>
+<div class="note">「教它一類新工作」= 在 <span class="mono">handlers/</span> 寫一個 <span class="mono">run(spec,ctx)</span> + 在 registry 註冊。
+通常由 learn 的升級草案觸發：某類任務一直靠 LLM → PO 核准草案 → 本地化 → 之後零 LLM。這就是<b>越用越省的複利</b>。</div>
+
+<h2>請 PO 裁示</h2>
+<table>
+  <tr><th>決策</th><th>選項</th></tr>
+  <tr><td>採哪個方案續推</td><td>A（最省半自動）／<b>B（已有 MVP，推薦）</b>／C（全自動 daemon）</td></tr>
+  <tr><td>是否 commit 本次成果</td><td>ai-team 未自行 commit，待你驗收後決定（含 <span class="mono">tools/assistant/</span> 與本討論檔）</td></tr>
+  <tr><td>下一個要本地化的任務</td><td>例：PPT/docx→PDF→PNG 對位量測、Remotion 渲染、儀表板更新（皆高頻、確定性、最該本地化）</td></tr>
+</table>
+
+<footer>ai-team · 3 輪討論 + 1 輪輪流驗收（含修補複驗）· Tech Lead: Claude@comaMacBookAir<br>
+討論全程：<span class="mono">_context/AI_TEAM_DISCUSSION_2026-06-24_ai-assistant-framework.md</span>　框架：<span class="mono">tools/assistant/</span></footer>
+</body></html>

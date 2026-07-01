@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>職人記憶版 — 組立工場導覽</title>
+<style>
+:root{--ink:#f5efe4;--rust:#c8621f;--brass:#e7b55b;--steel:#2a2f36;--coal:#14171c}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"PingFang TC","Noto Sans TC",sans-serif;background:var(--coal);color:#f5efe4;
+ overflow-y:scroll;scroll-snap-type:y mandatory}
+.screen{height:100svh;scroll-snap-align:start;position:relative;overflow:hidden;
+ display:flex;flex-direction:column}
+/* 頂列：無障礙/多語 */
+.top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;gap:8px;
+ padding:14px 16px;font-size:15px}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+ color:#f5efe4;border-radius:20px;padding:7px 14px;backdrop-filter:blur(6px);min-height:40px;
+ display:flex;align-items:center}
+/* 首屏 */
+.hero{background:radial-gradient(120% 80% at 50% 12%,#3a2a1c 0%,#1b1712 55%,#0e0b09 100%)}
+.worker{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center}
+.worker svg{width:78%;max-width:320px;margin-bottom:34svh;filter:grayscale(1) contrast(1.1);
+ animation:colorize 6s ease-in-out 1s forwards}
+@keyframes colorize{to{filter:grayscale(0) contrast(1.05)}}
+.dust{position:absolute;inset:0;background:
+ radial-gradient(2px 2px at 20% 30%,rgba(231,181,91,.5),transparent),
+ radial-gradient(2px 2px at 70% 40%,rgba(231,181,91,.35),transparent),
+ radial-gradient(1px 1px at 45% 60%,rgba(231,181,91,.4),transparent);
+ animation:float 8s linear infinite;opacity:.7}
+@keyframes float{to{transform:translateY(-24px)}}
+.headline{position:absolute;top:16svh;left:0;right:0;text-align:center;padding:0 24px;z-index:3}
+.headline .k{color:#e7b55b;letter-spacing:3px;font-size:15px;margin-bottom:10px}
+.headline h1{font-size:30px;line-height:1.35;font-weight:800;text-shadow:0 2px 18px #000}
+.headline p{margin-top:10px;color:#d8cbb6;font-size:16px}
+/* 拇指區音訊鍵 */
+.dock{position:absolute;left:0;right:0;bottom:0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));
+ z-index:4;background:linear-gradient(180deg,transparent,rgba(8,6,5,.86) 42%)}
+.play{width:100%;min-height:76px;border:none;border-radius:22px;cursor:pointer;
+ background:linear-gradient(135deg,#c8621f,#e7b55b);color:#1a120a;font-size:20px;font-weight:800;
+ display:flex;align-items:center;justify-content:center;gap:14px;
+ box-shadow:0 0 0 0 rgba(231,181,91,.55);animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(231,181,91,.5);transform:translateY(0)}
+ 50%{box-shadow:0 0 0 16px rgba(231,181,91,0);transform:translateY(-2px)}}
+.wave{display:flex;gap:3px;align-items:flex-end;height:26px}
+.wave i{width:4px;background:#1a120a;border-radius:2px;animation:eq 1s ease-in-out infinite}
+.wave i:nth-child(1){height:40%;animation-delay:0s}.wave i:nth-child(2){height:90%;animation-delay:.15s}
+.wave i:nth-child(3){height:60%;animation-delay:.3s}.wave i:nth-child(4){height:100%;animation-delay:.45s}
+.wave i:nth-child(5){height:50%;animation-delay:.6s}
+@keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
+.sub{margin-top:12px;text-align:center;color:#c9bca4;font-size:15px}
+.dots{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:5;
+ display:flex;flex-direction:column;gap:8px}
+.dots b{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dots b.on{background:#e7b55b;height:20px;border-radius:5px}
+/* 第二屏：故事卡 */
+.story{background:linear-gradient(180deg,#141a1f,#0e0b09);justify-content:center;padding:0 22px;gap:16px}
+.story h2{font-size:24px;color:#e7b55b}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(231,181,91,.25);border-radius:18px;
+ padding:18px 18px;display:flex;gap:14px;align-items:center;min-height:84px}
+.card .em{font-size:34px}.card h3{font-size:18px;margin-bottom:4px}.card p{color:#c9bca4;font-size:15px}
+/* 第三屏：路徑 */
+.route{background:linear-gradient(180deg,#0e0b09,#1b1712);justify-content:center;padding:0 22px}
+.route h2{font-size:23px;color:#e7b55b;margin-bottom:18px;text-align:center}
+.step{display:flex;gap:14px;align-items:center;padding:12px 0;border-left:2px solid rgba(231,181,91,.4);
+ margin-left:16px;padding-left:18px;position:relative}
+.step::before{content:"";position:absolute;left:-7px;width:12px;height:12px;border-radius:50%;background:#c8621f}
+.time{position:absolute;top:12svh;left:0;right:0;text-align:center;color:#e7b55b;font-size:15px;z-index:3}
+</style></head><body>
+
+<section class="screen hero">
+  <div class="top"><span class="chip">🌐 EN</span><span class="chip">🔊 音訊</span><span class="chip">Ａ⁺ 大字</span></div>
+  <div class="time">🕑 下一場導覽 14:30・剩 15 分</div>
+  <div class="dust"></div>
+  <div class="worker"><svg viewBox="0 0 200 260" fill="none">
+    <ellipse cx="100" cy="250" rx="70" ry="10" fill="#000" opacity=".5"/>
+    <path d="M70 250V150c-14-6-22-20-22-40 0-8 3-14 3-14l-8-30c-2-8 10-12 13-4l9 28c6-3 15-5 22-5s16 2 22 5l9-28c3-8 15-4 13 4l-8 30s3 6 3 14c0 20-8 34-22 40v100z" fill="#7d5a3a"/>
+    <circle cx="100" cy="52" r="26" fill="#a9835a"/>
+    <path d="M74 46c0-16 12-28 26-28s26 12 26 28c0 4-2 8-2 8H76s-2-4-2-8z" fill="#3b2a1c"/>
+    <rect x="60" y="150" width="80" height="70" rx="10" fill="#c8621f"/>
+    <circle cx="100" cy="180" r="10" fill="#e7b55b"/>
+  </svg></div>
+  <div class="headline">
+    <div class="k">老職工帶路</div>
+    <h1>跟著我，走一趟<br>組立工場的輝煌</h1>
+    <p>戴上耳機，把雙手空出來拍照</p>
+  </div>
+  <div class="dots"><b class="on"></b><b></b><b></b></div>
+  <div class="dock">
+    <button class="play"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span>聽老職工帶路</button>
+    <div class="sub">往上滑，看看他想帶你去哪 ↑</div>
+  </div>
+</section>
+
+<section class="screen story">
+  <h2>他記得的事</h2>
+  <div class="card"><span class="em">🎵</span><div><h3>消失的歌聲</h3><p>英國俘虜曾在這裡唱的歌，原地播給你聽</p></div></div>
+  <div class="card"><span class="em">🔧</span><div><h3>不在現地的機具</h3><p>用 AR 讓老車床重新轉起來</p></div></div>
+  <div class="card"><span class="em">📻</span><div><h3>工場的聲音</h3><p>汽笛、鉚釘、廣播——邊走邊聽</p></div></div>
+</section>
+
+<section class="screen route">
+  <h2>今天，他想這樣帶你走</h2>
+  <div class="step"><div><h3>入口・汽笛聲</h3><p>從這裡開始，聽一段開場</p></div></div>
+  <div class="step"><div><h3>蒸汽機廣場</h3><p>老職工說說當年的震撼</p></div></div>
+  <div class="step"><div><h3>車床區・AR 還原</h3><p>看不見的機具重新運轉</p></div></div>
+  <div class="step"><div><h3>14:30 現場導覽</h3><p>剛好接上下一場，別錯過</p></div></div>
+</section>
+</body></html>

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event",
+  "description": "結構化執行事件（events.jsonl 每行一筆）。學習蒸餾與成本指標的唯一資料來源。",
+  "type": "object",
+  "required": ["ts", "task_id", "phase"],
+  "properties": {
+    "ts": {"type": "string", "description": "ISO8601 時間戳"},
+    "task_id": {"type": "string"},
+    "run_id": {"type": "string", "description": "單次執行 ID（同任務多次執行可比較複利）"},
+    "phase": {
+      "type": "string",
+      "enum": ["start", "classified", "preflight", "policy_decision", "tool_exec", "handler_result", "fallback", "artifact_written", "blocked", "finish"],
+      "description": "生命週期階段"
+    },
+    "task_type": {"type": "string"},
+    "handler": {"type": "string"},
+    "llm_calls": {"type": "integer", "description": "本階段累計的 LLM 呼叫次數（省 API 指標）"},
+    "decision": {"type": "string", "description": "policy 判定：allow / deny"},
+    "reason": {"type": "string"},
+    "ok": {"type": "boolean"},
+    "detail": {"type": "object"}
+  }
+}

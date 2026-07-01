@@ -1,0 +1,13 @@
+{
+  "id": "config-sync-check",
+  "goal": "確認跨工具設定與 SSOT 一致",
+  "task_type": "config_sync_check",
+  "params": {},
+  "constraints": {
+    "allow_network": false,
+    "allow_llm": false,
+    "write_allowlist": ["data", "outputs"],
+    "max_retries": 1
+  },
+  "expected_output": "outputs/config-sync_*.txt（零 LLM、check 唯讀）"
+}

@@ -1,0 +1,1 @@
+[{"rule": "page_renders", "min": 3}, {"rule": "no_broken_img"}, {"rule": "no_overflow", "selector": ".stage"}, {"rule": "text_len", "selector": ".menu-item", "max": 14}]

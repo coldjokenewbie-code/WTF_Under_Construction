@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "task_spec",
+  "description": "AI 中立任務助理的任務描述。鎖定格式以利分類/路由/驗收/學習蒸餾。",
+  "type": "object",
+  "required": ["id", "goal", "task_type", "constraints"],
+  "properties": {
+    "id": {"type": "string", "description": "任務唯一 ID（kebab-case）"},
+    "goal": {"type": "string", "description": "一句話目標"},
+    "task_type": {"type": "string", "description": "路由用任務類型（對應 registry pattern）"},
+    "params": {"type": "object", "description": "handler 動態參數（如 since、limit）"},
+    "constraints": {
+      "type": "object",
+      "description": "硬限制；Policy Gate 與 executor 會強制套用",
+      "properties": {
+        "allow_network": {"type": "boolean", "description": "預設 false：禁網路操作"},
+        "allow_llm": {"type": "boolean", "description": "預設 false：fallback 才需，且要 PO 開"},
+        "write_allowlist": {"type": "array", "items": {"type": "string"}, "description": "允許寫入的相對目錄"},
+        "max_retries": {"type": "integer", "description": "重試上限，防 try-error 燒額度"}
+      }
+    },
+    "expected_output": {"type": "string", "description": "預期產物（驗收用）"}
+  }
+}

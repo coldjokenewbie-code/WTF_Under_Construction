@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-02 (AI 助理框架 / 視覺評分嚴格 / 待辦整合)
+
+* **視覺品質評分要嚴格，「盲評」系統性灌水**：讓看不到畫面的 headless agent（Codex/Antigravity）用「文字描述」打視覺分，它只會照被美化的描述給高分——實測描述完 blueprint 版給 7.4→8.1，PO 看真畫面說「非常糟、1-2 分」。視覺真相源＝**實際截圖**（我 `Read` PNG 親眼看）＋PO 目視；agent 只能協助 rubric/挑毛病，不能當分數來源。CSS+emoji／無真實影像／無留白＝學生作品；一流 museum app＝一張強主視覺(滿版真圖)＋極簡字＋大留白＋單一動作，**克制 > 堆裝飾**。要真實影像才可能及格（授權後抓免費 PD 圖/生成並標來源）。
+* **「AI 助理框架」＝治 agent 的 harness，不是工作流函式庫**：預先註冊每個 handler ＝使用者得先定義每個流程＝跟直接下指令沒差、無槓桿。使用者要的是**對任意任務都強制紀律**：動工前立契約(範疇+驗收標準+授權 preflight)、宣稱完成前必附自驗證據才放行、每次留紀錄定期回顧。關鍵「靠結構強制、不靠 AI 自律」（**溝通冗贅＝紀律漂移徵兆**）。跨工具 hook 不對等(只 Claude Code 有原生攔截 hook)→強制點放外部＋**教練/品管制(換另一個 AI 驗收，結構杜絕自驗自過)**。
+* **本地優先路由省 API；自訂 delimiter 會撞 Policy Gate**：確定性 handler 命中 registry 即繞過 LLM（llm_calls=0）。實作踩坑：git `--format=%h|%ad|%s` 的 `|` 被 Policy Gate 當 shell 元字元/注入擋下（**反證 policy 有效**）→ 改 ASCII unit separator `%x1f`。安全閘經驗收又補：禁執行寫入區(data/outputs)腳本(write-then-execute)、git 網路子命令(clone/pull/fetch)在 allow_network=false 時拒、realpath 反 symlink 改名。
+* **待辦架構定案：TaskLog=真相源、待辦 App=鏡像、廢 INBOX.md**：語音(Obsidian Inbox)→ `/inbox` 分流：專案工作→該專案 TaskLog(真相源)＋鏡像進 ai-team-todo App(owner=AI)；個人雜務(報帳/租車)→只進 App(owner=user)。App owner 分 user/AI 讓 PO 掌握「AI 執行工作量」。廢 INBOX 避免 INBOX/INDEX/TaskLog 三頭馬車。**/inbox 收尾只 `git add` 本次寫入的 TaskLog 檔**，勿 `add _context/`／`-A`（會掃進無關未追蹤檔，本次誤committed 一個舊 TaskLog）。
+
 ## 2026-06-07 (/inbox 首次實跑：快速捕捉工具不中途問、標題式為常態、重複不重收)
 
 * **快速捕捉型指令（/inbox）下了就一路處理完，禁中途用 AskUserQuestion 問**：用戶用 `/inbox` 是為了「快速紀錄想法/待辦」，回覆問題的時間他自己早分流完了——要他標注他不如自己做。歸屬有多候選（如 `claude_CDIC_O4` vs `cowork_CDIC`）時，**自行依關鍵詞/近期活躍度歸納**，判不出才落 WTF `_context/INBOX.md`「未分類」；不要停下問。判斷一個指令是否「可中途問」：它的價值是否來自「省用戶時間」，是則零打斷。

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>組立工場導覽 — 電影硬切版（Lead: Antigravity）</title>
+<style>
+:root{--black:#0d0d0d;--sulfur:#ffde43;--ink:#f4f1ea;--mut:#8f8a80}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Helvetica Neue",-apple-system,"PingFang TC","Noto Sans TC",sans-serif;
+ background:var(--black);color:var(--ink);height:100svh;overflow:hidden;position:relative}
+/* 上 58%：暗部史料照，硬切 */
+.photo{position:absolute;top:0;left:0;right:0;height:58svh;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:54% 38%;
+ filter:brightness(.5) contrast(1.12) grayscale(.15);animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.05)}to{transform:scale(1.14)}}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,.35),rgba(13,13,13,0) 40%)}
+/* 頂列 */
+.top{position:absolute;top:calc(16px + env(safe-area-inset-top));left:20px;right:20px;z-index:5;
+ display:flex;align-items:center}
+.top .mk{font-size:13px;letter-spacing:6px;font-weight:700;color:var(--ink)}
+.top .lang{margin-left:auto;font-size:12px;letter-spacing:2px;color:var(--ink);opacity:.8;
+ border:1px solid rgba(244,241,234,.3);border-radius:20px;padding:6px 12px}
+/* 巨大標題跨越硬切線（mix-blend difference） */
+.mega{position:absolute;left:18px;top:39svh;z-index:6;font-weight:900;font-size:74px;line-height:.92;
+ letter-spacing:-1px;color:#fff;mix-blend-mode:difference;text-transform:none}
+.mega small{display:block;font-size:15px;font-weight:700;letter-spacing:8px;margin-bottom:12px;color:#fff}
+/* 下半黑底：單一硫磺黃動作 */
+.stage{position:absolute;left:0;right:0;bottom:0;height:42svh;display:flex;flex-direction:column;
+ align-items:center;justify-content:flex-end;padding:0 22px calc(30px + env(safe-area-inset-bottom))}
+.btnwrap{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.ring{position:absolute;width:88px;height:88px;border-radius:50%;border:1.5px solid var(--sulfur);
+ animation:pulse 2.6s ease-out infinite}
+.ring:nth-child(2){animation-delay:.9s}.ring:nth-child(3){animation-delay:1.8s}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+.play{width:88px;height:88px;border-radius:50%;border:none;background:var(--sulfur);color:#0d0d0d;
+ display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;
+ box-shadow:0 8px 40px rgba(255,222,67,.28)}
+.play svg{width:34px;height:34px;margin-left:4px}
+.label{font-size:15px;font-weight:700;letter-spacing:2px;margin-bottom:8px}
+.ctx{display:flex;align-items:center;gap:12px;color:var(--sulfur);font-size:13px;font-weight:600;letter-spacing:1px}
+.ctx .bar{width:1px;height:12px;background:rgba(255,222,67,.5)}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol></defs></svg>
+
+<div class="photo"><img src="assets/erecting_shop_crop.jpg" alt="1900年代火車頭組立工場，暗部氛圍"></div>
+
+<div class="top"><span class="mk">組立工場</span><span class="lang">EN / 中</span></div>
+
+<h1 class="mega"><small>老職工帶路 · SINCE 1927</small>走進<br>輝煌</h1>
+
+<div class="stage">
+  <div class="btnwrap">
+    <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+    <button class="play"><svg><use href="#i-play"/></svg></button>
+  </div>
+  <div class="label">聽老職工帶路</div>
+  <div class="ctx">下一場 14:30<span class="bar"></span>音訊優先 · 解放雙手</div>
+</div>
+</body></html>

@@ -1,0 +1,7 @@
+# 生成物：執行事件、產物、升級草案、registry 契約快照
+data/events.jsonl
+data/drafts/
+outputs/
+registry.json
+__pycache__/
+*.pyc

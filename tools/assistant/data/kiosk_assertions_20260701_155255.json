@@ -1,0 +1,1 @@
+[{"rule": "page_renders", "min": 8}, {"rule": "no_broken_img"}, {"rule": "no_overflow"}, {"rule": "no_console_error"}]

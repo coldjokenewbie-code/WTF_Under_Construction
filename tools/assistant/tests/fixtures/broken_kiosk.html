@@ -1,0 +1,20 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<title>故意做壞的 kiosk（驗證閘能不能擋）</title>
+<style>
+ body{margin:0;font-family:sans-serif}
+ .stage{width:100%;overflow-x:auto}
+ .toowide{width:2400px;height:60px;background:#fab}      /* 蓄意水平溢出 */
+ .menu-item{font-size:30px}
+</style></head><body>
+<div class="stage">
+  <h1 class="title">B 區年表（測試壞頁）</h1>
+  <div class="menu-item">這是一個故意超過字數上限的選單標題會被字數斷言抓出來</div>
+  <img class="hero" src="assets/this_image_does_not_exist.png" alt="蓄意斷圖">
+  <div class="toowide">這條超寬會造成水平溢出</div>
+</div>
+<script>
+  // 蓄意 console error + pageerror
+  console.error('蓄意 console error：資料載入失敗');
+  setTimeout(()=>{ throw new Error('蓄意 pageerror'); }, 50);
+</script>
+</body></html>

@@ -1,0 +1,8 @@
+{
+  "id": "demo-unhandled",
+  "goal": "示範未本地化任務會走 fallback（dry，不花 API），並被 learn 偵測為升級候選",
+  "task_type": "summarize_pdf",
+  "params": {},
+  "constraints": {"allow_network": false, "allow_llm": false, "max_retries": 1},
+  "expected_output": "fallback dry-run 記錄（planned_argv），llm_calls=0"
+}

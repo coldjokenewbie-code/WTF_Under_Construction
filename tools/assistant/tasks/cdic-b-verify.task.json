@@ -1,0 +1,22 @@
+{
+  "id": "cdic-b-kiosk-verify",
+  "goal": "對 cowork_CDIC B 區 kiosk 頁面做視覺自驗，交付前擋掉一看就錯的成品",
+  "task_type": "kiosk_build_verify",
+  "params": {
+    "page": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/B_kiosk/B.html",
+    "viewport": {"w": 1080, "h": 1920},
+    "settle_ms": 1200
+  },
+  "visual_assertions": [
+    {"rule": "page_renders", "min": 5},
+    {"rule": "no_broken_img"},
+    {"rule": "no_overflow"}
+  ],
+  "constraints": {
+    "allow_network": false,
+    "allow_llm": false,
+    "write_allowlist": ["data", "outputs"],
+    "max_retries": 1
+  },
+  "expected_output": "outputs/kiosk-verify_*/report.html + shot.png（零 LLM、不操作活站）"
+}

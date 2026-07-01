@@ -1,0 +1,13 @@
+{
+  "id": "project-digest-daily",
+  "goal": "彙整本機各專案近期 git 動態成一頁 HTML 摘要",
+  "task_type": "project_digest",
+  "params": {"since": "21 days ago", "limit": 5},
+  "constraints": {
+    "allow_network": false,
+    "allow_llm": false,
+    "write_allowlist": ["data", "outputs"],
+    "max_retries": 1
+  },
+  "expected_output": "outputs/project-digest_*.html（零 LLM、唯讀 git）"
+}

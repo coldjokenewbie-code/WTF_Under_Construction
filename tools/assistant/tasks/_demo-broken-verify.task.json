@@ -1,0 +1,23 @@
+{
+  "id": "demo-broken-kiosk-verify",
+  "goal": "故意做壞的頁面：證明視覺自驗閘會擋下不合格成品",
+  "task_type": "kiosk_build_verify",
+  "params": {
+    "page": "tools/assistant/tests/fixtures/broken_kiosk.html",
+    "viewport": {"w": 1080, "h": 1920},
+    "settle_ms": 400
+  },
+  "visual_assertions": [
+    {"rule": "page_renders", "min": 3},
+    {"rule": "no_broken_img"},
+    {"rule": "no_overflow", "selector": ".stage"},
+    {"rule": "text_len", "selector": ".menu-item", "max": 14}
+  ],
+  "constraints": {
+    "allow_network": false,
+    "allow_llm": false,
+    "write_allowlist": ["data", "outputs"],
+    "max_retries": 1
+  },
+  "expected_output": "報告應標 FAIL（斷圖/console error/溢出/字數超限），ok=false 擋交付"
+}

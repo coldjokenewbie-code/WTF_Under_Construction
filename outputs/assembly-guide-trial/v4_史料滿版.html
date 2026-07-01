@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>組立工場導覽 — 史料滿版</title>
+<style>
+:root{--bg:#0e0a07;--ink:#f4ede1;--mut:#b3a48f;--brass:#d9a441;
+ --serif:"Songti SC","STSong","Noto Serif TC","Source Han Serif TC",Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);
+ height:100svh;display:flex;flex-direction:column;overflow:hidden}
+/* 滿版史料照 */
+.hero{position:relative;height:62svh;overflow:hidden;flex:0 0 auto}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 40%;
+ filter:saturate(1.05) contrast(1.03);animation:kb 26s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+.scrim{position:absolute;inset:0;background:
+ linear-gradient(180deg,rgba(14,10,7,.42) 0%,rgba(14,10,7,0) 24%,rgba(14,10,7,0) 40%,
+  rgba(14,10,7,.72) 78%,var(--bg) 100%)}
+/* 頂列（極簡） */
+.top{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;
+ padding:calc(14px + env(safe-area-inset-top)) 20px 0}
+.mark{font-family:var(--serif);font-size:15px;letter-spacing:5px;color:var(--ink);opacity:.92}
+.top .sp{flex:1}
+.gp{width:40px;height:40px;border:1px solid rgba(244,237,225,.28);border-radius:50%;margin-left:9px;
+ display:flex;align-items:center;justify-content:center;color:var(--ink);backdrop-filter:blur(4px)}
+.gp svg{width:19px;height:19px}
+/* 主標（壓在照片下緣） */
+.htext{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 22px 26px}
+.eyebrow{font-size:12px;letter-spacing:4px;color:var(--brass);text-transform:uppercase;margin-bottom:12px}
+.htext h1{font-family:var(--serif);font-weight:600;font-size:33px;line-height:1.4;letter-spacing:2px;
+ text-shadow:0 2px 24px rgba(0,0,0,.6)}
+/* 下方內容：大留白、單一動作 */
+.panel{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:0 22px}
+.cta{display:flex;align-items:center;gap:15px;border:1px solid rgba(217,164,65,.45);border-radius:18px;
+ padding:16px 18px;background:linear-gradient(180deg,rgba(217,164,65,.09),rgba(217,164,65,.03))}
+.cta .play{width:50px;height:50px;flex:0 0 50px;border-radius:50%;
+ background:linear-gradient(160deg,#efc169,#d9a441 55%,#b9862c);color:#241703;
+ display:flex;align-items:center;justify-content:center;
+ box-shadow:inset 0 1px 2px rgba(255,255,255,.5)}
+.cta .play svg{width:20px;height:20px;margin-left:2px}
+.cta .l{flex:1}.cta .l b{font-size:17px;display:block;font-weight:600}
+.cta .l span{font-size:13px;color:var(--mut)}
+.cta .wave{display:flex;gap:2.5px;align-items:center;height:20px}
+.cta .wave i{width:2.5px;background:var(--brass);border-radius:2px;opacity:.85;
+ animation:eq 1.2s ease-in-out infinite}
+.cta .wave i:nth-child(2){animation-delay:.2s}.cta .wave i:nth-child(3){animation-delay:.4s}
+.cta .wave i:nth-child(4){animation-delay:.6s}.cta .wave i:nth-child(5){animation-delay:.8s}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+.next{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:14px;padding-left:2px}
+.next .dot{width:6px;height:6px;border-radius:50%;background:var(--brass);flex:0 0 6px;
+ box-shadow:0 0 0 0 rgba(217,164,65,.5);animation:bl 2.4s ease-out infinite}
+@keyframes bl{0%{box-shadow:0 0 0 0 rgba(217,164,65,.5)}100%{box-shadow:0 0 0 9px rgba(217,164,65,0)}}
+.next b{color:var(--ink);font-weight:600}
+.hint{color:var(--mut);font-size:13px;letter-spacing:1px;padding-left:2px}
+/* 來源標注 */
+.src{padding:0 22px calc(12px + env(safe-area-inset-bottom));font-size:9.5px;line-height:1.5;
+ color:#6d6255;letter-spacing:.3px}
+.src a{color:#8a7c68}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+ <symbol id="i-access" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="4.5" r="1.7"/><path d="M6 9h12M12 8v6l3 5M12 14l-3 5"/></symbol>
+ <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+</defs></svg>
+
+<div class="hero">
+  <img src="assets/erecting_shop_crop.jpg" alt="1900年代 Baldwin 火車頭組立工場內部，蒸汽機車鍋爐與車輪">
+  <div class="scrim"></div>
+  <div class="top">
+    <span class="mark">組立工場</span>
+    <span class="sp"></span>
+    <span class="gp"><svg><use href="#i-globe"/></svg></span>
+    <span class="gp"><svg><use href="#i-access"/></svg></span>
+  </div>
+  <div class="htext">
+    <div class="eyebrow">老職工帶路 · Guided by the Masters</div>
+    <h1>跟著老職工，<br>走進組立工場的輝煌</h1>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="cta">
+    <span class="play"><svg><use href="#i-play"/></svg></span>
+    <span class="l"><b>聽老職工帶路</b><span>戴上耳機，空出雙手 · 06:30</span></span>
+    <span class="wave"><i></i><i></i><i></i><i></i><i></i></span>
+  </div>
+  <div class="next"><span class="dot"></span>下一場真人導覽 <b>14:30</b>　·　剩 15 分</div>
+  <div class="hint">往下，讓他帶你走一趟 ↓</div>
+</div>
+
+<div class="src">史料照：General View of the Erecting Shop, Baldwin Locomotive Works, Philadelphia（約 1900s）·
+ Keystone View Co. · 紐約公共圖書館 Robert N. Dennis 立體照收藏 · 公共領域（PD）</div>
+</body></html>

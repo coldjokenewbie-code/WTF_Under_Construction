@@ -1,0 +1,13 @@
+{
+  "id": "demo-attendance-preflight",
+  "goal": "示範：出勤儀表板需登入操作 Power Automate → 前置評估應擋下、要你先授權",
+  "task_type": "attendance_dashboard",
+  "params": {},
+  "constraints": {
+    "operate_live_site": true,
+    "touch_user_files": true,
+    "allow_llm": false,
+    "approvals": []
+  },
+  "expected_output": "前置授權評估標紅：B 登入活站、D 動既有檔，未授權即不動工"
+}

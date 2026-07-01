@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>組立工場導覽 App 首頁 — 最棒 3 版・研究與簡報</title>
+<style>
+:root{--bg:#0e1116;--card:#171c24;--ink:#eef2f7;--mut:#9aa7b6;--line:#252c37;
+ --gold:#e7b55b;--rust:#c8621f;--blue:#1c6fb3}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);
+ line-height:1.65;max-width:1080px;margin:0 auto;padding:34px 20px 70px}
+h1{font-size:30px;margin-bottom:6px}h2{font-size:21px;margin:38px 0 12px;
+ border-left:4px solid var(--gold);padding-left:11px}
+.lead{color:var(--mut);font-size:15px}
+.tag{display:inline-block;background:#1d2430;border:1px solid var(--line);color:#a9d0ff;
+ border-radius:20px;padding:3px 12px;font-size:12.5px;margin:3px 5px 3px 0}
+.grid5{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
+.crit{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.crit b{color:var(--gold);font-size:15px}.crit p{color:var(--mut);font-size:13.5px;margin-top:5px}
+.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.ref{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+.ref h3{font-size:16px;color:#a9d0ff}.ref p{color:var(--mut);font-size:13.5px;margin-top:6px}
+/* 三版 */
+.vers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:14px}
+.ver{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ver .ph{background:#000;display:flex;justify-content:center;padding:14px 14px 0}
+.ver img{width:100%;max-width:230px;border-radius:12px 12px 0 0;display:block}
+.ver .body{padding:14px 16px 18px}
+.ver .badge{font-size:12px;color:#0e1116;font-weight:800;border-radius:8px;padding:2px 9px}
+.ver h3{font-size:18px;margin:8px 0 4px}.ver .def{color:var(--mut);font-size:14px}
+.ver ul{margin:10px 0 0;padding-left:17px}.ver li{font-size:13.5px;margin:4px 0;color:#cdd6e0}
+.b1{background:var(--gold)}.b2{background:#6db3ec}.b3{background:#ffd23f}
+.why{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:14px}
+.why table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.why td,.why th{border:1px solid var(--line);padding:8px 10px;text-align:left}
+.why th{background:#1d2430;color:var(--mut)}
+.note{color:var(--mut);font-size:13px;margin-top:8px}
+.ok{color:#46d39a;font-weight:700}
+a.play{display:inline-block;margin-top:8px;background:#1d2430;border:1px solid var(--line);
+ color:#a9d0ff;text-decoration:none;border-radius:10px;padding:7px 12px;font-size:13px}
+footer{color:var(--mut);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:14px;text-align:center}
+@media(max-width:820px){.vers{grid-template-columns:1fr}}
+</style></head><body>
+
+<h1>組立工場導覽 App 首頁 — 最棒 3 版</h1>
+<div class="lead">研究 + 案例動態複製 + 3 版原型 + 視覺自驗｜2026-07-01｜Claude·Codex·Antigravity 三方討論</div>
+<div style="margin-top:10px">
+<span class="tag">核心：老職工帶路</span><span class="tag">音訊優先・解放雙手</span>
+<span class="tag">無障礙・全齡・外國旅客</span><span class="tag">手機直式・離線</span></div>
+
+<h2>1. 先定義「最棒」（研究）</h2>
+<div class="lead">標準原本不具體，三方先討論出「首頁最棒」＝可視覺驗證的 5 條，作為驗收依據：</div>
+<div class="grid5">
+  <div class="crit"><b>① 一眼是帶路</b><p>3 秒看出是「老職工帶你走」，不是展覽海報</p></div>
+  <div class="crit"><b>② 拇指黃金區</b><p>主操作在螢幕下 1/3，單手可達</p></div>
+  <div class="crit"><b>③ 音訊顯著</b><p>波形/呼吸動態的播放鍵，一鍵開始</p></div>
+  <div class="crit"><b>④ 無障礙</b><p>高對比、大字、觸控目標夠大、多語</p></div>
+  <div class="crit"><b>⑤ 情境時間</b><p>自動推「下一場 14:30／40 分鐘必看」</p></div>
+</div>
+
+<h2>2. 複製哪些「招牌動態」（案例）</h2>
+<div class="refs">
+  <div class="ref"><h3>Maps 底部卡片 + 流光路徑</h3><p>把「下一步」放進底部卡、路線上有流動光點——最適合「帶路」的指引感。→ 用在 V2 的路線流光線。</p></div>
+  <div class="ref"><h3>Spotify / AirPods 音波脈動</h3><p>播放鍵周圍聲波跳動，直覺「戴耳機就能聽」。→ 用在 V1 呼吸音波鍵、V2 音訊膠囊。</p></div>
+  <div class="ref"><h3>Find My 雷達波擴散</h3><p>中心向外淡雅擴散，靠動態聚焦、免讀繁字。→ 用在 V3「你在這」定位雷達。</p></div>
+</div>
+
+<h2>3. 三個版本（皆已視覺自驗 <span class="ok">4/4 通過</span>）</h2>
+<div class="vers">
+  <div class="ver"><div class="ph"><img src="shot_v1.png" alt="V1 職人記憶版"></div>
+    <div class="body"><span class="badge b1">情感最強</span>
+      <h3>V1・職人記憶版</h3>
+      <div class="def">「跟著我，走一趟組立工場的輝煌。」</div>
+      <ul><li>黑白線稿 6 秒轉彩色、老職工剪影＋落塵</li>
+      <li>拇指區暖色「聽老職工帶路」呼吸音波鍵</li>
+      <li>強化：① 一眼帶路、③ 音訊、情感召喚</li></ul>
+      <a class="play" href="v1_職人記憶.html">▶ 開原型</a></div></div>
+
+  <div class="ver"><div class="ph"><img src="shot_v2.png" alt="V2 時光旅人版"></div>
+    <div class="body"><span class="badge b2">實用最強</span>
+      <h3>V2・時光旅人版</h3>
+      <div class="def">「依你的時間與興趣，一鍵開專屬路線。」</div>
+      <ul><li>情境橫幅「下一場 14:30」＋雷達脈動</li>
+      <li>撥盤切 40 分鐘/接場/鐵道迷/無障礙；底部音訊膠囊</li>
+      <li>強化：⑤ 情境時間、② 拇指區、③ 音訊</li></ul>
+      <a class="play" href="v2_時光旅人.html">▶ 開原型</a></div></div>
+
+  <div class="ver"><div class="ph"><img src="shot_v3.png" alt="V3 隨身指引版"></div>
+    <div class="body"><span class="badge b3">無障礙最強</span>
+      <h3>V3・隨身指引版</h3>
+      <div class="def">「點大按鈕就好，用聲音和震動帶你走。」</div>
+      <ul><li>大字高對比、雙大卡、雷達定位</li>
+      <li>快速需求：廁所/休息/輪椅/出口 大目標</li>
+      <li>強化：④ 無障礙、② 拇指區、全齡/外國</li></ul>
+      <a class="play" href="v3_隨身指引.html">▶ 開原型</a></div></div>
+</div>
+
+<h2>4. 為何這三個「最棒」</h2>
+<div class="why">
+  <p>它們不是三個相似方案挑好看的，而是<b>刻意打中 PRD 三種主要訪客的三條正交軸線</b>，各自在自己那條做到最強；合起來讓你依現場優先序挑，而非賭單一風格。</p>
+  <table>
+    <tr><th>版本</th><th>主打軸線</th><th>對應 PRD 族群</th><th>它最強的一條標準</th></tr>
+    <tr><td>V1 職人記憶</td><td>情感 / 沉浸</td><td>一般客、想被故事打動的人</td><td>① 一眼是「老職工帶路」</td></tr>
+    <tr><td>V2 時光旅人</td><td>理性 / 效率</td><td>走馬看花客、趕場、鐵道迷</td><td>⑤ 情境時間「接 14:30」</td></tr>
+    <tr><td>V3 隨身指引</td><td>無障礙 / 安全</td><td>年長、行動不便、外國旅客</td><td>④ 無障礙大字高對比</td></tr>
+  </table>
+  <p class="note">三版共用同一套「帶路」語彙與音訊優先原則（同一流程、可調深度/語言/模式），符合 PRD「不另設分眾導覽」。下一步可挑一版為主幹、吸收另兩版的最強元件（如 V1 情感首屏 + V2 情境時間 + V3 無障礙切換）。</p>
+</div>
+
+<footer>三方討論 → 立任務契約 → 建 3 版 → 視覺自驗(截圖+機檢 4/4) → 本報告｜全程零計費 API、未動 Assembly 專案原檔<br>
+原型與契約：outputs/assembly-guide-trial/</footer>
+</body></html>
