@@ -10,7 +10,7 @@
     "run_id": {"type": "string", "description": "單次執行 ID（同任務多次執行可比較複利）"},
     "phase": {
       "type": "string",
-      "enum": ["start", "classified", "preflight", "policy_decision", "tool_exec", "handler_result", "fallback", "artifact_written", "blocked", "finish"],
+      "enum": ["start", "classified", "preflight", "policy_decision", "tool_exec", "handler_result", "fallback", "artifact_written", "blocked", "finish", "contract_created", "evidence_added", "coach_check", "rule_added"],
       "description": "生命週期階段"
     },
     "task_type": {"type": "string"},

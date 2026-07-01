@@ -2,7 +2,11 @@
 > 2026-07-02｜Claude@comaMacBookAir（AI 助理模式：Claude lead＋窗口，Codex/Antigravity 執行層）
 
 ## 🔴 下次重啟第一件事（最優先）
-**確認 ody Stop hook 有執行**（hook 需重啟才生效，本對話已掛但未載）。驗法：故意寫含禁詞（如「好的/讓我來」）的收尾 → 應被 `tools/ody/squad/stop_hook.py` 擋下要求重寫。擋得住且無誤傷 → 回報使用者「這關穩了」→ 推全域（Claude `~/.claude/settings.json`＋規則進 CODEX.md/GEMINI.md/GLOBAL.md＋reply_lint 隨 sync 部署三工具）。
+1. **ody-verifier subagent 生效驗證**（2026-07-02 新增 `.claude/agents/ody-verifier.md`，agent 定義同 hook 不熱載，新 session 才列入可用清單）：對契約 `ody-mvp-20260702` 派 Verifier 獨立複驗一次（禁自驗自過的首次實跑）。
+2. Stop hook 誤攔改良：引文/測試脈絡白名單（2026-07-02 實戰攔截成功✅但也誤攔過引用禁詞的回覆）。
+3. 驗穩後推全域：Tyrion 規則進 CODEX.md/GEMINI.md＋`~/.claude/settings.json`（需 PO 授權）。
+
+> ✅（2026-07-02 完成）原第一優先「確認 Stop hook 有執行」：實戰攔截驗證通過——真的 block 一則含禁詞回覆並強制重寫。
 
 ## 本次完成
 
@@ -38,6 +42,14 @@
 - Stop hook 已掛 `.claude/settings.local.json`（使用者授權）；**但 hook 需重啟才生效**（查證：官方無熱載）。
 - 研究報告：`outputs/ody籌備_研究報告_2026-07-02.html`。
 - 跨工具（Codex/Antigravity 無原生 hook）：規則寫進 CODEX.md/GEMINI.md 開場必載 + 輸出前自跑 reply_lint 自檢。**待 Claude 這關驗穩後推全域。**
+
+## 5. ody 三道閘 MVP（2026-07-02 續，Plan_2026-07-01 待建清單落地）
+- `tools/ody/squad/coach.py`：閘1 立契約(new)／執行中填證據(evidence，cmd 真跑記 exit)／閘2 機檢(check：scope 越界+證據逐條+handoff 行數+verify_cmds+規則全套用)／閘3 學習(add-rule)。事件入 events.jsonl（schema 增 4 個 coach phase）。
+- `coach_rules.json`：R001 保護路徑需明授、R002 證據禁空話。`test_coach.py` 自測 8/8；safety 30/30 不退步。
+- `.claude/agents/ody-verifier.md`：Verifier subagent（獨立 context 驗收，待新 session 生效）。
+- dogfood：本任務自立契約 `ody-mvp-20260702` 走完 FAIL(6項)→修→PASS。**兩個真 bug 由自驗抓出**：porcelain 首行前導空白被 strip 吃掉致路徑掉首字；git 非 ASCII 檔名八進位跳脫致 scope 誤判（修=core.quotepath=false）。
+- **誠實記錄：本任務違反閘1（先動工後立約）**——證明無機器強制點必漂移；根治＝PreToolUse 契約閘（下一步）。
+- 報告：`outputs/ody初期編組與harness研究_2026-07-02.html`。
 
 ## 關鍵檔
 - 框架：`tools/ody/`（README 有用法）；ody 小隊：`tools/ody/squad/`

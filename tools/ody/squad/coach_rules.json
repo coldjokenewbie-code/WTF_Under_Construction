@@ -1,0 +1,28 @@
+{
+  "_doc": "ody coach 學習規則庫（Mentor 維護）。每次 FAIL/糾正轉一條可機檢規則，coach check 每次全套用。",
+  "rules": [
+    {
+      "rule_id": "R001",
+      "desc": "保護路徑：全域設定/自我修改類檔案，未經 PO 明授不得出現在任務 diff",
+      "type": "banned_path_in_diff",
+      "msg": "動到保護路徑（全域設定/harness 自我修改），需 PO 明授（契約 --po-authorized）",
+      "added": "2026-07-01T23:10:45.963840+00:00",
+      "patterns": [
+        "wtf-config/GLOBAL.md",
+        "wtf-config/AGENTS.md",
+        "wtf-config/CLAUDE_CODE.md",
+        "wtf-config/CODEX.md",
+        "wtf-config/GEMINI.md",
+        ".claude/settings.json",
+        ".claude/settings.local.json"
+      ]
+    },
+    {
+      "rule_id": "R002",
+      "desc": "自驗證據禁空話（Plan：只寫『已確認』不算）",
+      "type": "evidence_note_not_generic",
+      "msg": "驗收證據為空話，改附命令輸出/diff/截圖路徑",
+      "added": "2026-07-01T23:10:45.998297+00:00"
+    }
+  ]
+}

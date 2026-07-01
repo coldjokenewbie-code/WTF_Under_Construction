@@ -1,0 +1,94 @@
+{
+  "task_id": "ody-mvp-20260702",
+  "goal": "ody 初期編組 MVP：契約檢查器+coach 機檢+學習規則庫+Verifier subagent+研究報告",
+  "created": "2026-07-01T23:09:31.470772+00:00",
+  "base_ref": "a72145b226f7a574b978475ba85b37eafdef3097",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "outputs/assembly-guide-trial/assets/baldwin_erecting_shop.png"
+  ],
+  "scope_allowlist": [
+    "tools/ody/squad/*",
+    "tools/ody/schemas/event.schema.json",
+    ".claude/agents/*",
+    "_context/TaskLog_2026-07-02*",
+    "outputs/ody*"
+  ],
+  "preflight_permissions": [
+    "寫入 .claude/agents/（新增 subagent 定義）",
+    "任務收尾 commit+push main"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "coach.py new/evidence/check/add-rule CLI 實測可用",
+      "evidence": {
+        "cmd": "python3 tools/ody/squad/coach.py --help >/dev/null && test -f tools/ody/data/contracts/ody-mvp-20260702.contract.json",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:15:01.391693+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "閘2 對違規情境會 FAIL（負面測試演示）",
+      "evidence": {
+        "cmd": "grep -q \"\\\"phase\\\": \\\"coach_check\\\", \\\"ok\\\": false\" tools/ody/data/events.jsonl",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:15:01.434845+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "學習機制生效：add-rule 入庫且 check 套用",
+      "evidence": {
+        "cmd": "grep -q \"\\\"rule_id\\\": \\\"R001\\\"\" tools/ody/squad/coach_rules.json && python3 tools/ody/squad/test_coach.py",
+        "exit": 0,
+        "output_tail": "v match 一般 glob\nv match /** 前綴\nv match 不誤放\nv R001 未明授擋保護路徑\nv R001 明授放行\nv R002 擋空話證據\nv R002 具體 note 放行\nv dirty 路徑存在（porcelain 解析回歸）\n\n全部通過\n",
+        "ts": "2026-07-01T23:15:50.707031+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "既有 safety 測試全數通過不退步",
+      "evidence": {
+        "cmd": "python3 tools/ody/tests/test_safety.py",
+        "exit": 0,
+        "output_tail": "lback payload 帶已完成軌跡（避免重做）\n【前置授權評估】\n  LLM：不呼叫任何 LLM（純本地確定性）\n  ✅ 不觸發任何需授權項（A–E 全無）→ 可直接一路做完，過程中不會再要權限\n✅ 端到端 project_digest ok\n✅ 端到端 llm_calls=0（省 API）\n✅ 端到端 由本地 handler 解決\n✅ ctx.run_cmd 拒破壞性命令\n✅ blocked 事件落地 events.jsonl\n✅ 拒 執行寫入區內檔案\n✅ 拒 直譯器跑寫入區腳本\n✅ 拒 git clone（網路）\n✅ 拒 git pull（網路）\n✅ 允許 git clone（allow_network=True）\n✅ 拒 symlink 別名(safe_rm→rm)\n\n========================================\n通過 30/30，失敗 0\n",
+        "ts": "2026-07-01T23:15:01.727367+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Verifier subagent 定義存在",
+      "evidence": {
+        "cmd": "test -s .claude/agents/ody-verifier.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:15:01.766415+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "研究報告已產出",
+      "evidence": {
+        "cmd": "test -s \"outputs/ody初期編組與harness研究_2026-07-02.html\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:15:01.807401+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 tools/ody/tests/test_safety.py"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-01T23:15:50.904793+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

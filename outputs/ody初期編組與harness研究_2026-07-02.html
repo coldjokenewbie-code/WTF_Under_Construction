@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ody 奧德賽小隊 — 初期編組與 harness 研究報告（2026-07-02）</title>
+<style>
+  :root{--ink:#1d232a;--sub:#5b6672;--line:#e3e7ec;--bg:#fafbfc;--card:#fff;
+        --ok:#1a7f4e;--warn:#b26a00;--bad:#b3382c;--accent:#22506e;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+       line-height:1.75;font-size:15.5px}
+  main{max-width:920px;margin:0 auto;padding:48px 28px 80px}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.5px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:36px}
+  h2{font-size:19px;margin:44px 0 12px;padding-left:12px;border-left:4px solid var(--accent)}
+  h3{font-size:16px;margin:24px 0 8px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:#f0f3f6;font-weight:600;white-space:nowrap}
+  code{background:#eef1f4;border-radius:4px;padding:1px 6px;font-size:13px;
+       font-family:"SF Mono",Menlo,Consolas,monospace}
+  pre{background:#20262e;color:#dde3ea;padding:14px 18px;border-radius:8px;
+      overflow-x:auto;font-size:13px;line-height:1.6}
+  pre code{background:none;color:inherit;padding:0}
+  .verdict{background:var(--card);border:1px solid var(--line);border-radius:10px;
+           padding:18px 22px;margin:18px 0}
+  .verdict b{color:var(--accent)}
+  .ok{color:var(--ok);font-weight:600}.warn{color:var(--warn);font-weight:600}
+  .bad{color:var(--bad);font-weight:600}
+  ul{padding-left:22px}li{margin:4px 0}
+  .small{color:var(--sub);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+<h1>ody 奧德賽小隊 — 初期編組與 harness 研究報告</h1>
+<div class="meta">2026-07-02｜ody 籌備小隊（Claude@comaMacBookAir）｜前篇：ody籌備_研究報告_2026-07-02.html（守門 lint 篇）</div>
+
+<div class="verdict">
+<b>結論先行：</b>Claude Code harness 的四項原生能力（<b>Hooks／Subagents／Headless CLI／持久記憶</b>）足以撐起「靈活應變＋從錯誤學習」的小隊結構。本次已把 <code>Plan_2026-07-01</code> 的三道閘做成可跑的 MVP：<span class="ok">契約檢查器＋coach 機檢＋學習規則庫＋Verifier subagent 全數落地並實測</span>（自測 8/8、既有安全測試 30/30、dogfood 契約走完 FAIL→修→PASS 全圈）。Tyrion Stop hook 本日<span class="ok">實戰攔截驗證通過</span>（真的擋下一則違規回覆並強制重寫）。
+</div>
+
+<h2>1｜設計精神：Odysseus × Tyrion</h2>
+<ul>
+<li><b>Odysseus（多謀善變）</b>：不預先寫死流程，任意任務都走同一套「契約→執行→驗收」結構；手段可換（本地腳本／LLM／跨 AI），結構不變。</li>
+<li><b>Tyrion（識人守分寸）</b>:「我喝酒，而且我知道事情」——知道自己會漂移，所以<b>不信任自律</b>，把分寸交給機器守門；每次犯錯付「一條規則」的學費，同錯不二犯。</li>
+<li>核心命題（沿 Plan 定調）：<b>治理 agent 本身的 harness</b>，靠結構強制，不靠 AI 自覺。</li>
+</ul>
+
+<h2>2｜harness 能力盤點 → ody 需求映射</h2>
+<table>
+<tr><th>harness 能力</th><th>機制</th><th>ody 用途</th><th>狀態</th></tr>
+<tr><td><b>Stop hook</b></td><td>每次回覆收尾前跑腳本，可 block 並要求重寫</td><td><b>Tyrion 輸出守門</b>：禁詞/冗贅硬擋</td><td><span class="ok">已上線＋實戰驗證</span></td></tr>
+<tr><td><b>UserPromptSubmit hook</b></td><td>每個 prompt 前置執行</td><td>設定同步（wtf-sync，開場紀律）</td><td><span class="ok">已上線</span></td></tr>
+<tr><td><b>PreToolUse hook</b></td><td>工具呼叫前攔截，可拒絕單次呼叫</td><td><b>閘1 強制點</b>：無契約擋 Write/Edit（opt-in）</td><td><span class="warn">下一步</span></td></tr>
+<tr><td><b>Subagents</b>（.claude/agents/）</td><td>獨立 context、可限工具的分身</td><td><b>Verifier</b>：驗收者與執行者 context 分離，結構杜絕自驗自過</td><td><span class="ok">本次落地</span></td></tr>
+<tr><td><b>Headless CLI</b></td><td><code>claude -p</code>／<code>codex exec</code>／<code>agy --print</code></td><td><b>跨 AI coach</b>（不同廠牌防放水，Plan 輪替制）</td><td><span class="warn">已驗可行（6/07），待接線</span></td></tr>
+<tr><td><b>持久記憶</b>（memory/）</td><td>跨 session 自動載入的事實庫</td><td>Claude 個人層學習（如今日「效益原則優先於禁詞規避」）</td><td><span class="ok">使用中</span></td></tr>
+<tr><td>Skills</td><td>可觸發的流程包</td><td>之後可包 <code>/ody</code> 一鍵立約/驗收入口</td><td>候選</td></tr>
+<tr><td>permissions／sandbox</td><td>settings 白名單＋classifier</td><td>授權前置；保護路徑防自我修改（實測會擋）</td><td><span class="ok">既有</span></td></tr>
+<tr><td>其餘 hook 事件</td><td>SessionStart/End、PostToolUse、SubagentStop、PreCompact、Notification</td><td>回顧觸發點（SessionEnd 聚合違規）等</td><td>候選</td></tr>
+</table>
+<p class="small">已證實的限制：hook <b>不熱載</b>（改 settings 後新 session 才生效）；Codex／Antigravity <b>無原生攔截 hook</b>——跨工具靠「開場必載規則檔＋輸出前自跑 reply_lint」補位，強制力較弱（推測仍會漂移，須靠跨 AI 驗收兜底）。</p>
+
+<h2>3｜初期編組（4 角色 × 落地件）</h2>
+<table>
+<tr><th>角色</th><th>職責</th><th>落地件（今日全數可跑）</th></tr>
+<tr><td><b>Odysseus</b>（策略/執行）</td><td>拆任務、判風險、動工前立契約</td><td><code>coach.py new</code>：scope allowlist＋逐條驗收＋授權點一次講定</td></tr>
+<tr><td><b>Tyrion</b>（輸出守門）</td><td>交付前 lint，違規退回重寫</td><td><code>reply_lint.py</code>＋<code>stop_hook.py</code>（Stop hook）</td></tr>
+<tr><td><b>Verifier</b>（驗收）</td><td>宣稱完成→獨立機檢＋逐條核證據</td><td><code>coach.py check</code>＋subagent <code>ody-verifier</code>；跨 AI 走 headless CLI</td></tr>
+<tr><td><b>Mentor</b>（學習）</td><td>FAIL/糾正 → 轉可機檢規則</td><td><code>coach.py add-rule</code> → <code>coach_rules.json</code>；輸出樣式 → <code>lint_rules.json</code></td></tr>
+</table>
+
+<h2>4｜三道閘（本次實作核心）</h2>
+<pre><code># 閘1 立契約（無契約不動工）
+python3 tools/ody/squad/coach.py new &lt;task_id&gt; --goal "..." \
+    --scope "tools/x/*" --accept "標準1" "標準2" --verify-cmd "測試命令" --permission "授權點"
+
+# 執行中：逐條填自驗證據（cmd 會真的執行並記 exit/輸出尾段）
+python3 tools/ody/squad/coach.py evidence &lt;task_id&gt; 1 --cmd "python3 .../test.py"
+
+# 閘2 宣稱完成 → 機檢驗收
+python3 tools/ody/squad/coach.py check &lt;task_id&gt;   # PASS / FAIL＋逐項原因
+
+# 閘3 FAIL/糾正 → Mentor 轉規則（下次 check 自動全套用）
+python3 tools/ody/squad/coach.py add-rule --rule-id R00x --type banned_path_in_diff ...</code></pre>
+<p>閘2 檢查項：契約完整／<b>scope 越界</b>（git diff＋dirty 逐檔比對 allowlist；開工前既髒檔豁免）／<b>自驗證據逐條</b>（cmd 須 exit 0、note 禁空話）／handoff ≤60 行／verify_cmds 全過／<b>coach_rules 全套用</b>。事件全部入 <code>events.jsonl</code>（schema 驗證，供 learn.py 與回顧）。</p>
+
+<h2>5｜自評＋學習機制（雙迴圈，複利）</h2>
+<table>
+<tr><th>迴圈</th><th>觸發</th><th>學習載體</th><th>強制點</th></tr>
+<tr><td><b>輸出層</b></td><td>使用者糾正回覆風格</td><td><code>lint_rules.json</code> 加禁詞/門檻</td><td>Tyrion Stop hook 下次自動擋</td></tr>
+<tr><td><b>工作層</b></td><td>coach FAIL／工作違規</td><td><code>coach_rules.json</code> 加可機檢規則</td><td>Verifier check 下次自動套用</td></tr>
+</table>
+<ul>
+<li>鐵則：學習＝<b>新增可機檢規則</b>，不寫反省心得；無法機檢者降為 checklist 由 Verifier 人工核。</li>
+<li>首批已入庫：<b>R001</b> 保護路徑（全域設定/settings 未經 PO 明授不得入 diff）、<b>R002</b> 證據禁空話（只寫「已確認」不算）。</li>
+<li>成本層第三迴圈（既有 <code>learn.py</code>）：events 算省 API 指標、重複 fallback 產升級草案。</li>
+</ul>
+
+<h2>6｜今日驗證證據（dogfood：本任務自己走三道閘）</h2>
+<table>
+<tr><th>#</th><th>項目</th><th>結果</th></tr>
+<tr><td>1</td><td>Tyrion Stop hook 實戰</td><td><span class="ok">真的攔截一則含禁詞回覆並強制重寫</span>（引文誤攔屬已知型態，待加引文白名單）</td></tr>
+<tr><td>2</td><td>閘2 負面測試</td><td><span class="ok">證據未填時 check 正確 FAIL 6 項、exit 1</span></td></tr>
+<tr><td>3</td><td>學習規則生效</td><td><span class="ok">R001/R002 經 add-rule 入庫，自測確認會擋、明授會放</span></td></tr>
+<tr><td>4</td><td>coach 自測</td><td><span class="ok">8/8</span>（scope 比對、R001/R002、porcelain 解析回歸）</td></tr>
+<tr><td>5</td><td>既有安全測試</td><td><span class="ok">30/30 不退步</span></td></tr>
+<tr><td>6</td><td>實作中抓到的真 bug</td><td><span class="ok">porcelain 首行前導空白被 strip 吃掉→路徑掉首字；已修＋加回歸測試</span></td></tr>
+</table>
+
+<h2>7｜誠實揭露（限制與違規記錄）</h2>
+<ul>
+<li><span class="bad">本任務自己違反了閘1</span>：coach.py 與 schema 是「先動工、後立約」——正好示範<b>沒有機器強制點就會違規</b>。事後已把這兩檔從既髒豁免名單移回受檢範圍；根治＝PreToolUse 契約閘（下一步）。</li>
+<li>Verifier subagent 仍是<b>同一個模型</b>（context 分離、非廠牌分離）；Plan 的「換不同 AI」要靠 headless CLI 接線後才完整。</li>
+<li>subagent 的 Bash 無法硬性唯讀（靠指令約束）；硬限制同樣要 PreToolUse。</li>
+<li>「立約前動工」「結論先行」這類時序/語意規範目前無法全自動機檢，列 checklist 人工核。</li>
+</ul>
+
+<h2>8｜下一步（建議優先序）</h2>
+<ol>
+<li><b>PreToolUse 契約閘</b>（opt-in）：無契約擋 Write/Edit——把閘1從紀律變強制。</li>
+<li><b>跨 AI coach 接線</b>：coach.py 加 <code>--peer codex|agy</code>，機檢後的判斷項交不同廠牌複核（輪替防放水）。</li>
+<li><b>驗穩推全域</b>：Tyrion 規則進 CODEX.md/GEMINI.md＋<code>~/.claude/settings.json</code>（需 PO 授權）。</li>
+<li>引文白名單（修 Stop hook 誤攔）；<code>/ody</code> skill 一鍵入口；SessionEnd 聚合違規供 nightly 回顧。</li>
+</ol>
+
+<p class="small">關鍵檔：<code>tools/ody/squad/</code>（coach.py／coach_rules.json／reply_lint.py／stop_hook.py／ODY_SQUAD.md／test_coach.py）｜<code>.claude/agents/ody-verifier.md</code>｜契約與事件：<code>tools/ody/data/</code>｜設計源：<code>_context/Plan_2026-07-01_discipline-harness.md</code></p>
+</main>
+</body>
+</html>
