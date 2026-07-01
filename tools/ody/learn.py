@@ -7,7 +7,7 @@
 
 執行：
   python3 tools/assistant/learn.py            # 印指標 + 產草案
-  python3 -m assistant.learn
+  python3 -m ody.learn
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ if __package__ in (None, ""):
     import runpy
     import sys
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    runpy.run_module("assistant.learn", run_name="__main__", alter_sys=True)
+    runpy.run_module("ody.learn", run_name="__main__", alter_sys=True)
     sys.exit(0)
 
 import json

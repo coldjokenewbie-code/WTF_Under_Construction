@@ -12,6 +12,8 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-02 | 紀律靠輸出守門 lint 機器攔截(禁詞+字數 stop_hook)不靠自律；錯誤轉 lint_rules.json 可機檢規則才複利 | `_context/lessons-learned.md` |
+| WTF | 2026-07-02 | Claude Code hook 不熱載、需重啟 session 才生效(issue #22679)；跨工具紀律靠規則寫全域開場檔+輸出前自跑 reply_lint | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 視覺評分要嚴格；讓看不到圖的 headless agent 用文字描述打分＝系統性灌水（描述給7-8，PO看真圖1-2）→視覺分只能看實際截圖判 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 「AI 助理框架」＝治 agent 的 harness(契約/自驗閘/回顧+教練制)，非預先註冊 handler 的工作流函式庫；靠結構強制不靠自律，溝通冗贅＝紀律漂移 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 本地優先路由命中即繞過 LLM 省 API；自訂 delimiter `|` 會被 Policy Gate 當注入擋（反證有效）→改 0x1f | `_context/lessons-learned.md` |

@@ -14,8 +14,8 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from assistant.core import adapter, executor, policy  # noqa: E402
-from assistant.core.paths import ASSISTANT_ROOT  # noqa: E402
+from ody.core import adapter, executor, policy  # noqa: E402
+from ody.core.paths import ASSISTANT_ROOT  # noqa: E402
 
 PASS, FAIL = "✅", "❌"
 results = []
@@ -68,7 +68,7 @@ check("backend 抽換：agy argv 用 agy", a_agy.planned_argv[0] == "agy")
 check("fallback payload 帶已完成軌跡（避免重做）", "step1" in a_claude.planned_argv[2])
 
 # 5) 端到端：本地路由 llm_calls=0
-from assistant.run_task import load_spec, run  # noqa: E402
+from ody.run_task import load_spec, run  # noqa: E402
 spec = load_spec(str(ASSISTANT_ROOT / "tasks" / "project-digest.task.json"))
 res = run(spec, allow_llm=False)
 check("端到端 project_digest ok", res["ok"])
@@ -76,9 +76,9 @@ check("端到端 llm_calls=0（省 API）", res["llm_calls"] == 0)
 check("端到端 由本地 handler 解決", res["resolved_by"] == "handler")
 
 # 6) blocked 事件確實落地（真的觸發再驗證）
-from assistant.core import events  # noqa: E402
-from assistant.core.context import Context  # noqa: E402
-from assistant.core.events import EventLog  # noqa: E402
+from ody.core import events  # noqa: E402
+from ody.core.context import Context  # noqa: E402
+from ody.core.events import EventLog  # noqa: E402
 
 _tid = "safety-test-blocked"
 _ctx = Context(spec={}, params={}, log=EventLog(_tid, "testrun"),
@@ -90,7 +90,7 @@ _evs = [e for e in events.read_all()
 check("blocked 事件落地 events.jsonl", len(_evs) >= 1)
 
 # 7) Round 4 驗收回歸：修補 Agy 三發現
-from assistant.core.paths import OUTPUTS_DIR  # noqa: E402
+from ody.core.paths import OUTPUTS_DIR  # noqa: E402
 
 # #1 write-then-execute：禁從寫入區(outputs/data)執行檔案 + 直譯器跑寫入區腳本
 check("拒 執行寫入區內檔案", not policy.check_command([str(OUTPUTS_DIR / "x.py")]).allow)

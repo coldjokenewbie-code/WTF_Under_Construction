@@ -1,0 +1,56 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>奧德賽小隊 ody — 籌備研究報告</title>
+<style>
+:root{--bg:#0f1320;--card:#1a2030;--ink:#e9edf6;--mut:#98a3ba;--line:#2a3348;--gold:#e6b45a;--ok:#46d39a;--bad:#ff7a7a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang TC",sans-serif;background:var(--bg);color:var(--ink);max-width:900px;margin:0 auto;padding:30px 20px 60px;line-height:1.6}
+h1{font-size:24px}h2{font-size:18px;margin:28px 0 10px;border-left:4px solid var(--gold);padding-left:10px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#212a3d;color:var(--mut)}
+code{background:#0c101a;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
+.flow{background:#0c101a;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;color:#cdd6ea}
+.flow b{color:#8fb8ff}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.gold{color:var(--gold)}
+.pill{display:inline-block;background:#212a3d;border:1px solid var(--line);border-radius:20px;padding:2px 11px;font-size:12px;margin:2px 4px 2px 0}
+footer{color:var(--mut);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
+</style></head><body>
+
+<h1>🏹 奧德賽小隊（ody）籌備研究報告</h1>
+<div class="sub">2026-07-02｜ai-team 三方討論收斂｜精神：Odysseus 多謀善變＋從經驗學／Tyrion 謀略守分寸</div>
+<span class="pill">框架已改名 assistant → ody</span><span class="pill">基本功優先</span>
+
+<h2>1. 根因：為何規範不落地、無複利</h2>
+<div class="card">規範停在 <b>prompt 層</b>，<b>沒有輸出前檢查與違規阻斷</b>。LLM 的禮貌/完整/解釋慣性會蓋過「極簡」規則 → 靠自律必漂移。實測：Claude 一再違反「極簡/禁聊天語氣」，需使用者重複提醒、退回原點 = <span class="bad">無法複利學習</span>。三方一致：<b>唯一解是結構強制，不是更多提醒。</b></div>
+
+<h2>2. 解方：輸出守門 + 錯誤轉規則</h2>
+<div class="flow"><b>Tyrion 守門：</b>交付前用 <code>reply_lint.py</code> 掃描 → 命中<b>禁詞</b>（好的/當然/讓我/完美/成功為你…）即 <span class="bad">block 退回重寫</span>；過長只警示。<br>
+<b>Mentor 學習：</b>每次糾正/錯誤 → 轉成 <code>lint_rules.json</code> 一條<b>可機檢</b>規則（禁詞/門檻）→ 下次自動擋。學習＝新增規則，<b>不是寫反省</b>。</div>
+<div class="card">複利＝越用規則庫越大、同類錯誤再也過不了關。跨工具 hook 不對等（只 Claude Code 有原生 Stop hook）→ 強制點放<b>外部 lint 腳本</b>，三工具皆可用。</div>
+
+<h2>3. 編組（4 角色，動態擔任）</h2>
+<table><tr><th>角色</th><th>職責</th></tr>
+<tr><td class="gold">Odysseus</td><td>策略/執行：拆任務、判風險、決定誰做、增量實作</td></tr>
+<tr><td class="gold">Tyrion</td><td>守門：交付前 lint（禁詞/過長/結論先行），違規退回重寫</td></tr>
+<tr><td class="gold">Mentor</td><td>學習：把錯誤轉成 lint_rules.json 一條可機檢規則</td></tr>
+<tr><td class="gold">Verifier</td><td>驗收：對照需求/diff/測試/截圖；禁自驗自過（換 agent）</td></tr></table>
+
+<h2>4. 最小可落實規則（今日）</h2>
+<div class="card">① 結論先行、禁聊天語氣、散文 ≤500 字（Tyrion 硬擋禁詞）｜② 未要求不主動讀寫/改碼/開計畫｜③ 犯錯即停工→先寫一條規則→再續｜④ 授權點開頭一次講定、過程不中途要權限｜⑤ 視覺分只看實圖（禁盲評當數字）｜⑥ 禁自驗自過</div>
+
+<h2>5. 自評 + 學習迴圈</h2>
+<div class="flow">違規/錯誤 → <b>Mentor</b> 轉可機檢規則寫入 <code>lint_rules.json</code> → <b>Tyrion</b> 下次自動套用 → 同類錯誤再也過不了關（<span class="ok">不再犯 = 複利</span>）</div>
+
+<h2>6. 落地狀態</h2>
+<table><tr><th>元件</th><th>狀態</th></tr>
+<tr><td><code>reply_lint.py</code> 守門引擎</td><td class="ok">✓ 已建、測過（禁詞抓到、精簡放行）</td></tr>
+<tr><td><code>lint_rules.json</code> 規則庫</td><td class="ok">✓ 初版（禁詞表＋字數門檻）</td></tr>
+<tr><td><code>stop_hook.py</code> 交付前自動 lint</td><td class="ok">✓ 已建、測過（block/放行/防迴圈/fail-open）</td></tr>
+<tr><td>掛入 <code>.claude/settings.local.json</code></td><td class="bad">⛔ 待你授權（classifier 擋自我修改）</td></tr></table>
+<div class="card">掛上後，我每次收尾若含禁詞會被 <b>自動擋下重寫</b>——這就是「不靠提醒、靠結構」的基本功。位置：<code>tools/ody/squad/</code>。</div>
+
+<footer>ody 籌備小隊 · Claude lead ＋ Codex ＋ Antigravity · 框架 tools/ody/（原 tools/assistant 已改名）</footer>
+</body></html>

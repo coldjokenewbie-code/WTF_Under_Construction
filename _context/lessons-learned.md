@@ -7,6 +7,13 @@
 * **本地優先路由省 API；自訂 delimiter 會撞 Policy Gate**：確定性 handler 命中 registry 即繞過 LLM（llm_calls=0）。實作踩坑：git `--format=%h|%ad|%s` 的 `|` 被 Policy Gate 當 shell 元字元/注入擋下（**反證 policy 有效**）→ 改 ASCII unit separator `%x1f`。安全閘經驗收又補：禁執行寫入區(data/outputs)腳本(write-then-execute)、git 網路子命令(clone/pull/fetch)在 allow_network=false 時拒、realpath 反 symlink 改名。
 * **待辦架構定案：TaskLog=真相源、待辦 App=鏡像、廢 INBOX.md**：語音(Obsidian Inbox)→ `/inbox` 分流：專案工作→該專案 TaskLog(真相源)＋鏡像進 ai-team-todo App(owner=AI)；個人雜務(報帳/租車)→只進 App(owner=user)。App owner 分 user/AI 讓 PO 掌握「AI 執行工作量」。廢 INBOX 避免 INBOX/INDEX/TaskLog 三頭馬車。**/inbox 收尾只 `git add` 本次寫入的 TaskLog 檔**，勿 `add _context/`／`-A`（會掃進無關未追蹤檔，本次誤committed 一個舊 TaskLog）。
 
+## 2026-07-02b (ody 小隊：紀律靠 hook 強制、hook 不熱載、跨工具開場載入)
+
+* **紀律要「輸出守門」機器攔截，不靠自律；錯誤轉可機檢規則才有複利**：Claude 一再違反「極簡/禁聊天語氣」需重複提醒＝規範停 prompt 層、無輸出檢查。解＝ody 守門：`tools/ody/squad/reply_lint.py`(禁詞+字數) + `stop_hook.py`(Stop hook，命中禁詞 block 重寫，防迴圈+fail-open)。學習＝每次糾正把樣式加進 `lint_rules.json`（Mentor 維護），下次自動擋——**加規則不寫心得**才複利。
+* **Claude Code hook 不熱載，需重啟 session**（claude-code-guide 查證：issue #22679 快取、#53538 熱載未實作；`/hooks` 只顯示不重載）。→ 改 settings.local.json 加 hook 後**本對話不生效，下個新 session 才載**。驗 hook 要開新對話。
+* **跨工具紀律強制（Codex/Antigravity 無原生 Stop hook）**：規則寫進各自全域開場必讀檔（`wtf-config/CODEX.md`→`~/.codex/AGENTS.md`、`GEMINI.md`→`~/.gemini/GEMINI.md`；非 skill lazy-load）＋**輸出前自跑 `reply_lint.py` 自檢**（草稿→lint→改稿→過關才輸出）。三工具共用同一 lint 規則庫＝全域一致守門。
+* **框架命名要對得上能力**：`tools/assistant/` 只做註冊過的 handler、非通用助理 → 使用者要求改名，改 `tools/ody/`（奧德賽小隊基礎設施）。名不符實會誤導期待。
+
 ## 2026-06-07 (/inbox 首次實跑：快速捕捉工具不中途問、標題式為常態、重複不重收)
 
 * **快速捕捉型指令（/inbox）下了就一路處理完，禁中途用 AskUserQuestion 問**：用戶用 `/inbox` 是為了「快速紀錄想法/待辦」，回覆問題的時間他自己早分流完了——要他標注他不如自己做。歸屬有多候選（如 `claude_CDIC_O4` vs `cowork_CDIC`）時，**自行依關鍵詞/近期活躍度歸納**，判不出才落 WTF `_context/INBOX.md`「未分類」；不要停下問。判斷一個指令是否「可中途問」：它的價值是否來自「省用戶時間」，是則零打斷。

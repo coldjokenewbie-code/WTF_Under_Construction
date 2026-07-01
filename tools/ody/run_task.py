@@ -6,7 +6,7 @@
 
 執行：
   python3 tools/assistant/run_task.py tools/assistant/tasks/project-digest.task.json
-  python3 -m assistant.run_task <spec.json>          （tools/ 在 sys.path 時）
+  python3 -m ody.run_task <spec.json>          （tools/ 在 sys.path 時）
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ if __package__ in (None, ""):
     import runpy
     import sys
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    runpy.run_module("assistant.run_task", run_name="__main__", alter_sys=True)
+    runpy.run_module("ody.run_task", run_name="__main__", alter_sys=True)
     sys.exit(0)
 
 import argparse

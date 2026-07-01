@@ -1,6 +1,9 @@
 # TaskLog — AI 助理框架 / 視覺品質試做 / 待辦整合
 > 2026-07-02｜Claude@comaMacBookAir（AI 助理模式：Claude lead＋窗口，Codex/Antigravity 執行層）
 
+## 🔴 下次重啟第一件事（最優先）
+**確認 ody Stop hook 有執行**（hook 需重啟才生效，本對話已掛但未載）。驗法：故意寫含禁詞（如「好的/讓我來」）的收尾 → 應被 `tools/ody/squad/stop_hook.py` 擋下要求重寫。擋得住且無誤傷 → 回報使用者「這關穩了」→ 推全域（Claude `~/.claude/settings.json`＋規則進 CODEX.md/GEMINI.md/GLOBAL.md＋reply_lint 隨 sync 部署三工具）。
+
 ## 本次完成
 
 ### 1. AI 中立自主任務助理框架 MVP（方案 B）
@@ -27,7 +30,16 @@
 - 待辦：剩「工作 say something.md」未處理（空內文、疑個人/測試）。
 - assistant 框架：PO 未拍板採 A/B/C 哪案續推；kiosk 視覺自驗的「驗不過→LLM 修→再驗」整圈未接。
 
+## 4. 奧德賽小隊（ody）籌備（本次後半）
+- 框架改名 `tools/assistant/` → `tools/ody/`（30/30 無損）。
+- 根因定案：規範停 prompt 層、無輸出檢查＝靠自律必漂移；解＝輸出守門 lint + 錯誤轉可機檢規則（複利）。
+- 編組：Odysseus(策略/執行)、Tyrion(守門)、Mentor(學習)、Verifier(驗收)。
+- 已建測：`tools/ody/squad/`＝`reply_lint.py`(禁詞+字數)、`lint_rules.json`(規則庫)、`stop_hook.py`(Stop hook，block/放行/防迴圈/fail-open 皆驗)、`ODY_SQUAD.md`。
+- Stop hook 已掛 `.claude/settings.local.json`（使用者授權）；**但 hook 需重啟才生效**（查證：官方無熱載）。
+- 研究報告：`outputs/ody籌備_研究報告_2026-07-02.html`。
+- 跨工具（Codex/Antigravity 無原生 hook）：規則寫進 CODEX.md/GEMINI.md 開場必載 + 輸出前自跑 reply_lint 自檢。**待 Claude 這關驗穩後推全域。**
+
 ## 關鍵檔
-- 框架：`tools/assistant/`（README 有用法）
+- 框架：`tools/ody/`（README 有用法）；ody 小隊：`tools/ody/squad/`
 - 討論/計畫：`_context/AI_TEAM_DISCUSSION_2026-06-24_*`、`_context/Plan_2026-07-01_discipline-harness.md`
 - 交付：`outputs/AI助理框架_方案與實作_2026-06-24.html`、`outputs/assembly-guide-trial/`
