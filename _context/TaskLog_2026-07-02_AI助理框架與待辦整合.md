@@ -51,6 +51,15 @@
 - **誠實記錄：本任務違反閘1（先動工後立約）**——證明無機器強制點必漂移；根治＝PreToolUse 契約閘（下一步）。
 - 報告：`outputs/ody初期編組與harness研究_2026-07-02.html`。
 
+## 6. ody 全域化（2026-07-02 續）——任何專案可召小隊
+- **入口**：`/ody` skill（SSOT `wtf-config/skills/ody/`）已 sync 部署三工具（~/.claude、~/.codex、~/.gemini 各 12 skills），本 session 即時可見。
+- **Tyrion 全域**：Stop hook 升至 `~/.claude/settings.json`（user 層，PO 明授）；WTF 專案層重複 hook 已移除。**新 session 才生效**。
+- **Verifier 全域**：SSOT 移 `wtf-config/agents/ody-verifier.md`，sync_config.py 新增 agents 部署＋check 段 → `~/.claude/agents/`；專案層副本已刪。
+- **coach 多 repo**：契約記 `repo_root`（預設 cwd 所在 repo，`--repo` 可指定），git/驗證命令都對目標 repo 跑；於 scratchpad 臨時 repo 實測越界 FAIL→修→PASS（契約 `odytest-multirepo`）。契約/規則庫仍集中 WTF＝跨專案共用學習。
+- 本任務契約 `ody-global-20260702` 全閘 PASS（coach 抓出 3 FAIL 修正後過：test_coach 對 git rm 檔的存在性誤判、evidence one-liner 筆誤）。
+- **Windows 待辦已入 App**（f477bdb2）：pull+sync＋手動掛 Stop hook＋新 session 驗證。
+- 🔴 新 session 驗證點：任意專案 (1) Stop hook 攔禁詞 (2) `/ody` 可召 (3) ody-verifier 出現在 agent 清單。
+
 ## 關鍵檔
 - 框架：`tools/ody/`（README 有用法）；ody 小隊：`tools/ody/squad/`
 - 討論/計畫：`_context/AI_TEAM_DISCUSSION_2026-06-24_*`、`_context/Plan_2026-07-01_discipline-harness.md`

@@ -46,9 +46,9 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _git(*args: str) -> str:
+def _git(*args: str, repo: Path = WTF_ROOT) -> str:
     # core.quotepath=false：非 ASCII 檔名（中文）預設會被八進位跳脫，路徑就對不上實體檔
-    r = subprocess.run(["git", "-C", str(WTF_ROOT), "-c", "core.quotepath=false", *args],
+    r = subprocess.run(["git", "-C", str(repo), "-c", "core.quotepath=false", *args],
                        capture_output=True, text=True, timeout=60)
     return r.stdout.strip()
 
@@ -70,12 +70,16 @@ def _save(c: dict) -> None:
         json.dumps(c, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def _dirty_files() -> list[str]:
+def _dirty_files(repo: Path = WTF_ROOT) -> list[str]:
     # 不用 _git()：它 strip 整段 stdout，會吃掉第一行的前導狀態空白使 l[3:] 錯位
-    r = subprocess.run(["git", "-C", str(WTF_ROOT), "-c", "core.quotepath=false",
+    r = subprocess.run(["git", "-C", str(repo), "-c", "core.quotepath=false",
                         "status", "--porcelain"],
                        capture_output=True, text=True, timeout=60)
     return [l[3:].strip().strip('"') for l in r.stdout.splitlines() if l.strip()]
+
+
+def _repo_of(c: dict) -> Path:
+    return Path(c.get("repo_root", str(WTF_ROOT)))
 
 
 def _match(path: str, patterns: list[str]) -> bool:
@@ -91,12 +95,16 @@ def _match(path: str, patterns: list[str]) -> bool:
 def cmd_new(a) -> int:
     if _contract_path(a.task_id).exists():
         sys.exit(f"已有同名契約 {a.task_id}，換 ID 或刪舊檔")
+    # 目標 repo：--repo 指定，否則 cwd 所在 git repo，最後 fallback WTF
+    repo = Path(a.repo).resolve() if a.repo else Path(
+        _git("rev-parse", "--show-toplevel", repo=Path.cwd()) or WTF_ROOT)
     c = {
         "task_id": a.task_id,
         "goal": a.goal,
         "created": _now(),
-        "base_ref": _git("rev-parse", "HEAD"),
-        "preexisting_dirty": _dirty_files(),  # 開工前既髒檔，scope 檢查排除
+        "repo_root": str(repo),
+        "base_ref": _git("rev-parse", "HEAD", repo=repo),
+        "preexisting_dirty": _dirty_files(repo),  # 開工前既髒檔，scope 檢查排除
         "scope_allowlist": a.scope,
         "preflight_permissions": a.permission or [],
         "po_authorized_protected_paths": bool(a.po_authorized),
@@ -123,7 +131,7 @@ def cmd_evidence(a) -> int:
         sys.exit(f"無驗收標準 #{a.no}")
     if a.cmd:
         r = subprocess.run(a.cmd, shell=True, capture_output=True, text=True,
-                           cwd=str(WTF_ROOT), timeout=VERIFY_TIMEOUT)
+                           cwd=str(_repo_of(c)), timeout=VERIFY_TIMEOUT)
         item["evidence"] = {"cmd": a.cmd, "exit": r.returncode,
                             "output_tail": (r.stdout + r.stderr)[-400:], "ts": _now()}
         print(f"#{a.no} 證據（cmd exit={r.returncode}）已記錄")
@@ -143,6 +151,7 @@ def _load_rules() -> list[dict]:
 
 
 def _apply_rules(c: dict, changed: list[str], fails: list[str]) -> None:
+    repo = _repo_of(c)
     for r in _load_rules():
         t = r.get("type")
         if t == "banned_path_in_diff":
@@ -157,13 +166,14 @@ def _apply_rules(c: dict, changed: list[str], fails: list[str]) -> None:
                     fails.append(f"[{r['rule_id']}] {r['msg']}（#{x['no']} note='{note}'）")
         elif t == "require_cmd_pass":
             rr = subprocess.run(r["cmd"], shell=True, capture_output=True, text=True,
-                                cwd=str(WTF_ROOT), timeout=VERIFY_TIMEOUT)
+                                cwd=str(repo), timeout=VERIFY_TIMEOUT)
             if rr.returncode != 0:
                 fails.append(f"[{r['rule_id']}] {r['msg']}（exit={rr.returncode}）")
 
 
 def cmd_check(a) -> int:
     c = _load(a.task_id)
+    repo = _repo_of(c)
     fails: list[str] = []
     # 閘1 契約完整
     if not c.get("scope_allowlist"):
@@ -171,7 +181,8 @@ def cmd_check(a) -> int:
     if not c.get("acceptance"):
         fails.append("[閘1] 契約缺驗收標準")
     # 閘2a scope 越界（比對 base_ref diff＋現況 dirty，排除開工前既髒檔）
-    changed = set(_git("diff", "--name-only", c["base_ref"]).splitlines()) | set(_dirty_files())
+    changed = set(_git("diff", "--name-only", c["base_ref"], repo=repo).splitlines()) \
+        | set(_dirty_files(repo))
     changed -= set(c.get("preexisting_dirty", []))
     allow = c["scope_allowlist"] + DEFAULT_ALLOW
     out_of_scope = sorted(f for f in changed if f and not _match(f, allow))
@@ -186,7 +197,7 @@ def cmd_check(a) -> int:
             fails.append(f"[閘2 自驗] #{x['no']} 證據命令 exit={ev.get('exit')} 非 0")
     # 閘2c 冗長（handoff 檔行數）
     if c.get("handoff_file"):
-        hp = WTF_ROOT / c["handoff_file"]
+        hp = repo / c["handoff_file"]
         if hp.exists():
             n = len(hp.read_text(encoding="utf-8").splitlines())
             if n > 60:
@@ -194,7 +205,7 @@ def cmd_check(a) -> int:
     # 閘2d 機械品質
     for cmd in c.get("verify_cmds", []):
         r = subprocess.run(cmd, shell=True, capture_output=True, text=True,
-                           cwd=str(WTF_ROOT), timeout=VERIFY_TIMEOUT)
+                           cwd=str(repo), timeout=VERIFY_TIMEOUT)
         if r.returncode != 0:
             fails.append(f"[閘2 機械] `{cmd}` exit={r.returncode}："
                          f"{(r.stdout + r.stderr)[-200:]}")
@@ -248,6 +259,7 @@ def main() -> int:
     p = sub.add_parser("new", help="閘1：立契約")
     p.add_argument("task_id")
     p.add_argument("--goal", required=True)
+    p.add_argument("--repo", help="目標專案 repo 根（預設：cwd 所在 git repo）")
     p.add_argument("--scope", nargs="+", required=True)
     p.add_argument("--accept", nargs="+", required=True)
     p.add_argument("--verify-cmd", nargs="*", default=[])

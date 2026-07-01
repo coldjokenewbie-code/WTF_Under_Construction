@@ -1,0 +1,36 @@
+{
+  "task_id": "odytest-multirepo",
+  "goal": "多repo測試",
+  "created": "2026-07-01T23:24:53.344203+00:00",
+  "repo_root": "/private/tmp/claude-501/-Users-coma-Git-work-WTF-Under-Construction/b8e21409-2f04-4267-90f5-6b8ca87068da/scratchpad/odytest",
+  "base_ref": "bc23b68582205c46399cf3470197e14d16f6d85a",
+  "preexisting_dirty": [
+    "app.py",
+    "outside.txt"
+  ],
+  "scope_allowlist": [
+    "app.py"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "app.py 有內容",
+      "evidence": {
+        "cmd": "test -s app.py",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:24:53.394963+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-01T23:24:53.493559+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

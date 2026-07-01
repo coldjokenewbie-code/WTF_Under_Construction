@@ -1,0 +1,99 @@
+{
+  "task_id": "ody-global-20260702",
+  "goal": "ody 全域化：/ody skill+全域 Stop hook+Verifier agent 部署+coach 多 repo 化，任何專案可召小隊",
+  "created": "2026-07-01T23:23:50.945776+00:00",
+  "base_ref": "194600d8f4dfae103a0ff32ef08d7f097f777912",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "outputs/assembly-guide-trial/assets/baldwin_erecting_shop.png"
+  ],
+  "scope_allowlist": [
+    "wtf-config/skills/ody/**",
+    "wtf-config/agents/**",
+    "wtf-config/sync_config.py",
+    "tools/ody/squad/*",
+    "_context/TaskLog_2026-07-02*",
+    ".claude/settings.local.json",
+    ".claude/agents/*"
+  ],
+  "preflight_permissions": [
+    "寫 ~/.claude/settings.json（全域 hook，已明授）",
+    "寫 ~/.claude/agents/（已明授）",
+    "改 .claude/settings.local.json 移除重複 hook（已明授）",
+    "收尾 commit+push"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "coach.py 多 repo：於非 WTF git repo 立約+check 實測通過",
+      "evidence": {
+        "cmd": "grep -q \"\\\"status\\\": \\\"passed\\\"\" tools/ody/data/contracts/odytest-multirepo.contract.json && grep -q \"\\\"repo_root\\\": \\\"/private/tmp\" tools/ody/data/contracts/odytest-multirepo.contract.json",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:29:09.846015+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "/ody skill 經 sync 部署至 ~/.claude/skills/ody",
+      "evidence": {
+        "cmd": "test -s ~/.claude/skills/ody/SKILL.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:29:09.882169+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "全域 Stop hook 已入 ~/.claude/settings.json 且 JSON 有效、專案層重複 hook 已移除",
+      "evidence": {
+        "cmd": "python3 -c \"import json,pathlib; g=json.loads((pathlib.Path.home()/\\\".claude/settings.json\\\").read_text()); p=json.loads(open(\\\".claude/settings.local.json\\\").read()); assert \\\"stop_hook.py\\\" in str(g[\\\"hooks\\\"][\\\"Stop\\\"]); assert \\\"Stop\\\" not in p.get(\\\"hooks\\\",{}); print(\\\"ok\\\")\"",
+        "exit": 0,
+        "output_tail": "ok\n",
+        "ts": "2026-07-01T23:30:03.940913+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "~/.claude/agents/ody-verifier.md 經 sync 部署存在",
+      "evidence": {
+        "cmd": "test -s ~/.claude/agents/ody-verifier.md && python3 wtf-config/sync_config.py check 2>&1 | grep -q \"OK     \\] ~/.claude/agents/\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:29:10.009873+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "測試不退步（coach 自測+safety 全過）",
+      "evidence": {
+        "cmd": "python3 tools/ody/squad/test_coach.py && python3 tools/ody/tests/test_safety.py",
+        "exit": 0,
+        "output_tail": "lback payload 帶已完成軌跡（避免重做）\n【前置授權評估】\n  LLM：不呼叫任何 LLM（純本地確定性）\n  ✅ 不觸發任何需授權項（A–E 全無）→ 可直接一路做完，過程中不會再要權限\n✅ 端到端 project_digest ok\n✅ 端到端 llm_calls=0（省 API）\n✅ 端到端 由本地 handler 解決\n✅ ctx.run_cmd 拒破壞性命令\n✅ blocked 事件落地 events.jsonl\n✅ 拒 執行寫入區內檔案\n✅ 拒 直譯器跑寫入區腳本\n✅ 拒 git clone（網路）\n✅ 拒 git pull（網路）\n✅ 允許 git clone（allow_network=True）\n✅ 拒 symlink 別名(safe_rm→rm)\n\n========================================\n通過 30/30，失敗 0\n",
+        "ts": "2026-07-01T23:30:04.159738+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "Windows 部署待辦已寫入待辦 App",
+      "evidence": {
+        "cmd": ". /Users/coma/Git_work/ai-team-todo/tools/env.sh && python3 /Users/coma/Git_work/ai-team-todo/tools/todo-cli.py list | grep -q \"Windows 端部署 ody\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-01T23:29:10.462731+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 tools/ody/squad/test_coach.py",
+    "python3 tools/ody/tests/test_safety.py"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-01T23:30:04.396264+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

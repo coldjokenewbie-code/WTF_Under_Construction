@@ -35,6 +35,7 @@ SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真
 SSOT_CODEX = SCRIPT_DIR / "CODEX.md"                   # ~/.codex/AGENTS.md 真相源（Codex 原生讀 AGENTS.md）
 SSOT_GEMINI = SCRIPT_DIR / "GEMINI.md"                 # ~/.gemini/GEMINI.md 真相源（Antigravity 原生讀 GEMINI.md）
 SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
+SSOT_AGENTS = SCRIPT_DIR / "agents"                    # ~/.claude/agents/ 真相源（subagent 定義，如 ody-verifier）
 REPO_ROOT = SCRIPT_DIR.parent                         # WTF repo 根（已移出 Drive，供 register 記錄）
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
@@ -244,6 +245,21 @@ def check_claude_dir():
             notes.append(f"  x [STALE  ] ~/.claude/skills/ — skill 清單不符")
             skills_ok = False
 
+    # subagent 定義（~/.claude/agents/，per-machine 部署洞要主動驗）
+    if SSOT_AGENTS.exists():
+        agents_dst = CLAUDE_DIR / "agents"
+        missing = []
+        for src in sorted(SSOT_AGENTS.glob("*.md")):
+            dst = agents_dst / src.name
+            if not dst.exists() or dst.read_text(encoding="utf-8", errors="replace").rstrip() \
+                    != src.read_text(encoding="utf-8").rstrip():
+                missing.append(src.name)
+        if missing:
+            notes.append(f"  x [STALE  ] ~/.claude/agents/ — 缺/不符：{missing}")
+        else:
+            n = len(list(SSOT_AGENTS.glob('*.md')))
+            notes.append(f"  v [OK     ] ~/.claude/agents/ （{n} 個 agent）")
+
     return claude_md_ok, skills_ok, notes
 
 
@@ -296,6 +312,22 @@ def deploy_claude_dir():
                     results.append(f"  ! 無法移除 skills/{old.name}（{e}）")
     else:
         results.append(f"  - 略過 ~/.claude/skills/（真相源不存在）")
+
+    # subagent 定義 → ~/.claude/agents/（只加不 prune：agents 夾可能有使用者自建 agent）
+    if SSOT_AGENTS.exists():
+        agents_dst = CLAUDE_DIR / "agents"
+        agents_dst.mkdir(parents=True, exist_ok=True)
+        ok = 0
+        for src in sorted(SSOT_AGENTS.glob("*.md")):
+            try:
+                dst = agents_dst / src.name
+                if dst.is_symlink():
+                    dst.unlink()
+                shutil.copy2(src, dst)
+                ok += 1
+            except Exception as e:
+                results.append(f"  ! 略過 agents/{src.name}（{e}）")
+        results.append(f"  v 寫入 ~/.claude/agents/（{ok} 個 agent）")
 
     return results
 

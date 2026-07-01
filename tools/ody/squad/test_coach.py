@@ -42,13 +42,20 @@ coach._apply_rules({"po_authorized_protected_paths": False,
                    [], f4)
 check("R002 具體 note 放行", not f4, str(f4))
 
-# _dirty_files 解析回歸：porcelain 首行前導空白曾被 strip 吃掉致路徑掉首字
+# _dirty_files 解析回歸：曾踩 (1) porcelain 首行前導空白被 strip 吃掉致路徑掉首字
+# (2) 非 ASCII 檔名八進位跳脫。直接驗路徑無跳脫殘影；存在性只驗非刪除檔（git rm 後合法不存在）
+import subprocess
+raw = subprocess.run(["git", "-C", str(coach.WTF_ROOT), "-c", "core.quotepath=false",
+                      "status", "--porcelain"], capture_output=True, text=True).stdout
+deleted = {l[3:].strip().strip('"') for l in raw.splitlines() if l[:2].strip().startswith("D")}
+ok_parse = True
 for p in coach._dirty_files():
-    if not (coach.WTF_ROOT / p).exists():
-        check("dirty 路徑存在（porcelain 解析回歸）", False, p)
-        break
-else:
-    check("dirty 路徑存在（porcelain 解析回歸）", True)
+    if p.startswith('"') or "\\" in p:
+        check("dirty 路徑無跳脫殘影", False, p); ok_parse = False; break
+    if p not in deleted and not (coach.WTF_ROOT / p).exists():
+        check("dirty 非刪除路徑存在（解析回歸）", False, p); ok_parse = False; break
+if ok_parse:
+    check("dirty 路徑解析回歸（跳脫/錯位/刪除檔）", True)
 
 if FAILS:
     print(f"\nFAIL {len(FAILS)} 項：{FAILS}", file=sys.stderr)
