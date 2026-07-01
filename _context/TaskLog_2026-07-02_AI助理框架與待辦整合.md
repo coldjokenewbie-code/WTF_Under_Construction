@@ -2,11 +2,11 @@
 > 2026-07-02｜Claude@comaMacBookAir（AI 助理模式：Claude lead＋窗口，Codex/Antigravity 執行層）
 
 ## 🔴 下次重啟第一件事（最優先）
-1. **ody-verifier subagent 生效驗證**（2026-07-02 新增 `.claude/agents/ody-verifier.md`，agent 定義同 hook 不熱載，新 session 才列入可用清單）：對契約 `ody-mvp-20260702` 派 Verifier 獨立複驗一次（禁自驗自過的首次實跑）。
-2. Stop hook 誤攔改良：引文/測試脈絡白名單（2026-07-02 實戰攔截成功✅但也誤攔過引用禁詞的回覆）。
-3. 驗穩後推全域：Tyrion 規則進 CODEX.md/GEMINI.md＋`~/.claude/settings.json`（需 PO 授權）。
+1. **全域 Stop hook 生效驗證**（已升 `~/.claude/settings.json`，hook 不熱載）：任意專案新 session 驗禁詞被攔。
+2. **ody-verifier 首次實跑**：派 subagent 獨立複驗契約 `ody-global-20260702`（禁自驗自過首戰）。※agent 定義實測**熱載**（部署即列清單），不必等新 session。
+3. Stop hook 誤攔改良：引文/測試脈絡白名單。4. PreToolUse 契約閘（無契約擋 Write/Edit，opt-in）。
 
-> ✅（2026-07-02 完成）原第一優先「確認 Stop hook 有執行」：實戰攔截驗證通過——真的 block 一則含禁詞回覆並強制重寫。
+> ✅（2026-07-02 完成）「確認 Stop hook 有執行」：實戰攔截驗證通過（block+強制重寫）。Tyrion 全域化已完成（見 §6）。
 
 ## 本次完成
 

@@ -1,5 +1,13 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-02c (ody 三道閘 MVP＋全域化：git 機器解析坑、熱載差異、dogfood 回本)
+
+* **`git add` 遇壞 pathspec 整批中止；配 `2>/dev/null`＝靜默漏 commit**：add 清單含已不存在的路徑（rm/rmdir 過）→ git 一個都不 stage 就報錯退出；stderr 被抑制時 commit 只進先前已 staged 的殘餘（本次 9 檔漏 8）。**修**：git add 永不遮 stderr；刪過的路徑別再列 pathspec；commit 後核 `files changed` 數與預期（呼應「同步報表數字要核」）。
+* **機器解析 git 輸出兩坑（coach.py 實踩）**：(1) 對整段 stdout `strip()` 再逐行 `l[3:]` 切 porcelain——首行前導狀態空白被吃掉、檔名掉首字；(2) 非 ASCII（中文）檔名預設八進位跳脫（`\345...`）、對不上實體檔。**修**：程式讀 git 輸出一律 `-c core.quotepath=false`＋不預先全段 strip；並為此加回歸測試（另注意 `git rm` 的檔「dirty 但合法不存在」，存在性斷言要排除刪除檔）。
+* **agent 定義熱載、hook 不熱載（同 session 實測對比）**：部署 `~/.claude/agents/*.md` 後**同 session 即出現在 Agent 清單**；hooks 改 settings 則要新 session。部署後驗證時機兩者不同，別套錯。skills 亦熱載（/ody 部署即列）。
+* **dogfood 自家守門立即回本**：coach 三道閘上線首兩用，就從 12 條驗收裡擋下 6 次 FAIL、含 3 個真缺陷（porcelain 錯位、quotepath、執行者 evidence 命令筆誤）——自驗閘的價值當日實證。反面教材也當日出現：本人「先動工後立約」違反閘1，證明時序紀律無機器強制點必漂移 → PreToolUse 契約閘列最高優先。
+* **Stop hook 引文誤攔**：回覆中「引用」禁詞（測試輸出、討論 lint 規則本身）也會被 block——守門 lint 需引文/程式碼脈絡白名單，否則無法討論規則自身。
+
 ## 2026-07-02 (AI 助理框架 / 視覺評分嚴格 / 待辦整合)
 
 * **視覺品質評分要嚴格，「盲評」系統性灌水**：讓看不到畫面的 headless agent（Codex/Antigravity）用「文字描述」打視覺分，它只會照被美化的描述給高分——實測描述完 blueprint 版給 7.4→8.1，PO 看真畫面說「非常糟、1-2 分」。視覺真相源＝**實際截圖**（我 `Read` PNG 親眼看）＋PO 目視；agent 只能協助 rubric/挑毛病，不能當分數來源。CSS+emoji／無真實影像／無留白＝學生作品；一流 museum app＝一張強主視覺(滿版真圖)＋極簡字＋大留白＋單一動作，**克制 > 堆裝飾**。要真實影像才可能及格（授權後抓免費 PD 圖/生成並標來源）。

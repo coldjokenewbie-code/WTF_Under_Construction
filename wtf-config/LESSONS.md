@@ -12,6 +12,10 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-02 | `git add` 遇壞 pathspec 整批中止、配 2>/dev/null＝靜默漏 commit；add 不遮 stderr＋commit 後核 files changed 數 | `_context/lessons-learned.md` |
+| WTF | 2026-07-02 | 機器解析 git 輸出：一律 `-c core.quotepath=false`（中文檔名八進位跳脫）＋不預先全段 strip（porcelain 首行前導空白錯位掉字） | `_context/lessons-learned.md` |
+| WTF | 2026-07-02 | agent 定義（~/.claude/agents/）與 skills 熱載即生效、hooks 不熱載需新 session——部署後驗證時機別套錯（實測對比） | `_context/lessons-learned.md` |
+| WTF | 2026-07-02 | dogfood 自家守門立即回本：coach 三道閘首兩用抓 3 真缺陷；「先動工後立約」違規實證時序紀律需 PreToolUse 機器強制 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 紀律靠輸出守門 lint 機器攔截(禁詞+字數 stop_hook)不靠自律；錯誤轉 lint_rules.json 可機檢規則才複利 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | Claude Code hook 不熱載、需重啟 session 才生效(issue #22679)；跨工具紀律靠規則寫全域開場檔+輸出前自跑 reply_lint | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 視覺評分要嚴格；讓看不到圖的 headless agent 用文字描述打分＝系統性灌水（描述給7-8，PO看真圖1-2）→視覺分只能看實際截圖判 | `_context/lessons-learned.md` |
