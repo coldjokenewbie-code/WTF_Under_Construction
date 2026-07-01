@@ -91,7 +91,9 @@
       "Bash(rm -rf /tmp/ttest /tmp/table_test.js /tmp/table.png /tmp/ttest.log)",
       "PowerShell(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" register)",
       "PowerShell(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" check)",
-      "PowerShell(git *)"
+      "PowerShell(git *)",
+      "Bash(python3 *)",
+      "Bash(git commit -m 'chore: settings 提交 ody Stop hook 註冊+python3 允許；nightly 建議不採用刪行 *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
@@ -101,6 +103,18 @@
       "E:\\Claude_cowork\\projects\\Git_work_agents\\WTFrepo",
       "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案/_context",
       "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine/_context"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/coma/Git_work/WTF_Under_Construction/tools/ody/squad/stop_hook.py"
+          }
+        ]
+      }
     ]
   }
 }
