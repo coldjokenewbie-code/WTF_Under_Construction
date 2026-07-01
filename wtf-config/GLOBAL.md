@@ -183,6 +183,14 @@
 - **進場先讀 INDEX**，不必掃全部 `_context/`。
 - **鐵律：todo／進度的唯一真相源＝當前 `TaskLog_`；INDEX 只放連結與現況快照，不複製 todo 細節**（雙真相源必漂移）。進場順序：先讀 INDEX 知「現在在哪、最新 TaskLog 哪份」→ 再讀該 TaskLog 拿細節。例外：少數「待用戶拍板的決策閘」可在 INDEX 短列（非工作線 todo）。
 
+### 待辦系統（語音 → TaskLog + 待辦 App）
+- **入口＝Obsidian Inbox**：手機/Mac 語音速記進 Obsidian `Clippings`，標題「工作」開頭＝工作待辦。
+- **分流靠 `/inbox` skill**（本機手動）：Agent 判類型 →
+  - **專案工作** → 寫該專案 **`TaskLog_`（待辦真相源，狀態＋細節在此）** ＋ 鏡像一筆到 **待辦 App（ai-team-todo，owner=AI）** 供跨專案掌握工作量。
+  - **個人雜務**（報帳/租車等自己執行、非專案）→ **只進待辦 App（owner=user，project=個人事務）**。
+- **真相源＝TaskLog**；待辦 App 是**跨專案鏡像總覽**（owner 區分「我執行=user／AI 執行=AI」），衝突以 TaskLog 為準。
+- **已廢除 `_context/INBOX.md`**（避免與 TaskLog/INDEX 三頭馬車）。
+
 ### 結案歸檔（archive）— 加 Closed 前綴 + 移 archive（兩者都要）
 - 工作紀錄結案：`TaskLog_` → 改前綴 `ClosedTaskLog_`，**並**移入 `_context/archive/`。
 - 交接文件被讀取（=接手）或結案後：移入 `_context/archive/`（接手即完成使命，免重複讀）。

@@ -1,70 +1,57 @@
 ---
 name: inbox
-description: 分流語音速記 inbox。把 Obsidian vault Clippings 中「工作」開頭的速記，判定所屬專案後寫入該專案 _context/INBOX.md、commit/push，再把原檔移入 Ingested。手動觸發。
+description: 分流語音速記 inbox。把 Obsidian Clippings 中「工作」開頭的速記分類：專案工作→該專案 TaskLog(待辦真相源)+待辦App(owner=AI 鏡像)；個人雜務→只進待辦App(owner=user)。原檔移 Ingested。手動觸發。
 ---
 
-# Inbox 分流（WTF 控制面 Phase B）
+# Inbox 分流（語音 → TaskLog／待辦 App）
 
-把手機語音速記（Obsidian on Google Drive，標題「工作」開頭）分流進對應專案的 github repo。
-**本機手動跑**（雲端 routine 讀不到本機 Drive 掛載，無法代勞）。
+把手機語音速記（Obsidian on Google Drive，標題「工作」開頭）分流。
+**TaskLog＝待辦真相源；待辦 App（ai-team-todo）＝跨專案鏡像總覽**（owner 分「我執行=user／AI 執行=AI」讓使用者掌握工作量）。
+**本機手動跑**（雲端 routine 讀不到本機 Drive 掛載）。
 
-> **快速捕捉工具，下指令後一路處理完、禁中途問**。用戶用 `/inbox` 是為了快速紀錄想法/待辦；歸屬自行歸納判定，**不要停下用 AskUserQuestion 問**（要他確認＝浪費他時間，他自己標注更快）。標題式速記（正文空）是**多數常態**，不是異常，照常分流、別當問題回報。
+> 快速捕捉工具，下指令後一路處理完、**禁中途問**（歸屬自行歸納）。標題式速記（正文空）是**多數常態**，標題本身即待辦內容，照常分流、別當問題回報。
 
 ## 前置：取本機資料
 
-先讀 `~/.claude/wtf-root.txt` 取 `<WTF_ROOT>`，再執行：
+先讀 `~/.claude/wtf-root.txt` 取 `<WTF_ROOT>`，執行 `python3 "<WTF_ROOT>/wtf-config/sync_config.py" inbox-info`（Windows 用 `python`）。輸出 JSON：`clippings`／`ingested`／`pending`（待分流檔名）／`projects[]`（`{project,path,github,has_github}`）。
 
-```
-python3 "<WTF_ROOT>/wtf-config/sync_config.py" inbox-info
-```
+**待辦 App CLI**：取 `projects[]` 中 `project=="ai-team-todo"` 的 `path` → `<APP>`。寫入前先 `source "<APP>/tools/env.sh"`（Supabase 憑證），用 `python3 "<APP>/tools/todo-cli.py"`。先跑一次 `todo-cli.py list` 參考既有 App 專案命名（格式「領域/子區」，如 `組立/導覽`、`出勤/儀錶板`、`CDIC/A區`、`國圖南/…`）。
 
-（Windows 用 `python`）輸出 JSON：
-- `clippings`：待掃資料夾；`ingested`：完成後移入處
-- `pending`：Clippings 中「工作」開頭的檔名清單（＝待分流）
-- `projects[]`：路由表，每筆 `{project, path（本機絕對路徑）, github, has_github}`
-
-若 `vault` 為 `null` → 本機 `inbox-config.md` 未填路徑，**停下**告知用戶補 `wtf-config/inbox-config.md` 本機列。
-若 `pending` 為空 → 回報「無待分流速記」，結束。
+`vault` 為 `null` → 停下請用戶補 `wtf-config/inbox-config.md` 本機列。`pending` 為空 → 回報「無待分流速記」，結束。
 
 ## 分流（逐檔）
 
-對 `pending` 每個檔：
+每筆：讀 `<clippings>/<檔名>` 全文（標題去「工作」前綴＝待辦；內文常空，標題即內容）。判**類型**：
 
-1. **讀** `<clippings>/<檔名>` 全文。
-2. **判定目標專案**：依標題／內容（專案名、關鍵詞、人事物）對應 `projects[].project`，**自行歸納，不中途問用戶**。
-   - 明確 → 該專案。
-   - 多候選（如兩個同領域專案）→ 依關鍵詞／近期活躍度自行擇一，不問。
-   - **真的判不出** → 目標設 `WTF_Under_Construction`，落地寫到其 `_context/INBOX.md`「（未分類）」區（留待用戶日後自行歸位）。
-   - 多檔可不同專案。
-   - **重複速記**（與先前已收錄同名/同內容）→ 不再寫入 INBOX，僅執行第 5 步移檔清掉。
-3. **檢查 github**：目標專案 `has_github == false`（registry github 欄標「待確認」）→ **暫不分流**，列入「待補 github」清單，跳過此檔（原檔留 Clippings）。
-4. **落地**：append 到 `<目標 path>/_context/INBOX.md`（無則建，開頭加 `# <專案> — Inbox`）。每筆格式：
-   ```
-   ## [YYYY-MM-DD] <原標題去掉「工作」前綴>
-   <速記內文>
+### A) 專案工作（對應某專案／領域）
+1. **判定專案**：依標題／關鍵詞／人事物對應 `projects[].project`，自行歸納，不問。多候選依關鍵詞／近期活躍度擇一。`has_github==false` → 跳過留 Clippings（列「待補 github」）。
+2. **寫該專案 TaskLog（真相源）**：append 到該專案 `_context/` **最新** `TaskLog_*.md`；於其「## 📥 語音待辦」區（無則檔尾新建該標題）加一行：
+   `- [ ] <待辦>（語音 <YYYY-MM-DD>・來源 Clippings/<檔名>）`
+   該專案 `_context/` 無任何 `TaskLog_*` → 新建 `_context/TaskLog_<YYYY-MM-DD>_語音待辦.md`。
+3. **鏡像進 App**（owner=AI）：
+   `source "<APP>/tools/env.sh"; python3 "<APP>/tools/todo-cli.py" add --project "<App領域/子區>" --title "<待辦>" --owner AI --status todo`
+   `<App領域/子區>` 用既有命名對齊（見前置 list；如 Assembly_Plant→`組立/導覽`、Aseembly_Plant_Interactive→`組立/互動機具`、出勤專案→`出勤`、cowork_CDIC/claude_CDIC_O4→`CDIC`）。
 
-   _來源：Clippings/<檔名>_
-   ```
-   日期用今天（系統日）。
-5. **移檔**：把原檔由 `<clippings>/` 移到 `<ingested>/`（用 shell `mv` / `move`，跨平台注意路徑引號）。
+### B) 個人雜務（你自己執行、非專案：報帳/租車/繳費/預約…）
+只進 App（owner=user）：
+`source "<APP>/tools/env.sh"; python3 "<APP>/tools/todo-cli.py" add --project "個人事務" --title "<待辦>" --owner user --status todo`
+不寫 TaskLog。
 
-## 收尾：commit/push 各動到的專案
+### C) 真判不出
+只進 App：`... add --project "未分類" --title "<待辦>" --owner user --status todo`。
 
-每個被寫入的專案 repo，切到其 `path`：
+**重複速記**（與先前已收錄同名/同內容）→ 不重寫 TaskLog/App，僅執行移檔。
+**移檔**：原檔 `<clippings>/` → `<ingested>/`（shell `mv`／`move`，路徑加引號）。
 
-```
-git -C "<path>" add _context/INBOX.md
-git -C "<path>" commit -m "inbox: 收錄語音速記 N 筆"
-git -C "<path>" pull --rebase && git -C "<path>" push
-```
+## 收尾
 
-衝突即停、回報，不強推。Drive 鏡像專案若 `git -C` 報非 repo → 列入「待補 github」清單，該檔回退留 Clippings。
+- **動到 TaskLog 的專案 repo**（各自）：**只 add 本次寫入的 TaskLog 檔**（勿 `add _context/` 或 `-A`，會掃進無關未追蹤檔）：
+  `git -C "<path>" add "<本次 TaskLog 檔>" && git -C "<path>" commit -m "inbox: 語音待辦 N 筆"`，再 `git -C "<path>" push`。
+  push 前若需同步先 `git -C "<path>" pull --rebase`；**工作區有既存未提交變更會擋 rebase → 跳過 pull 直接 push**；push 被拒才停下回報，不強推。
+- **App 是即時雲端**，`todo-cli add` 當下已同步手機/桌機，無需 commit。
 
 ## 回報
 
-- 分流：每筆「檔名 → 專案」
-- 重複而未重收：清單
-- 待補 github 而跳過：清單
-- 各 repo commit/push 結果
+每筆「檔名 → 類型（專案X：TaskLog＋App／個人：App／未分類）→ 結果」；重複而未重收；待補 github；各 repo commit/push 結果。
 
 > 共用 skill，真相源 `wtf-config/skills/inbox/`。改後各機 `python wtf-config/sync_config.py sync` 重新部署。
