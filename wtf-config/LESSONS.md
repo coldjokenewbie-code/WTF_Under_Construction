@@ -117,6 +117,9 @@
 | CDIC | 2026-06-25 | Playwright `page.pdf(preferCSSPageSize:true)` + `@media print { @page { size: WxH } .slide { overflow:hidden } .track { position:static } }` → 手機網頁轉乾淨 N 頁向量 PDF，繞過瀏覽器頁首頁尾，頁數等於設計頁數；`position:fixed` 元素在 print 模式脫離文件流需改 static，否則頁數爆增 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-07-01 | E區瀏覽交付規格去冗文：外包只給「元素+位置+檔名」，移除過程/說明/補充；照片相框等正式編號元件（C14–C18）縮圖一律「編號+名稱+檔名」；可編輯存檔保留工具列/腳本（只移 contenteditable）；去機台黑遮罩=像素對齊背景硬覆蓋+遮罩充分膨脹15px吃掉抗鋸齒暗邊 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | CDIC | 2026-07-01 | Drive git 多機並行：`GIT_INDEX_FILE=/tmp/idx + git read-tree origin/main → add自有檔 → write-tree+commit-tree+update-ref` 繞過共用 index 暫存吞噬＋cloud-only 逾時；`.git/logs/HEAD` 等未落地檔 `rm` 讓 git 自重建（只丟 reflog，安全）；白名單制 `/*` 新頂層夾須 `git add -f` 才進版 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-07-02 | AI 評審（subagent 打分）系統性高估 3-4 分，不得當交付門檻：AI 評審只取修改清單、分數無效；唯一有效門檻＝PO 本人給分 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-07-02 | 「風格對了但分數不動」＝媒介天花板（Canvas 2D 上限≈4-5），別再同法迭代；跳級需真素材（AI 生圖/授權圖紋理）或 WebGL 渲染 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| CDIC | 2026-07-02 | Drive .git loose objects 雲端抽離致 commit 卡死：objects 被 Drive 同步為 cloud-only 後 git 無法解壓，需另機 sparse clone 或等落地，不嘗試 repair | `projects/cowork_CDIC/_context/lessons-learned.md` |
 
 ---
 
