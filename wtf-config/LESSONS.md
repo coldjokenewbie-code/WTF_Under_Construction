@@ -22,6 +22,7 @@
 | WTF | 2026-07-02 | 「AI 助理框架」＝治 agent 的 harness(契約/自驗閘/回顧+教練制)，非預先註冊 handler 的工作流函式庫；靠結構強制不靠自律，溝通冗贅＝紀律漂移 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 本地優先路由命中即繞過 LLM 省 API；自訂 delimiter `|` 會被 Policy Gate 當注入擋（反證有效）→改 0x1f | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 待辦架構：TaskLog=真相源、ai-team-todo App=鏡像(owner分user/AI掌握工作量)、廢 INBOX；/inbox 收尾只 add 本次 TaskLog 檔勿 add _context/ | `_context/lessons-learned.md` |
+| 出勤 | 2026-07-02 | PA 提醒流程三坑：全天行事曆事件視窗要取今天單日（昨~明天窗會撈到前天全天假）；條件卡 `equals(陣列,true)` 恆 false 改 `not(empty())`；迴圈 PatchItem 後記憶體陣列是舊值、後續判斷須重讀清單。per-person 屬性存 per-task 列判「任一列有值」；Select `toLower(null)` 炸整支加 coalesce；「參考某流程」先分清是改的主體還是只抄設定的範本、能在既有流程加尾段就不另作 | `projects/出勤專案/_context/lessons-learned.md` |
 | 出勤 | 2026-06-16 | 低代碼儲存選型：唯讀＋小表（<2000列）＋低頻走 Excel 直連(須Table；如請假餘額/team_member，建清單反多餘)；多人並發寫＋需欄位/項目權限＋可能累積的走 SharePoint 清單(如出勤主檔：員工填回覆+行政填狀態+自動寫入三方並寫、實際出勤狀態要員工唯讀)——Excel 會鎖檔/覆蓋、無欄位權限、非委派2000列頂；按讀寫特性分流，非全清單或全Excel | `projects/出勤專案/_context/lessons-learned.md` |
 | 出勤 | 2026-06-14 | 舊交接記的環境限制（「Power Apps YAML 無法貼入」）要再驗別當永久前提：官方 pa.yaml paste code 新功能上線後實測可貼入並執行，舊結論是當時舊格式的；過時前提會讓整條路線繞遠路 | `projects/出勤專案/_context/lessons-learned.md` |
 | 出勤 | 2026-06-24 | Canvas gallery 逐列自動存：OnChange 寫回的「無限迴圈+通知洗版」根因＝控件 Items 沒載入→Selected 空→無 guard 不斷寫空值；修＝穩定控件(DropDown@2.3.1+Items.Value)+三重 guard(空/預設/值未變不寫)+`AddColumns(... As alias, LookUp())` 預 join 現值供 Default(巢狀 LookUp 引外層用 As 別用 ThisRecord)；pa.yaml 控件版本只用使用者匯出出現過的；Windows PS 叫 codex/agy 長 prompt 含雙引號要走 stdin(`Get-Content -Raw\|codex exec -`)非 $var 直傳 | `projects/出勤專案/_context/lessons-learned.md` |
