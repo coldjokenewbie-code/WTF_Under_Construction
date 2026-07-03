@@ -93,7 +93,10 @@
       "PowerShell(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" check)",
       "PowerShell(git *)",
       "Bash(python3 *)",
-      "Bash(git commit -m 'chore: settings 提交 ody Stop hook 註冊+python3 允許；nightly 建議不採用刪行 *)"
+      "Bash(git commit -m 'chore: settings 提交 ody Stop hook 註冊+python3 允許；nightly 建議不採用刪行 *)",
+      "Bash(mkdir -p wtf-config/playbooks wtf-config/archive/2026-07-03_pre-fable5)",
+      "Bash(cp wtf-config/GLOBAL.md wtf-config/CLAUDE_CODE.md wtf-config/AGENTS.md wtf-config/archive/2026-07-03_pre-fable5/)",
+      "Bash(cp .claude/CLAUDE.md wtf-config/archive/2026-07-03_pre-fable5/project-dotclaude-CLAUDE.md)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",

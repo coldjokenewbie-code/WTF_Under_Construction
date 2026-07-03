@@ -7,9 +7,9 @@
 0. **定位 SSOT（絕對路徑）**：讀 `~/.gemini/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，**不可用相對路徑**。
 1. **讀取全域原則**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 載入全域溝通與效益原則。
 2. **讀取 Agent 協議**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/AGENTS.md` 載入跨工具 Agent 協作與信號通訊協議。
-3. **讀取專案知識**：
-   - 讀取 `_context/` 中所有 `.md` 檔案。
-   - 讀取 `rules/` 中所有 `.md` 檔案（若存在）。
+3. **讀取專案知識（三檔制，嚴禁全量掃描 `_context/`）**：
+   - 讀 `_context/INDEX.md` → 讀 INDEX 指到的當前 TaskLog 一份 → 讀 `_context/lessons-learned.md`（若存在）。
+   - 讀取 `rules/` 中所有 `.md` 檔案（若存在）；其他 `_context/` 檔案只在 INDEX 點名或使用者點名時才讀，`archive/` 跳過。
    - **技能＝原生 lazy-load**：開場自動列出 `~/.gemini/skills/` 名稱＋描述即可，**不需 `view_file` 讀全部 SKILL.md body**，僅觸發時才讀。
 4. **執行同步與環境檢查**：在本地終端機執行 `python "<WTF_ROOT>/wtf-config/sync_config.py" check`，確認設定是否與真相源一致。
 5. **輸出初始化回報與身分宣告**：在 Session 首次啟動對話時發送，必須以「已載入全域與 GEMINI 工具設定」開頭，並依序帶出標準身分與環境檢查宣告，格式為：

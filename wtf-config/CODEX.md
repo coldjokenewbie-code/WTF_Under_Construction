@@ -7,9 +7,9 @@
 0. **定位 SSOT（絕對路徑）**：讀 `~/.codex/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，**不可用相對路徑**。
 1. **讀取全域原則**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 載入全域溝通與效益原則。
 2. **讀取 Agent 協議**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/AGENTS.md` 載入跨工具 Agent 協作與信號通訊協議。
-3. **讀取專案知識**：
-   - 讀取 `_context/` 中所有 `.md` 檔案。
-   - 讀取 `rules/` 中所有 `.md` 檔案（若存在）。
+3. **讀取專案知識（三檔制，嚴禁全量掃描 `_context/`）**：
+   - 讀 `_context/INDEX.md` → 讀 INDEX 指到的當前 TaskLog 一份 → 讀 `_context/lessons-learned.md`（若存在）。
+   - 讀取 `rules/` 中所有 `.md` 檔案（若存在）；其他 `_context/` 檔案只在 INDEX 點名或使用者點名時才讀，`archive/` 跳過。
 4. **向用戶說明「已載入全域與 CODEX 工具設定」，再開始工作。**
    - **注意**：此報告僅在 Session 首次啟動對話時發出一次，後續問答切勿重複報告。
 

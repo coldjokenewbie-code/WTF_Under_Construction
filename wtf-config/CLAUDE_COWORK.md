@@ -13,7 +13,7 @@
 
 1. **工作區初始化**：檢查並補齊資料夾（不存在則建立）——`_context/`、`rules/`、`workingfiles/_screenshots/`、`workingfiles/_scripts/`、`outputs/`。
    - 若 `rules/workingfiles-conventions.md` 不存在則建立：`workingfiles/` 存暫時性工作檔與素材（`_screenshots/` 擷圖驗收、`_scripts/` AI 腳本），驗收/結案後可清除。
-2. **專案資料載入**：開始前讀取 `_context/` 與 `rules/` 內所有 `.md` 檔。
+2. **專案資料載入（三檔制）**：讀 `_context/INDEX.md` → INDEX 指到的當前 TaskLog 一份 → `_context/lessons-learned.md`（若存在）；`rules/` 內全部 `.md` 照讀。其他 `_context/` 檔案只在 INDEX 點名或使用者點名時才讀，`archive/` 跳過。
 3. 讀取完成後回覆「已載入全域設定」，再詢問本次任務。
 
 ## 效益優先溝通原則
@@ -50,6 +50,12 @@ Base：`https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construc
 | `skills-install` | 部署 skills 到各工具 | ❌ 本機部署用 |
 
 fetch 範例：需要交接時 → fetch `…/skills/handover/SKILL.md` 後照做。
+
+## 制度檔（playbooks，按需 fetch）
+
+派工／判斷／交辦範本等制度檔同樣走 raw URL：
+Base：`https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/wtf-config/playbooks/<name>.md`
+常用：`model-dispatch.md`（派工與模型選擇）、`judgment-rubrics.md`（何時完成/何時問）、`delegation-templates.md`（交辦範本）。清單見同目錄 GLOBAL.md「制度層」路由表。
 
 ## 模型建議
 - 展演腳本、文件類輕量任務建議切 Haiku 以節省額度。
