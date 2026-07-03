@@ -1,103 +1,110 @@
 # Ideogram 商用圖像／影片生成調查（2026-07-03）
 
 ## 結論（一句話）
-**任務失敗（工具卡點）**：WebSearch 可正常運作並找到多個線索，但 WebFetch（含整個 proxy 出站連線）在本次 session 完全失效（對 ideogram.ai、Wikipedia、google.com、anthropic.com、example.com 全部回傳 403），導致無法依規定「實際開啟來源頁面讀過才引用」，因此**無法產出符合驗收條件的已驗證報告**。以下只列出 WebSearch 摘要（明確標示為未驗證線索）與工具故障的診斷紀錄，禁止把未驗證內容當作確認事實使用。
+**部分完成（方法降級）**：WebFetch 在本環境結構性不可用（網路政策 403，經協調者確認），改用「WebSearch 多輪交叉佐證」標準完成調查；所有內容皆為**搜尋摘要，未實開驗證**，關鍵條款（尤其免費層可否商用）仍需人工開 ToS 原文核實。
+
+## 決策摘要（回答問題本身）
+1. **「Ideogram 4.0」確實存在**（多來源交叉佐證）：2026-06-03 發布，是 Ideogram 首個開放權重模型。但「免費拿權重自架＝免費商用」**不成立**——權重授權為非商用協議，只有推論程式碼是 Apache 2.0。
+2. **免費/低成本取得可商用圖像的路徑**（按成本排序，皆待核實）：
+   - ❌ 免費網頁方案：多數來源稱**僅限個人非商用**且產出強制公開——不建議商用。
+   - ❌ 自架開源權重：權重授權明文非商用，商用需另談授權。
+   - ✅ **API 按張計費（最低成本商用路徑）**：無月費，4.0 Turbo 每張 $0.03；一批 100 張商用圖約 $3。
+   - ✅ 訂閱 Plus（月繳 $20／年繳 $15/月）：含商用授權、私人生成、每月 1,000 priority credits。
+3. **影片生成：沒有**（三輪搜尋多來源一致）。Ideogram 含 4.0 皆為純靜態圖像模型，影片需下游接 Pika/Runway/CapCut 等工具。若工作流需要「一站式圖＋影片」，Ideogram 不符合，只能當圖像節點。
 
 ---
 
-## 一、方法與工具狀態
+## 一、確認度分欄
 
-### 已嘗試的操作
-1. `WebSearch`：正常運作，執行了 5 組查詢（Ideogram pricing、最新版本、video generation、ToS 商用條款、API pricing）。
-2. `WebFetch`：對以下所有網址皆回傳 `HTTP 403 Forbidden`，無一成功：
-   - `https://ideogram.ai/pricing`
-   - `https://docs.ideogram.ai/plans-and-pricing/available-plans`
-   - `https://ideogram.ai/legal/tos`
-   - `https://ideogram.ai/licensing/`
-   - `https://docs.ideogram.ai/frequently-asked-questions`
-   - `https://ideogram.ai/features/api-pricing`
-   - `https://ideogram.ai`、`https://docs.ideogram.ai`、`https://developer.ideogram.ai`
-   - `https://web.archive.org/...`（工具回報「Claude Code is unable to fetch from web.archive.org」）
-   - `https://www.eesel.ai/blog/ideogram-pricing`
-   - `https://fluxnote.io/guides/ideogram-pricing-guide-2026`
-   - `https://costbench.com/software/ai-image-generators/ideogram/`
-   - `https://lilidi.ai/blog/ideogram-ai-for-business-understanding-commercial-licenses`
-   - `https://en.wikipedia.org/wiki/Ideogram_(text-to-image_model)`
-   - `https://checkthat.ai/brands/ideogram/pricing`
-   - `https://www.imagine.art/blogs/ideogram-4-0-overview`
-   - `https://vidmuse.ai/blog/ideogram-4-0`
-   - **對照組（排除是否為 ideogram.ai 網站專屬封鎖）**：`https://example.com`、`https://www.anthropic.com` 也同樣回傳 403。
+> 標註規則：「交叉佐證」＝≥2 個獨立來源的搜尋摘要一致；「單源線索」＝僅一來源；全部皆為**搜尋摘要，未實開驗證**。
 
-### 診斷過程（排除「這是 ideogram.ai 專屬防爬蟲」的可能性）
-- 讀取 `/root/.ccr/README.md`，並執行 `curl -sS "$HTTPS_PROXY/__agentproxy/status"`：`recentRelayFailures` 為空，代理設定本身（CA、port、noProxy）看起來正常。
-- 直接用 `curl --cacert /root/.ccr/ca-bundle.crt -x "$HTTPS_PROXY"` 測試 `https://example.com`、`https://www.google.com`、`https://ideogram.ai/pricing`，三者皆回傳同樣的錯誤：`curl: (56) CONNECT tunnel failed, response 403`。
-- 間隔 15 秒後重測 `example.com`，結果相同（非暫時性抖動）。
-- 結論：**這不是 ideogram.ai 的機器人防護單獨擋掉本工具，而是本次 session 的出站 HTTPS（WebFetch 與底層 proxy CONNECT）整體被拒絕（403）**，屬於環境/工具層級故障，而非可透過調整網址、User-Agent、或改用封存站繞過的問題。依 `/root/.ccr/README.md` 指示，「403 from the proxy」屬於「do not retry or route around it — report the blocked host」的類別，已如實回報，未嘗試停用 TLS 驗證或繞過代理。
+### A. 交叉佐證（搜尋摘要，未實開驗證）
 
-### 結果
-- 沒有任何一個來源被「實際開啟讀取」，包含 ideogram.ai 官方頁面、Wikipedia、以及各媒體/部落格頁面。
-- 依使用者規定的方法要求：「只出現在搜尋清單、未實開的連結禁止引用」，以下第二節內容**一律不得當作確認事實使用**，僅供使用者知悉 WebSearch 摘要線索、待工具恢復後再驗證。
+**1. 模型版本與定位**
+- Ideogram 4.0 於 2026-06-03 發布，為 Ideogram 首個開放權重（open-weight）文生圖模型；9.3B 參數 Diffusion Transformer，flow matching 訓練，原生 2048px，文字渲染基準（X-Omni English OCR）0.97，在開放權重模型中排名第一。
+  - 來源：https://www.buildfastwithai.com/blogs/ideogram-4-open-weight-image-model 、https://www.3daistudio.com/blog/ideogram-4-open-image-model-explained 、https://techsy.io/en/blog/ideogram-4-0 、（官方頁存在佐證）https://ideogram.ai/blog/ideogram-4.0/ 、https://huggingface.co/ideogram-ai/ideogram-4-nf4
+- 前代 Ideogram 3.0 於 2025 年 3 月發布（Style Reference、寫實強化）。
+  - 來源：https://ideogram.ai/models/3.0/ 、https://learnprompting.org/blog/ideogram-3-0 、https://en.wikipedia.org/wiki/Ideogram_(text-to-image_model)
 
----
+**2. 4.0 開源授權的關鍵陷阱**
+- 推論程式碼＝Apache 2.0；**模型權重＝Ideogram Non-Commercial Model Agreement**（個人/研究免費，商用部署需另購授權；無營收門檻、無小商家豁免）。權重在 Hugging Face 上為 gated download。
+  - 來源：https://huggingface.co/ideogram-ai/ideogram-4-nf4/blob/main/LICENSE.md （檔案存在佐證）、https://www.buildfastwithai.com/blogs/ideogram-4-open-weight-image-model 、https://mcp.directory/blog/ideogram-4-open-weight-image-model-2026 、https://evolink.ai/blog/ideogram-4-0-what-developers-should-know
+  - 注意：第一輪搜尋摘要曾稱「open source under Apache 2.0」，後兩輪更細的摘要一致更正為「僅程式碼 Apache 2.0、權重非商用」。以後者為準，但**此點務必人工開 HF LICENSE.md 核實**。
 
-## 二、WebSearch 摘要線索（未經 WebFetch 驗證，僅供參考，不可視為確認事實）
+**3. 免費方案**
+- 產出**強制公開**（public gallery，他人可見 prompt 與圖），私人生成需 Plus 以上。
+  - 來源：https://www.eesel.ai/blog/ideogram-pricing 、https://www.howdoiuseai.com/blog/2026-04-16-ideogram-free-tier-2026-what-you-get-and-limits 、https://docs.ideogram.ai/plans-and-pricing/available-plans （摘要）
+- 免費層**僅限個人非商用**：兩輪不同查詢的摘要一致（"Free accounts allow only personal, non-commercial use"；"commercial use is not allowed on Ideogram's free tier"）。
+  - 來源：https://sozee.ai/resources/ideogram-copyright-free-2026/ 、https://lilidi.ai/blog/ideogram-ai-for-business-understanding-commercial-licenses 、https://ideogram.ai/licensing/ （摘要）
+  - ⚠️ 但存在矛盾說法，見第 C 節「兩說並陳」。
 
-> 以下段落全部來自 WebSearch 回傳的搜尋引擎摘要文字，**未經開啟原始頁面核實**，可能有過期、錯誤、或 AI 摘要幻覺風險。使用者若要據此做「用不用 Ideogram」的決策，建議工具恢復後重新查證，或請使用者自行手動開啟下列網址核對。
+**4. 付費方案**（美元）
+- Plus：月繳 $20／年繳 $15/月（省 25%）；1,000 priority credits/月＋unlimited slow credits、private generation、image upload、自訂色盤、商用授權。
+  - 來源：https://checkthat.ai/brands/ideogram/pricing 、https://www.eesel.ai/blog/ideogram-pricing 、https://fluxnote.io/guides/ideogram-pricing-guide-2026
+- Pro：月繳 $60／年繳 $42/月（省 30%）；3,500 priority credits/月、批次生成（CSV 上傳）。
+  - 來源：https://checkthat.ai/brands/ideogram/pricing 、https://www.eesel.ai/blog/ideogram-pricing
+- 免費：$0，每週 10 slow credits（額度數字有矛盾，見 C 節）。
 
-### 1. 最新模型版本
-- 搜尋摘要指出：Ideogram 3.0 於 2025 年 3 月發布；Ideogram 4.0 於 2026 年 6 月 3 日發布，號稱是 Ideogram 首個開放權重（open-weight）文生圖模型，採 Apache 2.0 授權，93 億參數 Diffusion Transformer。
-- 來源（未驗證）：https://ideogram.ai/models/3.0/ 、https://www.imagine.art/blogs/ideogram-4-0-overview 、https://en.wikipedia.org/wiki/Ideogram_(text-to-image_model)
+**5. API 定價**（每張圖，flat fee，回傳 4 張＝4 倍）
+- 4.0：Turbo $0.03／Default $0.06／Quality $0.10（兩輪獨立查詢摘要完全一致）
+- 3.0：Turbo $0.03／Default $0.06／Quality $0.09
+- 舊模型：2a Turbo $0.025、1.0 Turbo $0.02（兩次查詢皆出現，但可能同源自 costbench，佐證力較弱）
+  - 來源：https://ideogram.ai/api-pricing/ （摘要）、https://developer.puter.com/tutorials/ideogram-api-pricing/ 、https://costbench.com/software/ai-image-generators/ideogram/ 、https://www.eesel.ai/blog/ideogram-pricing
 
-### 2. 免費方案
-- 摘要指出：免費方案每週約 10 個「slow credits」；另有摘要稱免費帳號僅供個人非商用（non-commercial），且產出預設公開（public）。
-- **注意：兩則搜尋摘要對「免費方案是否可商用」的說法互相矛盾**——其中一則摘要（疑似混雜了付費方案條款）稱「Ideogram does not claim any ownership... does not restrict commercial use」，另一則明確稱「Free accounts allow only personal, non-commercial use」。這正是本任務要求「查 ToS 原文」的原因，但因 WebFetch 失效，**無法開啟 https://ideogram.ai/legal/tos 或 https://ideogram.ai/licensing/ 核實哪個說法正確，也無法確認免費層浮水印政策**。
-- 來源（未驗證）：https://fluxnote.io/guides/ideogram-pricing-guide-2026 、https://docs.ideogram.ai/plans-and-pricing/available-plans 、https://ideogram.ai/legal/tos 、https://ideogram.ai/licensing/
+**6. 商用授權條款（ToS 摘要）**
+- Ideogram 不主張 User Output 所有權，付費用戶可商用；例外：不得用產出訓練與 Ideogram 競爭的模型；使用者須自行負責第三方權利（Ideogram 明文免責）。
+  - 來源：https://ideogram.ai/legal/tos （摘要）、https://conductatlas.com/platform/ideogram/ideogram-terms-of-service/ 、https://sozee.ai/resources/ideogram-copyright-free-2026/
 
-### 3. 付費方案
-- 摘要指出：Plus 方案年繳約 $15/月起，Pro 方案最高約 $42/月（年繳可省 25%~30%），另有 Team 方案約 $20/月/席。差異據稱包含私人生成（private generation）、更快的優先佇列、更多額度。**確切級距、額度數字、解析度差異未經核實**。
-- 來源（未驗證）：https://ideogram.ai/pricing 、https://checkthat.ai/brands/ideogram/pricing
+**7. 影片生成：無**
+- 三輪查詢、多個獨立來源一致：Ideogram（含 4.0）為純靜態圖像模型，無任何原生影片/動畫/動態功能；motion 內容需下游接 Pika、Runway、CapCut、DaVinci Resolve 等。
+  - 來源：https://fluxnote.io/guides/how-to-turn-ideogram-image-into-video 、https://vidmuse.ai/blog/ideogram-4-0 、https://filmora.wondershare.com/trending-topic/ideogram-ai.html
 
-### 4. API 定價
-- 摘要指出每張圖片價格區間（未核實）：
-  - Ideogram 4.0：Turbo $0.03、Default $0.06、Quality $0.10
-  - Ideogram 3.0：Turbo/Default/Quality 約 $0.03/$0.06/$0.09
-  - Ideogram 2a Turbo：$0.025；Ideogram 1.0 Turbo：$0.02
-  - 使用角色參考圖（character reference）費用另計，據稱漲至 2–3 倍。
-- 來源（未驗證）：https://ideogram.ai/features/api-pricing 、https://developer.puter.com/tutorials/ideogram-api-pricing/ 、https://costbench.com/software/ai-image-generators/ideogram/
+**8. 強項與弱項**
+- 強項（多來源一致）：圖內文字渲染準確度業界頂尖（測試摘要稱 ~90–95%，對比 Midjourney ~30–40%）；設計類圖像（海報、logo、含字版面）與「commercial photography」風格寫實。
+- 弱項（多來源一致）：寫實人臉不穩定（膚質/比例偶爾不自然）；電影感/藝術性渲染遜於 Midjourney；動漫風不及專門工具。
+  - 來源：https://clickup.com/blog/ideogram-vs-midjourney/ 、https://pxz.ai/blog/ideogram-vs-midjourney-2026 、https://neuronad.com/ideogram-vs-midjourney/
 
-### 5. 商用授權關鍵條款
-- 摘要聲稱付費方案下 Ideogram 不主張 User Output 的所有權，使用者可商用（但需遵守協力廠商權利與 Acceptable Use Policy，且不可用產出訓練競品模型）。免費方案是否適用同一條款**有矛盾說法，未核實**（見上第 2 點）。
-- 來源（未驗證）：https://ideogram.ai/legal/tos 、https://ideogram.ai/licensing/ 、https://lilidi.ai/blog/ideogram-ai-for-business-understanding-commercial-licenses
+### B. 單源線索（搜尋摘要，未實開驗證）
+- 免費層下載為壓縮 JPG **帶浮水印**（僅一摘要提及；付費可去除）。來源：https://www.toolsforhumans.ai/ai-tools/ideogram
+- Team 方案約 $20/月/席（per-user priority credits＋協作）。來源：https://checkthat.ai/brands/ideogram/pricing
+- API 無免費層。來源：https://developer.puter.com/tutorials/ideogram-api-pricing/
+- API 使用 character reference（角色一致性）加價至約 2–3 倍（3.0 為 $0.10/$0.15/$0.20）。來源：https://costbench.com/software/ai-image-generators/ideogram/
+- 使用者授予 Ideogram 廣泛（royalty-free、worldwide、可再授權）授權以營運與改進服務。來源：https://conductatlas.com/platform/ideogram/ideogram-terms-of-service/
+- 4.0 支援 JSON 結構化版面（bounding box＋hex 色盤）。來源：https://chatforest.com/builders-log/ideogram-4-open-weight-json-prompting-design-pipeline-builder-guide/
+- 4.0 量化版可在 24GB GPU 上自架。來源：https://techsy.io/en/blog/ideogram-4-0
 
-### 6. 影片生成能力
-- 多則摘要一致指出：**Ideogram（含 4.0）本身沒有原生影片生成功能**，只做靜態圖像；使用者需搭配 Pika、Runway、Filmora 等外部工具把圖片轉成影片（例如 Ken Burns 效果）。此點多來源說法一致，方向上可信度較高，但仍建議之後用 WebFetch 開啟官方頁面（如 https://ideogram.ai/ 首頁）二次確認「目前」是否仍無影片功能。
-- 來源（未驗證）：https://fluxnote.io/guides/how-to-turn-ideogram-image-into-video 、https://vidmuse.ai/blog/ideogram-4-0
+### C. 矛盾點・兩說並陳（待人工核實）
 
-### 7. 強項與弱項
-- 摘要指出 Ideogram 的強項是圖內文字渲染準確率高（摘要稱約 90%，對比 Midjourney 約 30%，此數字未核實、疑似行銷或部落格誇飾），以及 3.0/4.0 版本強調寫實度（skin tone、光線物理、反射）與設計風格一致性（Style Reference）。弱項未在搜尋摘要中明確提及，**查不到**。
+**C1. 免費層可否商用（最關鍵，直接影響決策）**
+- 說法一（不可商用）：「Free accounts allow only personal, non-commercial use」；商用授權綁 Plus 以上。來源摘要：https://sozee.ai/resources/ideogram-copyright-free-2026/ 、https://lilidi.ai/blog/ideogram-ai-for-business-understanding-commercial-licenses 、https://ideogram.ai/licensing/ （摘要）
+- 說法二（不限制商用）：ToS 摘要稱「does not restrict your ability to use User Output for your own purposes (including for commercial purposes)」，未提免費/付費區分。來源摘要：https://ideogram.ai/legal/tos 、https://conductatlas.com/platform/ideogram/ideogram-terms-of-service/
+- 研判（推測，標註）：兩說可能同時為真——ToS 通則不主張所有權，但 Licensing 頁/方案條款把「商用授權」列為付費權益（類似 Midjourney 模式）。**決策上先採保守解：免費層不商用**。
+- ✅ 人工核實動作：手動開 https://ideogram.ai/legal/tos 與 https://ideogram.ai/licensing/ 對照原文。
 
----
+**C2. 免費額度：每日 10 credits vs 每週 10 credits**
+- 一說每週 10 slow credits（2025-01 從每日 10 降為每週 10）；另有標題稱「Free 10 Images/Day」「10 Credits/Day」。可能是改版時間差或部落格過期。
+- 來源：https://www.eesel.ai/blog/ideogram-pricing （週）、https://www.howdoiuseai.com/blog/2026-04-16-ideogram-free-tier-2026-what-you-get-and-limits （日，標題）、https://fluxnote.io/guides/ideogram-pricing-guide-2026 （日，標題）
+- ✅ 人工核實動作：開 https://ideogram.ai/pricing 。
 
-## 三、依必查清單逐項狀態
+**C3. 4.0「開源」的措辭**
+- 早期摘要稱「open source under Apache 2.0」；細部摘要一致更正為「程式碼 Apache 2.0、權重非商用協議」。以後者為準（有 HF LICENSE.md 檔案存在佐證），但仍屬摘要層級。
 
-| # | 項目 | 狀態 |
-|---|------|------|
-| 1 | 最新版本與定位（是否有 4.0） | 查不到（WebSearch 摘要稱有 4.0，2026-06-03發布，但未經 WebFetch 核實官方頁面） |
-| 2 | 免費方案額度／商用／公開／浮水印 | 查不到（來源互相矛盾，且無法開啟 ToS/pricing 原文核實） |
-| 3 | 付費方案價格與差異 | 查不到（僅有未核實搜尋摘要數字） |
-| 4 | API 定價 | 查不到（僅有未核實搜尋摘要數字） |
-| 5 | 商用授權關鍵條款 | 查不到（無法開啟 ideogram.ai/legal/tos、ideogram.ai/licensing/ 原文） |
-| 6 | 影片生成能力 | 查不到（但多則獨立摘要方向一致：目前無原生影片生成，需搭配外部工具；建議工具恢復後仍需二次確認） |
-| 7 | 強項弱項 | 查不到（僅查到強項摘要：文字渲染、寫實、風格一致性；弱項未查到） |
-
-已查過的地方：ideogram.ai 官方 pricing/ToS/licensing/FAQ/API pricing 頁、docs.ideogram.ai、developer.ideogram.ai、Wikipedia、web.archive.org、以及 eesel.ai、fluxnote.io、costbench.com、lilidi.ai、checkthat.ai、imagine.art、vidmuse.ai 等部落格/媒體頁 —— **全部因 WebFetch/proxy 403 故障而無法實際開啟**。
+### D. 查不到
+- 免費層浮水印政策的第二個獨立來源（僅單源）。
+- 各方案的解析度上限差異（搜尋摘要未出現具體數字；僅知 4.0 模型原生 2048px）。
+- Ideogram 官方對「自架權重商用授權」的價格（摘要僅稱需另談 Self-Serve/Enterprise）。
+- 付費方案商用授權在**取消訂閱後**是否延續（未查）。
 
 ---
 
-## 四、建議後續動作
-1. 這是本次 session 的環境/代理層故障（出站 HTTPS 全面 403），不是 ideogram.ai 網站的防爬蟲問題。建議稍後（換一個 session 或環境恢復後）重新執行本任務，屆時應可用 WebFetch 開啟：
-   - `https://ideogram.ai/pricing`（訂閱方案與額度）
-   - `https://ideogram.ai/legal/tos` 與 `https://ideogram.ai/licensing/`（商用授權原文，特別是免費層是否可商用的矛盾說法）
-   - `https://ideogram.ai/features/api-pricing`（API 單價）
-   - `https://ideogram.ai/`（確認是否仍無影片生成功能）
-2. 若使用者急需初步方向判斷（不作為最終商用決策依據）：多個獨立來源方向一致地指出 Ideogram 目前（含 4.0）**沒有原生影片生成功能**，這點置信度相對較高；但「免費方案能否商用」出現矛盾說法，**在核實 ToS 原文前，建議先假設免費層不可商用**，以策安全。
+## 二、工具故障診斷紀錄（保留原始診斷）
+
+- WebSearch 正常；WebFetch 對所有外部網址（ideogram.ai 全站、docs/developer 子網域、Wikipedia、eesel/fluxnote/costbench/lilidi/checkthat/imagine.art/vidmuse、對照組 example.com 與 anthropic.com）一律回傳 HTTP 403；web.archive.org 被工具明示封鎖。
+- 讀取 `/root/.ccr/README.md` 並查 `curl -sS "$HTTPS_PROXY/__agentproxy/status"`：proxy 設定正常、`recentRelayFailures` 為空。
+- 直接 `curl --cacert /root/.ccr/ca-bundle.crt -x "$HTTPS_PROXY"` 測 example.com／google.com／ideogram.ai：一律 `CONNECT tunnel failed, response 403`；隔 15 秒重測相同，非暫時性抖動。
+- 結論：本環境出站 HTTPS 為 gateway 政策層級全面拒絕（非 ideogram.ai 防爬蟲），協調者已確認 WebFetch 結構性不可用。依 README 指示未嘗試停用 TLS 驗證或繞道。
+- 影響：「必先實開連結才可引用」規則物理不可行，經協調者核准改用「WebSearch ≥2 獨立來源交叉佐證＋全文標註未實開驗證」的替代標準。
+
+## 三、建議後續動作
+1. 人工（或在 WebFetch 可用的環境）開 4 個官方頁做最終核實：`ideogram.ai/pricing`、`ideogram.ai/legal/tos`、`ideogram.ai/licensing/`、`ideogram.ai/api-pricing/`，重點核對 C1（免費層商用）與 C2（免費額度）。
+2. 若決策要現在做：影片需求 Ideogram 直接出局（無影片功能，交叉佐證度高）；圖像需求走 API 按張計費（4.0 Turbo $0.03/張）或 Plus 年繳（$15/月）最划算，免費層與自架權重都**不要**用於商用。
