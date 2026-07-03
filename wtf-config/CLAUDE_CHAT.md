@@ -1,6 +1,6 @@
 # Claude Chat 工具層設定
 > 適用：claude.ai Chat（含 Projects）
-> 載入方式：固定規則內嵌 Project Instruction（由儀表板產生器維護）；本檔上傳至 Project Knowledge 供參考知識查詢
+> 載入方式：固定規則內嵌 Project Instruction（由 `sync_config.py chat-instruction` 產生）；本檔上傳至 Project Knowledge 供參考知識查詢
 
 ---
 
@@ -15,8 +15,8 @@
 
 | 層級 | 存放位置 | Chat 讀取方式 |
 |------|---------|--------------|
-| 全域原則 | `wtf-config/GLOBAL.md` | 內嵌 Project Instruction |
-| Chat 固定規則 | 本檔 `## 固定規則` 段落 | 內嵌 Project Instruction（由儀表板產生器維護）|
+| 全域原則 | `wtf-config/AGENTS.md`（溝通正本）＋`GLOBAL.md`（做到好） | 內嵌 Project Instruction |
+| Chat 固定規則 | 本檔 `## 固定規則` 段落 | 內嵌 Project Instruction |
 | Chat 參考知識 | 本檔 `## 參考知識` 段落 | 上傳至 Project Knowledge |
 | 專案知識庫 | `chat-project-lessons/[專案名稱].md` | 上傳至 Project Knowledge |
 
@@ -40,7 +40,7 @@
 
 ## 固定規則
 
-> 此區塊由 `/lesson-add 工具 chat rule` 維護。同步寫入 dashboard.html 產生器，需重新複製 Project Instruction 貼回 claude.ai。
+> 此區塊由 `/lesson-add 工具 chat rule` 維護。更新後跑 `python wtf-config/sync_config.py chat-instruction` 重產 `outputs/chat-project-instruction.md`，複製全文貼回 claude.ai。
 
 <!-- rules-start -->
 - 對話過長時（超過 30 來回或開始重複犯同樣錯誤），主動建議開新對話並產出交接文件。

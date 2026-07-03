@@ -12,6 +12,7 @@ sync_config.py — WTF 設定真相源同步腳本
   python sync_config.py status    彙整本機所有註冊專案的現況＋git＋最新 TaskLog（治理/可視，唯讀）
   python sync_config.py dashboard 產 outputs/dashboard.html：現況＋git＋待辦的網頁儀表板（RWD，手機友善）
   python sync_config.py inbox-info 輸出 JSON：本機 inbox vault 路徑＋待分流「工作」開頭檔＋專案路由表（供 /inbox skill）
+  python sync_config.py chat-instruction 組 Claude Chat 的 Project Instruction → outputs/chat-project-instruction.md（改正本後重產、貼回 claude.ai）
 
 設計備註:
   - Drive 不支援跨平台 symlink，故改用實體複製。
@@ -716,9 +717,62 @@ footer a{{color:var(--blue);text-decoration:none;margin-right:14px}}
     return 0
 
 
+def _md_section(text, key):
+    """取標題含 key 的第一個 '## ' 節內容（不含標題行，含子節），找不到回 None。"""
+    out, on = [], False
+    for ln in text.splitlines():
+        if ln.startswith("## "):
+            if on:
+                break
+            on = key in ln
+            continue
+        if on:
+            out.append(ln)
+    body = "\n".join(out).strip()
+    body = re.sub(r"\n?-{3,}\s*$", "", body).strip()
+    return body or None
+
+
+def cmd_chat_instruction():
+    """部署：組 Claude Chat 的 Project Instruction（正本：AGENTS.md＋GLOBAL.md＋CLAUDE_CHAT.md）。"""
+    sys.stdout.reconfigure(encoding="utf-8")
+    agents = read_ssot()
+    global_md = (SCRIPT_DIR / "GLOBAL.md").read_text(encoding="utf-8")
+    chat = (SCRIPT_DIR / "CLAUDE_CHAT.md").read_text(encoding="utf-8")
+
+    rules = re.search(r"<!-- rules-start -->(.*?)<!-- rules-end -->", chat, re.S)
+    parts = [
+        ("效益優先溝通原則", _md_section(agents, "效益優先溝通原則")),
+        ("溝通與意圖解讀", _md_section(agents, "溝通與意圖解讀")),
+        ("「做到好」原則", _md_section(global_md, "「做到好」原則")),
+        ("Chat 工具特性與限制", _md_section(chat, "工具特性與限制")),
+        ("Chat 固定規則", rules.group(1).strip() if rules else None),
+        ("Lesson 候選輸出格式", _md_section(chat, "Lesson 候選輸出格式")),
+        ("Session 結束協議", _md_section(chat, "Session 結束協議")),
+    ]
+    missing = [t for t, b in parts if not b]
+    doc = "\n\n".join(
+        ["# WTF Project Instruction（Claude Chat）",
+         f"> 自動產生：`python wtf-config/sync_config.py chat-instruction`（{ts()}）。"
+         "正本＝wtf-config/AGENTS.md、GLOBAL.md、CLAUDE_CHAT.md；手改本檔無效，改正本後重產。"]
+        + [f"## {t}\n{b}" for t, b in parts if b]) + "\n"
+
+    out_dir = REPO_ROOT / "outputs"
+    out_dir.mkdir(exist_ok=True)
+    out = out_dir / "chat-project-instruction.md"
+    out.write_text(doc, encoding="utf-8")
+    print(f"已產生：{out}（{len(doc)} 字元）")
+    print("→ 複製全文貼回 claude.ai 該 Project 的 Instructions 欄。")
+    if missing:
+        print(f"[警告] 正本缺節，未收入：{'、'.join(missing)}（檢查標題是否被改名）")
+        return 1
+    return 0
+
+
 def main():
     cmds = {"check": cmd_check, "sync": cmd_sync, "register": cmd_register,
-            "status": cmd_status, "dashboard": cmd_dashboard, "inbox-info": cmd_inbox_info}
+            "status": cmd_status, "dashboard": cmd_dashboard, "inbox-info": cmd_inbox_info,
+            "chat-instruction": cmd_chat_instruction}
     if len(sys.argv) < 2 or sys.argv[1] not in cmds:
         print(__doc__)
         return 2
