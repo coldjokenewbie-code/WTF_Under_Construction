@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-03 | Fable5 制度建置：常載鏈瘦身（三檔制開場、制度層路由、playbooks 按需檔）＋派工/判斷/交辦/維護四守則；動手前先過 GLOBAL.md「制度層」 | `wtf-config/playbooks/`（總覽見 `letter-from-fable5.md`） |
 | WTF | 2026-07-02 | `git add` 遇壞 pathspec 整批中止、配 2>/dev/null＝靜默漏 commit；add 不遮 stderr＋commit 後核 files changed 數 | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | 機器解析 git 輸出：一律 `-c core.quotepath=false`（中文檔名八進位跳脫）＋不預先全段 strip（porcelain 首行前導空白錯位掉字） | `_context/lessons-learned.md` |
 | WTF | 2026-07-02 | agent 定義（~/.claude/agents/）與 skills 熱載即生效、hooks 不熱載需新 session——部署後驗證時機別套錯（實測對比） | `_context/lessons-learned.md` |

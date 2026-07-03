@@ -1,5 +1,9 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-06-07
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-03
+
+## 2026-07-03 制度更新（Fable 5 session）
+- 常載鏈已重寫（開場改**三檔制**：INDEX → 當前 TaskLog → lessons-learned，嚴禁全量掃 `_context/`）；派工/判斷/交辦/維護守則在 `wtf-config/playbooks/`（路由表見 GLOBAL.md「制度層」）。
+- 詳見 `_context/TaskLog_2026-07-03_fable5制度建置.md`；總覽 `wtf-config/playbooks/letter-from-fable5.md`。舊常載鏈備份 `wtf-config/archive/2026-07-03_pre-fable5/`。
 
 ## 一句話目標
 Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
@@ -12,6 +16,7 @@ Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／
 - 🖥️跨機即時協調（Drive，非 repo）：`E:\Claude_cowork\projects\Git_work_agents\WTFrepo\signals_WIN.md`／`signals_MAC.md`（per-machine 單寫檔，見下「讀取指引」）
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
 - 最新工作紀錄：
+  - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；**當前 TaskLog**）
   - `_context/TaskLog_2026-06-07_跨工具開場載入對等.md`（Codex/agy 開場載入全域設定+skills 對等已落地 Mac；**待 Windows 跑 sync 部署**）
   - `_context/TaskLog_2026-06-07_inbox語音速記分流.md`（Phase B inbox `/inbox` skill 已建，待 Windows 補 vault 路徑）
   - 階段二已結案 `_context/archive/ClosedTaskLog_2026-06-03_階段二-移出Drive.md`
