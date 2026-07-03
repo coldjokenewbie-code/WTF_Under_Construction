@@ -26,12 +26,13 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
 4. **全域設定修改建議**：讀 `<WTF_ROOT>/_context/nightly-notify.md`（不存在則略過）。若有**未勾 `- [ ]`** 項 → 開場**優先醒目提醒**：「💡 nightly 建議修改全域設定：<列出>，要採用嗎？採用我幫你套用並移除該行，不採用就刪行。」夜間 routine **只建議不自改**全域設定，由用戶在此核准（routine 寫建議→commit main→本機 pull→此處浮出）。
 
-## 2. 讀取 _context 知識
+## 2. 讀取 _context 知識（三檔制，嚴禁全量掃描）
 
-1. 根知識：讀取 `_context/about-me.md`、`_context/lessons-learned.md`。
-2. 進入專案後：讀取該專案 `_context/` 的 PRD 與 `lessons-learned.md`。
-   - 工作紀錄依 GLOBAL.md「結案歸檔」規則：只讀 `TaskLog_`／`Handover_`／`INDEX.md`，跳過 `ClosedTaskLog_`／`archive/`。
-   - 先看 `INDEX.md` 掌握全貌，再按需展開個別檔案。
+與 GLOBAL.md 開場協議第 3 步同文，對當前工作目錄（根層或專案層皆同）：
+1. 讀 `_context/INDEX.md`（現況與指路）。
+2. 讀 INDEX 指到的**當前 TaskLog 一份**（todo 真相源）。
+3. 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
+4. 其他 `_context/` 檔案（PRD、Handover、其他 TaskLog）**只在** INDEX「讀取指引」點名、或使用者點名時才讀；`archive/`／`ClosedTaskLog_*` 一律跳過。
 
 ## 3. 讀取並套用 rules 規範
 

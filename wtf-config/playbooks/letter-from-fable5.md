@@ -27,7 +27,7 @@
 |---|---|---|
 | 常載鏈回胖 | 有 session「順手」把新規則塞進 GLOBAL.md | 黃區制度＋門檻：`cat wtf-config/GLOBAL.md wtf-config/CLAUDE_CODE.md wtf-config/AGENTS.md \| wc -l` >500 就抽離（maintenance 第 3 節） |
 | playbooks 沒被打開 | 派工沒顯式 model、交辦沒驗收條件＝根本沒讀 dispatch | 使用者抽查最近一次派工 prompt；連續發生 → 把該規則升級成機檢（見上第 2 件事） |
-| 矛盾規則再現 | 新檔說 A、舊檔說 B，弱模型選字面明確的那個 | 改規則時必跑 `grep -rn "舊關鍵字" wtf-config/ rules/` 清掉舊句；本次「讀取所有 .md」矛盾就是這樣清的 |
+| 矛盾規則再現 | 新檔說 A、舊檔說 B，弱模型選字面明確的那個 | 改規則時必跑 `grep -rn "舊關鍵字" wtf-config/ rules/`（**含 `wtf-config/skills/`**，別漏）清掉舊句；本次對抗審查就抓到 session-start skill 漏改——grep 只掃設定檔、沒掃 skills 的教訓 |
 | 驗證儀式化 | read-back 回報永遠 PASS、無證據引用 | 驗證 prompt 一律用 delegation-templates T5（要求找碴＋「查過無發現」逐維度明寫）；PASS 而無 檔案:行號 證據＝無效驗證，重派 |
 | 型號表過時被照抄 | 引用 model-dispatch 第 0 節時距查證日 >30 天 | 表頭已標查證日；過期先問 claude-code-guide 再引用，並回填新日期（綠區） |
 

@@ -58,4 +58,4 @@ Base：`https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construc
 常用：`model-dispatch.md`（派工與模型選擇）、`judgment-rubrics.md`（何時完成/何時問）、`delegation-templates.md`（交辦範本）。清單見同目錄 GLOBAL.md「制度層」路由表。
 
 ## 模型建議
-- 展演腳本、文件類輕量任務建議切 Haiku 以節省額度。
+- 展演腳本、純文字轉檔等「對錯一眼可驗」的任務可切便宜模型省額度；型號與判準見 `playbooks/model-dispatch.md`（raw URL 同上 Base），勿憑記憶填型號。
