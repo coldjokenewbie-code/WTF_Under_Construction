@@ -78,6 +78,13 @@ missions/
 ## 4. v2 能力探測（one-shot 自續鏈升級判準）
 每晚第一棒順手做一次（≤1 分鐘）：嘗試列出排程工具（如 `list_triggers`/`send_later` 是否可用），結果記入 journal（`chain-capability: PASS/FAIL`）。連續 3 晚 PASS → 在 `_context/nightly-notify.md` 提案升級 one-shot 自續鏈（30 分–2h 彈性棒距、先排後做自癒式），使用者核准後才改本檔與 trigger。
 
+## 4.5 選題棒（本機 CLI，手動觸發，`/night-pick` skill）
+本機才有全視野（各專案 TaskLog、Drive 專案），故選題在本機做、執行在雲端做。下班前使用者觸發一次：
+1. 掃 `projects-registry.md` 本機專案清單，各讀 INDEX＋當前 TaskLog（三檔制，不全掃）收集候選工作。
+2. **掛載過濾（硬條件）**：候選所屬 repo 必須在第 6 節「雲端掛載清單」內，否則剔除或標「僅限本機」。
+3. **提名判準（四條全中才提名）**：影響大（解掉讓後續變快）／無阻塞（不等使用者決策即可動）／可增量（切得成 ≤2h 的塊）／低品味（驗收可機檢）。
+4. 提名 2–3 個附理由 → **使用者核准後**才寫入 `missions/QUEUE.md`（狀態=`待規劃`）→ commit push main（只 add QUEUE.md，push 被拒照第 2 節重試規則）。選題官只提名不代決。
+
 ## 5. 提醒棒規格（17:00，獨立 trigger）
 1. `git pull` → 讀 QUEUE＋各 active mission 的 `_blockers.md` 與最新 journal。
 2. 產出 ≤15 行摘要：待核准清單／blockers 待決清單／今晚預計推進項／昨晚成果一句話。
@@ -85,7 +92,7 @@ missions/
 4. 佇列全空 → 摘要就一句：「佇列無任務，今晚循環棒將秒退；要派工請在 QUEUE.md 加一行」。
 
 ## 6. 邊界與誠實條款
-- 雲端棒只及**已掛載 repo**；掛載清單要在 claude.ai/code → Routines → 該 trigger → Repositories 維護（registry 增刪後回 UI 補掛，見 nightly 教訓）。
+- 雲端棒只及**已掛載 repo**。掛載清單（2026-07-03 查證自 nightly trigger 環境，之後以 claude.ai/code → Routines → Repositories 為準，增刪後回寫本行）：WTF_Under_Construction、Assembly_Plant_Mobile_Guide、Planner2Line、Remotion_fun、claude_CDIC_O4、Aseembly_Plant_Interactive_machine、HsinchuScienceEducationCenter、cowork_CDIC、attendance-dashboard、S-reclaimed-water-plant、SouthLibrary、ppt_map_mark。
 - 需本機/實機的工作一律進 blockers，不假裝能做。
 - 「5 小時額度窗」與週上限的精確行為未確認；夜鏈集體沉默時先懷疑打頂，提醒棒隔天會從 journal 斷點看出並回報。
 - 本檔屬黃區（maintenance-protocol）：棒子只能照做，改規格走提案。
