@@ -35,6 +35,7 @@
 | pptx／docx／gen 腳本踩坑 | `pitfalls-office-docs.md` |
 | 同 repo 多 CLI 並行 | `parallel-worktree.md` |
 | ai-team 跨工具協作底線 | `multi-agent-baseline.md` |
+| 雲端自主任務迴圈（排程棒/佇列/mission） | `mission-loop.md` |
 | AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
 | 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
 
