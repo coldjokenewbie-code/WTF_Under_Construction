@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖像／影片商用方案評估 2026-07-03</title>
+<style>
+  :root{
+    --bg:#fafaf8; --fg:#1a1a1a; --muted:#666; --line:#ddd;
+    --card:#fff; --accent:#0b57d0; --ok:#0a7d33; --warn:#b3540a; --risk:#b3261e;
+    --chip-ok:#e3f2e7; --chip-warn:#fdeedd; --chip-risk:#fbe4e2; --chip-info:#e5edfb;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#161618; --fg:#e8e8e6; --muted:#9a9a97; --line:#3a3a3d;
+      --card:#1f1f22; --accent:#8ab4f8; --ok:#7bd394; --warn:#f0b269; --risk:#f28b82;
+      --chip-ok:#1d3524; --chip-warn:#3c2a14; --chip-risk:#3d1f1d; --chip-info:#1e2c44; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.65;font-size:15.5px}
+  main{max-width:960px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+  h2{font-size:1.2rem;margin:2.2rem 0 .6rem;border-bottom:1px solid var(--line);padding-bottom:.35rem}
+  h3{font-size:1.02rem;margin:1.3rem 0 .4rem}
+  .sub{color:var(--muted);font-size:.85rem;margin-bottom:1.6rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin:.8rem 0}
+  .tablewrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;margin:.5rem 0}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+  th{background:color-mix(in srgb,var(--card) 70%,var(--bg));white-space:nowrap}
+  .chip{display:inline-block;border-radius:99px;padding:.05rem .55rem;font-size:.75rem;white-space:nowrap}
+  .v{background:var(--chip-ok);color:var(--ok)}      /* 官方原文實開驗證 */
+  .x{background:var(--chip-warn);color:var(--warn)}  /* 搜尋摘要交叉佐證 */
+  .c{background:var(--chip-risk);color:var(--risk)}  /* 矛盾或高風險 */
+  .i{background:var(--chip-info);color:var(--accent)}
+  .ok{color:var(--ok);font-weight:600} .warn{color:var(--warn);font-weight:600} .risk{color:var(--risk);font-weight:600}
+  ul,ol{padding-left:1.4rem} li{margin:.25rem 0}
+  code{background:color-mix(in srgb,var(--card) 60%,var(--bg));border:1px solid var(--line);border-radius:4px;padding:.05rem .35rem;font-size:.85em}
+  .note{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>圖像／影片商用方案評估</h1>
+<div class="sub">2026-07-03｜研究方法與限制見文末｜詳細查證：<code>workingfiles/research_2026-07-03_{ideogram, comfyui, alternatives}.md</code><br>
+驗證等級標記：<span class="chip v">已驗證</span>＝官方頁/LICENSE 原文實開；<span class="chip x">交叉佐證</span>＝≥2 獨立搜尋摘要一致、未實開；<span class="chip c">矛盾/風險</span>＝兩說並陳或高風險，待人工核實。</div>
+
+<div class="card">
+<h3 style="margin-top:0">結論（建議工作流，三層）</h3>
+<ol>
+  <li><b>主力＝現有 GCP Vertex AI（零建置，今天就能商用）</b>：量產圖走 Imagen 4 Fast <b>$0.02/張</b> 或 Gemini 影像系 $0.034–0.067/張；影片走 Veo 3.1 Lite <b>$0.03/秒</b> 起、關鍵產出用 Veo 3.1（含音訊 $0.40/秒）。全線經官方定價頁驗證，且是本次比較中<b>唯一有官方 IP 侵權賠償（indemnification）</b>的方案。</li>
+  <li><b>外掛＝Ideogram API（圖內文字／海報排版場景）</b>：按張付費 $0.03–0.10、無月費；文字渲染是它的護城河。<span class="risk">免費網頁層不可商用</span>（保守解），影片功能不存在。</li>
+  <li><b>第二階段＝ComfyUI＋雲端 GPU（量大或要客製控制時再投入）</b>：FLUX.1 schnell、Qwen-Image、Wan 2.1/2.2 全部 Apache 2.0 免費商用（LICENSE 已驗證），雲端 4090 約 $0.17–0.44/hr，推算單價比 API 低一個量級（圖 ~$0.002/張、5 秒影片 ~$0.02–0.05）。代價＝workflow 學習與維運、無 IP 賠償；MacBook Air 只能當學習機。</li>
+</ol>
+<p style="margin-bottom:0"><span class="risk">避開</span>：一切「免費層商用」（Ideogram／Kling／Runway／Hailuo 免費層皆禁或不建議）；Sora 2 API（2026-09-24 日落）；FLUX.1 dev 權重自架商用（灰區）；Hunyuan 系（硬體門檻＋排除歐盟/英國/南韓地區條款）。</p>
+</div>
+
+<h2>1. 方案總對照</h2>
+<div class="tablewrap">
+<table>
+<tr><th>方案</th><th>單價</th><th>商用條件</th><th>品質定位</th><th>驗證</th></tr>
+<tr><td><b>Vertex Imagen 4</b></td><td>Fast $0.02／Std $0.04／Ultra $0.06 每張</td><td>產出＝客戶資料，Google 不主張所有權；付費使用含兩層 IP 賠償</td><td>照片級寫實主力</td><td><span class="chip v">已驗證</span></td></tr>
+<tr><td><b>Vertex Gemini 影像</b>（Nano Banana 系）</td><td>2.5 Flash $0.039；3.1 Flash-Lite $0.034；3.1 Flash $0.067；3 Pro $0.134–0.24 每張</td><td>同上</td><td>參考圖／角色一致性、編輯</td><td><span class="chip v">已驗證</span></td></tr>
+<tr><td><b>Vertex Veo 3.1</b></td><td>Lite 低至 $0.03/秒；Fast $0.08–0.12；標準純影像 $0.20、含音訊 $0.40/秒（1080p）</td><td>同上（Imagen/Veo 明列於賠償範圍）</td><td>影片主力，可含語音</td><td><span class="chip v">已驗證</span></td></tr>
+<tr><td><b>Ideogram 4.0 API</b></td><td>Turbo $0.03／Default $0.06／Quality $0.10 每張</td><td>不主張產出所有權；API 按張、無月費。<span class="risk">免費網頁層：兩說矛盾，保守視為不可商用、且產出強制公開</span></td><td>圖內文字渲染頂尖、設計/海報類強；寫實人臉較弱；<b>無影片</b></td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td><b>Ideogram 訂閱</b></td><td>Plus $20/月（年繳 $15）；Pro $60/月（年繳 $42）</td><td>付費層含商用授權、private generation</td><td>同上，適合網頁介面操作者</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td><b>Ideogram 4.0 開源權重</b></td><td>自架 GPU 成本</td><td><span class="risk">Non-Commercial Model Agreement——自架不可商用</span>（僅推論程式碼 Apache 2.0）</td><td>陷阱項：「開源」≠可商用</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td><b>ComfyUI＋開源模型（自架/租 GPU）</b></td><td>雲端 4090 $0.17–0.44/hr；推算：圖 ~$0.002/張、5 秒影片 $0.02–0.05</td><td>ComfyUI＝GPL-3（不及於產出）；FLUX schnell／Qwen-Image／Wan 2.1・2.2 全 Apache 2.0，SDXL 可商用，SD3.5 年營收 &lt;$1M 免費</td><td>可控性最高（LoRA、角色一致、批次）；無賠償、要自己踩坑</td><td><span class="chip v">授權已驗證</span> <span class="chip x">價格交叉</span></td></tr>
+<tr><td>fal.ai／Replicate 聚合 API</td><td>FLUX.2 dev ~$0.012/MP；Seedream 4/4.5 ~$0.03/$0.04；Recraft V3 $0.04 每張</td><td>依各模型授權；平台層條款未核</td><td>模型選擇最廣、免自架</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td>Kling／Runway／Hailuo</td><td>訂閱制，各家 $10–95/月起</td><td><span class="risk">免費層皆禁商用</span>；付費層可</td><td>影片動作/電影感各有強項</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td>Seedance（影片 API）</td><td>~$0.022/秒起</td><td><span class="c">條款僅轉售站聲稱——風險自負區</span></td><td>低價影片，條款模糊</td><td><span class="chip c">單源</span></td></tr>
+<tr><td>Sora 2 API</td><td>$0.10/秒</td><td><span class="risk">2026-09-24 日落，勿建新流程</span></td><td>—</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td>Midjourney</td><td>$10–120/月</td><td>付費即商用；年營收 &gt;$1M 須 Pro 以上</td><td>藝術性/電影感強，文字渲染弱</td><td><span class="chip x">交叉佐證</span></td></tr>
+<tr><td>Gemini API 免費層</td><td>$0</td><td>可商用<b>但</b>資料用於訓練＋人工審閱——商業敏感素材不宜</td><td>試作/原型用</td><td><span class="chip x">交叉佐證</span></td></tr>
+</table>
+</div>
+
+<h2>2. Ideogram：何時值得用</h2>
+<div class="card">
+<ul>
+  <li><b>用它的理由只有一個：圖內文字。</b>搜尋摘要稱其文字正確率 ~90–95%（對照 Midjourney ~30–40%）。海報、Logo 字樣、標語圖、簡報封面等「字要對」的場景，它仍是首選。</li>
+  <li><b>最低成本商用路徑＝API 按張計費</b>（Turbo $0.03/張），比訂閱 $20/月划算——除非月產量大且偏好網頁介面。</li>
+  <li><span class="risk">兩個陷阱</span>：(1) 免費網頁層——Licensing 類來源稱僅限非商用、產出強制公開，ToS 摘要卻稱不限制商用；兩說矛盾，<b>決策採保守解：免費層不商用</b>，待人工開 ToS 核實。(2) 4.0 雖釋出開放權重，授權是 Non-Commercial Model Agreement——<b>自架照樣不能商用</b>。</li>
+  <li><b>無影片功能</b>（多輪多來源一致）。影片需求由 Veo／Wan 補。</li>
+</ul>
+</div>
+
+<h2>3. ComfyUI：免費商用路徑成立，但分兩期投入</h2>
+<div class="card">
+<h3 style="margin-top:0">可免費商用的模型組合（授權經官方 LICENSE 原文驗證）</h3>
+<div class="tablewrap">
+<table>
+<tr><th>模型</th><th>授權</th><th>硬體需求</th><th>備註</th></tr>
+<tr><td>FLUX.1 schnell（圖）</td><td class="ok">Apache 2.0</td><td>量化後消費級 GPU 可跑</td><td>速度快，品質略遜 dev</td></tr>
+<tr><td>Qwen-Image（圖）</td><td class="ok">Apache 2.0</td><td>第三方稱 4GB offload 可跑（未驗）</td><td>中文文字渲染有口碑</td></tr>
+<tr><td>SDXL（圖）</td><td class="ok">OpenRAIL++-M 可商用</td><td>8GB 級即可</td><td>生態最成熟（LoRA 海量）</td></tr>
+<tr><td>SD 3.5（圖）</td><td>年營收 &lt;$1M 免費商用</td><td>中階 GPU</td><td>超過門檻要 Stability 授權</td></tr>
+<tr><td>Wan 2.1 1.3B（影片）</td><td class="ok">Apache 2.0</td><td><b>8.19GB VRAM</b>（官方數字）</td><td>入門影片首選</td></tr>
+<tr><td>Wan 2.2（影片）</td><td class="ok">Apache 2.0</td><td>TI2V-5B 需 24GB；14B 官方稱 80GB</td><td>4090 生 5 秒約 4–9 分鐘</td></tr>
+<tr><td>LTX-Video（影片）</td><td class="ok">Apache 2.0（現行版）</td><td>中階 GPU</td><td>LTX-2 起改：年營收 ≥$10M 須付費</td></tr>
+</table>
+</div>
+<ul>
+  <li><span class="risk">別踩</span>：FLUX.1 dev/Krea dev（權重非商業，僅「輸出可商用」條款、生產使用灰區）；HunyuanVideo/HunyuanImage 3.0（45–240GB VRAM＋授權排除歐盟/英國/南韓）；CogVideoX 商用需登記；Wan 2.5 無開源權重。</li>
+  <li><b>硬體現實</b>：ComfyUI 官方 Wiki 把 Apple Silicon 列 D-Tier（極慢、無 fp8）——MacBook Air 只適合學 workflow（SDXL/量化 FLUX，每張數十秒到數分鐘）；影片一律上雲端。Windows 桌機 GPU 規格未登記，若有 ≥12GB VRAM 的 NVIDIA 卡，格局會改變——<b>待使用者補充</b>。</li>
+  <li><b>雲端成本</b>（交叉佐證級）：RunPod/Vast.ai 4090 約 $0.17–0.44/hr；Colab Pro ~$10/月。推算量產單價：圖 ~$0.002/張、5 秒影片 $0.02–0.05——比 API 便宜一個量級，但<b>加上人力學習與踩坑成本後，只有量大（每月數百張以上）或需要 API 做不到的控制（自訓 LoRA、固定角色、去背/合成整條流水線）才回本</b>。</li>
+  <li>ComfyUI 本體 GPL-3 不影響產出商用（此點僅官方協作者於 Discussion #3804 的意見背書，非正式聲明）。</li>
+</ul>
+</div>
+
+<h2>4. 成本試算（月產 100 張圖＋60 秒影片）</h2>
+<div class="tablewrap">
+<table>
+<tr><th>路徑</th><th>圖 100 張</th><th>影片 60 秒</th><th>月估</th><th>附帶成本</th></tr>
+<tr><td>Vertex 量產檔（Imagen 4 Fast＋Veo 3.1 Lite）</td><td>$2.0</td><td>$1.8</td><td class="ok">≈ $4</td><td>零建置（gen-tools 腳本已在）</td></tr>
+<tr><td>Vertex 品質檔（Imagen 4 Ultra＋Veo 3.1 含音訊）</td><td>$6.0</td><td>$24.0</td><td>≈ $30</td><td>同上</td></tr>
+<tr><td>Ideogram API Turbo（僅圖）</td><td>$3.0</td><td>—</td><td>$3＋影片另計</td><td>接 API（無月費）</td></tr>
+<tr><td>ComfyUI＋雲端 4090（推算）</td><td>~$0.2</td><td>~$0.3–0.6</td><td class="ok">≈ $1 以下</td><td>學習/維運工時＋每次開機環境架設</td></tr>
+</table>
+</div>
+<p class="note">Veo 3.1 Lite 的 $0.03/秒是否含音訊未確認；試算取純影像口徑。ComfyUI 列推算值（未實測）。</p>
+
+<h2>5. 融入現有工作（WTF）</h2>
+<div class="card">
+<ol>
+  <li><b>已有資產</b>：<code>gen-tools/</code> 三支 Vertex 腳本（Imagen／Nano Banana／Veo）＋已開 billing 的 GCP 專案（RESOURCES.md 登記）。</li>
+  <li><b>提案（待核准後改 RESOURCES.md）</b>：腳本預設模型升級——<code>imagen-3.0-generate-002</code> → Imagen 4 系（更便宜且新）、<code>veo-3.0-generate-001</code> → Veo 3.1 系（Lite/Fast 檔位新增）；並注意 Imagen 4 有 8/17 棄用傳聞（未經官方頁確認）——新流程優先掛 Gemini 影像系減少遷移次數。</li>
+  <li><b>要用 Ideogram 時</b>：建 <code>gen-tools/ideogram_generate.py</code>（API 按張），只在「圖內文字」場景呼叫；其餘圖像一律走 Vertex（省錢＋有賠償）。</li>
+  <li><b>ComfyUI 起步（可選）</b>：MacBook Air 先裝來學 workflow（SDXL）；確認 Windows 桌機 GPU 後再決定本地或 RunPod。第一個目標 workflow 建議＝Wan 2.1 1.3B 圖生影片（8GB 門檻最低、Apache 2.0）。</li>
+</ol>
+</div>
+
+<h2>6. 待人工核實清單（約 10–15 分鐘）</h2>
+<ol>
+  <li>Ideogram 免費層可否商用＋免費額度：開 <code>ideogram.ai/legal/tos</code> 與 <code>/licensing/</code>（最高優先，兩說矛盾）。</li>
+  <li>Ideogram API 價目：<code>ideogram.ai</code> API pricing 頁。</li>
+  <li>fal.ai／Replicate 現價（FLUX.2、Seedream、Recraft）。</li>
+  <li>RunPod／Vast.ai 4090 現價；Comfy Cloud 美元價目。</li>
+  <li>Imagen 4 棄用時程（Vertex 模型生命週期頁）。</li>
+  <li>Veo 3.1 Lite 是否含音訊。</li>
+  <li>影片訂閱服務（Kling/Runway/Hailuo）付費層商用條款原文。</li>
+</ol>
+
+<h2>7. 研究方法與限制</h2>
+<ul class="note">
+  <li>本次於 Claude Code remote 環境執行，網路政策僅放行少數網域（github.com、cloud.google.com、developer.apple.com 等），其餘 WebFetch 一律 403。因此：<b>Vertex 價格/條款與各開源 LICENSE ＝官方原文實開驗證；其餘（Ideogram、聚合平台、GPU 租價、訂閱服務）＝多來源搜尋摘要交叉佐證，全數未實開</b>，引用前見上方驗證等級標記。</li>
+  <li>三份詳細查證（含全部來源 URL、矛盾點、查詢詞記錄）：<code>workingfiles/research_2026-07-03_ideogram.md</code>、<code>research_2026-07-03_comfyui.md</code>、<code>research_2026-07-03_alternatives.md</code>。</li>
+  <li>Google Service Terms §20（2026-06-08 版）：產出屬客戶資料、含兩層 IP 賠償；<b>免費使用明文排除在賠償外</b>——「免費≠可安心商用」在 Google 這裡同樣成立。</li>
+</ul>
+</main>
+</body>
+</html>

@@ -16,6 +16,7 @@ Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／
 - 🖥️跨機即時協調（Drive，非 repo）：`E:\Claude_cowork\projects\Git_work_agents\WTFrepo\signals_WIN.md`／`signals_MAC.md`（per-machine 單寫檔，見下「讀取指引」）
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
 - 最新工作紀錄：
+  - `_context/TaskLog_2026-07-03_圖像影片商用方案研究.md`（Ideogram/ComfyUI/替代方案評估；結論＋待核實清單，報告在 `outputs/圖像影片商用方案評估_2026-07-03.html`）
   - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；**當前 TaskLog**）
   - `_context/TaskLog_2026-06-07_跨工具開場載入對等.md`（Codex/agy 開場載入全域設定+skills 對等已落地 Mac；**待 Windows 跑 sync 部署**）
   - `_context/TaskLog_2026-06-07_inbox語音速記分流.md`（Phase B inbox `/inbox` skill 已建，待 Windows 補 vault 路徑）

@@ -1,5 +1,10 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-03b (remote 研究派工：網域白名單 + 巢狀 subagent 卡等待)
+
+* **remote(web) session 網路政策是網域白名單，WebFetch 對名單外一律 403**：本次實測僅 github.com、raw.githubusercontent.com、cloud.google.com、developer.apple.com 等放行；ideogram.ai、huggingface.co、wikipedia 全 403（`$HTTPS_PROXY/__agentproxy/status` 可證，`connect_rejected: policy denial`）。**修**：「連結必實開才可引用」規則在此環境物理不可行——降級為「≥2 獨立來源搜尋摘要一致＝交叉佐證、單源標註、全數標『未實開驗證』」，並把授權/價格查證優先導向放行網域（GitHub 官方 LICENSE、cloud.google.com 定價頁拿得到原文）。**防**：研究派工前先 curl proxy status 確認網域政策，把替代驗證標準直接寫進交辦 prompt，省掉子 agent 撞牆重試。
+* **subagent 再派子 agent（巢狀）會停在「等子 agent 完成」的死狀態**：background 子 agent 的完成通知回到主對話、不會叫醒它的父 agent；父 agent 停機後要靠 SendMessage 一再推進（本次兩個研究 agent 各推 2–3 次才交件）。**防**：研究/搜尋類交辦 prompt 明寫「不得再派子 agent，自己用 WebSearch 完成」；或接受巢狀但預期要人工推進多輪。
+
 ## 2026-07-03 (Fable5 制度定案 + mission-loop 雲端自主迴圈)
 
 * **mission-loop cron 時區陷阱**：cron 欄位是 UTC（實證：nightly `0 19 * * *` UTC = 台北 03:00，非 19:00）；排程設計務必先換算，或只用 `TZ=Asia/Taipei date` 做棒內時間判斷。
