@@ -8,8 +8,8 @@
 | 項 | 值 |
 |---|---|
 | 提醒棒 | 每日 17:00 台北（cron `0 9 * * *` UTC）：整理佇列現況＋今晚計畫，推播提醒使用者分派/核准 |
-| 循環棒 | 每日 19/21/23/01/03 台北（cron `0 11,13,15,17,19 * * *` UTC），每棒 ≤2 小時 |
-| 宵禁 | 台北 05:00 前收工（末棒 03:00 起跑＋≤2h 自然達成）；棒內見台北時間 ≥04:30 不開新增量 |
+| 循環棒 | 每日 19:30/21:30/23:30/01:30 台北（cron `30 11,13,15,17 * * *` UTC；刻意避開 nightly `0 19` UTC 的同刻對撞），每棒 ≤2 小時 |
+| 宵禁 | 台北 05:00 前收工（末棒 01:30 起跑＋≤2h 自然達成）；棒內見台北時間 ≥04:30 不開新增量 |
 | 額度 | 不設數字上限（訂閱制打頂自然停）；白天 10:00–19:00 額度全留使用者 |
 | 佇列 | 單鏈序列制：一次只推進一個 mission 的一個增量 |
 | 停止閘 | 同一 mission 連續 2 棒零進展 → 標 `parked`＋通知；品味/不可逆決策 → 進 blockers 不阻塞 |
@@ -23,12 +23,13 @@ missions/
   <YYYYMMDD>-<slug>/
     MISSION.md             ← 方向、模糊標準錨點、硬底線、milestone（規劃棒產出，使用者核准）
     backlog.md             ← 增量清單（checkbox；執行棒逐項消化並更新）
-    journal.md             ← 每棒一條 append-only：日期時間｜棒型｜做了什麼｜進展(yes/no)｜證據
+    journal.md             ← 每棒一條 append-only：日期時間｜棒型（合法值僅：規劃棒/執行棒/定錨棒）｜做了什麼｜進展(yes/no)｜證據
     _blockers.md           ← 卡點停車場：需使用者決策/需本機/需外部 的事項，一事一條
 ```
 
 **QUEUE.md 行格式**：`| <slug> | <狀態> | <優先序1-9> | <一句話方向> |`
 狀態機：`待規劃 → 待核准 → active → done`；旁路：`parked`（零進展/被擋）。使用者把 `待核准` 改成 `active` ＝核准；改優先序＝調度。
+**狀態比對鐵律：狀態欄必須與五個合法值「整欄精確相等」才算數；禁止子字串/grep 式匹配**（含括號註記的欄位一律視為不可作）。
 
 **MISSION.md 必含段**（規劃棒照此產）：
 ```
@@ -47,9 +48,9 @@ missions/
    - `TZ=Asia/Taipei date +%H%M` ≥ 0430；或 QUEUE 無 `待規劃`/`active` 項。
 2. 取優先序最高的可作項，按狀態分派棒型：
    - `待規劃` → **規劃棒**（第 3.1 節）
-   - `active` → 查該 mission `journal.md`：距上次定錨棒已 ≥5 個執行棒 → **定錨棒**（3.3）；否則 → **執行棒**（3.2）
+   - `active` → 查該 mission `journal.md`：距上次定錨棒已 ≥5 個執行棒（journal 尚無定錨棒紀錄時，從該 mission 第一筆執行棒起算）→ **定錨棒**（3.3）；否則 → **執行棒**（3.2）
    - 其餘狀態跳過，看下一項。
-3. 棒尾（每棒必做）：journal append 一條（含進展 yes/no＋證據）→ 觸發停止閘就改 QUEUE 狀態 → **只 add 本次動到的檔**（禁 `git add -A`）→ commit → `git pull --rebase`（衝突 abort 不硬推，journal 記「需人工」）→ push main。
+3. 棒尾（每棒必做）：journal append 一條（含進展 yes/no＋證據）→ 觸發停止閘就改 QUEUE 狀態 → **只 add 本次動到的檔**（禁 `git add -A`）→ commit → `git pull --rebase`（rebase 衝突：`git rebase --abort`，journal 記「需人工」，不硬推）→ push main；**push 被拒（non-fast-forward）→ 再 `git pull --rebase` 後重推，最多重試 2 次**，仍失敗記「需人工」。
 4. **派工紀律照舊制度**：粗活派 subagent 顯式帶 model（`playbooks/model-dispatch.md`）；產出過品質閘（fresh-context 驗收，交辦用 delegation-templates T5）；判斷疑難查 `judgment-rubrics.md`。
 
 ## 3. 三種棒型
@@ -65,7 +66,7 @@ missions/
 2. 增量尺寸：一棒內可完成＋可驗證；太大就先拆再做拆出的第一小項。
 3. 做 → 交付物過品質閘（fresh-context read-back/測試，見 model-dispatch 第 6 節）→ 勾掉 backlog 項。
 4. 撞到「需使用者決策／需本機資源／需外部資料」→ 寫入 `_blockers.md` 一條（含建議選項），**跳過換下一項**，不停等、不空轉。
-5. backlog 全勾或到 milestone → QUEUE 改 `待核准`（milestone 簽核）＋通知；journal 記證據清單（讓使用者 3 分鐘能判）。
+5. 到 milestone → 是 MISSION **最後一個** milestone 且 backlog 全勾 → QUEUE 改 `done`；否則改 `待核准`（milestone 簽核後使用者再改回 active 續跑）。兩者都要：journal 記證據清單（讓使用者 3 分鐘能判）。
 
 ### 3.3 定錨棒（每 5 個執行棒插一根，防慢性漂移）
 不做新增量。fresh-context 對照「近 5 棒 journal＋產出」vs「MISSION 方向句＋錨點」：
