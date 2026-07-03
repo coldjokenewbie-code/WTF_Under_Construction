@@ -34,7 +34,7 @@
 與使用者逐點討論定案：四層正名（三道閘抽為通用品質層；ody 本體＝自主執行層）、雲端 cron 圍欄制自動串接（one-shot 自續鏈因「trigger 開出的 session 無排程 MCP 工具」降為 v2，見 mission-loop.md 第 4 節能力探測）、時段圍欄取代額度數字上限。
 落地：`wtf-config/playbooks/mission-loop.md`（棒型規格/檔案結構/定案參數）＋`missions/QUEUE.md`＋兩顆 cron trigger——
 - `trig_01QfiWWWqna4CoG9oU4juEUq` 提醒棒：`0 9 * * *` UTC＝台北 17:00，推播開。
-- `trig_015YB7a5ne6YP9jrhNo6ejLk` 夜間循環棒：`0 11,13,15,17,19 * * *` UTC＝台北 19/21/23/01/03，推播關（日報由提醒棒統一推）。
+- `trig_015YB7a5ne6YP9jrhNo6ejLk` 夜間循環棒：`30 11,13,15,17 * * *` UTC＝台北 19:30/21:30/23:30/01:30，推播關（日報由提醒棒統一推）。原 `0 ...,19` 末棒與 nightly `0 19` UTC 同刻對撞，審查抓到後改半點錯開＋棒尾 push 重試 2 次。
 - **cron 一律 UTC**（實證自 nightly trigger next_run_at）。trigger 掛載 repo 清單沿用 nightly 的環境（12 repos）；registry 增刪後仍需回 Routines UI 補掛。
 
 ## 下一步建議
