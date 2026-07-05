@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-05 | SessionStart hook 注入式設計：直接 cat 三檔內容灌 context（提醒式靠 model 自覺=不可靠）；hook 輸出加識別首行做目視生效驗證 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-03 | mission-loop 自主迴圈設計：cron=UTC 陷阱（實證）/QUEUE 狀態整欄精確比對/分鐘偏移避對撞/定錨棒防漂移/升級能力需實證閘 | `wtf-config/playbooks/mission-loop.md` |
 | WTF | 2026-07-03 | Fable5 制度建置：常載鏈瘦身（三檔制開場、制度層路由、playbooks 按需檔）＋派工/判斷/交辦/維護四守則；動手前先過 GLOBAL.md「制度層」 | `wtf-config/playbooks/`（總覽見 `letter-from-fable5.md`） |
 | WTF | 2026-07-02 | `git add` 遇壞 pathspec 整批中止、配 2>/dev/null＝靜默漏 commit；add 不遮 stderr＋commit 後核 files changed 數 | `_context/lessons-learned.md` |

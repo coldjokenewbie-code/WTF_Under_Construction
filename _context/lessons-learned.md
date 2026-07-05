@@ -1,5 +1,10 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-05 (SessionStart hook：注入式設計 + hook 生效驗證)
+
+* **注入式 hook 優於提醒式**：SessionStart 用 `echo '請讀三檔'` 屬提醒式——model 看到後仍需「自覺去讀」，本質靠自律。改為注入式——`head -n 150 _context/INDEX.md; head -n 150 _context/lessons-learned.md` 直接把內容送進 context，model 無需執行任何指令，也無法繞過。正本：`wtf-config/hooks/wtf-session-context.sh`（每檔 150 行截斷控 token）。原則延伸：任何「要 model 讀某檔才生效」的設定，都可從提醒升格為直接注入。
+* **hook 生效驗證：輸出加識別首行**：hook stdout 埋識別標記（如 `【開場注入｜三檔制內容已由 SessionStart hook 自動載入，無需再讀這三檔】`），新 session 開場用肉眼即可確認 hook 有在跑，不必進 `/hooks` 或翻 log。
+
 ## 2026-07-03 (Fable5 制度定案 + mission-loop 雲端自主迴圈)
 
 * **mission-loop cron 時區陷阱**：cron 欄位是 UTC（實證：nightly `0 19 * * *` UTC = 台北 03:00，非 19:00）；排程設計務必先換算，或只用 `TZ=Asia/Taipei date` 做棒內時間判斷。
