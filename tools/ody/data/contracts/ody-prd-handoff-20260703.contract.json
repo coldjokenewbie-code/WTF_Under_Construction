@@ -1,0 +1,59 @@
+{
+  "task_id": "ody-prd-handoff-20260703",
+  "goal": "產出給同事的 ody 組隊交接件：PRD＋啟動 Prompt（讀者為同事的 AI，Claude Code 為預設 Lead）",
+  "created": "2026-07-03T03:06:16.219047+00:00",
+  "repo_root": "/Users/coma/Git_work/WTF_Under_Construction",
+  "base_ref": "4c6cd144ff4bafbb1412c8bb75d319b4fa169062",
+  "preexisting_dirty": [
+    "wtf-config/LESSONS.md",
+    "wtf-config/machines.md",
+    "outputs/assembly-guide-trial/assets/baldwin_erecting_shop.png",
+    "tools/ody/data/contracts/cdic-esig-wordcloud-20260702.contract.json",
+    "tools/ody/data/contracts/cdic-esig-wordcloud-v10-20260702.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/ody-handoff/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "PRD 含五大節：為何組隊/好處(8條含誠實標註)/如何組成/協作通道(最少人工介入)/harness三道閘＋分期",
+      "evidence": {
+        "cmd": "grep -c '^## ' outputs/ody-handoff/ODY_PRD.md && grep -n '為何要組小隊\\|好處\\|如何組成小隊\\|最少化人工介入的設置\\|三道閘\\|分期與驗收\\|誠實標註' outputs/ody-handoff/ODY_PRD.md | head -12",
+        "exit": 0,
+        "output_tail": "8\n8:## 1. 問題：為何要組小隊\n18:## 2. 好處（含誠實標註）\n34:8. **學習共享、期待複利**：錯誤轉成可機檢規則入共用規則庫，全隊、跨專案生效，同錯不再犯。**誠實標註：複利效果目前尚不明顯**——已見效的是單點回本（規則建立當日即攔到真錯誤），複利需時間累積驗證。請如實向 PO 管理預期。\n36:## 3. 編組：如何組成小隊\n49:## 4. 協作通道：最少化人工介入的設置\n61:## 5. harness：成隊後的紀律（三道閘）\n71:## 6. 分期與驗收標準（DoD）\n",
+        "ts": "2026-07-03T03:08:25.623878+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "Prompt 為單檔可貼即用：指示 AI 研究自身環境後實作 Phase 1、內嵌已知坑、明列交付物與自測要求",
+      "evidence": {
+        "cmd": "grep -n 'Step 0\\|Step 1\\|Step 2\\|Step 3\\|Step 4\\|fail-open\\|quotepath\\|前置授權\\|自測' outputs/ody-handoff/ODY_BOOTSTRAP_PROMPT.md | head -12",
+        "exit": 0,
+        "output_tail": "10:**Step 0｜環境研究（先做，不准跳）**\n18:**Step 1｜前置授權（一次談定，中途不得追加）**\n24:**Step 2｜實作 Phase 1 交付物（PRD §6）**\n25:1. `reply_lint.py`＋`lint_rules.json`＋`stop_hook.py`（Tyrion）——鐵則：fail-open（腳本掛掉要放行）、防迴圈（檢查 `stop_hook_active`）\n33:5. 自測腳本：離線零依賴，至少覆蓋——scope 比對（含 `/**` 前綴）、R001 擋與放、R002 擋與放、git 解析回歸（quotepath＋porcelain 前導空白，見 PRD §7-3）\n35:**Step 3｜dogfood 驗收（DoD）**\n38:**Step 4｜交付報告**\n",
+        "ts": "2026-07-03T03:08:25.662316+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "兩檔已交付用戶（SendUserFile）",
+      "evidence": {
+        "note": "兩檔以 SendUserFile 交付（outputs/ody-handoff/ODY_PRD.md＋ODY_BOOTSTRAP_PROMPT.md），交付於本回覆",
+        "ts": "2026-07-03T03:08:33.621423+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "test -f outputs/ody-handoff/ODY_PRD.md && test -f outputs/ody-handoff/ODY_BOOTSTRAP_PROMPT.md"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-03T03:08:33.677721+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
