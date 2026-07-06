@@ -12,7 +12,7 @@ repo `claude_CDIC_O4`：`public/videos/opening_2.mp4`、`opening_8.mp4`（現行
 ## 產出位置
 WTF `missions/20260706-o4-soundtrack/out/`：
 1. `配樂設計書.html`——段落情緒地圖（畫面敘事 vs 音樂事件對照表，含時間碼）、配器與參考語彙、兩版方案（懷舊敘事型／節制機構型）。
-2. `prompts.md`——每段雙格式生成 prompt（Vertex Lyria／Suno），含 BPM、調性、時長、銜接說明。
+2. `prompts.md`——每段生成 prompt 以 **Vertex Lyria 為主格式**（使用者無 Suno；GCP 為帳號級能力，本機 ADC 可呼叫），另附工具中立的文字描述版備援。含 BPM、調性、時長、銜接說明。
 3. `generate_local.sh` stub——本機一鍵生成的腳本骨架（呼叫哪個 API、參數位、輸出檔名規則）。
 4. 對齊驗收表——生成後逐段核對的 checklist（時間碼、轉場點、結尾收束）。
 
