@@ -12,6 +12,7 @@
 | `wtf-config/LESSONS.md` | **只加行**（`專案｜日期｜一句話｜連結`），不改不刪既有行 |
 | `playbooks/model-dispatch.md` 第 0 節型號表 | 查證到新值即更新，**必附查證日期與來源**（claude-code-guide／官方文件） |
 | `playbooks/pitfalls-*.md` | **只追加**新踩坑條目（格式見第 2 節），不改不刪既有條目 |
+| `missions/` 全目錄（QUEUE 狀態欄、MISSION/backlog/journal/_blockers） | mission-loop 循環棒依 `playbooks/mission-loop.md` 狀態機自主改寫；QUEUE 的表頭與使用說明段除外（黃區） |
 
 ### 黃區——先提案、使用者核准後才改
 | 檔案 | 原因 |

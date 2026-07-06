@@ -1,5 +1,18 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-05 (SessionStart hook：注入式設計 + hook 生效驗證)
+
+* **注入式 hook 優於提醒式**：SessionStart 用 `echo '請讀三檔'` 屬提醒式——model 看到後仍需「自覺去讀」，本質靠自律。改為注入式——`head -n 150 _context/INDEX.md; head -n 150 _context/lessons-learned.md` 直接把內容送進 context，model 無需執行任何指令，也無法繞過。正本：`wtf-config/hooks/wtf-session-context.sh`（每檔 150 行截斷控 token）。原則延伸：任何「要 model 讀某檔才生效」的設定，都可從提醒升格為直接注入。
+* **hook 生效驗證：輸出加識別首行**：hook stdout 埋識別標記（如 `【開場注入｜三檔制內容已由 SessionStart hook 自動載入，無需再讀這三檔】`），新 session 開場用肉眼即可確認 hook 有在跑，不必進 `/hooks` 或翻 log。
+
+## 2026-07-03 (Fable5 制度定案 + mission-loop 雲端自主迴圈)
+
+* **mission-loop cron 時區陷阱**：cron 欄位是 UTC（實證：nightly `0 19 * * *` UTC = 台北 03:00，非 19:00）；排程設計務必先換算，或只用 `TZ=Asia/Taipei date` 做棒內時間判斷。
+* **QUEUE 狀態機整欄精確比對**：狀態欄（如 `active`、`待核准`）需整欄字串完全相等，禁子字串/grep 式匹配；欄位含括號備注（`active（被擋）`）等情況會導致條件失判。
+* **自主迴圈對撞規避**：同夜有多個 cron 時，循環棒用分鐘偏移（`30 11,13,15,17` UTC）錯開 nightly 整點（`0 19` UTC），防兩 session 同進 `git pull --rebase` 衝突。
+* **定錨棒防慢性漂移**：長期自主迴圈每 N 棒（本案 N=5）插一根定錨棒，fresh-context 對照 MISSION 方向錨點與近 N 棒 journal；小偏修 backlog，大偏標 `parked` 通知使用者，比事後發現漂移便宜。
+* **高依賴 API 能力須實證升級閘**：one-shot 自續鏈等能力需連續 N 晚（本案 N=3）實測 PASS 才切換，不提前假設環境支援；觀察期結果記入 journal 為證據。
+
 ## 2026-07-02c (ody 三道閘 MVP＋全域化：git 機器解析坑、熱載差異、dogfood 回本)
 
 * **`git add` 遇壞 pathspec 整批中止；配 `2>/dev/null`＝靜默漏 commit**：add 清單含已不存在的路徑（rm/rmdir 過）→ git 一個都不 stage 就報錯退出；stderr 被抑制時 commit 只進先前已 staged 的殘餘（本次 9 檔漏 8）。**修**：git add 永不遮 stderr；刪過的路徑別再列 pathspec；commit 後核 `files changed` 數與預期（呼應「同步報表數字要核」）。

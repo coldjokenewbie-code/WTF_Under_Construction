@@ -35,13 +35,14 @@
 | pptx／docx／gen 腳本踩坑 | `pitfalls-office-docs.md` |
 | 同 repo 多 CLI 並行 | `parallel-worktree.md` |
 | ai-team 跨工具協作底線 | `multi-agent-baseline.md` |
+| 雲端自主任務迴圈（排程棒/佇列/mission） | `mission-loop.md` |
 | AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
 | 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
 
 ## 溝通與角色（正本在 AGENTS.md）
 
 - 溝通原則與角色定義（使用者／業主／廠商、Tech Lead 協議、信號協議）的**唯一正本＝`wtf-config/AGENTS.md`**（開場協議已載入，此處不重複）。
-- 最低限提醒：極簡、結論先行；不確定標「（推測）」；「已完成／已更新」只能在對應 tool call 成功回傳後寫；禁尊稱「您」；專有名詞可英文、其餘繁體中文（台灣用語）。
+- 最低限提醒：極簡、結論先行、文風波赫士式（優美來自精確與克制）；不確定標「（推測）」；「已完成／已更新」只能在對應 tool call 成功回傳後寫；禁尊稱「您」；專有名詞可英文、其餘繁體中文（台灣用語）。
 
 ## 「做到好」原則（合作底線）
 

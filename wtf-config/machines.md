@@ -16,5 +16,5 @@
 | hostname | OS | workspace_root | 別名 | 最後出現 |
 |---|---|---|---|---|
 | DESKTOP-7SF21LR | Windows 10 | `E:\Git_work\WTF_Under_Construction` | tachart_ihuy | 2026-07-06 09:59:50 |
-| comaMacBookAir.local | Darwin 25.5.0 | `/Users/coma/Git_work/WTF_Under_Construction` | (coma_MacB   ookAir) | 2026-06-21 20:36:18 |
+| comaMacBookAir.local | Darwin 25.5.0 | `/Users/coma/Git_work/WTF_Under_Construction` | (coma_MacB   ookAir) | 2026-07-05 22:00:57 |
 | Mac.home | Darwin 25.5.0 | `/Users/coma/Git_work/WTF_Under_Construction` | (待填) | 2026-06-14 19:27:22 |

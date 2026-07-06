@@ -96,7 +96,13 @@
       "Bash(git commit -m 'chore: settings 提交 ody Stop hook 註冊+python3 允許；nightly 建議不採用刪行 *)",
       "Bash(mkdir -p wtf-config/playbooks wtf-config/archive/2026-07-03_pre-fable5)",
       "Bash(cp wtf-config/GLOBAL.md wtf-config/CLAUDE_CODE.md wtf-config/AGENTS.md wtf-config/archive/2026-07-03_pre-fable5/)",
-      "Bash(cp .claude/CLAUDE.md wtf-config/archive/2026-07-03_pre-fable5/project-dotclaude-CLAUDE.md)"
+      "Bash(cp .claude/CLAUDE.md wtf-config/archive/2026-07-03_pre-fable5/project-dotclaude-CLAUDE.md)",
+      "mcp__Claude_Code_Remote__add_repo",
+      "Bash(git -C /Users/coma/Git_work/WTF_Under_Construction log --oneline main..origin/main)",
+      "Bash(git -C /Users/coma/Git_work/WTF_Under_Construction diff --stat main origin/main -- wtf-config/LESSONS.md wtf-config/machines.md)",
+      "Bash(awk '/^## F\\\\./{f=1} /^## G\\\\./{f=0} f' /Users/coma/Git_work/Assembly_Plant_Mobile_Guide/_context/Plan_2026-06-28_導覽帶路改版_首頁與架構.md)",
+      "Bash(awk '/^## H\\\\./{f=1} f' /Users/coma/Git_work/Assembly_Plant_Mobile_Guide/_context/Plan_2026-06-28_導覽帶路改版_首頁與架構.md)",
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine status --short)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
