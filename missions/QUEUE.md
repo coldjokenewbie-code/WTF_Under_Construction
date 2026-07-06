@@ -9,14 +9,19 @@
 
 | slug | 狀態 | 優先序(1最高) | 一句話方向 |
 |---|---|---|---|
-| test-baton-pickup-0706 | 待規劃 | 1 | 驗證循環棒接棒：建 MISSION＋寫 journal＋推 night-relay 即算成功（一棒內完成） |
-| ody-evidence-gate | 提名 | 2 | tools/ody 加機檢規則：宣稱「已完成」無驗證證據→攔截，附 pytest（WTF 內，可立即跑） |
-| southlibrary-fonts | 提名 | 3 | Google Fonts 改本地 @font-face 去 CDN 依賴（需先到 Routines UI 給循環棒補掛 SouthLibrary repo） |
-| cowork-c-tasks | 提名 | 4 | C 區 5 任務 docx 文案轉 TASKS 陣列寫入 C.html（需先補掛 cowork_CDIC repo） |
-| sreclaim-verify-b | 提名 | 5 | 100 句查證批次 B 補 A 級一手來源（需先補掛 S-reclaimed-water-plant repo） |
-| pptmap-skill | 提名 | 6 | 拉線標註流程封裝成可重用 skill（需先補掛 ppt_map_mark repo） |
+| 20260706-machine-report | active | 1 | 互動機具設計報告書（億元標案等級）；MISSION 已備，直接執行棒 |
+| 20260706-guide-app | active | 2 | 導覽 App 世界級視覺體驗原型；MISSION 已備 |
+| 20260706-o4-soundtrack | active | 3 | 存保 O4 開場配樂方案（設計+時間碼+prompt 包）；MISSION 已備 |
+| test-baton-pickup-0706 | 待規劃 | 9 | 管線探針：建 MISSION＋journal＋推 night-relay 即成功（僅在前三項全被擋時才會輪到） |
+| ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
+| southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
+| cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |
+| sreclaim-verify-b | 提名 | — | 100 句查證批次 B（需掛 S-reclaimed-water-plant） |
+| pptmap-skill | 提名 | — | 拉線標註封裝 skill（需掛 ppt_map_mark） |
 
-> 「提名」＝選題官提的候選，棒子不會碰；你把狀態改成「待規劃」即啟動該項。
+> 「提名」＝候選，棒子不碰；改「待規劃」即啟動。active 三項為 2026-07-06 晚間模具實測（使用者已核准，跳過規劃棒直接執行）。
+> **今晚輪替規則**：milestone 即停（→待核准），下一棒接下一個優先序——三案輪流推進，不獨占整夜。
+> **來源 repo 未掛載**：寫 blocker 結束本棒，禁 parked；掛載狀態見 mission-loop.md 第 6 節。
 
 ## 使用說明（給使用者）
 - **派新工作**：加一行，狀態填「待規劃」。當晚 19:00 起循環棒會先跑規劃棒，產出 MISSION 後停下等你核准。
