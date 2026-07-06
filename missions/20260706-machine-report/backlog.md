@@ -1,5 +1,5 @@
 # backlog：machine-report
-- [ ] 讀來源 repo 的定稿簡報/PRD/walkthrough，列素材索引（檔案:行號）存 out/素材索引.md
+- [x] 讀來源 repo 的定稿簡報/PRD/walkthrough，列素材索引（檔案:行號）存 out/素材索引.md
 - [ ] 報告書骨架 HTML（章節殼＋視覺系統，錨-P1/P2 導向）
 - [ ] 緣起／展示理念／體驗動線三章成稿
 - [ ] 首屏＋三章截圖 vs 錨點比較句（journal）
