@@ -50,7 +50,11 @@ missions/
    - `待規劃` → **規劃棒**（第 3.1 節）
    - `active` → 查該 mission `journal.md`：距上次定錨棒已 ≥5 個執行棒（journal 尚無定錨棒紀錄時，從該 mission 第一筆執行棒起算）→ **定錨棒**（3.3）；否則 → **執行棒**（3.2）
    - 其餘狀態跳過，看下一項。
-3. 棒尾（每棒必做）：journal append 一條（含進展 yes/no＋證據）→ 觸發停止閘就改 QUEUE 狀態 → **只 add 本次動到的檔**（禁 `git add -A`）→ commit → `git pull --rebase`（rebase 衝突：`git rebase --abort`，journal 記「需人工」，不硬推）→ push main；**push 被拒（non-fast-forward）→ 再 `git pull --rebase` 後重推，最多重試 2 次**，仍失敗記「需人工」。
+3. 棒尾（每棒必做）：journal append 一條（含進展 yes/no＋證據）→ 觸發停止閘就改 QUEUE 狀態 → **只 add 本次動到的檔**（禁 `git add -A`）→ commit → push `night-relay`（被拒→`git pull --rebase origin night-relay` 重推，最多 2 次；rebase 衝突 `git rebase --abort` 記「需人工」）。
+3.5 **分支制（2026-07-06 定案，取代推 main）**：main＝使用者意志（派工/核准/優先序）；`night-relay`＝小隊成果。
+   - 開棒：`git fetch origin` → `git checkout night-relay`（遠端沒有就 `git checkout -b night-relay origin/main`）→ `git merge origin/main --no-edit`（先吃進使用者最新指令；QUEUE 衝突以 main 的使用者欄位為準，解不掉→abort＋journal 記需人工＋本棒結束）。
+   - 收工只推 `origin night-relay`。**禁推 main、禁推 harness 指定的 claude/* 專屬分支**（實證 2026-07-05：測試任務被推到專屬分支，main 看不到＝整晚空轉）。
+   - 使用者早上看 night-relay diff：**合併進 main＝收貨**；不收→把 night-relay 重置回 main（任一 session 代跑 `git push origin +main:night-relay`）。
 4. **派工紀律照舊制度**：粗活派 subagent 顯式帶 model（`playbooks/model-dispatch.md`）；產出過品質閘（fresh-context 驗收，交辦用 delegation-templates T5）；判斷疑難查 `judgment-rubrics.md`。
 
 ## 3. 三種棒型
@@ -86,13 +90,18 @@ missions/
 4. 提名 2–3 個附理由 → **使用者核准後**才寫入 `missions/QUEUE.md`（狀態=`待規劃`）→ commit push main（只 add QUEUE.md，push 被拒照第 2 節重試規則）。選題官只提名不代決。
 
 ## 5. 提醒棒規格（17:00，獨立 trigger）
-1. `git pull` → 讀 QUEUE＋各 active mission 的 `_blockers.md` 與最新 journal。
-2. 產出 ≤15 行摘要：待核准清單／blockers 待決清單／今晚預計推進項／昨晚成果一句話。
-3. 摘要寫入 `missions/QUEUE.md` 頂部「今日快報」段（覆蓋舊快報）＋commit push；結束時讓完成通知（推播）帶出摘要重點。
-4. 佇列全空 → 摘要就一句：「佇列無任務，今晚循環棒將秒退；要派工請在 QUEUE.md 加一行」。
+1. 依第 2 節 3.5 分支制進 night-relay（先併 main）→ 讀 QUEUE＋各 mission `_blockers.md` 與最新 journal。
+2. 產出 ≤15 行摘要：待核准/提名清單／blockers 待決／今晚預計推進項。
+3. 寫入 `missions/QUEUE.md`「今日快報」段（覆蓋舊快報）＋commit push night-relay；完成通知（推播）帶摘要重點。
+4. 佇列全空 → 快報一句：「佇列無任務，今晚循環棒將秒退；派工請在 main 的 QUEUE.md 加一行」——照樣推。
+
+## 5.5 晨報棒規格（08:30 台北＝cron `30 0 * * *` UTC，獨立 trigger）
+1. `git fetch origin` → 比較 `origin/main..origin/night-relay`。
+2. 領先 0 commits → 推播一句「昨晚無產出」結束。有產出 → 產 ≤15 行晨報：各 mission 昨晚增量＋證據位置＋blockers 新增項＋**合併建議（收貨=merge night-relay 進 main 的指令原文）**，寫入 night-relay 的 QUEUE 快報段並推播。
+3. 只彙報不動工、不合併——合併是使用者的決定。
 
 ## 6. 邊界與誠實條款
-- 雲端棒只及**已掛載 repo**。掛載清單（2026-07-03 查證自 nightly trigger 環境，之後以 claude.ai/code → Routines → Repositories 為準，增刪後回寫本行）：WTF_Under_Construction、Assembly_Plant_Mobile_Guide、Planner2Line、Remotion_fun、claude_CDIC_O4、Aseembly_Plant_Interactive_machine、HsinchuScienceEducationCenter、cowork_CDIC、attendance-dashboard、S-reclaimed-water-plant、SouthLibrary、ppt_map_mark。
+- 雲端棒只及**已掛載 repo**。**修正（2026-07-06 實證）**：API 建立的 mission trigger 其 sources 只掛 WTF_Under_Construction 一個——不會繼承 nightly 環境的 12 repo 清單。要跑其他 repo 的 mission，使用者須先到 claude.ai/code → Routines → 該 trigger → Repositories 手動補掛該 repo；未補掛前，選題只能提名 WTF 內的任務，其餘標「需先補掛」。
 - 需本機/實機的工作一律進 blockers，不假裝能做。
 - 「5 小時額度窗」與週上限的精確行為未確認；夜鏈集體沉默時先懷疑打頂，提醒棒隔天會從 journal 斷點看出並回報。
 - 本檔屬黃區（maintenance-protocol）：棒子只能照做，改規格走提案。
