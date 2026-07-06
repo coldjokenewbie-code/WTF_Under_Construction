@@ -147,3 +147,4 @@
 - 結案或 `session-end`／`lesson-add` 時，把新教訓濃縮成一行登錄本表。
 - 高重用（跨專案可套用）放上區；專案專屬只在下區補主題關鍵字。
 - 矛盾或過時條目標 `⚠️已被推翻` 並指向取代來源，不直接刪（保留歷史）。
+- cowork_CDIC｜2026-07-02｜目視驗收截圖須乾淨URL不帶編輯UI、驗證重跑不得覆寫證據工件；4版電子書舞台內新UI元素class必帶ui-前綴防data-ek錯位｜projects/cowork_CDIC/_context/lessons-learned.md
