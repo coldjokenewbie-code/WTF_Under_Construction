@@ -10,3 +10,11 @@
 - 步驟2 完成:origin/main(CineLayer+OpeningV2/Event1985V2) merge 進 v615(51d6dcc,.gitignore 衝突兩邊保留);再以 6/15 編排為準移植——OpeningV2 段3補 opening_5、段4補 opening_10;E1V2 十信段改 1985_1 整段原速、成立段 2→3→4(4935ff2);tsc 過。
 - 步驟3 卡點:Mac gcloud 無 CLI 帳號(auth list 空);ADC 檔存在(~/.config/gcloud/application_default_credentials.json,6/14)但 auto-mode 權限分類器擋掉讀取/取 token(憑證類操作需用戶授權);本機版腳本已備妥 outputs/配樂_20260707/mac_generate.sh(ADC token+「1929年」修念+cp 不 push),缺 GCP project id。停下問用戶拍板。
 - 暫停(用戶換地方工作):步驟1-2 完成已推 v615;步驟3 卡 GCP 憑證+project id 待用戶拍板(選項:session 內 gcloud auth login 後我跑/用戶自跑 mac_generate.sh/Cloud Shell)。續接點:拿到憑證跑 outputs/配樂_20260707/mac_generate.sh <PROJECT_ID> → 步驟4 校時。
+- 步驟3 完成:用戶重登 ADC+設專案(467272091872)後本機生成——Lyria A/B 各60.00s@48kHz 一次過;TTS 首跑 403(consumer API 裸呼 REST 缺 x-goog-user-project header,Vertex 不需故 Lyria 沒事),補 header 重跑只 TTS 成功;opening_vo 51.45s、e1_vo 28.08s(「1929年」修念已入);四檔已入 public/audio/(gitignore,不推)。
+- 步驟4 完成:silencedetect(-35dB/0.45s)找旁白段落停頓——opening 段起 0/15.25/28.82/40.42s→b2/b3/b4=605/1012/1360(offset155,畫面先切0.23s);e1 段起 0/8.74/18.27s→b2/b3=350/636(offset95);各段旁白皆在段界內收尾;E1 補配樂尾段2s淡出(60s樂借給35s片)。tsc 過,已 commit。
+- 步驟5 完成:npx remotion render → outputs/V3draft/opening_v3.mp4(42MB,60.00s)、e1_v3.mp4(18MB,35.05s),一次過。
+- 步驟6 驗收(方法:21 張關鍵幀逐格目檢+音軌 PCM 分段 RMS/峰值分析;非人耳實聽,建議用戶最終聽一次):
+  - 無字幕 ✓(全部幀);轉場對位 ✓(字卡/擠兌gif/華爾街/Glass-Steagall兩人像/羅斯福/FDIC標誌/辦公室影片/大陸銀行/條例英中兩頁/年份卡/十信新聞/公司門牌/參加存保標誌,年代標記皆對);數字卡完整 ✓(300萬滾動至 3,000,000 定格、70萬 700,000 定格)
+  - 音軌:峰值 -1.8/-2.5 dBFS 無削波;旁白進場 5.2s/3.2s 準時;兩支尾段正常淡出(E1 借 60s 開場樂已加尾段淡出)
+  - 截圖:out/qa_op_title.png、qa_op_glasssteagall.png、qa_op_statcard300.png、qa_e1_shixin.png、qa_e1_statcard70.png
+- 步驟7 交付:mp4 留本機 outputs/V3draft/(gitignore 不推),程式碼全推 v615;已知限制清單隨交付報告。
