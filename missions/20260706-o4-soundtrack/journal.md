@@ -20,3 +20,4 @@
 - 步驟7 交付:mp4 留本機 outputs/V3draft/(gitignore 不推),程式碼全推 v615;已知限制清單隨交付報告。
 - V4 重製(PO 糾正 V3 方向錯誤:ppt 內嵌影片不要字卡不要字幕):以 outputs/V2 完整編排為底,Opening/Event1985 掛 TTS+Lyria A(ducking+尾淡出)+FilmGrain+24幀交叉溶接(修切點穿黑),段界依 TTS 停頓重排;outputs/V4/ 兩支已交付;Root defaultProps 改單一真相源。倒數片 Countdown 5s 亦已重製交付(取代 YouTube 錄屏)。
 - V4 重製(PO 糾正 V3 方向錯誤:ppt 內嵌影片不要字卡不要字幕):以 outputs/V2 完整編排為底,Opening/Event1985 掛 TTS+Lyria A(ducking+尾淡出)+FilmGrain+24幀交叉溶接(修切點穿黑),段界依 TTS 停頓重排;outputs/V4/ 兩支已交付;Root defaultProps 改單一真相源。倒數片 Countdown 5s 亦已重製交付(取代 YouTube 錄屏)。
+2026-07-08 00:18｜執行棒（主 session 代跑）｜o4-soundtrack：配樂三路線查證完成（subagent sonnet），產出 out/music-research_2026-07-08.md；lyria-002=30s 上限（官方 notebook）、Lyria 3 Pro 最長 3 分鐘（Preview）；envato 授權/API 正式頁被雲端網路白名單擋（主 session 複測同 403），列 _blockers 待使用者查證＋路線三選一｜進展 yes｜證據：out/music-research_2026-07-08.md、_blockers.md
