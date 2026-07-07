@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>組立工場・老職工帶路</title>
+<style>
+  /* 三值紀律:紙白 #f2e9d8 / 銅 #c9a15a(唯一強調) / 近黑 #120e0a。中明度只允許存在於照片內。 */
+  :root{
+    --paper:#f2e9d8; --brass:#c9a15a; --ink:#120e0a;
+    --scrim:linear-gradient(180deg, rgba(18,14,10,0) 0%, rgba(18,14,10,.35) 46%, rgba(18,14,10,.92) 78%, #120e0a 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--ink)}
+  body{font-family:"Noto Serif TC","Songti TC",serif;color:var(--paper);overflow:hidden}
+
+  /* 史料為主角:滿版+緩慢推近(Ken Burns),中明度全部交給照片 */
+  .hero{position:fixed;inset:0;overflow:hidden}
+  .hero img{width:100%;height:100%;object-fit:cover;object-position:62% 38%;
+    filter:sepia(.24) contrast(1.06) brightness(.94);
+    transform:scale(1.06);animation:kb 26s ease-out forwards}
+  @keyframes kb{to{transform:scale(1.0) translateY(-1.2%)}}
+  .hero::after{content:"";position:absolute;inset:0;background:var(--scrim)}
+
+  /* 銘板:直排廠名,語彙出自工場銘牌(錨-P2:可追溯到題材) */
+  .plate{position:fixed;top:max(18px,env(safe-area-inset-top));right:16px;z-index:3;
+    font-size:15px;line-height:1.9;text-align:center;color:var(--paper);
+    border:1px solid rgba(201,161,90,.55);padding:10px 8px;background:rgba(18,14,10,.38);
+    text-shadow:0 1px 2px rgba(0,0,0,.6)}
+  .plate span{display:block}
+
+  .lang{position:fixed;top:max(18px,env(safe-area-inset-top));left:16px;z-index:3;display:flex;gap:8px;
+    font-family:ui-sans-serif,system-ui;font-size:11px;letter-spacing:.08em}
+  .lang span{padding:5px 9px;border:1px solid rgba(242,233,216,.35);border-radius:2px;color:rgba(242,233,216,.75)}
+  .lang .on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+
+  .stage{position:fixed;inset:auto 0 0 0;z-index:2;padding:0 22px calc(20px + env(safe-area-inset-bottom))}
+
+  .kicker{display:flex;align-items:center;gap:10px;font-family:ui-sans-serif,system-ui;white-space:nowrap;
+    font-size:10px;letter-spacing:.2em;color:var(--brass);margin-bottom:14px}
+  .kicker::before{content:"";width:34px;height:1px;background:var(--brass)}
+
+  h1{font-size:34px;line-height:1.42;font-weight:700;letter-spacing:.045em;
+    text-shadow:0 2px 14px rgba(0,0,0,.55);margin-bottom:10px}
+  .sub{font-size:14px;letter-spacing:.12em;color:rgba(242,233,216,.82);margin-bottom:22px}
+  .sub b{color:var(--brass);font-weight:400}
+
+  /* 檢修掛牌:CTA 形制出自機廠檢修吊牌——穿孔+牌身(錨-P2) */
+  .tag{position:relative;display:flex;align-items:center;gap:14px;width:100%;
+    background:var(--paper);color:var(--ink);border:0;border-radius:6px;
+    padding:16px 18px 16px 40px;font-family:inherit;text-align:left;cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .tag::before{content:"";position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:9px;height:9px;border-radius:50%;background:var(--ink);
+    box-shadow:inset 0 0 0 2.5px var(--paper),0 0 0 1.5px var(--ink)}
+  .tag .t1{font-size:17px;font-weight:700;letter-spacing:.06em}
+  .tag .t2{font-family:ui-sans-serif,system-ui;font-size:11px;letter-spacing:.1em;color:#6b5a3f;margin-top:3px}
+  .tag .go{margin-left:auto;font-size:20px;color:var(--brass)}
+
+  .next{margin-top:16px;font-family:ui-sans-serif,system-ui;font-size:12.5px;
+    letter-spacing:.06em;color:rgba(242,233,216,.78);line-height:1.7}
+  .next b{color:var(--paper);font-size:14px;letter-spacing:.1em}
+  .next .ev{display:block;color:rgba(242,233,216,.62)}
+
+  .hint{margin-top:18px;text-align:center;font-family:ui-sans-serif,system-ui;
+    font-size:11px;letter-spacing:.24em;color:rgba(242,233,216,.5);animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(4px)}}
+
+  .credit{margin-top:14px;font-family:ui-sans-serif,system-ui;font-size:8.5px;line-height:1.5;
+    letter-spacing:.03em;color:rgba(242,233,216,.34)}
+
+  /* 進場秩序:照片先立,文字依序抬升——一次只有一個主角 */
+  .stage>*{opacity:0;transform:translateY(14px);animation:up .8s cubic-bezier(.2,.7,.2,1) forwards}
+  .kicker{animation-delay:.55s}h1{animation-delay:.75s}.sub{animation-delay:.95s}
+  .tag{animation-delay:1.2s}.next{animation-delay:1.4s}.hint{animation-delay:1.9s}.credit{animation-delay:1.9s}
+  @keyframes up{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .hero img{animation:none;transform:none}
+    .stage>*{animation:none;opacity:1;transform:none}
+    .hint{animation:none}}
+</style>
+</head>
+<body>
+  <div class="hero"><img src="assets/erecting_shop_crop.jpg" alt="組立工場史料照:1900 年代初 Baldwin 機車廠組立車間"></div>
+
+  <div class="lang" aria-label="語言"><span class="on">中</span><span>EN</span><span>日</span></div>
+  <aside class="plate"><span>組</span><span>立</span><span>工</span><span>場</span></aside>
+
+  <main class="stage">
+    <div class="kicker">老職工帶路・GUIDED BY THE MASTERS</div>
+    <h1>跟著老職工，<br>走進組立工場的輝煌</h1>
+    <p class="sub">戴上耳機，空出雙手——<b>15 個站點</b>，一段修復中的歷史</p>
+
+    <button class="tag" id="start">
+      <span><span class="t1">聽老職工帶路</span><br><span class="t2">語音導覽・06:30・自動跟站</span></span>
+      <span class="go">→</span>
+    </button>
+
+    <p class="next">下一場真人導覽 <b>14:00</b><span class="ev">專家現場導覽：蒸汽機車秘辛</span></p>
+    <p class="hint">往上滑，看看他想帶你去哪 ↑</p>
+    <p class="credit">史料照：General View of the Erecting Shop, Baldwin Locomotive Works, Philadelphia（約 1900s）・Keystone View Co.・紐約公共圖書館立體照收藏・公共領域（PD）</p>
+  </main>
+
+<script>
+  // 煙霧測試鉤:互動與錯誤皆可被 Playwright 斷言
+  window.__ready = false;
+  addEventListener('load', () => { setTimeout(()=>{window.__ready=true}, 2000); });
+  document.getElementById('start').addEventListener('click', function(){
+    this.querySelector('.t1').textContent = '導覽啟動中…';
+    document.body.dataset.started = '1';
+  });
+</script>
+</body>
+</html>
