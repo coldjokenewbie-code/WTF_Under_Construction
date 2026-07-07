@@ -44,9 +44,10 @@ missions/
 ## 2. 循環棒總規格（每次 cron 醒來照跑）
 
 0. `cd` 到 WTF repo → `git pull`。讀本檔＋`missions/QUEUE.md`。
-1. **秒退檢查**（任一命中即回報一行並結束，不做工）：
+0.5 **心跳（無論做不做工，第一動作）**：append 一行「YYYY-MM-DD HH:MM 台北｜棒醒了」到 `missions/heartbeat.log`，立即 commit push night-relay（依 3.5 分支制）。沒心跳＝棒死在啟動段，有心跳無產出＝邏輯問題——讓靜默可診斷。
+1. **秒退檢查**（任一命中即在 heartbeat.log 該行補「｜秒退:原因」再結束）：
    - `TZ=Asia/Taipei date +%H%M` ≥ 0430；或 QUEUE 無 `待規劃`/`active` 項。
-2. 取優先序最高的可作項，按狀態分派棒型：
+2. 取可作項——**測試期輪替制（2026-07-07 起）**：多個 active 並存時，取「最近一棒沒做過」的最高優先序案（看各 journal 最後一條時間），每棒換案，不等 milestone；單一 active 時照舊。按狀態分派棒型：
    - `待規劃` → **規劃棒**（第 3.1 節）
    - `active` → 查該 mission `journal.md`：距上次定錨棒已 ≥5 個執行棒（journal 尚無定錨棒紀錄時，從該 mission 第一筆執行棒起算）→ **定錨棒**（3.3）；否則 → **執行棒**（3.2）
    - 其餘狀態跳過，看下一項。
