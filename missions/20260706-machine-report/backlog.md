@@ -10,5 +10,6 @@
 - [ ] 【M2 界】→ 待核准
 - [ ] 技術規格/驗收計畫/維運章
 - [ ] fresh-context 對抗審查（T5 式）＋修正
-- [ ] 全章截圖對照集 out/screenshots/
-- [ ] 【M3 界＝最後】→ done
+- [ ] 全章截圖對照集 out/screenshots/（依 anchors/README 鐵律：截圖 vs 錨點並列比較句，禁自評分數）
+- [ ] 交付複本落 Aseembly_Plant_Interactive_machine repo `outputs/設計報告書_<日期>/`（該 repo 已掛循環棒 trigger，可推）
+- [ ] 【M3 界＝最後】→ done（送使用者：推播＋檔案路徑）
