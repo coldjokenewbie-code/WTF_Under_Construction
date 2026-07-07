@@ -18,3 +18,5 @@
   - 音軌:峰值 -1.8/-2.5 dBFS 無削波;旁白進場 5.2s/3.2s 準時;兩支尾段正常淡出(E1 借 60s 開場樂已加尾段淡出)
   - 截圖:out/qa_op_title.png、qa_op_glasssteagall.png、qa_op_statcard300.png、qa_e1_shixin.png、qa_e1_statcard70.png
 - 步驟7 交付:mp4 留本機 outputs/V3draft/(gitignore 不推),程式碼全推 v615;已知限制清單隨交付報告。
+- V4 重製(PO 糾正 V3 方向錯誤:ppt 內嵌影片不要字卡不要字幕):以 outputs/V2 完整編排為底,Opening/Event1985 掛 TTS+Lyria A(ducking+尾淡出)+FilmGrain+24幀交叉溶接(修切點穿黑),段界依 TTS 停頓重排;outputs/V4/ 兩支已交付;Root defaultProps 改單一真相源。倒數片 Countdown 5s 亦已重製交付(取代 YouTube 錄屏)。
+- V4 重製(PO 糾正 V3 方向錯誤:ppt 內嵌影片不要字卡不要字幕):以 outputs/V2 完整編排為底,Opening/Event1985 掛 TTS+Lyria A(ducking+尾淡出)+FilmGrain+24幀交叉溶接(修切點穿黑),段界依 TTS 停頓重排;outputs/V4/ 兩支已交付;Root defaultProps 改單一真相源。倒數片 Countdown 5s 亦已重製交付(取代 YouTube 錄屏)。
