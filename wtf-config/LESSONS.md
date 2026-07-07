@@ -150,3 +150,4 @@
 - 高重用（跨專案可套用）放上區；專案專屬只在下區補主題關鍵字。
 - 矛盾或過時條目標 `⚠️已被推翻` 並指向取代來源，不直接刪（保留歷史）。
 - cowork_CDIC｜2026-07-02｜目視驗收截圖須乾淨URL不帶編輯UI、驗證重跑不得覆寫證據工件；4版電子書舞台內新UI元素class必帶ui-前綴防data-ek錯位｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-07｜ls-files顯示tracked≠在HEAD(共用index他組staged假象,判定用ls-tree)；臨時index commit前必驗diff --cached非空防空commit；file://圖入canvas致getImageData tainted,驗證加--allow-file-access-from-files｜projects/cowork_CDIC/_context/lessons-learned.md
