@@ -14,6 +14,11 @@
 | 廉價批次 | Haiku 4.5 | `claude-haiku-4-5-20251001` | `haiku` |
 | （已不可得） | Fable 5 | `claude-fable-5` | `fable`——僅該次特殊 session 有，日常勿指定 |
 
+**額度緊縮（2026-07-08 查證，使用者告知 Fable 5 額度將盡）**：
+- 排程 Routine 的 fresh session 主模型＝建 Routine 時在 Routines UI 的 model selector 所選（官方文件 code.claude.com/docs/en/routines.md，2026-07-08 經 claude-code-guide 查證）；MCP 的 create/update_trigger **無 model 欄位**，改模型只能使用者進 claude.ai/code → Routines → Edit。
+- 額度打頂時排程 session 是否自動 fallback：**查無官方文件**——夜鏈集體沉默時先懷疑打頂（呼應 mission-loop 誠實條款）。
+- 緊縮期紀律：主對話（任何模型）只做判斷與收發，實作/研究一律派 `sonnet`、掃描驗證派 `haiku`；`opus` 只留規劃多方案與對抗審查。派 `opus` 若因額度失敗→降 `sonnet` 續跑並記 journal，不停等。
+
 **effort（推理力度）**：2026-07-03 查證——Claude Code 的 Agent tool **沒有逐次呼叫的 effort 參數**；effort 來自 subagent 定義檔（`.claude/agents/*.md` frontmatter）或 session 設定。Workflow 工具的 `agent()` 才有 `opts.effort`（`low`/`medium`/`high`/`xhigh`/`max`）。你的本機 CLI 版本可能不同，用前以 claude-code-guide 查證當下版本行為。
 
 **額度歸屬**（未確認）：「被安全機制導向 Opus 4.8 的請求是否消耗原模型額度」查不到官方說法，建議到 claude.ai 的 usage 儀表板實測後把結論補進本節。

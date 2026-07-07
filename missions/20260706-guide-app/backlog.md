@@ -1,12 +1,11 @@
-# backlog：guide-app
-- [x] 讀來源 repo data/components，列站點資料索引存 out/資料索引.md
-- [x] 開場頁 HTML 原型（錨-P1：滿版史料、文字退位、出處行）
-- [x] Playwright 截圖 vs final_claude_滿版 並列比較句（journal）
-- [x] 【M1 界】→ 待核准
-- [ ] 導覽選單頁原型（錨-P3 資訊分層：排程/站點/進度）
-- [ ] 站點內頁原型（音訊列、AR 入口佔位、下一站導引）
-- [ ] 兩頁截圖對照＋負錨清單逐項自查
-- [ ] 【M2 界】→ 待核准
-- [ ] 三頁整合＋轉場＋多輪 Playwright 煙霧測試
-- [ ] 對抗審查＋「超越正錨」論證
+# backlog：guide-app（2026-07-08 使用者改向重排：優化現有 app，舊原型線已收貨停止）
+- [x] 研究分析：現況全頁截圖＋16 項改善清單 → out/ui-audit_2026-07-08.md（2026-07-08 完成；截圖係 Tailwind CDN 失效下所拍，視覺項需本地化後重驗——見 audit 末節主 session 判讀補記）
+- [x] 【M1 界】高品味風險項已進 _blockers（主題定調/底圖/縮圖風格）；低風險項直接續做
+- [ ] **第一增量（先於一切視覺項）**：開分支 `ui-uplift`，Tailwind 從 CDN 改本地建置（vite 標準做法：tailwindcss+postcss，設定檔含現用之任意值 class；index.html 移除 cdn script 與 Google Fonts 改本地/系統字體）→ tsc 過＋全頁重拍截圖（這批才可信）→ 據此重驗 audit 視覺項真偽並更新 audit
+- [ ] 修 audit 讀碼類確定項：AppShell 展品頁 header 寫死「掃描QRcode」改展品名（AppShell.tsx:62）、dev 工具列非 dev 環境隱藏、孤兒檔案清理
+- [ ] （依 audit 優先序）UI 整合：間距/字級/色彩 token 化、元件一致性修整
+- [ ] （依 audit 優先序）動態：頁面轉場、清單進場 stagger、按壓回饋等微互動（framer-motion）
+- [ ] 每輪：tsc 零錯誤＋Playwright 煙霧＋前後對照截圖存 out/
+- [ ] 【M2 界】→ 待核准（使用者驗貨＋裁決高風險項）
+- [ ] （核准後）高品味風險項實施
 - [ ] 【M3 界＝最後】→ done

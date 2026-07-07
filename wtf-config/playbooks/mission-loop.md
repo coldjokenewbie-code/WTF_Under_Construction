@@ -44,7 +44,8 @@ missions/
 ## 2. 循環棒總規格（每次 cron 醒來照跑）
 
 0. `cd` 到 WTF repo → `git pull`。讀本檔＋`missions/QUEUE.md`。
-0.5 **心跳（無論做不做工，第一動作）**：append 一行「YYYY-MM-DD HH:MM 台北｜棒醒了」到 `missions/heartbeat.log`，立即 commit push night-relay（依 3.5 分支制）。沒心跳＝棒死在啟動段，有心跳無產出＝邏輯問題——讓靜默可診斷。
+0.5 **心跳（無論做不做工，第一動作）**：append 一行「YYYY-MM-DD HH:MM 台北｜棒醒了｜model=<自己的模型名，看 system prompt 環境段>」到 `missions/heartbeat.log`，立即 commit push night-relay（依 3.5 分支制）。沒心跳＝棒死在啟動段，有心跳無產出＝邏輯問題——讓靜默可診斷；model 欄讓額度/模型問題可回溯（2026-07-08 起，Fable 額度緊縮期）。
+0.6 **額度緊縮期（2026-07-08 起）**：派工照 `model-dispatch.md`「額度緊縮」段——實作/研究 `sonnet`、掃描 `haiku`、`opus` 只留規劃評審與對抗審查；派 opus 因額度失敗→降 sonnet 續跑並記 journal，不停等。
 1. **秒退檢查**（任一命中即在 heartbeat.log 該行補「｜秒退:原因」再結束）：
    - `TZ=Asia/Taipei date +%H%M` ≥ 0430；或 QUEUE 無 `待規劃`/`active` 項。
 2. 取可作項——**測試期輪替制（2026-07-07 起）**：多個 active 並存時，取「最近一棒沒做過」的最高優先序案（看各 journal 最後一條時間），每棒換案，不等 milestone；單一 active 時照舊。按狀態分派棒型：

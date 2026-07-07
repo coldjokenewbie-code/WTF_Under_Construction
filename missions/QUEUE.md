@@ -10,8 +10,8 @@
 | slug | 狀態 | 優先序(1最高) | 一句話方向 |
 |---|---|---|---|
 | 20260706-machine-report | 待核准 | 1 | 互動機具設計報告書（億元標案等級）；內容全章＋fresh-context 對抗審查(opus)PASS 已完成,M1+M2+M3 併案送審,待核准後改 done |
-| 20260706-guide-app | 待核准 | 2 | 導覽 App 世界級視覺體驗原型；MISSION 已備 |
-| 20260706-o4-soundtrack | 待核准 | 3 | 存保 O4 開場配樂方案（設計+時間碼+prompt 包）；MISSION 已備 |
+| 20260706-guide-app | active | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：先研究分析再優化——視覺/UI 整合/動態；MISSION 已改寫 |
+| 20260706-o4-soundtrack | active | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可 |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）；**parked**:WebFetch 全面403(組織政策非暫時),案例包卡點連續2棒零進展,見 _blockers.md 4選項待裁決 |
 | test-baton-pickup-0706 | 待核准 | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案 |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
