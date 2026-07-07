@@ -30,3 +30,20 @@ chain-capability: FAIL。查無其他 mission journal（本棒為今晚第一棒
 - `missions/20260706-machine-report/_blockers.md`（milestone 簽核被略過的登記）。
 
 chain-capability: 未重測（今晚已有 design-training 19:43 棒測過一次，非本 mission 首棒）。
+
+## 2026-07-07 23:34 台北｜執行棒｜進展：yes
+做了什麼：
+- 測試期輪替制：design-training（priority 4）本棒輪值但同一卡點連續 2 棒零進展，標 parked 後轉推本 mission（priority 1）。
+- 派 fresh-context 對抗審查 subagent（general-purpose，model: opus，依 model-dispatch 第4節「高風險判斷/對抗審查→opus」）審查 `out/設計報告書.html` 全文，對照 MISSION.md 硬底線逐項驗（章節齊備／依據可追溯／鑽床待答項零捏造連結／影像出處／零AI腔／技術硬底線/零CDN／錨點一致性／與 _blockers.md 交叉核對）。
+- 審查結果：**PASS，0 個 P0/P1，3 個 P2**（皆誠實揭露類，非造假）：①封面圖（Baldwin Locomotive Works／NYPL PD）授權本 session 因 WebFetch 全面封鎖無法離線核驗；②`_blockers.md` 實際路徑在 mission 根目錄非 out/（審查者誤判，非缺陷）；③緣起章缺口框僅陳述缺口未給行動建議。全 HTML 外部 URL 數為 0，確認鑽床待答四項未插入任何捏造/未驗證連結，安全落地 MISSION 硬底線第3條。
+- 修正 2 項可修的 P2：封面 credit 補一句「此授權標示待提送前以可連網環境覆核來源頁」；緣起章缺口框補「建議補料行動」段（訪談對象＋待取得文件）。第 3 項（blockers 路徑）為審查者誤解，非缺陷，不需修正。
+- backlog「fresh-context 對抗審查＋修正」項打勾。全內容項目與截圖對照集皆已完成。
+- **不逕自把 QUEUE 改 done**：MISSION.md 明定「每個 milestone＝一次使用者簽核點」，但 M1/M2 從未經使用者實際簽核（被上游 session 略過，見 21:33 棒 blockers 登記），若本棒逕自因「backlog 全勾＋最後 milestone」機械式改 done，會讓使用者完全跳過對一份「億元標案等級」文件的審閱機會。故改列 M1+M2+M3 併案送審，QUEUE 狀態改「待核准」，待使用者實際看過 `out/設計報告書.html`＋審查結果後核准再改 done。
+
+證據：
+- `missions/20260706-machine-report/out/設計報告書.html`（封面 credit、緣起缺口框已修正）。
+- `missions/20260706-machine-report/backlog.md`（本棒更新，含審查結果摘要）。
+- `missions/QUEUE.md`（狀態改「待核准」）。
+- 對抗審查 subagent 完整回報見本棒 Agent tool 呼叫紀錄（opus，10 次工具呼叫，逐條核對 12+ 項依據皆命中來源檔案:行號）。
+
+chain-capability: 未重測（今晚 design-training 19:43 棒已測過）。
