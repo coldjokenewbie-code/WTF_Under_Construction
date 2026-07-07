@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>組立工場互動機具展示・設計報告書</title>
+<style>
+  /* 紙的世界:紙白/墨黑/銅標——三值紀律的文件版 */
+  :root{--paper:#f7f2e7;--ink:#1b1611;--brass:#9a7834;--line:rgba(27,22,17,.18);--dim:#6d6355}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#e9e2d2;color:var(--ink);font-family:"Noto Serif TC","Songti TC",serif;line-height:1.9}
+  .page{max-width:860px;margin:0 auto;background:var(--paper);box-shadow:0 2px 24px rgba(0,0,0,.12)}
+  .sans{font-family:ui-sans-serif,system-ui}
+  /* 封面 */
+  .cover{position:relative;height:96vh;min-height:640px;overflow:hidden;background:#120e0a;color:#f2e9d8}
+  .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:sepia(.26) contrast(1.05) brightness(.82)}
+  .cover::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(18,14,10,.2),rgba(18,14,10,.1) 40%,rgba(18,14,10,.93) 82%)}
+  .cover .in{position:absolute;left:56px;right:56px;bottom:52px;z-index:2}
+  .cover .k{font-size:11px;letter-spacing:.4em;color:#c9a15a;margin-bottom:16px}
+  .cover h1{font-size:40px;letter-spacing:.08em;line-height:1.5;font-weight:700}
+  .cover .sub{margin-top:10px;font-size:15px;letter-spacing:.2em;color:rgba(242,233,216,.75)}
+  .cover .meta{margin-top:34px;padding-top:14px;border-top:1px solid rgba(201,161,90,.4);
+    display:flex;gap:34px;font-size:12px;letter-spacing:.12em;color:rgba(242,233,216,.65)}
+  .cover .credit{position:absolute;right:56px;bottom:14px;font-size:8.5px;color:rgba(242,233,216,.35);letter-spacing:.04em}
+  /* 章 */
+  .chap{padding:64px 56px}
+  .chap+.chap{border-top:1px solid var(--line)}
+  .cn{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .cn .no{border:1.5px solid var(--brass);color:var(--brass);font-size:13px;letter-spacing:.1em;
+    padding:5px 10px;border-radius:3px}
+  .cn h2{font-size:26px;letter-spacing:.12em}
+  .cn .en{margin-left:auto;font-size:10px;letter-spacing:.3em;color:var(--dim)}
+  .lead{font-size:15px;color:var(--dim);margin:10px 0 26px;letter-spacing:.04em}
+  h3{font-size:18px;letter-spacing:.1em;margin:34px 0 12px;padding-left:12px;border-left:3px solid var(--brass)}
+  p{font-size:15px;text-align:justify;margin-bottom:14px}
+  /* 主張→依據 雙欄語法 */
+  .claim{display:grid;grid-template-columns:1fr 168px;gap:18px;margin:14px 0;padding:14px 0;border-bottom:1px dashed var(--line)}
+  .claim .src{font-size:10.5px;line-height:1.7;color:var(--dim);border-left:1px solid var(--line);padding-left:12px}
+  .claim .src b{color:var(--brass);font-weight:400;letter-spacing:.1em;display:block;margin-bottom:2px}
+  .gap{background:rgba(154,120,52,.07);border:1px dashed var(--brass);border-radius:4px;
+    padding:10px 14px;font-size:12.5px;color:#7a5c1e;margin:12px 0}
+  .gap b{letter-spacing:.1em}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
+  th{text-align:left;font-weight:400;letter-spacing:.14em;font-size:11px;color:var(--brass);
+    border-bottom:1.5px solid var(--brass);padding:8px 10px}
+  td{border-bottom:1px solid var(--line);padding:9px 10px;vertical-align:top}
+  .toc{padding:56px}
+  .toc .t{font-size:12px;letter-spacing:.34em;color:var(--brass);margin-bottom:22px}
+  .toc a{display:flex;gap:14px;align-items:baseline;color:var(--ink);text-decoration:none;
+    padding:11px 2px;border-bottom:1px solid var(--line);font-size:15.5px;letter-spacing:.06em}
+  .toc a i{font-style:normal;color:var(--brass);font-size:12px;width:34px}
+  .toc a s{margin-left:auto;text-decoration:none;font-size:11px;color:var(--dim)}
+  @media print{
+    body{background:none}.page{box-shadow:none;max-width:none}
+    .chap{page-break-before:always;padding:24mm 18mm}
+    .cover{height:auto;min-height:260mm;page-break-after:always}
+    a{color:inherit}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <img src="assets/cover.jpg" alt="機械工場史料照">
+  <div class="in">
+    <div class="k sans">互動展示設計報告書・DESIGN REPORT</div>
+    <h1>組立工場互動機具展示<br>設計報告書</h1>
+    <div class="sub">搪床・鉋床・鑽床——讓百年工法在觀眾手中重新運轉</div>
+    <div class="meta sans">
+      <span>委託單位　［業主名稱］</span><span>提送日期　2026 年 7 月</span><span>版本　V1（雲端小隊協作稿）</span>
+    </div>
+  </div>
+  <div class="credit sans">封面史料照：General View of the Erecting Shop, Baldwin Locomotive Works, Philadelphia（約 1900s）・Keystone View Co.・紐約公共圖書館立體照收藏・公共領域（PD）</div>
+</section>
+
+<nav class="toc">
+  <div class="t sans">目　錄　CONTENTS</div>
+  <a href="#c1"><i class="sans">壹</i>計畫緣起<s class="sans">BACKGROUND</s></a>
+  <a href="#c2"><i class="sans">貳</i>展示理念<s class="sans">CONCEPT</s></a>
+  <a href="#c3"><i class="sans">參</i>觀眾體驗動線<s class="sans">VISITOR JOURNEY</s></a>
+  <a href="#c4"><i class="sans">肆</i>機具設計說明——搪床・鉋床・鑽床<s class="sans">EXHIBIT DESIGN</s></a>
+  <a href="#c5"><i class="sans">伍</i>教育目標與教案整合<s class="sans">EDUCATION</s></a>
+  <a href="#c6"><i class="sans">陸</i>技術規格<s class="sans">SPECIFICATIONS</s></a>
+  <a href="#c7"><i class="sans">柒</i>驗收計畫<s class="sans">ACCEPTANCE</s></a>
+  <a href="#c8"><i class="sans">捌</i>維運計畫<s class="sans">OPERATIONS</s></a>
+</nav>
+
+<section class="chap" id="c1"><div class="cn"><span class="no sans">壹</span><h2>計畫緣起</h2><span class="en sans">BACKGROUND</span></div>
+  <p class="lead">本章敘明展示緣起與基地脈絡。</p>
+  <!-- INJECT:緣起 --></section>
+
+<section class="chap" id="c2"><div class="cn"><span class="no sans">貳</span><h2>展示理念</h2><span class="en sans">CONCEPT</span></div>
+  <p class="lead">工業遺產不是被觀看的標本,是可以被操作的記憶。</p>
+  <!-- INJECT:理念 --></section>
+
+<section class="chap" id="c3"><div class="cn"><span class="no sans">參</span><h2>觀眾體驗動線</h2><span class="en sans">VISITOR JOURNEY</span></div>
+  <!-- INJECT:動線 --></section>
+
+<section class="chap" id="c4"><div class="cn"><span class="no sans">肆</span><h2>機具設計說明</h2><span class="en sans">EXHIBIT DESIGN</span></div>
+  <p class="lead">三具機床,三種身體經驗:搪床的孔、鉋床的面、鑽床的點。</p>
+  <!-- INJECT:機具 --></section>
+
+<section class="chap" id="c5"><div class="cn"><span class="no sans">伍</span><h2>教育目標與教案整合</h2><span class="en sans">EDUCATION</span></div>
+  <!-- INJECT:教案 --></section>
+
+<section class="chap" id="c6"><div class="cn"><span class="no sans">陸</span><h2>技術規格</h2><span class="en sans">SPECIFICATIONS</span></div>
+  <!-- INJECT:技規 --></section>
+
+<section class="chap" id="c7"><div class="cn"><span class="no sans">柒</span><h2>驗收計畫</h2><span class="en sans">ACCEPTANCE</span></div>
+  <p class="lead">本案自帶機檢:每具機具附自動化驗證腳本,驗收不靠口說。</p>
+  <!-- INJECT:驗收 --></section>
+
+<section class="chap" id="c8"><div class="cn"><span class="no sans">捌</span><h2>維運計畫</h2><span class="en sans">OPERATIONS</span></div>
+  <!-- INJECT:維運 --></section>
+
+</div>
+</body>
+</html>
