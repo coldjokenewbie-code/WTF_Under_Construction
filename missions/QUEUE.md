@@ -10,7 +10,7 @@
 | slug | 狀態 | 優先序(1最高) | 一句話方向 |
 |---|---|---|---|
 | 20260706-machine-report | active | 1 | 互動機具設計報告書（億元標案等級）；MISSION 已備，直接執行棒 |
-| 20260706-guide-app | active | 2 | 導覽 App 世界級視覺體驗原型；MISSION 已備（使用者 2026-07-08 00:03 口頭核准續 M2） |
+| 20260706-guide-app | active | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：先研究分析再優化——視覺/UI 整合/動態；MISSION 已改寫 |
 | 20260706-o4-soundtrack | active | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可 |
 | 20260707-design-training | active | 4 | 使用者設計能力訓練支援（常設,週循環）；MISSION＋訓練綱領已備,當填充任務 |
 | test-baton-pickup-0706 | 待規劃 | 9 | 管線探針：建 MISSION＋journal＋推 night-relay 即成功（僅在前面全被擋時才會輪到） |
