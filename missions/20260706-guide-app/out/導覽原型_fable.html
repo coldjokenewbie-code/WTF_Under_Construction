@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>組立工場・導覽原型</title>
+<style>
+  :root{--paper:#f2e9d8;--brass:#c9a15a;--ink:#120e0a;--ink2:#1d1712;--dim:rgba(242,233,216,.62)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--ink);color:var(--paper);
+    font-family:"Noto Serif TC","Songti TC",serif;overflow:hidden}
+  .view{position:fixed;inset:0;display:none;flex-direction:column;opacity:0;transform:translateX(24px);
+    transition:opacity .35s ease,transform .35s cubic-bezier(.2,.7,.2,1)}
+  .view.on{display:flex;opacity:1;transform:none}
+  .sans{font-family:ui-sans-serif,system-ui}
+  /* ===== 開場 ===== */
+  #v-home .hero{position:absolute;inset:0;overflow:hidden}
+  #v-home .hero img{width:100%;height:100%;object-fit:cover;object-position:62% 38%;
+    filter:sepia(.24) contrast(1.06) brightness(.94)}
+  #v-home .hero::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(18,14,10,0),rgba(18,14,10,.35) 46%,rgba(18,14,10,.92) 78%,#120e0a)}
+  #v-home .stage{position:absolute;inset:auto 0 0 0;padding:0 22px calc(20px + env(safe-area-inset-bottom));z-index:2}
+  .kicker{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.2em;
+    color:var(--brass);margin-bottom:14px;white-space:nowrap}
+  .kicker::before{content:"";width:34px;height:1px;background:var(--brass)}
+  #v-home h1{font-size:34px;line-height:1.42;letter-spacing:.045em;text-shadow:0 2px 14px rgba(0,0,0,.55);margin-bottom:10px}
+  #v-home .sub{font-size:14px;letter-spacing:.12em;color:rgba(242,233,216,.82);margin-bottom:22px}
+  #v-home .sub b{color:var(--brass);font-weight:400}
+  .tag{position:relative;display:flex;align-items:center;gap:14px;width:100%;background:var(--paper);
+    color:var(--ink);border:0;border-radius:6px;padding:16px 18px 16px 40px;font-family:inherit;
+    text-align:left;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .tag::before{content:"";position:absolute;left:16px;top:50%;transform:translateY(-50%);width:9px;height:9px;
+    border-radius:50%;background:var(--ink);box-shadow:inset 0 0 0 2.5px var(--paper),0 0 0 1.5px var(--ink)}
+  .tag .t1{font-size:17px;font-weight:700;letter-spacing:.06em}
+  .tag .t2{font-size:11px;letter-spacing:.1em;color:#6b5a3f;margin-top:3px}
+  .tag .go{margin-left:auto;font-size:20px;color:var(--brass)}
+  .plate{position:absolute;top:max(18px,env(safe-area-inset-top));right:16px;z-index:3;font-size:15px;
+    line-height:1.9;text-align:center;border:1px solid rgba(201,161,90,.55);padding:10px 8px;
+    background:rgba(18,14,10,.38);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+  .plate span{display:block}
+  .credit{margin-top:14px;font-size:8.5px;line-height:1.5;color:rgba(242,233,216,.34)}
+  /* ===== 選單(錨-P3:操作優先,資訊分層) ===== */
+  .bar{display:flex;align-items:center;gap:12px;padding:calc(max(14px,env(safe-area-inset-top))) 18px 12px;
+    border-bottom:1px solid rgba(201,161,90,.28);background:var(--ink)}
+  .bar .back{font-size:20px;color:var(--brass);background:none;border:0;cursor:pointer;padding:4px 8px 4px 0}
+  .bar .bt{font-size:16px;letter-spacing:.14em}
+  .bar .prog{margin-left:auto;font-size:11px;color:var(--dim);letter-spacing:.08em}
+  .bar .prog b{color:var(--brass);font-weight:400}
+  .scroll{flex:1;overflow-y:auto;padding:14px 18px calc(110px + env(safe-area-inset-bottom))}
+  .sched{display:flex;align-items:baseline;gap:10px;background:var(--ink2);border:1px solid rgba(201,161,90,.35);
+    border-radius:6px;padding:12px 14px;margin-bottom:18px;font-size:12.5px;color:var(--dim)}
+  .sched b{color:var(--paper);font-size:15px;letter-spacing:.08em}
+  .sched .live{width:7px;height:7px;border-radius:50%;background:var(--brass);align-self:center;
+    animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .zone{margin:20px 0 8px;display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.26em;color:var(--brass)}
+  .zone::after{content:"";flex:1;height:1px;background:rgba(201,161,90,.3)}
+  .st{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid rgba(242,233,216,.08);
+    padding:13px 2px;color:var(--paper);font-family:inherit;text-align:left;cursor:pointer}
+  .st .no{flex:0 0 34px;height:34px;border:1px solid rgba(201,161,90,.5);border-radius:4px;display:flex;
+    align-items:center;justify-content:center;font-size:12px;color:var(--brass);position:relative}
+  .st .no::after{content:"";position:absolute;top:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;
+    border-radius:50%;background:rgba(201,161,90,.5)}
+  .st .nm{font-size:15px;letter-spacing:.04em;line-height:1.4}
+  .st .fl{margin-left:auto;display:flex;gap:6px}
+  .chip{font-size:9px;letter-spacing:.1em;border:1px solid rgba(201,161,90,.4);color:var(--brass);
+    padding:2px 6px;border-radius:2px}
+  .st.done .nm{color:var(--dim)}.st.done .no{background:rgba(201,161,90,.16)}
+  /* ===== 站點內頁 ===== */
+  #v-st .hero{position:relative;height:34vh;min-height:220px;overflow:hidden;flex:none}
+  #v-st .hero img{width:100%;height:100%;object-fit:cover;filter:sepia(.24) contrast(1.06) brightness(.9)}
+  #v-st .hero::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(18,14,10,.25),rgba(18,14,10,0) 40%,#120e0a 96%)}
+  #v-st .zl{position:absolute;left:18px;bottom:14px;z-index:2;font-size:10px;letter-spacing:.3em;color:var(--brass)}
+  .body{flex:1;overflow-y:auto;padding:6px 20px calc(110px + env(safe-area-inset-bottom))}
+  #v-st h2{font-size:26px;letter-spacing:.06em;margin:8px 0 2px}
+  #v-st .en{font-size:11px;letter-spacing:.18em;color:var(--dim);margin-bottom:14px}
+  #v-st .deep{font-size:14.5px;line-height:2;color:rgba(242,233,216,.88);text-align:justify}
+  .ar{display:flex;align-items:center;gap:12px;margin-top:18px;border:1px dashed rgba(201,161,90,.5);
+    border-radius:6px;padding:13px 14px;color:var(--brass);font-size:13px;letter-spacing:.08em}
+  .ar small{display:block;color:var(--dim);letter-spacing:.04em;margin-top:2px}
+  .next{margin-top:22px}
+  .next .lbl{font-size:10px;letter-spacing:.26em;color:var(--brass);margin-bottom:8px}
+  .next .st{border:1px solid rgba(242,233,216,.14);border-radius:6px;padding:12px 12px;margin-bottom:8px}
+  /* 音訊列(固定底部,掛牌語彙) */
+  .audio{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:5;
+    display:none;align-items:center;gap:12px;background:var(--paper);color:var(--ink);border-radius:6px;
+    padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.55)}
+  .audio.on{display:flex}
+  .audio .pp{width:38px;height:38px;border-radius:50%;border:2px solid var(--ink);background:none;
+    font-size:15px;cursor:pointer;flex:none}
+  .audio .ti{font-size:12.5px;font-weight:700;letter-spacing:.04em;line-height:1.3}
+  .audio .tc{font-size:10.5px;color:#6b5a3f}
+  .audio .trk{flex:1;height:3px;background:rgba(18,14,10,.18);border-radius:2px;position:relative}
+  .audio .trk i{position:absolute;left:0;top:0;bottom:0;width:34%;background:var(--brass);border-radius:2px}
+  @media (prefers-reduced-motion:reduce){.view{transition:none}.sched .live{animation:none}}
+</style>
+</head>
+<body>
+
+<section class="view on" id="v-home">
+  <div class="hero"><img src="assets/erecting_shop_crop.jpg" alt="組立工場史料照"></div>
+  <aside class="plate"><span>組</span><span>立</span><span>工</span><span>場</span></aside>
+  <main class="stage">
+    <div class="kicker sans">老職工帶路・GUIDED BY THE MASTERS</div>
+    <h1>跟著老職工，<br>走進組立工場的輝煌</h1>
+    <p class="sub">戴上耳機，空出雙手——<b>15 個站點</b>，一段修復中的歷史</p>
+    <button class="tag" onclick="go('menu')">
+      <span><span class="t1">聽老職工帶路</span><br><span class="t2 sans">語音導覽・06:30・自動跟站</span></span>
+      <span class="go">→</span>
+    </button>
+    <p class="next sans" style="margin-top:16px;font-size:12.5px;color:var(--dim)">下一場真人導覽 <b style="color:var(--paper);font-size:14px">14:00</b><span style="display:block;color:rgba(242,233,216,.62)">專家現場導覽：蒸汽機車秘辛</span></p>
+    <p class="credit sans">史料照：General View of the Erecting Shop, Baldwin Locomotive Works, Philadelphia（約 1900s）・Keystone View Co.・紐約公共圖書館立體照收藏・公共領域（PD）</p>
+  </main>
+</section>
+
+<section class="view" id="v-menu">
+  <div class="bar">
+    <button class="back sans" onclick="go('home')" aria-label="返回">←</button>
+    <span class="bt">導覽站點</span>
+    <span class="prog sans">已走 <b id="prog-n">1</b>/15</span>
+  </div>
+  <div class="scroll">
+    <div class="sched sans"><span class="live"></span><span>下一場</span><b>14:00</b><span>專家現場導覽：蒸汽機車秘辛</span></div>
+    <div id="list"></div>
+  </div>
+</section>
+
+<section class="view" id="v-st">
+  <div class="hero"><img src="assets/13號動輪機組.jpg" alt="組立工場現地:13 號動輪機組"><span class="zl sans" id="st-zone"></span></div>
+  <div class="body">
+    <h2 id="st-name"></h2>
+    <div class="en sans" id="st-en"></div>
+    <p class="deep" id="st-deep"></p>
+    <div class="ar sans" id="st-ar">◈ <span>AR 還原：天車與地坑運轉<small>將鏡頭對準展場地標啟動（實機功能，原型佔位）</small></span></div>
+    <div class="next">
+      <div class="lbl sans">老職工說,接著去——</div>
+      <div id="st-next"></div>
+    </div>
+  </div>
+</section>
+
+<div class="audio sans" id="audio">
+  <button class="pp" id="pp" onclick="toggleAudio()">❚❚</button>
+  <span><span class="ti" id="au-ti">老職工帶路・組立進行中</span><br><span class="tc"><span id="au-t">02:14</span> / 06:30</span></span>
+  <span class="trk"><i></i></span>
+</div>
+
+<script>
+// 真實站點資料(取自 app data/exhibits.ts;deep 僅 G 站示範,其餘站列名稱與旗標)
+const Z = {G0:'現場・組立進行',1:'一區・蒸汽',2:'二區・電力',3:'三區・機器工場',4:'四區・建築修復',5:'五區・職工生活'};
+const S = [
+ {id:'G',z:'G0',n:'組立進行中',en:'ERECTING IN PROGRESS',ar:1,it:1,deep:'組立工場是台北機廠最重要的核心廠房，負責機車車輛的組裝與大修工程。廠內天車軌道、地坑及各式工作機具，完整保存了二十世紀初期工業設施的原始風貌。',next:['0','1A']},
+ {id:'0',z:'G0',n:'工區運作',ar:0,it:0},
+ {id:'1A',z:'1',n:'蒸汽機車是什麼？',ar:1,it:1},
+ {id:'1B',z:'1',n:'蒸汽機車功能及構造分類',ar:1,it:1},
+ {id:'1C',z:'1',n:'維修流程',ar:0,it:1},
+ {id:'2A',z:'2',n:'台灣鐵路的電氣化與電力車輛',ar:0,it:0},
+ {id:'2B',z:'2',n:'商務車（ET118）',ar:1,it:0},
+ {id:'2C',z:'2',n:'電力機車的原理（現地展）',ar:0,it:0},
+ {id:'2D',z:'2',n:'電氣化黎明期：1970–2000 年的電力車輛',ar:0,it:0},
+ {id:'3',z:'3',n:'機器工場',ar:1,it:0},
+ {id:'4A',z:'4',n:'組立工場建築特色',ar:0,it:0},
+ {id:'4B',z:'4',n:'組立工場鋼構修復概要',ar:0,it:0},
+ {id:'4C',z:'4',n:'鋼構以外材料及部位修復原則',ar:0,it:0},
+ {id:'5',z:'5',n:'職工生活',ar:0,it:1},
+];
+const visited = new Set(['G']);
+function go(v, id){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  document.getElementById('v-'+(v==='st'?'st':v)).classList.add('on');
+  document.getElementById('audio').classList.toggle('on', v!=='home');
+  if(v==='menu') renderList();
+  if(v==='st') renderSt(id);
+  document.body.dataset.view = v;
+}
+function renderList(){
+  let z='', h='';
+  for(const s of S){
+    if(s.z!==z){z=s.z;h+=`<div class="zone sans">${Z[z]}</div>`;}
+    h+=`<button class="st ${visited.has(s.id)?'done':''}" onclick="go('st','${s.id}')">
+      <span class="no sans">${s.id}</span><span class="nm">${s.n}</span>
+      <span class="fl sans">${s.ar?'<span class="chip">AR</span>':''}${s.it?'<span class="chip">互動</span>':''}</span></button>`;
+  }
+  document.getElementById('list').innerHTML=h;
+  document.getElementById('prog-n').textContent=visited.size;
+}
+function renderSt(id){
+  const s=S.find(x=>x.id===id)||S[0]; visited.add(s.id);
+  document.getElementById('st-zone').textContent=Z[s.z];
+  document.getElementById('st-name').textContent=s.id+'　'+s.n;
+  document.getElementById('st-en').textContent=s.en||'';
+  document.getElementById('st-deep').textContent=s.deep||'（本站深度內容於實機版接入 app 資料；原型以 G 站示範。）';
+  document.getElementById('st-ar').style.display=s.ar?'flex':'none';
+  document.getElementById('st-next').innerHTML=(s.next||[]).map(nid=>{
+    const n=S.find(x=>x.id===nid); return n?`<button class="st" onclick="go('st','${n.id}')">
+      <span class="no sans">${n.id}</span><span class="nm">${n.n}</span><span class="fl sans">→</span></button>`:'';
+  }).join('')||'<span class="sans" style="font-size:12px;color:var(--dim)">已是路線終點,回選單看看還沒走的站。</span>';
+}
+let playing=true;
+function toggleAudio(){playing=!playing;document.getElementById('pp').textContent=playing?'❚❚':'▶';}
+window.__ready=true;
+</script>
+</body>
+</html>
