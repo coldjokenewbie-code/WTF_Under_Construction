@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-07 (macOS open 命令：shell shim 攔截與絕對路徑繞過)
+
+* **macOS `open` 被終端機環境 shim 攔截時，用 `/usr/bin/open` 絕對路徑繞過**：cmux 等終端 multiplexer 會把 `open` 掛上 shim，導致 `open "<檔案>"` 開進終端分割 pane 而非系統預設瀏覽器。要確保在使用者預設瀏覽器開啟，macOS 一律改用 `/usr/bin/open "<路徑>"`（Windows 用 `start ""`）。已更新 `wtf-config/GLOBAL.md「交付即預覽」段`（commit `3486b51`）。
+
 ## 2026-07-05 (SessionStart hook：注入式設計 + hook 生效驗證)
 
 * **注入式 hook 優於提醒式**：SessionStart 用 `echo '請讀三檔'` 屬提醒式——model 看到後仍需「自覺去讀」，本質靠自律。改為注入式——`head -n 150 _context/INDEX.md; head -n 150 _context/lessons-learned.md` 直接把內容送進 context，model 無需執行任何指令，也無法繞過。正本：`wtf-config/hooks/wtf-session-context.sh`（每檔 150 行截斷控 token）。原則延伸：任何「要 model 讀某檔才生效」的設定，都可從提醒升格為直接注入。
