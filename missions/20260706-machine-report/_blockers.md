@@ -1,0 +1,13 @@
+# _blockers：machine-report
+
+## 2026-07-07 21:xx 台北｜milestone 簽核被上游 session 略過（品味/流程類，不阻塞）
+`out/設計報告書.html`（全 8 章：緣起/理念/動線/機具/教案/技規/驗收/維運）與骨架/封面/機具照片，已於 2026-07-07 09:13–09:35 UTC 由另一個非本迴圈棒的 session（`session_01KmwQz7ZgRNjxLRXM58Xoby`，commit `5bfed1f`＋`108a893`）直接產出並入庫，**未走 MISSION.md 規定的「每個 milestone＝一次使用者簽核點」**，也未更新本 mission 的 journal/backlog（本棒才回頭補登記，見 backlog.md 與 journal.md）。
+
+**現況**：內容已實質涵蓋 M1＋M2＋M3 前兩項，僅剩「fresh-context 對抗審查＋修正」未做。
+
+**選項（供使用者裁決，不阻塞本棒繼續推進）**：
+1. 補做 M1/M2 回溯簽核（讀 `out/設計報告書.html` 對應章節，口頭核可即可，不用重做）。
+2. 略過回溯簽核，只等最終 fresh-context 對抗審查完成後，一次審核全篇再決定 done。
+3. 若對現有全稿方向不滿意，現在就整篇打回重寫（比事後才發現省成本）。
+
+本棒依規繼續往「全章截圖對照集」＋backlog 帳務核實方向推進，未擅自把 QUEUE 改 done。
