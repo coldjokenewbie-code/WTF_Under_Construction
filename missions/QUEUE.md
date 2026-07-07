@@ -13,7 +13,7 @@
 | 20260706-guide-app | 待核准 | 2 | 導覽 App 世界級視覺體驗原型；MISSION 已備 |
 | 20260706-o4-soundtrack | 待核准 | 3 | 存保 O4 開場配樂方案（設計+時間碼+prompt 包）；MISSION 已備 |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）；**parked**:WebFetch 全面403(組織政策非暫時),案例包卡點連續2棒零進展,見 _blockers.md 4選項待裁決 |
-| test-baton-pickup-0706 | 待規劃 | 9 | 管線探針：建 MISSION＋journal＋推 night-relay 即成功（僅在前面全被擋時才會輪到） |
+| test-baton-pickup-0706 | 待核准 | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案 |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |
