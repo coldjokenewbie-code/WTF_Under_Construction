@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>組立工場互動機具展示・設計報告書</title>
+<style>
+  /* 紙的世界:紙白/墨黑/銅標——三值紀律的文件版 */
+  :root{--paper:#f7f2e7;--ink:#1b1611;--brass:#9a7834;--line:rgba(27,22,17,.18);--dim:#6d6355}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#e9e2d2;color:var(--ink);font-family:"Noto Serif TC","Songti TC",serif;line-height:1.9}
+  .page{max-width:860px;margin:0 auto;background:var(--paper);box-shadow:0 2px 24px rgba(0,0,0,.12)}
+  .sans{font-family:ui-sans-serif,system-ui}
+  /* 封面 */
+  .cover{position:relative;height:96vh;min-height:640px;overflow:hidden;background:#120e0a;color:#f2e9d8}
+  .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:sepia(.26) contrast(1.05) brightness(.82)}
+  .cover::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(18,14,10,.2),rgba(18,14,10,.1) 40%,rgba(18,14,10,.93) 82%)}
+  .cover .in{position:absolute;left:56px;right:56px;bottom:52px;z-index:2}
+  .cover .k{font-size:11px;letter-spacing:.4em;color:#c9a15a;margin-bottom:16px}
+  .cover h1{font-size:40px;letter-spacing:.08em;line-height:1.5;font-weight:700}
+  .cover .sub{margin-top:10px;font-size:15px;letter-spacing:.2em;color:rgba(242,233,216,.75)}
+  .cover .meta{margin-top:34px;padding-top:14px;border-top:1px solid rgba(201,161,90,.4);
+    display:flex;gap:34px;font-size:12px;letter-spacing:.12em;color:rgba(242,233,216,.65)}
+  .cover .credit{position:absolute;right:56px;bottom:14px;font-size:8.5px;color:rgba(242,233,216,.35);letter-spacing:.04em}
+  /* 章 */
+  .chap{padding:64px 56px}
+  .chap+.chap{border-top:1px solid var(--line)}
+  .cn{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .cn .no{border:1.5px solid var(--brass);color:var(--brass);font-size:13px;letter-spacing:.1em;
+    padding:5px 10px;border-radius:3px}
+  .cn h2{font-size:26px;letter-spacing:.12em}
+  .cn .en{margin-left:auto;font-size:10px;letter-spacing:.3em;color:var(--dim)}
+  .lead{font-size:15px;color:var(--dim);margin:10px 0 26px;letter-spacing:.04em}
+  h3{font-size:18px;letter-spacing:.1em;margin:34px 0 12px;padding-left:12px;border-left:3px solid var(--brass)}
+  p{font-size:15px;text-align:justify;margin-bottom:14px}
+  /* 主張→依據 雙欄語法 */
+  .claim{display:grid;grid-template-columns:1fr 168px;gap:18px;margin:14px 0;padding:14px 0;border-bottom:1px dashed var(--line)}
+  .claim .src{font-size:10.5px;line-height:1.7;color:var(--dim);border-left:1px solid var(--line);padding-left:12px}
+  .claim .src b{color:var(--brass);font-weight:400;letter-spacing:.1em;display:block;margin-bottom:2px}
+  .gap{background:rgba(154,120,52,.07);border:1px dashed var(--brass);border-radius:4px;
+    padding:10px 14px;font-size:12.5px;color:#7a5c1e;margin:12px 0}
+  .gap b{letter-spacing:.1em}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
+  th{text-align:left;font-weight:400;letter-spacing:.14em;font-size:11px;color:var(--brass);
+    border-bottom:1.5px solid var(--brass);padding:8px 10px}
+  td{border-bottom:1px solid var(--line);padding:9px 10px;vertical-align:top}
+  .toc{padding:56px}
+  .toc .t{font-size:12px;letter-spacing:.34em;color:var(--brass);margin-bottom:22px}
+  .toc a{display:flex;gap:14px;align-items:baseline;color:var(--ink);text-decoration:none;
+    padding:11px 2px;border-bottom:1px solid var(--line);font-size:15.5px;letter-spacing:.06em}
+  .toc a i{font-style:normal;color:var(--brass);font-size:12px;width:34px}
+  .toc a s{margin-left:auto;text-decoration:none;font-size:11px;color:var(--dim)}
+  @media print{
+    body{background:none}.page{box-shadow:none;max-width:none}
+    .chap{page-break-before:always;padding:24mm 18mm}
+    .cover{height:auto;min-height:260mm;page-break-after:always}
+    a{color:inherit}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <img src="assets/cover.jpg" alt="機械工場史料照">
+  <div class="in">
+    <div class="k sans">互動展示設計報告書・DESIGN REPORT</div>
+    <h1>組立工場互動機具展示<br>設計報告書</h1>
+    <div class="sub">搪床・鉋床・鑽床——讓百年工法在觀眾手中重新運轉</div>
+    <div class="meta sans">
+      <span>委託單位　［業主名稱］</span><span>提送日期　2026 年 7 月</span><span>版本　V1（雲端小隊協作稿）</span>
+    </div>
+  </div>
+  <div class="credit sans">封面史料照：General View of the Erecting Shop, Baldwin Locomotive Works, Philadelphia（約 1900s）・Keystone View Co.・紐約公共圖書館立體照收藏・公共領域（PD）</div>
+</section>
+
+<nav class="toc">
+  <div class="t sans">目　錄　CONTENTS</div>
+  <a href="#c1"><i class="sans">壹</i>計畫緣起<s class="sans">BACKGROUND</s></a>
+  <a href="#c2"><i class="sans">貳</i>展示理念<s class="sans">CONCEPT</s></a>
+  <a href="#c3"><i class="sans">參</i>觀眾體驗動線<s class="sans">VISITOR JOURNEY</s></a>
+  <a href="#c4"><i class="sans">肆</i>機具設計說明——搪床・鉋床・鑽床<s class="sans">EXHIBIT DESIGN</s></a>
+  <a href="#c5"><i class="sans">伍</i>教育目標與教案整合<s class="sans">EDUCATION</s></a>
+  <a href="#c6"><i class="sans">陸</i>技術規格<s class="sans">SPECIFICATIONS</s></a>
+  <a href="#c7"><i class="sans">柒</i>驗收計畫<s class="sans">ACCEPTANCE</s></a>
+  <a href="#c8"><i class="sans">捌</i>維運計畫<s class="sans">OPERATIONS</s></a>
+</nav>
+
+<section class="chap" id="c1"><div class="cn"><span class="no sans">壹</span><h2>計畫緣起</h2><span class="en sans">BACKGROUND</span></div>
+  <p class="lead">本章敘明展示緣起與基地脈絡。</p>
+  <div class="claim">
+    <div>本案為臺北機廠組立工場現地展示區「通用機具互動機台腳本」計畫之一環，範疇涵蓋車床、鑽床、搪床、刨床、銑床五項機具，統一規格為十頁、五段式體驗（單機約2分10秒），介面採暗色工業HUD風格，目標客群為國小至國中生。本報告書聚焦其中搪床、刨床、鑽床三機具之互動設計說明。</div>
+    <span class="src"><b>依據</b>_context/INDEX.md 第5行</span>
+  </div>
+  <p>本章依現有素材如實呈現緣起背景；惟受限於現有文件的性質，關於「為何選定此五種機具」以及「本展項於組立工場整體敘事中的定位」，目前查無任何論述性文件可供徵引。以下缺口說明留供業主與撰稿團隊後續補強。</p>
+  <div class="gap"><b>缺口</b>｜緣起與理念的論述性文件完全空白——現有素材均為PRD、簡報架構、逐頁腳本文字等產品規格層級文件，找不到任何說明「為何選定此五種機具」「本展項於組立工場整體敘事中的定位」的論述文件。撰寫本章與下一章理念部分，需另行訪談業主補料，本報告書不做推測性補述。</div>
+</section>
+
+<section class="chap" id="c2"><div class="cn"><span class="no sans">貳</span><h2>展示理念</h2><span class="en sans">CONCEPT</span></div>
+  <p class="lead">工業遺產不是被觀看的標本,是可以被操作的記憶。</p>
+  <div class="claim">
+    <div>科普對比教學法為核心設計手段：每一機具皆設計一句「金句」，透過與相鄰工序的對比，讓訪客快速掌握加工原理——搪床「鑽床打洞，搪床修準！」、刨床「工件動，刀具削！」、鑽床「鑽頭旋轉進刀打洞」。</div>
+    <span class="src"><b>依據</b>reference/通用機具簡報架構.md 第66-76行；reference/搪床原理_構造動作解析_2026-05-18.md 第26行；reference/龍門鉋床原理與互動腳本提案.html 第47行</span>
+  </div>
+  <div class="claim">
+    <div>以遊戲化闖關取代單向解說：三機具腳本皆採遊戲教學風格設計流程，鼓勵國小至國中生訪客親手操作理解機具功能，並以完整體驗五項通用機具、取得「臺灣鐵道組立工場練習所」技工學員結業證書（QR Code供訪客掃描紀錄）作為誘因。</div>
+    <span class="src"><b>依據</b>workingfiles/boring_analysis_output.txt Slide 4；workingfiles/ppt_analysis_output.txt Slide 4；workingfiles/drilling_structure.txt 第78-79行</span>
+  </div>
+  <div class="claim">
+    <div>現地文物與互動機台並置的展示邏輯：每一機具互動腳本的最終段落，皆刻意銜接回現地實機——以3D鳥瞰地圖點亮現地機具位置、輪播實體照片與台工編號歷史，引導訪客從虛擬操作走向真實文物。</div>
+    <span class="src"><b>依據</b>reference/通用機具簡報架構.md 第21、37-39行</span>
+  </div>
+  <p>上述三項設計手段的共同精神，是把工業遺產從「被觀看的標本」轉為「可被操作的記憶」：訪客先透過金句建立比較性理解，再以親手操作驗證原理，最後回到現地機具完成認知閉環。</p>
+</section>
+
+<section class="chap" id="c3"><div class="cn"><span class="no sans">參</span><h2>觀眾體驗動線</h2><span class="en sans">VISITOR JOURNEY</span></div>
+  <h3>入場</h3>
+  <p>訪客抵達操作機台前，畫面處於「段落0 開場／待機」狀態：自動循環播放示範動畫，並以圖示（手輪／操作桿）閃爍提示訪客開始互動——搪床提示「轉動手輪啟動體驗」、刨床提示「轉動上方手柄啟動體驗」、鑽床提示「轉動進刀操作桿開始體驗」（workingfiles/boring_analysis_output.txt Slide 5；workingfiles/ppt_analysis_output.txt Slide 5；workingfiles/drilling_structure.txt 第94-116行）。</p>
+  <div class="claim">
+    <div>同一畫面規劃「現地位置圖」：左側65%為組立工場3D鳥瞰地圖（暗色模式、藍圖網格為底），以橘點標示訪客當前所在的操作機台位置，以藍綠點標示同機種現地文物的分布；右側35%為現地機具速覽卡片，輪播現地保留機台的型號、照片與一句話歷史，讓訪客在操作前先建立空間認知。</div>
+    <span class="src"><b>依據</b>reference/通用機具簡報架構.md 第34-39行</span>
+  </div>
+  <h3>操作</h3>
+  <p>入場提示後，訪客依序經歷段落1（教學／基本設定，約15至25秒）與段落2、3（主體挑戰／精準加工，各約20至35秒），操作實體控制元件（手輪、旋鈕、操作桿依機具而異）完成指定任務，系統依準確度給予1至5星評分與即時視覺、音效回饋。各機具操作細節詳見肆章各節之互動設計說明。</p>
+  <h3>離場銜接</h3>
+  <p>挑戰完成後進入段落末段（完成頁）：畫面下方以五個機具圓點呈現「車削、銑削、鑽削、搪削、鉋削」通用機具體驗進度，剛完成的機具點亮；中央顯示「臺灣鐵道組立工場練習所」結業證書樣式，QR Code供訪客掃描紀錄本次體驗（可選）（workingfiles/boring_analysis_output.txt Slide 8；workingfiles/ppt_analysis_output.txt Slide 9；workingfiles/drilling_structure.txt 第169-178行）。緊接著的段落4「看看現地機具」，以3D地圖依序點亮該機種所有現地文物位置，字幕引導「走進工場，親眼看看這些機具吧！」，體驗三秒後自動淡出、重置回開場待機，形成一個可持續循環的閉環（reference/通用機具簡報架構.md 第21行）。</p>
+  <div class="gap"><b>缺口</b>｜現有素材僅涵蓋單一機台「畫面內」的動線描述（現地位置圖之頁面規格），並無整體展場配置圖或參觀動線規劃；車床、銑床、搪床、刨床、鑽床彼此的空間關係、實體人流動線與節點分佈，均無圖說或文件可考，需另向業主取得展場配置圖或現場勘查資料。</div>
+  <div class="gap"><b>缺口</b>｜關鍵源頭文件缺失——多份內部文件引用《P541組立_通用機具設計概念.pdf》為機台造型與位置標注之原始設計來源（PDF第21至24頁），但本次確認repo內查無information/目錄，此檔案實際不存在，是動線與造型設計的關鍵缺失源頭（已於repo根目錄執行目錄檢查確認不存在）。</div>
+</section>
+
+<section class="chap" id="c4"><div class="cn"><span class="no sans">肆</span><h2>機具設計說明</h2><span class="en sans">EXHIBIT DESIGN</span></div>
+  <p class="lead">三具機床,三種身體經驗:搪床的孔、鉋床的面、鑽床的點。</p>
+
+  <h3>一、搪床（Boring）</h3>
+  <p>搪削是針對已鑽出或鑄造完成的孔洞，以單刃搪刀進行擴孔與精修的加工工序。與鑽削相比，兩者分工明確：鑽床負責「打洞」，搪床負責「修準」——把孔徑、真圓度、同心度校正到精密尺寸，孔壁也隨之更為光滑，能修正鑽孔過程中產生的偏心、橢圓與歪斜。搪削必定接續在鑽孔或鑄孔之後進行，速度較慢，但精度遠高於鑽削，是大型箱體零件（如汽缸類內孔）孔加工的主要設備（reference/搪床原理_構造動作解析_2026-05-18.md 第8-26行）。</p>
+  <p>臥式搪床的主要構造包括床台、立柱、主軸頭、主軸與搪桿、工作台與床鞍，搪桿以合金鋼製成並經氮化處理，設計原則是「直徑盡量大、長度盡量短」以減少彎曲與振動（同檔第28-35行）。搪削由兩種運動配合完成：搪桿隨主軸旋轉的切削運動，以及沿孔軸方向的進給運動；依旋轉主體不同又分為刀具旋轉式（臥式）與工件旋轉式（立式）兩型（同檔第37-49行）。</p>
+  <div class="claim">
+    <div>台北機廠現存搪床共三台：主要對標的台工11號臥式搪床（大隈鐵工所，民國24年3月製，尺寸440×210×280cm，7.5馬力，主軸轉速每分鐘2.5至2200轉），與同型的台工364號橫鏇孔機（大隈鐵工所，民國45年），以及立式（工件旋轉式）的台工8號豎鏇孔機（東京瓦斯電氣株式會社，民國11年，專職鏜削蒸汽機車輪箍內孔，是機器工場最早的古董機具之一）。</div>
+    <span class="src"><b>依據</b>reference/搪床原理與腳本提案.html 第1299-1449行</span>
+  </div>
+  <p><b>互動設計說明——操作流程：</b>依定稿簡報（2026年5月27日通過品保驗收），段落0開場／待機（15秒，自動循環播放，提示轉動大手輪啟動）→段落1「基本設定：調整搪頭」（25秒，轉動微調小圓鈕將孔徑數值設定至100.00mm）→段落2「精準擴孔」（35秒，轉動大手輪使搪桿沿Z軸向進給切削，孔壁由粗糙變光滑）→段落3「完成！通用機具體驗進度」（15秒，五機具進度圓點亮燈、結業證書與QR Code）→段落4「看看現地搪床」（15秒，3D地圖依序點亮台工11、364、8號）。整體開場後體驗時間約1分45秒（workingfiles/boring_analysis_output.txt Slide 4、6、7、8）。</p>
+  <p><b>感應與回饋：</b>操作元件為雙旋鈕——實體大手輪（控制搪桿Z軸向進給／退刀，即時顯示孔徑深度數值）與微調小圓鈕（調整搪刀突出量以設定目標孔徑），機台左側另設六角扳手壁掛架供調整微調刻度使用（_context/PRD_2026-05-18_搪床互動機具腳本.md 第13-14行；workingfiles/boring_analysis_output.txt Slide 3）。回饋機制包含孔徑數值即時更新、目標對準時綠色確認符號、依「孔徑準確率＋真圓度誤差」評1至5星，並搭配主軸啟動聲、搪削切削聲、切屑飛濺聲、完成提示音等音效（workingfiles/boring_analysis_output.txt Slide 4、7）。</p>
+  <p><b>尺寸與配色：</b>操作機台寬80cm×高145cm，螢幕整合於機台上半部並已修正為橫式16:9（原設計為直式，2026年5月27日重構時修正），下方為單一橢圓殼大手輪，左下另設微調小圓鈕；配色沿用全系列暗色工業HUD風格：背景#0a0a0a、面板#141414、強調橘#FF5A00、成功綠#00FF88（_context/PRD_2026-05-18_搪床互動機具腳本.md 第16-19行；walkthrough.md 第37行）。</p>
+
+  <h3>二、刨床（Planer / Shaper）</h3>
+  <p>刨床的加工原理，是以刀具與工件之間的往復直線運動，把金屬表面一刀一刀削平：刀具前進時切削，退回時不切削，準備下一刀（reference/刨床原理與互動腳本提案.html 第44-58行）。台北機廠現存的刨床依構型可分兩種脈絡：牛頭鉋床（台工33、34號）是中小型工件固定於工作台，刀具跟著滑枕來回移動切削；龍門鉋床（台工54號）則相反，是大型工件夾持在大型工作台上作直線往復運動，刀具固定於上方僅作微量進給——兩者可理解為「小型版」與「大型版」的刨平機，共同原理都是靠直線來回運動削平表面（_context/PRD_2026-05-27_刨床互動機具腳本.md 第13-16行；reference/刨床原理與互動腳本提案.html 第219-221行）。</p>
+  <div class="claim">
+    <div>本次互動機台主對標台工54號單面龍門鉋床（唐津鐵工所，尺寸641×333cm，20馬力，每分鐘1160轉，可加工範圍高×長×寬為1075×3658×1050mm），該機台用於加工鐵軌、火車門軌道等大型工件，蒸汽機車時代並用於加工機車連桿平面；並列對照的台工33號（大隈鐵工所，7.5馬力，每分鐘574轉，民國23年11月製）與台工34號（大隈鐵工所，尺寸215×125×157cm，5馬力，每分鐘300至1200轉，民國34年引入，工作台尺寸330×508mm）為建廠第一批工作母機。</div>
+    <span class="src"><b>依據</b>reference/龍門鉋床原理與互動腳本提案.html 第64-68行；reference/刨床原理與互動腳本提案.html 第179-198行</span>
+  </div>
+  <p><b>互動設計說明——操作流程：</b>依定稿簡報（經一次退件熱修後於2026年5月27日通過品保驗收），段落0開場／待機（15秒，鏡頭推近台工54，提示轉動上方手柄啟動）→段落1「原理教學：看懂刨床」（25秒，帶出科普核心「工件動，刀具削！」）→段落2「控制練習」（35秒，旋轉上方手柄設定切削深度，橘色安全區提示恰當的吃刀深度）→段落3「長平面挑戰」（35秒，把鐵軌／火車門軌道形狀的粗糙長工件刨平，依平整度與操作穩定度評星）→段落4「完成：看看現地刨床」（15秒，五機具進度亮燈、結業證書，並點亮台工33、34、54號位置）。整體體驗時間約2分05秒（workingfiles/ppt_analysis_output.txt Slide 4-9）。</p>
+  <p><b>感應與回饋：</b>依業主特別指示，刨床互動僅使用「上方手柄」（下進給螺桿手柄）單一操作元件設定向下切削深度，機台刻意不設下方轉輪或大手輪，與搪床、鑽床的手輪邏輯明顯不同（walkthrough.md 第12-14、26行；_context/AGENT_SPEC_刨床簡報重構.md 第29行）。回饋機制包含橘色安全區判定切削深度是否恰當、震動值超標時的警示提示、依「平整度＋操作穩定度」評1至5星，音效含滑台往復聲、輕切削聲、過深震動警示聲、完成提示音（workingfiles/ppt_analysis_output.txt Slide 6-8）。</p>
+  <p><b>尺寸與配色：</b>操作機台寬80cm×高145cm，螢幕為橫式16:9（配合龍門鉋床長型加工特色），操作機構僅螢幕上方單一手柄，配色沿用全系列暗色工業HUD風格（_context/PRD_2026-05-27_刨床互動機具腳本.md 第19-23行）。</p>
+  <div class="gap"><b>缺口</b>｜刨床定稿簡報第3頁另有「130cm」「30cm」局部標註，與整機80×145cm尺寸之間的對應關係未說明清楚，兩者關係待業主／原始設計稿釐清（workingfiles/ppt_analysis_output.txt Slide 3；_context/PRD_2026-05-27_刨床互動機具腳本.md 第19-23行）。</div>
+
+  <h3>三、鑽床（Drill）</h3>
+  <div class="gap"><b>缺口</b>｜本節屬工作草稿，尚未通過品保驗收——鑽床是三機具中唯一未走完「PRD → 定稿 → 品保驗收」全流程者，以下互動設計說明係依據草稿逐頁文字撰寫，該草稿從未通過verify_*.py品質校驗，也未進入output/目錄，AGENT_SIGNAL.log全文查無任何鑽床相關信號紀錄，本節內容應標示為「工作草稿」而非「定稿」（_context/INDEX.md 第11行；AGENT_SIGNAL.log 全文）。</div>
+  <p>鑽削的科普核心是「鑽頭旋轉進刀打洞」：鑽頭高速旋轉並沿軸向進刀，直接在實心材料上打出新孔，是金屬孔加工的第一道工序，速度快但精度較搪削低（reference/通用機具簡報架構.md 第70行；對照reference/搪床原理_構造動作解析_2026-05-18.md 第16-25行之鑽削／搪削對照表）。台北機廠現地鑽床鎖定兩台：台工20號直立鑽機、台工1510號（草稿內文稱「懸臂鑽床」，現場照片檔名則為「轉臂鑽床」，用詞尚未統一，詳見下方缺口）（workingfiles/drilling_structure.txt 第20-21行）。</p>
+  <figure>
+    <img src="assets/台工20號_直立鑽機.jpg" alt="台工20號直立鑽機現地照片" style="max-width:100%;display:block;border:1px solid var(--line)">
+    <figcaption class="sans" style="font-size:11px;color:var(--dim);margin-top:6px">現地機具：台工20號直立鑽機（出處：workingfiles/images/台工20號_直立鑽機.jpg）</figcaption>
+  </figure>
+  <figure style="margin-top:18px">
+    <img src="assets/台工1510號_轉臂鑽床.jpg" alt="台工1510號轉臂鑽床現地照片" style="max-width:100%;display:block;border:1px solid var(--line)">
+    <figcaption class="sans" style="font-size:11px;color:var(--dim);margin-top:6px">現地機具：台工1510號轉臂鑽床（出處：workingfiles/images/台工1510號_轉臂鑽床.jpg，草稿內文另稱「懸臂鑽床」，用詞尚未統一）</figcaption>
+  </figure>
+  <p><b>互動設計說明（草稿，未經業主核准）——操作流程：</b>依草稿十頁逐頁文字，段落0開場／待機（15秒，鏡頭拉近工作台，鑽頭加速旋轉，提示轉動進刀操作桿啟動）→段落1「教學：操作基本功能」（15秒，自由轉動進刀操作桿在工件上鑽10mm孔，再示範用刻度盤精準設定深度）→段落2「鑽出特定深度」（20秒，畫面顯示目標深度如15mm，訪客先轉動深度設定刻度盤對齊，再用進刀操作桿往下鑽，依設定值與目標值差距mm評1至5星）→段落3「完成！通用機具體驗進度」（20秒，五機具圓點亮燈、結業證書、QR Code）→段落4「完成：現地鑽床位置畫面」（工場全景圖點亮台工20、1510號位置）。開場後體驗時間約1分35秒，草稿標示目標客群為「國小二年級以上」，與搪床、刨床PRD標示的「國小至國中生」略有差異（workingfiles/drilling_structure.txt 第43-91、152-160行）。</p>
+  <p><b>感應與回饋：</b>草稿設計的操作元件並非「手輪」，而是「進刀操作桿」（逆時針旋轉，主軸下降鑽孔）與「鑽削深度設定刻度盤」（可預設自動停止深度）兩個元件，音效含主軸啟動聲、鑽頭轉動嗡嗡聲、鑽削嗡嗡聲、切屑飛濺聲（workingfiles/drilling_structure.txt 第80、108-110行）。</p>
+  <p><b>尺寸：</b>草稿簡報第3頁標示「1200mm」「1550mm」與「鑽床展示櫃」字樣，惟標註對象寫的是「展示櫃」而非「操作機台」，語意含混，且單位換算後（120×155cm）與PRD詢問的車床規格108×149cm並不相符（workingfiles/w_boring_structure.txt 第56-59行，此檔為誤植的鑽床大綱頁，但為唯一含尺寸數字的來源）。</p>
+  <p>草稿於PRD階段列有四項待業主／Tech Lead答覆之待答項，本次撰寫報告書時逐一查核現況，處理結果如下：</p>
+  <div class="gap"><b>缺口</b>｜手輪配置（軸向、數量、功能）——草稿已有具體設計（進刀操作桿＋深度刻度盤），但與PRD原始假設的「手輪」用語不同調，也與搪床「大手輪」、刨床「上方手柄」的命名邏輯不一致，尚未經業主／Tech Lead正式核准，需業主核對是否採用草稿設計並正式定案（workingfiles/drilling_structure.txt 第80行；_context/PRD_2026-05-12_鑽床互動機具腳本.md 第25行）。</div>
+  <div class="gap"><b>缺口</b>｜孔位題目（孔位數、孔徑、深度）——草稿實際做法是「鑽出特定深度」單一數值挑戰，並非PRD推測的「孔位／孔徑」題目，方向與PRD假設不同且未經核准，需業主明確拍板究竟採「深度挑戰」或另立「孔位／孔徑挑戰」邏輯（workingfiles/drilling_structure.txt 第52-59、152-160行；_context/PRD_2026-05-12_鑽床互動機具腳本.md 第26行）。</div>
+  <div class="gap"><b>缺口</b>｜台工清單命名——草稿、reference/通用機具簡報架構.md（第75行）與reference/_dump_ref.txt（第20、27、39行）三方一致指向台工20號直立鑽機、台工1510號兩台，惟同一機具在草稿內文寫「懸臂鑽床」，現場照片檔名寫「轉臂鑽床」，需擇一用詞定案，避免簡報前後不一（workingfiles/drilling_structure.txt 第21行；workingfiles/images/台工1510號_轉臂鑽床.jpg）。</div>
+  <div class="gap"><b>缺口</b>｜機台尺寸（是否同車床108×149cm）——查無可用資料且現有線索互相矛盾：「1200mm／1550mm」標註對象為「鑽床展示櫃」，語意上無法確認究竟是展示櫃或操作機台尺寸，換算後（120×155cm）亦與108×149cm不符；已嘗試WebSearch查詢直立鑽床／搖臂鑽床控制面板典型尺寸，未取得可直接引用、單位與現場一致的驗證來源，標示待現場確認（workingfiles/w_boring_structure.txt 第56-59行）。</div>
+</section>
+
+<section class="chap" id="c5"><div class="cn"><span class="no sans">伍</span><h2>教育目標與教案整合</h2><span class="en sans">EDUCATION</span></div>
+  <div class="claim">
+    <div>目標客群設定：搪床、刨床PRD明確標示目標客群為「國小至國中生」；鑽床草稿內文則寫「鼓勵國小二年級以上訪客」，兩者年齡下限略有出入，尚未統一。</div>
+    <span class="src"><b>依據</b>_context/PRD_2026-05-18_搪床互動機具腳本.md 第35行；workingfiles/drilling_structure.txt 第79行</span>
+  </div>
+  <p>教學設計原則上，不出現「X軸／Z軸」等專業術語，手輪／操作元件說明以圖示優先於文字，強調透過「一句話金句」建立跨機具的比較性理解，例如鑽削與搪削的先後關係、牛頭鉋床與龍門鉋床的大小對照（_context/PRD_2026-05-18_搪床互動機具腳本.md 第35行；reference/刨床原理與互動腳本提案.html 第219-221行）。</p>
+  <p>評量與正向回饋機制方面，各機具挑戰段落均以「1至5星」評分呈現學習成果——搪床依孔徑準確率與真圓度誤差、刨床依平整度與操作穩定度、鑽床依深度設定值與目標值差距——並以結業證書、QR Code紀錄作為完成全套五機具體驗的正向誘因，具備初步的闖關式教案雛形（出處同本章前述及肆章各機具節）。</p>
+  <div class="gap"><b>缺口</b>｜正式教案、學習單、導覽App規格完全空白——除業主語音速記「獨立工廠互動機具設計裡面要加設計教具／教案，並加入導覽App」一句話外，找不到任何國小／國中教案設計、學習單內容、導覽App介面或功能規格的文件、草稿或討論紀錄；目前僅有的「教育性」設計仍停留在單台機具的腳本文案層級（金句、闖關評分），尚未有跨機具、跨學科（如結合國小自然／社會課綱）的教學目標論述（_context/INBOX.md 第3-4行）。</div>
+  <div class="gap"><b>缺口</b>｜目標客群年齡層定義三機具之間不完全一致（國小至國中 vs. 國小二年級以上），是否為刻意差異化或單純未同步，需向業主確認。</div>
+</section>
+
+<section class="chap" id="c6"><div class="cn"><span class="no sans">陸</span><h2>技術規格</h2><span class="en sans">SPECIFICATIONS</span></div>
+  <h3>尺寸</h3>
+  <p>搪床、刨床操作機台尺寸皆為寬80cm×高145cm（_context/PRD_2026-05-18_搪床互動機具腳本.md 第17行；_context/PRD_2026-05-27_刨床互動機具腳本.md 第20行）。車床操作機台尺寸為108×149cm，列於此處僅供比例參照，非本次三機具之一（_context/INDEX.md 第32行）。刨床局部標註與整機尺寸之對應關係、鑽床操作機台實際尺寸皆另有缺口，詳見肆章各機具節之說明，不在此重複列出。</p>
+  <h3>螢幕</h3>
+  <p>搪床螢幕原為直式，2026年5月27日重構時修正為橫式16:9，整合於機台上半部（walkthrough.md 第37行）。刨床螢幕形式為橫式16:9，設計理由是配合龍門鉋床長型加工特色（_context/PRD_2026-05-27_刨床互動機具腳本.md 第21行）。</p>
+  <div class="gap"><b>缺口</b>｜鑽床螢幕形式，草稿逐頁文字未見明確描述。</div>
+  <h3>操作機構</h3>
+  <p>搪床採雙旋鈕設計——實體大手輪（Z軸向進給）與左下微調小圓鈕（設定孔徑），另配六角扳手與壁掛架（workingfiles/boring_analysis_output.txt Slide 3；_context/PRD_2026-05-18_搪床互動機具腳本.md 第13-14行）。刨床僅設上方手柄（下進給螺桿手柄），機台無下方轉輪，此為業主明確指定之限制（walkthrough.md 第14、26行）。鑽床草稿設計為「進刀操作桿＋鑽削深度設定刻度盤」，但未經業主正式核准，狀態仍待確認，詳見肆章鑽床節（workingfiles/drilling_structure.txt 第80行）。</p>
+  <h3>電源</h3>
+  <div class="gap"><b>缺口</b>｜全repo查無任何互動機台本身的供電規格、電壓、功率或用電安全文件。現有的「馬力」數字（如台工11號7.5hp、台工54號20hp）均為現地歷史文物本身的動力源規格，並非互動展示機台的電力需求，屬於互動機台工程施工前必須由廠商或業主補齊的項目（reference/搪床原理與腳本提案.html 第1303行；reference/龍門鉋床原理與互動腳本提案.html 第65行）。</div>
+  <h3>感應</h3>
+  <div class="gap"><b>缺口</b>｜現有素材僅描述到「使用者轉動手輪／旋鈕後畫面／數值即時反應」的劇本層級效果，未見任何感測器選型（如編碼器、電位計、微動開關等）、觸發精度、校準方式或機構工程圖，遍查repo內_context/、reference/、workingfiles/全文皆無相關關鍵字，是本章節中「劇本可行但無法直接施工」的核心落差。</div>
+  <h3>配色與字體規範（面板設計標準）</h3>
+  <div class="claim">
+    <div>面板配色與字體為全系列（含車床、銑床）統一標準：背景、面板、強調色、成功色四色系統，正文採黑體，系統／技術標註採JetBrains Mono等寬字體。</div>
+    <span class="src"><b>依據</b>rules/色彩計畫.md 第1-6行；reference/通用機具簡報架構.md 第82-84行</span>
+  </div>
+  <table>
+    <tr><th>用途</th><th>色票</th><th>色碼</th></tr>
+    <tr><td>背景</td><td><span style="display:inline-block;width:14px;height:14px;background:#0a0a0a;border:1px solid var(--line);vertical-align:middle;margin-right:6px"></span>近黑</td><td>#0a0a0a</td></tr>
+    <tr><td>面板</td><td><span style="display:inline-block;width:14px;height:14px;background:#141414;border:1px solid var(--line);vertical-align:middle;margin-right:6px"></span>深灰</td><td>#141414</td></tr>
+    <tr><td>強調色</td><td><span style="display:inline-block;width:14px;height:14px;background:#FF5A00;border:1px solid var(--line);vertical-align:middle;margin-right:6px"></span>強調橘</td><td>#FF5A00</td></tr>
+    <tr><td>成功色</td><td><span style="display:inline-block;width:14px;height:14px;background:#00FF88;border:1px solid var(--line);vertical-align:middle;margin-right:6px"></span>成功綠</td><td>#00FF88</td></tr>
+  </table>
+</section>
+
+<section class="chap" id="c7"><div class="cn"><span class="no sans">柒</span><h2>驗收計畫</h2><span class="en sans">ACCEPTANCE</span></div>
+  <p class="lead">本案自帶機檢:每具機具附自動化驗證腳本,驗收不靠口說。</p>
+  <h3>現有自動化驗收工具</h3>
+  <p>repo內以find指令確認全域僅存在兩支verify_*.py腳本，分別對應搪床、刨床兩份定稿簡報，鑽床、車床、銑床皆無對應驗收腳本。</p>
+  <div class="claim">
+    <div>verify_boring_ppt.py（70行）驗證簡報頁數是否恰為10頁；禁詞掃描（不得出現「鑽床」「鑽削」「鑽頭」「鑽孔」「進刀操作桿」「台工20號」「台工1510號」等跨機種字詞）；必要字詞檢查（須出現「台工11號」「台工364號」「搪床」「精準擴孔」）。</div>
+    <span class="src"><b>依據</b>workingfiles/_scripts/verify_boring_ppt.py 第16、42行</span>
+  </div>
+  <div class="claim">
+    <div>verify_planer_ppt.py（115行）驗證簡報頁數是否恰為10頁；禁詞掃描（含跨機種殘留字詞及「鑽床／鑽削／搪床／搪削」等情境式禁詞，需人工複查是否為科普對比金句之假陽性）；必要字詞檢查（須出現「台工54」「台工33」「台工34」「龍門」「牛頭」「上方手柄」）；並專項檢查「下方大手輪」殘留，確保刨床簡報未誤植搪床／車床的手輪描述。</div>
+    <span class="src"><b>依據</b>workingfiles/_scripts/verify_planer_ppt.py 第17、24、69、90-105行</span>
+  </div>
+  <h3>已完成的驗收紀錄</h3>
+  <p>搪床簡報歷經四輪「DONE→VERIFIED FAIL→DONE→VERIFIED PASS」反覆，最終於2026年5月27日10:30通過VERIFIED|PASS（AGENT_SIGNAL.log 第1-11行）。刨床簡報經產出、複核後一度VERIFIED|FAIL（12:27:07，因進度條命名偏離規範、地圖漏標台工34號），熱修復後於12:44:00通過VERIFIED|PASS（AGENT_SIGNAL.log 第12-17行；walkthrough.md 第70-73行）。鑽床方面，AGENT_SIGNAL.log全文查無任何鑽床相關REQUEST／DONE／VERIFIED紀錄，代表鑽床從未進入過驗收流程（_context/INDEX.md 第11、120行）。</p>
+  <div class="gap"><b>缺口</b>｜上述兩支驗收腳本僅驗證「簡報投影片文字內容」本身（頁數、禁詞、必要字詞），性質是內容產出的品管工具，並非「互動機台實體」的驗收計畫。遍查全repo，找不到任何感測器校準標準、互動操作流暢度測試、機構耐久測試、公眾使用安全驗收（如兒童夾手風險、防護等級）等項目的文件或草稿，這是七大面向中「驗收計畫」近乎空白的具體證據。</div>
+  <div class="gap"><b>缺口</b>｜鑽床連「簡報文字」層級的驗收都尚未開始，若三機具要並列交付，鑽床驗收計畫等同從零開始。</div>
+</section>
+
+<section class="chap" id="c8"><div class="cn"><span class="no sans">捌</span><h2>維運計畫</h2><span class="en sans">OPERATIONS</span></div>
+  <p>以關鍵字（維護、保養、故障排除、耗材、軟體更新、維運、防護等級等）對repo內_context/、reference/、workingfiles/、rules/全文檢索，查無任何一筆結果。</p>
+  <div class="gap"><b>缺口</b>｜維運面向完全空白——完全找不到任何互動機台維護、保養排程、故障排除手冊、易損件（如手輪軸承、按鈕開關、觸控螢幕）耗材更換週期、或簡報／互動軟體更新機制相關的文件、草稿或討論紀錄。這是七大面向中最明確「完全沒有素材」的一塊，報告書撰寫階段應直接標註「待業主提供或由承製廠商於後續工程階段自行規劃」，不宜由現有劇本／PRD層級素材推測填補。</div>
+</section>
+
+</div>
+</body>
+</html>
