@@ -103,6 +103,7 @@ missions/
 
 ## 6. 邊界與誠實條款
 - 雲端棒只及**已掛載 repo**。**修正（2026-07-06 實證）**：API 建立的 mission trigger 其 sources 只掛 WTF_Under_Construction 一個——不會繼承 nightly 環境的 12 repo 清單。要跑其他 repo 的 mission，使用者須先到 claude.ai/code → Routines → 該 trigger → Repositories 手動補掛該 repo；未補掛前，選題只能提名 WTF 內的任務，其餘標「需先補掛」。
+- **交付物歸宿（2026-07-07 補）**：mission 過程檔留 WTF `missions/<slug>/out/`；達 milestone/收貨時，交付物**複本**落該專案 repo 的 `outputs/<名稱>_日期/`（照 GLOBAL 檔案規範），由有該 repo 權限的 session 執行（雲端棒推不了其他 repo 時寫 blocker 待辦）。
 - 需本機/實機的工作一律進 blockers，不假裝能做。
 - 「5 小時額度窗」與週上限的精確行為未確認；夜鏈集體沉默時先懷疑打頂，提醒棒隔天會從 journal 斷點看出並回報。
 - 本檔屬黃區（maintenance-protocol）：棒子只能照做，改規格走提案。
