@@ -12,7 +12,7 @@ audit_structure.py — 工作區結構／檔名稽核（只報告，絕不動檔
   python audit_structure.py <專案名>   只掃單一專案
 
 檢查項:
-  1. 標準子夾缺漏（_context/rules/workingfiles/outputs/tools）
+  1. 標準子夾缺漏（_context/rules/outputs/tools）
   2. output 單數資料夾（規則為複數 outputs）
   3. 缺 _context/INDEX.md（現況總覽）
   4. _context 檔名違規（通用名、Handoff 異體、不符「類型_日期_主題」）
@@ -33,7 +33,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 ROOT = SCRIPT_DIR.parents[2]                           # .../Claude_cowork
 PROJECTS_DIR = ROOT / "projects"
 
-STD_SUBDIRS = ["_context", "rules", "workingfiles", "outputs", "tools"]
+STD_SUBDIRS = ["_context", "rules", "outputs", "tools"]
 
 # _context 內允許的檔名前綴（依 GLOBAL.md 命名慣例）
 CTX_PREFIXES = ("INDEX", "PRD_", "Plan_", "TaskLog_", "Handover_",
@@ -116,7 +116,7 @@ def audit_project(d):
         if low in ROOT_ALLOW:
             continue
         if f.suffix.lower() in LOOSE_EXT or low.startswith("_"):
-            findings.append(("WARN", f"根目錄散落檔 {f.name}（建議歸 workingfiles/ 或 tools/ 或 outputs/）"))
+            findings.append(("WARN", f"根目錄散落檔 {f.name}（建議歸 outputs/_shared/ 或 tools/ 或 outputs/<子專案>/）"))
 
     # 6. 版本平鋪（同層多個 vX）
     for base in [d, d / "outputs", d / "output"]:

@@ -36,7 +36,7 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 3. 讀取並套用 rules 規範
 
-讀取 repo 根 `rules/` 全部 `.md`（如 `workingfiles-conventions.md`），套用其規範（檔案存放、命名慣例、輸出格式等）；進入專案後一併讀該專案 `rules/` 全部 `.md`，**專案規範優先於根規範**。
+讀取 repo 根 `rules/` 全部 `.md`（如 `folder-conventions.md`），套用其規範（檔案存放、命名慣例、輸出格式等）；進入專案後一併讀該專案 `rules/` 全部 `.md`，**專案規範優先於根規範**。
 
 ## 完成回報
 
