@@ -5,7 +5,7 @@
 - [x] 時間軸抽取：Opening 66.3s/11段/兩段旁白、Event1985 40.0s、現行 prompt 與掛載缺陷 → 定調書第一、三節
 - [x] 定調書（負錨解剖/五幕情緒任務/兩方向/接線必修）→ out/配樂定調書_2026-07-08.md
 - [ ] 【討論閘】使用者拍板方向二（或改方向一）——見 _blockers
-- [ ] （路線無關，可先做）o4 repo 開分支 `music-redo`：修 `MusicTrack.tsx`——淡入(~1s)/65.3s 起淡出/旁白 ducking 音量包絡、音量參數化（預設 0.3）；tsc 過、不動 comps 其他部分；推分支禁推 main
+- [x] （路線無關，可先做）o4 repo 修 `MusicTrack.tsx`：淡入(1s)/結尾淡出(1s，用 useVideoConfig 總長自動算，免外部傳總幀數)/旁白 ducking 音量包絡(duckingWindows prop)、音量參數化（預設 0.3）；tsc 過(npm install 後乾淨)、只動此檔不碰 comps 其他部分。**分支改用 harness 指定的 `claude/sharp-gates-uebbk0`**（非 backlog 原訂 `music-redo`——本 session 的 GitHub 存取受 per-repo designated branch 限制，禁推非指定分支；已推 origin，PR 未開）。commit d8b50d8。
 - [ ] （路線無關，可先做）生成腳本重寫：按定調書第三節五幕表產 lyria-002 prompt 組（方向二語彙、材料同質、每段標注目標秒數區間與接合點）＋後製接合腳本（ffmpeg crossfade/automation，輸出 66.3s 的 `Opening_v4.mp3` 與 40s `Event1985_v4.mp3`）→ 存 o4 repo `outputs/配樂重做_20260708/`，含使用者一鍵執行說明
 - [ ] （拍板後＋使用者本機生成後）接線：Root.tsx music_version=4、重渲兩支、實播驗收（使用者）
 - [ ] 對抗審查：接縫聽感（拼接感=負錨）、五幕事件點對時、音量/ducking 實聽
