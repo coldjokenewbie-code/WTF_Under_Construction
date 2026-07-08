@@ -37,8 +37,17 @@
 - `trig_015YB7a5ne6YP9jrhNo6ejLk` 夜間循環棒：`30 11,13,15,17 * * *` UTC＝台北 19:30/21:30/23:30/01:30，推播關（日報由提醒棒統一推）。原 `0 ...,19` 末棒與 nightly `0 19` UTC 同刻對撞，審查抓到後改半點錯開＋棒尾 push 重試 2 次。
 - **cron 一律 UTC**（實證自 nightly trigger next_run_at）。trigger 掛載 repo 清單沿用 nightly 的環境（12 repos）；registry 增刪後仍需回 Routines UI 補掛。
 
+## 派 claude@windows（待辦）
+
+- **SessionStart 內容注入 hook 在 Windows 未部署**（2026-07-08 Mac session 發現）：`wtf-config/hooks/wtf-session-context.sh` 設計上靠 Windows 內建 Git Bash 執行，但部署／註冊是手動步驟、`sync_config.py` 不會自動處理。Mac 已套用，Windows 未確認。
+  - 待做：(1) 確認 `~/.claude/wtf-session-context.sh`（Windows 路徑）是否存在，不存在則從 repo `wtf-config/hooks/wtf-session-context.sh` 複製過去；(2) 確認 `~/.claude/settings.json` 的 `SessionStart` hooks 是否已註冊 `bash ~/.claude/wtf-session-context.sh`；(3) 開新 session 驗證有「【開場注入…】」字樣自動出現。
+  - 完成後回 `_context/nightly-notify.md` 把 2026-07-05 那行勾掉（`- [x]`），註明「Windows 已套用」。
+
 ## 下一步建議
 
 1. 使用者本機 merge 此分支 → 跑 `sync_config.py sync` → 開新 session 驗證開場只讀三檔。
 2. 用 2-4 週後依實感調數字門檻（300 行/3 檔/兩輪重試），走黃區提案。
 3. 挑一條文字規則轉 ody 機檢（建議先做「已完成需證據」）。
+
+## 📥 語音待辦
+- [ ] 研究 NVIDIA Nemotron 3.5 ASR（0.6B、純 CPU 即時轉錄 40 種語言，https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b）部署到現用工具的可行性（語音 2026-07-08・來源 Clippings/工作 say something.md）
