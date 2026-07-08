@@ -1,7 +1,8 @@
 # backlog：guide-app（2026-07-08 使用者改向重排：優化現有 app，舊原型線已收貨停止）
 - [x] 研究分析：現況全頁截圖＋16 項改善清單 → out/ui-audit_2026-07-08.md（2026-07-08 完成；截圖係 Tailwind CDN 失效下所拍，視覺項需本地化後重驗——見 audit 末節主 session 判讀補記）
 - [x] 【M1 界】高品味風險項已進 _blockers（主題定調/底圖/縮圖風格）；低風險項直接續做
-- [ ] **第一增量（先於一切視覺項）**：開分支 `ui-uplift`，Tailwind 從 CDN 改本地建置（vite 標準做法：tailwindcss+postcss，設定檔含現用之任意值 class；index.html 移除 cdn script 與 Google Fonts 改本地/系統字體）→ tsc 過＋全頁重拍截圖（這批才可信）→ 據此重驗 audit 視覺項真偽並更新 audit
+- [x] **第一增量之一**：Tailwind 從 CDN 改本地建置（tailwindcss@3.4.19+postcss+autoprefixer，tailwind.config.js 逐項承接原 inline config）；index.html 移除 cdn script；JetBrains Mono 改自架 woff2（`public/fonts/`，31KB variable font，@font-face 於 index.css）取代 Google Fonts；Zen Maru Gothic 全專案未實際引用，直接移除。分支＝`claude/admiring-franklin-a1okxy`（非 backlog 原訂 `ui-uplift`——本 session 受 per-repo designated-branch 限制，比照 o4-soundtrack 前例）。tsc 過＋vite build 過（CSS 內含編譯後 tailwind class＋font-face，無殘留 cdn/googleapis）；順手修 playwright.config.ts 既有 port 誤植（5173→3000，否則 webServer 永遠等不到，npm test 全逾時）。commit 1b79407 已推 origin。
+- [ ] **第一增量之二**：全頁（8 路由）重拍截圖（沙盒僅 chromium，`npm test` 的 mobile-onsite/mobile-web 兩 project 用 webkit 裝置在此環境跑不了，需之後在有 webkit 的環境或本機驗；本棒手動 chromium 走 4 頁存證：`missions/20260706-guide-app/out/tailwind-local-20260708/`）→ 據此重驗 audit 16 項視覺項真偽並更新 out/ui-audit_2026-07-08.md
 - [ ] 修 audit 讀碼類確定項：AppShell 展品頁 header 寫死「掃描QRcode」改展品名（AppShell.tsx:62）、dev 工具列非 dev 環境隱藏、孤兒檔案清理
 - [ ] （依 audit 優先序）UI 整合：間距/字級/色彩 token 化、元件一致性修整
 - [ ] （依 audit 優先序）動態：頁面轉場、清單進場 stagger、按壓回饋等微互動（framer-motion）
