@@ -1,0 +1,89 @@
+[
+  {
+    "path": "/",
+    "file": "01-landing",
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  {
+    "path": "/exhibit/G",
+    "file": "02-exhibit-G",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/1A",
+    "file": "03-exhibit-1A",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/2A",
+    "file": "04-exhibit-2A",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/4C",
+    "file": "05-exhibit-4C-empty",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/5",
+    "file": "06-exhibit-5",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/ZZZ",
+    "file": "07-exhibit-notfound",
+    "errors": []
+  },
+  {
+    "path": "/exhibit/scan",
+    "file": "08-exhibit-scan",
+    "errors": []
+  },
+  {
+    "path": "/schedule",
+    "file": "09-schedule",
+    "errors": []
+  },
+  {
+    "path": "/audience",
+    "file": "10-audience",
+    "errors": []
+  },
+  {
+    "path": "/route/highlight",
+    "file": "11-route-highlight",
+    "errors": []
+  },
+  {
+    "path": "/route/science",
+    "file": "12-route-science",
+    "errors": []
+  },
+  {
+    "path": "/route/history",
+    "file": "13-route-history",
+    "errors": []
+  },
+  {
+    "path": "/route/mission",
+    "file": "14-route-mission",
+    "errors": []
+  },
+  {
+    "path": "/map",
+    "file": "15-map",
+    "errors": []
+  },
+  {
+    "path": "/tasks",
+    "file": "16-tasks",
+    "errors": []
+  },
+  {
+    "path": "/ar",
+    "file": "17-ar",
+    "errors": []
+  }
+]
