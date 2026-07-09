@@ -9,7 +9,8 @@
   - [ ] 間距系統化（spacing 一致性）、色彩 token 化（若還有殘留硬編字面色）
   - [ ] 字級收斂（7 級→2-3 級，需視覺判斷+前後對照截圖）
   - [ ] 元件一致性修整（如 #13 tab 專屬色 vs 全站主色調）
-- [ ] （依 audit 優先序）動態：頁面轉場、清單進場 stagger、按壓回饋等微互動（framer-motion）
+- [x] **第一增量之五（動態，修 audit #6）**：安裝 `tailwindcss-animate` 並註冊進 `tailwind.config.js` plugins（原為空陣列，導致全站已寫的 `animate-in fade-in/zoom-in-*/slide-in-from-*` 類別從未生效）。影響 5 個檔案：`AppShell.tsx`（漢堡選單 overlay）、`AudioPlayer.tsx`（面板展開）、`TaskProgressBar.tsx`×2（任務完成 icon）、`MapPage.tsx`（POI 詳情卡）、`EditableText.tsx`（dev 快捷選單，非訪客可見）。tsc 零錯誤＋vite build 過；dist CSS 核對確認 `.animate-in{animation-name:enter;...}`／`.fade-in{--tw-enter-opacity:0}`／`.slide-in-from-bottom{--tw-enter-translate-y:100%}` 等規則從無到有；dev server 實測漢堡選單 overlay `getComputedStyle().animationName` 從 `none` 變為 `enter`（duration 0.3s，承接既有 `duration-300` class）。commit ec34b7a 已推 origin `claude/admiring-franklin-hds7tv`。屬 CSS-only 動態（無 JS 互動邏輯變動），**待實機驗**（沙盒僅 headless chromium，無法目視動畫流暢度／實機手感，比照 MISSION 硬底線）。此增量非 framer-motion 頁面轉場（下方仍待做），是修復既有設計的最小成本項，定錨棒 2026-07-09 23:34 建議之一。
+- [ ] （依 audit 優先序）動態：頁面轉場、清單進場 stagger、按壓回饋等微互動（framer-motion，framer-motion 已裝但全站僅一處使用，見 audit #7）
 - [ ] 每輪：tsc 零錯誤＋Playwright 煙霧＋前後對照截圖存 out/
 - [ ] 【M2 界】→ 待核准（使用者驗貨＋裁決高風險項）
 - [ ] （核准後）高品味風險項實施
