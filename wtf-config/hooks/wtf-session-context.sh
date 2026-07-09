@@ -45,7 +45,6 @@ if [ -n "$tl" ]; then
 fi
 
 echo "【注入結束。其他 _context/ 檔案只在上方 INDEX 讀取指引點名或使用者點名時才讀；嚴禁全量掃描。動手前過 GLOBAL.md「制度層」派工鐵律。】"
-echo "【回報要求】本 session 第一次回覆的第一行，必須原樣輸出：「[hook注入OK] 已載入：GLOBAL、AGENTS、INDEX、${tl:-無TaskLog}、lessons」——使用者以此判斷 hook 是否生效，之後不再重複。"
 
 # 註冊（~/.claude/settings.json 的 hooks 段；Windows 預設 Git Bash 可直接用 bash 執行）：
 # "SessionStart": [{"hooks": [{"type": "command", "command": "bash ~/.claude/wtf-session-context.sh"}]}]
