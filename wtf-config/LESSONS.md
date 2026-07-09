@@ -158,3 +158,4 @@
 - 出勤｜2026-07-06｜SharePoint `!IsBlank(x)`/`Not(IsBlank(x))` 不可委派→改 `<> Blank()`；全域變數OnVisible Set前引用報型別不相容，手動OnVisible步驟是必要前置須明確告知使用者｜attendance-dashboard/_context/lessons-learned.md
 - 出勤｜2026-07-07｜全天事件UTC午夜邊界：查詢視窗尾碼改 Z（不用+08:00換算），視窗與前一天全天事件不重疊；下游filter精簡「不重複判斷時間」須以抓資料層先修乾淨為前提，兩個修法互為前提套一半無效｜attendance-dashboard/_context/lessons-learned.md
 - 出勤｜2026-07-08｜Power Apps 控件值凍結→先比對 repo 公式正本確認是否被貼成字面值覆蓋，非邏輯bug；Studio全選匯出yml可能含座標完全重疊的舊/新重複控件組(後綴_1)，拿到yaml先掃重複｜attendance-dashboard/_context/lessons-learned.md
+- WTF｜2026-07-09｜SessionStart hook注入內容送達≠模型照做；「要求模型自報確認字串」驗證hook是否生效是假陰性指標(讀到但沒照做會誤判成沒讀到)，改查transcript的hook_success；JSON additionalContext有10000字元上限，現有內容63779字元已超限只能用plain stdout｜WTF_Under_Construction/_context/lessons-learned.md

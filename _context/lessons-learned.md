@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-09 (SessionStart hook：內容送達 ≠ 模型照做；自報式驗證不可靠)
+
+* **「注入式」只解決「有沒有讀到」，解決不了「有沒有照做」**：`wtf-session-context.sh` 原本只注入三檔制，GLOBAL.md／AGENTS.md 靠開場協議文字指示模型自讀——兩個獨立 session 各自證實這完全不可靠（整場對話沒讀，被使用者當面問到才補讀）。已改為比照三檔制，用 `WTF_ROOT` 錨點（`~/.claude/wtf-root.txt`）強制注入 GLOBAL/AGENTS 全文（commit `f49f131`）。**但**這只保證內容進 context，不保證模型後續會依內容行動——這是兩個不同層次的問題，不可混為一談。
+* **「要求模型自報確認字串」是假陰性指標，別用**：2026-07-05 教訓提議 hook 輸出加識別首行＋要求模型在首則回覆照樣印出，以此判斷 hook 是否生效。實測（`cowork_CDIC` 一個獨立 session）：查該 session transcript 的 `hook_success` attachment，內容確實完整送達；但模型完全沒印出要求的確認字串——證明「有沒有照做某條 meta 指示」不能代表「內容有沒有送達」，用這招驗證會把「讀到但沒照做」誤判成「沒讀到」。已刪除該 banner（commit `829ade6`），不建替代稽核腳本（banner 刪除後也沒有稽核對象）。要驗證 hook 是否生效，直接查 session jsonl 裡的 `hook_success` attachment（`stdout` 欄位），不要靠模型自報。
+* **Claude Code hook 輸出的技術上限**：SessionStart plain stdout 以「system reminder」層級注入（非普通 tool_result，已是可用最高層級）；另有 JSON `additionalContext` 格式但上限 **10,000 字元**——本專案現有注入內容實測 63,779 字元，遠超此限，無法改用 JSON 全量注入。官方文件（`https://code.claude.com/docs/en/hooks.md`）對「模型是否保證遵循 hook 內容」**無任何承諾**，此為 Claude Code 本身的已知空白，非配置問題，目前無解法，不需重複嘗試不同注入格式。
+
 ## 2026-07-07 (macOS open 命令：shell shim 攔截與絕對路徑繞過)
 
 * **macOS `open` 被終端機環境 shim 攔截時，用 `/usr/bin/open` 絕對路徑繞過**：cmux 等終端 multiplexer 會把 `open` 掛上 shim，導致 `open "<檔案>"` 開進終端分割 pane 而非系統預設瀏覽器。要確保在使用者預設瀏覽器開啟，macOS 一律改用 `/usr/bin/open "<路徑>"`（Windows 用 `start ""`）。已更新 `wtf-config/GLOBAL.md「交付即預覽」段`（commit `3486b51`）。
@@ -7,7 +13,7 @@
 ## 2026-07-05 (SessionStart hook：注入式設計 + hook 生效驗證)
 
 * **注入式 hook 優於提醒式**：SessionStart 用 `echo '請讀三檔'` 屬提醒式——model 看到後仍需「自覺去讀」，本質靠自律。改為注入式——`head -n 150 _context/INDEX.md; head -n 150 _context/lessons-learned.md` 直接把內容送進 context，model 無需執行任何指令，也無法繞過。正本：`wtf-config/hooks/wtf-session-context.sh`（每檔 150 行截斷控 token）。原則延伸：任何「要 model 讀某檔才生效」的設定，都可從提醒升格為直接注入。
-* **hook 生效驗證：輸出加識別首行**：hook stdout 埋識別標記（如 `【開場注入｜三檔制內容已由 SessionStart hook 自動載入，無需再讀這三檔】`），新 session 開場用肉眼即可確認 hook 有在跑，不必進 `/hooks` 或翻 log。
+* **hook 生效驗證：輸出加識別首行**：hook stdout 埋識別標記（如 `【開場注入｜三檔制內容已由 SessionStart hook 自動載入，無需再讀這三檔】`），新 session 開場用肉眼即可確認 hook 有在跑，不必進 `/hooks` 或翻 log。⚠️部分推翻，見 2026-07-09：要求「model 自報確認字串」這招本身不可靠，改用查 transcript 驗證。
 
 ## 2026-07-03 (Fable5 制度定案 + mission-loop 雲端自主迴圈)
 
