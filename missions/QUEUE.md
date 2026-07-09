@@ -3,7 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-（由 17:00 提醒棒自動覆蓋更新）
+**晨報棒 2026-07-09 08:30**｜night-relay 領先 main 23 commits（07-08 晚新增 8）。
+**guide-app**：Tailwind CDN→本地建置（commit 1b79407，視覺零改動）＋重拍 17 張截圖驗證錯誤全消（0/17，舊版 17/17 皆報錯）＋重驗 16 項改善清單（2 項確認 CDN 假象已解／1 項對比度降級／12 項維持）。證據：`out/ui-audit_2026-07-08.md`、`out/audit-screenshots-20260709/`。無新增 blocker（沿用暗色主題定調／底圖風格統一 2 項待你裁決，見 `_blockers.md`）。
+**o4-soundtrack**：MusicTrack 音量包絡重寫（commit d8b50d8）＋路線 C×方向二 6 段 lyria-002 prompt＋ffmpeg 接合腳本備料，算式驗證 66.3s/40.0s 精確（commit 80a8c9a）。新 blocker：生成腳本已備妥，需你本機跑一次（憑證牆）；仍卡【討論閘】方向二拍板前，禁自行生成音檔。
+**合併建議（收貨＝以下指令）**：
+`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
 
