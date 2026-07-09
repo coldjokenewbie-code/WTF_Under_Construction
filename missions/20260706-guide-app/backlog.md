@@ -5,6 +5,10 @@
 - [x] **第一增量之二**：全頁（8 路由/17 目標＋3 個互動態）重拍截圖（沙盒僅 chromium，`npm test` 的 mobile-onsite/mobile-web 兩 project 用 webkit 裝置在此環境仍跑不了，維持人工 chromium 存證：`missions/20260706-guide-app/out/audit-screenshots-20260709/`）→ 已據此重驗 audit 16 項視覺項真偽並更新 out/ui-audit_2026-07-08.md「重驗結果」節。結論：2 項（#4 opacity/#16 選單）確認為 CDN 假象已解決、1 項（#2 對比度）嚴重度下修、12 項讀碼類確認為真維持原優先序、1 項（#6）補充讀碼細節（本地 config 也缺 animate plugin）。tsc 零錯誤＋vite build 過。
 - [x] **第一增量之三**：修 audit 讀碼類確定項——(1) AppShell.tsx getPageTitle：`/exhibit/:id` 改用 `getExhibitById` 依語言取展品名（`/exhibit/scan` 維持原「掃描QRcode」文案不變）；(2) dev 工具列（375/680切換/編輯內容/儲存/重置任務）改用 `import.meta.env.DEV` 包住，正式 build 不再顯示，並同步調整 mt-9/top-9 依賴此旗標；新增 `vite-env.d.ts` 補型別；(3) 清孤兒檔案 `components/InteractionPage.tsx`、`pages/WorksheetPage.tsx`（全專案 grep 確認無引用，`pages/InteractionPage.tsx` 才是真正掛路由的那份）。tsc 零錯誤＋vite build 過；dev/prod 各截圖驗證（`/exhibit/G` header 顯示「組立進行中」、prod build 工具列消失、`/exhibit/scan` 不受影響）。commit 59ba4ea 已推 origin `claude/admiring-franklin-l8cmas`。
 - [ ] （依 audit 優先序）UI 整合：間距/字級/色彩 token 化、元件一致性修整
+  - [x] **第一增量之四（字級 token 化零視覺差異版）**：`tailwind.config.js` 新增 `fontSize.micro-{7,8,9,10,11,13,14}`，數值與原 `text-[Npx]` 任意值完全一致；全站 21 檔 81 處替換為具名 token（不含 `_context/archive` 歸檔舊碼）。tsc 零錯誤＋vite build 過＋dist CSS 逐值核對輸出不變＋4 頁截圖（`out/increment4-20260709/`）確認外觀無異、console 0 pageerror。commit 94a71d5 已推 origin `claude/admiring-franklin-0yd8fy`。**未做**：audit #15 建議的「收斂成 2-3 級」需視覺判斷哪些值可合併，屬於會實際改變渲染大小的決定，留給下一增量（可考慮連同 #13 tab 專屬色一致性一起評估，或列入下次視覺覆核清單）。
+  - [ ] 間距系統化（spacing 一致性）、色彩 token 化（若還有殘留硬編字面色）
+  - [ ] 字級收斂（7 級→2-3 級，需視覺判斷+前後對照截圖）
+  - [ ] 元件一致性修整（如 #13 tab 專屬色 vs 全站主色調）
 - [ ] （依 audit 優先序）動態：頁面轉場、清單進場 stagger、按壓回饋等微互動（framer-motion）
 - [ ] 每輪：tsc 零錯誤＋Playwright 煙霧＋前後對照截圖存 out/
 - [ ] 【M2 界】→ 待核准（使用者驗貨＋裁決高風險項）
