@@ -6,8 +6,8 @@
 
 ## 開場協議（session 首次啟動執行一次，後續不重複）
 
-1. **補齊工作區資料夾**（不存在則建立）：`_context/`、`rules/`、`workingfiles/_screenshots/`、`workingfiles/_scripts/`、`outputs/`、`tools/`。
-2. **建立預設規範**：若 `rules/workingfiles-conventions.md` 不存在則建立，內容照抄 `<WTF_ROOT>/rules/workingfiles-conventions.md`。
+1. **補齊工作區資料夾**（不存在則建立）：`_context/`、`rules/`、`outputs/_shared/_screenshots/`、`outputs/_shared/_scripts/`、`tools/`。
+2. **建立預設規範**：若 `rules/folder-conventions.md` 不存在則建立，內容照抄 `<WTF_ROOT>/rules/folder-conventions.md`。
 3. **讀取專案知識——三檔制，嚴禁全量掃描 `_context/`**：
    - 讀 `_context/INDEX.md`（現況與指路）→ 讀 INDEX 指到的**當前 TaskLog 一份**（todo 真相源）→ 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
    - `rules/` 內全部 `.md` 照讀（通常很短）。
@@ -78,11 +78,10 @@
 |---|---|
 | `_context/` | 知識與紀錄（INDEX、PRD、TaskLog、Handover、lessons、archive）|
 | `rules/` | 專案規則 |
-| `workingfiles/` | 暫時工作檔（`_screenshots/`、`_scripts/`）|
-| `outputs/` | 正式輸出；舊版進 `outputs/OLD/`（禁多版本平鋪）|
+| `outputs/` | 唯一工作與產出樹；最外層＝目前最新版本，舊版／過程稿進 `outputs/<子專案>/archive/`（禁多版本平鋪），跨子專案共用過程檔進 `outputs/_shared/` |
 | `tools/` | 本專案處理腳本 |
 
-- 根目錄只放設定與入口檔；素材→`workingfiles/`、成果→`outputs/`（一律複數）、腳本→`tools/`。
+- 根目錄只放設定與入口檔；過程稿與成果**統一**進 `outputs/`（一律複數，`workingfiles/` 已廢除，詳見 `rules/folder-conventions.md`）；腳本→`tools/`。
 - 專案檔案進 `projects/<專案名>/`；一次性輸出進根層 `outputs/`。
 
 ### 命名慣例

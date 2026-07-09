@@ -11,8 +11,8 @@
 
 ## 開場協議（讀到本檔即執行）
 
-1. **工作區初始化**：檢查並補齊資料夾（不存在則建立）——`_context/`、`rules/`、`workingfiles/_screenshots/`、`workingfiles/_scripts/`、`outputs/`。
-   - 若 `rules/workingfiles-conventions.md` 不存在則建立：`workingfiles/` 存暫時性工作檔與素材（`_screenshots/` 擷圖驗收、`_scripts/` AI 腳本），驗收/結案後可清除。
+1. **工作區初始化**：檢查並補齊資料夾（不存在則建立）——`_context/`、`rules/`、`outputs/_shared/_screenshots/`、`outputs/_shared/_scripts/`。
+   - 若 `rules/folder-conventions.md` 不存在則建立：`outputs/<子專案>/` 最外層＝最新版本、`archive/` 存已取代舊版與過程稿，`outputs/_shared/` 存跨子專案過程檔（`_screenshots/` 擷圖驗收、`_scripts/` AI 腳本），驗收/結案後可清除。
 2. **專案資料載入（三檔制）**：讀 `_context/INDEX.md` → INDEX 指到的當前 TaskLog 一份 → `_context/lessons-learned.md`（若存在）；`rules/` 內全部 `.md` 照讀。其他 `_context/` 檔案只在 INDEX 點名或使用者點名時才讀，`archive/` 跳過。
 3. 讀取完成後回覆「已載入全域設定」，再詢問本次任務。
 
@@ -27,7 +27,7 @@
 - **禁止臆測**：無截圖/程式碼時不推測畫面或錯因，直接問使用者。
 
 ## 文件整理慣例
-- 成果存 `outputs/`；素材存 `workingfiles/`；舊版進 `outputs/OLD/`（不平鋪多版本）。
+- 成果與過程稿統一存 `outputs/`；最外層＝最新版，舊版進 `outputs/<子專案>/archive/`（不平鋪多版本）。
 - 檔名依「類型_日期_主題」，不用通用檔名。
 - 文件輸出一律 HTML（`.html`），不用 Word（`.docx`）。
 

@@ -1,9 +1,13 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-03
 
+## 2026-07-09 SessionStart hook 補強
+- 三檔制注入有效，但 GLOBAL.md／AGENTS.md 從未被結構讀取（純文字指示不可靠，兩個獨立 session 各自證實）。已改 hook 強制注入這兩檔；曾加的自報 banner 證實是假陰性指標，已刪除、不建稽核腳本。
+- 遵循度（模型讀到內容後是否照做）無結構性保證手段，Claude Code 官方文件未承諾，維持現況不再投入。詳見 `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（**當前 TaskLog**）。
+
 ## 2026-07-03 制度更新（Fable 5 session）
 - 常載鏈已重寫（開場改**三檔制**：INDEX → 當前 TaskLog → lessons-learned，嚴禁全量掃 `_context/`）；派工/判斷/交辦/維護守則在 `wtf-config/playbooks/`（路由表見 GLOBAL.md「制度層」）。
-- 詳見 `_context/TaskLog_2026-07-03_fable5制度建置.md`；總覽 `wtf-config/playbooks/letter-from-fable5.md`。舊常載鏈備份 `wtf-config/archive/2026-07-03_pre-fable5/`。
+- 詳見 `_context/TaskLog_2026-07-03_fable5制度建置.md`（含「派 claude@windows」待辦節）；總覽 `wtf-config/playbooks/letter-from-fable5.md`。舊常載鏈備份 `wtf-config/archive/2026-07-03_pre-fable5/`。
 
 ## 一句話目標
 Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
@@ -17,7 +21,8 @@ Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
 - 最新工作紀錄：
   - `_context/Handover_2026-07-07_三任務測試接棒.md`（**接棒者先讀這份**：三任務現況/基建/誠實遺留）
-  - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；**當前 TaskLog**）
+  - `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（GLOBAL/AGENTS 強制注入＋遵循度診斷；**當前 TaskLog**）
+  - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；含 Windows hook 部署待辦）
   - `_context/TaskLog_2026-06-07_跨工具開場載入對等.md`（Codex/agy 開場載入全域設定+skills 對等已落地 Mac；**待 Windows 跑 sync 部署**）
   - `_context/TaskLog_2026-06-07_inbox語音速記分流.md`（Phase B inbox `/inbox` skill 已建，待 Windows 補 vault 路徑）
   - 階段二已結案 `_context/archive/ClosedTaskLog_2026-06-03_階段二-移出Drive.md`

@@ -8,7 +8,7 @@
 | 檔案 | 允許的改法 |
 |---|---|
 | 各專案 `_context/` 的 TaskLog、Handover、INDEX、lessons-learned | 照命名慣例新增/更新；結案歸檔 |
-| `workingfiles/`、`outputs/` | 依 GLOBAL.md 檔案規範自由使用 |
+| `outputs/` | 依 GLOBAL.md 檔案規範自由使用 |
 | `wtf-config/LESSONS.md` | **只加行**（`專案｜日期｜一句話｜連結`），不改不刪既有行 |
 | `playbooks/model-dispatch.md` 第 0 節型號表 | 查證到新值即更新，**必附查證日期與來源**（claude-code-guide／官方文件） |
 | `playbooks/pitfalls-*.md` | **只追加**新踩坑條目（格式見第 2 節），不改不刪既有條目 |

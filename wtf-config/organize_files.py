@@ -13,11 +13,11 @@ organize_files.py — 依 GLOBAL.md 規則整理檔案歸位
   AUTO   — 機械式、零歧義，--apply 時執行
            · output/ 目錄 → outputs/
            · 根目錄臨時腳本 _*.{mjs,js,py,ts} → tools/
-           · 根目錄截圖類圖檔（_*、thumbnails、含 qa）→ workingfiles/_screenshots/
-           · 同組多版本檔的「非最新版」→ outputs/OLD/
+           · 根目錄截圖類圖檔（_*、thumbnails、含 qa）→ outputs/_shared/_screenshots/
+           · 同組多版本檔的「非最新版」→ outputs/archive/
   MANUAL — 有業務語意、可能猜錯，只印建議，永不自動搬（人工拍板）
-           · 根目錄成果/素材文件（pptx/docx/xlsx/pdf）— 成果 vs 素材難分
-           · 同組多版本的「最新版」放哪 — outputs/ vs workingfiles/
+           · 根目錄成果/素材文件（pptx/docx/xlsx/pdf）— 該歸哪個子專案 outputs/<子專案>/ 待判
+           · 同組多版本的「最新版」放哪個子專案夾 — outputs/<子專案>/
            · _context 檔名違規（改名涉及語意）
 
 搬檔護欄: 只搬不刪、同名不覆蓋（衝突跳過回報）、目的夾不存在才建立。
@@ -95,9 +95,9 @@ def plan_project(d):
         items.sort()  # 依版本升冪
         newest = items[-1][1]
         for _, f in items[:-1]:
-            auto.append((f, d / "outputs" / "OLD" / f.name, "舊版歸檔"))
+            auto.append((f, d / "outputs" / "archive" / f.name, "舊版歸檔"))
             versioned.add(f)
-        manual.append((newest, "outputs/ 或 workingfiles/", "同組最新版，成果/素材待判"))
+        manual.append((newest, "outputs/<子專案>/", "同組最新版，歸哪個子專案待判"))
         versioned.add(newest)
 
     # 3/4. 其餘散落檔
@@ -109,11 +109,11 @@ def plan_project(d):
         if ext in SCRIPT_EXT and low.startswith("_"):
             auto.append((f, d / "tools" / f.name, "臨時/審查腳本歸 tools"))
         elif ext in IMG_EXT and (low.startswith("_") or "thumbnail" in low or "qa" in low):
-            auto.append((f, d / "workingfiles" / "_screenshots" / f.name, "截圖歸位"))
+            auto.append((f, d / "outputs" / "_shared" / "_screenshots" / f.name, "截圖歸位"))
         elif ext in DOC_EXT:
-            manual.append((f, "workingfiles/（素材）或 outputs/（成果）", "業務文件，成果/素材待判"))
+            manual.append((f, "outputs/<子專案>/ 或 outputs/_shared/", "業務文件，歸哪個子專案待判"))
         elif ext in IMG_EXT:
-            manual.append((f, "workingfiles/_screenshots/ 或 outputs/", "圖檔用途待判"))
+            manual.append((f, "outputs/_shared/_screenshots/ 或 outputs/<子專案>/", "圖檔用途待判"))
 
     return auto, manual
 
