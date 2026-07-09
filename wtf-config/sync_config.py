@@ -37,6 +37,7 @@ SSOT_CODEX = SCRIPT_DIR / "CODEX.md"                   # ~/.codex/AGENTS.md 真�
 SSOT_GEMINI = SCRIPT_DIR / "GEMINI.md"                 # ~/.gemini/GEMINI.md 真相源（Antigravity 原生讀 GEMINI.md）
 SSOT_SKILLS = SCRIPT_DIR / "skills"                    # ~/.claude/skills/ 真相源
 SSOT_AGENTS = SCRIPT_DIR / "agents"                    # ~/.claude/agents/ 真相源（subagent 定義，如 ody-verifier）
+SSOT_HOOKS = SCRIPT_DIR / "hooks"                      # ~/.claude/ 平鋪部署的 hook 腳本真相源（session-context、pretooluse-guard）
 REPO_ROOT = SCRIPT_DIR.parent                         # WTF repo 根（已移出 Drive，供 register 記錄）
 MACHINES = SCRIPT_DIR / "machines.md"
 CLAUDE_DIR = Path.home() / ".claude"
@@ -261,6 +262,22 @@ def check_claude_dir():
             n = len(list(SSOT_AGENTS.glob('*.md')))
             notes.append(f"  v [OK     ] ~/.claude/agents/ （{n} 個 agent）")
 
+    # hook 腳本（~/.claude/ 平鋪，per-machine 部署洞要主動驗；註冊到 settings.json 仍屬手動）
+    if SSOT_HOOKS.exists():
+        missing = []
+        for src in sorted(SSOT_HOOKS.iterdir()):
+            if not src.is_file() or src.suffix not in (".sh", ".py"):
+                continue
+            dst = CLAUDE_DIR / src.name
+            if not dst.exists() or dst.read_text(encoding="utf-8", errors="replace").rstrip() \
+                    != src.read_text(encoding="utf-8").rstrip():
+                missing.append(src.name)
+        if missing:
+            notes.append(f"  x [STALE  ] ~/.claude/ hooks — 缺/不符：{missing}")
+        else:
+            n = len([p for p in SSOT_HOOKS.iterdir() if p.is_file() and p.suffix in (".sh", ".py")])
+            notes.append(f"  v [OK     ] ~/.claude/ hooks （{n} 個腳本）")
+
     return claude_md_ok, skills_ok, notes
 
 
@@ -329,6 +346,26 @@ def deploy_claude_dir():
             except Exception as e:
                 results.append(f"  ! 略過 agents/{src.name}（{e}）")
         results.append(f"  v 寫入 ~/.claude/agents/（{ok} 個 agent）")
+
+    # hook 腳本 → ~/.claude/ 平鋪（settings.json 註冊路徑為 ~/.claude/<名稱>；只加不 prune）
+    if SSOT_HOOKS.exists():
+        ok = 0
+        for src in sorted(SSOT_HOOKS.iterdir()):
+            if not src.is_file() or src.suffix not in (".sh", ".py"):
+                continue
+            try:
+                dst = CLAUDE_DIR / src.name
+                if dst.is_symlink():
+                    dst.unlink()
+                shutil.copy2(src, dst)
+                try:
+                    dst.chmod(dst.stat().st_mode | 0o755)
+                except Exception:
+                    pass  # Windows 無 chmod 語意，Git Bash 直接 bash 執行不需 +x
+                ok += 1
+            except Exception as e:
+                results.append(f"  ! 略過 hooks/{src.name}（{e}）")
+        results.append(f"  v 寫入 ~/.claude/ hooks（{ok} 個腳本；settings.json 註冊仍為手動，見各腳本檔尾）")
 
     return results
 

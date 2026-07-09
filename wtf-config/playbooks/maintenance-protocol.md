@@ -17,7 +17,7 @@
 ### 黃區——先提案、使用者核准後才改
 | 檔案 | 原因 |
 |---|---|
-| 常載鏈：`GLOBAL.md`、`CLAUDE_CODE.md`、`AGENTS.md`、`GEMINI.md`、`CODEX.md`、`CLAUDE_COWORK.md`、`CLAUDE_CHAT.md` | 每個 session 都吃，改壞影響全部工作（沿用 nightly「只建議不自改」慣例） |
+| 常載鏈：`GLOBAL.md`、`CORE-RULES.md`、`CLAUDE_CODE.md`、`AGENTS.md`、`GEMINI.md`、`CODEX.md`、`CLAUDE_COWORK.md`、`CLAUDE_CHAT.md` | 每個 session 都吃，改壞影響全部工作（沿用 nightly「只建議不自改」慣例）。`CORE-RULES.md`＝GLOBAL/AGENTS 濃縮注入版：改 GLOBAL/AGENTS 行為規則時必須同步檢查它 |
 | playbooks 的規則本文（dispatch 規則、rubric、範本、本檔） | 制度骨架，改壞會被弱模型放大執行 |
 | `sync_config.py`、`projects-registry.md`、`machines.md` | 部署機制，改壞會斷跨機同步 |
 | `skills/*/SKILL.md`、`agents/*.md` | 影響所有觸發該 skill 的 session |

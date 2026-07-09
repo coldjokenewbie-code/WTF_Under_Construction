@@ -1,6 +1,8 @@
 #!/bin/bash
-# wtf-session-context.sh — SessionStart hook：把 GLOBAL.md/AGENTS.md + 三檔制內容直接注入 context
+# wtf-session-context.sh — SessionStart hook：把 CORE-RULES.md（GLOBAL/AGENTS 濃縮版）+ 三檔制內容直接注入 context
 # 設計原則：不提醒模型去讀（那靠自律），直接灌內容（不需遵從）。
+# 2026-07-09 改注入濃縮版：官方文件明示常載規則過長會降低遵循度（memory.md：target under 200 lines，
+# Longer files reduce adherence）；GLOBAL/AGENTS 全文改為按需讀，正本地位不變。
 # 部署：複製到 ~/.claude/ 並 chmod +x；註冊見檔尾。cwd＝專案根目錄（Claude Code hook 預設）。
 # 正本：WTF repo wtf-config/hooks/（黃區，改動走 maintenance-protocol）
 
@@ -9,23 +11,31 @@ d="_context"
 
 CAP=150   # 每檔注入上限行數，控 token 成本
 
-echo "【開場注入｜GLOBAL.md/AGENTS.md + 三檔制內容已由 SessionStart hook 自動載入，無需再讀這些檔】"
+echo "【開場注入｜核心鐵律（CORE-RULES）+ 三檔制內容已由 SessionStart hook 自動載入，無需再讀這些檔；GLOBAL.md/AGENTS.md 為正本，需細節再按需讀】"
 
-# GLOBAL.md／AGENTS.md：在專案外（wtf-config/），走 WTF_ROOT 錨點定位（機制見 GLOBAL.md 檔頭）
+# CORE-RULES.md：在專案外（wtf-config/），走 WTF_ROOT 錨點定位（機制見 GLOBAL.md 檔頭）
 root_file="$HOME/.claude/wtf-root.txt"
 WTF_ROOT=""
 [ -f "$root_file" ] && WTF_ROOT=$(cat "$root_file")
 
 if [ -n "$WTF_ROOT" ]; then
-  for f in "$WTF_ROOT/wtf-config/GLOBAL.md" "$WTF_ROOT/wtf-config/AGENTS.md"; do
-    if [ -f "$f" ]; then
-      echo "===== $f ====="
-      head -n "$CAP" "$f"
-      [ "$(wc -l < "$f")" -gt "$CAP" ] && echo "……（超過 ${CAP} 行已截斷，需完整內容再讀原檔）"
-    fi
-  done
+  core="$WTF_ROOT/wtf-config/CORE-RULES.md"
+  if [ -f "$core" ]; then
+    echo "===== $core ====="
+    head -n "$CAP" "$core"
+    [ "$(wc -l < "$core")" -gt "$CAP" ] && echo "……（超過 ${CAP} 行已截斷，需完整內容再讀原檔）"
+  else
+    # 過渡 fallback：repo 尚未 pull 到 CORE-RULES 時退回全文注入
+    for f in "$WTF_ROOT/wtf-config/GLOBAL.md" "$WTF_ROOT/wtf-config/AGENTS.md"; do
+      if [ -f "$f" ]; then
+        echo "===== $f ====="
+        head -n "$CAP" "$f"
+        [ "$(wc -l < "$f")" -gt "$CAP" ] && echo "……（超過 ${CAP} 行已截斷，需完整內容再讀原檔）"
+      fi
+    done
+  fi
 else
-  echo "【警告：~/.claude/wtf-root.txt 缺失，GLOBAL.md/AGENTS.md 未能注入，需自行讀取】"
+  echo "【警告：~/.claude/wtf-root.txt 缺失，CORE-RULES.md 未能注入，需自行讀取 GLOBAL.md/AGENTS.md】"
 fi
 
 for f in "$d/INDEX.md" "$d/lessons-learned.md"; do

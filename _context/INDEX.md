@@ -1,9 +1,10 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-03
 
-## 2026-07-09 SessionStart hook 補強
-- 三檔制注入有效，但 GLOBAL.md／AGENTS.md 從未被結構讀取（純文字指示不可靠，兩個獨立 session 各自證實）。已改 hook 強制注入這兩檔；曾加的自報 banner 證實是假陰性指標，已刪除、不建稽核腳本。
-- 遵循度（模型讀到內容後是否照做）無結構性保證手段，Claude Code 官方文件未承諾，維持現況不再投入。詳見 `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（**當前 TaskLog**）。
+## 2026-07-09 遵循度強制點重構（推翻「無解」結論）
+- 查證官方文件後推翻前結論：PreToolUse 可設 **user 層級全域生效**（原「只到專案層」否決前提有誤），deny 理由回饋模型；常載規則 >200 行反降遵循度。
+- 已建 `wtf-config/hooks/wtf-pretooluse-guard.{sh,py}`（R1–R5 機器攔截：archive 只讀、命名慣例、禁 git add 全量、禁 symlink）；SessionStart 注入改 `wtf-config/CORE-RULES.md` 濃縮版（GLOBAL/AGENTS 為正本按需讀）；`sync_config.py` 新增 hooks 部署。**兩機待手動註冊 PreToolUse＋跑 sync**。詳見 `_context/TaskLog_2026-07-09_遵循度強制點重構.md`（**當前 TaskLog**）。
+- 前情（同日早前 session）：三檔制注入有效、GLOBAL/AGENTS 曾改全文注入、自報 banner 證實假陰性已刪，見 `TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`。
 
 ## 2026-07-03 制度更新（Fable 5 session）
 - 常載鏈已重寫（開場改**三檔制**：INDEX → 當前 TaskLog → lessons-learned，嚴禁全量掃 `_context/`）；派工/判斷/交辦/維護守則在 `wtf-config/playbooks/`（路由表見 GLOBAL.md「制度層」）。
@@ -21,7 +22,8 @@ Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／
 - 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
 - 最新工作紀錄：
   - `_context/Handover_2026-07-07_三任務測試接棒.md`（**接棒者先讀這份**：三任務現況/基建/誠實遺留）
-  - `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（GLOBAL/AGENTS 強制注入＋遵循度診斷；**當前 TaskLog**）
+  - `_context/TaskLog_2026-07-09_遵循度強制點重構.md`（PreToolUse guard＋CORE-RULES 濃縮注入；**當前 TaskLog**）
+  - `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（GLOBAL/AGENTS 強制注入＋遵循度診斷；結論已被同日重構部分推翻）
   - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；含 Windows hook 部署待辦）
   - `_context/TaskLog_2026-06-07_跨工具開場載入對等.md`（Codex/agy 開場載入全域設定+skills 對等已落地 Mac；**待 Windows 跑 sync 部署**）
   - `_context/TaskLog_2026-06-07_inbox語音速記分流.md`（Phase B inbox `/inbox` skill 已建，待 Windows 補 vault 路徑）

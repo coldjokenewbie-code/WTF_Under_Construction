@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-09b (遵循度強制點：行為層/輸出層可強制，輸入層只能濃縮)
+
+* **否決方案時要留下依據並可被查證，否則錯誤前提會封死正確路**：07-09 早前 session 否決 PreToolUse 方案的理由是「只能到專案層級」，查官方文件（hooks-guide.md）後發現 PreToolUse 可設在 user 層級 `~/.claude/settings.json` **全專案全域生效**，且 deny 理由會回饋模型使其修正（「Claude receives it as feedback so it can adjust」）——前提錯誤導致整條「機器強制」路線被錯判為無解。**防**：關鍵方案的否決理由必須附查證來源（官方文件 URL＋引句），口頭判斷不足以否決。
+* **遵循度問題要按「哪裡可機器攔截」拆解，不是單一問題**：(1) 工具呼叫可觀測的規則（檔案放哪、命名、禁 add -A、禁 symlink）→ PreToolUse deny（`wtf-config/hooks/wtf-pretooluse-guard.py`，R1–R5，fail-open）；(2) 輸出可 lint 的規則 → Stop hook block＋reason（ody 基礎，待升格全域）；(3) 純行為規則 → 無法強制，只能降遵循成本。
+* **常載規則過長反而降遵循度（官方明文）**：memory.md 建議 CLAUDE.md <200 行、「Longer files consume more context and reduce adherence」。原 hook 注入 63,779 字元屬反向操作。已改注入 `wtf-config/CORE-RULES.md` 濃縮版（約 45 行，只收「每 session 都可能違反的行為規則」），GLOBAL/AGENTS 降為按需讀的正本。**濃縮版是雙真相源風險點**：改 GLOBAL/AGENTS 行為規則必須同步檢查 CORE-RULES（已寫入 maintenance-protocol 黃區表）。
+
 ## 2026-07-09 (SessionStart hook：內容送達 ≠ 模型照做；自報式驗證不可靠)
 
 * **「注入式」只解決「有沒有讀到」，解決不了「有沒有照做」**：`wtf-session-context.sh` 原本只注入三檔制，GLOBAL.md／AGENTS.md 靠開場協議文字指示模型自讀——兩個獨立 session 各自證實這完全不可靠（整場對話沒讀，被使用者當面問到才補讀）。已改為比照三檔制，用 `WTF_ROOT` 錨點（`~/.claude/wtf-root.txt`）強制注入 GLOBAL/AGENTS 全文（commit `f49f131`）。**但**這只保證內容進 context，不保證模型後續會依內容行動——這是兩個不同層次的問題，不可混為一談。
