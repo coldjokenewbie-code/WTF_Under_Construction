@@ -3,9 +3,16 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-07-09 08:30**｜night-relay 領先 main 23 commits（07-08 晚新增 8）。
-**guide-app**：Tailwind CDN→本地建置（commit 1b79407，視覺零改動）＋重拍 17 張截圖驗證錯誤全消（0/17，舊版 17/17 皆報錯）＋重驗 16 項改善清單（2 項確認 CDN 假象已解／1 項對比度降級／12 項維持）。證據：`out/ui-audit_2026-07-08.md`、`out/audit-screenshots-20260709/`。無新增 blocker（沿用暗色主題定調／底圖風格統一 2 項待你裁決，見 `_blockers.md`）。
-**o4-soundtrack**：MusicTrack 音量包絡重寫（commit d8b50d8）＋路線 C×方向二 6 段 lyria-002 prompt＋ffmpeg 接合腳本備料，算式驗證 66.3s/40.0s 精確（commit 80a8c9a）。新 blocker：生成腳本已備妥，需你本機跑一次（憑證牆）；仍卡【討論閘】方向二拍板前，禁自行生成音檔。
+**提醒棒 2026-07-09 17:06**｜night-relay 已併最新 main（含 07-09 guide-app 重驗＋制度層更新）。
+
+**待核准清單**：①machine-report（優先1）M1+M2+M3 併案送審，內容全章＋opus 對抗審查已 PASS，待你核准改 done。②test-baton-pickup-0706（優先9）管線探針驗證通過、無實質產出，建議直接結案。
+
+**active 產能算術**：guide-app 剩 7 項（M2 關卡前尚有 4 個可做項：讀碼修正/UI整合/動態/測試存證）；今晚 4 棒與 o4-soundtrack 輪替（約各 2 棒/晚），每棒一項估算約 2 晚後（07-11 前後）達 M2 待核准。o4-soundtrack 剩 4 項但全數卡在【討論閘】——方向二未拍板前，本機生成/接線/對抗審查 3 項皆無法推進，今晚可做項＝0，完成日待你拍板才能估算。
+
+**blockers 待決**：guide-app＝暗色主題定調（A暗/B淺，推薦A）＋底圖風格統一，2 項附截圖。o4-soundtrack＝方向二拍板（卡生成）／本機執行生成腳本（憑證牆）／V2 文案「19世紀初期」應為1929待轉知英審。design-training（parked）＝WebFetch 全面403，4 選項待你擇一（見 `_blockers.md`）。
+
+**提名候選（未啟動，需先改「待規劃」）**：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill。
+
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
