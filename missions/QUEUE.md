@@ -3,16 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-09 17:06**｜night-relay 已併最新 main（含 07-09 guide-app 重驗＋制度層更新）。
-
-**待核准清單**：①machine-report（優先1）M1+M2+M3 併案送審，內容全章＋opus 對抗審查已 PASS，待你核准改 done。②test-baton-pickup-0706（優先9）管線探針驗證通過、無實質產出，建議直接結案。
-
-**active 產能算術**：guide-app 剩 7 項（M2 關卡前尚有 4 個可做項：讀碼修正/UI整合/動態/測試存證）；今晚 4 棒與 o4-soundtrack 輪替（約各 2 棒/晚），每棒一項估算約 2 晚後（07-11 前後）達 M2 待核准。o4-soundtrack 剩 4 項但全數卡在【討論閘】——方向二未拍板前，本機生成/接線/對抗審查 3 項皆無法推進，今晚可做項＝0，完成日待你拍板才能估算。
-
-**blockers 待決**：guide-app＝暗色主題定調（A暗/B淺，推薦A）＋底圖風格統一，2 項附截圖。o4-soundtrack＝方向二拍板（卡生成）／本機執行生成腳本（憑證牆）／V2 文案「19世紀初期」應為1929待轉知英審。design-training（parked）＝WebFetch 全面403，4 選項待你擇一（見 `_blockers.md`）。
-
-**提名候選（未啟動，需先改「待規劃」）**：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill。
-
+**晨報棒 2026-07-10 08:30**｜night-relay 領先 main 33 commits（07-09 提醒棒後新增 8：全為 guide-app）。
+**guide-app**：增量之三（AppShell 展品頁 header 誤植修正／dev 工具列 prod 隱藏／清孤兒檔案，commit 59ba4ea）＋增量之四（字級 token 化，零視覺差異，commit 94a71d5）＋定錨棒 23:34 對照近 5 棒 vs MISSION 方向，**裁決 PASS**＋增量之五（啟用 tailwindcss-animate 修 audit #6 動態失效，commit ec34b7a）。證據：`out/increment3-20260709/`、`out/increment4-20260709/`、`out/increment5-20260710/`（各附截圖＋console-errors 核對）。
+**o4-soundtrack**：昨晚無新增量（全數卡【討論閘】方向二拍板前，可作項＝0，與 17:00 快報一致）。
+**新 blockers**：定錨棒新增 2 條——①標準演化提案：動外觀項目的「前後截圖」硬底線建議升級為與 `展示頁面.md` 錨點並列比較句；②MISSION.md 正錨路徑 `outputs/開場頁原型_20260707/` 實際不存在，現況為 `assembly-guide-trial/`，待訂正（低優先，非阻塞）。均已寫入 `20260706-guide-app/_blockers.md`，待你裁決。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
