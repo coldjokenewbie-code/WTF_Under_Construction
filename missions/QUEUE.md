@@ -3,10 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-07-11 08:30**：night-relay 領先 main 43 commits（起點：07-10 17:00 提醒棒後）。
-**guide-app**：昨晚三棒完成增量六～八——頁面轉場(commit 13bd398)、清單進場stagger+順手修展品搜尋既有bug(e25f363)、按壓回饋微互動(a4c5fc7)；**M2 界達成**，QUEUE 已改「待核准」。證據：missions/20260706-guide-app/out/increment{6,7,8}-*-20260710/。
-**o4-soundtrack**：01:34 查核剩餘4項皆卡【討論閘】方向二拍板／本機執行，無可作項，進展no，維持 active（未觸發連續2棒零進展停止閘）。
-**新增 blockers**：無（guide-app 4條／o4-soundtrack 3條皆為既有，昨晚未新增）。
+**提醒棒 2026-07-11 17:05**。
+**待核准（3）**：machine-report(優1,全章+對抗審查PASS)／guide-app(優2,M2界達成)／test-baton-pickup-0706(優9,探針驗證通過建議直接結案)——皆等使用者一句話核准或改 done。
+**active（1）**：o4-soundtrack(優3)，剩餘4項全卡【討論閘】方向二拍板，0可作項。
+**parked（1）**：design-training，WebFetch組織政策403非暫時，4選項待裁決（見 _blockers.md）。
+**提名待啟動（5）**：ody-evidence-gate／southlibrary-fonts(需掛SouthLibrary)／cowork-c-tasks(需掛cowork_CDIC)／sreclaim-verify-b(需掛S-reclaimed-water-plant)／pptmap-skill(需掛ppt_map_mark)。
+**blockers 待決彙總**：guide-app 4條(主題明暗/縮圖路線/anchor截圖升級提案/路徑訂正)｜o4-soundtrack 3條(方向二拍板/本機生成憑證牆/V2文案錯字轉知)｜machine-report 1條(milestone回溯簽核3選項,不阻塞)｜design-training 4選項(WebFetch解封/授權WebSearch替代/使用者給連結/僅限本機)。
+**產能算術**：僅1個active案(o4-soundtrack)，剩餘backlog 4項，今晚排定4棒(19:30/21:30/23:30/01:30)；因4項皆卡拍板閘，0可作項，**預期今晚4棒全數秒退**（其餘3個待核准案未核准前不進 active 輪替）。若17:05-19:30間拍板方向二：4棒×每棒1項可望當晚做完雲端可作的3項，剩1項仍卡本機執行憑證牆。若同時核准guide-app/machine-report，可望增加2-3個可作棒次。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
