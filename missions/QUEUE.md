@@ -3,13 +3,14 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-11 17:05**。
-**待核准（3）**：machine-report(優1,全章+對抗審查PASS)／guide-app(優2,M2界達成)／test-baton-pickup-0706(優9,探針驗證通過建議直接結案)——皆等使用者一句話核准或改 done。
-**active（1）**：o4-soundtrack(優3)，剩餘4項全卡【討論閘】方向二拍板，0可作項。
-**parked（1）**：design-training，WebFetch組織政策403非暫時，4選項待裁決（見 _blockers.md）。
-**提名待啟動（5）**：ody-evidence-gate／southlibrary-fonts(需掛SouthLibrary)／cowork-c-tasks(需掛cowork_CDIC)／sreclaim-verify-b(需掛S-reclaimed-water-plant)／pptmap-skill(需掛ppt_map_mark)。
-**blockers 待決彙總**：guide-app 4條(主題明暗/縮圖路線/anchor截圖升級提案/路徑訂正)｜o4-soundtrack 3條(方向二拍板/本機生成憑證牆/V2文案錯字轉知)｜machine-report 1條(milestone回溯簽核3選項,不阻塞)｜design-training 4選項(WebFetch解封/授權WebSearch替代/使用者給連結/僅限本機)。
-**產能算術**：僅1個active案(o4-soundtrack)，剩餘backlog 4項，今晚排定4棒(19:30/21:30/23:30/01:30)；因4項皆卡拍板閘，0可作項，**預期今晚4棒全數秒退**（其餘3個待核准案未核准前不進 active 輪替）。若17:05-19:30間拍板方向二：4棒×每棒1項可望當晚做完雲端可作的3項，剩1項仍卡本機執行憑證牆。若同時核准guide-app/machine-report，可望增加2-3個可作棒次。
+**晨報棒 2026-07-12 08:30**：night-relay 領先 main 51 commits。昨晚(07-11 19:34～07-12 01:34)僅 o4-soundtrack 有動作，其餘案無新增量：
+- 19:34 定錨棒(opus)：小偏判定——硬底線4「兩方案皆完整可生成」與現實脫節(方向一因 lyria-3 404 已無單段生成路徑)；backlog 新增討論閘前置子項。證據：`missions/20260706-o4-soundtrack/{backlog.md,journal.md}`
+- 21:33／23:34 執行棒：4項backlog仍全卡討論閘，連續2棒零進展觸發停止閘 → **o4-soundtrack 改 parked**
+- 01:30 心跳：QUEUE 已無 待規劃/active 項，秒退——**今晚起循環棒將全數秒退**，直到使用者核准某案
+**新 blockers（2條，見 `missions/20260706-o4-soundtrack/_blockers.md`）**：
+① 產出散落兩分支需收貨前合併：MusicTrack.tsx＝claude/sharp-gates-uebbk0(d8b50d8) vs 生成腳本＝claude/sharp-gates-5zp0y5(80a8c9a)
+② 硬底線4修訂提案：方向一降為概念備案，不強制生成prompt包（待裁決）
+**現況**：3案待核准(machine-report/guide-app/test-baton-pickup-0706)＋2案parked(o4-soundtrack/design-training)，**0 active**——建議先核准至少一案，否則今晚循環棒空轉。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
