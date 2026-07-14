@@ -86,9 +86,10 @@
 - 專案檔案進 `projects/<專案名>/`；一次性輸出進根層 `outputs/`。
 
 ### Claude_cowork 專案的版控架構（偵測式）
-- 專案路徑含 `Claude_cowork/projects/<名稱>/` 時，先查本機是否存在 `/Users/coma/git_mirror/<名稱>/`：
+- 專案路徑含 `Claude_cowork/projects/<名稱>/` 時，先查本機是否存在 `<機器版 git_mirror 根>/<名稱>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不在 Drive 同步範圍內，各機各自獨立存在，不會跟著 Drive 同步過去）：
   - **存在** → 該專案已用鏡像架構：Drive 端不得 `git init`／`add`／`commit`／`push`；真正版控在 `git_mirror/<名稱>/`，由 `/session-end` 依副檔名鏡像 code/文字檔＋commit+push；大型文檔不鏡像，靠 Drive 自身備份。Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報不使用。
-  - **不存在** → 專案維持原地 git，無需限制。
+  - **不存在** → 先查該專案 GitHub remote 是否存在（見 `wtf-config/projects-registry.md`）：有 remote → 直接 `git clone` 到本機 `git_mirror/<名稱>/`（不要在 Drive 端 `git init`，那會製造新的、未連 remote 的孤兒 repo）；無 remote → 專案維持原地 git，無需限制。
+  - 各專案 Drive 端 `_context/INDEX.md` 應註明是否適用此架構，避免下場才發現「這資料夾不能用 git 相關 skill」。
 
 ### 命名慣例
 | 類型 | 格式 |
