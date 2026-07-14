@@ -156,3 +156,8 @@
 - AgentIDE｜2026-07-07｜codex exec 非互動必加 `< /dev/null`；Windows sandbox helper 缺失＝junction bug（openai/codex#30829），實體路徑＋PATH 前置 codex-resources 可解｜E:/Git_work/AgentIDE/_context/lessons-learned.md
 - AgentIDE｜2026-07-07｜cmd 陷阱：`ping -n 1 -w 500` 對 localhost 不等待（sleep 要用 `ping -n 2`）；`if exist \.\pipe\X` 探測 named pipe 不可靠，健檢走應用協議｜E:/Git_work/AgentIDE/_context/lessons-learned.md
 - HsinchuSEC｜2026-07-09｜pptx 生成陷阱：中文字型須 latin+ea+cs 全設(否則落回主題EA新細明體)；既有pptx漸層多為內嵌圖片(複製頁連r:embed一起搬)；刪頁後media變孤兒需可達性走訪剪裁；重排sldIdLst禁pop逐刪(會產生游離sldId、須以len(list(prs.slides))驗實頁)；PO已編輯的檔一律載入其檔只增不改存新檔並比照其設定｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- Asembly_PPT｜2026-07-14｜Remotion Sequence 內幀號相對值害時間軸錯位，絕對常數判斷勿包 Sequence｜projects/Asembly_PPT/_context/lessons-learned.md #19
+- Asembly_PPT｜2026-07-14｜headless 截播放中 UI：stub speechSynthesis／放真 mp3；防 fallback 選擇器抓隱形鈕｜同上 #20
+- Asembly_PPT｜2026-07-14｜agy 報告兩型系統錯：判無圖不看圖、圖說頁碼複製錯位→SPEC 明令＋機檢全查｜同上 #21
+- Asembly_PPT｜2026-07-14｜功能示範片開場＝展項位置場景；設計書帶標註渲染圖用 Nano Banana 去標註重製｜同上 #22
+
