@@ -84,6 +84,11 @@
 - 根目錄只放設定與入口檔；過程稿與成果**統一**進 `outputs/`（一律複數，`workingfiles/` 已廢除，詳見 `rules/folder-conventions.md`）；腳本→`tools/`。
 - 專案檔案進 `projects/<專案名>/`；一次性輸出進根層 `outputs/`。
 
+### Claude_cowork 專案的版控架構（偵測式）
+- 專案路徑含 `Claude_cowork/projects/<名稱>/` 時，先查本機是否存在 `/Users/coma/git_mirror/<名稱>/`：
+  - **存在** → 該專案已用鏡像架構：Drive 端不得 `git init`／`add`／`commit`／`push`；真正版控在 `git_mirror/<名稱>/`，由 `/session-end` 依副檔名鏡像 code/文字檔＋commit+push；大型文檔不鏡像，靠 Drive 自身備份。Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報不使用。
+  - **不存在** → 專案維持原地 git，無需限制。
+
 ### 命名慣例
 | 類型 | 格式 |
 |---|---|
