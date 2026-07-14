@@ -25,7 +25,7 @@
 | say-something | https://github.com/coldjokenewbie-code/say-something.git | /Users/coma/git_mirror/say-something | E:\git_mirror\say-something（待搬） |
 | say-something-android | https://github.com/coldjokenewbie-code/say-something-android.git | /Users/coma/git_mirror/say-something-android | E:\git_mirror\say-something-android（待搬） |
 | gen-tools | （無 remote，本機 only，個人腳本） | /Users/coma/git_mirror/gen-tools | （待確認） |
-| VoiceInk | https://github.com/Beingpax/VoiceInk.git（**上游 repo，非本人所有，無 push 權限**） | /Users/coma/git_mirror/VoiceInk（待處理：fork 或改唯讀参考） | （待確認） |
+| VoiceInk | https://github.com/coldjokenewbie-code/UmaVoiceInk.git（**fork 自 Beingpax/VoiceInk，2026-07-15 已改指向自己帳號**） | /Users/coma/git_mirror/VoiceInk | E:\git_mirror\VoiceInk（待搬） |
 | attendance-dashboard | https://github.com/coldjokenewbie-code/attendance-dashboard.git | /Users/coma/git_mirror/attendance-dashboard | E:\git_mirror\attendance-dashboard（待搬） |
 | Aseembly_Plant_Interactive_machine | git@github.com:coldjokenewbie-code/Aseembly_Plant_Interactive_machine.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine | E:\Claude_cowork\projects\Aseembly_Plant_Interactive_machine |
 | HsinchuScienceEducationCenter | git@github.com:coldjokenewbie-code/HsinchuScienceEducationCenter.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter | E:\Claude_cowork\projects\HsinchuScienceEducationCenter |
