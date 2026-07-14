@@ -1,9 +1,13 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-03
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-15
+
+## 2026-07-15 git_mirror 跨機部署與 Git_work 整併
+- git_mirror 機制從 cowork_CDIC 一個試點擴展到全部 Claude_cowork 專案＋全部純 code 專案。`Git_work/`（Mac）現只剩 `WTF_Under_Construction` 與備份用 `git_work_bk/`。VoiceInk 已 fork 為 `coldjokenewbie-code/UmaVoiceInk` 納管。
+- Windows 端兩份 prompt 已送出待執行；`wtf-config/projects-registry.md` 的 Windows 欄位是「待搬」佔位，非實況。詳見 `_context/TaskLog_2026-07-15_git_mirror跨機部署與Git_work整併.md`（**當前 TaskLog**）。
 
 ## 2026-07-09 SessionStart hook 補強
 - 三檔制注入有效，但 GLOBAL.md／AGENTS.md 從未被結構讀取（純文字指示不可靠，兩個獨立 session 各自證實）。已改 hook 強制注入這兩檔；曾加的自報 banner 證實是假陰性指標，已刪除、不建稽核腳本。
-- 遵循度（模型讀到內容後是否照做）無結構性保證手段，Claude Code 官方文件未承諾，維持現況不再投入。詳見 `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（**當前 TaskLog**）。
+- 遵循度（模型讀到內容後是否照做）無結構性保證手段，Claude Code 官方文件未承諾，維持現況不再投入。詳見 `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`。
 
 ## 2026-07-03 制度更新（Fable 5 session）
 - 常載鏈已重寫（開場改**三檔制**：INDEX → 當前 TaskLog → lessons-learned，嚴禁全量掃 `_context/`）；派工/判斷/交辦/維護守則在 `wtf-config/playbooks/`（路由表見 GLOBAL.md「制度層」）。

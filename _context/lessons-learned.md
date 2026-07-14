@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-15 (Git_work→git_mirror 大整併：分類器誤判、bash 3.2 陷阱、共用工作目錄的臨場異動)
+
+* **auto-mode 分類器可能把 session 層級的 git 狀態誤套到子 repo 動作上**：多個子任務對完全不同的 repo（如 `Assembly_Plant_Mobile_Guide`、`say-something`、`capture_app`）執行 `rm -rf`＋`git clone`，被 auto-mode 攔下，理由卻引用「session 開場 gitStatus」（那是 WTF_Under_Construction 這個主 repo 的狀態），跟目標 repo 無關。人工核對目標 repo 確實乾淨後，**經使用者明確核准**才重試，且重試需是新的使用者訊息之後（同一模式重複重試會被判定「tunneling」再擋一次，屬正確防呆，不要硬繞）。
+* **macOS 內建 `/bin/bash` 是 3.2，不支援 `declare -A` 關聯陣列**：`bad substitution` 報錯的常見成因；改用 `key|value|value` 字串配 `IFS='|' read` 逐行處理，相容舊版 bash。
+* **多個 repo 平行 commit 時，wtf-sync 的自動同步會在每個 repo 反覆重新弄髒 `AGENTS.md` 時間戳記**（每次使用者送出新 prompt 就觸發一次 `sync_config.py sync`，重寫所有已部署專案的 `AGENTS.md` header 時間戳）——子任務回報「不乾淨」時常常只是這行時間戳，不是真的未完成工作，需要每次都重新 diff 判斷，不能只看 `git status` 有無輸出就判定不能繼續。
+* **共用工作目錄（多 session 同時操作同一路徑）會造成臨場性檔案消失/復原假象**：session 中途發現剛寫好的檔案從硬碟消失、`git status` 查無此檔，一度誤判為嚴重異常；查證後是使用者另開的操作（手動把整個專案資料夾搬走又搬回）造成的暫時性檔案系統變動，非資料真的遺失。**遇到這種異常先確認是否有其他 session／process 對同一路徑操作中**（`lsof +D <路徑>` 可看到多個 `claude.ex` 或其他行程掛在同目錄），跟使用者核對後再判斷是否要重寫，不要在不確定原因時就悶頭修復或視為 bug。
+
 ## 2026-07-09 (SessionStart hook：內容送達 ≠ 模型照做；自報式驗證不可靠)
 
 * **「注入式」只解決「有沒有讀到」，解決不了「有沒有照做」**：`wtf-session-context.sh` 原本只注入三檔制，GLOBAL.md／AGENTS.md 靠開場協議文字指示模型自讀——兩個獨立 session 各自證實這完全不可靠（整場對話沒讀，被使用者當面問到才補讀）。已改為比照三檔制，用 `WTF_ROOT` 錨點（`~/.claude/wtf-root.txt`）強制注入 GLOBAL/AGENTS 全文（commit `f49f131`）。**但**這只保證內容進 context，不保證模型後續會依內容行動——這是兩個不同層次的問題，不可混為一談。
