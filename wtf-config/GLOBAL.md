@@ -63,6 +63,7 @@
 - 資源清單 SSOT＝`wtf-config/RESOURCES.md`：登記每台機器有哪些資源、放哪、能不能用。資源實體（venv、大檔）不放 WTF、不跨機同步。
 - 需要資源時：依所在機器查表 → 本機有就用登記路徑；無則依「建立方式」建對應版本，建好回填。
 - 生成式影像/影片（GCP Vertex AI）為帳號級能力、跨機通用，任何專案的 agent 都可用，別誤以為「不能生圖」。
+- 在 wmux 終端內工作時：讀 `~/.wmux/AGENT_CONTEXT.md`（wmux CLI 能力說明，由 wmux 自動產生）。檔案不存在＝不在 wmux 環境或尚未生成，跳過即可。
 
 ## 工具層級設定
 
@@ -83,6 +84,12 @@
 
 - 根目錄只放設定與入口檔；過程稿與成果**統一**進 `outputs/`（一律複數，`workingfiles/` 已廢除，詳見 `rules/folder-conventions.md`）；腳本→`tools/`。
 - 專案檔案進 `projects/<專案名>/`；一次性輸出進根層 `outputs/`。
+
+### Claude_cowork 專案的版控架構（偵測式）
+- 專案路徑含 `Claude_cowork/projects/<名稱>/` 時，先查本機是否存在 `<機器版 git_mirror 根>/<名稱>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不在 Drive 同步範圍內，各機各自獨立存在，不會跟著 Drive 同步過去）：
+  - **存在** → 該專案已用鏡像架構：Drive 端不得 `git init`／`add`／`commit`／`push`；真正版控在 `git_mirror/<名稱>/`，由 `/session-end` 依副檔名鏡像 code/文字檔＋commit+push；大型文檔不鏡像，靠 Drive 自身備份。Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報不使用。
+  - **不存在** → 先查該專案 GitHub remote 是否存在（見 `wtf-config/projects-registry.md`）：有 remote → 直接 `git clone` 到本機 `git_mirror/<名稱>/`（不要在 Drive 端 `git init`，那會製造新的、未連 remote 的孤兒 repo）；無 remote → 專案維持原地 git，無需限制。
+  - 各專案 Drive 端 `_context/INDEX.md` 應註明是否適用此架構，避免下場才發現「這資料夾不能用 git 相關 skill」。
 
 ### 命名慣例
 | 類型 | 格式 |
