@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-16 | hook/cat 注入出現截斷提示（Output too large／Preview）=後段規則未進 context；必須立即完整 Read 原檔，禁以預覽/關鍵字搜尋代替（本次事故：fresh-context 複驗發現遺漏 2 條規則才補回）；已寫入 CLAUDE_CODE.md 步驟 1 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-15 | auto-mode 分類器會把 session 層級 gitStatus 誤套到子 repo 的 rm-rf/clone 動作(需使用者明確核准，同模式重試會被判tunneling)；macOS bash 3.2 不支援 declare -A；wtf-sync 每輪重寫 AGENTS.md 時間戳造成多 repo 平行 commit 反覆誤判不乾淨；共用工作目錄多 session 同時操作會造成臨場性檔案消失假象，先查 lsof 核對再判斷 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-09 | SessionStart hook 注入內容送達≠模型照做；「要求模型自報確認字串」驗證 hook 是否生效是假陰性指標(讀到但沒照做會誤判成沒讀到)，改查 transcript 的 hook_success；JSON additionalContext 有 10000 字元上限，現有內容 63779 字元已超限只能用 plain stdout | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-07 | macOS `/usr/bin/open` 繞過 cmux shim（shim 把 `open` 導入終端 pane，絕對路徑才進預設瀏覽器）；「交付即預覽」段已更新進 GLOBAL.md | `_context/lessons-learned.md`（WTF repo） |
