@@ -20,7 +20,7 @@
 | Assembly_Plant_Mobile_Guide | https://github.com/coldjokenewbie-code/Assembly_Plant_Mobile_Guide.git | /Users/coma/git_mirror/Assembly_Plant_Mobile_Guide | E:\git_mirror\Assembly_Plant_Mobile_Guide |
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/git_mirror/Planner2Line | E:\git_mirror\Planner2Line |
 | Remotion_fun | https://github.com/coldjokenewbie-code/Remotion_fun.git（branch master） | /Users/coma/git_mirror/Remotion_fun | E:\git_mirror\Remotion_fun |
-| claude_CDIC_O4 | https://github.com/coldjokenewbie-code/claude_CDIC_O4.git（branch v615） | /Users/coma/git_mirror/claude_CDIC_O4 | E:\git_mirror\claude_CDIC_O4（待搬） |
+| claude_CDIC_O4 | https://github.com/coldjokenewbie-code/claude_CDIC_O4.git（branch v615） | /Users/coma/git_mirror/claude_CDIC_O4 | E:\git_mirror\claude_CDIC_O4 |
 | capture_app | https://github.com/coldjokenewbie-code/capture_app.git | /Users/coma/git_mirror/capture_app | E:\git_mirror\capture_app（待搬） |
 | say-something | https://github.com/coldjokenewbie-code/say-something.git | /Users/coma/git_mirror/say-something | E:\git_mirror\say-something（待搬） |
 | say-something-android | https://github.com/coldjokenewbie-code/say-something-android.git | /Users/coma/git_mirror/say-something-android | E:\git_mirror\say-something-android（待搬） |

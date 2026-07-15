@@ -39,6 +39,17 @@
 | AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
 | 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
 
+**Claude_cowork 專案版控鐵律（只要出現「git」「推」「commit」「push」等字眼，一律先查此規則，不限於已知該專案屬 Claude_cowork）：**
+- Drive 內任何專案，一律不得原地 git（`init`/`add`/`commit`/`push` 皆禁）——避免 git 與 Drive 同步衝突/鎖檔（`.git` 遭 Drive 同步鎖死已有先例）。
+- 查：本機是否存在 `git_mirror/<名稱>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不隨 Drive 同步，各機獨立）。
+  - 存在 → Drive 為唯一真相源；`git_mirror/<名稱>/` 為版控出口。
+  - 不存在 → 查 GitHub remote（見 `projects-registry.md`）：有 → clone 到 `git_mirror/<名稱>/`；無 → 在 `git_mirror/<名稱>/` 建新 repo（`git init`＋建遠端或本機 only），同樣不碰 Drive 端。
+- **使用者說「推上 git」＝以下動作的簡稱，非字面指令**：
+  - 推送前（Drive→mirror）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）複製 Drive→`git_mirror/<名稱>/`（單向覆蓋，含 `_context/*.md`，非僅 src/code），再從 mirror `commit`+`push`。大型二進位（docx/pptx/pdf/圖片/影片）不複製，留 Drive 原地。
+  - 開工前（mirror→Drive，對稱反向）：先 `git_mirror/<名稱>/` `git pull`（拉其他機器/session 已推的新 commit），再依同一白名單複製 mirror→Drive（覆蓋 Drive 舊版），才開始在 Drive 讀/改檔案——避免改在別人已推過的舊版本上。
+- **複製後必核**：對照 Drive 與 mirror 的 `_context/` 檔案清單一致，缺即漏複製，不是「這次沒改」。
+- **後果**：鏡像不全＝工作紀錄可能只存單機 Drive、未進版控＝遺失風險，非排版問題。
+
 ## 溝通與角色（正本在 AGENTS.md）
 
 - 溝通原則與角色定義（使用者／業主／廠商、Tech Lead 協議、信號協議）的**唯一正本＝`wtf-config/AGENTS.md`**（開場協議已載入，此處不重複）。
@@ -52,7 +63,7 @@
 
 ## 交付即預覽（一鍵可覽）
 
-- 交付可預覽成果（網頁/HTML/圖表）時，**用使用者的預設瀏覽器開啟**讓使用者一鍵看到渲染結果：macOS 一律絕對路徑 `/usr/bin/open "<檔案>"`（cmux 等終端機的 `open` shim 會攔截、開進終端分割 pane，不是預設瀏覽器）；Windows 用 `start ""`；無 GUI 環境至少附可點的 `file://`／`http://` URL，不只給裸路徑（裸路徑常開成原始碼）。
+- 交付可預覽成果（網頁/HTML/圖表）時，**用使用者的預設瀏覽器開啟**讓使用者一鍵看到渲染結果：macOS 一律絕對路徑 `/usr/bin/open "<檔案>"`（cmux 等終端機的 `open` shim 會攔截、開進終端分割 pane，不是預設瀏覽器；且 cmux 內建瀏覽器版面過於擁擠，不適合預覽）；Windows 用 `start ""`；無 GUI 環境至少附可點的 `file://`／`http://` URL，不只給裸路徑（裸路徑常開成原始碼）。
 
 ## 全域設定存入協議
 
@@ -85,11 +96,8 @@
 - 根目錄只放設定與入口檔；過程稿與成果**統一**進 `outputs/`（一律複數，`workingfiles/` 已廢除，詳見 `rules/folder-conventions.md`）；腳本→`tools/`。
 - 專案檔案進 `projects/<專案名>/`；一次性輸出進根層 `outputs/`。
 
-### Claude_cowork 專案的版控架構（偵測式）
-- 專案路徑含 `Claude_cowork/projects/<名稱>/` 時，先查本機是否存在 `<機器版 git_mirror 根>/<名稱>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不在 Drive 同步範圍內，各機各自獨立存在，不會跟著 Drive 同步過去）：
-  - **存在** → 該專案已用鏡像架構：Drive 端不得 `git init`／`add`／`commit`／`push`；真正版控在 `git_mirror/<名稱>/`，由 `/session-end` 依副檔名鏡像 code/文字檔＋commit+push；大型文檔不鏡像，靠 Drive 自身備份。Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報不使用。
-  - **不存在** → 先查該專案 GitHub remote 是否存在（見 `wtf-config/projects-registry.md`）：有 remote → 直接 `git clone` 到本機 `git_mirror/<名稱>/`（不要在 Drive 端 `git init`，那會製造新的、未連 remote 的孤兒 repo）；無 remote → 專案維持原地 git，無需限制。
-  - 各專案 Drive 端 `_context/INDEX.md` 應註明是否適用此架構，避免下場才發現「這資料夾不能用 git 相關 skill」。
+### Claude_cowork 專案的版控架構
+- 完整規則見「制度層」節「Claude_cowork 專案版控鐵律」（唯一正本，不在此重複）。Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報不使用。
 
 ### 命名慣例
 | 類型 | 格式 |

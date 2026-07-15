@@ -6,6 +6,11 @@
 * **macOS 內建 `/bin/bash` 是 3.2，不支援 `declare -A` 關聯陣列**：`bad substitution` 報錯的常見成因；改用 `key|value|value` 字串配 `IFS='|' read` 逐行處理，相容舊版 bash。
 * **多個 repo 平行 commit 時，wtf-sync 的自動同步會在每個 repo 反覆重新弄髒 `AGENTS.md` 時間戳記**（每次使用者送出新 prompt 就觸發一次 `sync_config.py sync`，重寫所有已部署專案的 `AGENTS.md` header 時間戳）——子任務回報「不乾淨」時常常只是這行時間戳，不是真的未完成工作，需要每次都重新 diff 判斷，不能只看 `git status` 有無輸出就判定不能繼續。
 * **共用工作目錄（多 session 同時操作同一路徑）會造成臨場性檔案消失/復原假象**：session 中途發現剛寫好的檔案從硬碟消失、`git status` 查無此檔，一度誤判為嚴重異常；查證後是使用者另開的操作（手動把整個專案資料夾搬走又搬回）造成的暫時性檔案系統變動，非資料真的遺失。**遇到這種異常先確認是否有其他 session／process 對同一路徑操作中**（`lsof +D <路徑>` 可看到多個 `claude.ex` 或其他行程掛在同目錄），跟使用者核對後再判斷是否要重寫，不要在不確定原因時就悶頭修復或視為 bug。
+* **[Windows] `mv`／`Rename-Item` 對資料夾回報「device or resource busy」，同機其他行程持有 handle 是常見成因**：實測兩種來源——(a) 檔案總管視窗開著該路徑，PowerShell `(New-Object -ComObject Shell.Application).Windows() | %{ $_.LocationURL }` 可列出所有開啟中 Explorer 視窗位置，請使用者關閉即解鎖；(b) 本機用 `wmux` 等終端多工工具同時跑多個 Claude Code session，其中一個 cwd 停在目標路徑導致鎖定，`Get-CimInstance Win32_Process` 常查不到直接證據，需直接問使用者是否有其他 session 停在該路徑。兩者都不是資料異常，不要在不確定原因時視為 bug 硬修。
+* **大型 repo（`.git` 數 GB，內含直接 commit 的大型二進位素材）在不穩定網路下，完整 `git fetch`/`git clone` 會持續失敗 `fatal: fetch-pack: invalid index-pack output`**（shallow depth／single-branch／調高 `http.postBuffer` 皆同）。有效繞法：對已有本地物件基礎的既有 repo，`git fetch --depth=1` 或 `git fetch --unshallow` 搭配拉長逾時（180-280s）分段補歷史常能成功（增量小）；對全新 clone（無本地基礎，需一次傳完整歷史），改用「本機路徑 clone」（`git clone <本地已完整的repo路徑> <目的地>`，不經網路）再 `git remote set-url origin <真實URL>` 修正遠端，繞開傳輸失敗風險。
+* **多機/多 session 同時整併同一批專案，會撞見「本地未提交異動」與「遠端已推送內容」其實是同一件事被重複做**：merge 時在同一句文字/同一段落撞出真實內容衝突（非機械問題，是遣詞用字的選擇），不能自行判斷該留哪版，需使用者裁決。落地前務必先 `git fetch` 比對 `ahead`/`behind`，發現「本地看似有異動但遠端已經做過同件事」時，先攤開雙方差異讓使用者選版本。
+* **`sync_config.py` 派生的各專案 `AGENTS.md` 本地 diff，「只差時間戳」與「內容也真的不同」需分開處理**：兩者在 `git status` 都顯示同樣的 `M AGENTS.md`，容易誤判成同一種處理方式。判斷法：`git diff AGENTS.md` 看除了首行時間戳外還有沒有其他 hunk——沒有→純落後或同 session 重複 sync 造成的雜訊，捨棄（`git checkout -- AGENTS.md`）；有→專案好一陣子沒同步、追上 SSOT 最新治理規則的真實更新，該 commit 保留。
+* **合併他機 `.claude/settings.local.json` 權限清單時，萬用字元規則比固定完整指令危險得多**：如 `Bash(python3 -c ' *)`／`Bash(pip install *)`／`Bash(git stash *)`，「開頭比對＋`*`」代表後面接什麼都自動放行不再詢問，等於開放任意程式碼執行/任意套件安裝/可能觸發資料遺失的 `stash drop`／`clear`；固定完整指令範圍精確可控。合併衝突時不要本能地「兩邊都留著比較保險」，寬鬆規則要先攤開跟使用者說明「這條實際上允許什麼」，讓使用者決定去留。
 
 ## 2026-07-09 (SessionStart hook：內容送達 ≠ 模型照做；自報式驗證不可靠)
 
