@@ -1,40 +1,19 @@
 # Codex 工具層設定
-> 適用：OpenAI Codex 專屬
-> 來源：WTF_Under_Construction repo — Single Source of Truth（git repo，已移出雲端硬碟；各機實體路徑見 wtf-config/projects-registry.md）
-> 載入方式：本檔由 `sync_config.py sync` **實體複製**到 `~/.codex/AGENTS.md`（Codex 原生開場讀 `AGENTS.md`，不讀 `CODEX.md`；實測 `codex debug prompt-input` 確認）。**不再用 symlink**（跨平台/搬遷會斷鏈）。
 
-**【強制初始化協議】對話開始時，必須立即執行以下步驟，不得跳過：**
-0. **定位 SSOT（絕對路徑）**：讀 `~/.codex/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，**不可用相對路徑**。
-1. **讀取全域原則**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 載入全域溝通與效益原則。
-2. **讀取 Agent 協議**：以 `view_file` 讀取 `<WTF_ROOT>/wtf-config/AGENTS.md` 載入跨工具 Agent 協作與信號通訊協議。
-3. **讀取專案知識（三檔制，嚴禁全量掃描 `_context/`）**：
-   - 讀 `_context/INDEX.md` → 讀 INDEX 指到的當前 TaskLog 一份 → 讀 `_context/lessons-learned.md`（若存在）。
-   - 讀取 `rules/` 中所有 `.md` 檔案（若存在）；其他 `_context/` 檔案只在 INDEX 點名或使用者點名時才讀，`archive/` 跳過。
-4. **向用戶說明「已載入全域與 CODEX 工具設定」，再開始工作。**
-   - **注意**：此報告僅在 Session 首次啟動對話時發出一次，後續問答切勿重複報告。
+> **應用範疇**：OpenAI Codex 專屬。
+> **載入方式**：本檔由 `sync_config.py sync` **實體複製**到 `~/.codex/AGENTS.md`（Codex 原生開場讀 `AGENTS.md`，不讀 `CODEX.md`；實測 `codex debug prompt-input` 確認）。不用 symlink（跨平台/搬遷會斷鏈）。
+> **定位**：只放初始化入口與 Codex 專屬差異；全域設定＝`GLOBAL.md`＋`AGENTS.md` 兩檔（通則與規範、溝通與角色），本檔不重複其內容。
 
-## Session 開始時執行
+## 強制初始化協議（對話開始時立即執行，不得跳過）
 
-1. 全域 skills 由 `sync_config.py sync` **實體複製**到 `~/.codex/skills/`（取代舊 symlink `sync-skills.sh`；保留工具自有 skill 如 find-skills）。開場直接讀，無需手動 sync。
-2. **技能載入＝原生 lazy-load**：Codex 開場自動列出 `~/.codex/skills/` 的名稱＋描述，**不需開場讀取 SKILL.md body**，僅觸發該 skill 時才讀。**專案層 skills 一律放 `._agents/skills/`**——原生清單不含此目錄，進專案時主動列其 SKILL.md 名稱＋描述（lazy）；優先於全域同名。
-3. 若專案有 `_context/MONITOR_INSTRUCTION_codex.md`，執行以下兩步驟：
-   a. 讀取該檔案，按「現在的待處理請求」欄位，若有待辦任務則立即讀取並執行，不需等待 tail 觸發。
-   b. 在背景執行監控指令（檔案中的 `tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發。執行新任務後繼續保持監控。
+0. **定位 SSOT（絕對路徑）**：讀 `~/.codex/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，不可用相對路徑。
+1. **讀取全域設定兩檔**：以 `view_file` 讀 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`，並依 GLOBAL.md「開場協議」執行（含專案知識三檔制）、依 AGENTS.md 執行 Skills 載入協議。
+2. 向用戶說明「已載入全域與 CODEX 工具設定」再開始工作（僅 session 首次一次，後續不重複）。
 
-## 任務通訊協議執行
+## Codex 專屬差異
 
-- **身為 Execution Agent（執行層）**：**僅在 AGENT_SPEC 明確要求時**才於完成後寫入 `AGENT_SIGNAL.log`。
-  - 格式：`DONE|Codex|<FileName>|<Timestamp>`
-  - 獨立小任務、自主分析、非派發工作不需寫入。
-- **身為 Tech Lead（指揮層）**：無須寫入 `DONE` 訊號。負責發送 `REQUEST` 信號與持續監控 `AGENT_SIGNAL.log`，並在驗收通過後回寫 `VERIFIED` 信號。
-
-## Codex 工具呼叫權限慣例
-
-- 需要重複呼叫外部服務或會觸發 sandbox escalation 的流程（如 Vertex AI 生圖、gcloud、網路生成工具），先固定成同一個 wrapper 腳本或固定命令前綴，再批次執行；不要每張圖臨時換 prompt 檔/輸出檔組成不同命令，否則 Codex 會把每條視為不同前綴而反覆要求使用者授權。
-
-## 全域設定存入協議
-
-收到「存入全域設定」指令時：
-1. 更新 WTF repo 的 `wtf-config/CODEX.md`（Codex 專屬）或 `wtf-config/AGENTS.md`（跨工具規則）。
-2. 跑 `sync_config.py sync` 實體複製到 `~/.codex/AGENTS.md`（**每台機器各跑一次**）。
-3. 提供本次設定點位摘要。
+- **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.codex/skills/`（保留工具自有 skill 如 find-skills）；載入規則照 AGENTS.md「Skills 載入協議」。
+- **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_codex.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
+- **工具呼叫權限慣例**：需要重複呼叫外部服務或會觸發 sandbox escalation 的流程（Vertex AI 生圖、gcloud、網路生成工具），先固定成同一個 wrapper 腳本或固定命令前綴再批次執行；不要每次臨時換 prompt 檔/輸出檔組成不同命令，否則 Codex 會把每條視為不同前綴而反覆要求授權。
+- **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Codex`。
+- **存入全域設定**：照 GLOBAL.md「存入協議」；本工具專屬檔＝`wtf-config/CODEX.md`。
