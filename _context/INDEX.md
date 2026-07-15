@@ -2,6 +2,7 @@
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-15
 
 ## 2026-07-15 git_mirror 跨機部署與 Git_work 整併
+- 🪟 **Windows 待執行**：`_context/Handover_2026-07-15_Windows-Git_work整併.md`（Git_work 整併＋WTF 搬家善後，Claude@Win 開場先讀）。
 - git_mirror 機制從 cowork_CDIC 一個試點擴展到全部 Claude_cowork 專案＋全部純 code 專案。`Git_work/`（Mac）現只剩 `WTF_Under_Construction` 與備份用 `git_work_bk/`。VoiceInk 已 fork 為 `coldjokenewbie-code/UmaVoiceInk` 納管。
 - Windows 端兩份 prompt 已送出待執行；`wtf-config/projects-registry.md` 的 Windows 欄位是「待搬」佔位，非實況。詳見 `_context/TaskLog_2026-07-15_git_mirror跨機部署與Git_work整併.md`（**當前 TaskLog**）。
 

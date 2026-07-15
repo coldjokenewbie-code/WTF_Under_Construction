@@ -1,5 +1,9 @@
 # TaskLog 2026-07-15：git_mirror 跨機部署與 Git_work 整併
 
+> 🪟 **[Claude@Win] 開場必讀**：你這台的任務＝Git_work 整併＋WTF 搬家善後，完整步驟在
+> `_context/Handover_2026-07-15_Windows-Git_work整併.md`——先讀該檔照做（階段 0 最優先，hook 修好前每個 prompt 都會報同步失敗）。
+> 本節由 [Claude@Mac] 2026-07-15 寫入；Windows 完成後刪本節並在下方追記。
+
 > 承接 `TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md` 提到的 git_mirror 機制。本次把機制從「cowork_CDIC 一個試點」擴展成「全部 Claude_cowork 專案 + 全部純 code 專案」的統一佈局，並清空 `Git_work/` 只留 `WTF_Under_Construction`。
 
 ## 完成項目
