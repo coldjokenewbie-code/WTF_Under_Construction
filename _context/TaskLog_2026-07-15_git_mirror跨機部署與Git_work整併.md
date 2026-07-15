@@ -22,7 +22,7 @@
    - `wtf-config/projects-registry.md` 全程同步更新（Mac 路徑改 git_mirror、Windows 路徑標「待搬」、VoiceInk 補 fork 說明）。
 6. **Windows Git_work 整併 prompt**（第二階段）：9 個純 code 專案「確認乾淨→commit+push→重建 git_mirror→歸檔」流程，已產出送出，待使用者在 Windows 執行。
 7. **WTF 本體路徑更新**（追記，使用者已手動把 WTF 從 `Git_work/` 搬入 `git_mirror/`）：registry／machines.md／`~/.claude/wtf-sync.sh`／兩份 settings 允許清單全數改指新路徑（commit `d584393`）；wtf-sync hook 的 pull 失敗根因即舊路徑，已實跑驗證恢復。
-8. **出勤專案 Drive↔mirror 合併收尾**（追記）：`code-mirror-drive` 快照與 live Drive 逐檔比對，僅 `ai-team-agent-cli-reference.html`（角色分段改版）與 `workingfiles/test_ai_team.md` 為 Drive 獨有，已併入 attendance-dashboard main（`43a63b2`）；INDEX 兩邊統一（含版控警語＋Antigravity CLI 規格標完成，`9b85613`）；main 較新的 lessons／handover 反向複製回 Drive。sweep 後兩邊白名單檔案全一致（AGENTS.md 屬 sync 自動維護例外）。`code-mirror-drive`／`code-mirror-gitwork` 兩分支內容已全數吸收，留作歷史快照可刪。
+8. **出勤專案 Drive↔mirror 合併收尾**（追記）：`code-mirror-drive` 快照與 live Drive 逐檔比對，僅 `ai-team-agent-cli-reference.html`（角色分段改版）與 `workingfiles/test_ai_team.md` 為 Drive 獨有，已併入 attendance-dashboard main（`43a63b2`）；INDEX 兩邊統一（含版控警語＋Antigravity CLI 規格標完成，`9b85613`）；main 較新的 lessons／handover 反向複製回 Drive。sweep 後兩邊白名單檔案全一致（AGENTS.md 屬 sync 自動維護例外）。`code-mirror-drive`／`code-mirror-gitwork` 兩分支內容已全數吸收，使用者已刪除遠端分支。
 
 ## 未解決問題
 
