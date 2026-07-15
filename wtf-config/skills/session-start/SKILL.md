@@ -26,6 +26,10 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
 4. **全域設定修改建議**：讀 `<WTF_ROOT>/_context/nightly-notify.md`（不存在則略過）。若有**未勾 `- [ ]`** 項 → 開場**優先醒目提醒**：「💡 nightly 建議修改全域設定：<列出>，要採用嗎？採用我幫你套用並移除該行，不採用就刪行。」夜間 routine **只建議不自改**全域設定，由用戶在此核准（routine 寫建議→commit main→本機 pull→此處浮出）。
 
+## 1.5 Claude_cowork 鏡像專案先 pull-back（若適用）
+
+若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下：查本機是否存在對應 `git_mirror/<名稱>/`（見 GLOBAL.md「制度層」版控鐵律）。存在 → 先 `git_mirror/<名稱>/` 執行 `git pull`（拉其他機器/session 已推的新 commit），再依白名單複製 mirror→Drive（覆蓋 Drive 舊版，含 `_context/*.md`），才進入下一步讀 `_context/` 知識——避免這次工作是改在別人已推過的舊版本上。
+
 ## 2. 讀取 _context 知識（三檔制，嚴禁全量掃描）
 
 與 GLOBAL.md 開場協議第 3 步同文，對當前工作目錄（根層或專案層皆同）：
