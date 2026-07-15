@@ -162,3 +162,4 @@
 - Asembly_PPT｜2026-07-14｜agy 報告兩型系統錯：判無圖不看圖、圖說頁碼複製錯位→SPEC 明令＋機檢全查｜同上 #21
 - Asembly_PPT｜2026-07-14｜功能示範片開場＝展項位置場景；設計書帶標註渲染圖用 Nano Banana 去標註重製｜同上 #22
 
+- cowork_CDIC｜2026-07-15｜Windows 無 LibreOffice 時用 Word COM＋PyMuPDF 驗 docx 頁數/篇幅/版面；表格跨頁 cantSplit＋tblHeader｜projects/cowork_CDIC/_context/lessons-learned.md
