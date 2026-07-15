@@ -26,10 +26,13 @@
    - **claude_CDIC_O4 未完成**（見「未解決問題」P1）。
    - **階段2**：7 個 Claude_cowork 專案的 git_mirror clone **實際上已存在**（非本次新建，疑似之前已有其他 session 做過），逐一核對 remote／branch／clean 狀態皆正常；唯一問題是 `git_mirror/出勤專案` 與 `git_mirror/attendance-dashboard` 重複——核對後前者內容已完全併入後者（無獨有內容），經使用者確認後刪除。
    - registry「待搬」欄位已改回實路徑（各步驟隨手更新，非集中一次性改）。
+10. **[Claude@Win] claude_CDIC_O4 補做完成**（2026-07-15，同日稍晚）：
+    - 根因非網路環境問題，是這個 repo 本身 `.git` 高達 4.2GB（多支 70MB+ 影片、大圖、字型直接 commit 進歷史，`.gitignore` 只排除 `out/` 沒排除 `public/videos`／`images`／`fonts` 這些源素材），單次完整傳輸容易在這個網路環境中斷（`invalid index-pack output`）。
+    - 改用 `git fetch --depth=1`／`--unshallow`（拉長逾時到 280s）逐步補齊本地歷史成功；merge 遠端 9 個新 commit（含夜間 routine 補的 lessons、雲端 session 的 V2 配樂/影片重製），`AGENTS.md`／`.claude/settings.local.json`／`_context/INDEX.md` 三處衝突手動解決（AGENTS.md／INDEX.md 各取較新一版；settings.local.json 兩機權限清單合併，但排除一條過寬的萬用字元規則 `Bash(python3 -c ' *)`，及使用者確認後一併拿掉的 `pip install *`／`npm install:*`／`git stash *`／`Read(//c/Users/user/**)` 四條中高風險規則）。
+    - 全新 `git clone` 對這個大 repo 持續失敗（含 `--single-branch` 也一樣，新 clone 需一次傳輸全部歷史）；改用本機路徑 clone（`git clone <本地路徑> <git_mirror路徑>`，不經網路）產生 git_mirror 副本，再改 remote URL 指回 GitHub，達到與其他專案一致的乾淨副本效果。舊資料夾歸檔 `git_work_bk`，registry 改回實路徑。
 
 ## 未解決問題
 
-- P1：`claude_CDIC_O4` 的 `git fetch` 持續失敗（`fatal: fetch-pack: invalid index-pack output`，含 shallow fetch/調整 http buffer 皆同），研判為大型二進位素材（渲染輸出）搭配當下網路環境傳輸中斷。本地 main 分支已 commit 2 筆（AGENTS.md 同步＋settings.local.json 路徑修正），**尚未 push、尚未 fresh clone 到 git_mirror、舊資料夾尚未歸檔**。待網路環境改善或改用其他傳輸方式（如 SSH、換網路）重試。
 - P2：`VoiceInk` fork 之後，`_context/INDEX.md` 或類似指路文件沒有補（這個專案原本不在任何登記表內，屬於這次順手納管，尚未建立完整專案文件慣例）。
 - P2：使用者曾手動把 `WTF_Under_Construction` 移到 git_mirror 再移回來（實驗性動作，session 內觀察到工作目錄短暫消失又復原），最終結論是 WTF 本體維持原地不動、不進 git_mirror（跟其他專案不同，屬既定例外）。
 - P2：`E:\Git_work\AgentIDE`（無 `.git`，`~/.claude/settings.json` 的 hook 寫死指向此路徑）與 `E:\Git_work\lathe`（獨立 git repo，有未提交異動含大型二進位檔）皆不在本次 Handover 範圍內，維持原地未動；`lathe` 在本次過程中曾被移入 `git_work_bk/`，非本 session 動作，來源不明，籲使用者自行核對其未提交異動是否需要處理。
@@ -42,6 +45,6 @@
 
 ## 下一步建議
 
-1. 網路環境穩定後重試 `claude_CDIC_O4` 的 fetch/push/clone/歸檔（見 P1）。
-2. 有空幫 `VoiceInk` 補一份最小 `_context/INDEX.md`（fork 緣由、上游同步策略），納入正常專案文件慣例。
-3. 使用者核對 `E:\Git_work\git_work_bk\lathe` 的未提交異動（大型二進位檔）是否需要處理。
+1. 有空幫 `VoiceInk` 補一份最小 `_context/INDEX.md`（fork 緣由、上游同步策略），納入正常專案文件慣例。
+2. 使用者核對 `E:\Git_work\git_work_bk\lathe` 的未提交異動（大型二進位檔）是否需要處理。
+3. `claude_CDIC_O4` 大檔（影片/圖片/字型）直接進 git 導致 `.git` 4.2GB，若之後還要跨機/跨網路環境同步，建議評估改用 Git LFS 或搬出 git 版控（非本次任務範圍，僅記錄觀察）。
