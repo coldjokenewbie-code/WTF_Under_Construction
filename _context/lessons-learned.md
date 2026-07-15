@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-16 (全域設定兩檔化去重 + hook 截斷事故教訓)
+
+* **hook 或 `cat` 注入出現截斷提示（Output too large／Preview 等字樣）時，必須立即完整 Read 原檔**：SessionStart hook 用 `cat` 注入 GLOBAL.md/AGENTS.md，若 context 過大 Claude Code 以截斷提示替代完整內容——後段規則根本沒進 context，模型卻誤以為已讀完。本次事故：截斷後遺漏 2 條規則，fresh-context 複驗（單獨 subagent 重讀全檔對照）才發現並補回，直接寫入制度。**凡出現截斷字樣，立即完整 Read 原檔；禁以預覽或關鍵字搜尋代替**。已寫入 `wtf-config/CLAUDE_CODE.md` 步驟 1。
+
 ## 2026-07-15 (Git_work→git_mirror 大整併：分類器誤判、bash 3.2 陷阱、共用工作目錄的臨場異動)
 
 * **auto-mode 分類器可能把 session 層級的 git 狀態誤套到子 repo 動作上**：多個子任務對完全不同的 repo（如 `Assembly_Plant_Mobile_Guide`、`say-something`、`capture_app`）執行 `rm -rf`＋`git clone`，被 auto-mode 攔下，理由卻引用「session 開場 gitStatus」（那是 WTF_Under_Construction 這個主 repo 的狀態），跟目標 repo 無關。人工核對目標 repo 確實乾淨後，**經使用者明確核准**才重試，且重試需是新的使用者訊息之後（同一模式重複重試會被判定「tunneling」再擋一次，屬正確防呆，不要硬繞）。
