@@ -10,12 +10,12 @@
 > - 新增專案或換機 → 只改本表。新機器＝加一欄（欄頭填該機 hostname，見 machines.md）。
 > - 機器欄留空 = sync 跳過該機該專案（尚未部署）。
 > - 路徑佔位用全形括號「（…）」開頭 → 視為未部署、sync 略過；github 欄同樣以「（…）」標未確認。
-> - WTF_Under_Construction：Mac 已由使用者搬入 `git_mirror/`（2026-07-15），Windows 仍在 `E:\Git_work\`（待搬）；Claude_cowork 專案的 Mac 路徑為 Google Drive「其他電腦」對 Windows 的鏡像。
+> - WTF_Under_Construction：Mac／Windows 皆已搬入 `git_mirror/`（2026-07-15）；Claude_cowork 專案的 Mac 路徑為 Google Drive「其他電腦」對 Windows 的鏡像。
 > - **2026-07-15 整併**：純 code 專案（無 Drive 對應）已從 Git_work 遷到 `git_mirror/`（Mac 已執行，舊 Git_work 副本移入 `Git_work/git_work_bk/` 備份；Windows 待執行同步驟）。往後新純 code 專案一律直接建在 `git_mirror/`，不再放 Git_work。
 
 | project | github | comaMacBookAir.local | DESKTOP-7SF21LR |
 |---|---|---|---|
-| WTF_Under_Construction | https://github.com/coldjokenewbie-code/WTF_Under_Construction.git | /Users/coma/git_mirror/WTF_Under_Construction | E:\Git_work\WTF_Under_Construction |
+| WTF_Under_Construction | https://github.com/coldjokenewbie-code/WTF_Under_Construction.git | /Users/coma/git_mirror/WTF_Under_Construction | E:\git_mirror\WTF_Under_Construction |
 | ai-team-todo | https://github.com/coldjokenewbie-code/ai-team-todo.git | /Users/coma/git_mirror/ai-team-todo | E:\git_mirror\ai-team-todo（待搬） |
 | Assembly_Plant_Mobile_Guide | https://github.com/coldjokenewbie-code/Assembly_Plant_Mobile_Guide.git | /Users/coma/git_mirror/Assembly_Plant_Mobile_Guide | E:\git_mirror\Assembly_Plant_Mobile_Guide（待搬） |
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/git_mirror/Planner2Line | E:\git_mirror\Planner2Line（待搬） |
