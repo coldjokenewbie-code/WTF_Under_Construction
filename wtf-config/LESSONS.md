@@ -164,3 +164,4 @@
 - Asembly_PPT｜2026-07-14｜功能示範片開場＝展項位置場景；設計書帶標註渲染圖用 Nano Banana 去標註重製｜同上 #22
 
 - cowork_CDIC｜2026-07-15｜Windows 無 LibreOffice 時用 Word COM＋PyMuPDF 驗 docx 頁數/篇幅/版面；表格跨頁 cantSplit＋tblHeader｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-16｜ody契約在非git Drive專案fallback綁WTF repo：evidence cmd用絕對路徑、pull快轉污染base_ref diff補preexisting_dirty+amendments；「逐條更新」證據斷言數必須=來源項目數(1:1)；tracked-changes docx要lxml解w:ins；「萬」單位英文化禁數字拼接hack｜cowork_CDIC/_context/lessons-learned.md
