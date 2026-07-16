@@ -165,3 +165,4 @@
 
 - cowork_CDIC｜2026-07-15｜Windows 無 LibreOffice 時用 Word COM＋PyMuPDF 驗 docx 頁數/篇幅/版面；表格跨頁 cantSplit＋tblHeader｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-16｜ody契約在非git Drive專案fallback綁WTF repo：evidence cmd用絕對路徑、pull快轉污染base_ref diff補preexisting_dirty+amendments；「逐條更新」證據斷言數必須=來源項目數(1:1)；tracked-changes docx要lxml解w:ins；「萬」單位英文化禁數字拼接hack｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-16｜打字機/逐字動畫勿用setTimeout累積排程（JS壓力下漂移），改rAF+起始timestamp算「第N字」；kiosk-guard.js SSOT集中化、各展區入口掛一行即生效（本案8入口）｜cowork_CDIC/_context/lessons-learned.md
