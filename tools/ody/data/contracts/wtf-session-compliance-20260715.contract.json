@@ -1,0 +1,76 @@
+{
+  "task_id": "wtf-session-compliance-20260715",
+  "goal": "找出『Claude 開場不讀/不遵守全域設定』的可靠解方：Codex 任 Tech Lead 設計、Claude 供實證與草案、agy 對抗質疑檢驗真實性與有效性；本輪只產出經對抗檢驗的提案，不部署",
+  "created": "2026-07-15T15:00:43.537576+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "e9e0bf4ba658cac46362040ed77df223fa4b986c",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/ody-session-compliance-20260715/**"
+  ],
+  "preflight_permissions": [
+    "僅寫 outputs/ody-session-compliance-20260715/；呼叫 codex exec 與 agy headless；不改 settings.json/hooks 實檔（部署另立契約待 PO 核准）"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "問題簡報含本 session 可查證實證（hook 輸出 byte 數、截斷點、hook 原始碼行號），agy 核實無捏造",
+      "evidence": {
+        "cmd": "grep -q '版控鐵律' outputs/ody-session-compliance-20260715/BRIEF.md && grep -q '7 條全 CONFIRMED' outputs/ody-session-compliance-20260715/VERIFY_ROUND1.md && grep -q '13:26' outputs/ody-session-compliance-20260715/VERIFY_ROUND1.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-15T15:27:47.925740+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "Codex 產出解方設計，核心機制屬機器強制（PreToolUse/Stop 等），非提醒式文字",
+      "evidence": {
+        "cmd": "grep -q 'permissionDecision' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q 'PreToolUse：主要強制點' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q 'deny reason 只作說明，不是強制來源' outputs/ody-session-compliance-20260715/PROPOSAL.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-15T15:27:47.965282+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "agy 逐條質疑 Claude 陳述與 Codex 提案，每條重大質疑有回應或修正紀錄",
+      "evidence": {
+        "cmd": "grep -q 'R1' outputs/ody-session-compliance-20260715/VERIFY_ROUND2.md && grep -q 'feature-detect' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q '不得再引用「8 次」' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q '死循環' outputs/ody-session-compliance-20260715/PROPOSAL.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-15T15:27:48.007006+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "最終提案含可執行變更清單（檔案/位置/新內容）與部署驗證步驟，明列待 PO 核准",
+      "evidence": {
+        "cmd": "grep -q 'PO 核准點 4' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q '變更清單' outputs/ody-session-compliance-20260715/PROPOSAL.md && grep -q '須 PO 明確授權' outputs/ody-session-compliance-20260715/PROPOSAL.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-15T15:27:48.047155+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "test -f outputs/ody-session-compliance-20260715/PROPOSAL.md"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-15T15:28:29.035007+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

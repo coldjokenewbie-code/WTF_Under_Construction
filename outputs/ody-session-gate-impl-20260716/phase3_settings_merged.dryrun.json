@@ -1,0 +1,178 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "Bash(curl -s -o canva_video.mp4 \"https://export-download.canva.com/rVY_Q/DAHJi8rVY_Q/-1/0-901223009521489291.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260513%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260513T081912Z&X-Amz-Expires=24893&X-Amz-Signature=a4a6c01d772d1c743c9a4c201401770307d13850c5feaafd78730d438264aa0b&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2013%20May%202026%2015%3A14%3A05%20GMT\")",
+      "Bash(ffprobe -v quiet -print_format json -show_streams canva_video.mp4)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); v=[s for s in d['streams'] if s['codec_type']=='video'][0]; print\\(f\\\\\"解析度: {v['width']}x{v['height']}\\\\nFPS: {v['r_frame_rate']}\\\\n時長: {v.get\\('duration','N/A'\\)}s\\\\\"\\)\")",
+      "Bash(brew list *)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(python3 -c \"import cv2; print\\(cv2.__version__\\)\")",
+      "Bash(python3 -c \"import imageio; print\\(imageio.__version__\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"import imageio; import imageio_ffmpeg; print\\('ok'\\)\")",
+      "Bash(python3)",
+      "Read(//Users/coma/.claude/**)",
+      "Bash(cp \"/Users/coma/.claude/projects/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/715214fb-6fe2-4761-be98-182172e7ac5a/tool-results/webfetch-1778712865645-uxjdj8.bin\" /tmp/design_file.gz)",
+      "Bash(gunzip -c /tmp/design_file.gz)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -o /dev/null -w \"%{url_effective}\\\\n\" -L \"https://da.gd/GXpFlU\")",
+      "Bash(curl -s -o /dev/null -w \"%{url_effective}\\\\n\" -L \"https://da.gd/dclF\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git checkout *)",
+      "Bash(git rebase *)",
+      "Read(//var/folders/4x/h2l7n3pj71q_7gt3pldfgnd80000gn/T/**)",
+      "Read(//private/var/folders/4x/h2l7n3pj71q_7gt3pldfgnd80000gn/T/**)",
+      "Bash(which soffice *)",
+      "Read(//Applications/LibreOffice.app/Contents/MacOS/**)",
+      "Bash(sips -Z 700 __TRACKED_VAR__/image7.jpeg --out __TRACKED_VAR__/b2.jpg)",
+      "Bash(sips -Z 700 __TRACKED_VAR__/image9.jpeg --out __TRACKED_VAR__/b3.jpg)",
+      "Bash(node workingfiles/_scripts/all3.mjs)",
+      "Bash(which brew *)",
+      "Read(//Applications/**)",
+      "Bash(brew install *)",
+      "Bash(/Users/coma/.claude/wtf-sync.sh)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git commit -q -m ' *)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/coldjokenewbie-code/WTF_Under_Construction/main/wtf-config/CLAUDE_COWORK.md\")",
+      "Read(//Users/coma/Git_work/WTF_Under_Construction/**)",
+      "Bash(python wtf-config/sync_config.py register)",
+      "Bash(python wtf-config/sync_config.py check)",
+      "Bash(python3 wtf-config/sync_config.py register)",
+      "Bash(python3 wtf-config/sync_config.py check)",
+      "Bash(cat _context/lessons-learned.md)",
+      "Bash(cat _context/INBOX.md)",
+      "Bash(codex --version)",
+      "Bash(cat > *)",
+      "Bash(agy --version)",
+      "Bash(P=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案\" *)",
+      "Bash(timeout 60 claude -p \"回覆兩個字：測試\")",
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(codex exec *)",
+      "Bash(python \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" register)",
+      "Bash(python3 \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" register)",
+      "Bash(python3 \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" check)",
+      "Bash(mkdir -p \"/Users/coma/Git_work/WTF_Under_Construction/tools/ai-team\")",
+      "Bash(cp \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案/_context/ai-team-agent-cli-reference.html\" \"/Users/coma/Git_work/WTF_Under_Construction/tools/ai-team/cli-reference.html\")",
+      "Bash(cp \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/出勤專案/_context/ai-team-agent-cli-reference.html\" \"/Users/coma/Git_work/WTF_Under_Construction/tools/ai-team/cli-reference.html\" && echo \"done\")",
+      "Bash(cp \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/skills/ai-team/SKILL.md\" \"/Users/coma/.claude/skills/ai-team/SKILL.md\" && echo \"done\")",
+      "Bash(python3 \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" inbox-info)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('pending:', d['pending']\\)\")"
+    ],
+    "additionalDirectories": [
+      "/Users/coma/.codex/skills/setting-codex",
+      "/Users/coma/.codex",
+      "/Users/coma/.claude",
+      "/tmp",
+      "/private/tmp",
+      "/Users/coma/Git_work/WTF_Under_Construction/tools/ai-team",
+      "/Users/coma/Git_work/WTF_Under_Construction/wtf-config/skills/ai-team",
+      "/Users/coma/.claude/skills/ai-team"
+    ]
+  },
+  "model": "claude-fable-5[1m]",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/wtf-session-context.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh init"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/coma/.claude/wtf-sync.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/stop_dispatcher.py"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh init-agent"
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "matcher": "include|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh instructions"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh pretool"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh postread"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh stop-agent"
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "dark",
+  "agentPushNotifEnabled": true
+}

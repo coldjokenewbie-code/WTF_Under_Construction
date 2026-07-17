@@ -1,0 +1,3 @@
+# 擬議附加至 ~/.claude/CLAUDE.md 檔尾（階段4，PO 核准後）：
+@wtf-session-bundles/ba55340b81fe0b28a030a9a410a14dd093a1123008fe733fca7744fbfdcd5778/GLOBAL.md
+@wtf-session-bundles/ba55340b81fe0b28a030a9a410a14dd093a1123008fe733fca7744fbfdcd5778/AGENTS.md

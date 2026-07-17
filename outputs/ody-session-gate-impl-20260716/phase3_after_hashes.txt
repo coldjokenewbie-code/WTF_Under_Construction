@@ -1,0 +1,2 @@
+f9655e404d3ac11743d84e18e11ded1a92d60806ecece5b8cd3366acf5844858  /Users/coma/.claude/settings.json
+594e62cd722d3ae5074c5b3d8b83dcbad1bc369b105ae62c1df2710ef575654f  /Users/coma/.claude/CLAUDE.md
