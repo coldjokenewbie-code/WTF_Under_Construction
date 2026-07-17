@@ -167,3 +167,4 @@
 - cowork_CDIC｜2026-07-16｜ody契約在非git Drive專案fallback綁WTF repo：evidence cmd用絕對路徑、pull快轉污染base_ref diff補preexisting_dirty+amendments；「逐條更新」證據斷言數必須=來源項目數(1:1)；tracked-changes docx要lxml解w:ins；「萬」單位英文化禁數字拼接hack｜cowork_CDIC/_context/lessons-learned.md
 - say-something｜2026-07-16｜指揮官收尾固定五步(狀態列+INDEX+diff -rq Drive↔mirror+commit+check),連兩契約收尾被 verifier 抓 FAIL 的教訓;缺檔=漂移不是「這次沒改」｜projects/say-something/_context/lessons-learned.md
 | WTF | 2026-07-16 | coach scope 檢查以立約時 base_ref 比對整樹：共用 repo 併發（sync hook 快轉 upstream、他 session 未提交檔）會誤判越界；同型再犯應改 coach 用 merge-base 或本 session authored diff | `outputs/ody-session-gate-impl-20260716/`（重立契約處置紀錄） |
+- WTF｜2026-07-17｜session-gate canary 4條：`--bare`整組保護關（非只略過CLAUDE.md）/Stop連block無8次上限（証偽）/headless復原通道採用率0-3（SessionStart加指引）/`parent_file_path`實機有但文件未載（feature-detect）｜`_context/lessons-learned.md` §2026-07-17
