@@ -3,3 +3,4 @@ _screenshots/
 outputs/dashboard.html
 .DS_Store
 .antigravitycli/
+__pycache__/
