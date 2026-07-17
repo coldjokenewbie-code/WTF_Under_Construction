@@ -1,0 +1,99 @@
+{
+  "task_id": "wtf-session-gate-impl-20260716",
+  "goal": "依 PROPOSAL.md 實作全域設定強制載入至階段3（重立：原契約 base_ref 遭併發 upstream commit 污染誤判越界，工作內容不變）。PO 已核准至階段3；不動正式 settings.json/CLAUDE.md/hooks 註冊",
+  "created": "2026-07-16T11:03:14.223939+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "410be5f56916dd997daf1656c8b1fff6a0a17756",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/LESSONS.md",
+    "wtf-config/agents/ody-verifier.md",
+    "wtf-config/machines.md",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-gate-impl-20260716/",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "wtf-config/hooks/__pycache__/",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/policies/",
+    "wtf-config/tests/"
+  ],
+  "scope_allowlist": [
+    "wtf-config/hooks/**",
+    "wtf-config/policies/**",
+    "wtf-config/tests/**",
+    "outputs/ody-session-gate-impl-20260716/**"
+  ],
+  "preflight_permissions": [
+    "寫 scope 內檔案；scratchpad 跑 claude headless canary；正式 ~/.claude 只新增 wtf-session-bundles/"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "階段1：test_session_gate.py 全數通過（17 項：隔離/hash/partial Read 拒簽/一次性復原熔斷/Stop block/保護路徑/malformed JSON/generation 換代）",
+      "evidence": {
+        "cmd": "python3 -m unittest discover -s wtf-config/tests -p 'test_session_gate.py' 2>&1 | grep -q '^OK'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T11:03:15.796202+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "階段2：隔離 canary 實測留證——InstructionsLoaded 實發（include+parent_file_path）、快樂路徑收據自動成立、fail-closed 全擋（sentinel 不產生）、Stop 連續 block ≥9 次",
+      "evidence": {
+        "cmd": "grep -q 'load_reason=include' outputs/ody-session-gate-impl-20260716/PHASE2_PHASE3_REPORT.md && grep -q 'sentinel 未產生' outputs/ody-session-gate-impl-20260716/PHASE2_PHASE3_REPORT.md && grep -q '連續 block 9 次' outputs/ody-session-gate-impl-20260716/PHASE2_PHASE3_REPORT.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T11:03:15.836065+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "階段3：正式 HOME 僅新增 wtf-session-bundles/；settings merge dry-run diff 產出；hash 前後比對證明正式 settings.json/CLAUDE.md 未動",
+      "evidence": {
+        "cmd": "diff outputs/ody-session-gate-impl-20260716/phase3_baseline_hashes.txt outputs/ody-session-gate-impl-20260716/phase3_after_hashes.txt && test -s outputs/ody-session-gate-impl-20260716/phase3_settings.diff && test -d ~/.claude/wtf-session-bundles/ba55340b81fe0b28a030a9a410a14dd093a1123008fe733fca7744fbfdcd5778",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T11:03:15.872511+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "ody-verifier 獨立複驗 PASS",
+      "evidence": {
+        "note": "ody-verifier 獨立複驗於 check 後執行，PASS/FAIL 補記 events 與最終回報；本 evidence 先占位由複驗覆核",
+        "ts": "2026-07-16T11:03:15.903821+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 -m unittest discover -s wtf-config/tests -p 'test_session_gate.py' -v 2>&1 | tail -1"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-17T01:52:42.797547+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

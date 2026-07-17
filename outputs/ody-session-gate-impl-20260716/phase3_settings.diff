@@ -1,0 +1,68 @@
+86a87,94
+>             },
+>             {
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh init"
+>                     }
+>                 ]
+105c113,168
+<                         "command": "python3 /Users/coma/git_mirror/WTF_Under_Construction/tools/ody/squad/stop_hook.py"
+---
+>                         "command": "python3 /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/stop_dispatcher.py"
+>                     }
+>                 ]
+>             }
+>         ],
+>         "SubagentStart": [
+>             {
+>                 "matcher": "*",
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh init-agent"
+>                     }
+>                 ]
+>             }
+>         ],
+>         "InstructionsLoaded": [
+>             {
+>                 "matcher": "include|compact",
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh instructions"
+>                     }
+>                 ]
+>             }
+>         ],
+>         "PreToolUse": [
+>             {
+>                 "matcher": "*",
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh pretool"
+>                     }
+>                 ]
+>             }
+>         ],
+>         "PostToolUse": [
+>             {
+>                 "matcher": "Read",
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh postread"
+>                     }
+>                 ]
+>             }
+>         ],
+>         "SubagentStop": [
+>             {
+>                 "matcher": "*",
+>                 "hooks": [
+>                     {
+>                         "type": "command",
+>                         "command": "bash /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/hooks/wtf-session-gate.sh stop-agent"

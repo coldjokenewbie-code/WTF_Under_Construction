@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "required_sources": [
+    "GLOBAL.md",
+    "AGENTS.md"
+  ],
+  "max_source_bytes": 100000,
+  "max_source_lines": 3000,
+  "mirror_rules": [],
+  "_todo": "階段 4 由 projects-registry.md 生成 mirror_rules。"
+}
