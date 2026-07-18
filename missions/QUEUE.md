@@ -3,13 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-17 17:06**：0 active，連續第6日全數秒退，狀態與今晨08:30快報完全無變動（今日尚無使用者新指令進 main）。
+**晨報棒 2026-07-18 08:30**：night-relay 領先 main 95 commits但昨晚零新增（QUEUE 連續第7日0 active）——各 mission 無增量，狀態與昨日17:06快報完全無變動。**異常**：昨晚19:30/21:30兩棒完全未見於 heartbeat.log（含心跳都沒有，非正常秒退記錄），僅23:33/01:34兩棒有秒退心跳；與過去6晚每晚固定4筆心跳的模式不同，疑似trigger未觸發，僅供留意不代處置。
 **待核准(3，同前)**：machine-report(P1,全篇+opus對抗審查PASS,待驗貨改done)／guide-app(P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／test-baton-pickup-0706(P9,探針驗證通過,建議直接結案)
 **parked(2，待裁決解封，同前)**：o4-soundtrack(P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／design-training(P4,卡WebFetch全面403,_blockers 4選項待裁決)
 **新 blockers**：無（皆既有卡點延續）
 **提名(5，未掛載/待啟動，同前)**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill
-**產能算術（義務）**：0 active，backlog 0 項可作——已連續6日全秒退，無法推算完成日；恢復產出需使用者核准至少一項「待核准」或裁決任一 parked 卡點。
-**今晚計畫**：19:30/21:33/23:33/01:33 四棒預期維持秒退，除非本次快報後有裁決。
+**產能算術（義務）**：0 active，backlog 0 項可作——已連續7日全秒退，無法推算完成日；恢復產出需使用者核准至少一項「待核准」或裁決任一 parked 卡點。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
