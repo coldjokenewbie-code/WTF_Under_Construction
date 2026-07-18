@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-17 (session-gate canary 實測：Claude Code 2.1.210 行為事實)
+
+* **`--bare` = 整組保護一起關，非只略過 CLAUDE.md 發現**：2.1.210 `--help` 明載 `--bare` 同時 skip hooks AND CLAUDE.md auto-memory（@import 同步不生效）。凡設計 hook/gate 保護時，`--bare` 要列入與 `disableAllHooks` 同級的旁路清單；不能假設 `--bare` 只影響 CLAUDE.md 自動搜尋。
+* **Stop hook 連續 block「8 次上限」被証偽**：2.1.210 canary 實測 Stop 連續 block 9 次仍有效（由 `--max-turns` 終止，非自行放行）。「8 次後強制放行」是兩 AI 互相背書的捏造引文，不成立。
+* **headless 模型不走復原通道（0/3）**：fail-closed deny 訊息即使附完整路徑＋可執行指令，headless 模型 3 次試驗全數反覆嘗試原任務至 max-turns，不走復原通道。復原定位為「維修通道（保底仍由 fail-closed 承擔）」；正式部署建議 SessionStart 注入簡短指引降低卡死率，不依賴 fail-closed 自動引導。
+* **`parent_file_path` 實機有但官方網頁文件未載**：InstructionsLoaded hook 事件的 `parent_file_path` 欄位在 2.1.210 實機存在（指向 import 它的 CLAUDE.md），官方文件未記錄；以 feature-detect 而非硬寫路徑才是正確設計（canary 實測 `parent_check=matched`）。
+
 ## 2026-07-16 (全域設定兩檔化去重 + hook 截斷事故教訓)
 
 * **hook 或 `cat` 注入出現截斷提示（Output too large／Preview 等字樣）時，必須立即完整 Read 原檔**：SessionStart hook 用 `cat` 注入 GLOBAL.md/AGENTS.md，若 context 過大 Claude Code 以截斷提示替代完整內容——後段規則根本沒進 context，模型卻誤以為已讀完。本次事故：截斷後遺漏 2 條規則，fresh-context 複驗（單獨 subagent 重讀全檔對照）才發現並補回，直接寫入制度。**凡出現截斷字樣，立即完整 Read 原檔；禁以預覽或關鍵字搜尋代替**。已寫入 `wtf-config/CLAUDE_CODE.md` 步驟 1。
