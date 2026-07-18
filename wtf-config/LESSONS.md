@@ -168,3 +168,4 @@
 - say-something｜2026-07-16｜指揮官收尾固定五步(狀態列+INDEX+diff -rq Drive↔mirror+commit+check),連兩契約收尾被 verifier 抓 FAIL 的教訓;缺檔=漂移不是「這次沒改」｜projects/say-something/_context/lessons-learned.md
 | WTF | 2026-07-16 | coach scope 檢查以立約時 base_ref 比對整樹：共用 repo 併發（sync hook 快轉 upstream、他 session 未提交檔）會誤判越界；同型再犯應改 coach 用 merge-base 或本 session authored diff | `outputs/ody-session-gate-impl-20260716/`（重立契約處置紀錄） |
 - WTF｜2026-07-17｜session-gate canary 4條：`--bare`整組保護關（非只略過CLAUDE.md）/Stop連block無8次上限（証偽）/headless復原通道採用率0-3（SessionStart加指引）/`parent_file_path`實機有但文件未載（feature-detect）｜`_context/lessons-learned.md` §2026-07-17
+- cowork_CDIC｜2026-07-17｜mirror 禁 git add -A（二犯升級硬規）：工作樹常殘留大二進位，-A 必掃進去（兩犯 gradle+素材/137MB PNG 被 GitHub 拒）；唯二合法暫存＝顯式清單 or porcelain+副檔名 filter；commit 前固定跑 staged >1MB 檢查。Mac .bat 必轉 CRLF 無 BOM（Write 工具寫 LF，Windows cmd 亂碼不跑）。.bat 路徑 if-exist 鏈須在部署層級 cd 實跑，乾跑 mjs 全綠仍漏。回報「已重啟 X」前必 pgrep 驗程序存活（Drive client 靜默退出未驗即回報）｜cowork_CDIC/_context/lessons-learned.md
