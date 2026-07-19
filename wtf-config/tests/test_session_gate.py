@@ -115,10 +115,20 @@ class SessionGateTest(unittest.TestCase):
         self.sign("GLOBAL.md")
         self.sign("AGENTS.md")
         old = json.loads((self.state() / "generation.json").read_text())["generation"]
-        self.run_gate("init", self.base, expected=0)
+        # 換代由 resume/compact 觸發；startup init 對既有 generation 不旋轉（修並行競態的關鍵）
+        self.run_gate("init", {**self.base, "source": "resume"}, expected=0)
         new = json.loads((self.state() / "generation.json").read_text())["generation"]
         self.assertNotEqual(old, new)
         self.assert_denied(self.pretool())
+
+    def test_startup_init_does_not_rotate_existing_generation(self):
+        self.sign("GLOBAL.md")
+        self.sign("AGENTS.md")
+        old = json.loads((self.state() / "generation.json").read_text())["generation"]
+        self.run_gate("init", {**self.base, "source": "startup"}, expected=0)
+        new = json.loads((self.state() / "generation.json").read_text())["generation"]
+        self.assertEqual(old, new)  # startup 不覆蓋 → 收據仍有效
+        self.assertIsNone(self.output(self.pretool()))
 
     def test_agent_cannot_borrow_main_receipts(self):
         self.sign("GLOBAL.md")
@@ -233,6 +243,43 @@ class SessionGateTest(unittest.TestCase):
 
     def state(self, agent="main"):
         return self.home / ".claude" / "wtf-session-state" / "session-1" / agent
+
+    def race_state(self, session):
+        return self.home / ".claude" / "wtf-session-state" / session / "main"
+
+    def test_instructions_before_init_self_creates_generation_and_survives_startup_init(self):
+        event = {"session_id": "race-1", "bundle_sha256": self.bundle_hash}
+        for name in ("GLOBAL.md", "AGENTS.md"):
+            payload = dict(event)
+            payload.update({"file_path": str(self.bundle / name), "load_reason": "include"})
+            self.run_gate("instructions", payload, expected=0)
+        generation_file = self.race_state("race-1") / "generation.json"
+        first = json.loads(generation_file.read_text(encoding="utf-8"))
+        self.assertEqual("instructions", first.get("created_by"))
+        init_event = dict(event)
+        init_event["source"] = "startup"
+        self.run_gate("init", init_event, expected=0)
+        second = json.loads(generation_file.read_text(encoding="utf-8"))
+        self.assertEqual(first["generation"], second["generation"])  # startup 不旋轉
+        pretool_event = dict(event)
+        pretool_event.update({"tool_name": "Bash", "tool_input": {"command": "true"}})
+        self.assertIsNone(self.output(self.run_gate("pretool", pretool_event, expected=0)))
+
+    def test_resume_rotates_instructions_created_generation(self):
+        event = {"session_id": "race-2", "bundle_sha256": self.bundle_hash}
+        payload = dict(event)
+        payload.update({"file_path": str(self.bundle / "GLOBAL.md"), "load_reason": "include"})
+        self.run_gate("instructions", payload, expected=0)
+        generation_file = self.race_state("race-2") / "generation.json"
+        first = json.loads(generation_file.read_text(encoding="utf-8"))
+        init_event = dict(event)
+        init_event["source"] = "resume"
+        self.run_gate("init", init_event, expected=0)
+        second = json.loads(generation_file.read_text(encoding="utf-8"))
+        self.assertNotEqual(first["generation"], second["generation"])  # resume 必旋轉
+        pretool_event = dict(event)
+        pretool_event.update({"tool_name": "Bash", "tool_input": {"command": "true"}})
+        self.assert_denied(self.run_gate("pretool", pretool_event, expected=0))  # 舊收據失效
 
 
 if __name__ == "__main__":

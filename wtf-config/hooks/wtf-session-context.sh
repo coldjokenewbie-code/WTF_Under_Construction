@@ -9,23 +9,27 @@ d="_context"
 
 CAP=150   # 每檔注入上限行數，控 token 成本
 
-echo "【開場注入｜GLOBAL.md/AGENTS.md + 三檔制內容已由 SessionStart hook 自動載入，無需再讀這些檔】"
-
-# GLOBAL.md／AGENTS.md：在專案外（wtf-config/），走 WTF_ROOT 錨點定位（機制見 GLOBAL.md 檔頭）
-root_file="$HOME/.claude/wtf-root.txt"
-WTF_ROOT=""
-[ -f "$root_file" ] && WTF_ROOT=$(cat "$root_file")
-
-if [ -n "$WTF_ROOT" ]; then
-  for f in "$WTF_ROOT/wtf-config/GLOBAL.md" "$WTF_ROOT/wtf-config/AGENTS.md"; do
-    if [ -f "$f" ]; then
-      echo "===== $f ====="
-      head -n "$CAP" "$f"
-      [ "$(wc -l < "$f")" -gt "$CAP" ] && echo "……（超過 ${CAP} 行已截斷，需完整內容再讀原檔）"
-    fi
-  done
+# GLOBAL.md／AGENTS.md 交付：
+# 本機已部署 bundle import（~/.claude/CLAUDE.md 含 wtf-session-bundles 引用）＝官方 loader 交付＋gate 收據保證，
+# 此處不再重複注入（省 ~17KB/session）。未部署機器（如 Windows）維持原注入行為。
+if grep -q "wtf-session-bundles" "$HOME/.claude/CLAUDE.md" 2>/dev/null; then
+  echo "【開場注入｜GLOBAL/AGENTS 由 CLAUDE.md bundle import 交付（gate 收據保證）；以下僅專案三檔制內容】"
 else
-  echo "【警告：~/.claude/wtf-root.txt 缺失，GLOBAL.md/AGENTS.md 未能注入，需自行讀取】"
+  echo "【開場注入｜GLOBAL.md/AGENTS.md（截斷時必須完整 Read 原檔）＋三檔制內容】"
+  root_file="$HOME/.claude/wtf-root.txt"
+  WTF_ROOT=""
+  [ -f "$root_file" ] && WTF_ROOT=$(cat "$root_file")
+  if [ -n "$WTF_ROOT" ]; then
+    for f in "$WTF_ROOT/wtf-config/GLOBAL.md" "$WTF_ROOT/wtf-config/AGENTS.md"; do
+      if [ -f "$f" ]; then
+        echo "===== $f ====="
+        head -n "$CAP" "$f"
+        [ "$(wc -l < "$f")" -gt "$CAP" ] && echo "……（超過 ${CAP} 行已截斷，需完整內容再讀原檔）"
+      fi
+    done
+  else
+    echo "【警告：~/.claude/wtf-root.txt 缺失，GLOBAL.md/AGENTS.md 未能注入，需自行讀取】"
+  fi
 fi
 
 for f in "$d/INDEX.md" "$d/lessons-learned.md"; do
