@@ -82,7 +82,7 @@
       "Bash(echo \"exit=$?\")",
       "Bash(echo \"check 總 exit=$?\")",
       "Bash(agy --print \"極簡回答（勿過度探索）。檢視你 ~/.gemini/GEMINI.md 全域指令：\\(1\\)【強制初始化協議】要你先讀哪個檔定位 WTF repo？\\(2\\) 接著 view_file 讀哪兩個 SSOT 檔名？\\(3\\) 技能載入是用原生 lazy-load 還是開場讀全部 SKILL.md body？三點各一句。\")",
-      "Bash(python \"/Users/coma/Git_work/WTF_Under_Construction/wtf-config/sync_config.py\" check)",
+      "Bash(python \"/Users/coma/git_mirror/WTF_Under_Construction/wtf-config/sync_config.py\" check)",
       "Bash(git stash *)",
       "Bash(python3 tools/todo-cli.py add --help)",
       "Bash(python3 tools/todo-cli.py update --help)",
@@ -98,11 +98,16 @@
       "Bash(cp wtf-config/GLOBAL.md wtf-config/CLAUDE_CODE.md wtf-config/AGENTS.md wtf-config/archive/2026-07-03_pre-fable5/)",
       "Bash(cp .claude/CLAUDE.md wtf-config/archive/2026-07-03_pre-fable5/project-dotclaude-CLAUDE.md)",
       "mcp__Claude_Code_Remote__add_repo",
-      "Bash(git -C /Users/coma/Git_work/WTF_Under_Construction log --oneline main..origin/main)",
-      "Bash(git -C /Users/coma/Git_work/WTF_Under_Construction diff --stat main origin/main -- wtf-config/LESSONS.md wtf-config/machines.md)",
+      "Bash(git -C /Users/coma/git_mirror/WTF_Under_Construction log --oneline main..origin/main)",
+      "Bash(git -C /Users/coma/git_mirror/WTF_Under_Construction diff --stat main origin/main -- wtf-config/LESSONS.md wtf-config/machines.md)",
       "Bash(awk '/^## F\\\\./{f=1} /^## G\\\\./{f=0} f' /Users/coma/Git_work/Assembly_Plant_Mobile_Guide/_context/Plan_2026-06-28_導覽帶路改版_首頁與架構.md)",
       "Bash(awk '/^## H\\\\./{f=1} f' /Users/coma/Git_work/Assembly_Plant_Mobile_Guide/_context/Plan_2026-06-28_導覽帶路改版_首頁與架構.md)",
-      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine status --short)"
+      "Bash(git -C /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine status --short)",
+      "Bash(npm -g config get prefix)",
+      "Bash(claude --version)",
+      "Bash(git fetch *)",
+      "Bash(sed -i '' 's|/Users/coma/git_mirror/WTF_Under_Construction|/Users/coma/git_mirror/WTF_Under_Construction|g' ~/.claude/wtf-sync.sh ~/.claude/settings.json /Users/coma/git_mirror/WTF_Under_Construction/.claude/settings.local.json)",
+      "Bash(echo \"residual check exit: $?\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
