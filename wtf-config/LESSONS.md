@@ -172,3 +172,4 @@
 - cowork_CDIC｜2026-07-19｜Node ESM isMain 判定用 new URL(argv[1],"file:") 在 Windows 把磁碟機字元當 scheme→main 靜默不跑、燒機空轉零錯誤；一律 pathToFileURL。跨夜燒機前必查 powercfg 睡眠；Drive 同步會把檔改名「(1)」正名消失，比 HEAD blob 後改回｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-19｜平板連續燒機不能靠電腦USB供電（充電功率<消耗，實例6%→4%；壁充台脫離adb，電池CSV與APK重裝要補）｜cowork_CDIC/_context/lessons-learned.md
 - VoiceInk｜2026-07-19｜macOS App 本機 ad-hoc build：Sparkle 自動更新不受 LOCAL_BUILD flag 管、會覆蓋本機版；-xcconfig 改 PRODUCT_NAME 會洩漏進相依 SPM package 炸 build（改用建置後 mv 資料夾名）；CGEventTap 需 Accessibility+Input Monitoring 兩個獨立 TCC 權限，重簽章後都要整條移除重加｜VoiceInk/_context/lessons-learned.md
+- Assembly_Plant_Mobile_Guide｜2026-07-17｜edge-tts 做不出台味，口音風格用 Gemini TTS 風格 prompt（PO 裁定微台味不轉台語）；跨專案素材先 mdfind 全機搜｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
