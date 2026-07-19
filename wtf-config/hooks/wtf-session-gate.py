@@ -125,17 +125,47 @@ def write_receipt(directory: Path, current: dict, name: str, reason: str,
                "event": event_name, "load_reason": reason,
                "parent_check": parent_check, "created_at": now()}
     atomic_json(directory / f"{Path(name).stem}.receipt.json", receipt)
+ROTATE_SOURCES = {"resume", "compact", "compaction", "clear"}
+def create_generation(directory: Path, bundle: Path, bundle_hash: str, created_by: str) -> None:
+    """以 O_EXCL 原子創建 generation.json——並行的 init／多個 InstructionsLoaded 只有一個建成，
+    其餘讀既有共用同 generation，避免互相覆蓋造成部分收據 generation 對不上而失效。"""
+    directory.mkdir(parents=True, exist_ok=True)
+    value = {"schema": 1, "generation": secrets.token_hex(16), "previous_generation": None,
+             "bundle_sha256": bundle_hash, "bundle_path": str(bundle),
+             "created_by": created_by, "created_at": now()}
+    encoded = (json.dumps(value, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
+    try:
+        fd = os.open(directory / "generation.json", os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError:
+        return
+    with os.fdopen(fd, "wb") as output:
+        output.write(encoded)
+        output.flush()
+        os.fsync(output.fileno())
 def cmd_init(event: dict, require_agent: bool) -> None:
     directory = state_dir(event, require_agent)
     bundle, bundle_hash, _ = choose_bundle(event)
-    previous = None
-    if (directory / "generation.json").exists():
-        previous = read_json(directory / "generation.json").get("generation")
-    value = {"schema": 1, "generation": secrets.token_hex(16),
-             "previous_generation": previous, "bundle_sha256": bundle_hash,
-             "bundle_path": str(bundle), "created_at": now()}
-    atomic_json(directory / "generation.json", value)
+    gen_path = directory / "generation.json"
+    if event.get("source") in ROTATE_SOURCES:
+        # 明確旋轉（resume/compact/clear）：SessionStart 單一、無並行，覆蓋語意安全。
+        previous = read_json(gen_path).get("generation") if gen_path.exists() else None
+        atomic_json(gen_path, {"schema": 1, "generation": secrets.token_hex(16),
+                               "previous_generation": previous, "bundle_sha256": bundle_hash,
+                               "bundle_path": str(bundle), "created_by": "init", "created_at": now()})
+    else:
+        # startup：O_EXCL 建；若 InstructionsLoaded 已先建則尊重既有，不覆蓋（否則作廢其收據）。
+        create_generation(directory, bundle, bundle_hash, "init")
 def cmd_instructions(event: dict) -> None:
+    directory = state_dir(event)
+    if not (directory / "generation.json").exists():
+        # 事件先於 init 到達：自建 generation（O_EXCL 並行安全）。bundle 由事件 file_path 推導，
+        # 不靠 choose_bundle（多 bundle 過渡期會 ambiguous）。事件本身即 loader 已處理檔案的證據。
+        fp = Path(str(event.get("file_path", ""))).resolve()
+        bdir = fp.parent
+        bhash = bdir.name
+        if re.fullmatch(r"[0-9a-f]{64}", bhash) and (bdir / "manifest.json").is_file() \
+           and digest(bdir / "manifest.json") == bhash:
+            create_generation(directory, bdir, bhash, "instructions")
     directory, current, manifest = generation(event)
     reason = event.get("load_reason")
     if reason not in KNOWN_REASONS:

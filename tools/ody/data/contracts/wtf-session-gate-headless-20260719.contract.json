@@ -1,0 +1,101 @@
+{
+  "task_id": "wtf-session-gate-headless-20260719",
+  "goal": "根治 gate headless 鎖死：根因已確認＝import 手改部署副本未進 SSOT、被 wtf-sync 洗掉（非 headless 不相容）。落地修法：讓 sync_config.py 自動維護 bundle＋CLAUDE.md managed import block（當代 SHA）＋部署後機檢，import 不再手改；canary 三格通過後 PO 恢復強制",
+  "created": "2026-07-19T12:27:22.044520+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "69fca73a1400199775c62bca14e999b351716f38",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/agents/ody-verifier.md",
+    "wtf-config/hooks/wtf-session-context.sh",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/machines.md",
+    "wtf-config/tests/test_session_gate.py",
+    "outputs/ody-session-gate-headless-20260719/",
+    "outputs/ody-session-gate-impl-20260716/phase4_backup_ts.txt",
+    "outputs/ody-session-gate-impl-20260716/核准點3_一頁審閱.md",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "wtf-config/hooks/**",
+    "wtf-config/policies/**",
+    "wtf-config/tests/**",
+    "wtf-config/sync_config.py",
+    "outputs/ody-session-gate-headless-20260719/**"
+  ],
+  "preflight_permissions": [
+    "寫 scope 內檔案；codex/agy headless；canary 由主 session 跑 claude -p（有認證）；恢復 PreToolUse 需 PO 執行"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "sync_config.py 部署時自動：產生/確認 bundle、於 ~/.claude/CLAUDE.md 寫入當代 SHA 的 managed import block（可重入、SHA 變則更新）、GC 舊 bundle 或保留策略明確",
+      "evidence": {
+        "cmd": "python3 wtf-config/sync_config.py sync >/dev/null 2>&1 && grep -c 'WTF-SESSION-BUNDLE' ~/.claude/CLAUDE.md | grep -q '^2$' && python3 wtf-config/sync_config.py check >/dev/null 2>&1",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T14:33:34.899556+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "部署後機檢：CLAUDE.md import SHA＝bundle 目錄名＝manifest digest 三者一致，不一致則 check 回非零且禁止恢復強制",
+      "evidence": {
+        "cmd": "python3 wtf-config/sync_config.py check 2>&1 | grep -q '三者一致'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T14:33:34.981960+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "canary 三格實測（user-only/project-only/user+project）皆 include 收據自動簽成＋工具放行，import 缺失時 fail-closed，第一手事件留證",
+      "evidence": {
+        "cmd": "grep -q 'canary user-only：5/5 穩定' outputs/ody-session-gate-headless-20260719/PHASE_FIX_REPORT.md && grep -q 'O_EXCL 原子創建' outputs/ody-session-gate-headless-20260719/PHASE_FIX_REPORT.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T14:33:35.030532+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "sync_config.py 全部現有部署功能不回歸（AGENTS.md 18 專案、skills、codex/gemini 部署照舊）＋test_session_gate.py 全綠＋ody-verifier 獨立複驗 PASS",
+      "evidence": {
+        "cmd": "python3 -m unittest discover -s wtf-config/tests -p 'test_session_gate.py' 2>&1 | grep -q '^OK'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T14:33:37.151140+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 -m unittest discover -s wtf-config/tests -p 'test_session_gate.py' 2>&1 | tail -1"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-19T14:36:40.306043+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

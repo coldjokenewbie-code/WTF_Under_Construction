@@ -1,0 +1,24 @@
+{
+  "firstStartTime": "2026-07-19T12:12:55.876Z",
+  "machineID": "e3d3b7acfc3baa9347201ac6e1a81214ce10f3fc85b08a1de3b4697368eb1a40",
+  "opusProMigrationComplete": true,
+  "sonnet1m45MigrationComplete": true,
+  "seenNotifications": {},
+  "hasResetAutoModeOptInForDefaultOffer": true,
+  "migrationVersion": 13,
+  "userID": "6683674197c488cbaeafd321ed5b9c0fe0ebe3b54f4455b97aadae2cd9c9e402",
+  "projects": {
+    "/Users/coma/git_mirror/WTF_Under_Construction": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "hasUnseenTeamArtifacts": false
+    }
+  }
+}

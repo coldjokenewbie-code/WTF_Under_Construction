@@ -46,6 +46,87 @@ INBOX_CONFIG = SCRIPT_DIR / "inbox-config.md"          # 語音速記 inbox 的 
 MARK_BEGIN = "<!-- WTF-AUTOGEN:AGENTS"
 MARK_END = "WTF-AUTOGEN:END -->"
 
+SSOT_GLOBAL = SCRIPT_DIR / "GLOBAL.md"                 # session bundle 來源（GLOBAL 全域設定；AGENTS 用 SSOT）
+BUNDLE_BEGIN = "# >>> WTF-SESSION-BUNDLE (managed by sync_config.py, do not edit) >>>"
+BUNDLE_END = "# <<< WTF-SESSION-BUNDLE <<<"
+
+
+def _load_bundle_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("wtf_bundle", SCRIPT_DIR / "hooks" / "wtf_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def strip_bundle_block(text):
+    """移除 CLAUDE.md 尾端 managed import block，回傳純本體（用於與 SSOT 比對）。"""
+    pattern = re.compile(r"\n*" + re.escape(BUNDLE_BEGIN) + r".*?" + re.escape(BUNDLE_END) + r"\n*",
+                         re.DOTALL)
+    return pattern.sub("\n", text)
+
+
+def build_bundle_block(sha):
+    return (BUNDLE_BEGIN + "\n"
+            + f"@wtf-session-bundles/{sha}/GLOBAL.md\n"
+            + f"@wtf-session-bundles/{sha}/AGENTS.md\n"
+            + BUNDLE_END + "\n")
+
+
+def bundle_sha_in_claude_md():
+    """讀 ~/.claude/CLAUDE.md 的 managed block，回傳 import 的 bundle SHA（無則 None）。"""
+    claude_md = CLAUDE_DIR / "CLAUDE.md"
+    if not claude_md.exists():
+        return None
+    m = re.search(r"@wtf-session-bundles/([0-9a-f]{64})/GLOBAL\.md",
+                  claude_md.read_text(encoding="utf-8", errors="replace"))
+    return m.group(1) if m else None
+
+
+def deploy_session_bundle():
+    """copy2 部署 CLAUDE.md 後呼叫：產生/確認 bundle，並在 CLAUDE.md 尾端寫入當代 SHA 的 import block。
+    根因修正——import 由此自動維護，不再手改部署副本（手改必被下次 sync 洗掉）。"""
+    if not (SSOT_GLOBAL.exists() and SSOT.exists()):
+        return None, ["  - 略過 session bundle（GLOBAL.md/AGENTS.md 真相源不存在）"]
+    try:
+        mod = _load_bundle_module()
+        bundle = mod.create_bundle(SSOT_GLOBAL, SSOT, home=Path.home(),
+                                   max_source_bytes=100000, max_source_lines=3000)
+        sha = bundle.name
+    except Exception as e:
+        return None, [f"  ! session bundle 產生失敗（{e}）"]
+    claude_md = CLAUDE_DIR / "CLAUDE.md"
+    if not claude_md.exists():
+        return sha, ["  ! 略過 bundle import（~/.claude/CLAUDE.md 不存在）"]
+    body = strip_bundle_block(claude_md.read_text(encoding="utf-8")).rstrip() + "\n\n"
+    claude_md.write_text(body + build_bundle_block(sha), encoding="utf-8")
+    return sha, [f"  v 寫入 ~/.claude/CLAUDE.md session bundle import（SHA {sha[:12]}…）"]
+
+
+def check_bundle_integrity():
+    """機檢：CLAUDE.md import SHA ＝ bundle 目錄名 ＝ manifest digest，且 bundle 內容與當前 SSOT 一致。
+    回傳 (ok: bool|None, notes: list)。ok=None＝未部署 import（尚未啟用，不算失敗）。"""
+    import hashlib
+    notes = []
+    sha = bundle_sha_in_claude_md()
+    if sha is None:
+        return None, ["  ! [SKIP  ] session bundle import 未部署（尚未啟用強制載入）"]
+    bundle_dir = CLAUDE_DIR / "wtf-session-bundles" / sha
+    manifest = bundle_dir / "manifest.json"
+    if not manifest.exists():
+        return False, [f"  x [BROKEN ] bundle {sha[:12]}… 目錄或 manifest 不存在"]
+    digest = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    if digest != sha:
+        return False, [f"  x [BROKEN ] manifest digest 與目錄名不符（{digest[:12]}…≠{sha[:12]}…）"]
+    for name, ssot in (("GLOBAL.md", SSOT_GLOBAL), ("AGENTS.md", SSOT)):
+        bfile = bundle_dir / name
+        if not bfile.exists() or not ssot.exists():
+            return False, [f"  x [BROKEN ] bundle 或 SSOT 缺 {name}"]
+        if hashlib.sha256(bfile.read_bytes()).hexdigest() != hashlib.sha256(ssot.read_bytes()).hexdigest():
+            return False, [f"  x [STALE  ] bundle 的 {name} 與當前 SSOT 不一致（需重跑 sync）"]
+    notes.append(f"  v [OK     ] session bundle import SHA/manifest/SSOT 三者一致（{sha[:12]}…）")
+    return True, notes
+
 
 def ts():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -220,11 +301,17 @@ def check_claude_dir():
     elif claude_md.is_symlink():
         notes.append(f"  x [SYMLINK] ~/.claude/CLAUDE.md — 仍為 symlink，需改為實體檔")
         claude_md_ok = False
-    elif claude_md.read_text(encoding="utf-8", errors="replace").rstrip() == SSOT_CLAUDE.read_text(encoding="utf-8").rstrip():
+    elif strip_bundle_block(claude_md.read_text(encoding="utf-8", errors="replace")).rstrip() == SSOT_CLAUDE.read_text(encoding="utf-8").rstrip():
+        # 去掉 managed bundle block 後比對本體；block 由 deploy_session_bundle 維護，另有機檢
         notes.append(f"  v [OK     ] ~/.claude/CLAUDE.md")
         claude_md_ok = True
     else:
         notes.append(f"  x [STALE  ] ~/.claude/CLAUDE.md — 內容與真相源不符")
+        claude_md_ok = False
+
+    bundle_ok, bundle_notes = check_bundle_integrity()
+    notes.extend(bundle_notes)
+    if bundle_ok is False:
         claude_md_ok = False
 
     if not SSOT_SKILLS.exists():
@@ -282,6 +369,9 @@ def deploy_claude_dir():
             dst.unlink()
         shutil.copy2(SSOT_CLAUDE, dst)
         results.append(f"  v 寫入 ~/.claude/CLAUDE.md")
+        # copy2 用 SSOT 覆蓋 CLAUDE.md（洗掉 import block），故在此後自動重寫 bundle import——根因修正點
+        _, bundle_notes = deploy_session_bundle()
+        results.extend(bundle_notes)
     else:
         results.append(f"  - 略過 ~/.claude/CLAUDE.md（真相源不存在）")
 
