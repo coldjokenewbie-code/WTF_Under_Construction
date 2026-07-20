@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-19 17:05**：狀態與今晨 08:30 晨報完全無變動——QUEUE 連續第9日0 active，最新心跳 07-19 01:33 仍秒退，無新增量、無新 blockers、無新 commit。
+**晨報棒 2026-07-20 08:30**：night-relay 領先 main 124 commits，但昨晚（07-19 17:05後～07-20 01:34）4 棒（19:34/21:34/23:33/01:34 心跳）全數秒退——QUEUE 連續第9日0 active，狀態與昨日17:05快報完全無變動，無新增量、無新 blockers（各 mission _blockers.md/backlog.md/journal.md 與昨晨報 diff 為零）。
 **待核准(3，同前)**：machine-report(P1,全篇+opus對抗審查PASS,待驗貨改done)／guide-app(P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／test-baton-pickup-0706(P9,探針驗證通過,建議直接結案)
 **parked(2，待裁決解封，同前)**：o4-soundtrack(P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／design-training(P4,卡WebFetch全面403,_blockers 4選項待裁決)
 **新 blockers**：無
