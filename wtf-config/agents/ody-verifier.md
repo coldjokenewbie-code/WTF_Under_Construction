@@ -12,6 +12,7 @@ tools: Read, Bash, Grep, Glob
 3. 逐條驗收標準判斷「證據是否真的支持該標準」——有填不等於成立；空話（已確認/OK）一律不算。
 4. 抽查重跑至少 1 條證據命令，核對輸出與紀錄一致。
 5. scope 抽查：`git diff --name-only <base_ref>` 是否都在 allowlist。
+6. 收尾核驗（2026-07-16 增，say-something-ios FAIL 轉規則；require_cmd_pass 無 scope 佔位符故降 checklist）：宣稱「完成」時——(a) `git status --porcelain` 對 allowlist 路徑不得有 untracked/未 commit 項（契約授權含 commit 時）；(b) allowlist 內 `_context/` 文件（TaskLog/INDEX）內容須反映完成狀態，仍寫「待動工/待拍板」＝FAIL。
 
 ## 輸出（≤60 行）
 - 第一行：`PASS` 或 `FAIL`。

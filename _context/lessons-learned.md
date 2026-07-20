@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-20 (版控路徑雙軌鐵律定案)
+
+* **版控路徑雙軌鐵律（PO 2026-07-20 裁定）**：所有專案一律「Drive 資料夾 ＋ git_mirror 實體」雙軌存在，WTF repo 自身（已在 git_mirror、無 Drive 副本）為唯一例外；Git_work 目錄正式退役禁用（舊 Asembly_PPT 已自 git_work_bk 遷入 git_mirror）；Drive 端舊 .git 指標改名 `.retired-git`；`wtf-config/projects-registry.md` 為版控路徑唯一真相源，新專案直接在 git_mirror 建立。此規則升級自 2026-07-15「純 code 專案遷 git_mirror」，範圍擴及所有含 Drive 副本的專案，並明訂禁止使用 Git_work。
+
 ## 2026-07-17 (session-gate canary 實測：Claude Code 2.1.210 行為事實)
 
 * **`--bare` = 整組保護一起關，非只略過 CLAUDE.md 發現**：2.1.210 `--help` 明載 `--bare` 同時 skip hooks AND CLAUDE.md auto-memory（@import 同步不生效）。凡設計 hook/gate 保護時，`--bare` 要列入與 `disableAllHooks` 同級的旁路清單；不能假設 `--bare` 只影響 CLAUDE.md 自動搜尋。

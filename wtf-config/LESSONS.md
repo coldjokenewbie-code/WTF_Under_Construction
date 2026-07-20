@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-20 | 版控路徑雙軌鐵律（PO 定案）：所有專案一律 Drive+git_mirror 雙軌，WTF 自身為唯一例外；Git_work 退役禁用；Drive .git 改名 .retired-git；registry=版控路徑唯一真相源（升級自 07-15「純 code 遷 git_mirror」，範圍擴及含 Drive 副本的全部專案） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-16 | hook/cat 注入出現截斷提示（Output too large／Preview）=後段規則未進 context；必須立即完整 Read 原檔，禁以預覽/關鍵字搜尋代替（本次事故：fresh-context 複驗發現遺漏 2 條規則才補回）；已寫入 CLAUDE_CODE.md 步驟 1 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-15 | auto-mode 分類器會把 session 層級 gitStatus 誤套到子 repo 的 rm-rf/clone 動作(需使用者明確核准，同模式重試會被判tunneling)；macOS bash 3.2 不支援 declare -A；wtf-sync 每輪重寫 AGENTS.md 時間戳造成多 repo 平行 commit 反覆誤判不乾淨；共用工作目錄多 session 同時操作會造成臨場性檔案消失假象，先查 lsof 核對再判斷 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-09 | SessionStart hook 注入內容送達≠模型照做；「要求模型自報確認字串」驗證 hook 是否生效是假陰性指標(讀到但沒照做會誤判成沒讀到)，改查 transcript 的 hook_success；JSON additionalContext 有 10000 字元上限，現有內容 63779 字元已超限只能用 plain stdout | `_context/lessons-learned.md`（WTF repo） |
@@ -171,3 +172,5 @@
 - cowork_CDIC｜2026-07-17｜mirror 禁 git add -A（二犯升級硬規）：工作樹常殘留大二進位，-A 必掃進去（兩犯 gradle+素材/137MB PNG 被 GitHub 拒）；唯二合法暫存＝顯式清單 or porcelain+副檔名 filter；commit 前固定跑 staged >1MB 檢查。Mac .bat 必轉 CRLF 無 BOM（Write 工具寫 LF，Windows cmd 亂碼不跑）。.bat 路徑 if-exist 鏈須在部署層級 cd 實跑，乾跑 mjs 全綠仍漏。回報「已重啟 X」前必 pgrep 驗程序存活（Drive client 靜默退出未驗即回報）｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-19｜Node ESM isMain 判定用 new URL(argv[1],"file:") 在 Windows 把磁碟機字元當 scheme→main 靜默不跑、燒機空轉零錯誤；一律 pathToFileURL。跨夜燒機前必查 powercfg 睡眠；Drive 同步會把檔改名「(1)」正名消失，比 HEAD blob 後改回｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-19｜平板連續燒機不能靠電腦USB供電（充電功率<消耗，實例6%→4%；壁充台脫離adb，電池CSV與APK重裝要補）｜cowork_CDIC/_context/lessons-learned.md
+- VoiceInk｜2026-07-19｜macOS App 本機 ad-hoc build：Sparkle 自動更新不受 LOCAL_BUILD flag 管、會覆蓋本機版；-xcconfig 改 PRODUCT_NAME 會洩漏進相依 SPM package 炸 build（改用建置後 mv 資料夾名）；CGEventTap 需 Accessibility+Input Monitoring 兩個獨立 TCC 權限，重簽章後都要整條移除重加｜VoiceInk/_context/lessons-learned.md
+- Assembly_Plant_Mobile_Guide｜2026-07-17｜edge-tts 做不出台味，口音風格用 Gemini TTS 風格 prompt（PO 裁定微台味不轉台語）；跨專案素材先 mdfind 全機搜｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md

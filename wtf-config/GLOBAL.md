@@ -43,6 +43,7 @@
 | 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
 
 **Claude_cowork 專案版控鐵律**（只要出現「git」「推」「commit」「push」等字眼，或要決定「在哪個資料夾讀寫檔案、啟動服務」，一律先查此規則）：
+- **所有專案一律「Drive 工作＋git_mirror 鏡像版控」，不存在「純程式 repo」分類**；唯一例外＝WTF_Under_Construction（控管架構 repo＝所有專案的原則與系統架構，本體直接在 `git_mirror/`）。舊 `Git_work`／`git_work_bk` 資料夾已禁用，registry 未登記的路徑不得當工作位置（PO 2026-07-20 裁定）。
 - Drive 內任何專案，一律不得原地 git（`init`/`add`/`commit`/`push` 皆禁）——git 與 Drive 同步會互相衝突、鎖檔（已有先例）。
 - 查本機是否存在 `git_mirror/<專案名>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不隨 Drive 同步，各機獨立）：
   - 存在 → **Drive 為唯一真相源，工作在 Drive 做**；`git_mirror/` 只是版控出口。
