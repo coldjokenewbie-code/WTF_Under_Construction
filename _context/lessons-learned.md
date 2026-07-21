@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-21 (雲端 WebFetch proxy 封鎖 → 任務路由本機)
+
+* **雲端 session WebFetch 遭組織出口政策全面封鎖（proxy 403，含 example.com、wikipedia.org 等基礎 URL，非個別網站爬蟲封鎖）**：ccr proxy 出口政策層級封鎖，主 session 與 subagent 皆然，改 User-Agent 或換 URL 無效。`/root/.ccr/__agentproxy/status` 可確認現況，README 明載「403/407＝目的地不被本 session 出口政策允許，不要重試或繞過」。**任務路由模式**：需要「實際開啟外部 URL 驗證」的任務（案例研究、文件實測、連結有效性確認等）一律改列「僅本機（Mac）執行」，雲端棒固定跳過、任務狀態不算失敗——這是路由策略而非一次性繞過，寫進 mission `_blockers.md`＋`backlog.md` 明標，讓後續雲端棒直接略過不空轉。（實證來源：design-training mission 2026-07-07 兩棒連續 WebFetch 403 → 2026-07-21 使用者裁決採選項 4）
+
 ## 2026-07-20 (版控路徑雙軌鐵律定案)
 
 * **版控路徑雙軌鐵律（PO 2026-07-20 裁定）**：所有專案一律「Drive 資料夾 ＋ git_mirror 實體」雙軌存在，WTF repo 自身（已在 git_mirror、無 Drive 副本）為唯一例外；Git_work 目錄正式退役禁用（舊 Asembly_PPT 已自 git_work_bk 遷入 git_mirror）；Drive 端舊 .git 指標改名 `.retired-git`；`wtf-config/projects-registry.md` 為版控路徑唯一真相源，新專案直接在 git_mirror 建立。此規則升級自 2026-07-15「純 code 專案遷 git_mirror」，範圍擴及所有含 Drive 副本的專案，並明訂禁止使用 Git_work。
