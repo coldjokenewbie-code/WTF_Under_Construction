@@ -4,8 +4,8 @@
 
 ## 今日快報
 **提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲）：依 3.5 分支制 merge origin/main，解掉 QUEUE.md 一處衝突——main 新增 `20260721-session-gate-fix` 一行（使用者派工）。21:34 循環棒已接續跑完該項的規劃棒（見下），本段已同步覆核最新狀態。
-**待核准(4)**：互動機具設計報告書(machine-report,P1,全篇+opus對抗審查PASS,待驗貨改done)／導覽App優化(guide-app,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／wtf-session-gate故障修復(session-gate-fix,P8,新規劃棒已產出M1止血+M2根因(settings.json SHA同步)+M3守門三個milestone,待核准後開始執行)／管線探針測試(test-baton-pickup-0706,P9,驗證通過,建議直接結案)
-**parked(2，待裁決解封，同前)**：存保O4開場影片配樂(o4-soundtrack,P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／設計能力訓練(design-training,P4,卡WebFetch全面403,_blockers 4選項待裁決)
+**待核准(4)**：互動機具設計報告書(repo:Aseembly_Plant_Interactive_machine,P1,全篇+opus對抗審查PASS,待驗貨改done)／導覽App優化(repo:Assembly_Plant_Mobile_Guide,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／wtf-session-gate故障修復(WTF內部harness,P8,新規劃棒已產出M1止血+M2根因(settings.json SHA同步)+M3守門三個milestone,待核准後開始執行)／管線探針測試(WTF內部機制測試,P9,驗證通過,建議直接結案)
+**parked(2，待裁決解封，同前)**：存保O4開場影片配樂(repo:claude_CDIC_O4,P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／設計能力訓練(WTF內部常設任務,P4,卡WebFetch全面403,_blockers 4選項待裁決)
 **新 blockers**：無（既有卡點見各 mission `_blockers.md`，今日無新增）
 **提名(5，未掛載/待啟動，同前)**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill
 **產能算術（義務）**：0 active，可執行 backlog 0 項；4 項待核准皆卡在等使用者核准/驗貨，尚無可推進的執行棒項目，無法推算完成日。恢復產出需使用者：核准 4 項待核准之一（含新的 session-gate-fix）／裁決 2 項 parked 卡點之一。
