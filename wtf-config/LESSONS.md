@@ -177,3 +177,5 @@
 - Assembly_Plant_Mobile_Guide｜2026-07-17｜edge-tts 做不出台味，口音風格用 Gemini TTS 風格 prompt（PO 裁定微台味不轉台語）；跨專案素材先 mdfind 全機搜｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
 - Remotion_fun｜2026-07-20｜展示影片手機畫面禁含烘焙示意圈（機檢驗收）；掃描畫面同源裁切+整體放大＞後貼合成（保透視一致性，省圖層對位）｜Remotion_fun/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-20｜getComputedStyle 判可見必查祖先鏈（display:none 子孫回傳自身值致稽核誤報）；「擋到」類 UI 回報量測無果時直接拆遠別微調；可重生檔的改動一律進 gen 腳本不改產物｜cowork_CDIC/_context/lessons-learned.md
+- Asembly_PPT｜2026-07-21｜ScanView qr 參數＝素材座標非螢幕座標（誤用偏 111px）；傾斜 QR 用 template match 量對齊；量測腳本自身要驗像素群為目標｜projects/Asembly_PPT/_context/lessons-learned.md
+- Asembly_PPT｜2026-07-21｜codex headless SPEC：檔案路徑先 ls 驗存在＋prompt 寫明「遇疑義不提問」，否則沙箱 request_user_input 不可用整輪報廢｜projects/Asembly_PPT/_context/lessons-learned.md
