@@ -3,12 +3,14 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲）：依 3.5 分支制 merge origin/main，解掉 QUEUE.md 一處衝突——main 新增 `20260721-session-gate-fix` 一行（使用者派工）。21:34 循環棒已接續跑完該項的規劃棒（見下），本段已同步覆核最新狀態。
-**待核准(4)**：互動機具設計報告書(repo:Aseembly_Plant_Interactive_machine,P1,全篇+opus對抗審查PASS,待驗貨改done)／導覽App優化(repo:Assembly_Plant_Mobile_Guide,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／wtf-session-gate故障修復(WTF內部harness,P8,新規劃棒已產出M1止血+M2根因(settings.json SHA同步)+M3守門三個milestone,待核准後開始執行)／管線探針測試(WTF內部機制測試,P9,驗證通過,建議直接結案)
-**parked(2，待裁決解封，同前)**：存保O4開場影片配樂(repo:claude_CDIC_O4,P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／設計能力訓練(WTF內部常設任務,P4,卡WebFetch全面403,_blockers 4選項待裁決)
-**新 blockers**：無（既有卡點見各 mission `_blockers.md`，今日無新增）
+**提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲；後續使用者於對話中直接裁決數項，本段同步覆核最新狀態）。
+**使用者今日裁決**：互動機具設計報告書驗收未過→改 `parked`，待補充具體修正意見／wtf-session-gate故障修復＋管線探針測試→核准為 `active`，但指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過／存保O4開場影片配樂→方向拍板明日(07-22)回覆，維持 parked。
+**待核准(1)**：導覽App優化(repo:Assembly_Plant_Mobile_Guide,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)
+**active(2，僅限01:30棒執行)**：wtf-session-gate故障修復(WTF內部harness,P8)／管線探針測試(WTF內部機制測試,P9)
+**parked(3，待裁決解封)**：互動機具設計報告書(repo:Aseembly_Plant_Interactive_machine,P1,使用者驗收未過待補充意見)／存保O4開場影片配樂(repo:claude_CDIC_O4,P3,方向拍板使用者明日回覆)／設計能力訓練(WTF內部常設任務,P4,卡WebFetch全面403,_blockers 4選項待裁決——今日已請使用者擇一，見對話)
+**新 blockers**：互動機具設計報告書新增1條（待使用者補充修正意見）
 **提名(5，未掛載/待啟動，同前)**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill
-**產能算術（義務）**：0 active，可執行 backlog 0 項；4 項待核准皆卡在等使用者核准/驗貨，尚無可推進的執行棒項目，無法推算完成日。恢復產出需使用者：核准 4 項待核准之一（含新的 session-gate-fix）／裁決 2 項 parked 卡點之一。
+**產能算術（義務）**：2 active，但皆限定 01:30 棒才可執行（19:30/21:30/23:34 三棒對這兩項需跳過，backlog 項數：session-gate-fix 3項／test-baton 1項）；以「每棒一項」推算，01:30 棒後兩項各需 1、3 棒才能做完，預計最快 07-22 完成 test-baton，session-gate-fix 預計 07-24 完成（皆以每日僅一次01:30棒可用計）。其餘 1 項待核准／3 項 parked 均卡使用者裁決，不計入算術。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
@@ -16,12 +18,12 @@
 
 | slug | 狀態 | 優先序(1最高) | 一句話方向 |
 |---|---|---|---|
-| 20260706-machine-report | 待核准 | 1 | 互動機具設計報告書（億元標案等級）；內容全章＋fresh-context 對抗審查(opus)PASS 已完成,M1+M2+M3 併案送審,待核准後改 done |
+| 20260706-machine-report | parked | 1 | 互動機具設計報告書（億元標案等級）；**2026-07-21 使用者驗收未過，暫時擱置**，待使用者補充具體修正意見（見 _blockers.md），補充後改回待核准/active |
 | 20260706-guide-app | 待核准 | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：M2 界達成（增量一～八，audit #6/#7 全數完成），剩餘低風險項卡 anchor 升級提案待裁決，見 backlog/_blockers |
 | 20260706-o4-soundtrack | parked | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可；**23:34 棒觸發停止閘（連續2棒零進展）**，卡點見 _blockers.md，裁決後改回 active |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）；**parked**:WebFetch 全面403(組織政策非暫時),案例包卡點連續2棒零進展,見 _blockers.md 4選項待裁決 |
-| test-baton-pickup-0706 | 待核准 | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案 |
-| 20260721-session-gate-fix | 待核准 | 8 | 修 wtf-session-gate 故障：M1 止血（cmd_postread 補 exists 防禦）＋M2 根因（settings.json bundle SHA 納入 SSOT 自動同步＋四方機檢，不接線 PreToolUse/Stop）；規劃棒已產出 MISSION.md+backlog.md，待核准 |
+| test-baton-pickup-0706 | active | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案。**2026-07-21 使用者核准，指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過此項** |
+| 20260721-session-gate-fix | active | 8 | 修 wtf-session-gate 故障：M1 止血（cmd_postread 補 exists 防禦）＋M2 根因（settings.json bundle SHA 納入 SSOT 自動同步＋四方機檢，不接線 PreToolUse/Stop）；規劃棒已產出 MISSION.md+backlog.md。**2026-07-21 使用者核准，指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過此項** |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |

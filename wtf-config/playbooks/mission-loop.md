@@ -97,6 +97,7 @@ missions/
 ## 5. 提醒棒規格（19:00，獨立 trigger，2026-07-20 由 17:00 移至此）
 1. 依第 2 節 3.5 分支制進 night-relay（先併 main）→ 讀 QUEUE＋各 mission `_blockers.md` 與最新 journal。
 2. 產出 ≤15 行摘要：待核准/提名清單／blockers 待決／**產能算術（義務）：各 active 案剩餘 backlog 項數、今晚排定棒數、以「每棒一項」推算的預計完成日**——給使用者的是算術，不是形容詞。
+2.5 **術語鐵律（2026-07-21 定案）**：摘要提到的每個 mission，一律優先用使用者慣用的專案名稱（MISSION.md 方向句已有的中文名）；括號要加對照代號時，必須是 `wtf-config/projects-registry.md` 裡的實際 repo/資料夾名稱，**禁用 WTF 內部 `missions/<slug>/` 代號**——那不是使用者認得的資料夾。無對應外部 repo 的內部任務（harness 修復、探針測試等）不掛任何代號，只用白話描述。QUEUE 表格本身的 `slug` 欄位（技術主鍵，對應資料夾路徑）不受影響。
 3. 寫入 `missions/QUEUE.md`「今日快報」段（覆蓋舊快報）＋commit push night-relay；完成通知（推播）帶摘要重點。
 4. 佇列全空 → 快報一句：「佇列無任務，今晚循環棒將秒退；派工請在 main 的 QUEUE.md 加一行」——照樣推。
 
