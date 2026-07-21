@@ -3,13 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲）：依 3.5 分支制 merge origin/main，解掉 QUEUE.md 一處衝突——main 新增 `20260721-session-gate-fix` 一行（使用者派工），四個既有 mission 狀態沿用 night-relay 既有進度（main 未曾改動，非真衝突）。
-**待核准(3，同前)**：互動機具設計報告書(machine-report,P1,全篇+opus對抗審查PASS,待驗貨改done)／導覽App優化(guide-app,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／管線探針測試(test-baton-pickup-0706,P9,驗證通過,建議直接結案)
-**新 待規劃(1)**：wtf-session-gate故障修復(session-gate-fix,P8,今晚首棒將跑規劃棒產MISSION,診斷見`_context/TaskLog_2026-07-21_session-gate診斷.md`)
+**提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲）：依 3.5 分支制 merge origin/main，解掉 QUEUE.md 一處衝突——main 新增 `20260721-session-gate-fix` 一行（使用者派工）。21:34 循環棒已接續跑完該項的規劃棒（見下），本段已同步覆核最新狀態。
+**待核准(4)**：互動機具設計報告書(machine-report,P1,全篇+opus對抗審查PASS,待驗貨改done)／導覽App優化(guide-app,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)／wtf-session-gate故障修復(session-gate-fix,P8,新規劃棒已產出M1止血+M2根因(settings.json SHA同步)+M3守門三個milestone,待核准後開始執行)／管線探針測試(test-baton-pickup-0706,P9,驗證通過,建議直接結案)
 **parked(2，待裁決解封，同前)**：存保O4開場影片配樂(o4-soundtrack,P3,卡【方向二拍板】或【硬底線4修訂提案】,_blockers 5條含兩分支待合併d8b50d8/80a8c9a)／設計能力訓練(design-training,P4,卡WebFetch全面403,_blockers 4選項待裁決)
 **新 blockers**：無（既有卡點見各 mission `_blockers.md`，今日無新增）
 **提名(5，未掛載/待啟動，同前)**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill
-**產能算術（義務）**：0 active，可執行 backlog 0 項；今晚首棒(19:30)將消耗於新項的規劃棒（產 MISSION+backlog 後停於待核准，不進執行），故今晚仍無執行棒可推進的項目，無法推算完成日。恢復產出需使用者：核准 3 項待核准之一／裁決 2 項 parked 卡點之一／核准新規劃案。
+**產能算術（義務）**：0 active，可執行 backlog 0 項；4 項待核准皆卡在等使用者核准/驗貨，尚無可推進的執行棒項目，無法推算完成日。恢復產出需使用者：核准 4 項待核准之一（含新的 session-gate-fix）／裁決 2 項 parked 卡點之一。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
