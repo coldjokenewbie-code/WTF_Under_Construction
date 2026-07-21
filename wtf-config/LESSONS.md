@@ -176,3 +176,4 @@
 - VoiceInk｜2026-07-19｜macOS App 本機 ad-hoc build：Sparkle 自動更新不受 LOCAL_BUILD flag 管、會覆蓋本機版；-xcconfig 改 PRODUCT_NAME 會洩漏進相依 SPM package 炸 build（改用建置後 mv 資料夾名）；CGEventTap 需 Accessibility+Input Monitoring 兩個獨立 TCC 權限，重簽章後都要整條移除重加｜VoiceInk/_context/lessons-learned.md
 - Assembly_Plant_Mobile_Guide｜2026-07-17｜edge-tts 做不出台味，口音風格用 Gemini TTS 風格 prompt（PO 裁定微台味不轉台語）；跨專案素材先 mdfind 全機搜｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
 - Remotion_fun｜2026-07-20｜展示影片手機畫面禁含烘焙示意圈（機檢驗收）；掃描畫面同源裁切+整體放大＞後貼合成（保透視一致性，省圖層對位）｜Remotion_fun/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-20｜getComputedStyle 判可見必查祖先鏈（display:none 子孫回傳自身值致稽核誤報）；「擋到」類 UI 回報量測無果時直接拆遠別微調；可重生檔的改動一律進 gen 腳本不改產物｜cowork_CDIC/_context/lessons-learned.md
