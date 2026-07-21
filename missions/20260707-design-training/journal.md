@@ -26,3 +26,7 @@ chain-capability: FAIL（本棒＝今晚第一棒，依規做探測）。複測 
 證據：
 - `missions/20260707-design-training/_blockers.md`（新增複查與 parked 決定段落）。
 - `missions/QUEUE.md`（design-training 狀態改 parked）。
+
+## 2026-07-21 台北｜使用者裁決｜進展：no
+使用者對 WebFetch 403 卡點裁決：採選項4，案例包改列僅本機（Mac）執行，雲端棒固定跳過。已寫入 backlog.md（附本機 Mac session 待辦：今晚做完案例包後若無其他待辦即關機）＋_blockers.md 標記本週雲端無可作項（非待裁決卡點）。QUEUE 維持 parked（雲端仍無可作項，非因待決）。
+證據：backlog.md、_blockers.md（2026-07-21 條目）
