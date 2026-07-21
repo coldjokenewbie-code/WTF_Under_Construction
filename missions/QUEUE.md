@@ -21,6 +21,7 @@
 | 20260706-o4-soundtrack | parked | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可；**23:34 棒觸發停止閘（連續2棒零進展）**，卡點見 _blockers.md，裁決後改回 active |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）；**parked**:WebFetch 全面403(組織政策非暫時),案例包卡點連續2棒零進展,見 _blockers.md 4選項待裁決 |
 | test-baton-pickup-0706 | 待核准 | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案 |
+| 20260721-session-gate-fix | 待規劃 | 8 | 修 wtf-session-gate 故障（settings.json bundle SHA 未跟 sync 換代＋PreToolUse/Stop 未接線＋cmd_postread 缺 exists 檢查，非阻斷性但每次 Read 噴錯）；診斷全文見 `_context/TaskLog_2026-07-21_session-gate診斷.md` |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |
