@@ -1,0 +1,5 @@
+# journal：session-gate-fix
+
+> append-only。格式：日期時間｜棒型｜做了什麼｜進展(yes/no)｜證據
+
+2026-07-21 20:50 台北｜規劃棒（主 session 代跑）｜讀 QUEUE 該行方向＋`_context/TaskLog_2026-07-21_session-gate診斷.md` 全文；直接讀 `wtf-config/hooks/wtf-session-gate.py`（`cmd_postread`/`recovery_read`/`choose_bundle`）與 `wtf-config/sync_config.py`（`deploy_session_bundle`/`check_bundle_integrity`）核實診斷。派 2 個 opus subagent 各自獨立產分解方案（方案A：部署原子性優先／方案B：最小止血優先），過程中發現關鍵新事實：`sync_config.py` 的 `deploy_session_bundle`/`check_bundle_integrity` 是 2026-07-19 commit `33ecafc` 新增，已自動維護 CLAUDE.md bundle import 三方機檢，但完全沒碰 `~/.claude/settings.json` 的 `WTF_BUNDLE_SHA256`——這才是本次故障的真正殘留根因（`choose_bundle()` 優先採用這個寫死 env var 選 bundle 目錄）。把此新事實餵給第三個 fresh-context opus 做評審擇優：裁決納入根因修復（settings.json 四方機檢＋自動同步）進本 mission，但拆兩個獨立簽核 milestone（M1止血先行、M2根因隨後），理由含「repo 內 100% 可完成，僅本機執行才需人工」「CLAUDE.md 明文禁一次性修補」「這是補 33ecafc 那次根因修正漏掉的一角，該跟修復走」。已產出 `MISSION.md`＋`backlog.md`（M1止血/M2根因settings.json同步/M3守門文件三個里程碑，backlog 12項），QUEUE 狀態改「待核准」，不開始執行｜進展 yes｜證據：`missions/20260721-session-gate-fix/MISSION.md`、`missions/20260721-session-gate-fix/backlog.md`；3 個 opus 子任務輸出（本棒對話記錄）
