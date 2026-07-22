@@ -181,3 +181,4 @@
 - Asembly_PPT｜2026-07-21｜ScanView qr 參數＝素材座標非螢幕座標（誤用偏 111px）；傾斜 QR 用 template match 量對齊；量測腳本自身要驗像素群為目標｜projects/Asembly_PPT/_context/lessons-learned.md
 - Asembly_PPT｜2026-07-21｜codex headless SPEC：檔案路徑先 ls 驗存在＋prompt 寫明「遇疑義不提問」，否則沙箱 request_user_input 不可用整輪報廢｜projects/Asembly_PPT/_context/lessons-learned.md
 - Asembly_PPT｜2026-07-22｜FingerTap scale 依容器螢幕寬換算（1035素材0.87→PhoneFrame≈1.0）；共用手機框對齊改動（CHIN_HIDE）須全片補償 tap y；字卡一律底部中央不上字幕｜projects/Asembly_PPT/_context/lessons-learned.md
+- Asembly_PPT｜2026-07-22｜多FingerTap時窗防重疊/Studio自動改寫Root應對/TTS台味譜系/--props零改碼提案｜projects/Asembly_PPT/_context/lessons-learned.md #33-36
