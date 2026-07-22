@@ -58,9 +58,20 @@ def policy() -> dict:
     if value.get("schema") != 1 or not isinstance(value.get("required_sources"), list):
         raise GateError("unsupported session policy")
     return value
+def bundle_sha_from_claude_md() -> str | None:
+    """CLAUDE.md 的 managed import block 由 sync_config.py 每次 sync 自動改寫，是當代 bundle SHA
+    的權威來源；env var／event 欄位是手動覆寫用，不會隨 sync 換代，容易變成陳舊設定（見
+    2026-07-21 session-gate 診斷）。"""
+    claude_md = home() / ".claude" / "CLAUDE.md"
+    if not claude_md.exists():
+        return None
+    m = re.search(r"@wtf-session-bundles/([0-9a-f]{64})/GLOBAL\.md",
+                  claude_md.read_text(encoding="utf-8", errors="replace"))
+    return m.group(1) if m else None
 def choose_bundle(event: dict) -> tuple[Path, str, dict]:
     base = home() / ".claude" / "wtf-session-bundles"
-    selected = event.get("bundle_sha256") or os.environ.get("WTF_BUNDLE_SHA256")
+    selected = (event.get("bundle_sha256") or os.environ.get("WTF_BUNDLE_SHA256")
+                or bundle_sha_from_claude_md())
     candidates = [item for item in base.iterdir() if item.is_dir()] if base.exists() else []
     if selected:
         bundle = base / str(selected)
@@ -261,7 +272,8 @@ def cmd_postread(event: dict) -> None:
     directory, current, manifest, missing = missing_receipts(event)
     if not missing:
         return  # 收據已齊：一般 Read 不是復原，安靜放行
-    recovery = read_json(directory / "recovery.json")
+    path = directory / "recovery.json"
+    recovery = read_json(path) if path.exists() else {"schema": 1, "used": {}}
     used = recovery.get("used", {}).get(current["generation"], [])
     matches = []
     for name in missing:

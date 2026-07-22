@@ -1,5 +1,15 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-22 (wtf-session-gate 故障：雙重來源設定的過期陷阱)
+
+* **同一份「現況」若有兩處存放，只自動維護一處＝必然過期**：`sync_config.py` 每次 sync 都會自動改寫 `~/.claude/CLAUDE.md` import block 裡的 bundle SHA（正確、有自動化覆蓋），但 `~/.claude/settings.json` 的 SessionStart init hook 另外用寫死的 `WTF_BUNDLE_SHA256=...` env var 存了「同一個」SHA——這個第二份沒有任何程式碼會回寫它，bundle 一換代就立刻過期。修法：讓消費端（`choose_bundle()`）直接讀權威來源（CLAUDE.md import），不要依賴另外手動維護、事實上沒人在維護的旁路設定。**設計/審查 hook 或設定檔時，凡發現「同一個值存在兩個檔案」，先問清楚兩處是否都有自動同步機制，沒有就是未來必炸的過期陷阱**。
+* **fail-closed 保護閘可能長期形同虛設而不自知**：本例 PreToolUse／Stop 兩個 hook 從未在 settings.json 註冊，等於整套收據強制檢查從掛上後就沒真正生效過——只是沒人發現，因為沒有報錯代表「看起來在保護」。這次是靠另一個獨立小 bug（postread 崩潰）意外把「一直沒生效」從靜默變成「一直在吵」才被發現。**引入 fail-closed 機制後，要主動驗證真的擋得住預期情境（canary 測試），不能只憑「沒收到報錯」就當作生效中**。
+* **驗證 Claude Code hook 腳本修復，可用 `WTF_GATE_HOME` 之類的 home 覆寫環境變數 + 臨時目錄跑完整事件序列（init→instructions→postread），不必開新 session 才能測**：sandbox 內複製真實 bundle／CLAUDE.md 到 tmp dir，餵合成 JSON 事件到 hook script stdin，可在當前對話內就驗證修復是否有效，比「改完只能等下一個 session 才知道有沒有壞」快很多。
+
+## 2026-07-21 (雲端 WebFetch proxy 封鎖 → 任務路由本機)
+
+* **雲端 session WebFetch 遭組織出口政策全面封鎖（proxy 403，含 example.com、wikipedia.org 等基礎 URL，非個別網站爬蟲封鎖）**：ccr proxy 出口政策層級封鎖，主 session 與 subagent 皆然，改 User-Agent 或換 URL 無效。`/root/.ccr/__agentproxy/status` 可確認現況，README 明載「403/407＝目的地不被本 session 出口政策允許，不要重試或繞過」。**任務路由模式**：需要「實際開啟外部 URL 驗證」的任務（案例研究、文件實測、連結有效性確認等）一律改列「僅本機（Mac）執行」，雲端棒固定跳過、任務狀態不算失敗——這是路由策略而非一次性繞過，寫進 mission `_blockers.md`＋`backlog.md` 明標，讓後續雲端棒直接略過不空轉。（實證來源：design-training mission 2026-07-07 兩棒連續 WebFetch 403 → 2026-07-21 使用者裁決採選項 4）
+
 ## 2026-07-20 (版控路徑雙軌鐵律定案)
 
 * **版控路徑雙軌鐵律（PO 2026-07-20 裁定）**：所有專案一律「Drive 資料夾 ＋ git_mirror 實體」雙軌存在，WTF repo 自身（已在 git_mirror、無 Drive 副本）為唯一例外；Git_work 目錄正式退役禁用（舊 Asembly_PPT 已自 git_work_bk 遷入 git_mirror）；Drive 端舊 .git 指標改名 `.retired-git`；`wtf-config/projects-registry.md` 為版控路徑唯一真相源，新專案直接在 git_mirror 建立。此規則升級自 2026-07-15「純 code 專案遷 git_mirror」，範圍擴及所有含 Drive 副本的專案，並明訂禁止使用 Git_work。

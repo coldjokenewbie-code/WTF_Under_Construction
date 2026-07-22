@@ -12,6 +12,8 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-22 | wtf-session-gate 故障：同一 SHA 存兩處（CLAUDE.md 自動跟代／settings.json 寫死 env var）只有一處被維護必過期，改讓消費端讀權威來源；fail-closed 閘可能因 PreToolUse/Stop 未接線而長期形同虛設不自知；驗證 hook 腳本可用 `WTF_GATE_HOME` sandbox 跑合成事件序列，不必等新 session | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-07-21 | 雲端 session WebFetch proxy 403（ccr 出口政策全面封鎖，含 example.com/wikipedia.org 等基礎 URL，非個別站）→ 需 URL 實測驗證的任務改列「僅本機執行」路由，雲端棒固定跳過不算失敗；寫進 mission _blockers.md+backlog.md 明標 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-20 | 版控路徑雙軌鐵律（PO 定案）：所有專案一律 Drive+git_mirror 雙軌，WTF 自身為唯一例外；Git_work 退役禁用；Drive .git 改名 .retired-git；registry=版控路徑唯一真相源（升級自 07-15「純 code 遷 git_mirror」，範圍擴及含 Drive 副本的全部專案） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-16 | hook/cat 注入出現截斷提示（Output too large／Preview）=後段規則未進 context；必須立即完整 Read 原檔，禁以預覽/關鍵字搜尋代替（本次事故：fresh-context 複驗發現遺漏 2 條規則才補回）；已寫入 CLAUDE_CODE.md 步驟 1 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-15 | auto-mode 分類器會把 session 層級 gitStatus 誤套到子 repo 的 rm-rf/clone 動作(需使用者明確核准，同模式重試會被判tunneling)；macOS bash 3.2 不支援 declare -A；wtf-sync 每輪重寫 AGENTS.md 時間戳造成多 repo 平行 commit 反覆誤判不乾淨；共用工作目錄多 session 同時操作會造成臨場性檔案消失假象，先查 lsof 核對再判斷 | `_context/lessons-learned.md`（WTF repo） |
@@ -180,3 +182,5 @@
 - Asembly_PPT｜2026-07-21｜ScanView qr 參數＝素材座標非螢幕座標（誤用偏 111px）；傾斜 QR 用 template match 量對齊；量測腳本自身要驗像素群為目標｜projects/Asembly_PPT/_context/lessons-learned.md
 - Asembly_PPT｜2026-07-21｜codex headless SPEC：檔案路徑先 ls 驗存在＋prompt 寫明「遇疑義不提問」，否則沙箱 request_user_input 不可用整輪報廢｜projects/Asembly_PPT/_context/lessons-learned.md
 - Asembly_PPT｜2026-07-22｜FingerTap scale 依容器螢幕寬換算（1035素材0.87→PhoneFrame≈1.0）；共用手機框對齊改動（CHIN_HIDE）須全片補償 tap y；字卡一律底部中央不上字幕｜projects/Asembly_PPT/_context/lessons-learned.md
+- Asembly_PPT｜2026-07-22｜多FingerTap時窗防重疊/Studio自動改寫Root應對/TTS台味譜系/--props零改碼提案｜projects/Asembly_PPT/_context/lessons-learned.md #33-36
+- cowork_CDIC｜2026-07-22｜契約PASS≠使用者親眼確認過，信任受損時要重跑實測+截圖；環境事實(現場主機OS)沒查證不能假設；OS層模擬點擊優先改輪詢既有API；多區共用架構要逐區ls確認進度不能套用同代碼｜cowork_CDIC/_context/lessons-learned.md

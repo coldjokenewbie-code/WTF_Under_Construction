@@ -24,7 +24,7 @@
 | 20260706-o4-soundtrack | parked | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可；**23:34 棒觸發停止閘（連續2棒零進展）**，卡點見 _blockers.md，**2026-07-21 使用者告知方向拍板明日(07-22)回覆** |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）。**2026-07-21 使用者裁決**：案例包改僅本機(Mac)執行，雲端棒固定跳過；本週雲端無可作項（批評官值勤同樣本機限定,月審未到期），非待裁決卡點 |
 | test-baton-pickup-0706 | active | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案。**2026-07-21 使用者核准，指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過此項** |
-| 20260721-session-gate-fix | active | 8 | 修 wtf-session-gate 故障：M1 止血（cmd_postread 補 exists 防禦）＋M2 根因（settings.json bundle SHA 納入 SSOT 自動同步＋四方機檢，不接線 PreToolUse/Stop）；規劃棒已產出 MISSION.md+backlog.md。**2026-07-21 使用者核准，指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過此項** |
+| 20260721-session-gate-fix | done | — | 已於 2026-07-22 由使用者直接指示當下 session 修復（跳過夜間棒）：postread exists 檢查＋bundle SHA 改讀 CLAUDE.md 權威來源。PreToolUse/Stop 接線經詢問使用者後暫不做。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（main 34f5602 直接修復，優先於 night-relay 排程狀態） |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |
