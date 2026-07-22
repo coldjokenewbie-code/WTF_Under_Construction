@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-22 | wtf-session-gate 故障：同一 SHA 存兩處（CLAUDE.md 自動跟代／settings.json 寫死 env var）只有一處被維護必過期，改讓消費端讀權威來源；fail-closed 閘可能因 PreToolUse/Stop 未接線而長期形同虛設不自知；驗證 hook 腳本可用 `WTF_GATE_HOME` sandbox 跑合成事件序列，不必等新 session | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-21 | 雲端 session WebFetch proxy 403（ccr 出口政策全面封鎖，含 example.com/wikipedia.org 等基礎 URL，非個別站）→ 需 URL 實測驗證的任務改列「僅本機執行」路由，雲端棒固定跳過不算失敗；寫進 mission _blockers.md+backlog.md 明標 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-20 | 版控路徑雙軌鐵律（PO 定案）：所有專案一律 Drive+git_mirror 雙軌，WTF 自身為唯一例外；Git_work 退役禁用；Drive .git 改名 .retired-git；registry=版控路徑唯一真相源（升級自 07-15「純 code 遷 git_mirror」，範圍擴及含 Drive 副本的全部專案） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-16 | hook/cat 注入出現截斷提示（Output too large／Preview）=後段規則未進 context；必須立即完整 Read 原檔，禁以預覽/關鍵字搜尋代替（本次事故：fresh-context 複驗發現遺漏 2 條規則才補回）；已寫入 CLAUDE_CODE.md 步驟 1 | `_context/lessons-learned.md`（WTF repo） |

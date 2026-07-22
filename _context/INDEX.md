@@ -1,5 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-15
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-22
+
+## 2026-07-22 wtf-session-gate 故障修復
+- 診斷＋修復 `cmd_postread` 缺檔崩潰＋bundle SHA 過期兩個問題：postread 補 exists 檢查；`choose_bundle()` 改讀 `~/.claude/CLAUDE.md` import block（`sync_config.py` 每次 sync 自動跟代，取代原本寫死在 settings.json 的 env var，本機已清）。PreToolUse/Stop 接線經詢問使用者後暫不做（fail-closed 尚未 canary 測試）。sandbox 驗證 init→instructions→postread 全綠。**Windows 端 settings.json 若同樣寫死 env var，待下次 Windows session 處理**。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（**當前 TaskLog**）。
 
 ## 2026-07-15 git_mirror 跨機部署與 Git_work 整併
 - git_mirror 機制從 cowork_CDIC 一個試點擴展到全部 Claude_cowork 專案＋全部純 code 專案。Mac／Windows 兩機 `Git_work/` 皆已整併完成，只剩備份用 `git_work_bk/`（Windows `E:\Git_work\` 另有 `AgentIDE`／`claude_CDIC_O4` 未搬，屬既定例外／待補）。VoiceInk 已 fork 為 `coldjokenewbie-code/UmaVoiceInk` 納管。
