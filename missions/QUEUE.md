@@ -3,14 +3,15 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-21 19:00**（實跑 20:16，排程延遲；後續使用者於對話中直接裁決數項，本段同步覆核最新狀態）。
-**使用者今日裁決**：互動機具設計報告書驗收未過→改 `parked`，待補充具體修正意見／wtf-session-gate故障修復＋管線探針測試→核准為 `active`，但指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過／存保O4開場影片配樂→方向拍板明日(07-22)回覆，維持 parked。
-**待核准(1)**：導覽App優化(repo:Assembly_Plant_Mobile_Guide,P2,M2界達成增量一~八全勾,剩anchor升級提案+2項高品味主題裁決)
-**active(2，僅限01:30棒執行)**：wtf-session-gate故障修復(WTF內部harness,P8)／管線探針測試(WTF內部機制測試,P9)
-**parked(3，待裁決解封)**：互動機具設計報告書(repo:Aseembly_Plant_Interactive_machine,P1,使用者驗收未過待補充意見)／存保O4開場影片配樂(repo:claude_CDIC_O4,P3,方向拍板使用者明日回覆)／設計能力訓練(WTF內部常設任務,P4,卡WebFetch全面403,_blockers 4選項待裁決——今日已請使用者擇一，見對話)
-**新 blockers**：互動機具設計報告書新增1條（待使用者補充修正意見）
-**提名(5，未掛載/待啟動，同前)**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill
-**產能算術（義務）**：2 active，但皆限定 01:30 棒才可執行（19:30/21:30/23:34 三棒對這兩項需跳過，backlog 項數：session-gate-fix 3項／test-baton 1項）；以「每棒一項」推算，01:30 棒後兩項各需 1、3 棒才能做完，預計最快 07-22 完成 test-baton，session-gate-fix 預計 07-24 完成（皆以每日僅一次01:30棒可用計）。其餘 1 項待核准／3 項 parked 均卡使用者裁決，不計入算術。
+**晨報棒 2026-07-22 08:30**：night-relay 領先 main 154 commits。
+**session-gate-fix**：21:34棒規劃棒完成，產出 MISSION.md+backlog.md(12項/3里程碑:M1止血/M2根因settings.json同步/M3守門)，QUEUE→待核准→使用者當日核准為active但限01:30棒執行。證據：`missions/20260721-session-gate-fix/{MISSION.md,backlog.md,journal.md}`。
+**test-baton**：延續昨日待核准→使用者核准active，同限01:30棒，本輪無新增量。
+**guide-app**：使用者裁決風格定調（工業風/暗色/禁可愛），blockers兩項已勾銷；仍待核准，剩anchor升級提案。證據：`missions/20260706-guide-app/_blockers.md`。
+**machine-report**：使用者維持parked，待補充具體修正意見，無新增量。
+**design-training**：使用者裁決案例包移本機執行，雲端棒固定跳過；parked。
+**o4-soundtrack**：parked，方向拍板使用者今日(07-22)回覆，未回覆前無新增量。
+**⚠️異常**：使用者指定唯一可動窗口的01:30棒（07-22）查無心跳/秒退紀錄，session-gate-fix與test-baton昨晚實際0進展，需留意排程是否漏跑。
+**新blockers**：無（僅使用者裁決記錄，無新卡點）。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
