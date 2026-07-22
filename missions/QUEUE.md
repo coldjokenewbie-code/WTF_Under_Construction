@@ -14,7 +14,7 @@
 | 20260706-o4-soundtrack | active | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可 |
 | 20260707-design-training | active | 4 | 使用者設計能力訓練支援（常設,週循環）；MISSION＋訓練綱領已備,當填充任務 |
 | test-baton-pickup-0706 | 待規劃 | 9 | 管線探針：建 MISSION＋journal＋推 night-relay 即成功（僅在前面全被擋時才會輪到） |
-| 20260721-session-gate-fix | 待規劃 | 8 | 修 wtf-session-gate 故障（settings.json bundle SHA 未跟 sync 換代＋PreToolUse/Stop 未接線＋cmd_postread 缺 exists 檢查，非阻斷性但每次 Read 噴錯）；診斷全文見 `_context/TaskLog_2026-07-21_session-gate診斷.md` |
+| 20260721-session-gate-fix | done | — | 已於 2026-07-22 由使用者直接指示當下 session 修復（跳過夜間棒）：postread exists 檢查＋bundle SHA 改讀 CLAUDE.md 權威來源。PreToolUse/Stop 接線經詢問使用者後暫不做。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md` |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |

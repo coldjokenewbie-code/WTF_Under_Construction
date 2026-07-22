@@ -1,6 +1,6 @@
-# TaskLog 2026-07-21：wtf-session-gate 故障診斷（待夜間棒修復）
+# TaskLog 2026-07-21：wtf-session-gate 故障診斷與修復
 
-> 本機 session（Claude@comaMacBookAir.local）診斷完成，未動手修，排入夜間棒處理。
+> 本機 session（Claude@comaMacBookAir.local）診斷完成，2026-07-22 使用者直接指示於當下 session 修復（跳過夜間棒排程），已修並驗證。
 
 ## 症狀
 本 session 每次 `Read` 工具呼叫後，`PostToolUse:Read` hook 皆報錯：
@@ -89,3 +89,34 @@ Claude Code 原生 `@import` 機制，跟這個閘完全無關。PostToolUse hoo
 `--bare`／Stop hook block 次數上限／headless 復原通道等行為事實，屬同一套
 機制的前次驗證。本次是該機制在**日常真實使用**中首次觀察到的故障，非刻意
 canary 測試發現。
+
+## 2026-07-22 修復（Claude@Mac，當下 session 直接執行，非夜間棒）
+
+1. **止血**（`cmd_postread`，`wtf-session-gate.py`）：`recovery.json` 讀取前加
+   `path.exists()` 判斷，不存在則用預設值 `{"schema": 1, "used": {}}`，比照
+   `recovery_read()` 既有寫法。不再對缺檔直接拋 `GateError`。
+2. **修根因**（bundle SHA 過期）：`choose_bundle()` 新增第三順位來源
+   `bundle_sha_from_claude_md()`——直接讀 `~/.claude/CLAUDE.md` managed import
+   block 裡的 SHA（`sync_config.py` 每次 sync 都會自動改寫這行，是唯一真正
+   跟著換代的權威來源）。優先序：event 欄位 > `WTF_BUNDLE_SHA256` env var（手動
+   覆寫用）> CLAUDE.md import（新增，日常自動跟代）> 單一候選目錄自動選
+   （bootstrap 邊界情況）。
+   同時清掉 `~/.claude/settings.json` SessionStart init hook 裡寫死的
+   `WTF_BUNDLE_SHA256=ba55340b...` 環境變數（否則會蓋掉新邏輯，繼續讀舊
+   SHA）——**僅改本機（Mac）settings.json，Windows 端未同步，需另外處理**。
+3. **驗證**：sandbox（`WTF_GATE_HOME` 指向 tmp dir、複製 bundle＋CLAUDE.md）
+   跑 `init → instructions(GLOBAL.md) → instructions(AGENTS.md) → postread`
+   全流程，四步皆 exit 0、兩張收據正確寫入、postread 對後續一般 Read 安靜放行
+   （無 GateError）。`python3 -m py_compile` 過。
+4. **PreToolUse／Stop 接線**：問過使用者，**選擇先不接**（fail-closed 尚未
+   canary 測試，維持現況只記錄不擋；待辦見下）。
+5. **本 session 仍會看到殘留報錯**：本 session 的 `generation.json` 已在
+   session 開始時綁定舊 SHA（`ba55340b...`），修復不熱載，需開新 session 才
+   會用到新邏輯——已知現象，非修復失敗。
+
+## 待辦（結案後仍留）
+- Windows 端 `~/.claude/settings.json`（或對應路徑）若同樣寫死
+  `WTF_BUNDLE_SHA256`，需手動比照本次做法移除（下次 Windows session 處理）。
+- PreToolUse／Stop 是否接線＝獨立待決，需先 canary 測試才能評估風險。
+- `~/.claude/wtf-session-bundles/` 下 3 個舊 bundle 目錄未清理（非阻塞，本次
+  CLAUDE.md fallback 已繞開此問題，不影響修復有效性）。
