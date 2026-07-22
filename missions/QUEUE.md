@@ -3,15 +3,16 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-07-22 08:30**：night-relay 領先 main 154 commits。
-**session-gate-fix**：21:34棒規劃棒完成，產出 MISSION.md+backlog.md(12項/3里程碑:M1止血/M2根因settings.json同步/M3守門)，QUEUE→待核准→使用者當日核准為active但限01:30棒執行。證據：`missions/20260721-session-gate-fix/{MISSION.md,backlog.md,journal.md}`。
-**test-baton**：延續昨日待核准→使用者核准active，同限01:30棒，本輪無新增量。
-**guide-app**：使用者裁決風格定調（工業風/暗色/禁可愛），blockers兩項已勾銷；仍待核准，剩anchor升級提案。證據：`missions/20260706-guide-app/_blockers.md`。
-**machine-report**：使用者維持parked，待補充具體修正意見，無新增量。
-**design-training**：使用者裁決案例包移本機執行，雲端棒固定跳過；parked。
-**o4-soundtrack**：parked，方向拍板使用者今日(07-22)回覆，未回覆前無新增量。
-**⚠️異常**：使用者指定唯一可動窗口的01:30棒（07-22）查無心跳/秒退紀錄，session-gate-fix與test-baton昨晚實際0進展，需留意排程是否漏跑。
-**新blockers**：無（僅使用者裁決記錄，無新卡點）。
+**提醒棒 2026-07-22 19:00**：進 night-relay 併 main 時 QUEUE.md 衝突（main 帶 34f5602 使用者直接修復 session-gate-fix）；已解衝突：session-gate-fix 採 main 判定改 `done`，其餘列沿用 night-relay 較新狀態。
+**待核准清單**：guide-app（唯一卡點：anchor升級提案待裁決）。
+**提名清單**（5項，待掛載/待核准，棒子不碰）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers待決**：
+- guide-app：anchor升級提案（2026-07-21已提示，回覆待補）。
+- machine-report（parked）：待補充驗收未過的具體修正意見。
+- o4-soundtrack（parked）：**方向拍板今日(07-22)到期**，尚未見回覆。
+- design-training（parked）：無待裁決卡點，雲端本週固定跳過（僅本機）。
+**產能算術**：active 僅 test-baton-pickup-0706（優先序9）。剩餘backlog 1項（結案milestone，非實質增量，可直接使用者結案），指定僅01:30棒可跑，今晚循環棒共4棒中僅1棒（01:30）能動此案→以「每棒一項」推算 07-23 凌晨可完成/結案。
+**⚠️異常延續**：07-22 01:30棒 heartbeat.log 查無紀錄（疑似漏跑），需留意今晚01:30棒是否正常觸發。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
