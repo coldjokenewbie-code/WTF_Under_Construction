@@ -184,3 +184,4 @@
 - Asembly_PPT｜2026-07-22｜FingerTap scale 依容器螢幕寬換算（1035素材0.87→PhoneFrame≈1.0）；共用手機框對齊改動（CHIN_HIDE）須全片補償 tap y；字卡一律底部中央不上字幕｜projects/Asembly_PPT/_context/lessons-learned.md
 - Asembly_PPT｜2026-07-22｜多FingerTap時窗防重疊/Studio自動改寫Root應對/TTS台味譜系/--props零改碼提案｜projects/Asembly_PPT/_context/lessons-learned.md #33-36
 - cowork_CDIC｜2026-07-22｜契約PASS≠使用者親眼確認過，信任受損時要重跑實測+截圖；環境事實(現場主機OS)沒查證不能假設；OS層模擬點擊優先改輪詢既有API；多區共用架構要逐區ls確認進度不能套用同代碼｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-23｜Android平板部署：DHCP保留須綁硬體MAC(dumpsys wifi wifi_sta_factory_mac_address，非隨機化wlan0)且該WiFi設「手機MAC」關隨機化；現代Android無純adb設桌布(cmd wallpaper只dimming、file://靜默退回，需content://MediaStore)；input tap座標=screencap解析度需×縮放比；xlsx含drawings用zip層inlineStr外科寫入勿openpyxl｜cowork_CDIC/_context/lessons-learned.md
