@@ -3,16 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-22 19:00**：進 night-relay 併 main 時 QUEUE.md 衝突（main 帶 34f5602 使用者直接修復 session-gate-fix）；已解衝突：session-gate-fix 採 main 判定改 `done`，其餘列沿用 night-relay 較新狀態。
-**待核准清單**：guide-app（唯一卡點：anchor升級提案待裁決）。
-**提名清單**（5項，待掛載/待核准，棒子不碰）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers待決**：
-- guide-app：anchor升級提案（2026-07-21已提示，回覆待補）。
-- machine-report（parked）：待補充驗收未過的具體修正意見。
-- o4-soundtrack（parked）：**方向拍板今日(07-22)到期**，尚未見回覆。
-- design-training（parked）：無待裁決卡點，雲端本週固定跳過（僅本機）。
-**產能算術**：active 僅 test-baton-pickup-0706（優先序9）。剩餘backlog 1項（結案milestone，非實質增量，可直接使用者結案），指定僅01:30棒可跑，今晚循環棒共4棒中僅1棒（01:30）能動此案→以「每棒一項」推算 07-23 凌晨可完成/結案。
-**⚠️異常延續**：07-22 01:30棒 heartbeat.log 查無紀錄（疑似漏跑），需留意今晚01:30棒是否正常觸發。
+**晨報棒 2026-07-23 08:30**：night-relay 領先 main 168 commits，但昨晚 19:00 後三棒（19:30/21:30/23:30）全數秒退，零實質產出——QUEUE 僅 test-baton-pickup-0706 active 且指定限 01:30 棒可跑。
+**⚠️異常升級**：01:30 棒（應於 07-23 01:30 台北／07-22 17:30 UTC 觸發）heartbeat.log 查無紀錄——**連續第2晚 01:30 棒缺席**（07-22 晨報已提示同一異常，昨晚未見改善），建議檢查該 cron trigger 設定或額度狀態。
+**各 mission 現況**（皆同昨晚無變動）：
+- test-baton-pickup-0706（active，優先9）：唯一待跑項為結案 milestone，等 01:30 棒觸發即可收尾，見 journal.md。
+- guide-app（待核准）：卡點 anchor 升級提案待裁決，見 _blockers.md。
+- machine-report／o4-soundtrack／design-training（parked）：無新增；o4-soundtrack「07-22到期」拍板仍未見回覆。
+**blockers 新增項**：無（比對昨日19:00快報至今僅 heartbeat.log 有異動）。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
