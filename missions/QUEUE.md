@@ -4,14 +4,14 @@
 
 ## 今日快報
 **提醒棒 2026-07-23 19:00**：night-relay 已併 origin/main（無衝突）。
-**⚠️01:30 棒連續第2晚缺席**（07-22、07-23 兩次應觸發皆查無 heartbeat 紀錄）——今晚 07-24 01:30 為第3次機會，若再缺席請直接檢查該 cron trigger 設定或額度狀態，不要再等下一份快報確認。
-**待核准清單**：guide-app（卡點：anchor 升級提案待裁決，見 _blockers.md）。
+**✅01:30 棒第3次機會成功觸發**（07-24 01:33，接續 07-22／07-23 兩次缺席後恢復）——test-baton-pickup-0706 backlog 全勾，QUEUE 改回「待核准」，等使用者確認結案；缺席原因（額度或 trigger 設定）仍待人工排查，非本棒範圍。
+**待核准清單**：guide-app（卡點：anchor 升級提案待裁決，見 _blockers.md）／test-baton-pickup-0706（探針 backlog 全勾，可直接結案）。
 **提名清單（5項，改「待規劃」即可啟動）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **blockers 待決**：
 - guide-app：anchor 升級提案（2026-07-09 提出，待回覆）。
 - o4-soundtrack（parked）：方向拍板原定 07-22 回覆，**已逾期未見回覆**。
 - machine-report（parked）：待補充「驗收未過」的具體修改點，才能判斷小修或重寫。
-**產能算術**：active 僅 1 案 test-baton-pickup-0706，剩餘 backlog 1 項（結案 milestone，使用者確認即可結案，不必等棒跑）；今晚排定僅 01:30 一棒可碰此項（19:30/21:30/23:30 依裁決跳過）。以「每棒一項」估算：01:30 棒若正常觸發，07-24 即可結案；若連續第3晚缺席，需使用者介入排查後才能結案。
+**產能算術**：active 案 0（test-baton-pickup-0706 本棒轉待核准）；今晚剩餘循環棒無可作項，將秒退，直到使用者核准新項或改派工。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
@@ -23,7 +23,7 @@
 | 20260706-guide-app | 待核准 | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：M2 界達成（增量一～八，audit #6/#7 全數完成）。**2026-07-21 使用者已裁決風格方向（工業風/暗色為主/禁可愛風,icon尤其注意）**，剩餘唯一卡點：anchor 升級提案待使用者裁決，見 backlog/_blockers |
 | 20260706-o4-soundtrack | parked | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可；**23:34 棒觸發停止閘（連續2棒零進展）**，卡點見 _blockers.md，**2026-07-21 使用者告知方向拍板明日(07-22)回覆** |
 | 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）。**2026-07-21 使用者裁決**：案例包改僅本機(Mac)執行，雲端棒固定跳過；本週雲端無可作項（批評官值勤同樣本機限定,月審未到期），非待裁決卡點 |
-| test-baton-pickup-0706 | active | 9 | 管線探針：23:34 棒驗證通過（三檔齊備＋成功推 night-relay），無實質產出,建議使用者直接結案。**2026-07-21 使用者核准，指定僅排 01:30 棒（午夜後）執行，19:30/21:30/23:30 棒跳過此項** |
+| test-baton-pickup-0706 | 待核准 | 9 | 管線探針：三檔齊備＋成功推 night-relay，無實質產出。**2026-07-24 01:30 棒（連續2晚缺席後第3次機會）成功觸發**，backlog 全勾，建議使用者直接結案（改「done」或刪列即可，無需續跑） |
 | 20260721-session-gate-fix | done | — | 已於 2026-07-22 由使用者直接指示當下 session 修復（跳過夜間棒）：postread exists 檢查＋bundle SHA 改讀 CLAUDE.md 權威來源。PreToolUse/Stop 接線經詢問使用者後暫不做。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（main 34f5602 直接修復，優先於 night-relay 排程狀態） |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
