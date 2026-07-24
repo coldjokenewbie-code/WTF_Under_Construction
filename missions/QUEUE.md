@@ -3,15 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-23 19:00**：night-relay 已併 origin/main（無衝突）。
-**✅01:30 棒第3次機會成功觸發**（07-24 01:33，接續 07-22／07-23 兩次缺席後恢復）——test-baton-pickup-0706 backlog 全勾，QUEUE 改回「待核准」，等使用者確認結案；缺席原因（額度或 trigger 設定）仍待人工排查，非本棒範圍。
-**待核准清單**：guide-app（卡點：anchor 升級提案待裁決，見 _blockers.md）／test-baton-pickup-0706（探針 backlog 全勾，可直接結案）。
-**提名清單（5項，改「待規劃」即可啟動）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers 待決**：
-- guide-app：anchor 升級提案（2026-07-09 提出，待回覆）。
-- o4-soundtrack（parked）：方向拍板原定 07-22 回覆，**已逾期未見回覆**。
-- machine-report（parked）：待補充「驗收未過」的具體修改點，才能判斷小修或重寫。
-**產能算術**：active 案 0（test-baton-pickup-0706 本棒轉待核准）；今晚剩餘循環棒無可作項，將秒退，直到使用者核准新項或改派工。
+**晨報棒 2026-07-24 08:30**：night-relay 領先 main 492 commits（累積，非昨晚全部）。昨晚（19:00 提醒棒後）實質增量僅 1 項：
+- **test-baton-pickup-0706**：01:30 棒連續 2 晚（07-22/07-23）缺席後，07-24 01:33 第 3 次機會成功觸發，完整跑完開棒→執行→棒尾流程。backlog 全勾，QUEUE 改回「待核准」等使用者結案。證據：`missions/test-baton-pickup-0706/journal.md`（01:33 條）、`missions/heartbeat.log`。缺席根因（額度/trigger 設定）仍未排查，非棒子範圍。
+- 19:30／21:30／23:30 三棒皆秒退——active 僅此一項且使用者指定限 01:30 棒跑，符合裁決，非異常。
+**新增 blockers**：無（昨晚未動 guide-app/o4-soundtrack/machine-report，三者狀態與卡點同前）。
+**待核准清單**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（探針全勾，建議直接結案）。
+**提名清單（5項，待核准後可轉待規劃）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
