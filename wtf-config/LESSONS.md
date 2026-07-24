@@ -186,3 +186,5 @@
 - cowork_CDIC｜2026-07-22｜契約PASS≠使用者親眼確認過，信任受損時要重跑實測+截圖；環境事實(現場主機OS)沒查證不能假設；OS層模擬點擊優先改輪詢既有API；多區共用架構要逐區ls確認進度不能套用同代碼｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-23｜Android平板部署：DHCP保留須綁硬體MAC(dumpsys wifi wifi_sta_factory_mac_address，非隨機化wlan0)且該WiFi設「手機MAC」關隨機化；現代Android無純adb設桌布(cmd wallpaper只dimming、file://靜默退回，需content://MediaStore)；input tap座標=screencap解析度需×縮放比；xlsx含drawings用zip層inlineStr外科寫入勿openpyxl｜cowork_CDIC/_context/lessons-learned.md
 - 出勤｜2026-07-23｜Power Apps 畫布權限閘：Excel空欄IsBlank("")=true陷阱→改值比對期望字串；App分享面板(硬邊界/靜態/換人手動改) vs OnVisible 畫布閘(動態/靠team_member/非硬安全) vs SharePoint項目層三層分工；Screen.OnVisible 是畫面屬性貼pa.yaml帶不進來、需手動設，必在交付時明列為必做步驟｜attendance-dashboard/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜B區燈控三修正：TCP指令末必加\n觸發readline；goDetail在pointerup先跳頁致click離timeline燈不亮→允detail視圖也觸燈；跨年過場可中斷/點年門檻防誤觸/邊滑放寬｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜APK v3.1.0 kiosk化：InsetsController.hide(systemBars)隱系統列+lockTask鎖任務+角落雙指10s逃生+BOOT_COMPLETED BroadcastReceiver+HOME alias開機自啟｜cowork_CDIC/_context/lessons-learned.md
