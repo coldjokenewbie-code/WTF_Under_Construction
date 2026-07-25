@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工作方式優化檢視 — Claude 5 Context Engineering</title>
+<style>
+  :root {
+    --ink: #1c1917; --sub: #57534e; --line: #e7e5e4;
+    --accent: #c2410c; --ok: #15803d; --warn: #b45309;
+    --bg: #fafaf9; --card: #ffffff; --code-bg: #f5f5f4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: var(--bg); color: var(--ink);
+    margin: 0; line-height: 1.75; font-size: 16px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 48px 28px 80px; }
+  header.doc { border-bottom: 2px solid var(--ink); padding-bottom: 20px; margin-bottom: 36px; }
+  h1 { font-size: 26px; margin: 0 0 8px; letter-spacing: 0.02em; }
+  .meta { color: var(--sub); font-size: 13px; }
+  .meta a { color: var(--accent); word-break: break-all; }
+  h2 { font-size: 20px; margin: 44px 0 14px; padding-left: 12px; border-left: 4px solid var(--accent); }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  p { margin: 10px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; margin: 14px 0; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 10px; margin-right: 8px; vertical-align: 1px; }
+  .tag.ok { background: #dcfce7; color: var(--ok); }
+  .tag.chg { background: #ffedd5; color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; background: var(--card); }
+  th, td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); font-size: 13px; letter-spacing: 0.05em; }
+  .before, .after { display: block; border-radius: 8px; padding: 12px 14px; margin: 8px 0; font-size: 14.5px; }
+  .before { background: #fef2f2; border: 1px solid #fecaca; }
+  .after  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .before b, .after b { font-size: 12px; letter-spacing: 0.15em; display: block; margin-bottom: 4px; }
+  .before b { color: #b91c1c; } .after b { color: var(--ok); }
+  code { background: var(--code-bg); border-radius: 4px; padding: 1px 6px; font-family: "JetBrains Mono", Menlo, monospace; font-size: 13px; }
+  blockquote { margin: 10px 0; padding: 8px 16px; border-left: 3px solid var(--line); color: var(--sub); font-size: 14.5px; }
+  .summary { background: #1c1917; color: #fafaf9; border-radius: 10px; padding: 20px 24px; margin-top: 40px; }
+  .summary h2 { border: none; color: #fdba74; margin: 0 0 10px; padding: 0; font-size: 18px; }
+  ul { padding-left: 22px; } li { margin: 6px 0; }
+  .note { font-size: 13px; color: var(--sub); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <h1>工作方式優化檢視</h1>
+  <div class="meta">
+    依據：<a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">The New Rules of Context Engineering for Claude 5 Generation Models</a>（已實際開啟驗證）<br>
+    對照對象：WTF 全域設定制度＋Assembly_Plant_Mobile_Guide 實際工作紀錄｜2026-07-25
+  </div>
+</header>
+
+<h2>文章六條新規則（一句話版）</h2>
+<table>
+  <tr><th>規則</th><th>意思</th></tr>
+  <tr><td>規則 → 判斷</td><td>刪掉可由常識推得的明確指令，留判準。Anthropic 刪掉 Claude Code 系統提示 80% 而無效能損失。</td></tr>
+  <tr><td>範例 → 介面設計</td><td>不給使用示例，改把工具／腳本／檔案的「參數與欄位」設計得有表達力，模型自己會推。</td></tr>
+  <tr><td>前置載入 → 漸進揭露</td><td>資訊按需載入，不全塞開場。</td></tr>
+  <tr><td>重複指令 → 單一位置</td><td>指令只寫在工具描述處，不在系統提示重複。</td></tr>
+  <tr><td>CLAUDE.md 記憶 → 自動記憶</td><td>模型自動保存相關資訊，設定檔不必當記憶體用。</td></tr>
+  <tr><td>簡單規格 → 豐富參考</td><td>HTML 成品、程式碼、測試套件、rubric 都可直接當規格（designs work better than descriptions）。</td></tr>
+</table>
+
+<h2>你已經做對的</h2>
+<div class="card">
+  <p><span class="tag ok">符合</span><b>漸進揭露</b>：GLOBAL.md 只放常規、長內容進 playbooks 按需開、skills lazy-load、_context 三檔制——正是文章說的 progressive disclosure，制度面超前多數人。</p>
+  <p><span class="tag ok">符合</span><b>豐富參考</b>：丟截圖標 UI 問題、丟參考 wav 定 TTS 聲線，都是「參考物勝過描述」的正確用法。</p>
+  <p><span class="tag ok">符合</span><b>陷阱式教訓</b>：lessons-learned 記的多是反直覺陷阱（如 zinc-100 白字隱形、snap 容器判斷），這正是新規則下值得留在 context 的內容。</p>
+</div>
+
+<h2>建議調整（附實例：舊提示詞 vs 新提示詞）</h2>
+
+<h3>1. 參考物一開始就給，不用形容詞迭代 <span class="tag chg">改</span></h3>
+<p>實例：微台版 TTS。當時先用文字形容聲線，edge-tts 調參數失敗兩輪，最後丟出參考 wav 才收斂。</p>
+<span class="before"><b>舊寫法（實際發生）</b>「瀏覽器 TTS 可以換風格嗎，50歲台灣男性口音」→ 產出被退「一點也不台」→ 再補「要這 tts試聽_GeminiTTS_微台版v2」</span>
+<span class="after"><b>新寫法</b>「重現這個檔案的聲線：<code>…/tts試聽_GeminiTTS_微台版v2.wav</code>（50歲台灣男性、微台味、詞尾不轉台語）。驗收＝產出與參考檔並排播放給我比對。」</span>
+<p class="note">參考檔就是規格。形容詞（台、沉穩、親切）每個人解讀不同，檔案不會。</p>
+
+<h3>2. 素材照「介面欄位」給，用既有頁面當結構規格 <span class="tag chg">改</span></h3>
+<p>實例：新增「空襲」展項。素材是一段自由格式的文字＋圖，AI 第一版把「車削」誤判成展品頁內的說明區塊，被退重做。</p>
+<span class="before"><b>舊寫法（實際發生）</b>「展品頁新增展示項目說明 1. 車削（文案）（圖）2. 互動機具…」→ 結構被誤判</span>
+<span class="after"><b>新寫法</b>「新增獨立展項頁，結構照『護廠行動』那一頁。欄位：名稱＝空襲；短述＝（可代擬）；內文＝…；大圖＝&lt;路徑&gt;；推薦展項＝護廠行動。」</span>
+<p class="note">這就是文章的「介面設計」：<code>exhibits.ts</code> 的欄位（名稱／短述／內文／圖／相關展項）本身就是最強的提示。照欄位給素材＋一句「照某頁」，結構零歧義。</p>
+
+<h3>3. 給驗收條件，不給步驟 <span class="tag chg">保持並強化</span></h3>
+<p>實例：EN 導覽列修正。你列的是「症狀＋期望」（遮擋內容、不要兩行），沒有指定怎麼改——這是對的，讓模型自己找根因（實際根因是標題換行撐高 header，跟直覺不同）。</p>
+<span class="after"><b>繼續這樣寫</b>「英文版上方導覽列遮到內容、文字變兩行。驗收：三語言 header 都單行、不蓋到 hero。」＋一張截圖</span>
+
+<h3>4. 規則檔往「陷阱＋判準」收斂 <span class="tag chg">中期整理</span></h3>
+<p>GLOBAL/AGENTS 內不少「禁止Ｘ」是新模型本來就會判斷的（聊天語氣、浮誇修飾這類可留判準一句，不必列舉）。文章示範：「never write multi-paragraph docstrings…」改成「match surrounding code」。</p>
+<ul>
+  <li>保留：反直覺陷阱（Drive 不可原地 git、版控鐵律、zinc token 重映射）、判準（何時升級、何時算完成）。</li>
+  <li>可精簡：行為列舉式禁令、與判斷力重疊的規則。</li>
+  <li>AGENT_SPEC：與其逐條圈「不准動哪些檔」，改給驗收 rubric＋測試（文章：test suites as specifications），範圍交給檔案結構本身約束。</li>
+</ul>
+
+<h3>5. HTML 輸出偏好：留一份範本檔勝過描述規則</h3>
+<p>之後若建 <code>rules/html-preferences.md</code>，與其寫形容（「沉穩、留白多」），不如放一個參考 HTML 檔路徑＋一句「照它的視覺系統」。</p>
+
+<div class="summary">
+  <h2>一句話總結</h2>
+  <p>你的制度層（漸進揭露、教訓庫）已符合新規則；要調的是<b>單次提示習慣</b>——把「描述＋事後退件」換成「<b>參考物＋介面欄位＋驗收條件</b>」前置給足。</p>
+</div>
+
+<h2>後續可執行（待拍板）</h2>
+<ul>
+  <li>把上述提示詞寫法追加進 <code>wtf-config/playbooks/delegation-templates.md</code>「對 Claude 5 世代的交辦調整」一節，sync 部署。</li>
+  <li>本專案建 <code>rules/exhibit-content-template.md</code>：展項素材欄位模板，日後貼素材照格式。</li>
+</ul>
+
+</div>
+</body>
+</html>
