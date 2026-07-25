@@ -191,3 +191,4 @@
 - cowork_CDIC｜2026-07-24｜APK v3.1.0 kiosk化：InsetsController.hide(systemBars)隱系統列+lockTask鎖任務+角落雙指10s逃生+BOOT_COMPLETED BroadcastReceiver+HOME alias開機自啟｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-24｜C區stage排障：多主機共用輪詢程式的endpoint區碼是部署參數禁硬編碼(history=B區致A/C/D全收錯)；per-host config_X.json由自啟腳本copy /Y帶入(比照bridge)；我方鏈路全綠≠對方端錯，先窮舉自己訂閱參數；agy headless卡permission→prompt明令跳過開場協議+原始碼內嵌免工具｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-24｜B區燈控調試：機率型故障算時間占比鎖根因(30%成功=68%鎖定)；長動畫必須可中斷；pointerup先於click的狀態時序；PS5.1 inline寫檔清空原檔三重雷改node -e；裸TCP問結尾符；/lightlog瀏覽器日誌分責；Android非owner kiosk三件組｜cowork_CDIC/_context/lessons-learned.md
+- Assembly_Plant_Mobile_Guide｜2026-07-25｜vw字級相對視窗非內容框（固定寬框內clamp必頂max）；sticky header標題換行撐高蓋內容；展示素材一展項一頁＋UI禁中英並陳｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
