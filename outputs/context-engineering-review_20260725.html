@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude 5 Context Engineering 新規則 × 現行工作制度對照</title>
+<style>
+:root{--bg:#faf9f6;--fg:#2a2a2e;--muted:#6b6b74;--card:#fff;--line:#e3e1da;--accent:#0F4196;--gold:#b8860b;--ok:#1a7f4b;--warn:#b45309;--code-bg:#f2f1ec;}
+@media (prefers-color-scheme: dark){:root{--bg:#17181c;--fg:#e8e6e1;--muted:#9a9aa5;--card:#1f2126;--line:#33343c;--accent:#7ea6e0;--gold:#e0b84c;--ok:#5fce96;--warn:#e8a04c;--code-bg:#26272e;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 "PingFang TC","Noto Sans TC",sans-serif;padding:2.5rem 1.2rem 5rem}
+main{max-width:920px;margin:0 auto}
+h1{font-size:1.55rem;line-height:1.4;margin:.2rem 0 .4rem}
+h2{font-size:1.2rem;margin:2.4rem 0 .8rem;padding-left:.6rem;border-left:4px solid var(--accent)}
+h3{font-size:1.02rem;margin:1.6rem 0 .5rem}
+p{margin:.5rem 0}
+.sub{color:var(--muted);font-size:.88rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin:.8rem 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:.6rem 0}
+th,td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+th{background:var(--code-bg)}
+.tag{display:inline-block;font-size:.75rem;padding:.1rem .5rem;border-radius:99px;border:1px solid;margin-right:.4rem;white-space:nowrap}
+.ok{color:var(--ok);border-color:var(--ok)}
+.warn{color:var(--warn);border-color:var(--warn)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0}
+@media(max-width:720px){.ba{grid-template-columns:1fr}}
+.ba .col{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:.7rem .9rem;font-size:.86rem}
+.ba .col b{display:block;margin-bottom:.35rem}
+.ba .before b{color:var(--warn)}
+.ba .after b{color:var(--ok)}
+pre{white-space:pre-wrap;word-break:break-word;margin:0;font:.83rem/1.65 ui-monospace,Menlo,monospace}
+code{background:var(--code-bg);padding:.06rem .3rem;border-radius:4px;font-size:.86em}
+.overflow{overflow-x:auto}
+li{margin:.3rem 0}
+</style>
+</head>
+<body><main>
+
+<h1>Claude 5 Context Engineering 新規則 × 現行工作制度對照</h1>
+<p class="sub">2026-07-25｜依據 claude.com 官方文（已實開驗證）：〈The new rules of context engineering for Claude 5 generation models〉。核心事實：Anthropic 為 Claude 5 世代<b>刪掉 80%+ 系統提示，效能不降</b>。本檔逐條對照現行制度（GLOBAL/AGENTS/ody/skills），供 PO 決定是否回寫全域設定（本檔僅提案，未動 SSOT）。</p>
+
+<h2>官方六條新規則（原文重點，2026-07-25 訂正：原稿誤植五條，漏列「重複指令」與「CLAUDE.md 記憶」兩條並與「輕量化」混寫）</h2>
+<div class="card"><ol>
+<li><b>規則 → 判斷</b>：舊「絕不寫多行註解」→ 新「寫出與周圍程式碼風格一致的 code」。給意圖與判準，讓模型用脈絡判斷。</li>
+<li><b>範例 → 介面設計</b>：範例會<b>限縮模型的探索空間</b>（constrains exploration space）。改把力氣花在「介面本身的表達力」——例如把狀態設計成 <code>pending / in_progress / completed</code> 的 enum，模型自然知道怎麼用。</li>
+<li><b>全部前置 → 漸進式揭露</b>：不要前置全部資訊；情境到了才載入（CLAUDE.md 輕量化只留 gotchas 是此條的應用之一，非獨立規則）。</li>
+<li><b>重複指令 → 單一工具描述</b>：同一指令不要同時寫在系統提示詞與工具/技能描述裡；集中放在工具描述一處即可。</li>
+<li><b>CLAUDE.md 記憶 → Auto-memory</b>：個人偏好類資訊改由模型自動記憶處理，CLAUDE.md 不必當手動記憶體用。</li>
+<li><b>簡單規格 → 豐富參考資料</b>：規格用「可跑的參考程式／測試／HTML 構件／評分 rubric」表達，優於純文字描述；「References as code」只是其中一種子類，不是這條規則的全部。</li>
+</ol></div>
+
+<h2>A. 現行制度已對齊的（官方文反向驗證，不用改）</h2>
+<div class="overflow"><table>
+<tr><th>現行做法</th><th>對應新規則</th><th>說明</th></tr>
+<tr><td>三檔制（INDEX→當前 TaskLog→lessons）＋playbooks 按需路由</td><td><span class="tag ok">漸進式揭露</span></td><td>「進場只讀指路檔、情境到才開 playbook」正是 progressive disclosure 的實作。</td></tr>
+<tr><td>ody 契約 accept 條款＋evidence cmd；AGENT_SIGNAL 的 <code>DONE|AgentID|File|Timestamp</code></td><td><span class="tag ok">介面設計</span></td><td>驗收條款＝輸出介面；訊號格式＝狀態 enum＋固定 schema。07-24 的 <code>config_X主機.json</code>＋自啟 copy 帶入、<code>STAGE_MAP</code> 值域也是同一精神。</td></tr>
+<tr><td>「有示範程式時文件從簡」（E 區 07-14 教訓）；驗收=可重跑腳本</td><td><span class="tag ok">References as code</span></td><td>能跑的參考頁就是規格——官方文把這條升格為通則。</td></tr>
+</table></div>
+
+<h2>B. 建議調整的（重點）</h2>
+<div class="overflow"><table>
+<tr><th>#</th><th>現況</th><th>問題（依官方文）</th><th>改法</th></tr>
+<tr><td>1</td><td>派工 prompt 常含<b>實作步驟與範例碼</b>（怎麼 deepcopy、怎麼寫迴圈）</td><td>範例限縮探索空間；步驟寫死＝模型只會照抄，遇到偏差不會轉彎</td><td><span class="tag warn">介面化</span>只給：輸入（SSOT 路徑）＋輸出 schema（回報欄位、狀態 enum）＋硬約束（不可逆項）＋驗收命令。「怎麼做」讓模型自己探索，先例指路徑不貼內容。</td></tr>
+<tr><td>2</td><td>「比照 XX 做／像這樣改」的範例式指令</td><td>同上；且模型可能複製到範例裡不該學的部分</td><td>改判準句＋約束：「版型沿用既有，只換內容」「風格與該區現有頁面一致」。<b>例外：視覺品味類參考圖保留</b>——那是規格不是範例（「流動的河」教訓：抽象材質沒參考圖會多輪重做）。</td></tr>
+<tr><td>3</td><td>GLOBAL/AGENTS 溝通規範＝大量禁止句式清單（禁確認語、禁過渡語、禁尊稱、200 字上限…）</td><td>官方正是把這類 rule 清單改寫成判斷句後刪掉 80%</td><td>濃縮成 2-3 句意圖判準（例：「只輸出資訊、推論、判斷；同樣內容能砍半不失資訊，砍半是義務」），硬規則只留不可逆項：版控鐵律、不刪檔、（推測/未驗證）標註、意圖與執行狀態不可混淆。</td></tr>
+<tr><td>4</td><td>CLAUDE.md session bundle 每場載入數千字</td><td>CLAUDE.md 應輕量、只留 gotchas</td><td>只留：身分＋SSOT 錨點＋安全底線＋本機 gotchas；開場協議細節下放 session-start skill（已是 skill，可刪 bundle 重複段）。</td></tr>
+<tr><td>5</td><td>偏好類設定手動「存入全域設定」</td><td>官方：auto-memory 處理個人偏好</td><td>個人偏好（回報節奏、開瀏覽器習慣）交 auto-memory（已在用）；SSOT 只留制度性規則。兩者分工明確化，避免重複。</td></tr>
+</table></div>
+
+<h2>C. 三組 before / after（取自實際工作）</h2>
+
+<h3>例 1：中翻英審稿 docx（B/C/D/O 區都做過）</h3>
+<div class="ba">
+<div class="col before"><b>Before（範例式）</b><pre>照 B 區的做法翻 C 區：先看 outputs/V1/.../write_b_v2.py
+怎麼寫的，第一步 deepcopy 中文段、第二步去 strike/color、
+第三步首個 w:t 改英文…（把 B 區成品貼上）照這個格式做。</pre></div>
+<div class="col after"><b>After（介面式）</b><pre>任務：C 區審稿 docx 中翻英。
+規範（必讀）：rules/translation-bilingual-docx.md
+術語 SSOT：infomation/展版中英文案_專有名詞參照.xlsx（唯一權威）
+輸入：outputs/.../W中文審稿_C區….docx（唯讀）
+輸出：同夾 W英文審稿_C區v1_日期.docx＋審核 HTML
+驗收：落位自檢缺譯即中止／testzip 通過／PDF 目視中上英下
+交付附：源錯字清單＋暫譯清單（狀態：待業主確認）
+先例在 outputs/V1/B_kiosk/archive/B_doc/，需要自己去讀。</pre></div>
+</div>
+<p class="sub">差異：規範與術語表是「介面」，先例只給路徑。模型自己決定用 lxml 還是別的——B 區的技術選型寫在 rules 裡是因為它是踩坑結論（gotcha），該留；「步驟教學」不用再寫。</p>
+
+<h3>例 2：kiosk UI 修改</h3>
+<div class="ba">
+<div class="col before"><b>Before（逐步指揮）</b><pre>把標題往上移一點，字放大到 42px，然後台詞框移到腰部，
+字數減半，你看我貼的這張截圖，照這樣排。</pre></div>
+<div class="col after"><b>After（約束＋判準＋驗收）</b><pre>機台約束（enum）：C 區＝4K 橫式(3840×2160)／非觸控／RFID 輸入
+禁動：nav 框架、其他未點名元素、content 文案檔
+判準：版型沿用既有，只調點名元素；視覺參考圖見附件
+　　　（參考圖=目標構圖，非逐 px 複製）
+驗收：改後親自截圖目視＋與參考圖並排比對；零 console error</pre></div>
+</div>
+<p class="sub">差異：參考圖保留（品味類規格），但「怎麼改到位」交給模型迭代；約束用 enum 式清單防越界，驗收條件取代逐步驗收指令。</p>
+
+<h3>例 3：subagent／跨工具派工</h3>
+<div class="ba">
+<div class="col before"><b>Before（三要素＋長篇步驟）</b><pre>目標…驗收…回報格式…（以下 40 行：第一步先讀哪個檔、
+第二步怎麼改、每個函式怎麼寫、迴圈怎麼收斂…）</pre></div>
+<div class="col after"><b>After（三要素＝純介面）</b><pre>目標與動機：一句話（What＋Why）
+輸入介面：SSOT 路徑清單＋唯讀/可寫標註
+輸出介面：回報 schema＝
+  {status: PASS|FAIL|BLOCKED, 異動檔案[], 證據cmd[], 未決[]}
+硬約束：不刪檔／禁 fetch(file://場景)／不動 content 文案
+驗收：可重跑命令（絕對路徑）逐條列
+gotchas：只列「程式裡看不出來」的坑（如 cmd 括號內 set /p 必炸）</pre></div>
+</div>
+<p class="sub">差異：三要素制度不變（它本來就是介面），刪掉的是步驟段；gotchas 保留——官方文明說 CLAUDE.md/派工要留的正是這種東西。lessons-learned 的價值在新規則下不降反升：它就是 gotchas 庫。</p>
+
+<h2>D. Codex 跨工具差異（原稿未涵蓋，2026-07-25 補；來源：Codex@comaMacBookAir.local 審視 ＋ claude-code-guide 查證）</h2>
+<div class="card"><ul>
+<li>Codex 原生開場讀 <code>AGENTS.md</code>（非 <code>CLAUDE.md</code>），其專案層級 skill 原生掃描路徑為 <code>.agents/skills/</code>（Codex 官方文件）；Claude Code 的原生路徑是 <code>.claude/skills/</code>（2026-07-25 經 claude-code-guide 實查，官方文件：code.claude.com/docs/en/skills.md）。兩者不同，WTF 現行 <code>._agents/skills/</code> 兩邊都不是原生路徑——目前靠 AGENTS.md 指示模型手動去看這個資料夾，不是任何一方的原生自動發現機制。要讓兩工具都原生發現同一批專案 skill，需各自複製到雙方原生路徑，非改成單一共用資料夾就能解決（詳見「待辦」）。</li>
+<li>Codex 的 model／reasoning／sandbox／approval 走自己的設定機制（多半是 <code>.codex/config.toml</code> 或原生 CLI 旗標），不應把 Claude 專屬的模型名稱或升降級規則寫進共用 SSOT（GLOBAL.md 已於本次修正移除「便宜 subagent／顯式指定 model」等 Claude 專屬用語）。</li>
+<li>Codex 的 subagent 呼叫介面與 Claude Code 的 Agent tool 不同，交辦範本（delegation-templates.md）需標明「僅 Claude Code 適用」或分開撰寫，不能假設 Codex 沿用同一份填空模板。</li>
+</ul></div>
+
+<h2>判斷準則：什麼時候仍該給範例</h2>
+<div class="card"><ul>
+<li><b>給</b>：視覺/品味目標（參考圖、動態手感影片）——這是規格。</li>
+<li><b>給</b>：對外交付格式有既定範本（業主 docx 版型）——複製既有檔當底本來就是流程。</li>
+<li><b>不給</b>：程式實作步驟、演算法寫法、工具操作順序——寫成驗收條件與約束即可。</li>
+<li><b>不給</b>：溝通風格的例句清單——一句判準勝過十句禁令。</li>
+</ul></div>
+
+<h2>建議落地順序（皆屬全域設定變更，逐條由 PO 拍板後另案執行）</h2>
+<div class="card"><ol>
+<li><b>先改派工模板</b>（delegation-templates.md）：五型範本的「步驟段」改「介面段」＋回報 schema enum——影響最大、風險最低。</li>
+<li><b>AGENTS.md 溝通規範瘦身</b>：禁令清單→判準句，保留波赫士文風基準與禁「您」等少數硬項。</li>
+<li><b>CLAUDE.md bundle 減量</b>：刪與 session-start skill 重複的開場細節。</li>
+<li><b>GLOBAL.md 硬規則盤點</b>：逐條標「不可逆（留）／可判斷化（改寫）」。</li>
+</ol></div>
+
+<p class="sub">來源：claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models（2026-07-25 實開驗證）。文中未逐字引用處為摘要轉述；「（推測）」標註處為本檔推論非原文。</p>
+
+</main></body>
+</html>

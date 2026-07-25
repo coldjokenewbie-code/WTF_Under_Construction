@@ -1,8 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-25
 
-## 2026-07-25 Context Engineering 文章審視與設定調整
-- 依 Claude 官方文章對照本專案設定，三項使用者裁定已落地：`model-dispatch.md` 改預設 `opus` 優先（例外＝Fable5 綁定任務／大量機械操作）；`GLOBAL.md`「輸出格式」限縮為僅「agent 向使用者匯報」用 HTML，業主端交付物不受限；`AGENTS.md` 加使用者代號「三藏」。`wtf-session-gate` 判斷維持現況不變（現況：僅記錄不阻擋，理由見 TaskLog）。詳見 `_context/TaskLog_2026-07-25_context-engineering審視與設定調整.md`（**當前 TaskLog**）。
+## 2026-07-25 Context Engineering 文章審視與跨工具規範修正
+- 三份獨立報告（Claude×2＋Codex Handover）交叉核對後，完成一輪較大的制度調整：`model-dispatch.md` 改為「派適合的 agent」（依任務屬性選模型，非固定單一階，兩輪裁定後定案）；`GLOBAL.md` 派工鐵律改工具中立（移除 Claude 專屬「便宜 subagent／顯式指定 model」用語）＋輸出格式限縮為僅「agent 向使用者匯報」用 HTML；`AGENTS.md` 溝通原則去重濃縮（保留硬項、合併語意重複）＋加使用者代號「三藏」；`CODEX.md` 移除不穩定工具名與重複讀取；`delegation-templates.md` 全面介面化改寫（新增 T-視覺範本）；cowork_CDIC 翻譯 SOP／Assembly_Plant_Mobile_Guide 展項模板兩個子專案的 rules/skill 調整。**待決**：Claude／Codex 專案 skill 原生路徑不同（`.claude/skills/` vs `.agents/skills/`），現行 `._agents/skills/` 兩邊都非原生，遷移方案已備待拍板。`wtf-session-gate` 維持現況不動。詳見 `_context/TaskLog_2026-07-25_context-engineering審視與設定調整.md`（**當前 TaskLog**）＋ `_context/Handover_2026-07-25_context-engineering跨模型規範優化.md`。
 
 ## 2026-07-22 wtf-session-gate 故障修復
 - 診斷＋修復 `cmd_postread` 缺檔崩潰＋bundle SHA 過期兩個問題：postread 補 exists 檢查；`choose_bundle()` 改讀 `~/.claude/CLAUDE.md` import block（`sync_config.py` 每次 sync 自動跟代，取代原本寫死在 settings.json 的 env var，本機已清）。PreToolUse/Stop 接線經詢問使用者後暫不做（fail-closed 尚未 canary 測試）。sandbox 驗證 init→instructions→postread 全綠。**Windows 端 settings.json 若同樣寫死 env var，待下次 Windows session 處理**。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（**當前 TaskLog**）。
