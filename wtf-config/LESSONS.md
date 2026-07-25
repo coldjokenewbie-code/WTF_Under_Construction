@@ -188,3 +188,4 @@
 - 出勤｜2026-07-23｜Power Apps 畫布權限閘：Excel空欄IsBlank("")=true陷阱→改值比對期望字串；App分享面板(硬邊界/靜態/換人手動改) vs OnVisible 畫布閘(動態/靠team_member/非硬安全) vs SharePoint項目層三層分工；Screen.OnVisible 是畫面屬性貼pa.yaml帶不進來、需手動設，必在交付時明列為必做步驟｜attendance-dashboard/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-24｜B區燈控三修正：TCP指令末必加\n觸發readline；goDetail在pointerup先跳頁致click離timeline燈不亮→允detail視圖也觸燈；跨年過場可中斷/點年門檻防誤觸/邊滑放寬｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-24｜APK v3.1.0 kiosk化：InsetsController.hide(systemBars)隱系統列+lockTask鎖任務+角落雙指10s逃生+BOOT_COMPLETED BroadcastReceiver+HOME alias開機自啟｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜C區stage排障：多主機共用輪詢程式的endpoint區碼是部署參數禁硬編碼(history=B區致A/C/D全收錯)；per-host config_X.json由自啟腳本copy /Y帶入(比照bridge)；我方鏈路全綠≠對方端錯，先窮舉自己訂閱參數；agy headless卡permission→prompt明令跳過開場協議+原始碼內嵌免工具｜cowork_CDIC/_context/lessons-learned.md
