@@ -92,8 +92,17 @@ Codex 依 Anthropic 原文與 OpenAI Codex 官方手冊重新對照後，發現�
 - [x] 使用者核准的原 5 項行動：`delegation-templates.md` 全面介面化改寫（含新增 T-視覺類範本、Workflow schema 替代方案）；cowork_CDIC `rules/translation-bilingual-docx.md`（146→9 行指標）＋新 skill `._agents/skills/translate-bilingual-docx/SKILL.md`（151 行，內容無遺漏，經 fresh-context read-back 確認）；Assembly_Plant_Mobile_Guide 新 `rules/exhibit-content-template.md`（33 行，欄位對照 `types.ts:35-47` `Exhibit` 型別逐一核實，無自行發明欄位）。
 - [x] `sync_config.py check`：全數 OK，19 個專案 AGENTS.md 與 `~/.claude/` 皆與真相源一致，bundle SHA 已隨最新內容換代（`d5c5d33ca0f9…`）。
 
+## 2026-07-25 追加：P0-3 落地 ＋ 同步機制事故與復原
+
+使用者裁示「專案 skill 只要有共同來源，修改之後大家都用得到就好」，執行 P0-3 遷移：
+
+- `sync_config.py` 新增 `deploy_project_skills()`：把每個已註冊專案的 `._agents/skills/`（工具中立 SSOT）複製到 Claude Code 原生路徑 `.claude/skills/` 與 Codex 原生路徑 `.agents/skills/`。
+- **事故**：首次執行沿用 `deploy_other_tools()` 的「prune 孤兒」邏輯，誤刪 `cowork_CDIC/.claude/skills/` 下 3 個既有 skill（`auto-approve`／`codex-global-instruction`／`data-verify`，非透過 `._agents/skills/` 來源建立）。發現後立即：(1) 移除 prune 邏輯改為只加不刪；(2) `cmd_check()` 驗證邏輯同步改為子集檢查；(3) 修好即 commit push，防下次自動 sync（UserPromptSubmit hook）再犯。
+- **復原**：Google Drive API 查得 `auto-approve` 內容（但該讀取管道有 markdown 逃逸/可能截斷，非乾淨原始檔）；另兩個 API 搜尋不到。已請使用者到 drive.google.com 網頁版垃圾桶手動復原，**使用者確認「已還原」，經核對三個 `SKILL.md` 皆存在且時間戳為原始建立時間（6月3日）**，確認是乾淨還原而非我從 API 撈回的降級版本，非誤蓋。
+- 詳細教訓見 `_context/lessons-learned.md` 2026-07-25「事故：專案 skill 同步 prune 邏輯誤刪既有內容」條。
+
 ### 未完成／待使用者裁決
 
-- **P0-3 的實際遷移**（sync_config.py 新增雙路徑複製邏輯）：方案已備，工程量與跨工具影響需使用者拍板是否執行。
+- （P0-3 已於上方完成落地，不再列入待決）
 - **「fresh-context 驗證 Codex 實際載入」**：無法在本 Claude Code session 內驗證 Codex 的實際載入結果（`codex debug prompt-input` 需在 Codex CLI 內執行），此項留待下次有 Codex session 時驗證，不可視為已完成。
 - cowork_CDIC 新 skill 的邊界內容（glossary 讀法在指標檔與 skill 內有輕微重複）：執行 agent 已列出，判斷為可接受的必要重複，未進一步精簡。
