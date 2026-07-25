@@ -14,10 +14,15 @@
    - `全域同步檢查狀態：[check 輸出狀態]`
    - `目前可用技能：[列出與本案相關的 skills 名稱，不讀 body]`
 
-## Antigravity 專屬差異
+## Antigravity 專屬差異與 Context 工程原則
 
 - **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.gemini/skills/`（保留工具自有 skill）；載入規則照 AGENTS.md「Skills 載入協議」。
 - **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
 - **定時喚醒防卡死**：背景監控（如 tail 監聽 `AGENT_SIGNAL.log`）必須配合 `schedule` 啟動定時器（例如 90 秒，`TimerCondition` 依情境設定），定時喚醒自己主動檢查監控腳本狀態與日誌更新；禁止被動等待喚醒，避免 AI 進入 idle 後監控中斷。
 - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Antigravity`。
+- **Gemini 專屬 Context 工程原則 (Gemini 3.6+)**：
+  - **全景式大上下文檢視**：發揮 Gemini 巨量 Context 視窗優勢，遇到複雜排錯或重構時優先閱讀完整模組與相關上下文，避免碎片化觀測。
+  - **原則優先與信任判斷（Unhobbling）**：依據清晰目標與意圖運作，減少過多層疊的微觀否定限制（negative constraints），確保推理注意力分配於核心任務。
+  - **豐富構件與自主驗收（Rich References & Verification）**：產生 UI/資料可視化時優先輸出完整 HTML 構件，並結合 `ui-review` / `generate_image` 或自動化測試進行客觀驗收。
 - **存入全域設定**：照 GLOBAL.md「存入協議」；本工具專屬檔＝`wtf-config/GEMINI.md`。
+
