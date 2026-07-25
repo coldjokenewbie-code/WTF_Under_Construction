@@ -1,5 +1,19 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-25 (事故：專案 skill 同步 prune 邏輯誤刪既有內容)
+
+* **「整個目錄由本機制管理」的假設不能從 home 層級直接套用到專案層級**：`deploy_other_tools()` 對 `~/.claude/skills/`、`~/.codex/skills/` 做「不在 SSOT 集合就刪」的保守 prune 是安全的，因為那兩個目錄整個由 WTF sync 機制管理，不會有其他來源寫入。新增 `deploy_project_skills()`（把專案 `._agents/skills/` 複製到專案的 `.claude/skills/`／`.agents/skills/`）時，套用了同一套 prune 邏輯，結果第一次跑就刪掉 cowork_CDIC `.claude/skills/` 下 3 個既有 skill（`auto-approve`／`codex-global-instruction`／`data-verify`）——這些不是透過 `._agents/skills/` 來源建立的，卻被當成「SSOT 已無的孤兒」整個 rmtree。**修法**：`deploy_project_skills()` 改成只加不刪（copytree 合併，永不 rmtree），`cmd_check()` 的驗證邏輯比照改成「SSOT 集合是否為 dst 的子集」而非「兩者完全相等」。
+* **寫任何會執行刪除的同步/部署邏輯前，先確認目標目錄的『所有權』範圍**：問自己「這個目錄除了我這支腳本，還有沒有其他人/其他機制會寫入？」——home 層級的工具設定目錄通常答案是「沒有」，但專案內、使用者/其他工具原生使用的目錄（如 Claude Code 官方原生掃描的 `.claude/skills/`）幾乎必然有其他來源，prune 在那裡預設不安全。
+* **cowork_CDIC 是 Google Drive 資料夾非 git 追蹤**，本地 `rmtree` 沒有版控可回退；靠 Google Drive 桌面版把本地刪除同步為雲端垃圾桶暫時補救——經 Google Drive API 查證，`auto-approve` 資料夾內容仍可透過 `search_files`／`read_file_content` 讀回（但該讀取管道會對內容做 markdown 逃逸且可能截斷，非逐位元組原始內容）；`codex-global-instruction`、`data-verify` 兩者透過 API 搜尋不到，需使用者親自到 drive.google.com 網頁版「垃圾桶」查看是否還在 30 天保留期內，這是比 API 搜尋更可靠的復原管道。
+* **教訓延伸**：新增任何「跨專案批次寫入/刪除」的自動化邏輯前，應先在單一專案手動跑一次、人工核對輸出後再放行大範圍執行，而不是直接對全部已註冊專案跑「加了 prune 的新函式」的首次呼叫。
+* **復原結果**：使用者透過 Google Drive 網頁版垃圾桶手動復原三個 skill，事後核對三個 `SKILL.md` 皆存在、時間戳為原始建立時間（6月3日）——證實是乾淨復原，非我用 Drive API 讀回的降級版本（該管道有 markdown 逃逸與截斷風險）。**Google Drive 桌面版的本地刪除會同步為雲端垃圾桶（非直接永久刪除）**，網頁版垃圾桶介面比 API 搜尋更可靠，遇到 Drive 端誤刪應優先請使用者走網頁版復原，不要花時間在 API 上重建內容。
+
+## 2026-07-25 (Context Engineering 文章對照：哪些規則該裁、哪些不該裁)
+
+* **「信任模型判斷力，刪除冗餘規則」只適用於行為性規則，不適用於主觀品味與基礎設施可靠性規則**：Claude 官方文章建議刪除新模型能自行推斷的規則，但本專案 AGENTS.md 的溝通風格規則（繁中台灣用語、Borges 式精簡、禁詞）是使用者主觀品味，模型永遠推不出來；`wtf-session-gate` 是為了確保關鍵設定檔「真的被完整載入」的基礎設施機制（非教模型怎麼做決策）。套用文章建議前，先分清規則屬於哪一類，不能見到「規則多」就一律往「可裁」的方向想。
+* **模型調度政策改為預設 `opus` 優先**（使用者 2026-07-25 裁定）：不再以成本優化為第一考量，例外僅「任務綁定 Fable 5」與「大量機械重複操作」。詳見 `playbooks/model-dispatch.md`。
+* **「一律 HTML」之類的格式規則要先分清適用對象**：原規則沒區分「agent 向使用者本人匯報」與「業主端正式交付物」兩種完全不同的情境，前者適合 HTML（快、可即時預覽），後者常有 docx/pptx 的既定格式要求。訂全域規則時要先問「這規則管的是溝通介面還是交付物」。
+
 ## 2026-07-22 (wtf-session-gate 故障：雙重來源設定的過期陷阱)
 
 * **同一份「現況」若有兩處存放，只自動維護一處＝必然過期**：`sync_config.py` 每次 sync 都會自動改寫 `~/.claude/CLAUDE.md` import block 裡的 bundle SHA（正確、有自動化覆蓋），但 `~/.claude/settings.json` 的 SessionStart init hook 另外用寫死的 `WTF_BUNDLE_SHA256=...` env var 存了「同一個」SHA——這個第二份沒有任何程式碼會回寫它，bundle 一換代就立刻過期。修法：讓消費端（`choose_bundle()`）直接讀權威來源（CLAUDE.md import），不要依賴另外手動維護、事實上沒人在維護的旁路設定。**設計/審查 hook 或設定檔時，凡發現「同一個值存在兩個檔案」，先問清楚兩處是否都有自動同步機制，沒有就是未來必炸的過期陷阱**。

@@ -436,6 +436,49 @@ OTHER_TOOLS = [
 ]
 
 
+PROJECT_SKILL_NATIVE_DIRS = [".claude/skills", ".agents/skills"]
+# .claude/skills ＝ Claude Code 專案層級原生掃描路徑（2026-07-25 經 claude-code-guide 查證，
+#   官方文件 code.claude.com/docs/en/skills.md）；.agents/skills ＝ Codex 官方原生路徑。
+# 工具中立 SSOT 仍是專案內 ._agents/skills/，本函式只負責複製到雙方原生路徑，SSOT 目錄不動。
+
+
+def deploy_project_skills():
+    """把每個已註冊專案的 ._agents/skills/（工具中立 SSOT）複製到各工具原生路徑，
+    讓 Claude Code 與 Codex 都能原生自動發現同一批專案 skill，不必再靠 AGENTS.md
+    指示模型手動去看 ._agents/skills/。
+
+    **只加不刪**：與 deploy_other_tools()（~/.claude/skills、~/.codex/skills）不同，
+    專案內的 .claude/skills/、.agents/skills/ 不是本機制專屬管理的目錄——可能已有
+    使用者/其他工具直接放在那裡、不透過 ._agents/skills/ 來源的既有 skill（2026-07-25
+    事故：prune 邏輯誤刪 cowork_CDIC/.claude/skills/ 下 3 個非 SSOT 來源的既有 skill，
+    當場移除 prune，見 lessons-learned）。故只 copytree 合併寫入，永不刪除既有內容，
+    即使 SSOT 移除某 skill 也不回頭清掉部署端，孤兒清理需人工手動處理。"""
+    results = []
+    for project_dir in registry_dirs():
+        src_root = project_dir / "._agents" / "skills"
+        if not src_root.is_dir():
+            continue
+        skill_names = {s.name for s in src_root.iterdir() if s.is_dir()}
+        if not skill_names:
+            continue
+        for rel in PROJECT_SKILL_NATIVE_DIRS:
+            dst_root = project_dir / rel
+            dst_root.mkdir(parents=True, exist_ok=True)
+            ok = 0
+            for name in sorted(skill_names):
+                dst = dst_root / name
+                if dst.is_symlink():
+                    dst.unlink()
+                try:
+                    shutil.copytree(src_root / name, dst, dirs_exist_ok=True)
+                    ok += 1
+                except Exception as e:
+                    results.append(f"  ! 略過 {project_dir.name}/{rel}/{name}（{e}）")
+            if ok:
+                results.append(f"  v {project_dir.name}/{rel}/（{ok} 個專案 skill，僅新增/合併，不刪既有內容）")
+    return results
+
+
 def deploy_other_tools():
     """把 SSOT skills + 全域指令檔實體複製到 codex／gemini（present 才做）。
     skills 保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
@@ -549,6 +592,35 @@ def cmd_check():
         for n in other_notes:
             print(n)
 
+    # 專案 skill：._agents/skills/（SSOT）是否已鏡射到雙方原生路徑
+    # 只加不刪機制（見 deploy_project_skills 註解）：檢查 SSOT 集是否為 dst 的子集即可，
+    # dst 允許有 SSOT 之外的既有 skill（非本機制管理），不可要求兩者完全相等。
+    proj_skill_notes = []
+    for d in registry_dirs():
+        src_root = d / "._agents" / "skills"
+        if not src_root.is_dir():
+            continue
+        ssot_names = sorted(s.name for s in src_root.iterdir() if s.is_dir())
+        if not ssot_names:
+            continue
+        for rel in PROJECT_SKILL_NATIVE_DIRS:
+            dst_root = d / rel
+            if not dst_root.is_dir():
+                proj_skill_notes.append(f"  x [MISSING] {d.name}/{rel}/")
+                broken.append(f"{d.name}/{rel}")
+                continue
+            dst_names = set(s.name for s in dst_root.iterdir() if s.is_dir())
+            missing = [n for n in ssot_names if n not in dst_names]
+            if not missing:
+                proj_skill_notes.append(f"  v [OK     ] {d.name}/{rel}/（含全部 {len(ssot_names)} 個 SSOT skill）")
+            else:
+                proj_skill_notes.append(f"  x [STALE  ] {d.name}/{rel}/ — 缺 {', '.join(missing)}")
+                broken.append(f"{d.name}/{rel}")
+    if proj_skill_notes:
+        print("\n--- 專案 skill（._agents/skills/ → 各工具原生路徑）---")
+        for n in proj_skill_notes:
+            print(n)
+
     print("\n--- 統計 ---")
     for k, v in sorted(counts.items()):
         print(f"  {k}: {v}")
@@ -600,6 +672,12 @@ def cmd_sync():
     if other:
         print("\n--- 其他工具（Codex／Gemini）全域指令＋skills 部署 ---")
         for r in other:
+            print(r)
+
+    proj_skills = deploy_project_skills()
+    if proj_skills:
+        print("\n--- 專案 skill（各專案 ._agents/skills/ → .claude/skills/ ＋ .agents/skills/）---")
+        for r in proj_skills:
             print(r)
     return 0
 

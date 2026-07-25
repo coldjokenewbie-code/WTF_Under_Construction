@@ -12,6 +12,8 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
+| WTF | 2026-07-25 | Claude context-engineering 文章對照：「信任模型判斷力」只適用行為性規則，主觀品味/基礎設施可靠性規則不受影響；模型調度改預設 opus 優先；格式規則要先分清「匯報介面」vs「交付物」兩種情境 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-22 | wtf-session-gate 故障：同一 SHA 存兩處（CLAUDE.md 自動跟代／settings.json 寫死 env var）只有一處被維護必過期，改讓消費端讀權威來源；fail-closed 閘可能因 PreToolUse/Stop 未接線而長期形同虛設不自知；驗證 hook 腳本可用 `WTF_GATE_HOME` sandbox 跑合成事件序列，不必等新 session | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-21 | 雲端 session WebFetch proxy 403（ccr 出口政策全面封鎖，含 example.com/wikipedia.org 等基礎 URL，非個別站）→ 需 URL 實測驗證的任務改列「僅本機執行」路由，雲端棒固定跳過不算失敗；寫進 mission _blockers.md+backlog.md 明標 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-20 | 版控路徑雙軌鐵律（PO 定案）：所有專案一律 Drive+git_mirror 雙軌，WTF 自身為唯一例外；Git_work 退役禁用；Drive .git 改名 .retired-git；registry=版控路徑唯一真相源（升級自 07-15「純 code 遷 git_mirror」，範圍擴及含 Drive 副本的全部專案） | `_context/lessons-learned.md`（WTF repo） |
@@ -186,3 +188,8 @@
 - cowork_CDIC｜2026-07-22｜契約PASS≠使用者親眼確認過，信任受損時要重跑實測+截圖；環境事實(現場主機OS)沒查證不能假設；OS層模擬點擊優先改輪詢既有API；多區共用架構要逐區ls確認進度不能套用同代碼｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-23｜Android平板部署：DHCP保留須綁硬體MAC(dumpsys wifi wifi_sta_factory_mac_address，非隨機化wlan0)且該WiFi設「手機MAC」關隨機化；現代Android無純adb設桌布(cmd wallpaper只dimming、file://靜默退回，需content://MediaStore)；input tap座標=screencap解析度需×縮放比；xlsx含drawings用zip層inlineStr外科寫入勿openpyxl｜cowork_CDIC/_context/lessons-learned.md
 - 出勤｜2026-07-23｜Power Apps 畫布權限閘：Excel空欄IsBlank("")=true陷阱→改值比對期望字串；App分享面板(硬邊界/靜態/換人手動改) vs OnVisible 畫布閘(動態/靠team_member/非硬安全) vs SharePoint項目層三層分工；Screen.OnVisible 是畫面屬性貼pa.yaml帶不進來、需手動設，必在交付時明列為必做步驟｜attendance-dashboard/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜B區燈控三修正：TCP指令末必加\n觸發readline；goDetail在pointerup先跳頁致click離timeline燈不亮→允detail視圖也觸燈；跨年過場可中斷/點年門檻防誤觸/邊滑放寬｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜APK v3.1.0 kiosk化：InsetsController.hide(systemBars)隱系統列+lockTask鎖任務+角落雙指10s逃生+BOOT_COMPLETED BroadcastReceiver+HOME alias開機自啟｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜C區stage排障：多主機共用輪詢程式的endpoint區碼是部署參數禁硬編碼(history=B區致A/C/D全收錯)；per-host config_X.json由自啟腳本copy /Y帶入(比照bridge)；我方鏈路全綠≠對方端錯，先窮舉自己訂閱參數；agy headless卡permission→prompt明令跳過開場協議+原始碼內嵌免工具｜cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-07-24｜B區燈控調試：機率型故障算時間占比鎖根因(30%成功=68%鎖定)；長動畫必須可中斷；pointerup先於click的狀態時序；PS5.1 inline寫檔清空原檔三重雷改node -e；裸TCP問結尾符；/lightlog瀏覽器日誌分責；Android非owner kiosk三件組｜cowork_CDIC/_context/lessons-learned.md
+- Assembly_Plant_Mobile_Guide｜2026-07-25｜vw字級相對視窗非內容框（固定寬框內clamp必頂max）；sticky header標題換行撐高蓋內容；展示素材一展項一頁＋UI禁中英並陳｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md

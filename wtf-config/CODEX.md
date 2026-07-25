@@ -7,7 +7,7 @@
 ## 強制初始化協議（對話開始時立即執行，不得跳過）
 
 0. **定位 SSOT（絕對路徑）**：讀 `~/.codex/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，不可用相對路徑。
-1. **讀取全域設定兩檔**：以 `view_file` 讀 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`，並依 GLOBAL.md「開場協議」執行（含專案知識三檔制）、依 AGENTS.md 執行 Skills 載入協議。
+1. **讀取 GLOBAL.md**：讀取檔案 `<WTF_ROOT>/wtf-config/GLOBAL.md`（工具原生的檔案讀取能力即可，不指定特定工具名稱），並依其「開場協議」執行（含專案知識三檔制）。**`AGENTS.md` 不必在此重讀**：Codex 原生已依專案目錄層級載入當前專案根目錄的 `AGENTS.md`（各已註冊專案根目錄皆有 `sync_config.py` 部署的同步副本），依其中「Skills 載入協議」執行即可，無需再手動讀一次 `wtf-config/AGENTS.md`。
 2. 向用戶說明「已載入全域與 CODEX 工具設定」再開始工作（僅 session 首次一次，後續不重複）。
 
 ## Codex 專屬差異

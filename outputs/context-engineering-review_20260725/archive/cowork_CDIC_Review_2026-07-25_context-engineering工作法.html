@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Context Engineering 新規則 × 工作方式檢視 2026-07-25</title>
+<style>
+  :root { --blue:#0F4196; --gold:#F0C020; --grey:#3F3A39; --bg:#F7F6F2; --old:#B23; --new:#1a7a3a; }
+  * { box-sizing:border-box; }
+  body { font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; color:var(--grey); background:var(--bg); margin:0; padding:24px; line-height:1.75; }
+  .wrap { max-width:980px; margin:0 auto; }
+  h1 { color:var(--blue); border-bottom:4px solid var(--gold); padding-bottom:8px; font-size:1.5em; }
+  h2 { color:#fff; background:var(--blue); padding:6px 14px; border-radius:6px; font-size:1.12em; margin-top:40px; }
+  h3 { color:var(--blue); margin:22px 0 6px; font-size:1.04em; }
+  .note { color:#666; font-size:.9em; }
+  table { border-collapse:collapse; width:100%; background:#fff; margin:10px 0; }
+  th, td { border:1px solid #ccc; padding:7px 10px; text-align:left; font-size:.93em; vertical-align:top; }
+  th { background:#E8ECF5; color:var(--blue); white-space:nowrap; }
+  code { background:#EFEDE6; border-radius:4px; padding:1px 6px; font-family:Menlo,Consolas,monospace; font-size:.88em; }
+  .case { background:#fff; border:1px solid #ddd; border-left:6px solid var(--gold); border-radius:6px; padding:14px 18px; margin:14px 0; }
+  .ba { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .ba > div { border-radius:6px; padding:10px 12px; font-size:.9em; }
+  .ba .old { background:#FBEDED; border:1px solid #e0b6b6; }
+  .ba .new { background:#EDF7EF; border:1px solid #b2d6bb; }
+  .ba .tag { font-weight:700; display:block; margin-bottom:4px; }
+  .ba .old .tag { color:var(--old); }
+  .ba .new .tag { color:var(--new); }
+  .ba pre { background:rgba(255,255,255,.75); border-radius:4px; padding:8px 10px; margin:6px 0 0; white-space:pre-wrap; font-family:Menlo,Consolas,monospace; font-size:.94em; line-height:1.55; }
+  .verdict { background:#FFF6DC; border:1px solid var(--gold); border-radius:6px; padding:8px 14px; margin:8px 0; font-size:.93em; }
+  .verdict::before { content:"➤ "; font-weight:700; }
+  .ok { color:var(--new); font-weight:700; }
+  .gap { color:var(--old); font-weight:700; }
+  li { margin:4px 0; }
+  @media (max-width:720px){ .ba { grid-template-columns:1fr; } }
+  @media print { body{background:#fff} .case{break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Context Engineering 新規則 × 你的工作方式檢視<span class="note">　2026-07-25</span></h1>
+<p class="note">依據：Anthropic 官方文章 <a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">The New Rules of Context Engineering for Claude 5 Generation Models</a>（已實讀）。實例全部取自你過去兩個月的實際工作（CDIC 專案、WTF 制度檔）。</p>
+
+<h2>一、文章五規則 × 現行制度對照</h2>
+<table>
+<tr><th>文章規則</th><th>你已做到</th><th>落差</th></tr>
+<tr><td><b>① 系統提示詞精簡</b><br>Claude Code 刪掉 80% 系統提示詞，評測無損；過度約束（overconstraining）改交模型判斷</td><td class="ok">GLOBAL 103 行＋AGENTS 70 行＋CLAUDE_CODE 26 行，總量已算克制</td><td>溝通規範仍是「禁止式長列表」（禁詞、禁尊稱、禁確認語……），屬文章點名的 overconstraining 型態（見實例 4）</td></tr>
+<tr><td><b>② 去重複</b><br>同一指令不要同時出現在系統提示詞與工具/技能描述</td><td class="ok">CLAUDE_CODE.md 明言「本檔不重複其內容」</td><td>開場協議在 GLOBAL.md「開場協議」與 session-start skill 兩處近乎同文維護，改一處會漂移</td></tr>
+<tr><td><b>③ 漸進式披露</b><br>細則移到需要時才載入的 skill</td><td class="ok">playbooks/ 14 支按需路由表＝教科書級實作</td><td class="gap"><code>rules/translation-bilingual-docx.md</code> 146 行每場全讀，但多數 session 根本不翻譯——該 skill 化</td></tr>
+<tr><td><b>④ 自動記憶</b><br>取代手動存 CLAUDE.md</td><td class="ok">auto-memory 已啟用且在用（20 條記憶）；三檔制管專案知識、memory 管個人偏好，分工清楚</td><td>無明顯落差</td></tr>
+<tr><td><b>⑤ 參照物升級</b><br>Markdown 規格 → HTML 構件、程式碼參照、評分 rubric</td><td class="ok">「複雜說明做成白板 HTML」已入記憶；E 區教訓「抽象材質先要參考圖」自行歸納出同一結論</td><td>尚未制度化——視覺類派工還沒把「參考圖＋mockup＋rubric」變成範本必填欄（見實例 3）</td></tr>
+</table>
+<div class="verdict">總評：你的制度方向與文章高度一致（尤其 playbooks＝漸進披露），主要優化空間在「<b>介面設計取代範例</b>」——這正是你問的重點，下一節逐例展開。</div>
+
+<h2>二、核心：「介面設計取代範例」——五個真實工作實例</h2>
+<p>文章核心主張：<b>範例會限縮模型的探索空間；改用結構（枚舉、schema、參數、機檢）傳達用法</b>。以 Todo 工具為例：把 status 做成 <code>pending | in_progress | completed</code> 枚舉，模型自然懂怎麼用，不需要示範。</p>
+
+<div class="case">
+<h3>實例 1｜派工回報格式（delegation-templates.md 的「通用回報合約」）</h3>
+<div class="ba">
+<div class="old"><span class="tag">以前：prose 合約＋範例式描述</span>
+<pre>回報要求：
+- 第一行＝一句話結論（完成／失敗／部分完成＋主因）。
+- 只回結論與判斷，每個事實附 檔案:行號。
+- 回報總長 ≤120 行。……（原文照貼進每份 prompt）</pre></div>
+<div class="new"><span class="tag">現在：schema 枚舉，讓結構自己說話</span>
+<pre>用 Agent/Workflow 的 structured output schema：
+{ "status": "done | failed | partial",
+  "conclusion": "一句話",
+  "facts": [{ "claim": "...", "evidence": "檔案:行號" }],
+  "artifacts": ["路徑"],
+  "blockers": ["失敗才填"] }</pre></div>
+</div>
+<p>枚舉本身就傳達了「失敗要老實說」「事實要附證據」，不必再用文字叮嚀；且回傳保證可機器解析，驗收腳本直接吃。今天派「V3→USB 同步」agent 已這樣做（規則式 prompt＋結構化回報），可回溯驗證。</p>
+</div>
+
+<div class="case">
+<h3>實例 2｜中翻英審稿 docx（translation-bilingual-docx.md）</h3>
+<div class="ba">
+<div class="old"><span class="tag">以前：拿成品當範本</span>
+<pre>「照 B 區成品這樣做：
+outputs/V1/B_kiosk/archive/B_doc/
+W英文審稿_B區…v3_20260622.docx
+＋146 行 SOP 逐步驟讀完再動工」</pre></div>
+<div class="new"><span class="tag">現在：輸出介面＋可勾 rubric</span>
+<pre>輸出介面：同格中文下加英文、不增欄；
+三欄淨文中文＝#00B0F0；strike＝不譯不刪。
+驗收 rubric（缺一即 FAIL，逐條可機檢）：
+□ 缺譯即中止（missing keys=0）
+□ testzip()=None、圖片數與備份一致
+□ PDF 首頁目視：中上英下、藍黑正確
+成品檔＝歧義時才查的參照，不是範本。</pre></div>
+</div>
+<p>差別：範本要模型「模仿」，介面要模型「滿足規格」。模仿會連範本的偶然特徵一起抄（那份 docx 的欄數、那區的年代格式），規格才可跨區重用——E/B/C/D 四區欄數各不同，正是吃過這個虧才在 SOP 寫「用欄標題判定勿寫死欄索引」。</p>
+</div>
+
+<div class="case">
+<h3>實例 3｜E 區「流動的河」背景（07-08 三輪退改教訓）</h3>
+<div class="ba">
+<div class="old"><span class="tag">以前：純文字形容意象</span>
+<pre>「背景要有流動的河的感覺」
+→ AI 各自解讀成噪點/漸層/亮暗帶
+→ PO 看了「很髒」，三輪退改</pre></div>
+<div class="new"><span class="tag">現在：文章規則⑤「豐富參照」三件套</span>
+<pre>①參考圖 1-2 張（意象定錨）
+②可跑的 HTML mockup（構圖定錨）
+③評分 rubric：
+  - 乾淨度：無噪點顆粒感
+  - 流動感：曲線位移、非亮度閃爍
+  - 對標：與參考圖並排合成一張比對</pre></div>
+</div>
+<p>你 07-08 已自行歸納出「抽象材質先要參考圖」，文章等於官方背書並加碼：參照物要從文字升級到 <b>HTML 構件＋rubric</b>。你們的「並排合成一張圖做 A/B」（07-02 教訓）就是 rubric 的雛形。這條與「範例限縮探索」不衝突——見第三節判準。</p>
+</div>
+
+<div class="case">
+<h3>實例 4｜溝通文風規範（AGENTS.md 溝通原則節）</h3>
+<div class="ba">
+<div class="old"><span class="tag">以前：禁止式長列表</span>
+<pre>禁止：確認語、重述請求、總結、過渡語、
+安撫、附和、認錯表演、預告、「您」、
+踩坑、閉環、賦能、抓手……（20+ 條）</pre></div>
+<div class="new"><span class="tag">現在：一句結果式＋機檢介面</span>
+<pre>prose 端一句話：
+「回應只含資訊、推論、判斷；
+ 結構＝結論→依據→待決。」
+細部禁詞 → 全交 ody-lint stop hook
+（違規攔截重寫，模型永遠學得到）</pre></div>
+</div>
+<p>文章的 before/after 同型範例：<code>"DO NOT add comments..."</code> → <code>"Write code that reads like the surrounding code"</code>（禁止式→結果式）。你的 <b>ody-lint 正是「把規則做成介面」的正例</b>——本 session 我就被它攔過一次「沒問題」，這比 prose 裡多寫十條禁詞都有效。建議方向：prose 瘦身、機檢擴充。</p>
+</div>
+
+<div class="case">
+<h3>實例 5｜UI 修改指令（作業慣例「字體每次只調 1-2px」）</h3>
+<div class="ba">
+<div class="old"><span class="tag">以前：用細則防 AI 亂改</span>
+<pre>「字體大小每次只調 1-2px；
+幅度較大要先確認；
+禁止連帶修改沒被要求的元素」</pre></div>
+<div class="new"><span class="tag">現在：把可調項做成介面，跳過自然語言</span>
+<pre>B 區 ?edit=1 tweaks 面板＝實體案例：
+字級/間距/位移做成範圍參數，
+PO 拖拉即所見即所得，寫回 HTML。
+→「調字體」這類提示詞整類消失。</pre></div>
+</div>
+<p>「介面設計」的終極形態：<b>讓高頻、低歧義的需求根本不經過提示詞</b>。你們已在 A/B 區編輯器、E 區 demo tweak（20-150 可調）做到，值得明文化成慣例：同類修改被要求第三次＝做成參數面板（與記憶「連改 3 次即建需求彙整」同構）。</p>
+</div>
+
+<h2>三、那「提供範例」什麼時候仍然對？</h2>
+<table>
+<tr><th>仍該給範例/參照</th><th>為什麼</th></tr>
+<tr><td>glossary 術語表（展版中英文案_專有名詞參照.xlsx）</td><td>這是<b>權威資料</b>不是範例——它定義唯一正解，不存在「限縮探索」問題</td></tr>
+<tr><td>視覺參考圖、PO 手改稿</td><td>品味與意象無法 schema 化，範例是意圖的最高保真載體</td></tr>
+<tr><td>對抗歧義的單一錨點（如「同格中文下加英、不增欄」附一格截圖）</td><td>一個錨點消歧義 ≠ 一整份成品供模仿</td></tr>
+</table>
+<div class="verdict">一句話判準：<b>傳「結構與規則」用介面（schema/枚舉/rubric/機檢），傳「品味與意象」用參照（圖/mockup/手改稿）</b>。錯位才是問題：拿整份成品傳規則（實例 2）、拿文字傳意象（實例 3）。</div>
+
+<h2>四、建議行動清單（候選，勾選哪條我再動工，未核准不改任何制度檔）</h2>
+<table>
+<tr><th>#</th><th>動作</th><th>影響檔案</th><th>對應規則</th></tr>
+<tr><td>1</td><td>translation-bilingual-docx SOP → skill 化，rules/ 留 10 行指標；SOP 內驗收段改「可勾 rubric」格式</td><td><code>rules/translation-bilingual-docx.md</code> → <code>wtf-config/skills/translate-docx/</code></td><td>③漸進披露＋介面化</td></tr>
+<tr><td>2</td><td>delegation-templates「通用回報合約」改 schema 式（附 Agent structured output 用法）</td><td><code>playbooks/delegation-templates.md</code></td><td>介面設計</td></tr>
+<tr><td>3</td><td>AGENTS.md 溝通節縮為 3 條結果式原則；禁詞細目全數移入 ody-lint 檢查器</td><td><code>wtf-config/AGENTS.md</code>、<code>tools/ody/squad/stop_hook.py</code></td><td>①精簡＋介面化</td></tr>
+<tr><td>4</td><td>新增派工範本 T-visual：視覺類任務「參考圖＋HTML mockup＋rubric」三件套必填</td><td><code>playbooks/delegation-templates.md</code></td><td>⑤豐富參照</td></tr>
+<tr><td>5</td><td>GLOBAL.md 開場協議與 session-start skill 去重（單一真相源，另一處只留指標）</td><td><code>wtf-config/GLOBAL.md</code>、<code>skills/session-start/</code></td><td>②去重複</td></tr>
+<tr><td>6</td><td>明文化「第三次同類修改＝做成參數面板」慣例（一行入 AGENTS.md 作業慣例）</td><td><code>wtf-config/AGENTS.md</code></td><td>介面設計終極形態</td></tr>
+</table>
+
+<p class="note">產出：Claude@Mac 2026-07-25。文章內容經 WebFetch 實讀；實例引用之檔案（delegation-templates.md、translation-bilingual-docx.md、GLOBAL/AGENTS、B 區 tweaks、lessons 07-08/07-02）均已核實存在。</p>
+</div>
+</body>
+</html>
