@@ -100,4 +100,4 @@
 - **待辦系統**：入口＝Obsidian Inbox（標題「工作」開頭的速記），用 `/inbox` skill 分流——專案工作→該專案 TaskLog（真相源）＋鏡像到待辦 App（owner=AI）；個人雜務→只進待辦 App（owner=user）。`_context/INBOX.md` 已廢除，看到即視為過時檔。
 - **結案歸檔**：TaskLog 結案＝改前綴 `ClosedTaskLog_` **並**移入 `_context/archive/`；Handover 被接手後同樣歸檔。`_context/` 只留進行中的檔案。
 - **教訓兩層**：工作層（詳述）寫各專案 `_context/lessons-learned.md`；雲端層（索引）在 `wtf-config/LESSONS.md`，每條格式「專案｜日期｜一句話｜連結」。工作層新增後須同步登錄索引一行。
-- **輸出格式**：文件輸出一律 HTML（`.html`），不用 Word；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。
+- **輸出格式**（2026-07-25 改：範圍限縮）：agent 向使用者（PO）本人匯報用的文件，優先使用 HTML（`.html`）；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。**業主／廠商端的正式交付物不受此限**，依各專案慣例（docx/pptx 等）——先前「文件輸出一律 HTML」誤把匯報格式與交付物格式混為一談，兩者分開。

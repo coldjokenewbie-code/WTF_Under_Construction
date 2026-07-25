@@ -1,5 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-22
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-25
+
+## 2026-07-25 Context Engineering 文章審視與設定調整
+- 依 Claude 官方文章對照本專案設定，三項使用者裁定已落地：`model-dispatch.md` 改預設 `opus` 優先（例外＝Fable5 綁定任務／大量機械操作）；`GLOBAL.md`「輸出格式」限縮為僅「agent 向使用者匯報」用 HTML，業主端交付物不受限；`AGENTS.md` 加使用者代號「三藏」。`wtf-session-gate` 判斷維持現況不變（現況：僅記錄不阻擋，理由見 TaskLog）。詳見 `_context/TaskLog_2026-07-25_context-engineering審視與設定調整.md`（**當前 TaskLog**）。
 
 ## 2026-07-22 wtf-session-gate 故障修復
 - 診斷＋修復 `cmd_postread` 缺檔崩潰＋bundle SHA 過期兩個問題：postread 補 exists 檢查；`choose_bundle()` 改讀 `~/.claude/CLAUDE.md` import block（`sync_config.py` 每次 sync 自動跟代，取代原本寫死在 settings.json 的 env var，本機已清）。PreToolUse/Stop 接線經詢問使用者後暫不做（fail-closed 尚未 canary 測試）。sandbox 驗證 init→instructions→postread 全綠。**Windows 端 settings.json 若同樣寫死 env var，待下次 Windows session 處理**。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（**當前 TaskLog**）。
