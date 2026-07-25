@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-25 (事故：專案 skill 同步 prune 邏輯誤刪既有內容)
+
+* **「整個目錄由本機制管理」的假設不能從 home 層級直接套用到專案層級**：`deploy_other_tools()` 對 `~/.claude/skills/`、`~/.codex/skills/` 做「不在 SSOT 集合就刪」的保守 prune 是安全的，因為那兩個目錄整個由 WTF sync 機制管理，不會有其他來源寫入。新增 `deploy_project_skills()`（把專案 `._agents/skills/` 複製到專案的 `.claude/skills/`／`.agents/skills/`）時，套用了同一套 prune 邏輯，結果第一次跑就刪掉 cowork_CDIC `.claude/skills/` 下 3 個既有 skill（`auto-approve`／`codex-global-instruction`／`data-verify`）——這些不是透過 `._agents/skills/` 來源建立的，卻被當成「SSOT 已無的孤兒」整個 rmtree。**修法**：`deploy_project_skills()` 改成只加不刪（copytree 合併，永不 rmtree），`cmd_check()` 的驗證邏輯比照改成「SSOT 集合是否為 dst 的子集」而非「兩者完全相等」。
+* **寫任何會執行刪除的同步/部署邏輯前，先確認目標目錄的『所有權』範圍**：問自己「這個目錄除了我這支腳本，還有沒有其他人/其他機制會寫入？」——home 層級的工具設定目錄通常答案是「沒有」，但專案內、使用者/其他工具原生使用的目錄（如 Claude Code 官方原生掃描的 `.claude/skills/`）幾乎必然有其他來源，prune 在那裡預設不安全。
+* **cowork_CDIC 是 Google Drive 資料夾非 git 追蹤**，本地 `rmtree` 沒有版控可回退；靠 Google Drive 桌面版把本地刪除同步為雲端垃圾桶暫時補救——經 Google Drive API 查證，`auto-approve` 資料夾內容仍可透過 `search_files`／`read_file_content` 讀回（但該讀取管道會對內容做 markdown 逃逸且可能截斷，非逐位元組原始內容）；`codex-global-instruction`、`data-verify` 兩者透過 API 搜尋不到，需使用者親自到 drive.google.com 網頁版「垃圾桶」查看是否還在 30 天保留期內，這是比 API 搜尋更可靠的復原管道。
+* **教訓延伸**：新增任何「跨專案批次寫入/刪除」的自動化邏輯前，應先在單一專案手動跑一次、人工核對輸出後再放行大範圍執行，而不是直接對全部已註冊專案跑「加了 prune 的新函式」的首次呼叫。
+
 ## 2026-07-25 (Context Engineering 文章對照：哪些規則該裁、哪些不該裁)
 
 * **「信任模型判斷力，刪除冗餘規則」只適用於行為性規則，不適用於主觀品味與基礎設施可靠性規則**：Claude 官方文章建議刪除新模型能自行推斷的規則，但本專案 AGENTS.md 的溝通風格規則（繁中台灣用語、Borges 式精簡、禁詞）是使用者主觀品味，模型永遠推不出來；`wtf-session-gate` 是為了確保關鍵設定檔「真的被完整載入」的基礎設施機制（非教模型怎麼做決策）。套用文章建議前，先分清規則屬於哪一類，不能見到「規則多」就一律往「可裁」的方向想。

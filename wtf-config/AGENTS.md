@@ -7,7 +7,7 @@
 
 ## Skills 載入協議（session 開始時）
 
-1. **專案層優先**：專案 skill 統一放專案內 `._agents/skills/`（工具中立目錄，所有工具都到這裡找）。各工具的原生清單只涵蓋全域目錄、不含這裡，所以進專案時要主動列出其中各 `SKILL.md` 的名稱＋描述。專案有同名 skill 時，一律用專案版本、忽略全域同名。已廢除 symlink 機制（跨平台會斷鏈），全部實體複製。
+1. **專案層優先**：專案 skill 的工具中立 SSOT 統一放專案內 `._agents/skills/`；`sync_config.py sync` 會把內容複製到各工具的原生專案掃描路徑（Claude Code＝`.claude/skills/`，Codex＝`.agents/skills/`，2026-07-25 確認二者路徑不同、各自複製），複製後各工具原生就能發現，不必再手動列出。若懷疑尚未同步（例如剛新增 skill、還沒跑過 sync），才主動列 `._agents/skills/` 下各 `SKILL.md` 名稱＋描述當備援。專案有同名 skill 時，一律用專案版本、忽略全域同名。已廢除 symlink 機制（跨平台會斷鏈），全部實體複製。
 2. **全域為備援**：專案層沒有的 skill，才用全域路徑的版本（真相源 `wtf-config/skills/`，部署後在 `~/.claude/skills/` 等各工具目錄）。
 3. **專案設定**：若專案有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
 4. **一律 lazy-load**：開場只列 skill 名稱＋描述，不讀 SKILL.md 內文，實際觸發該 skill 時才讀。載入完成後簡述與本案相關的 skills（例：`[Dev_Workflow] [Quality_Guard]`），再詢問任務。
