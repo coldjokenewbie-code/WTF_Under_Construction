@@ -3,11 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-25 19:05**：QUEUE 現況——parked×3（machine-report／o4-soundtrack／design-training）、待核准×2（guide-app／test-baton-pickup-0706）、done×1（session-gate-fix）、提名×5。**0 個 active/待規劃 項**，與晨報棒（08:30）相比全日無變化。
-**blockers 待決**：guide-app（anchor 升級提案，待裁決）／machine-report（parked，待使用者補充具體修正意見，07-21 起未見回覆）／o4-soundtrack（parked，待方向拍板——使用者 07-21 告知「明日07-22回覆」，**現已逾期3天未見裁決**，提醒使用者）／design-training（無待決，僅本機執行，非卡點）。
+**晨報棒 2026-07-26 08:30**：night-relay 領先 main 526 commits（累積，非昨晚全部）。昨晚（19:00 提醒棒後）**零實質增量**：19:34／21:33／23:33／01:33 四棒全數秒退，因＝QUEUE 無「待規劃」/「active」整欄精確相等項（現況同前：parked×3、待核准×2、done×1、提名×5），與前晚同因，非異常。證據：`missions/heartbeat.log`（四筆秒退紀錄，07-25 19:34～07-26 01:33）。
+**新增 blockers**：無（guide-app／machine-report／design-training 卡點狀態與昨晨同）；**o4-soundtrack 方向裁決現已逾期4天**（使用者 07-21 告知「明日07-22回覆」，至今未見裁決，持續提醒）。
 **待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案）。
-**提名清單（5項，未變，需先補掛來源 repo 或使用者升「待規劃」）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**產能算術**：0 個 active mission，今晚排定 4 棒（19:30/21:30/23:30/01:30），無可推進項，預期全數秒退；預計完成日＝不適用（無進行中項）。**佇列實質為空轉狀態，派工請在 main 的 QUEUE.md 加一行或核准上述待核准/提名項**。
+**提名清單（5項，未變）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
