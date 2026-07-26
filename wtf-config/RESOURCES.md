@@ -76,3 +76,28 @@
 - 生圖提示詞用英文最穩；中文亦可。
 - 另有更成熟的 **CSV 批次 + google-genai SDK** 影片生成寫法可參考：`~/Git_work/claude_CDIC_O4/workingfiles/_scripts/`（`veo_generate.py`／`lyria_generate.py`，需 `pip install google-genai`）。
 - 首次驗證：2026-06-17 於本機成功用 Imagen 生人物 hero、Nano Banana 帶參考圖生一致對嘴來源幀。
+
+---
+
+## Artlist MCP — 圖片／影片生成 connector（帳號級，跨機通用）
+> 與 GCP Vertex AI 一樣綁使用者的 claude.ai 帳號（`coldjokenewbie@gmail.com`），非機器層級設定，理論上任何機器/工具只要登入同一帳號即可用。2026-07-26 確認連線狀態：`claude mcp list` 顯示 `claude.ai artlist: https://mcp.artlist.io/mcp - ✔ Connected`。
+
+### 能力（未實測生成，以下依 Artlist 官方公開資訊）
+- 文字／參考圖／音訊生圖與生影片，並支援 video-to-video（既有影片改風格）。
+- 底層對接 Artlist AI Toolkit 100+ 模型，Claude 端負責把需求轉譯成各模型參數，不必自己寫模型專屬 prompt。
+- 產出與生成紀錄留在對話中可疊代，同時同步存回使用者的 Artlist 帳號。
+
+### 前置條件與限制（重要，非免費無限）
+- **需要 Artlist 帳號＋AI Suite 訂閱**（Starter／Creator／Professional，或含 AI 的 Max 方案），非單純連上 connector 就無限生成。
+- **額度制**：訂閱方案每月配額共用於圖片／影片／語音生成，依模型與設定扣點（範例：基本生圖約 10 點／張；10 秒 FHD 影片約 2400 點）。方案配額區間 7,500～1,000,000 點/月不等。跑量前應留意額度是否足夠，避免中途卡住。
+- 費用與方案明細會隨時間調整，以 Artlist 官網當下頁面為準，本表只登記「有這個能力存在」，不維護即時價格。
+
+### 現況與待辦
+- 本機（comaMacBookAir）`claude mcp list` 確認 connector 已連線，但**當前既有 session 的工具清單尚未載入 artlist 相關工具**（`ToolSearch` 查無 `artlist` 相關 deferred tools）——研判為連線發生於 session 開始之後；**新開一個 session 再用 ToolSearch 查一次應可用**，尚未實際跑過一次生成驗證。
+- 各專案／其他機器若要用，同一帳號登入即應該直接可見（未逐機驗證，跨機表現待各自確認後回填本節）。
+
+參考來源：
+- [Artlist MCP for Claude: Create without leaving the conversation](https://artlist.io/blog/artlist-mcp-for-claude-create-without-leaving-the-conversation/)
+- [Artlist - MCP](https://artlist.io/mcp)
+- [AI Toolkit: Understanding credits for AI Image and Video](https://help.artlist.io/hc/en-us/articles/33330643005213-AI-Toolkit-Understanding-credits-for-AI-Image-and-Video)
+- [The AI Suite plans explained](https://help.artlist.io/hc/en-us/articles/29558520864541-The-AI-Suite-plans-explained)
