@@ -3,9 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-07-27 08:30**：night-relay 領先 main 535 commits，昨晚四棒（19:34/21:33/23:33/01:33）**全秒退零增量**（QUEUE 無「待規劃」/「active」整欄精確相等項，同前晚因；heartbeat.log 逐棒可查）。QUEUE 現況與昨晨無變化：parked×3、待核准×2、done×1、提名×5、**active×0**。
-**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決，見 _blockers.md）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done）。
-**Blockers 新增項**：無。既有：o4-soundtrack 方向裁決（路線二 vs 硬底線4修訂提案）**已逾期5天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待使用者補充具體修正意見（驗收未過，方向不明）；design-training 本週雲端無可作項（非卡點，僅本機案例包）。
+**提醒棒 2026-07-27 19:12**：night-relay 已併 main（僅 wtf-config/LESSONS.md 一行變動，無新派工）。QUEUE 現況與今早無變化：parked×3、待核准×2、done×1、提名×5、**active×0**。
+**產能算術**：active 案 0 個，無剩餘 backlog 可推算；今晚排定 4 棒（19:30/21:33/23:33/01:33）依現況將**全數秒退零增量**，除非使用者今晚核准下列任一項。
+**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決，見 _blockers.md，提示已 6 天無回覆）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done，無需續跑）。
+**Blockers 待決（無新增）**：o4-soundtrack 方向裁決（路線二 vs 硬底線4修訂提案）**已逾期5天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待使用者補充具體修正意見（驗收未過，方向不明）；design-training 本週雲端無可作項（非卡點，僅本機案例包）。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
