@@ -23,6 +23,94 @@
       "type": "evidence_note_not_generic",
       "msg": "驗收證據為空話，改附命令輸出/diff/截圖路徑",
       "added": "2026-07-01T23:10:45.998297+00:00"
+    },
+    {
+      "rule_id": "complement-set-evidence",
+      "desc": "互補集合條文須雙向證據",
+      "type": "evidence_note_not_generic",
+      "msg": "驗收條文含『缺／未／無對應／沒有 X 者才處理』這類互補集合判定時，evidence 必須同時輸出符合側與排除側清單（處理了哪幾筆＋為什麼其餘各筆被排除），禁止只印處理筆數。單向證據會讓白名單抓漏的項目逃過機檢。",
+      "added": "2026-07-25T23:51:00.987588+00:00",
+      "patterns": [
+        "缺",
+        "未定",
+        "無對應",
+        "沒有"
+      ]
+    },
+    {
+      "rule_id": "merge-orphan-refs",
+      "desc": "合併或移除資料夾後須全域清查孤兒引用",
+      "type": "evidence_note_not_generic",
+      "msg": "契約目標含『合併／退役／移除資料夾』時，evidence 必須附上「對被移除資料夾名在專案全域 grep」的輸出，命中的檔案要嘛列入 allowlist 一併修正，要嘛在契約明列為已知遺留並另開後續契約。只驗資料夾消失、不驗誰還在指名它，會留下指向不存在路徑的文件與必然失敗的測試。",
+      "added": "2026-07-25T23:52:57.402911+00:00",
+      "patterns": [
+        "合併",
+        "退役",
+        "移除資料夾"
+      ]
+    },
+    {
+      "rule_id": "doc-entrypoint-matches-launcher",
+      "desc": "操作手冊的入口描述須與啟動腳本逐字相符",
+      "type": "evidence_note_not_generic",
+      "msg": "契約若改動現場安裝／部署手冊等操作文件中的 kiosk 入口路徑或啟動描述，evidence 必須附上「手冊宣告的入口 URL」與「自啟安裝/_build_startup.ps1 內 New-KioskLines 實際 target 字串」的逐字比對（含 query string 有無）。機檢只看命令 exit code，抓不到這類跨檔語意矛盾；現場人員照著不符的文件驗收會誤判。",
+      "added": "2026-07-26T00:30:52.193520+00:00",
+      "patterns": [
+        "手冊",
+        "入口",
+        "kiosk",
+        "自啟"
+      ]
+    },
+    {
+      "rule_id": "contract-scope-nongit",
+      "desc": "非 git 專案的 scope 檢查須改用 manifest 快照",
+      "type": "evidence_note_not_generic",
+      "msg": "當 repo_root 非 git repo 或 base_ref 為空時，coach 的 git diff scope 檢查會回傳「0 檔變更皆在 scope」，任何越界寫檔都抓不到，等同虛設。此類契約的 evidence 必須改用 manifest 快照：動工前後各記錄 allowlist 內外檔案的 path+md5+mtime，check 時比對差集並列出 allowlist 外的異動檔。缺快照即視為未驗證。",
+      "added": "2026-07-26T08:02:45.023082+00:00",
+      "patterns": [
+        "scope",
+        "越界",
+        "allowlist"
+      ]
+    },
+    {
+      "rule_id": "apk-launch-on-device",
+      "desc": "APK 建置成功不等於能啟動，須實機啟動驗證",
+      "type": "evidence_note_not_generic",
+      "msg": "凡交付 APK（重編、改版、換位址），evidence 必須包含實機啟動驗證：adb install -r 後 force-stop、清 logcat、啟動、等待數秒，再以 pidof 斷言行程存活且 logcat -b crash 無該套件的 FATAL，並擷圖目視畫面內容（螢幕若為 Dozing 需先 KEYCODE_WAKEUP，否則截到全黑會誤判）。BUILD SUCCESSFUL 只證明編得過。實例：CDIC v3.1.0 的 configureFullscreen 在 onCreate 呼叫 window.getInsetsController()，DecorView 尚未建立而 NPE，App 一啟動即閃退；該版 07-24 建置後未實機驗證、三台平板都沒裝，瑕疵潛伏三天才在 07-27 安裝時爆出。",
+      "added": "2026-07-27T09:45:23.879074+00:00",
+      "patterns": [
+        "APK",
+        "apk",
+        "重編",
+        "建置"
+      ]
+    },
+    {
+      "rule_id": "contract-recheck-on-signoff",
+      "desc": "宣稱完成時須重跑證據命令，防止 check 後工作樹續動",
+      "type": "evidence_note_not_generic",
+      "msg": "契約 status=passed 只代表當下；若之後在同一工作樹繼續改（即使是別件事、即使在同一 allowlist 內），原證據命令會失效而無人察覺。宣稱完成或送驗收前，必須重跑全部 acceptance 的 evidence cmd，exit 需與契約記錄一致；任一不一致即視為未完成。**不同工作項目要各自立契約，不可共用同一份工作樹與 allowlist**——2026-07-27 CDIC 實例：抽屜/燈控契約已 passed 後，Tech Lead 在同一份 B_kiosk 做視覺四項修正，導致 J1「只改根因檔」斷言重跑失敗，且已編的 APK 不含後續改動、交付物過期。",
+      "added": "2026-07-27T10:36:28.836197+00:00",
+      "patterns": [
+        "完成",
+        "驗收",
+        "passed"
+      ]
+    },
+    {
+      "rule_id": "device-test-content-provenance",
+      "desc": "實機測試須記錄受測內容來源，否則無法證明測的是改後版本",
+      "type": "evidence_note_not_generic",
+      "msg": "實機測試若透過本機服務供頁（127.0.0.1／localhost／adb reverse 埠），結果 JSON 必須記錄 servedRoot 絕對路徑與受測關鍵檔的 md5。否則服務停掉後任何人都查不出當時測的是哪份程式，證據無法追溯。另：實機互動測試若用程式化捲動再點擊，不會產生原生 pan／pointercancel／慣性，對觸控類 bug 沒有鑑別力——須改用 input swipe 捲動後停手再 tap，才與真人操作路徑一致。",
+      "added": "2026-07-27T10:36:28.904661+00:00",
+      "patterns": [
+        "實機",
+        "adb",
+        "127.0.0.1",
+        "localhost"
+      ]
     }
   ]
 }
