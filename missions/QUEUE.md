@@ -3,10 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-27 19:12**：night-relay 已併 main（僅 wtf-config/LESSONS.md 一行變動，無新派工）。QUEUE 現況與今早無變化：parked×3、待核准×2、done×1、提名×5、**active×0**。
-**產能算術**：active 案 0 個，無剩餘 backlog 可推算；今晚排定 4 棒（19:30/21:33/23:33/01:33）依現況將**全數秒退零增量**，除非使用者今晚核准下列任一項。
-**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決，見 _blockers.md，提示已 6 天無回覆）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done，無需續跑）。
-**Blockers 待決（無新增）**：o4-soundtrack 方向裁決（路線二 vs 硬底線4修訂提案）**已逾期5天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待使用者補充具體修正意見（驗收未過，方向不明）；design-training 本週雲端無可作項（非卡點，僅本機案例包）。
+**晨報棒 2026-07-28 08:40**：night-relay 領先 main 541 commits，但昨晚四棒（19:30/21:33/23:33/01:33，commit c2168af/8ce0815/32a0e98/6a3dbdd）**全數秒退零增量**——QUEUE 仍無待規劃/active 項，連續第4晚同因。各 mission 昨晚增量：無。
+**非 mission-loop 產出（附帶說明，非棒子做的）**：07-28 06:00 台北左右有本機流程推了 lesson 索引補錄合併（069c0f4/3e0525a），與佇列派工無關，未動 QUEUE。
+**main 端未併入項**：main 領先 night-relay 1 筆（d0bd592，本機 nightly lesson 補錄，非派工變更），本棒不動工不合併，留待使用者裁決是否併入。
+**新 blockers**：無新增。既有：o4-soundtrack 方向裁決**已逾期6天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待使用者補充修正意見；design-training 本週雲端無可作項。
+**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done）。
 **合併建議（收貨＝以下指令）**：
 `git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
