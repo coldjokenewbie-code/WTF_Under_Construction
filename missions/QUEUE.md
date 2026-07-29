@@ -3,12 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-07-29 08:30**：night-relay 領先 main 555 commits，但昨晚四棒（19:34/21:33/23:34/01:34，commit d549488/8d17d17/c03e6f2/e60eadf）**全數秒退零增量**——QUEUE 仍無待規劃/active 項，連續第6晚同因。各 mission 昨晚增量：無。
-**main 端未併入項**：main 領先 night-relay 2 筆（`2b1249d` 表格匯出常規升級為跨專案通用 CSV+UTF-8 BOM＋三項必驗、`8d56c9a` nightly-20260729 lesson 補錄），皆與佇列派工無關，本棒不動工不合併，留待使用者裁決是否併入。
-**新 blockers**：無新增。既有：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期7天**（使用者07-21告知07-22回覆，至今未見，mission 仍 parked）；machine-report 待使用者補充具體修正意見；guide-app anchor 升級提案待裁決；design-training 本週雲端無可作項（非卡點）。
+**提醒棒 2026-07-29 19:00**：main 已無未併入項（night-relay 領先 main 557 commits，0 落後，晨報棒已同步）。QUEUE 仍無「待規劃」/「active」整欄精確相等項（現況：parked×3／待核准×2／done×1／提名×5），今晚 19:30/21:30/23:30/01:30 四棒預期全數秒退——連續第7晚同因。
+**產能算術（義務）**：0 個 active mission，今晚排定4棒，以「每棒一項」估算＝0 項可完成，**無預計完成日**（無案可推進，非額度或效率問題，是待使用者裁決卡住）。三個受阻案剩餘 backlog：guide-app 6/19 未勾（卡 anchor 升級提案裁決）、machine-report 3/13 未勾（待補具體修正意見）、o4-soundtrack 5/10 未勾（討論閘未拍板）。
 **待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done，無需續跑）。
-**合併建議（收貨＝以下指令）**：
-`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**提名清單（5項，未變，掛載不足未轉待規劃）**：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill（需掛ppt_map_mark）。
+**Blockers 待決**：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期7天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待補具體修正意見；guide-app anchor 升級提案待裁決；design-training 本週雲端無可作項（非卡點）。
 
 ## 佇列
 
