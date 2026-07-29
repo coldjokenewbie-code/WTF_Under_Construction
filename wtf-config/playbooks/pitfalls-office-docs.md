@@ -1,6 +1,23 @@
-# Office 文件（pptx／docx／gen 腳本）踩坑集
-> 適用：處理簡報、Word、OOXML、生成腳本時開啟；平時不載入
+# Office 文件（pptx／docx／表格匯出／gen 腳本）踩坑集
+> 適用：處理簡報、Word、OOXML、Excel／CSV 匯出、生成腳本時開啟；平時不載入
 > 來源：原 CLAUDE_CODE.md 抽出（2026-07-03），內容為歷次實戰教訓
+
+## 表格資料匯出（Excel／CSV）——預設格式
+
+要求「做成 Excel」時，除非對方明講要 `.xlsx`，一律輸出 **CSV**：
+
+| 項目 | 規格 | 原因 |
+|---|---|---|
+| 編碼 | UTF-8 **with BOM**（`\xef\xbb\xbf` 開頭） | **Windows 版 Excel 沒有 BOM 會把中文顯示成亂碼**，是最常見的交付事故 |
+| 行尾 | CRLF | 交付對象多為 Windows |
+| 跳脫 | 值含逗號／雙引號／換行時整格加雙引號，內部雙引號改兩個 | 否則欄位錯位 |
+
+- 不預設 `.xlsx`：需額外套件、**openpyxl 存檔會丟失 drawings**（改既有 xlsx 得走 zip 層外科手術）；CSV 是純文字，可版控、可 diff、可程式驗證。對方要 xlsx 再用 `soffice --headless --convert-to xlsx` 由 CSV 轉出，不手工維護兩份。
+- **產 CSV 一律 `open(..., encoding='utf-8')` 直接寫檔，不經 stdout**——Windows 主控台 CP950 會毒化輸出（`UnicodeEncodeError` 或亂碼）。
+- **產出後必驗三項，缺一不可**：
+  1. 機檢 BOM 與 CRLF（`raw[:3]==b'\xef\xbb\xbf'`）
+  2. 機檢欄數一致（`len({len(r) for r in csv.reader(...)})==1`）
+  3. **實際用試算表開啟看中文**（`soffice --headless --convert-to xlsx` 後讀回）——BOM 對不代表跳脫對，第 3 項不可省。
 
 ## pptx／簡報版面對位
 

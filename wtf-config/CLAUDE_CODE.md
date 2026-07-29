@@ -23,4 +23,4 @@
 |---|---|
 | 同 repo 多個 CLI 並行、監聽 log | `parallel-worktree.md` |
 | ui-review／前端手勢／資產路徑 | `pitfalls-frontend.md` |
-| pptx／docx／gen 腳本 | `pitfalls-office-docs.md` |
+| pptx／docx／gen 腳本、Excel／CSV 匯出 | `pitfalls-office-docs.md` |

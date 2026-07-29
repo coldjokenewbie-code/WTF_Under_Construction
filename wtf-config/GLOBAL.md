@@ -36,7 +36,7 @@
 | 要改制度檔、教訓寫回哪裡 | `maintenance-protocol.md` |
 | context 吃緊、失焦、「說完成但沒完成」再犯 | `harness-diagnosis.md` |
 | 前端／Playwright 驗收踩雷 | `pitfalls-frontend.md` |
-| pptx／docx／gen 腳本踩雷 | `pitfalls-office-docs.md` |
+| pptx／docx／gen 腳本踩雷、Excel／CSV 匯出 | `pitfalls-office-docs.md` |
 | 同 repo 多 CLI 並行 | `parallel-worktree.md` |
 | ai-team 跨工具協作底線 | `multi-agent-baseline.md` |
 | 雲端自主任務迴圈（排程棒/佇列/mission） | `mission-loop.md` |
