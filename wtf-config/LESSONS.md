@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | Claude context-engineering 文章對照：「信任模型判斷力」只適用行為性規則，主觀品味/基礎設施可靠性規則不受影響；模型調度改預設 opus 優先；格式規則要先分清「匯報介面」vs「交付物」兩種情境 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-22 | wtf-session-gate 故障：同一 SHA 存兩處（CLAUDE.md 自動跟代／settings.json 寫死 env var）只有一處被維護必過期，改讓消費端讀權威來源；fail-closed 閘可能因 PreToolUse/Stop 未接線而長期形同虛設不自知；驗證 hook 腳本可用 `WTF_GATE_HOME` sandbox 跑合成事件序列，不必等新 session | `_context/lessons-learned.md`（WTF repo） |

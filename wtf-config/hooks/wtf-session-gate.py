@@ -252,6 +252,12 @@ def recovery_read(directory: Path, current: dict, manifest: dict,
     atomic_json(path, recovery)
     return True
 def cmd_pretool(event: dict) -> dict | None:
+    if event.get("agent_id"):
+        # subagent 工具呼叫略過收據檢查：初始化 subagent 收據要靠 SubagentStart 事件，
+        # 官方確認不可靠、常不觸發（github.com/anthropics/claude-code/issues/27755，已
+        # close 標 not planned）——硬查收據會永久 deny 所有 subagent 的每次工具呼叫。
+        # 仍保留受保護路徑檢查。
+        return deny("WTF protected session path") if protected(event) else None
     directory, current, manifest, missing = missing_receipts(event)
     if not missing:
         return deny("WTF protected session path") if protected(event) else None

@@ -1,5 +1,12 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-07-30 (wtf-session-gate 正式接線：dispatcher 漏參數、subagent 不可靠事件、保護路徑誤觸)
+
+* **合併多個 hook 的 dispatcher，呼叫子腳本時務必核對完整 argv**：`stop_dispatcher.py` 呼叫 `wtf-session-gate.py` 時漏了 `"stop"` 子命令參數，導致該腳本每次都因「缺子命令」而 exit 2，`stop_dispatcher.py` 把任何非零 exit 一律當「block」處理——結果是**不管收據齊不齊，Stop 一律無條件 block**。這個 bug 從 2026-07-16 設計、寫測試、canary 到現在都沒被抓到，因為當時的單元測試只測了 `wtf-session-gate.py` 本體，從沒真的跑過 `stop_dispatcher.py` 這層包裝。**教訓**：測試覆蓋率要包含實際部署會呼叫的「最外層」腳本，測內層元件通過不代表外層組裝正確；`subprocess.run([sys.executable, path], ...)` 這種呼叫寫法特別容易漏傳 argv，寫完務必用假輸入實跑一次確認退出碼與輸出符合預期，不能只讀 code 判斷。
+* **SubagentStart／SubagentStop 官方確認不可靠，任何 fail-closed 邏輯不能假設它一定會觸發**：查證 Anthropic 官方 GitHub issue #27755（已 close，標 `not planned`）——SubagentStart 常整個不觸發、SubagentStop 間歇性缺欄位。原 `wtf-session-gate` 設計假設每個 subagent 會先收到 `SubagentStart` 初始化收據狀態，這個假設一旦不成立，subagent 第一次呼叫任何工具就會因「收據狀態不存在」被永久 deny——在 sandbox 實測重現，非理論推測。**修法**：`PreToolUse` 事件在 subagent 情境下會多帶 `agent_id` 欄位（主 agent 沒有），可用這個欄位判斷「這次工具呼叫來自 subagent」，直接跳過收據檢查（只留 `protected()` 受保護路徑檢查），不依賴不可靠的初始化事件。**設計任何跨 main/subagent 的強制機制前，先查證該依賴的事件是否真的可靠，官方 issue tracker 比自己 canary 一次更權威**（canary 樣本數少，容易漏到低機率但持續存在的不可靠事件）。
+* **『受保護路徑』用 substring 比對會誤傷純文字描述，不只擋真正的檔案操作**：`protected()` 的判斷邏輯是「guard 絕對路徑字串是否整串出現在 tool_input 任一值裡」，這代表**寫文件時純粹用文字提到被保護檔案的完整絕對路徑**（例如寫一行還原指令給使用者參考、內含該檔案的完整路徑）也會被當成「工具在碰觸保護路徑」而擋下 Write（本條目撰寫過程本身就撞到兩次，已改用縮寫路徑繞開）。這不是 bug，是設計上偏保守的必然副作用（無法用簡單字串比對區分『真的要動這個檔案』和『只是文字提到它』）。**因應**：文件裡提到受保護路徑時一律用 `~` 縮寫或描述性文字，不要寫出會被 canonical 化比對到的完整絕對路徑。
+* **hook 在 `settings.json` 裡的註冊本身是即時生效的，不需要開新 session**——這點修正了 2026-07-21 診斷當時的認知（`_context/TaskLog_2026-07-21_session-gate診斷.md` 寫「hook 不熱載，需新 session」）。那條講的其實是 **bundle SHA／generation 的快取**（寫進 session 當下的 `generation.json`，同一個 session 不會重新選 bundle），不是 hook 註冊。`settings.json` 的 hooks 設定本身是逐次工具呼叫即時讀取，本次部署後**同一個 session 內立刻生效**（親眼看到自己下一個指令被新接上的 `protected()` 擋下）。**教訓**：診斷結論要標明「這個結論適用的具體機制範圍」，否則容易被後人（或自己）錯誤類推到同一支腳本的其他不相關行為上。
+
 ## 2026-07-25 (事故：專案 skill 同步 prune 邏輯誤刪既有內容)
 
 * **「整個目錄由本機制管理」的假設不能從 home 層級直接套用到專案層級**：`deploy_other_tools()` 對 `~/.claude/skills/`、`~/.codex/skills/` 做「不在 SSOT 集合就刪」的保守 prune 是安全的，因為那兩個目錄整個由 WTF sync 機制管理，不會有其他來源寫入。新增 `deploy_project_skills()`（把專案 `._agents/skills/` 複製到專案的 `.claude/skills/`／`.agents/skills/`）時，套用了同一套 prune 邏輯，結果第一次跑就刪掉 cowork_CDIC `.claude/skills/` 下 3 個既有 skill（`auto-approve`／`codex-global-instruction`／`data-verify`）——這些不是透過 `._agents/skills/` 來源建立的，卻被當成「SSOT 已無的孤兒」整個 rmtree。**修法**：`deploy_project_skills()` 改成只加不刪（copytree 合併，永不 rmtree），`cmd_check()` 的驗證邏輯比照改成「SSOT 集合是否為 dst 的子集」而非「兩者完全相等」。
