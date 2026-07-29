@@ -1,5 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-25
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-30
+
+## 2026-07-30 SSOT 維護（代號範圍／Artlist 登記／pull）＋ wtf-session-gate 正式接線
+- 三藏代號適用範圍擴及一般對話；Artlist MCP connector 研究登記進 `RESOURCES.md`；`workingfiles/` 資料夾規範恢復（與 `outputs/` 職責分離，`outputs/` 限定正式定案產出）。**重點**：`wtf-session-gate` 的 PreToolUse／Stop 正式接線上線——過程中發現並修復 `stop_dispatcher.py` 漏傳 CLI 參數（原本會讓所有 session 卡死無法結束）＋ subagent 因 SubagentStart 事件不可靠會被永久 deny 的風險（已加 `agent_id` 例外繞過），sandbox 全流程驗證後才部署，部署後同 session 內立即生效（已用 `protected()` 攔下自己的指令現場驗證）。詳見 `_context/TaskLog_2026-07-30_SSOT維護與session-gate正式接線.md`（**當前 TaskLog**）。
 
 ## 2026-07-25 Context Engineering 文章審視與跨工具規範修正
 - 三份獨立報告（Claude×2＋Codex Handover）交叉核對後，完成一輪較大的制度調整：`model-dispatch.md` 改為「派適合的 agent」（依任務屬性選模型，非固定單一階，兩輪裁定後定案）；`GLOBAL.md` 派工鐵律改工具中立（移除 Claude 專屬「便宜 subagent／顯式指定 model」用語）＋輸出格式限縮為僅「agent 向使用者匯報」用 HTML；`AGENTS.md` 溝通原則去重濃縮（保留硬項、合併語意重複）＋加使用者代號「三藏」；`CODEX.md` 移除不穩定工具名與重複讀取；`delegation-templates.md` 全面介面化改寫（新增 T-視覺範本）；cowork_CDIC 翻譯 SOP／Assembly_Plant_Mobile_Guide 展項模板兩個子專案的 rules/skill 調整。Claude／Codex 專案 skill 原生路徑不同（`.claude/skills/` vs `.agents/skills/`）：已依使用者裁定完成遷移，`sync_config.py` 新增 `deploy_project_skills()` 把各專案 `._agents/skills/` 複製到雙方原生路徑。⚠️ **首跑事故**：prune 邏輯誤刪 cowork_CDIC 3 個既有 skill，已修好（改只加不刪）並經使用者透過 Google Drive 垃圾桶復原確認乾淨。`wtf-session-gate` 維持現況不動。詳見 `_context/TaskLog_2026-07-25_context-engineering審視與設定調整.md`（**當前 TaskLog**）＋ `_context/Handover_2026-07-25_context-engineering跨模型規範優化.md`。

@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | Claude context-engineering 文章對照：「信任模型判斷力」只適用行為性規則，主觀品味/基礎設施可靠性規則不受影響；模型調度改預設 opus 優先；格式規則要先分清「匯報介面」vs「交付物」兩種情境 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-22 | wtf-session-gate 故障：同一 SHA 存兩處（CLAUDE.md 自動跟代／settings.json 寫死 env var）只有一處被維護必過期，改讓消費端讀權威來源；fail-closed 閘可能因 PreToolUse/Stop 未接線而長期形同虛設不自知；驗證 hook 腳本可用 `WTF_GATE_HOME` sandbox 跑合成事件序列，不必等新 session | `_context/lessons-learned.md`（WTF repo） |
@@ -200,3 +201,4 @@
 - cowork_CDIC｜2026-07-27｜素材取原檔非Word內嵌縮圖（壓縮縮圖放大四倍版型跑掉）；業主文件編號體系先確認再對應（2_N=流程2非序號）；跨流程全稱判斷前掃全部分段（跨頁文件下「完全沒有X」前必全掃）；觸控機台互動驗收必須實機+input swipe後tap（合成事件測不出9px微移觸發原生捲動取消）；APK BUILD SUCCESSFUL≠跑得起來（NPE在DecorView建立前=閃退，須install-r→force-stop→清logcat→啟動→pidof斷言存活）；契約passed後同工作樹續動會讓證據失效（不同工作項各自立契約）；換機部署必查執行環境(node/python版本+PATH+netstat驗埠)；暫時方案設計成改一處即可回復（多位址依序嘗試+單變數抽IP）｜cowork_CDIC/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-07-27｜片尾音效替換須先清原音再疊新音（只加新素材=舊新按鍵聲連播）；動態片尾補長接完整動畫週期勿用尾幀定格（tpad clone造成音效結束前畫面停）｜claude_CDIC_O4/_context/lessons-learned.md
 - cowork_CDIC｜2026-07-29｜表格匯出（做成 Excel）預設 CSV+UTF-8 with BOM+CRLF：Windows Excel 無 BOM 中文即亂碼；不預設 xlsx（openpyxl 存檔丟 drawings，要 xlsx 用 soffice 由 CSV 轉）；產 CSV 直接 open(encoding=utf-8) 寫檔不經 stdout（CP950 毒化）；必驗三項 BOM/CRLF→欄數一致→實際試算表開啟看中文（BOM 對不代表跳脫對）｜wtf-config/playbooks/pitfalls-office-docs.md
+- claude_CDIC_O4｜2026-07-29｜影片結尾以「旁白結束」為錨（旁白後留約96幀），否則畫面靜止而配樂續放6.8秒＝看起來影片已結束聲音還在；片長縮短後回頭看 playbackRate（配樂 min(1,素材幀/展示幀) 由0.936回1.0＝音高恢復）；資料夾搬移後驗證要 import 每支腳本印 Path.exists()（pathlib 組出的 ROOT/"outputs"/… 用 grep "outputs/" 會漏）；簡報就地換影片的證據＝內部檔差異清單＋slide XML diff 只有 dur 值；換檔工具的備份會落在成品資料夾需移走｜projects/claude_CDIC_O4/_context/lessons-learned.md

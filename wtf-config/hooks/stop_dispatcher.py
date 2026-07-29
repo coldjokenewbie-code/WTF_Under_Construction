@@ -13,9 +13,9 @@ GATE = HERE / "wtf-session-gate.py"
 ODY = REPO / "tools" / "ody" / "squad" / "stop_hook.py"
 
 
-def run_hook(path: Path, payload: dict) -> tuple[dict | None, str | None]:
+def run_hook(path: Path, payload: dict, args: list[str] = []) -> tuple[dict | None, str | None]:
     completed = subprocess.run(
-        [sys.executable, str(path)], input=json.dumps(payload), text=True,
+        [sys.executable, str(path), *args], input=json.dumps(payload), text=True,
         capture_output=True, timeout=30, check=False)
     if completed.returncode != 0:
         return None, f"{path.name} exited {completed.returncode}: {completed.stderr.strip()}"
@@ -38,7 +38,7 @@ def main() -> int:
         print(json.dumps({"decision": "block", "reason": f"stop dispatcher error: {error}"}))
         return 0
     blocks = []
-    gate_result, gate_error = run_hook(GATE, payload)
+    gate_result, gate_error = run_hook(GATE, payload, ["stop"])
     if gate_error:
         blocks.append(gate_error)
     elif gate_result and gate_result.get("decision") == "block":
