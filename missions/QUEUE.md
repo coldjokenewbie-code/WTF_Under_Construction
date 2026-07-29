@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-07-28 19:08**：QUEUE 現況 0 個 active／0 個待規劃，昨晚四棒（19:30/21:33/23:33/01:33）＋今晨 01:34 棒持續秒退（連續第5晚同因，見 heartbeat.log）；main 已全併入 night-relay（本棒 merge，545 commits ahead，含今晨 nightly lesson 補錄 d0bd592，非派工變更）。
-**產能算術**：active 案數＝0，剩餘 backlog 項數＝0，今晚排定棒數＝4（19:30/21:33/23:33/01:33），預計完成日＝N/A（無可作項，四棒預期全數秒退，除非使用者今晚核准/派工）。
-**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決，已提示使用者回覆待補）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done，無需續跑）。
-**提名清單（5項，未變，皆待改「待規劃」或補掛來源 repo 才會啟動）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers 待決**：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期6天**（使用者07-21告知07-22回覆，至今未見，mission 仍 parked）；machine-report 待使用者補充具體修正意見（驗收未過但未附修改點）；guide-app anchor升級提案待裁決；design-training 本週雲端無可作項（非待裁決，案例包本機限定）。
-**今晚計畫**：無 active/待規劃 項可推進，循環棒依規格秒退；使用者若核准 guide-app／test-baton-pickup-0706 或新增派工，19:30 起下一棒即可接手。
+**晨報棒 2026-07-29 08:30**：night-relay 領先 main 555 commits，但昨晚四棒（19:34/21:33/23:34/01:34，commit d549488/8d17d17/c03e6f2/e60eadf）**全數秒退零增量**——QUEUE 仍無待規劃/active 項，連續第6晚同因。各 mission 昨晚增量：無。
+**main 端未併入項**：main 領先 night-relay 2 筆（`2b1249d` 表格匯出常規升級為跨專案通用 CSV+UTF-8 BOM＋三項必驗、`8d56c9a` nightly-20260729 lesson 補錄），皆與佇列派工無關，本棒不動工不合併，留待使用者裁決是否併入。
+**新 blockers**：無新增。既有：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期7天**（使用者07-21告知07-22回覆，至今未見，mission 仍 parked）；machine-report 待使用者補充具體修正意見；guide-app anchor 升級提案待裁決；design-training 本週雲端無可作項（非卡點）。
+**待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done，無需續跑）。
+**合併建議（收貨＝以下指令）**：
+`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
 
