@@ -16,6 +16,7 @@
 | project | github | comaMacBookAir.local | DESKTOP-7SF21LR |
 |---|---|---|---|
 | WTF_Under_Construction | https://github.com/coldjokenewbie-code/WTF_Under_Construction.git | /Users/coma/git_mirror/WTF_Under_Construction | E:\git_mirror\WTF_Under_Construction |
+| ai-roundtable | git@github.com:coldjokenewbie-code/ai-roundtable.git（private，2026-07-30 建） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ai-roundtable（mirror：/Users/coma/git_mirror/ai-roundtable） | （待部署） |
 | ai-team-todo | https://github.com/coldjokenewbie-code/ai-team-todo.git | /Users/coma/git_mirror/ai-team-todo | E:\git_mirror\ai-team-todo |
 | Assembly_Plant_Mobile_Guide | https://github.com/coldjokenewbie-code/Assembly_Plant_Mobile_Guide.git | /Users/coma/git_mirror/Assembly_Plant_Mobile_Guide | E:\git_mirror\Assembly_Plant_Mobile_Guide |
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/git_mirror/Planner2Line | E:\git_mirror\Planner2Line |
