@@ -111,6 +111,13 @@
         "127.0.0.1",
         "localhost"
       ]
+    },
+    {
+      "rule_id": "R040",
+      "desc": "輸入類驗收必須走真實輸入路徑",
+      "type": "evidence_note_not_generic",
+      "msg": "web 編輯器的輸入／復原／貼上類驗收，測試不得只用 page.keyboard.type 或 dispatchEvent 合成事件：execCommand 不觸發 beforeinput、keyboard.type 不觸發 insertCompositionText、合成 ClipboardEvent 不執行預設貼上——三者都會讓測試全綠但功能實際失效。至少一條測項須走真實路徑（CDP Input.imeSetComposition 組字／CDP 原生 paste 指令）",
+      "added": "2026-08-03T13:43:00.666112+00:00"
     }
   ]
 }
