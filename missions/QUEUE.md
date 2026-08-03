@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-02 19:00**：與今早08:30晨報比對，main/night-relay 無新提交、三案 _blockers.md 均無變動——白天無使用者裁決落地，QUEUE 現況原封不動（連續第12晚同因,即將秒退）。
+**晨報棒 2026-08-03 08:30**：night-relay 領先 main 612 commits，昨晚（08-02→08-03）19:33/21:35/23:34/01:33 四棒全秒退零增量（QUEUE 持續無「待規劃」/「active」整欄精確相等項，連續第13晚同因），main 端1筆（session-logs/20260803.md）已併入 night-relay；三案 _blockers.md 均無新增，卡點現況未變。
 **待核准清單（2項，未變）**：guide-app（anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done）。
 **提名清單（5項，未變，掛載不足未轉待規劃）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**Blockers 待決**：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期11天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待補具體修正意見（07-21判「未過」未附細節）；guide-app anchor 升級提案待裁決；design-training 本週雲端無可作項（非卡點）。
-**產能算術（義務）**：active 案 0 件——剩餘 backlog 項數不適用（無案可推進）；今晚排定 19:30/21:30/23:30/01:30 四棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。日間任一裁決/核准落地後，算術才能重新產生。
+**Blockers 待決**：o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期12天**（使用者07-21告知07-22回覆，至今未見）；machine-report 待補具體修正意見（07-21判「未過」未附細節）；guide-app anchor 升級提案待裁決；design-training 本週雲端無可作項（非卡點）。
+**產能算術（義務）**：active 案 0 件——剩餘 backlog 項數不適用（無案可推進）；今晚排定 4 棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。日間任一裁決/核准落地後，算術才能重新產生。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
