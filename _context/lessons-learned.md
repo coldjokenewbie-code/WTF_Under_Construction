@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-03 (md-editor P3：web 編輯器輸入類驗收必須走真實輸入路徑)
+
+* **Web 編輯器的輸入／復原／貼上類驗收，不得只用合成事件當唯一測試路徑**：`execCommand` 不觸發 `beforeinput`、`page.keyboard.type` 不觸發 `insertCompositionText`、手動合成的 `ClipboardEvent` 不執行預設貼上動作——三者皆讓測試全綠但功能實際失效（md-editor P3 實例：92/92 通過，注音組字的復原完全壞掉）。**至少一條測試須走真實路徑**：中文輸入組字用 CDP `Input.imeSetComposition`；原生貼上用 CDP `Input.dispatchKeyEvent`（真實剪貼板路徑）；不能用 `execCommand('insertText', ...)`  或 `dispatchEvent(new ClipboardEvent(...))` 替代。教訓已登入 ody coach_rules R040。
+
 ## 2026-07-30 (wtf-session-gate 正式接線：dispatcher 漏參數、subagent 不可靠事件、保護路徑誤觸)
 
 * **合併多個 hook 的 dispatcher，呼叫子腳本時務必核對完整 argv**：`stop_dispatcher.py` 呼叫 `wtf-session-gate.py` 時漏了 `"stop"` 子命令參數，導致該腳本每次都因「缺子命令」而 exit 2，`stop_dispatcher.py` 把任何非零 exit 一律當「block」處理——結果是**不管收據齊不齊，Stop 一律無條件 block**。這個 bug 從 2026-07-16 設計、寫測試、canary 到現在都沒被抓到，因為當時的單元測試只測了 `wtf-session-gate.py` 本體，從沒真的跑過 `stop_dispatcher.py` 這層包裝。**教訓**：測試覆蓋率要包含實際部署會呼叫的「最外層」腳本，測內層元件通過不代表外層組裝正確；`subprocess.run([sys.executable, path], ...)` 這種呼叫寫法特別容易漏傳 argv，寫完務必用假輸入實跑一次確認退出碼與輸出符合預期，不能只讀 code 判斷。
