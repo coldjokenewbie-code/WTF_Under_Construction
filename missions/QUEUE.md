@@ -3,14 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-04 08:30**：night-relay 領先 main 626 commits（昨日晨報612）。昨晚 4 棒（19:30/21:30/23:30/01:30）全數秒退，missions/ 唯一異動＝QUEUE.md 快報段與 heartbeat.log——**連續第16晚零實質增量**，同因：QUEUE 無「待規劃」/「active」整欄精確相等項。
-**QUEUE 現況未變**：0 待規劃、0 active、parked×3、待核准×2、done×1、提名×5。
-**待核准清單（2項，未變）**：guide-app（M2 界達成，唯一卡點＝anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done或刪列）。
-**提名清單（5項，未變，掛載不足未轉待規劃）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**新增 blockers**：無（三案 _blockers.md 核對均無新增）。
-**Blockers 待決（3項未解）**：①o4-soundtrack 方向裁決**已逾期13天**（使用者07-21告知07-22回覆，至今未見回覆）；②machine-report 待補具體修正意見；③guide-app anchor 升級提案待裁決。
+**提醒棒 2026-08-04 19:00**：晨報後至今（08:30→19:00）QUEUE／各案 _blockers.md／journal 皆無新異動，內容與今晨晨報一致——今晚 19:30/21:30/23:30/01:30 四棒預期沿用同因秒退（QUEUE 無「待規劃」/「active」整欄精確相等項，已連續16晚零實質增量）。
+**QUEUE 現況**：0 待規劃、0 active、parked×3、待核准×2、done×1、提名×5。
+**待核准清單（2項）**：Assembly_Plant_Mobile_Guide 優化改版（M2 達成，唯一卡點＝anchor 升級提案待裁決）／管線探針測試（backlog 全勾4/4，建議直接結案改done或刪列）。
+**提名清單（5項，掛載不足未轉待規劃）**：ody 完成證據機檢／SouthLibrary 字體去CDN／cowork_CDIC C區任務資料化／南科再生水廠查證批次B／ppt_map_mark 拉線標註skill。
+**Blockers 待決（3項未解）**：①claude_CDIC_O4 配樂方向裁決**已逾期13天**（使用者07-21告知07-22回覆，至今未見回覆）；②互動機具設計報告書待補具體修正意見；③Assembly_Plant_Mobile_Guide anchor 升級提案待裁決。
 **產能算術**：active 案 0 件，今晚排定 4 棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。
-**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
