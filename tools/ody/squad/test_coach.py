@@ -57,6 +57,34 @@ for p in coach._dirty_files():
 if ok_parse:
     check("dirty 路徑解析回歸（跳脫/錯位/刪除檔）", True)
 
+# _check_children：子任務缺檔／未 PASS 都要各自產生對應 fail 訊息，已過的不產生
+import json
+import tempfile
+
+with tempfile.TemporaryDirectory() as td:
+    tmp = Path(td)
+    (tmp / "child-passed.contract.json").write_text(
+        json.dumps({"status": "passed"}), encoding="utf-8")
+    (tmp / "child-open.contract.json").write_text(
+        json.dumps({"status": "open"}), encoding="utf-8")
+    orig_contract_path = coach._contract_path
+    coach._contract_path = lambda task_id: tmp / f"{task_id}.contract.json"
+    try:
+        f5: list[str] = []
+        coach._check_children(
+            {"children": [{"task_id": "child-passed", "agent": "codex"},
+                         {"task_id": "child-open", "agent": "claude"},
+                         {"task_id": "child-missing", "agent": "agy"}]}, f5)
+        check("children 閘：已過子任務不產生 fail",
+             not any("child-passed" in x for x in f5), str(f5))
+        check("children 閘：未過子任務擋", any("child-open" in x for x in f5), str(f5))
+        check("children 閘：缺檔子任務擋", any("child-missing" in x for x in f5), str(f5))
+        f6: list[str] = []
+        coach._check_children({}, f6)
+        check("children 閘：無 children 欄位不受影響", not f6, str(f6))
+    finally:
+        coach._contract_path = orig_contract_path
+
 if FAILS:
     print(f"\nFAIL {len(FAILS)} 項：{FAILS}", file=sys.stderr)
     sys.exit(1)

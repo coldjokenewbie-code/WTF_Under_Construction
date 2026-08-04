@@ -35,6 +35,7 @@ COACH_RULES_PATH = SQUAD_DIR / "coach_rules.json"
 
 sys.path.insert(0, str(ODY_ROOT.parent))
 from ody.core.events import EventLog  # noqa: E402
+from ody.core.adapter import BACKENDS  # noqa: E402  （assign 印派工指令範本用，同一份定義不重造）
 
 # 契約/事件本身永遠允許寫入（否則 coach 自我否定）
 DEFAULT_ALLOW = ["tools/ody/data/**"]
@@ -92,28 +93,45 @@ def _match(path: str, patterns: list[str]) -> bool:
     return False
 
 
-def cmd_new(a) -> int:
-    if _contract_path(a.task_id).exists():
-        sys.exit(f"已有同名契約 {a.task_id}，換 ID 或刪舊檔")
-    # 目標 repo：--repo 指定，否則 cwd 所在 git repo，最後 fallback WTF
-    repo = Path(a.repo).resolve() if a.repo else Path(
-        _git("rev-parse", "--show-toplevel", repo=Path.cwd()) or WTF_ROOT)
+def _build_contract(task_id: str, goal: str, repo: Path, scope: list[str],
+                    accept: list[str], verify_cmd: list[str], permission: list[str],
+                    po_authorized: bool, handoff_file: str | None = None,
+                    parent_task_id: str | None = None) -> dict:
     c = {
-        "task_id": a.task_id,
-        "goal": a.goal,
+        "task_id": task_id,
+        "goal": goal,
         "created": _now(),
         "repo_root": str(repo),
         "base_ref": _git("rev-parse", "HEAD", repo=repo),
         "preexisting_dirty": _dirty_files(repo),  # 開工前既髒檔，scope 檢查排除
-        "scope_allowlist": a.scope,
-        "preflight_permissions": a.permission or [],
-        "po_authorized_protected_paths": bool(a.po_authorized),
+        "scope_allowlist": scope,
+        "preflight_permissions": permission or [],
+        "po_authorized_protected_paths": bool(po_authorized),
         "acceptance": [{"no": i + 1, "desc": d, "evidence": None}
-                       for i, d in enumerate(a.accept)],
-        "verify_cmds": a.verify_cmd or [],
-        "handoff_file": a.handoff_file,
+                       for i, d in enumerate(accept)],
+        "verify_cmds": verify_cmd or [],
+        "handoff_file": handoff_file,
         "status": "open",
     }
+    if parent_task_id:
+        c["parent_task_id"] = parent_task_id
+    return c
+
+
+def _resolve_repo(repo_arg: str | None, default: Path | None = None) -> Path:
+    if repo_arg:
+        return Path(repo_arg).resolve()
+    if default is not None:
+        return default
+    return Path(_git("rev-parse", "--show-toplevel", repo=Path.cwd()) or WTF_ROOT)
+
+
+def cmd_new(a) -> int:
+    if _contract_path(a.task_id).exists():
+        sys.exit(f"已有同名契約 {a.task_id}，換 ID 或刪舊檔")
+    repo = _resolve_repo(a.repo)
+    c = _build_contract(a.task_id, a.goal, repo, a.scope, a.accept, a.verify_cmd,
+                        a.permission, a.po_authorized, handoff_file=a.handoff_file)
     _save(c)
     EventLog(a.task_id, f"coach-{_now()}").emit(
         "contract_created", ok=True,
@@ -121,6 +139,50 @@ def cmd_new(a) -> int:
     print(f"契約已立：{_contract_path(a.task_id)}")
     print(f"  scope={c['scope_allowlist']}\n  驗收 {len(c['acceptance'])} 條、"
           f"授權點 {len(c['preflight_permissions'])} 項（開工前向 PO 一次講定）")
+    return 0
+
+
+def cmd_assign(a) -> int:
+    parent = _load(a.parent_task_id)
+    if _contract_path(a.task_id).exists():
+        sys.exit(f"已有同名契約 {a.task_id}，換 ID 或刪舊檔")
+    repo = _resolve_repo(a.repo, default=Path(parent["repo_root"]))
+    c = _build_contract(a.task_id, a.goal, repo, a.scope, a.accept, a.verify_cmd,
+                        a.permission, a.po_authorized, parent_task_id=a.parent_task_id)
+    _save(c)
+    children = parent.setdefault("children", [])
+    if not any(x["task_id"] == a.task_id for x in children):
+        children.append({"task_id": a.task_id, "agent": a.agent})
+    _save(parent)
+    EventLog(a.task_id, f"coach-{_now()}").emit(
+        "contract_created", ok=True,
+        detail={"scope": c["scope_allowlist"], "n_acceptance": len(c["acceptance"]),
+                "parent_task_id": a.parent_task_id})
+    EventLog(a.parent_task_id, f"coach-{_now()}").emit(
+        "child_assigned", ok=True, detail={"child": a.task_id, "agent": a.agent})
+    print(f"子契約已立：{_contract_path(a.task_id)}（父任務 {a.parent_task_id}，agent={a.agent}）")
+    print(f"  scope={c['scope_allowlist']}\n  驗收 {len(c['acceptance'])} 條")
+    if a.agent in BACKENDS:
+        prompt = (f"任務：{a.goal}\n讀契約 tools/ody/data/contracts/{a.task_id}.contract.json，"
+                 f"依 scope/accept 執行，完成後用 coach.py evidence/check 自驗。")
+        argv = BACKENDS[a.agent](prompt)
+        print(f"  派工指令範本：{shlex.join(argv)}")
+    else:
+        print(f"  agent='{a.agent}' 非 headless backend（{list(BACKENDS)}），"
+             f"改用 Claude subagent 或人工指派，仍需完成後跑 coach.py check {a.task_id}")
+    return 0
+
+
+def cmd_children(a) -> int:
+    parent = _load(a.parent_task_id)
+    children = parent.get("children", [])
+    if not children:
+        print(f"{a.parent_task_id} 無子任務")
+        return 0
+    for x in children:
+        cp = _contract_path(x["task_id"])
+        status = json.loads(cp.read_text(encoding="utf-8"))["status"] if cp.exists() else "遺失"
+        print(f"{x['task_id']} | agent={x['agent']} | status={status}")
     return 0
 
 
@@ -171,10 +233,24 @@ def _apply_rules(c: dict, changed: list[str], fails: list[str]) -> None:
                 fails.append(f"[{r['rule_id']}] {r['msg']}（exit={rr.returncode}）")
 
 
+def _check_children(c: dict, fails: list[str]) -> None:
+    for x in c.get("children", []):
+        cp = _contract_path(x["task_id"])
+        if not cp.exists():
+            fails.append(f"[閘0 分工] 子任務 {x['task_id']}（agent={x['agent']}）契約遺失")
+            continue
+        status = json.loads(cp.read_text(encoding="utf-8"))["status"]
+        if status != "passed":
+            fails.append(f"[閘0 分工] 子任務 {x['task_id']}（agent={x['agent']}）"
+                         f"尚未 PASS（現況 {status}）")
+
+
 def cmd_check(a) -> int:
     c = _load(a.task_id)
     repo = _repo_of(c)
     fails: list[str] = []
+    # 閘0 分工：子任務須全數 PASS，父任務才可能過（即時讀子契約現況，不快取）
+    _check_children(c, fails)
     # 閘1 契約完整
     if not c.get("scope_allowlist"):
         fails.append("[閘1] 契約缺 scope_allowlist")
@@ -268,6 +344,24 @@ def main() -> int:
     p.add_argument("--po-authorized", action="store_true",
                    help="PO 已明授本任務可動保護路徑（全域設定等）")
     p.set_defaults(fn=cmd_new)
+
+    p = sub.add_parser("assign", help="分工：立子契約掛回父契約，父任務 check 前子任務須全 PASS")
+    p.add_argument("parent_task_id")
+    p.add_argument("task_id")
+    p.add_argument("--agent", required=True,
+                   help=f"執行者標籤；為 {list(BACKENDS)} 之一會印 headless 派工指令範本")
+    p.add_argument("--goal", required=True)
+    p.add_argument("--repo", help="子契約 repo 根（預設沿用父契約 repo_root）")
+    p.add_argument("--scope", nargs="+", required=True)
+    p.add_argument("--accept", nargs="+", required=True)
+    p.add_argument("--verify-cmd", nargs="*", default=[])
+    p.add_argument("--permission", nargs="*", default=[])
+    p.add_argument("--po-authorized", action="store_true")
+    p.set_defaults(fn=cmd_assign)
+
+    p = sub.add_parser("children", help="列出父任務下所有子任務現況（唯讀）")
+    p.add_argument("parent_task_id")
+    p.set_defaults(fn=cmd_children)
 
     p = sub.add_parser("evidence", help="填驗收證據（cmd 會執行並記 exit/輸出）")
     p.add_argument("task_id")
