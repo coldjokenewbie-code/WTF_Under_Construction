@@ -118,6 +118,43 @@
       "type": "evidence_note_not_generic",
       "msg": "web 編輯器的輸入／復原／貼上類驗收，測試不得只用 page.keyboard.type 或 dispatchEvent 合成事件：execCommand 不觸發 beforeinput、keyboard.type 不觸發 insertCompositionText、合成 ClipboardEvent 不執行預設貼上——三者都會讓測試全綠但功能實際失效。至少一條測項須走真實路徑（CDP Input.imeSetComposition 組字／CDP 原生 paste 指令）",
       "added": "2026-08-03T13:43:00.666112+00:00"
+    },
+    {
+      "rule_id": "R010",
+      "desc": "空轉證據攔截",
+      "type": "evidence_note_not_generic",
+      "msg": "證據cmd含斷言/迴圈者，輸出必須印出>0的實際處理筆數；output出現 count=0/entries=0 等零筆計數即視為空轉證據判無效（本案第2次：diff json 用錯鍵名 entries 斷言空集合恆過）",
+      "added": "2026-08-04T00:02:48.150124+00:00",
+      "patterns": [
+        "entries= 0",
+        "count= 0",
+        "processed 0"
+      ]
+    },
+    {
+      "rule_id": "R011",
+      "desc": "pending action 世代須由每次新外部狀態失效",
+      "type": "evidence_note_not_generic",
+      "msg": "驗收 pending action／generation 時，證據必須涵蓋「新狀態無映射」案例：任何較新的 stage/status 都要先使舊 pending timer 與 generation 失效，不能只測有映射的 action。",
+      "added": "2026-08-04T00:26:07.702586+00:00",
+      "patterns": [
+        "pendingAction",
+        "actionGeneration",
+        "generation"
+      ]
+    },
+    {
+      "rule_id": "R012",
+      "desc": "pending note 不算證據",
+      "type": "evidence_note_not_generic",
+      "msg": "證據 note 內含『待』『不宣稱 PASS』『BLOCKED』『pending』等未完成字樣時，該驗收條視為無證據，check 不得 PASS（本案 A-assets #5 假 PASS）",
+      "added": "2026-08-04T03:32:46.052829+00:00",
+      "patterns": [
+        "不宣稱 PASS",
+        "BLOCKED",
+        "待 Claude",
+        "pending"
+      ]
     }
   ]
 }

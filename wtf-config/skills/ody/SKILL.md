@@ -49,5 +49,25 @@ description: 召喚奧德賽小隊（ody）——對當前任務套用三道閘�
 - 回覆風格被糾正 → 樣式加進 `<WTF_ROOT>/tools/ody/squad/lint_rules.json` banned_phrases。
 - 學習＝加可機檢規則，不寫心得；無法機檢者降 checklist 由 Verifier 人工核。
 
+## 分工（可選，多執行者協作）
+
+任務可拆給多個獨立執行者（Claude subagent／Codex headless／Antigravity headless／人工）各自領一份子契約做時用；單人單契約就夠的任務不必用這段。
+
+**立子契約（同時掛回父契約）**：
+```bash
+<PY> "<WTF_ROOT>/tools/ody/squad/coach.py" assign <父task_id> <子task_id> \
+  --agent codex --goal "..." --scope "受動路徑glob" --accept "驗收標準(逐條)" \
+  [--verify-cmd "..."] [--permission "..."] [--repo ...]
+```
+- 子契約走一樣的三道閘（立約→填證據→check），跟一般契約無異；`--agent` 為 `claude`/`codex`/`agy` 時會印出對應 headless 派工指令範本（直接複製執行——同機優先直驅，跨機/GUI 才退回 `AGENT_SIGNAL.log`，同 ai-team 慣例）。
+- 子契約 scope 應落在父契約 scope 之內：父契約自己的閘2a（scope 越界檢查）本來就會涵蓋子任務動到的檔案，不必另外驗證子集。
+
+**父任務 check 前置閘**：`coach.py check <父task_id>` 會先查所有子任務是否已 `check` PASS，任一子任務缺契約或未過都直接 FAIL（訊息點名哪個子任務）——把 ai-team「輪流驗收、禁自驗自過」的精神改成機檢硬擋，不是流程約定。
+
+**查子任務現況**（唯讀）：
+```bash
+<PY> "<WTF_ROOT>/tools/ody/squad/coach.py" children <父task_id>
+```
+
 ## 回覆紀律（隨時）
 結論先行、極簡、禁聊天語氣/浮誇/功勞詞；自評：`echo "草稿" | <PY> "<WTF_ROOT>/tools/ody/squad/reply_lint.py"`。

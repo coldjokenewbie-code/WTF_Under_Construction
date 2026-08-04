@@ -6,6 +6,9 @@
 規範停在 prompt 層、無輸出前檢查＝靠 AI 自律必漂移。
 **解＝結構強制**：hook 機器攔截＋錯誤轉可機檢規則（越用越會擋，複利）。
 
+## 分工（2026-08-05：從口號變落地件）
+以前「4 角色可由不同 AI 動態擔任」只是敘述，程式沒有實際派工機制——併入 ai-team 的分工能力後，`coach.py assign` 可把父契約拆給多個執行者各自領子契約獨立做，`coach.py check` 驗收父契約前會強制所有子契約已各自 PASS。跟 ai-team 的差異：ai-team 靠「討論輪數＋輪流驗收」流程約定把關，這裡靠契約鏈結構強制（缺子契約或子契約未過，父契約機檢直接 FAIL）。
+
 ## 編組（4 角色，可由 Claude/Codex/Antigravity 動態擔任）
 | 角色 | 職責 | 落地件 |
 |---|---|---|
@@ -40,10 +43,15 @@
 ```bash
 python3 tools/ody/squad/coach.py new <task_id> --goal "..." --scope "glob" --accept "標準" ...
 python3 tools/ody/squad/coach.py evidence <task_id> <編號> --cmd "驗證命令"   # 或 --note
-python3 tools/ody/squad/coach.py check <task_id>          # PASS/FAIL
+python3 tools/ody/squad/coach.py check <task_id>          # PASS/FAIL（父任務會先查子任務全過）
+python3 tools/ody/squad/coach.py assign <父task_id> <子task_id> --agent codex --goal ... --scope ... --accept ...  # 分工
+python3 tools/ody/squad/coach.py children <父task_id>      # 查子任務現況
 python3 tools/ody/squad/coach.py add-rule --rule-id R00x --type ... --msg ...  # Mentor
 echo "回覆草稿" | python3 tools/ody/squad/reply_lint.py    # Tyrion 手動自評
 ```
+
+## 狀態（2026-08-05 更新）
+- 分工機制上線：`coach.py assign`/`children` ＋ `cmd_check` 的閘0 子任務前置檢查，見上方「分工」節。
 
 ## 狀態（2026-07-02）
 - Tyrion Stop hook：已掛 settings.local.json 並**實戰攔截驗證**（引文誤攔為已知型態，待加引文白名單）。
