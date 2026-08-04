@@ -3,11 +3,14 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-03 19:00**：night-relay 已併 main（+3 檔：wtf-config/LESSONS.md、machines.md、projects-registry.md，與任務佇列無關，無 QUEUE 衝突）。QUEUE 現況同晨報未變：0 待規劃、0 active、parked×3、待核准×2、done×1、提名×5；三案 _blockers.md 核對均無新增，卡點現況未變。今晚 4 棒（19:30/21:30/23:30/01:30）依現況預期沿用連續第14晚全數秒退（無「待規劃」/「active」整欄精確相等項）。
-**待核准清單（2項，未變）**：guide-app（M2 界達成，backlog 增量一～八全勾，唯一卡點＝anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done或刪列，無需續跑）。
+**晨報棒 2026-08-04 08:30**：night-relay 領先 main 626 commits（昨日晨報612）。昨晚 4 棒（19:30/21:30/23:30/01:30）全數秒退，missions/ 唯一異動＝QUEUE.md 快報段與 heartbeat.log——**連續第16晚零實質增量**，同因：QUEUE 無「待規劃」/「active」整欄精確相等項。
+**QUEUE 現況未變**：0 待規劃、0 active、parked×3、待核准×2、done×1、提名×5。
+**待核准清單（2項，未變）**：guide-app（M2 界達成，唯一卡點＝anchor 升級提案待裁決）／test-baton-pickup-0706（backlog 全勾4/4，建議直接結案改done或刪列）。
 **提名清單（5項，未變，掛載不足未轉待規劃）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**Blockers 待決（3項未解）**：①o4-soundtrack 方向裁決（路線二拍板 vs 硬底線4修訂提案）**已逾期12天**（使用者07-21告知07-22回覆，至今未見回覆）；②machine-report 待補具體修正意見（07-21判「驗收未過」未附細節，無法判斷小修or整篇重寫）；③guide-app anchor 升級提案待裁決（字級收斂/元件一致性驗收方法論，07-21已提示）。design-training 本週雲端無可作項（非卡點，本機限定）。
-**產能算術（義務）**：active 案 0 件——剩餘 backlog 項數不適用；今晚排定 4 棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。任一裁決/核准落地後，算術才能重新產生。
+**新增 blockers**：無（三案 _blockers.md 核對均無新增）。
+**Blockers 待決（3項未解）**：①o4-soundtrack 方向裁決**已逾期13天**（使用者07-21告知07-22回覆，至今未見回覆）；②machine-report 待補具體修正意見；③guide-app anchor 升級提案待裁決。
+**產能算術**：active 案 0 件，今晚排定 4 棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。
+**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
