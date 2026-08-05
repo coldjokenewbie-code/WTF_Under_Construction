@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-04 19:00**：晨報後至今（08:30→19:00）QUEUE／各案 _blockers.md／journal 皆無新異動，內容與今晨晨報一致——今晚 19:30/21:30/23:30/01:30 四棒預期沿用同因秒退（QUEUE 無「待規劃」/「active」整欄精確相等項，已連續16晚零實質增量）。
-**QUEUE 現況**：0 待規劃、0 active、parked×3、待核准×2、done×1、提名×5。
-**待核准清單（2項）**：Assembly_Plant_Mobile_Guide 優化改版（M2 達成，唯一卡點＝anchor 升級提案待裁決）／管線探針測試（backlog 全勾4/4，建議直接結案改done或刪列）。
-**提名清單（5項，掛載不足未轉待規劃）**：ody 完成證據機檢／SouthLibrary 字體去CDN／cowork_CDIC C區任務資料化／南科再生水廠查證批次B／ppt_map_mark 拉線標註skill。
-**Blockers 待決（3項未解）**：①claude_CDIC_O4 配樂方向裁決**已逾期13天**（使用者07-21告知07-22回覆，至今未見回覆）；②互動機具設計報告書待補具體修正意見；③Assembly_Plant_Mobile_Guide anchor 升級提案待裁決。
-**產能算術**：active 案 0 件，今晚排定 4 棒，以「每棒一項」推算＝0 項可完成，預計完成日無法計算。
+**晨報棒 2026-08-05 08:30**：night-relay 領先 main 644 commits。昨晚四棒（19:33/21:33/23:33/01:33）全秒退零增量——QUEUE 仍無「待規劃」/「active」整欄精確相等項，**連續第17晚同因**。
+**昨晚各 mission 增量**：0 件（3 parked／2 待核准案昨晚皆無 journal 新條目，backlog 無勾動）。
+**領先內容組成**：644 commit 中昨夜循環棒本身淨增量僅心跳/merge；實質新內容為非棒子的日間工作（ody Mentor R010-R012 規則、squad dispatch 分工機制、cowork_CDIC/Planner2Line/md-editor 教訓索引各1筆、registry 時間戳更新）——**非 mission-loop 產出，收貨時一併看即可**。
+**新增 blockers**：0 件（三案 _blockers.md 昨夜無新條目）。
+**既有卡點升級**：①claude_CDIC_O4 配樂方向裁決**逾期14天**（使用者07-21告知07-22回覆，至今未回）；②互動機具設計報告書待補修正意見；③Assembly_Plant_Mobile_Guide anchor 升級提案待裁決。
+**待核准清單（2項，可直接處置）**：Assembly_Plant_Mobile_Guide 優化改版（M2達成，卡anchor提案）／管線探針測試（backlog全勾4/4，建議直接改done或刪列）。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
