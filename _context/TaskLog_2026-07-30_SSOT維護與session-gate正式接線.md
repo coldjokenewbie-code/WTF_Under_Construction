@@ -31,3 +31,4 @@ Pull 前，本機背景累積的 `LESSONS.md`／`machines.md`／ody `coach_rules
 - 本次只接了 `PreToolUse`／`Stop`（含 subagent 例外）。`SubagentStart`／`SubagentStop` 刻意未接線（不可靠且目前邏輯不依賴它們），若未來 Anthropic 修好可重新評估。
 - `outputs/ody-session-gate-impl-20260716/` 下的舊設計文件（`phase3_settings.diff` 等）與本次實際部署已有出入（未採用 `SubagentStart`／完整六 hook 集、`session-policy.json` 的 `mirror_rules` 仍是空的未實作）——該資料夾屬 outputs 過程稿，未回頭同步修訂，之後有人接手需留意別直接照舊文件二次部署。
 - Windows 端設定檔尚未套用本次 PreToolUse／Stop 接線（本次只動本機 Mac，設定檔非跨機同步檔案）。
+- **2026-08-05 補充回報**：另一 session（於 ody 分工機制任務中）複驗時回報環境雜訊——`postread` hook 每次 `Read` 後都報 `generation.json` 缺檔錯誤，屬本節「建議找機會開新 session 實跑驗證」那條的具體命中案例。本 session 未深入診斷（`wtf-config/hooks/wtf-session-gate.py` 本身受 `protected()` 擋下直接 Read/Bash 讀取，且與當次任務無關），僅記錄待後續專門處理。

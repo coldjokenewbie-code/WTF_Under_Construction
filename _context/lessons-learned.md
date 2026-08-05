@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-04 (ody coach 驗收規則 R010-R012：零計數、generation 失效、pending note)
+
+* **驗收指令含計數斷言時，輸出筆數必須 > 0（R010 空轉證據攔截）**：evidence command 含迴圈或斷言邏輯者，輸出必須印出 > 0 的實際處理筆數；`count=0`／`entries=0` 等零計數即視為空轉、判無效（實例：diff json 用錯鍵名 `entries`，斷言空集合恆過，每次都 PASS 但根本沒驗到任何東西）。
+* **驗收 pending action／generation，必須涵蓋「新狀態無映射」案例（R011）**：任何較新的 stage/status 都要先使舊 pending timer 與 generation 失效；只測有映射的 action 不夠，缺此案例等於沒驗到世代失效機制。
+* **含「待」「BLOCKED」「pending」字樣的 note 不算 evidence，不得 PASS（R012）**：note 內含未完成字樣視為無有效證據，有 note 就 PASS 是假 PASS（實例：A-assets #5 空有 note 但無實際驗收輸出）。
+
 ## 2026-08-03 (md-editor P3：web 編輯器輸入類驗收必須走真實輸入路徑)
 
 * **Web 編輯器的輸入／復原／貼上類驗收，不得只用合成事件當唯一測試路徑**：`execCommand` 不觸發 `beforeinput`、`page.keyboard.type` 不觸發 `insertCompositionText`、手動合成的 `ClipboardEvent` 不執行預設貼上動作——三者皆讓測試全綠但功能實際失效（md-editor P3 實例：92/92 通過，注音組字的復原完全壞掉）。**至少一條測試須走真實路徑**：中文輸入組字用 CDP `Input.imeSetComposition`；原生貼上用 CDP `Input.dispatchKeyEvent`（真實剪貼板路徑）；不能用 `execCommand('insertText', ...)`  或 `dispatchEvent(new ClipboardEvent(...))` 替代。教訓已登入 ody coach_rules R040。
