@@ -155,6 +155,20 @@
         "待 Claude",
         "pending"
       ]
+    },
+    {
+      "rule_id": "R041",
+      "desc": "啟動時執行的流程須以冷載入驗收",
+      "type": "evidence_note_not_generic",
+      "msg": "凡是頁面載入時就會執行的流程（開檔、還原草稿、初始化），驗收證據必須來自冷載入（新分頁／新 context 直接 goto 目標網址），不得只在既有分頁上改 hash 或呼叫函式——後者時腳本已跑完，測不出 TDZ 與宣告順序問題（md-editor 2026-08-06：docHistory TDZ 讓雙擊開檔全壞，97 項測試全綠）。同時 try/catch 不得以寫死訊息取代真實錯誤。",
+      "added": "2026-08-06T10:01:27.256937+00:00",
+      "patterns": [
+        "loadFromHash",
+        "hashchange",
+        "冷載入",
+        "DOMContentLoaded",
+        "before initialization"
+      ]
     }
   ]
 }
