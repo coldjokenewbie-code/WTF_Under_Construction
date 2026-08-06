@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-05 19:15**：晨報後整日無變動，QUEUE 仍 0 active（parked×3／待核准×2／done×1／提名×5），今晚循環棒（19:30/21:33/23:33/01:33）預計比照昨晚全數秒退。
+**晨報棒 2026-08-06 08:30**：night-relay 領先 main 651 commits，昨晚四棒（19:34/21:34/23:34/01:33）全秒退零增量（連續第18晚同因，QUEUE無待規劃/active項）；日間新增兩筆 lessons-learned（cowork_CDIC B區切年閃動教訓、Planner2Line測試腳本破壞設定檔教訓，見 `_context/lessons-learned.md`）。
 **待核准清單（2項，可直接處置）**：20260706-guide-app（M2達成，卡 anchor 升級提案裁決）／test-baton-pickup-0706（backlog全勾4/4，建議直接改done或刪列，無需續跑）。
 **提名清單（5項，需先掛載對應 repo 或改「待規劃」才啟動）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers 待決**：①o4-soundtrack 方向二拍板——使用者07-22承諾隔日回覆，**已逾期14天**；②machine-report 待補具體修正意見（07-21驗收未過，未附修改點）；③guide-app anchor 升級提案待裁決。
-**產能算術**：0 active mission，無「剩餘backlog×每棒一項」可推算完成日；今晚4棒若維持現況將全數秒退零增量。
+**blockers 新增/沿續**：①o4-soundtrack 方向二拍板——使用者07-22承諾隔日回覆，**已逾期15天**；②machine-report 待補具體修正意見（07-21驗收未過，未附修改點）；③guide-app anchor 升級提案待裁決。三項皆無新進展。
+**產能算術**：0 active mission，無「剩餘backlog×每棒一項」可推算完成日；連續18晚全秒退。
+**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
