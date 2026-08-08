@@ -3,11 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-08 08:30**：night-relay 領先 main **667 commits**（main 多出未併 1 筆：`ae3f271` claude_CDIC_O4 4K交付+南科lesson session log，與本佇列無關）。昨晚 08-07 19:00起共 5 棒（4循環＋1提醒棒）**全數秒退零增量**，累計連續 **57 棒**秒退（自07-24起，QUEUE無「待規劃」/「active」整欄精確相等項）。
-**各mission增量**：0 active mission，昨晚無任何實質增量。唯一變動：提醒棒19:15 merge main 進 night-relay（帶入南科再生水廠 lesson，afc6469，與佇列業務無關）。證據：`git log 39e7728..1a85cd8 --oneline`。
-**新增blockers**：無。既有3項皆無新進展——①o4-soundtrack方向裁決，07-22承諾隔日回覆，**已逾期17天**；②machine-report待補具體修正意見；③guide-app anchor升級提案待裁決。
-**⚠️ 待你確認**：main 今日 nightly log 顯示另一 repo `claude_CDIC_O4` 的4K交付已完成（258e20e），若與 o4-soundtrack blocker 同案，可能可解除該卡點。
-**產能算術**：0 active mission，無法推算完成日；今晚循環棒預期同樣全秒退，除非派工。
+**提醒棒 2026-08-08 19:00**：已併 origin/main 進 night-relay（0 新衝突）。night-relay 領先 main **669 commits**，落後 **0**（main 今日唯一新提交 `ae3f271` 已併入，內容是另 repo `claude_CDIC_O4` 4K交付+南科lesson session log，與本佇列業務無關）。
+**待核准清單**：①`20260706-guide-app`（M2已達成，唯一卡點=anchor升級提案待你裁決）；②`test-baton-pickup-0706`（backlog全勾，建議直接結案：改「done」或刪列即可，無需續跑）。
+**提名清單（5項，未核准不動）**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——改「待規劃」才會啟動。
+**blockers 待決**：①o4-soundtrack方向裁決，07-22承諾隔日回覆，**已逾期17天**；②machine-report待補具體修正意見（07-21驗收未過後無新回覆）；③guide-app anchor升級提案待裁決。
+**待你確認**：main 併入的 claude_CDIC_O4 4K交付（258e20e：素材替換+簡報影片Remotion版+片尾閱覽場景）與 o4-soundtrack blocker 是否同案——內容看似為簡報影片交付而非配樂本身，若無關則此提示可忽略。
+**連續秒退**：自07-24 19:33起累計 **60 棒**零增量（QUEUE無「待規劃」/「active」整欄精確相等項）。
+**產能算術**：0 active mission，無剩餘backlog可推算完成日；今晚 4 循環棒（19:30/21:30/23:30/01:30）預期同樣秒退，除非你核准/派工。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
