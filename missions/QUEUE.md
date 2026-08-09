@@ -3,13 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-08 19:00**：已併 origin/main 進 night-relay（0 新衝突）。night-relay 領先 main **669 commits**，落後 **0**（main 今日唯一新提交 `ae3f271` 已併入，內容是另 repo `claude_CDIC_O4` 4K交付+南科lesson session log，與本佇列業務無關）。
-**待核准清單**：①`20260706-guide-app`（M2已達成，唯一卡點=anchor升級提案待你裁決）；②`test-baton-pickup-0706`（backlog全勾，建議直接結案：改「done」或刪列即可，無需續跑）。
-**提名清單（5項，未核准不動）**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——改「待規劃」才會啟動。
-**blockers 待決**：①o4-soundtrack方向裁決，07-22承諾隔日回覆，**已逾期17天**；②machine-report待補具體修正意見（07-21驗收未過後無新回覆）；③guide-app anchor升級提案待裁決。
-**待你確認**：main 併入的 claude_CDIC_O4 4K交付（258e20e：素材替換+簡報影片Remotion版+片尾閱覽場景）與 o4-soundtrack blocker 是否同案——內容看似為簡報影片交付而非配樂本身，若無關則此提示可忽略。
-**連續秒退**：自07-24 19:33起累計 **60 棒**零增量（QUEUE無「待規劃」/「active」整欄精確相等項）。
-**產能算術**：0 active mission，無剩餘backlog可推算完成日；今晚 4 循環棒（19:30/21:30/23:30/01:30）預期同樣秒退，除非你核准/派工。
+**晨報棒 2026-08-09 08:30**：night-relay 領先 main **675 commits**（昨晚08-08 19:00起新增4棒：19:33/21:34/23:33/01:33，全為秒退，evidence見 `missions/heartbeat.log` 對應行）。
+**各 mission 昨晚增量**：0 active mission，各案（guide-app／o4-soundtrack／machine-report／design-training）皆無新動作，backlog/journal 無新條目。
+**blockers 新增項**：無新增；既有 o4-soundtrack 方向裁決**已逾期 18 天**（07-22承諾隔日回覆，仍未回）；machine-report 待補修正意見（07-21起無新回覆）；guide-app anchor升級提案待裁決——三者皆卡在你手上，非棒子產能問題。
+**連續秒退**：自07-24 19:33起累計 **64 棒**零增量（QUEUE無「待規劃」/「active」整欄精確相等項）；待核准×2、提名×5、parked×3、done×1，現況不變。
+**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
