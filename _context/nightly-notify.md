@@ -11,3 +11,5 @@
   - `~/.claude/` 的 wtf-sync 腳本（各機本地）：git pull 失敗時 echo「⚠️ wtf-sync 失敗:<原因>」再退出（stdout 會注入 context），禁止靜默 exit 0——Windows 實測已因本機未 commit 變更悄悄失敗多次。
 - [x] 2026-07-05 修訂前項（2026-07-03 SessionStart 提案升級版，採用此版、前項作廢）：內容注入式 hook。2026-07-14 Windows 已完成部署（複製 `wtf-session-context.sh` 到 `~/.claude/` + settings.json 註冊 SessionStart），Mac／Windows 皆已生效。
 - [x] 2026-07-10 確認部署狀態：2026-07-14 已確認 Windows 部署完成，關閉此項。
+- [ ] 2026-08-11 nightly 建議修改全域設定（待用戶核准）
+  - `wtf-config/GLOBAL.md`：「agy headless 在 Claude 工具中需 node-pty 偽終端才會輸出」條目，建議末尾補 Mac 平台解法一行：「**Mac 平台**：stdin 進不了模型（非 TTY 問題），改將 prompt 作命令列參數傳入：`agy --print "<prompt>" --dangerously-skip-permissions`，不需 node-pty。」（來源：HsinchuSEC 2026-08-11 session）
