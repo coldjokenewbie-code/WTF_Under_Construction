@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-09 19:07**：QUEUE 現況不變——待核准×2、提名×5、parked×3、done×1，**0 個 active mission**。
-**待核准清單**：20260706-guide-app（唯一卡點：anchor 升級提案待裁決）／test-baton-pickup-0706（管線探針已收尾，建議直接改 done 或刪列）。
-**提名清單**（皆待你把狀態改「待規劃」才會啟動）：ody-evidence-gate／southlibrary-fonts（需掛 SouthLibrary）／cowork-c-tasks（需掛 cowork_CDIC）／sreclaim-verify-b（需掛 S-reclaimed-water-plant）／pptmap-skill（需掛 ppt_map_mark）。
-**blockers 待決**（皆卡在你手上，非棒子產能問題）：o4-soundtrack 方向拍板**已逾期 18 天**（07-22承諾隔日回覆，仍未回）；machine-report 待補修正意見（07-21起無新回覆，已19天）；guide-app anchor升級提案待裁決（07-21起，已19天）。
-**產能算術**：active mission 數＝0 → 無 backlog 可推進、無今晚排定棒數可算、無法推估完成日；三案（guide-app／o4-soundtrack／machine-report）唯一解法是你先裁決上述卡點之一，才有下一棒可作項。
+**晨報棒 2026-08-10 08:30**：night-relay 領先 main（afc6469..2bfb6ad）多個 commits；昨晚 19:33/21:33/23:33/01:33 共 4 棒全秒退零增量（QUEUE無待規劃/active項，連續累計 69 棒），0 個 active mission。
+**證據位置**：a3bb211／f0a89ad／ea47ffe／cfb4b73（heartbeat commits，night-relay 分支）。
+**待核准清單不變**：20260706-guide-app（唯一卡點：anchor 升級提案待裁決）／test-baton-pickup-0706（管線探針已收尾，建議直接改 done 或刪列）。
+**blockers 無新增，逾期天數更新**：o4-soundtrack 方向拍板**已逾期 19 天**（07-22承諾隔日回覆，仍未回）；machine-report 待補修正意見（07-21起無新回覆，已20天）；guide-app anchor升級提案待裁決（07-21起，已20天）。
+**產能算術**：active mission 數＝0 → 無 backlog 可推進、無今晚排定棒數可算、無法推估完成日；三案唯一解法是你先裁決上述卡點之一，才有下一棒可作項。
+**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **連續秒退**：自07-24 19:33起累計 **65 棒**零增量（QUEUE無「待規劃」/「active」整欄精確相等項），今晚循環棒同樣預期全秒退。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
