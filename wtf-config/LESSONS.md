@@ -238,3 +238,10 @@
 - cowork_CDIC｜2026-08-10｜跨專案 ody 規則守衛：規則 cmd 用相對路徑硬指某專案檔，在其他 repo 下 `open()` 炸＝所有專案 check 被誤殺；規則 cmd 一律 `if os.path.exists` 守衛或綁 repo｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-10｜跨 Chrome profile 整合測試：展示（kiosk）與編輯（edit）profile localStorage/BroadcastChannel 完全隔離，同 context 測試假綠；測試必須開兩個獨立 browser context；跨 profile 通訊改用內容版本輪詢（XHR 比 hash）；此缺陷由質疑閘抓出｜cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-10｜Playwright 等隱藏狀態禁用 `waitForSelector('[hidden]')`（state:visible 與 hidden 矛盾＝必 timeout），改 `waitForFunction(el.hidden===true)`｜cowork_CDIC/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜等比縮放手機畫布（固定 393×852 ＋ transform:scale）內部禁用 vw/vh/clamp(...vw)：字級會跟視窗跑不跟畫布跑；驗收量 getBoundingClientRect 長寬比跨尺寸須相同｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜狀態類＋屬性選擇器（`.editing [data-img]{position:relative}`）優先權 0,2,0 蓋掉 `.snap-bg{position:absolute}`＝一進編輯模式版面整片塌陷；只對原本沒定位的元素補 position，加狀態樣式後必須在該狀態下逐頁截圖比對｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜TTS 破音字改「送進 TTS 的文字」不改畫面文字（行徽→航徽、本行→本航…替換表），比 SSML phoneme 可靠；語速用 ffmpeg atempo= 後製（不改音高）比 prompt 說「快一點」可重現｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜「離線單檔」與「線上即時更新」本質互斥（靜態託管 push→重建 10s–2min＋HTML 快取），需求同時出現時開場就要指出取捨；4.5MB 單檔每次改版在 git 多存一份完整副本｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜就地編輯要分覆寫層與原始資料：「存為預設」只寫 localStorage 不改檔案，使用者會誤以為已改檔；匯出＝把覆寫層寫進 <script id=saved>，所有讀文案的下游腳本須同時吃兩者｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜使用者可能直接在原始素材上畫紅框標註（原始像素無法還原）：原檔 mtime 變新就掃高飽和純色像素，裁切框內縮避開框線與控制點｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-10｜同一張展櫃照裡展件朝向可能相反（雙面展櫃上下層），旋轉是逐裁切屬性不是逐檔案；「順時針/逆時針」以最後讀得順為準，不照字面套｜projects/HuaNan_Bank/_context/lessons-learned.md
