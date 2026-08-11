@@ -247,3 +247,5 @@
 - HuaNan_Bank｜2026-08-10｜同一張展櫃照裡展件朝向可能相反（雙面展櫃上下層），旋轉是逐裁切屬性不是逐檔案；「順時針/逆時針」以最後讀得順為準，不照字面套｜projects/HuaNan_Bank/_context/lessons-learned.md
 - HsinchuSEC｜2026-08-11｜agy headless 在 Mac stdin 進不了模型要放 prompt 參數；python-pptx 就地改寫用混合封裝保非目標頁位元組不變、清版面需名稱+位置雙判｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 HsinchuSEC｜2026-08-11｜sldIdLst 重排實現插/刪頁而其他頁位元組不變；agy 質疑的「官方規格」兩度查證後翻案（tsmcmoi 網域、Geo-Cosmos LED）；圖說截斷須子句化＋機掃驗證｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-11｜新增資料項要同步周邊對照表（漏補 yearToLight＝燈不亮且無錯誤訊息）；更新腳本刻意排除的設定檔要另附只做增量的現場補丁，且用該機一定有的執行環境寫（node 能在 Mac 實測、PowerShell 不能）｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-11｜「只在變化時推送」的上游遇下游單獨重啟就失步（環控 mode 停在預設值→平板全鎖待機）：正解是下游啟動後主動拉一次上游現值、貼齊即停，而非持久化上次狀態；此類 bug 驗收必須先用對照組重現症狀｜projects/cowork_CDIC/_context/lessons-learned.md
