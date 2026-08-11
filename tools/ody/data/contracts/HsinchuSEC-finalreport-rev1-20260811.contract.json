@@ -1,0 +1,127 @@
+{
+  "task_id": "HsinchuSEC-finalreport-rev1-20260811",
+  "goal": "依 PO 2026-08-11 修訂指令改版期末報告書兩節：壹-五（12+12例、挑選標準重寫、綜合分析獨立頁+矩陣圖、概論結論文字加倍、插1頁）與 1-6-1（重整為概論1+列表1+重點案例20+趨勢2+結論1共25頁、選案原則改互動特色、刪5頁），全書 182→178 頁",
+  "created": "2026-08-10T23:51:19.528130+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "workingfiles/_scripts/",
+    "workingfiles/_finalreport/",
+    "workingfiles/W_期末報告書範本_2026-07-09_A4橫式.pptx",
+    "workingfiles/old/",
+    "_context/"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "壹-五概論頁挑選標準全面重寫：對應期初報告六大分析面向與會議意見具體要求，「可查證性」不得列為挑選標準；概論論述文字量較前版加倍",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 1",
+        "exit": 0,
+        "output_tail": "slide40 概論含期初架構/會議意見、無可查證性: True 全頁字數: 1381\n",
+        "ts": "2026-08-11T00:30:37.959900+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "壹-五案例=展示形式12例+互動方式12例，各3頁每頁4例，每例2圖含圖說與來源；新增4案（s11台積創新館/s12 Tom Tits/i11 Miraikan科學傳播者/i12 Eureka!）圖為展示內容非首頁截圖",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 2",
+        "exit": 0,
+        "output_tail": "41-46每頁8圖、4新案入文: True\n",
+        "ts": "2026-08-11T00:30:38.020723+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "壹-五「綜合分析與建議方向」獨立一頁（slide 46後插入），含矩陣/四象限圖將各案例依分析面向標示；結論論述文字量較前版加倍",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 3",
+        "exit": 0,
+        "output_tail": "slide74 綜合分析獨立頁含矩陣: True 頁字數: 1692\n",
+        "ts": "2026-08-11T00:30:38.078707+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "1-6-1=概論1+案例列表1（20案中英文館名+地點）+重點案例分析20（每案1頁：1大圖+3至4小圖，小圖圖說對應選案原則或重點特色）+趨勢分析2（含矩陣/象限視覺化）+結論1，共25頁",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 4",
+        "exit": 0,
+        "output_tail": "1-6-1 新結構 25 頁完整: True\n",
+        "ts": "2026-08-11T00:30:38.138284+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "1-6-1選案原則重寫：「可查證性」改為「互動特色」；具顯著互動特色案例特別列出敘述；原則對應期初六大分析面向與會議意見",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 5",
+        "exit": 0,
+        "output_tail": "選案原則改互動特色＋研究說明＋特別標註 11 案: True\n",
+        "ts": "2026-08-11T00:30:38.198660+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "頁數重排：全書178頁；非目標頁位元組不變（presentation.xml/rels/Content_Types除外）；PO前2頁筆記不動；改前備份",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 6",
+        "exit": 0,
+        "output_tail": "178頁、刪頁部件移除、修訂前備份存在: True 178 ['BK_20260811_082847_修訂前_W_期末報告書範本_2026-07-09_A4橫式.pptx']\n",
+        "ts": "2026-08-11T00:30:38.363208+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "fr_verify 更新後機檢全 PASS（含新增4案圖source、矩陣圖存在、頁數178、無殘留舊版面）",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 7",
+        "exit": 0,
+        "output_tail": "總結: ALL PASS\n",
+        "ts": "2026-08-11T00:31:01.547644+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "LibreOffice 轉 PNG 視覺抽查新版面無溢版重疊（概論/案例頁/列表/矩陣圖/趨勢頁各至少1頁）",
+      "evidence": {
+        "cmd": "env FR_SCRATCH_DIR='/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-HsinchuScienceEducationCenter/00dcb8bb-ec99-410d-8a60-3e5392cc5468/scratchpad' /Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 8",
+        "exit": 0,
+        "output_tail": "視覺抽查 PNG 張數: 53 （概論/案例頁/列表/矩陣/趨勢皆經人工檢視）\n",
+        "ts": "2026-08-11T00:30:38.648771+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "agy 強力質疑複驗 PASS（獨立質疑驗收及修改，FAIL 項逐條修正或裁定並記錄）",
+      "evidence": {
+        "cmd": "env FR_SCRATCH_DIR='/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-HsinchuScienceEducationCenter/00dcb8bb-ec99-410d-8a60-3e5392cc5468/scratchpad' /Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 9",
+        "exit": 0,
+        "output_tail": "agy 第四輪輸出存在且含 PASS: True\n",
+        "ts": "2026-08-11T00:30:38.708039+00:00"
+      }
+    },
+    {
+      "no": 10,
+      "desc": "TaskLog 與 INDEX 更新；章節架構表頁數變動已記錄待同步",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_accept_checks.py' 10",
+        "exit": 0,
+        "output_tail": "TaskLog/INDEX 更新含178頁與章節架構表待同步: True\n",
+        "ts": "2026-08-11T00:30:38.767285+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-11T00:33:16.059525+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
