@@ -3,15 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-10 19:00**：已併 origin/main 進 night-relay（含晨報棒新增 `session-logs/20260810.md`、`wtf-config/LESSONS.md`）；0 個 active mission，QUEUE 無「待規劃」/「active」整欄精確相等項，今晚循環棒（19:30/21:30/23:30/01:30）預期全秒退。
-**待核准清單不變**：20260706-guide-app（唯一卡點：anchor 升級提案待裁決）／test-baton-pickup-0706（backlog全勾，建議直接改 done 或刪列，無需續跑）。
-**提名清單（5項，未核准前棒子不碰）**：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill（需掛ppt_map_mark）。
-**blockers 待決（逾期天數更新至今日）**：
-- o4-soundtrack 方向拍板**已逾期 19 天**（07-22承諾隔日回覆，仍未回）
-- machine-report 待補修正意見，**已20天**無回覆（07-21起）
-- guide-app anchor升級提案待裁決，**已20天**無回覆（07-21起）
-**產能算術**：active mission 數＝0 → 無 backlog 可推進；今晚排定 4 棒（19:30/21:30/23:30/01:30）預計全數秒退；無法推估任何完成日。解法：先裁決上述任一卡點，才有下一棒可作項。
-**連續秒退**：自07-24 19:33起累計 **69 棒**零增量（QUEUE無「待規劃」/「active」整欄精確相等項）。
+**晨報棒 2026-08-11 08:30**：昨晚4棒（19:30/21:35/23:34/01:34）全秒退，零實質增量——3個mission仍卡在使用者裁決（parked×2/待核准×1），QUEUE無「待規劃」/「active」整欄精確相等項。已併origin/main進night-relay（含main端新增`session-logs/20260811.md`、HsinchuSEC契約紀錄、LESSONS索引，非本迴圈產出）。
+**證據**：`missions/heartbeat.log` 尾4行（08-10 19:33/21:35/23:34、08-11 01:34，皆標「秒退:QUEUE無待規劃/active項」）。
+**blockers 新增項**：無——三個卡點皆無使用者回覆，逾期天數順延一天。
+**blockers 逾期更新**：o4-soundtrack方向拍板**已逾期20天**（07-22承諾隔日回覆）／machine-report修正意見**已21天**無回覆（07-21起）／guide-app anchor升級提案**已21天**無回覆（07-21起）。
+**產能算術**：active mission數＝0 → 無backlog可推進；無法推估完成日；解法唯一：裁決任一卡點才有下一棒可作項。
+**連續秒退**：自07-24 19:33起累計**73棒**零增量。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
