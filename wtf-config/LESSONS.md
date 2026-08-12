@@ -249,3 +249,6 @@
 - HsinchuSEC｜2026-08-11｜sldIdLst 重排實現插/刪頁而其他頁位元組不變；agy 質疑的「官方規格」兩度查證後翻案（tsmcmoi 網域、Geo-Cosmos LED）；圖說截斷須子句化＋機掃驗證｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-11｜新增資料項要同步周邊對照表（漏補 yearToLight＝燈不亮且無錯誤訊息）；更新腳本刻意排除的設定檔要另附只做增量的現場補丁，且用該機一定有的執行環境寫（node 能在 Mac 實測、PowerShell 不能）｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-11｜「只在變化時推送」的上游遇下游單獨重啟就失步（環控 mode 停在預設值→平板全鎖待機）：正解是下游啟動後主動拉一次上游現值、貼齊即停，而非持久化上次狀態；此類 bug 驗收必須先用對照組重現症狀｜projects/cowork_CDIC/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-12｜編輯模式「匯出檔案」是 DOM 快照不是原始碼（當下的 class／aria／style 會被固化，實測返回鍵少了 hidden 變常駐顯示），只改文字時別拿它覆蓋原檔——寫 patch 腳本把覆寫層精準寫回原始資料｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-12｜靜態託管選型先問「免費方案要不要 public repo」：GitHub Pages 免費＝原始碼與未授權素材全公開，改用 Cloudflare Pages Direct Upload（不接 git、一行指令更新）；不做存取控管時至少補 noindex＋robots.txt 並寫明「這不是權限管制」｜projects/HuaNan_Bank/_context/lessons-learned.md
+- HuaNan_Bank｜2026-08-12｜「手機比例的 demo」≠「手機上能用」：固定 393×852＋min(w/393,h/852) 在真手機被網址列吃掉高度而縮小留黑邊；手機版只依寬縮放、高度用 calc(100dvh/var(--k))、origin 改 top left、env(safe-area-*) 要除以 k；模擬相機／編輯工具列在真手機上要移除｜projects/HuaNan_Bank/_context/lessons-learned.md
