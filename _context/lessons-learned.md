@@ -1,5 +1,13 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-11 (inbox 分流撤回＋ to-codex skill＋ nightly 待決收尾)
+
+* **本機多 session 共用同一 git checkout，未 commit 的 staged 變更會被另一 session 的 commit 意外帶走**：本 session 對 WTF repo 做的 `git mv outputs workingfiles/outputs` + 新增檔案只 `git add` 未 commit，之後另一並行 session（不同 session ID）在同一份本機 checkout 上執行自己的 commit，把我方已 staged 的內容一併吃進它的 commit 裡（commit message 完全無關，實測 diff 內容正確無誤、無資料損失）。WTF_Under_Construction 這個 repo 本身沒有比照 cowork_CDIC 用 git worktree 隔離並行 session；日後若常態多 session 同時碰 WTF repo，應考慮同樣隔離（見 `parallel-worktree.md`），或至少：staged 但未 commit 的變更盡快自己 commit 掉，不要跨對話輪次久放。
+* **nightly 自動產出的「建議修改檔案」指標可能是錯的**：`nightly-notify.md` 一則建議寫著要改 `wtf-config/GLOBAL.md`，但該檔實際不存在對應條目，真正條目在 `tools/ai-team/cli-reference.html`。套用 nightly 建議前，必須先 grep 確認目標檔真的存在該條目，不能照抄檔名路徑就下手，否則會寫進一個查無此文的地方，建議等於沒套用。
+* **WTF 層級的 mission 追蹤（`missions/<slug>/`）只是夜間迴圈的協調狀態，不是被追蹤專案本身的真相源**：guide-app mission 的高風險裁決（主題明暗定調）一開始直接記在 WTF `missions/20260706-guide-app/_blockers.md`——經使用者指正「這應該在 Assembly 那個專案問我，不是全域層級」。改法：決策內容連同前因後果寫進該專案自己的 `_context/TaskLog`，WTF 層級的 blockers 檔只留一行指標指過去，不重複存放實質內容（呼應既有「INDEX 鐵律」：兩處放同一份真相必然漂移，只是這次踩在「WTF 全域 vs 被派工專案」這個新邊界上，不是原本講的 INDEX vs TaskLog）。
+* **`ai-team-todo` 的 `--project`/`--sub` 必須分開傳，不可把「頂層/子專案」字面字串塞進單一 `--project`**：既有資料裡有 22 筆是這樣建的（`CDIC/現場安裝`、`出勤/儀錶板`、`組立/導覽`），純文字 `list` 輸出完全看不出跟正確拆分的筆數有何不同（兩者都印成同一種 `project/sub` 字串），只能查 Supabase 原始欄位（`project`/`subproject` 分開查）才分辨得出來、才發現問題。
+* **產出即歸位，不要放 session scratchpad**：一份要分享給他人的交付物（`/to-codex` 安裝包）先做在 harness 配的系統暫存資料夾，經使用者提醒才搬進專案 `workingfiles/outputs/`——scratchpad 是單一 session 的暫存區，session 結束不保證留著，成果類產出應該在完成當下就歸位，不是等被提醒。
+
 ## 2026-08-04 (ody coach 驗收規則 R010-R012：零計數、generation 失效、pending note)
 
 * **驗收指令含計數斷言時，輸出筆數必須 > 0（R010 空轉證據攔截）**：evidence command 含迴圈或斷言邏輯者，輸出必須印出 > 0 的實際處理筆數；`count=0`／`entries=0` 等零計數即視為空轉、判無效（實例：diff json 用錯鍵名 `entries`，斷言空集合恆過，每次都 PASS 但根本沒驗到任何東西）。

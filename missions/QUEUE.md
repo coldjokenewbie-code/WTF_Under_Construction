@@ -3,25 +3,18 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-12 08:30**：昨晚4棒（19:30/21:41/23:33/01:34）全秒退零增量（連續**77棒**，自07-24 19:33起算），QUEUE現況不變——0個「待規劃」/「active」整欄精確相等項（parked×3、待核准×2、done×1、提名×5）。blockers無新回覆，逾期天數+1。已併origin/main進night-relay（無實質mission增量，僅session-logs/LESSONS更新）。
-**待核准/提名清單**：待核准×2——20260706-guide-app（僅剩anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
-**blockers待決**（逾期天數，皆自07-21/22首次卡住算至今日08-12）：
-- o4-soundtrack方向拍板：**已逾期21天**（07-22承諾隔日回覆，未至）
-- machine-report修正意見：**已逾期22天**（07-21起無回覆）
-- guide-app anchor升級提案：**已逾期22天**（07-21起無回覆）
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決任一卡點才有下一棒可作項。
-**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+（由 19:00 提醒棒自動覆蓋更新；18:30 本機 inbox 夜間候選提名會先跑，提名項在此快報一併列出）
 
 ## 佇列
 
 | slug | 狀態 | 優先序(1最高) | 一句話方向 |
 |---|---|---|---|
-| 20260706-machine-report | parked | 1 | 互動機具設計報告書（億元標案等級）；**2026-07-21 使用者驗收未過，暫時擱置**，待使用者補充具體修正意見（見 _blockers.md），補充後改回待核准/active |
-| 20260706-guide-app | 待核准 | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：M2 界達成（增量一～八，audit #6/#7 全數完成）。**2026-07-21 使用者已裁決風格方向（工業風/暗色為主/禁可愛風,icon尤其注意）**，剩餘唯一卡點：anchor 升級提案待使用者裁決，見 backlog/_blockers |
-| 20260706-o4-soundtrack | parked | 3 | O4 配樂重做：先研究→使用者討論→才製作（討論閘未開前音樂增量一律 blocker）；語音剪接/畫面品質方向已獲使用者認可；**23:34 棒觸發停止閘（連續2棒零進展）**，卡點見 _blockers.md，**2026-07-21 使用者告知方向拍板明日(07-22)回覆** |
-| 20260707-design-training | parked | 4 | 使用者設計能力訓練支援（常設,週循環）。**2026-07-21 使用者裁決**：案例包改僅本機(Mac)執行，雲端棒固定跳過；本週雲端無可作項（批評官值勤同樣本機限定,月審未到期），非待裁決卡點 |
-| test-baton-pickup-0706 | 待核准 | 9 | 管線探針：三檔齊備＋成功推 night-relay，無實質產出。**2026-07-24 01:30 棒（連續2晚缺席後第3次機會）成功觸發**，backlog 全勾，建議使用者直接結案（改「done」或刪列即可，無需續跑） |
-| 20260721-session-gate-fix | done | — | 已於 2026-07-22 由使用者直接指示當下 session 修復（跳過夜間棒）：postread exists 檢查＋bundle SHA 改讀 CLAUDE.md 權威來源。PreToolUse/Stop 接線經詢問使用者後暫不做。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（main 34f5602 直接修復，優先於 night-relay 排程狀態） |
+| 20260706-machine-report | active | 1 | 互動機具設計報告書（億元標案等級）；MISSION 已備，直接執行棒 |
+| 20260706-guide-app | active | 2 | 【2026-07-08 改向】優化現有 app（Assembly_Plant_Mobile_Guide，分支 ui-uplift）：先研究分析再優化——視覺/UI 整合/動態；MISSION 已改寫 |
+| 20260706-o4-soundtrack | done | — | 使用者 2026-08-11 確認已結案（結案細節未展開，未再回收），棒子不再排入 |
+| 20260707-design-training | active | 4 | 使用者設計能力訓練支援（常設,週循環）；MISSION＋訓練綱領已備,當填充任務 |
+| test-baton-pickup-0706 | 待規劃 | 9 | 管線探針：建 MISSION＋journal＋推 night-relay 即成功（僅在前面全被擋時才會輪到） |
+| 20260721-session-gate-fix | done | — | 已於 2026-07-22 由使用者直接指示當下 session 修復（跳過夜間棒）：postread exists 檢查＋bundle SHA 改讀 CLAUDE.md 權威來源。PreToolUse/Stop 接線經詢問使用者後暫不做。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md` |
 | ody-evidence-gate | 提名 | — | tools/ody 加「完成需證據」機檢＋pytest |
 | southlibrary-fonts | 提名 | — | 字體去 CDN（需掛 SouthLibrary） |
 | cowork-c-tasks | 提名 | — | C 區 5 任務資料化（需掛 cowork_CDIC） |

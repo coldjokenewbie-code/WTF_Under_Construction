@@ -1,5 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-07-30
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-11
+
+## 2026-08-11 inbox 分流撤回＋ to-codex skill 分享包＋ nightly 待決收尾
+- `/inbox` 分流 cowork_CDIC 三筆語音待辦後使用者要求全撤（App 內容不清楚），已還原 TaskLog／刪 App 25 筆／語音速記搬回 Clippings；順手修正 `ai-team-todo` 22 筆「頂層/子專案」未拆分的舊資料。新做 `/to-codex` skill（把工作交辦 Codex CLI，ChatGPT 帳號登入非 API）＋ HTML 安裝說明分享包，定案放 `workingfiles/outputs/to-codex-分享包/`（原頂層 `outputs/` 已併入 `workingfiles/outputs/`，符合現行資料夾規範）。nightly 三項待決已收尾：agy Mac 修法套用（實際條目在 `tools/ai-team/cli-reference.html`，非 GLOBAL.md）、o4-soundtrack mission 結案、guide-app 主題定調＝暗色為主（決策記在專案本身，WTF 層級只留指標）。**⚠️ 發現本機多 session 共用同一 WTF checkout 時，未 commit 的 staged 變更可能被另一並行 session 的 commit 意外一併帶走**（這次無資料損失，已核對）。詳見 `_context/TaskLog_2026-08-11_inbox分流與nightly待決收尾.md`（**當前 TaskLog**）。
 
 ## 2026-07-30 SSOT 維護（代號範圍／Artlist 登記／pull）＋ wtf-session-gate 正式接線
 - 三藏代號適用範圍擴及一般對話；Artlist MCP connector 研究登記進 `RESOURCES.md`；`workingfiles/` 資料夾規範恢復（與 `outputs/` 職責分離，`outputs/` 限定正式定案產出）。**重點**：`wtf-session-gate` 的 PreToolUse／Stop 正式接線上線——過程中發現並修復 `stop_dispatcher.py` 漏傳 CLI 參數（原本會讓所有 session 卡死無法結束）＋ subagent 因 SubagentStart 事件不可靠會被永久 deny 的風險（已加 `agent_id` 例外繞過），sandbox 全流程驗證後才部署，部署後同 session 內立即生效（已用 `protected()` 攔下自己的指令現場驗證）。詳見 `_context/TaskLog_2026-07-30_SSOT維護與session-gate正式接線.md`（**當前 TaskLog**）。

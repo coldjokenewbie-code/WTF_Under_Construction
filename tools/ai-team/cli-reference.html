@@ -332,6 +332,7 @@ with open('_context/討論檔.md','w',encoding='utf-8') as f: f.write(raw.decode
 
     <div class="callout warning">
       <p><strong>agy 必須在「獨立終端機（真 TTY）」跑，不能在 IDE 內建終端（VSCode 擴充 Bash tool／Antigravity IDE 嵌入 shell）驅動。</strong>根因：<strong>agy 偵測到非 TTY 就輸出空字串</strong>（已知，見竹科教館 2026-06-10 lesson；需 node-pty 建 ConPTY 包裝才會在非 TTY 環境出字）。症狀：在 IDE 嵌入 shell 內 <code>agy -p</code>／<code>agy models</code> 一律 <strong>EXIT 0 但 stdout 全空</strong>（非 timeout，<code>models</code> 也秒空）。CLI log 那行 <code>Failed to get OAuth token / not logged in</code> 是紅鯡魚（同 log 後段 keyring OAuth 仍成功），別誤判成登入問題。<strong>解法：換獨立終端機跑（用戶已實證可行），或用 node-pty ConPTY 包裝。</strong></p>
+      <p><strong>Mac 平台補充</strong>（實測來源：HsinchuSEC 2026-08-11 session）：問題不是非 TTY，是 <strong>stdin 進不了模型</strong>——改把 prompt 當命令列參數傳入，不用 node-pty：<code>agy --print "&lt;prompt&gt;" --dangerously-skip-permissions</code>。</p>
     </div>
 
     <h3>呼叫 Antigravity</h3>
