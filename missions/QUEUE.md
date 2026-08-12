@@ -3,14 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-11 19:00**：QUEUE現況與晨報一致——0個「待規劃」/「active」整欄精確相等項（parked×3、待核准×2、done×1、提名×5），今晚4棒（19:30/21:30/23:30/01:30）預期沿用秒退，除非以下卡點被裁決。已併origin/main進night-relay。
+**晨報棒 2026-08-12 08:30**：昨晚4棒（19:30/21:41/23:33/01:34）全秒退零增量（連續**77棒**，自07-24 19:33起算），QUEUE現況不變——0個「待規劃」/「active」整欄精確相等項（parked×3、待核准×2、done×1、提名×5）。blockers無新回覆，逾期天數+1。已併origin/main進night-relay（無實質mission增量，僅session-logs/LESSONS更新）。
 **待核准/提名清單**：待核准×2——20260706-guide-app（僅剩anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
-**blockers待決**（逾期天數，皆自07-21/22首次卡住算至今日08-11）：
-- o4-soundtrack方向拍板：**已逾期20天**（07-22承諾隔日回覆，未至）
-- machine-report修正意見：**已逾期21天**（07-21起無回覆）
-- guide-app anchor升級提案：**已逾期21天**（07-21起無回覆）
+**blockers待決**（逾期天數，皆自07-21/22首次卡住算至今日08-12）：
+- o4-soundtrack方向拍板：**已逾期21天**（07-22承諾隔日回覆，未至）
+- machine-report修正意見：**已逾期22天**（07-21起無回覆）
+- guide-app anchor升級提案：**已逾期22天**（07-21起無回覆）
 **產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決任一卡點才有下一棒可作項。
-**連續秒退**：自07-24 19:33起累計**73棒**零增量（循環棒次數，本提醒棒不計入）。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
