@@ -260,3 +260,4 @@
 - phonic_keyboard｜2026-08-13｜libchewing 使用者詞庫是「最近寫入者勝」，重複 add 不累積權重、也沒有設 user_freq 的 API，且它改的是智慧組字預設而非候選排序；要用匯入表達頻率只能依頻率由低到高寫入｜projects/phonic_keyboard/_context/lessons-learned.md
 - phonic_keyboard｜2026-08-13｜個人化詞庫只該收「系統預設會打錯」的條目：無差別匯入 4036 筆語料詞＝在每個讀音上永久蓋掉系統詞庫判斷，門檻 8 次時「線長」會蓋掉「現場」；改成只收修正＋門檻 50/75/200 後 1676→508 筆｜projects/phonic_keyboard/_context/lessons-learned.md
 - 3Dstudy｜2026-08-13｜String.replace 的替換值含 minified JS 時 `$&` 會被展開成匹配文字、頁面靜默壞掉；非手寫常數的替換內容一律用 replacer function｜projects/3Dstudy/_context/lessons-learned.md
+- phonic_keyboard｜2026-08-13｜組字區的視覺回饋不能只靠 marked text：kTSM 樣式、.backgroundColor 屬性、非零 selectionRange 三種機制在終端機全部無效，跨 App 一致只能自繪 NSPanel；凡是「叫客戶端幫我畫」的 API 都要先想好它不畫怎麼辦｜projects/phonic_keyboard/_context/lessons-learned.md
