@@ -253,3 +253,8 @@
 - HuaNan_Bank｜2026-08-12｜靜態託管選型先問「免費方案要不要 public repo」：GitHub Pages 免費＝原始碼與未授權素材全公開，改用 Cloudflare Pages Direct Upload（不接 git、一行指令更新）；不做存取控管時至少補 noindex＋robots.txt 並寫明「這不是權限管制」｜projects/HuaNan_Bank/_context/lessons-learned.md
 - HuaNan_Bank｜2026-08-12｜「手機比例的 demo」≠「手機上能用」：固定 393×852＋min(w/393,h/852) 在真手機被網址列吃掉高度而縮小留黑邊；手機版只依寬縮放、高度用 calc(100dvh/var(--k))、origin 改 top left、env(safe-area-*) 要除以 k；模擬相機／編輯工具列在真手機上要移除｜projects/HuaNan_Bank/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-09~11｜三方審核輪六條：①外部AI質疑報告必標「審視基準版本」（agy stdin附v2卻打在repo內v1，裁決要逐條對照現行版）；②獨立複驗連兩輪抓到自驗漏網（正名殘留、evidence assert未括號and/or恆弱）→轉機檢規則：宣稱「X改Y」必附源檔+產物舊詞歸零grep；③規劃性文字不得偽裝已存在資產（「圖名一二三」無圖檔被PO全刪；設計報告書=提案非知識來源，固化rules/content-sources.md）；④硬體前提每輪明文入腳本前提頁，展演欄位標籤=硬體契約（A-2三次迭代+agy抓「3D旋轉寫在[模型]欄」歧義）；⑤python-pptx直排字rotation會反序改逐字分段、表頭列高獨立設；⑥互動設計lessons實際擋退件（誤導揭曉/推理非記憶套用後未再被批老套）｜projects/南科再生水廠/_context/lessons-learned.md
+- 3Dstudy｜2026-08-13｜自動試玩 bot 與「無輸入穩定性」驗收不能共用同一次頁面載入（bot 會喚醒待機、時間軸整體前移像狀態機亂跳）；bot 做成可中途開關，驗尾段行為前先關｜projects/3Dstudy/_context/lessons-learned.md
+- 3Dstudy｜2026-08-13｜不持有 renderer 的 three.js content 場景（RenderTarget 螢幕內容）沒環境貼圖，metalness >0.5 整件變黑；金屬感改低 metalness＋淺色＋正面補光｜projects/3Dstudy/_context/lessons-learned.md
+- phonic_keyboard｜2026-08-13｜從單一情境歸納 API 語意會寫出錯教訓：libchewing「開候選時游標退到詞頭」其實只發生在句尾，逐格試 cursor 0～len 才知道游標根本不會動；寫進教訓前先跑完整個參數空間｜projects/phonic_keyboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-08-13｜libchewing 使用者詞庫是「最近寫入者勝」，重複 add 不累積權重、也沒有設 user_freq 的 API，且它改的是智慧組字預設而非候選排序；要用匯入表達頻率只能依頻率由低到高寫入｜projects/phonic_keyboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-08-13｜個人化詞庫只該收「系統預設會打錯」的條目：無差別匯入 4036 筆語料詞＝在每個讀音上永久蓋掉系統詞庫判斷，門檻 8 次時「線長」會蓋掉「現場」；改成只收修正＋門檻 50/75/200 後 1676→508 筆｜projects/phonic_keyboard/_context/lessons-learned.md
