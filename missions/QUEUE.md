@@ -3,13 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-12 19:00**：併 origin/main 進 night-relay 時 QUEUE.md／2 個 _blockers.md 三檔衝突——main 直接記了 2 筆新使用者裁決（o4-soundtrack 08-11 確認結案、guide-app 主題定調裁定A暗色），但 main 的 QUEUE 狀態欄本身是 07-08 舊快照（07-29 才首次寫入 main，之後只動過一行），已人工合併：保留 night-relay 追蹤的正確狀態（parked/待核准），只採用 main 的兩筆新裁決；guide-app anchor 升級提案等既有卡點未被 main 觸及，已補回不遺失。QUEUE 現況：parked×2（machine-report／design-training）、待核准×2（guide-app／test-baton-pickup-0706）、done×2（o4-soundtrack／session-gate-fix）、提名×5——仍 0 個「待規劃」/「active」整欄精確相等項，今晚循環棒預期秒退。
-**待核准/提名清單**：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
-**blockers待決**（逾期天數，自07-21首次卡住算至今日08-12）：
-- machine-report修正意見：**已逾期22天**（07-21起無回覆，o4-soundtrack已於08-11解決，此為僅剩同批舊卡點）
-- guide-app anchor升級提案：**已逾期22天**（07-21起無回覆；主題方向裁決已於08-11另案解決，不影響此項）
+**晨報棒 2026-08-13 08:30**：昨晚（19:00 提醒棒後）4 個循環棒（19:30/21:30/23:30/01:30）全數秒退零增量（連續81棒，since 首次連續秒退段起算），原因不變——QUEUE 仍 0 個「待規劃」/「active」整欄精確相等項，無可作項。各 mission 昨晚均無新增量：machine-report／design-training（parked，未動）、guide-app／test-baton-pickup-0706（待核准，未動）、o4-soundtrack／session-gate-fix（done，未動）、提名×5（未核准，棒子不碰）。blockers 無新回覆（逾期天數+1）。
+**待核准/提名清單**（不變）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
+**blockers待決**（逾期天數，自07-21首次卡住算至今日08-13）：
+- machine-report修正意見：**已逾期23天**（07-21起無回覆，o4-soundtrack已於08-11解決，此為僅剩同批舊卡點）
+- guide-app anchor升級提案：**已逾期23天**（07-21起無回覆；主題方向裁決已於08-11另案解決，不影響此項）
 **產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決任一卡點才有下一棒可作項（或核准 guide-app/test-baton 待核准項、或核准提名轉待規劃）。
-**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`（main 端 QUEUE.md 已數週未同步 night-relay 狀態，建議儘快收貨一次以避免下次再發生同型三檔衝突）。
+**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`（night-relay 領先 main 725 commits，多為秒退心跳累積；main 端 QUEUE.md 已數週未同步，建議收貨一次以避免下次三檔衝突）。
 
 ## 佇列
 
