@@ -107,7 +107,16 @@
       "Bash(claude --version)",
       "Bash(git fetch *)",
       "Bash(sed -i '' 's|/Users/coma/git_mirror/WTF_Under_Construction|/Users/coma/git_mirror/WTF_Under_Construction|g' ~/.claude/wtf-sync.sh ~/.claude/settings.json /Users/coma/git_mirror/WTF_Under_Construction/.claude/settings.local.json)",
-      "Bash(echo \"residual check exit: $?\")"
+      "Bash(echo \"residual check exit: $?\")",
+      "Bash(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" check)",
+      "Bash(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" sync)",
+      "Bash(python \"E:\\\\Git_work\\\\WTF_Under_Construction\\\\wtf-config\\\\sync_config.py\" register)",
+      "Bash(git status *)",
+      "Bash(git -c core.quotepath=false pull)",
+      "Bash(python wtf-config/sync_config.py register)",
+      "Bash(python wtf-config/sync_config.py check)",
+      "Bash(grep -o \"E:\\\\\\\\\\\\\\\\Git_work[^\\\\\"]*\" ~/.claude/settings.json)",
+      "Bash(git -c core.quotepath=false pull --ff-only)"
     ],
     "additionalDirectories": [
       "c:\\Users\\2025.DESKTOP-7SF21LR\\Documents\\Git_foler_anti\\WTF_Under_Construction\\.claude\\skills\\skills-install",
