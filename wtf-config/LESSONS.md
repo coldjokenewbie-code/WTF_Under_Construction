@@ -264,3 +264,4 @@
 
 - attendance-dashboard｜2026-08-14｜判定條件列舉「字面樣本」而非解析語意會靜默漏接（請假只認 10:00／全天，遇 (09:00-18:00) 不中）；isAllDay 這類欄位語意要先用真實資料驗再當判準；Logic Apps 函式引數急切求值、不短路，單行解析靠串接哨兵值；批次掃描的 try/catch 必須輸出「應處理 N／成功 M」，否則錯誤結論看起來跟正確的一樣｜projects/attendance-dashboard/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-14｜python-pptx 增刪頁殘留孤兒 slide rel，之後任何存檔都撞名（Duplicate name）；PowerPoint COM 另存洗檔修復，save 前 warnings 升錯誤實際擋下壞檔｜projects/南科再生水廠/_context/lessons-learned.md
+南科再生水廠｜2026-08-14｜openpyxl 回寫含繪圖 xlsx 必壞檔，內容另開獨立檔｜projects/南科再生水廠/_context/lessons-learned.md

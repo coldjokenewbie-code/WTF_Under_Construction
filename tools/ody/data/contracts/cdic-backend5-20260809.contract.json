@@ -1,0 +1,279 @@
+{
+  "task_id": "cdic-backend5-20260809",
+  "goal": "五區雙語A–E業主編輯後台（依_context/PRD_2026-08-09_業主編輯後台.md＋已核可A區mockup）：套用才寫回＋自動備份留3份＋展示頁自動重整＋圖檔上傳規格檢查＋中英雙語；A–D寫回各區content（B走B_內容總表.json重生閉合）；E目標＝索引.json架構（展示端為創科Unity、我方HTML僅示意；目標路徑做成可設定，實際名稱路徑週二PO取回後對接）；先修mockup編輯區塊截斷（欄位固定高裁內容→自動撐高）",
+  "created": "2026-08-09T14:58:53.317735+00:00",
+  "repo_root": "/Users/coma/git_mirror/cowork_CDIC",
+  "base_ref": "decfe0b4ccce86eee52f6038af6031389a21f970",
+  "preexisting_dirty": [
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/A_kiosk/css/main.css",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/A_kiosk/css/refinements.css",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk/B.html",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk/B_JS/B_app.js",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk/B_JS/B_locale.js",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk/css/B_style.css",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/C_kiosk/C.html",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/C_kiosk/js/env_stage.js",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/C_kiosk/js/lang_poll.js",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/C_kiosk/js/rfid_input.js",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/D_kiosk/D.html",
+    "outputs/V4_upgrade/B_kiosk/content/B_內容總表.json",
+    "outputs/V4_upgrade/_規範/業主編輯規範.html",
+    "outputs/_shared/協調看板_2026-08-05_ABCD升級平行派工.md",
+    "_context/PRD_2026-08-09_業主編輯後台.md",
+    "_context/TaskLog_2026-08-07_全區待辦清算.md",
+    "outputs/CDIC_test_v2/A_kiosk/assets/",
+    "outputs/CDIC_test_v2/A_kiosk/publish_content.ps1",
+    "outputs/CDIC_test_v2/A_kiosk_EN/assets/",
+    "outputs/CDIC_test_v2/A_kiosk_EN/publish_content.ps1",
+    "outputs/CDIC_test_v2/B_kiosk/assets/",
+    "outputs/CDIC_test_v2/B_kiosk_EN/assets/",
+    "outputs/CDIC_test_v2/D_kiosk/assets/",
+    "outputs/CDIC_test_v2/D_kiosk/publish_content.ps1",
+    "outputs/CDIC_test_v2/D_kiosk_EN/assets/",
+    "outputs/CDIC_test_v2/D_kiosk_EN/publish_content.ps1",
+    "outputs/E_browse/archive/E_doc/_assets/",
+    "outputs/V1/A_kiosk/archive/",
+    "outputs/V1/A_kiosk/assets/",
+    "outputs/V1/B_APK/app/build.gradle",
+    "outputs/V1/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V1/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V1/B_APK/app/src/main/java/",
+    "outputs/V1/B_APK/app/src/main/res/",
+    "outputs/V1/B_APK/build.gradle",
+    "outputs/V1/B_APK/gradle/",
+    "outputs/V1/B_APK/gradlew",
+    "outputs/V1/B_APK/settings.gradle",
+    "outputs/V1/B_kiosk/archive/B_doc/30週年影片抽幀候選/",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_上機照片_保留23.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_年表事件_圖文總表_給業主.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區年表上機照片素材/",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615_BAK20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W英文審稿_B區穩定金融大事紀區v3_20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/workingfiles/",
+    "outputs/V1/B_kiosk/archive/B_doc/多媒體素材需求清單__B區穩定金融大事紀區v1_20260609.docx",
+    "outputs/V1/B_kiosk/assets/",
+    "outputs/V1/C_kiosk/archive/20260505提供_存保多媒體內容說明_C區.pptx",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_back_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_front_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/C區Icon圖/",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623_BAK20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W英文審稿_C區安定應變區v1_20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/icons.pptx",
+    "outputs/V1/C_kiosk/archive/中央存保_C區多媒體內容0505.pptx",
+    "outputs/V1/C_kiosk/assets/",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610_BAK20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W英文審稿_D區成果效益區v1_20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/_scripts/_pdf/",
+    "outputs/V1/D_kiosk/archive/D_doc/template_多媒體素材需求清單_.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/多媒體素材需求清單__D區成果效益區v1_20260611.docx",
+    "outputs/V1/D_kiosk/archive/存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區.pptx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區_v2.pptx",
+    "outputs/V1/D_kiosk/archive/工作檔＿存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/assets/",
+    "outputs/V2/A_kiosk/assets/",
+    "outputs/V2/A_kiosk_EN/assets/",
+    "outputs/V2/B_APK/app/build.gradle",
+    "outputs/V2/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V2/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V2/B_APK/app/src/main/java/",
+    "outputs/V2/B_APK/app/src/main/res/",
+    "outputs/V2/B_APK/build.gradle",
+    "outputs/V2/B_APK/gradle/",
+    "outputs/V2/B_APK/gradlew",
+    "outputs/V2/B_APK/local.properties",
+    "outputs/V2/B_APK/settings.gradle",
+    "outputs/V2/B_kiosk/assets/",
+    "outputs/V2/C_kiosk/assets/",
+    "outputs/V2/C_kiosk_EN/assets/",
+    "outputs/V2/D_kiosk/assets/",
+    "outputs/V2/D_kiosk/更換素材.docx",
+    "outputs/V2/D_kiosk_EN/assets/",
+    "outputs/V2/archive/C_kiosk_EN_單任務基底_20260716/assets/",
+    "outputs/V2/archive/C_kiosk_單任務含後台_20260716/assets/",
+    "outputs/V2/tests/logs/",
+    "outputs/V2/tests/screenshots/",
+    "outputs/V3/A_kiosk/archive/_bak_20260805_A媒體換裝前/",
+    "outputs/V3/C_kiosk/assets/",
+    "outputs/V3/D_kiosk/archive/D_kiosk_EN_退役20260726/assets/",
+    "outputs/V3/D_kiosk/archive/D_kiosk_EN_退役20260726/publish_content.ps1",
+    "outputs/V3/D_kiosk/archive/_bak_20260726_合併前/D_kiosk/assets/",
+    "outputs/V3/D_kiosk/archive/_bak_20260726_合併前/D_kiosk/publish_content.ps1",
+    "outputs/V3/D_kiosk/archive/_bak_20260726_合併前/D_kiosk/開啟D區.bat",
+    "outputs/V3/D_kiosk/archive/_bak_20260726_合併前/D_kiosk_EN/assets/",
+    "outputs/V3/D_kiosk/archive/_bak_20260726_合併前/D_kiosk_EN/publish_content.ps1",
+    "outputs/V3/archive/_bak_20260727_B主從互換前/B_sync/開啟B區同步測試.bat",
+    "outputs/V3/archive/_bak_20260727_B主從互換前/B_sync/開啟環控端_admin.bat",
+    "outputs/V3/archive/_bak_20260727_B主從互換前/B_sync/開啟螢幕_display.bat",
+    "outputs/V3/archive/_bak_20260727_B主從互換前/自啟安裝/",
+    "outputs/V3/archive/_bak_20260727_kiosk_profile前/",
+    "outputs/V3/archive/_bak_20260805_C區置中與移除提示前/",
+    "outputs/V4_upgrade/A_kiosk/編輯模式_A區.bat",
+    "outputs/V4_upgrade/B_kiosk/content/_bak_自動備份_20260807/",
+    "outputs/V4_upgrade/C_kiosk/archive/_bak_20260807_C三修正前/",
+    "outputs/V4_upgrade/C_kiosk/編輯模式_C區.bat",
+    "outputs/V4_upgrade/D_kiosk/編輯模式_D區.bat",
+    "outputs/V4_upgrade/_規範/archive/",
+    "outputs/V4_upgrade/archive/",
+    "outputs/V4_upgrade/tests/",
+    "outputs/_shared/B區_切年閃動與日晷陰影_20260805.html",
+    "outputs/_shared/B區圖文核對_20260807.html",
+    "outputs/_shared/Handover_2026-08-07_R5炭筆線稿暫停.md",
+    "outputs/_shared/R4_vs_R5_比對_20260809/",
+    "outputs/_shared/_R5_開工時間.txt",
+    "outputs/_shared/_handover_20260807_B同步診斷.md",
+    "outputs/_shared/_handover_20260807_C區三項.md",
+    "outputs/_shared/_handover_20260807_D區五項.md",
+    "outputs/_shared/_handover_20260807_E待機三項.md",
+    "outputs/_shared/_scripts/a_media_20260805/",
+    "outputs/_shared/_scripts/b_fix_20260807_globe_light/",
+    "outputs/_shared/_scripts/b_glitch_20260805/",
+    "outputs/_shared/_scripts/b_loop_sweep_20260807/",
+    "outputs/_shared/_scripts/c_center_20260805/",
+    "outputs/_shared/_scripts/c_fix3_20260807/",
+    "outputs/_shared/_scripts/e_sign_standby_0807/",
+    "outputs/_shared/_scripts/globe_4k_20260805/",
+    "outputs/_shared/_scripts/globe_4k_enhance_20260807/",
+    "outputs/_shared/_scripts/media_list_docx_20260807/",
+    "outputs/_shared/_scripts/sketch_r3_20260805/",
+    "outputs/_shared/a_swap_20260805/",
+    "outputs/_shared/codex任務_媒體重製7筆_20260805.md",
+    "outputs/_shared/codex任務_極簡單線稿_R4_20260805.md",
+    "outputs/_shared/codex任務_炭筆手繪線稿_R5_20260805.md",
+    "outputs/_shared/codex任務_素描風格線稿化_R3_20260805.md",
+    "outputs/_shared/codex回報_媒體重製_20260805.md",
+    "outputs/_shared/codex回報_極簡單線稿_R4_20260805.md",
+    "outputs/_shared/codex回報_炭筆手繪線稿_R5_20260805.md",
+    "outputs/_shared/codex回報_素描風格線稿化_R3_20260805.md",
+    "outputs/_shared/media_remake_20260805/",
+    "outputs/_shared/sketch_同仁會議_20260805/",
+    "outputs/_shared/sketch_形象牆_20260805/",
+    "outputs/_shared/sketch_風格R3_總比對_20260805.html",
+    "outputs/_shared/sketch_風格R4_總比對_20260805.html",
+    "outputs/_shared/sketch_風格R5_總比對_20260805.html",
+    "outputs/_shared/媒體清單縮圖_20260805/",
+    "outputs/_shared/定稿備註_20260807/",
+    "outputs/_shared/待辦彙報_2026-08-07_A-E各區.html",
+    "outputs/_shared/待辦彙報_2026-08-07_勾選狀態.json",
+    "outputs/_shared/週二現場驗收清單_20260807.html",
+    "outputs/_shared/非業主媒體清單_2026-08-05.html",
+    "outputs/_shared/非業主媒體清單_2026-08-05.md",
+    "outputs/_shared/非業主媒體清單_2026-08-05_勾選結果.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V4_upgrade/**"
+  ],
+  "preflight_permissions": [
+    "寫入限outputs/V4_upgrade/**；E驗證只寫JSON副本；正式索引.json、V3、USB、content定稿文字一律不動"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "mockup 5_1/5_2/5_3三處截斷修復且全部欄位無隱藏溢出（機檢斷言）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台mockup/_build/verify.mjs",
+        "exit": 0,
+        "output_tail": "ASS 未套用計數 chip 顯示\nPASS 中英 tab：截圖切 en、欄位值切 en.js 現值、草稿不互染\nPASS 切回中文：草稿保留\nPASS 未套用切頁 → 未儲存警告對話框\nPASS 帶著草稿切換 → 進入宗旨頁\nPASS 圖檔規格檢查：小圖出現尺寸警告（仍可套用）\nPASS 圖檔草稿：預覽於圖檔位置顯示新圖\nPASS 套用確認對話框：列出全部異動欄位（含 2_2、3_3）\nPASS 套用後 toast：寫回＋自動備份（3 份）＋展示頁自動重整\nPASS 套用後：未套用狀態清空、套用鈕停用\nPASS 還原鈕：草稿回到現值\nPASS 編號編碼規則說明摺疊區\nPASS 「顯示全部編號」開關\nPASS 五個畫面切換全部正常\nPASS 五頁全欄位無隱藏溢出或內容裁切，願景 5_1／5_2／5_3 完整可見\nPASS console 零錯誤\n\n=== 機檢全部通過（22 項） ===\n",
+        "ts": "2026-08-09T17:04:01.049387+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A區後台真實版：編輯→套用→寫回content/{tw,en}.js＋自動備份留3份＋展示頁自動重整通知，Playwright全流程機檢PASS",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/browser-flow.mjs",
+        "exit": 0,
+        "output_tail": "PASS browser: layout, markers, bilingual drafts, image validation, FSA apply, backup, reload notification, console zero\n",
+        "ts": "2026-08-09T17:04:02.073494+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "B區後台：寫回B_內容總表.json→build重生，產物與重生逐位元組閉合驗證",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/verify-all.mjs",
+        "exit": 0,
+        "output_tail": " E JSON: 97 entries, source-key badges, multiline/special values, unique format probe, target-only write\nPASS E FSA: project-root path, copy-only apply, target-only diff, exact readback, latest 3 backups\nPASS E static: config path, no-image apply by design, source-key badge, beforeunload, CRLF launcher\nPASS verify-all: syntax + 11 executable suites; browser suites require independent Claude rerun\n",
+        "ts": "2026-08-09T17:04:04.042460+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "C區後台：寫回content/{tw,en}.js，全流程機檢PASS",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/browser-bcd-flow.mjs",
+        "exit": 0,
+        "output_tail": "PASS BCD browser: marker pointerdown, textarea, bilingual drafts, FSA apply, backup, reload, console zero\n",
+        "ts": "2026-08-09T17:04:06.934720+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "D區後台：寫回content檔（沿用schema對應），全流程機檢PASS",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/browser-bcd-flow.mjs",
+        "exit": 0,
+        "output_tail": "PASS BCD browser: marker pointerdown, textarea, bilingual drafts, FSA apply, backup, reload, console zero\n",
+        "ts": "2026-08-09T17:04:09.760158+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "E區後台：編輯目標＝索引.json同架構JSON、目標路徑可設定；驗證僅對副本寫回且diff只含目標欄位",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/browser-e-flow.mjs",
+        "exit": 0,
+        "output_tail": "PASS E browser: 97-tree, marker pointerdown, textarea, bilingual draft, viewer, FSA copy, backup, console zero\n",
+        "ts": "2026-08-09T17:04:10.454807+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "五區皆中英編輯＋預覽對應標示比照mockup；各區console零錯誤",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V4_upgrade/_後台/tests/verify-all.mjs",
+        "exit": 0,
+        "output_tail": " E JSON: 97 entries, source-key badges, multiline/special values, unique format probe, target-only write\nPASS E FSA: project-root path, copy-only apply, target-only diff, exact readback, latest 3 backups\nPASS E static: config path, no-image apply by design, source-key badge, beforeunload, CRLF launcher\nPASS verify-all: syntax + 11 executable suites; browser suites require independent Claude rerun\n",
+        "ts": "2026-08-09T17:04:12.425927+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "agy質疑一輪且指控逐項實證覆核留檔；ody-verifier獨立複驗PASS",
+      "evidence": {
+        "note": "agy 質疑 12 條逐項裁決留檔＝outputs/V4_upgrade/_後台/質疑覆核_20260810.md；ody-verifier 三輪獨立複驗（A/BCD/E）皆 PASS（本 session 紀錄）；修補輪契約 cdic-backend5-fixes-20260810 check PASS",
+        "ts": "2026-08-09T17:04:12.460429+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "children": [
+    {
+      "task_id": "cdic-backend5-A-20260809",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-backend5-BCD-20260809",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-backend5-E-20260810",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-backend5-fixes-20260810",
+      "agent": "codex"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-08-09T17:04:12.551364+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

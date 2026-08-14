@@ -1,0 +1,68 @@
+{
+  "task_id": "CDIC-Bswap3233-20260727",
+  "goal": "B 區 guide 角色（B_sync 伺服器＋導覽端）從 .33 主機暫時移到 .32 主機，.33 改為 display 副螢幕機；IP 不隨角色搬移。因 .33 設備異常，屬暫時方案，日後可能移回，故 APK 改多位址依序嘗試、其餘 IP 抽成單一設定點，回復時不需重編。燈控伺服器不動、仍在 .32，B_sync 與其同機故 lightHost 改 127.0.0.1。",
+  "created": "2026-07-27T09:04:58.220489+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/**",
+    "outputs/USB部署包_20260722/**",
+    "_context/**",
+    "outputs/_shared/_scripts/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-27 裁示：.33 設備異常，B guide 角色暫移 .32；IP 不隨角色搬；燈控先改同機；APK 採多位址依序嘗試（.32 優先、.33 次之）"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "I1 動工前備份受影響檔案到 outputs/V3/archive/_bak_20260727_B主從互換前/（保留相對路徑），附逐檔 md5 清單",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "I2 MainActivity.java 的 SERVER_BASE 由單一字串改為候選位址陣列，依序嘗試 192.168.0.32:8123 再 192.168.0.33:8123，取第一個可達者；全部不可達時維持既有退回內建版行為；isServerReachable 與 isServerUrl 等相依函式一併調整且不得破壞既有逃生手勢與鎖定功能",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "I3 APK 重編成功（JAVA_HOME=/opt/homebrew/opt/openjdk@17、ANDROID_HOME=/opt/homebrew/share/android-commandlinetools），versionCode 由 8 改 9、versionName 由 3.1.0 改 3.2.0；解包後以 strings 證明 dex 內同時含 192.168.0.32:8123 與 192.168.0.33:8123，並輸出 APK 路徑與 SHA-256",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "I4 自啟安裝/_build_startup.ps1 的 B主機與B副機兩條 kiosk URL 改為 http://192.168.0.32:8123，且角色對調：.32 開 role=guide、.33 開 role=display；並將位址抽成腳本頂端單一變數，回復時只改一處",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "I5 B_sync/light_config.json 的 lightHost 由 192.168.0.32 改為 127.0.0.1（B_sync 與燈控接收程式同機），lightPort 6000 與 cmdSuffix 不動；tablets 分區對照不動",
+      "evidence": null
+    },
+    {
+      "no": 6,
+      "desc": "I6 其餘含舊位址的檔案一併更新：B_sync 三支 bat、自啟安裝_B副螢幕機.bat 提示文字；tests/verify_a1_ip_migration.sh 的斷言判準改為新架構並實跑通過",
+      "evidence": null
+    },
+    {
+      "no": 7,
+      "desc": "I7 文件更新：現場安裝執行手冊、README.md、walkthrough.md、部署需求彙整.md 的機器角色表與燈控段落；並於 _context/PRD_2026-07-22_現場部署需求彙整.md 新增變更紀錄，寫明為暫時方案、原因、以及移回 .33 的完整回復步驟",
+      "evidence": null
+    },
+    {
+      "no": 8,
+      "desc": "I8 三台平板（B3 .34 / B4 .35 / B5 .37）以 adb install -r 安裝新 APK，逐台輸出 versionCode 確認為 9；若平板未連線則明確回報未安裝清單，不得宣稱完成",
+      "evidence": null
+    },
+    {
+      "no": 9,
+      "desc": "I9 同步更新後的 V3 進 USB 部署包與實體隨身碟 /Volumes/ESD-USB，排除 archive 類，逐檔 md5 核對一致；並恢復 B主機一鍵更新腳本（本次 B 已定案）",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "open"
+}

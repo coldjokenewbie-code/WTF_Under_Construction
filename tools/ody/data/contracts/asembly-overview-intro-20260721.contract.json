@@ -1,0 +1,109 @@
+{
+  "task_id": "asembly-overview-intro-20260721",
+  "goal": "開頭總覽動畫 OverviewIntro v2（PO 退修六點：情境背景各異、小標字卡取代字幕、掃展牌重現01片4秒畫面、②③推薦卡滑入+手機左移、刪四色QR段、480f）；關鍵幀交 PO → 過後動畫細修；QuestDemo 落款前書擋幀",
+  "created": "2026-07-21T05:30:56.858126+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun-overview",
+  "base_ref": "7c091f63e79d1178f7dfdd2bd87785e75eb77d46",
+  "preexisting_dirty": [
+    "src/index.tsx",
+    "AGENT_SIGNAL.log",
+    "AGENT_SPEC_overview.md",
+    "public/asembly/overview/",
+    "src/asembly/OverviewIntro.tsx"
+  ],
+  "scope_allowlist": [
+    "src/asembly/**",
+    "src/index.tsx",
+    "public/asembly/overview/**",
+    "AGENT_SPEC_overview.md",
+    "AGENT_SIGNAL.log"
+  ],
+  "preflight_permissions": [
+    "並行 worktree overview-intro；Studio port 3334；app 實截 localhost:3000；codex exec headless 執行"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "關鍵幀 v2 逐項符合 PO 六點退修（背景對應/小標卡/01片4秒重現/滑入卡+手機左移/無QR段），風格與四支一致，交 PO 圈選",
+      "evidence": {
+        "note": "v2 關鍵幀 9 張已算繪並交 PO（outputs/demo動畫/總覽開場/keyframes_v2/）：六點退修全落實——p2實照定位/小標卡取代字幕/01片4秒重現/服務台掃碼1/休息LINE_10+rest_area滑入/②③滑入卡+手機左移/刪QR段480f淡出。掃描段對齊 template match=0.963、偏差 -0.5/-1.5px",
+        "ts": "2026-07-21T06:48:23.204707+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "文案逐字符合 SPEC v2；無底部字幕、無四色QR段、無收束字卡",
+      "evidence": {
+        "cmd": "grep -c '掃描展牌 QR code\\|直達展品功能頁\\|服務定位：老職工帶路，重現組立工場記憶與痕跡\\|輸入名稱直達展品頁' src/asembly/OverviewIntro.tsx && ! grep -qE 'Subtitle|QR_STEPS|以下逐一示範' src/asembly/OverviewIntro.tsx",
+        "exit": 0,
+        "output_tail": "3\n",
+        "ts": "2026-07-21T06:48:23.086955+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "總長 480f@30fps，無音軌",
+      "evidence": {
+        "cmd": "grep -A3 'id=\"OverviewIntro\"' src/index.tsx | grep -c 'durationInFrames={480}' && ! grep -q 'Audio' src/asembly/OverviewIntro.tsx",
+        "exit": 0,
+        "output_tail": "1\n",
+        "ts": "2026-07-21T06:48:23.129246+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "情境皆 app 實截 localhost:3000（home/map/audience/schedule/search_typing）",
+      "evidence": {
+        "cmd": "python3 -c \"\nfrom PIL import Image\nimport os\nfor f in ['home.png','map.png','audience.png','schedule.png','search_typing.png']:\n    p='public/asembly/overview/'+f\n    assert os.path.exists(p), f\n    w,h=Image.open(p).size\n    assert (w,h)==(780,1688), (f,w,h)\nprint('5 張 app 實截齊備 780x1688@2x')\"",
+        "exit": 0,
+        "output_tail": "5 張 app 實截齊備 780x1688@2x\n",
+        "ts": "2026-07-21T07:26:44.819710+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "掃描段取景框對 QR 中心偏差 <8px（check_overview_alignment.py）",
+      "evidence": {
+        "note": "kf_160 機檢：白色取景框中心 (1302.5,567.5) vs QR template match 中心 (1304,570)，偏差 1.5/2.5px < 8px 容差（交接所指 check_overview_alignment.py 前手未存檔，以等效量測取代並記錄方法）",
+        "ts": "2026-07-21T07:26:54.703872+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "字卡行銷語黑名單機檢 0 命中",
+      "evidence": {
+        "cmd": "! grep -qE '好玩|驚豔|沉浸|精彩|樂趣|獨特|魅力|盡情|奇幻|饗宴|示範情境|走進工場故事|把它請回|你看，這就是|領回家' src/asembly/OverviewIntro.tsx",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T06:48:23.170950+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "QuestDemo 落款前書擋幀＝開頭標題卡同款",
+      "evidence": {
+        "note": "QuestDemo 書擋幀完成於主工作樹（commit 7737354，避免與 worktree 撞檔）：黑幕收滿→書擋標題（同開場 館名+主標樣式）→落款三拍；props 時間軸新增 書擋開始464/落款開始546/總長600；f500 全黑書擋、f570 落款左半亮度 0.0 機檢過",
+        "ts": "2026-07-21T07:26:23.246517+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "worktree Studio port 3334 預覽就緒，不 render MP4",
+      "evidence": {
+        "cmd": "bash -c 'lsof -i :3334 -sTCP:LISTEN | grep -q node'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T07:26:23.324308+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T07:28:14.556735+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

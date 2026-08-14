@@ -1,0 +1,53 @@
+{
+  "task_id": "asembly-overview-v5-20260722",
+  "goal": "依 PO 確認腳本（分鏡腳本_2026-07-22_開場快速總覽版.md）重製 OverviewIntro v5：快速總覽四支手機＋獨立多語介紹＋還原原情境段",
+  "created": "2026-07-21T13:24:37.974960+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "f99d4b74ecf166960d06b797c3b820aff299d015",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "public/asembly/overview/home.png",
+    "public/asembly/quest/cert_filled.png",
+    "public/asembly/quest/kiosk_drill.png",
+    "src/Root.tsx",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/OverviewIntro.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/asembly/shared.tsx",
+    "public/asembly/direct/",
+    "public/asembly/overview/counter_front.png",
+    "public/asembly/overview/home_en.png",
+    "public/asembly/overview/home_jp.png",
+    "public/asembly/quest/cert_filled_1.png",
+    "src/asembly/OverviewSegment77to116.tsx"
+  ],
+  "scope_allowlist": [
+    "src/asembly/OverviewIntro.tsx src/Root.tsx"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "1) 九段結構同腳本v5，軌道制 Sequence名=props欄名，總長=黑幕淡出.結束(約950幀) 2) 快速總覽四支手機動態完全一致且無手指：中央亮相+圓框→依序停靠左到右，各停靠手機下方有功能小標(多語/搜尋/服務/場次) 3) 霧面白底不透明度0.40且為props可調 4) 多語介紹獨立段：EN自動切換浮籤→手指點JP(FingerTap scale=1.0 空襲片等比)→日文介面 5) 情境一~四自 archive 舊剪還原(hall_next背景/SlidePanel/搜尋實錄影片+點按) 6) npx tsc --noEmit 通過 7) Root defaultProps 行內字面值更新且其他四片 Composition 不動",
+      "evidence": {
+        "cmd": "npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T13:45:13.629307+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T13:48:31.038255+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

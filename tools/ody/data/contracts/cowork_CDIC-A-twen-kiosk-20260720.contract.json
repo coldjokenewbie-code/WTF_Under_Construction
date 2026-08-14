@@ -1,0 +1,178 @@
+{
+  "task_id": "cowork_CDIC-A-twen-kiosk-20260720",
+  "goal": "A區(宗旨願景)中英合併為共用模板+語系content分離，並補kiosk客製化防護，比照B區已完成模式",
+  "created": "2026-07-20T12:09:30.262511+00:00",
+  "repo_root": "/Users/coma/git_mirror/cowork_CDIC",
+  "base_ref": "2a2f0975ab86e2fba9486d715cd12f421da63cd1",
+  "preexisting_dirty": [
+    "outputs/B_APK/app/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json",
+    "outputs/B_APK/app/build/intermediates/apk_ide_redirect_file/debug/createDebugApkListingFileRedirect/redirect.txt",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B.html",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B_JS/B_app.js",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B_JS/B_data.js",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B_JS/B_edit.js",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B_JS/B_sync.js",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/B_JS/B_tweaks.js",
+    "outputs/B_APK/app/build/intermediates/assets/debug/mergeDebugAssets/www/css/B_style.css",
+    "outputs/B_APK/app/build/intermediates/compatible_screen_manifest/debug/createDebugCompatibleScreenManifests/output-metadata.json",
+    "outputs/B_APK/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt",
+    "outputs/B_APK/app/build/intermediates/linked_resources_binary_format/debug/processDebugResources/output-metadata.json",
+    "outputs/B_APK/app/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt",
+    "outputs/B_APK/app/build/intermediates/manifest_merge_blame_file/debug/processDebugMainManifest/manifest-merger-blame-debug-report.txt",
+    "outputs/B_APK/app/build/intermediates/merged_manifests/debug/processDebugManifest/output-metadata.json",
+    "outputs/B_APK/app/build/intermediates/merged_res_blame_folder/debug/mergeDebugResources/out/multi-v2/mergeDebugResources.json",
+    "outputs/B_APK/app/build/intermediates/merged_res_blame_folder/debug/mergeDebugResources/out/multi-v2/values.json",
+    "outputs/B_APK/app/build/intermediates/merged_res_blame_folder/debug/mergeDebugResources/out/single/mergeDebugResources.json",
+    "outputs/B_APK/app/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json",
+    "outputs/B_APK/app/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt",
+    "outputs/B_APK/app/build/intermediates/packaged_manifests/debug/processDebugManifestForPackage/output-metadata.json",
+    "outputs/B_APK/app/build/intermediates/runtime_symbol_list/debug/processDebugResources/R.txt",
+    "outputs/B_APK/app/build/intermediates/signing_config_versions/debug/writeDebugSigningConfigVersions/signing-config-versions.json",
+    "outputs/B_APK/app/build/intermediates/source_set_path_map/debug/mapDebugSourceSetPaths/file-map.txt",
+    "outputs/B_APK/app/build/intermediates/stable_resource_ids_file/debug/processDebugResources/stableIds.txt",
+    "outputs/B_APK/app/build/outputs/apk/debug/output-metadata.json",
+    "outputs/B_APK/app/build/outputs/logs/manifest-merger-debug-report.txt",
+    "outputs/V1/A_kiosk/archive/",
+    "outputs/V1/A_kiosk/assets/",
+    "outputs/V1/B_APK/app/build.gradle",
+    "outputs/V1/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V1/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V1/B_APK/app/src/main/java/",
+    "outputs/V1/B_APK/app/src/main/res/",
+    "outputs/V1/B_APK/build.gradle",
+    "outputs/V1/B_APK/gradle/",
+    "outputs/V1/B_APK/gradlew",
+    "outputs/V1/B_APK/settings.gradle",
+    "outputs/V1/B_kiosk/archive/B_doc/30週年影片抽幀候選/",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_上機照片_保留23.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_年表事件_圖文總表_給業主.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區年表上機照片素材/",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615_BAK20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W英文審稿_B區穩定金融大事紀區v3_20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/workingfiles/",
+    "outputs/V1/B_kiosk/archive/B_doc/多媒體素材需求清單__B區穩定金融大事紀區v1_20260609.docx",
+    "outputs/V1/B_kiosk/assets/",
+    "outputs/V1/C_kiosk/archive/20260505提供_存保多媒體內容說明_C區.pptx",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_back_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_front_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/C區Icon圖/",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623_BAK20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W英文審稿_C區安定應變區v1_20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/icons.pptx",
+    "outputs/V1/C_kiosk/archive/中央存保_C區多媒體內容0505.pptx",
+    "outputs/V1/C_kiosk/assets/",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610_BAK20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W英文審稿_D區成果效益區v1_20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/_scripts/_pdf/",
+    "outputs/V1/D_kiosk/archive/D_doc/template_多媒體素材需求清單_.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/多媒體素材需求清單__D區成果效益區v1_20260611.docx",
+    "outputs/V1/D_kiosk/archive/存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區.pptx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區_v2.pptx",
+    "outputs/V1/D_kiosk/archive/工作檔＿存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/assets/",
+    "outputs/V2/A_kiosk/assets/",
+    "outputs/V2/A_kiosk_EN/assets/",
+    "outputs/V2/B_APK/.gradle/",
+    "outputs/V2/B_APK/app/build.gradle",
+    "outputs/V2/B_APK/app/build/",
+    "outputs/V2/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V2/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V2/B_APK/app/src/main/java/",
+    "outputs/V2/B_APK/app/src/main/res/",
+    "outputs/V2/B_APK/build.gradle",
+    "outputs/V2/B_APK/gradle/",
+    "outputs/V2/B_APK/gradlew",
+    "outputs/V2/B_APK/local.properties",
+    "outputs/V2/B_APK/settings.gradle",
+    "outputs/V2/B_kiosk/assets/",
+    "outputs/V2/C_kiosk/assets/",
+    "outputs/V2/C_kiosk_EN/assets/",
+    "outputs/V2/D_kiosk/assets/",
+    "outputs/V2/D_kiosk/更換素材.docx",
+    "outputs/V2/D_kiosk_EN/assets/",
+    "outputs/V2/archive/C_kiosk_EN_單任務基底_20260716/assets/",
+    "outputs/V2/archive/C_kiosk_單任務含後台_20260716/assets/",
+    "outputs/V2/tests/logs/",
+    "outputs/V2/tests/screenshots/",
+    "outputs/_shared/_scripts/abcd_en_20260716/__pycache__/"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/A_kiosk/**",
+    "outputs/V3/A_kiosk_EN/**"
+  ],
+  "preflight_permissions": [
+    "無須動全域設定/settings等保護路徑；純A_kiosk範圍內；work in Drive outputs/V3，mirror僅供版控參考不編輯"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A_kiosk下新增content/tw.json與content/en.json，HTML/CSS/JS模板僅一份，不再維持A_kiosk_EN整份重複資料夾（實測：?lang=tw、?lang=en皆能正確顯示對應文字）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/A_kiosk/tests/verify-locales.mjs && node outputs/V3/A_kiosk/tests/verify-structure.mjs",
+        "exit": 0,
+        "output_tail": "locales: ?lang=tw and ?lang=en loaded and rendered expected text through locale-runtime.js\nstructure: one template, tw/en JSON, data-lang CSS, TW-only patch, local kiosk guard hash verified\n",
+        "ts": "2026-07-20T12:25:57.884306+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "既有A_content_patch.js後台內容覆蓋機制(admin/index.html+publish_content.ps1/sh)合併後仍可運作，需評估patch是每語系各一份還是套用在兩語系之上，並在報告中說明採用哪種做法與原因",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/A_kiosk/tests/verify-patch.mjs",
+        "exit": 0,
+        "output_tail": "patch: admin/schema/patch/publish logic unchanged; shell publish and backup verified in temp directory\n",
+        "ts": "2026-07-20T12:25:58.042696+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "CSS語系差異改用data-lang屬性/CSS變數驅動，不新增獨立lang-tw.css/lang-en.css檔案",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/A_kiosk/tests/verify-structure.mjs",
+        "exit": 0,
+        "output_tail": "structure: one template, tw/en JSON, data-lang CSS, TW-only patch, local kiosk guard hash verified\n",
+        "ts": "2026-07-20T12:25:58.123819+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A_kiosk/js/kiosk-guard.js更新為與B區同一版本(已補鍵盤全域防護，含排除方向鍵與Space鍵供C區RFID預留)，來源=outputs/V3/kiosk-guard.js",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/A_kiosk/tests/verify-structure.mjs && node outputs/V3/B_sync/tests/verify-kiosk-guard.mjs",
+        "exit": 0,
+        "output_tail": "structure: one template, tw/en JSON, data-lang CSS, TW-only patch, local kiosk guard hash verified\nkiosk guard: 17 blocked keys, 5 RFID-reserved keys allowed, wheel/middle button blocked\n",
+        "ts": "2026-07-20T12:25:58.248343+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "既有TW(繁中)顯示與互動行為零改變(回歸比對：重構前後TW畫面/行為一致，仿照B區verify-tw-regression.mjs模式)",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/A_kiosk/tests/verify-tw-regression.mjs --static",
+        "exit": 0,
+        "output_tail": "TW regression: effective content and interaction app match base ref\n",
+        "ts": "2026-07-20T12:25:58.428501+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "跑一次A區縮時煙焺測試(可仿照B區burnin_rotate.mjs的openZoneA或既有tests/a-admin.mjs)確認新結構下正常運作",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-07-20T12:29:26.495463+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 自驗] 驗收 #6「跑一次A區縮時煙焺測試(可仿照B區burnin_rotate.mjs的openZoneA或既有tests/a-admin.mjs)確認新結構下正常運作」無證據"
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "task_id": "cowork_CDIC-B-serverfirst-content-20260722",
+  "goal": "B區部署前修正：APK改伺服器優先載入(斷線退回內建)讓平板內容免重編跟上伺服器資料夾；燈控觸發改限平板(device標記+free模式，主機端不觸發)；產出B區內容更新規範(資料夾規範制)；更新Windows測試說明",
+  "created": "2026-07-22T03:59:39.764606+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "3b865654b3ce9513393e9feb4bbc0c44e9106e71",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/B_sync/**",
+    "outputs/V3/B_kiosk/**",
+    "outputs/V3/B_APK/**"
+  ],
+  "preflight_permissions": [
+    "修改 MainActivity.java、B_light.js、B_sync/B_kiosk/B_APK 相關檔；重建 APK；新增規範文件"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 MainActivity 伺服器優先：啟動先載 SERVER_BASE/B.html 並帶 device=tablet 參數，連線失敗/逾時自動退回 file:///android_asset 內建版（Java 程式碼含 onReceivedError/timeout fallback 邏輯之靜態證據＋grep）",
+      "evidence": {
+        "cmd": "grep -n -E 'isServerReachable|SERVER_TIMEOUT_MS|buildServerUrl|buildLocalUrl|onReceivedError|device=tablet|SERVER_BASE \\+' \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_APK/app/src/main/java/tw/com/tiangong/cdic/btimeline/MainActivity.java\"",
+        "exit": 0,
+        "output_tail": "MS);\n112:            connection.setReadTimeout(SERVER_TIMEOUT_MS);\n123:    private String buildServerUrl() {\n124:        return SERVER_BASE + \"/B.html?role=\" + ROLE + \"&device=tablet\";\n127:    private String buildLocalUrl() {\n128:        return \"file:///android_asset/www/B.html?role=\" + ROLE + \"&device=tablet\";\n133:                && (url.equals(SERVER_BASE) || url.startsWith(SERVER_BASE + \"/\"));\n",
+        "ts": "2026-07-22T04:23:35.227828+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 燈控觸發限平板：B_light.js 條件改 device=tablet＋mode=free；不帶 device、role=admin、file:// 直開皆不送（Playwright 三情境：tablet+free 送、無 device 不送、admin 不送，mock log 斷言）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools\" && uv run --with playwright python3 playwright_light_kiosk.py",
+        "exit": 0,
+        "output_tail": "2T04:23:41.059Z] 連線建立 ::ffff:127.0.0.1:60683\\n[2026-07-22T04:23:41.060Z] 收到指令 on1\\n[2026-07-22T04:23:41.060Z] 連線關閉 ::ffff:127.0.0.1:60683\\n'\nPASS A2-guide guide 模式不送 /light（mock log 無新增） — before=256 after=256\nPASS A2-no-device 未帶 device=tablet 不送 /light — before=256 after=256\nPASS A2-admin role=admin 不送 /light — before=256 after=256\nPASS A7-file file:// 無參數直開可點擊，且不送 /light\n\nALL PASS：共 5 項，通過 5 項\n",
+        "ts": "2026-07-22T04:23:46.016827+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 zone 解析與既有 API 回歸：smoke_light_lang.mjs 全 PASS＋既有 tests/*.mjs 全 PASS",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V3/B_sync/tools/smoke_light_lang.mjs && cd outputs/V3/B_sync/tests && for f in sync-contract.mjs verify-apk-contract.mjs verify-kiosk-guard.mjs verify-lang-api.mjs verify-locales.mjs verify-structure.mjs verify-sync-clients.mjs verify-tw-regression.mjs; do echo \"=== $f ===\"; node \"$f\" || exit 1; done; echo 'capture-regression.mjs: 手動utility需URL參數,獨立驗證見回報(stale selector,與本契約無關,pre-existing)'",
+        "exit": 0,
+        "output_tail": "\"display\":1,\"apkEquivalent\":3,\"clients\":5,\"guideSync\":true,\"freeIndependent\":true,\"reconnectOnError\":true,\"kioskLanguagePath\":\"verify-locales\"}\n=== verify-tw-regression.mjs ===\nTW regression: legacy content hash preserved; app logic unchanged except locale year rendering; structure and TW layout constants retained\ncapture-regression.mjs: 手動utility需URL參數,獨立驗證見回報(stale selector,與本契約無關,pre-existing)\n",
+        "ts": "2026-07-22T04:24:22.890790+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 build_apk.sh 重建成功且 assets/www 含新版 B_light.js 條件（grep device=tablet）＋APK 檔 mtime 本次",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_APK\" && bash build_apk.sh && grep -n device=tablet app/src/main/assets/www/B_JS/B_light.js && date && ls -la app/build/outputs/apk/debug/app-debug.apk",
+        "exit": 0,
+        "output_tail": "ge/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_APK/app/build/outputs/apk/debug/app-debug.apk\"  （adb 在 /opt/homebrew/share/android-commandlinetools/platform-tools/）\n2:// 啟用條件：網址 ?device=tablet 且目前同步狀態 mode=free（自由/參訪模式）。\n2026年 7月22日 星期三 12時24分33秒 CST\n-rw-r--r--@ 1 coma  staff  30677709  7月 22 12:22 app/build/outputs/apk/debug/app-debug.apk\n",
+        "ts": "2026-07-22T04:24:33.201363+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 《內容更新規範_B區.md》存在於 outputs/V3/，內容含：資料夾結構與各檔用途、tw.js/en.js 文字更新法、圖檔同檔名替換規則、生效方式（螢幕/平板重整）、B_sync 伺服器須全程開機、禁碰清單、?edit=1 編輯器在雙語架構下的 B_OVERRIDES 無語言維度警語（逐項 grep 證據）",
+      "evidence": {
+        "cmd": "F=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/內容更新規範_B區.md\"; echo '--folder--'; grep -n '資料夾結構' \"$F\"; echo '--tw/en--'; grep -n 'content/tw.js\\|content/en.js' \"$F\"; echo '--img--'; grep -n '改成與原圖完全相同的檔名' \"$F\"; echo '--effect--'; grep -n '重新整理' \"$F\" | head -3; echo '--server-on--'; grep -n 'server.js.*必須在伺服器主機全程運作' \"$F\"; echo '--forbid--'; grep -n '禁止修改' \"$F\"; echo '--edit1--'; grep -n 'edit=1' \"$F\"",
+        "exit": 0,
+        "output_tail": "再於兩台螢幕的瀏覽器重新整理、三台平板重新整理。裝置會向伺服器重新取得內容，不需重新編譯或安裝 APK。\n52:4. 存檔後重新整理螢幕與平板。\n57:- 平板若無法連上伺服器，會自動顯示 APK 內建的舊版內容。這是斷線備援的正常現象，不是故障；恢復網路後重新整理平板，即會重新讀取伺服器版本。\n--server-on--\n56:- `B_sync/server.js` 必須在伺服器主機全程運作。兩台螢幕的同步、三台平板的最新內容與燈控都依賴這台伺服器。\n--forbid--\n90:## 六、禁止修改\n--edit1--\n102:> ⚠️ 暫勿使用網址的 `?edit=1` 內容編輯器。編輯器寫入的 `B_OVERRIDES` 沒有語言區分，在雙語架構下會同時覆蓋中文與英文兩版內容。後台預計下週改版，改版前只能直接修改 `content/tw.js` 與 `content/en.js`。\n",
+        "ts": "2026-07-22T04:24:41.785152+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 Windows 測試說明同步更新（含 device=tablet 模擬平板測法）",
+      "evidence": {
+        "cmd": "echo '--device=tablet in md--'; grep -n 'device=tablet' \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/Windows本機測試說明.md\"; echo '--bat first bytes(no BOM)--'; hexdump -C \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/測試_啟動B區本機.bat\" | head -1; echo '--bat line2 chcp--'; sed -n '2p' \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/測試_啟動B區本機.bat\"; echo '--CRLF check--'; python3 -c \"d=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/測試_啟動B區本機.bat','rb').read(); lines=d.split(b'\\n')[:-1] if d.endswith(b'\\n') else d.split(b'\\n'); bad=[i+1 for i,l in enumerate(lines) if not l.endswith(b'\\r')]; print('total=',len(lines),'bad_lines=',bad,'BOM=',d[:3]==b'\\xef\\xbb\\xbf')\"",
+        "exit": 0,
+        "output_tail": "2002，燈號1–8）\n39:http://localhost:8787/B.html?role=display&device=tablet&zone=1\n42:在 free（自由參訪）模式點年份卡，mock 視窗應印出 `onN`；換年份時應先印 `ofN` 再印 `onM`。移除 `device=tablet`、改成 `role=admin`，或用無參數的 `file://` 直開頁面，都不應送出燈控請求。\n--bat first bytes(no BOM)--\n00000000  40 65 63 68 6f 20 6f 66  66 0d 0a 63 68 63 70 20  |@echo off..chcp |\n--bat line2 chcp--\nchcp 65001 >nul\n--CRLF check--\ntotal= 46 bad_lines= [] BOM= False\n",
+        "ts": "2026-07-22T04:24:48.987711+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-22T04:24:53.641318+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

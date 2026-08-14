@@ -1,0 +1,84 @@
+{
+  "task_id": "asembly-phonebubble-rollout-20260721",
+  "goal": "PO 核可之手機拉出面板樣式（PhoneBubble 灰面板+L虛線拉線+chip、PhoneAssetFrame PO手素材）比照套用到 AirRaidDemo/MemoryVoiceDemo/QuestDemo；場景淡變於面板進場前收完",
+  "created": "2026-07-21T04:40:17.046449+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "7c091f63e79d1178f7dfdd2bd87785e75eb77d46",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/asembly/shared.tsx",
+    "AGENT_SPEC_phonebubble.md",
+    "public/asembly/airraid/hand_po.png",
+    "public/asembly/ardemo/hand_po.png",
+    "public/asembly/memory/hand_po.png",
+    "public/asembly/quest/hand_po.png",
+    "refs_po/"
+  ],
+  "scope_allowlist": [
+    "src/asembly/*.tsx",
+    "AGENT_SPEC_phonebubble.md",
+    "public/asembly/*/hand_po.png"
+  ],
+  "preflight_permissions": [
+    "同 keyframe 契約授權：codex headless 改碼、Claude 抽幀機檢與驗收"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "三支皆改用 PhoneBubble+PhoneAssetFrame(hand_po.png)，PhoneCallout 呼叫全移除（grep 無 <PhoneCallout 命中）",
+      "evidence": {
+        "cmd": "bash -c 'grep -n \"<PhoneCallout\\|hand_hold\" src/asembly/*.tsx; test $? -eq 1'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T04:50:47.732635+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "AirRaid/Memory 場景淡變縮 8 幀且於 phoneIn 前收完（面板在場時背景單一場景）；Quest 各場景淡變 ≤8 幀；掃描窗與 VO 起點對齊不搶拍",
+      "evidence": {
+        "note": "AirRaid: 淡變36-44/50-58、phoneIn=62、scanEnd=160=VO.guide；Memory: 淡變36-44/50-58、phoneIn=62、scanEnd=150=VO.invite；Quest: playIn/KioskBg 皆 8 幀。面板在場時背景皆為單一穩定場景（air_f120/mem_f120 抽幀無鬼影）",
+        "ts": "2026-07-21T04:50:47.774109+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "Quest 拉線僅於機台掃描段顯示（開場任務頁不拉線）",
+      "evidence": {
+        "note": "PhoneBubble 新增 leaderWindow prop；Quest 傳 {from:230,to:295}——quest_f100（任務頁）抽幀無拉線、quest_f260（機台掃描）拉線顯示且接面板，其餘三支未傳=全程顯示",
+        "ts": "2026-07-21T04:50:47.811945+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "四支 still 各抽掃描段+內容段落定幀 exit 0；抽幀無鬼影、手無變異、面板外緣無膚色殘留（機檢）",
+      "evidence": {
+        "note": "8 張抽幀（air f120/f400、mem f120/f300、quest f100/f260/f420、ar f110）全 exit 0；目視無鬼影/手變異；面板右緣/底緣膚色 run 機檢 7 張=0、quest_f100 max run 15 經取樣判定為大廳米色地板偽陽性（色值 140-147/122-131/91-98 連續於場景、非鄰接面板裁切帶，放大檢視無手部）",
+        "ts": "2026-07-21T04:50:47.851605+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "ody-verifier 獨立複驗 PASS",
+      "evidence": {
+        "note": "ody-verifier (agentId ab8b47eb) 獨立複驗 5 條全 PASS：grep 零殘留、三支時序常數逐行核實、Quest leaderWindow 230-295、重跑 2 張 still exit 0＋目視無變異/鬼影/殘留",
+        "ts": "2026-07-21T04:52:56.263312+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx remotion still src/index.tsx AirRaidDemo /tmp/ody_air_roll.png --frame=200"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T04:52:57.881136+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

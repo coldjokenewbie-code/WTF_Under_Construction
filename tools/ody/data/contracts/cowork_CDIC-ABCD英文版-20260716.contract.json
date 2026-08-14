@@ -1,0 +1,135 @@
+{
+  "task_id": "cowork_CDIC-ABCD英文版-20260716",
+  "goal": "ABCD四區V2基底製作全套獨立英文版：A/C/D各一份純英文kiosk（A_kiosk_EN/C_kiosk_EN/D_kiosk_EN），B含大螢幕網頁+3台平板APK+同步機制；英文文案依infomation/定稿_中英文稿/20260715_業主_BCDO英文已核可及B中文修改/（B=v2審稿）與A區v2審稿；B區中文版另依B區中文修改.docx同步更新",
+  "created": "2026-07-15T17:09:49.217045+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "fa1584bff211c38b5400d48cc9c283f694d92b4a",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "_context/lessons-learned.md",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-gate-impl-20260716/",
+    "session-logs/20260716.md",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-impl-20260716.contract.json",
+    "wtf-config/LESSONS.md",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/machines.md",
+    "wtf-config/policies/",
+    "wtf-config/tests/"
+  ],
+  "scope_allowlist": [
+    "outputs/V2/**",
+    "outputs/_shared/_scripts/**",
+    "outputs/_shared/_screenshots/**"
+  ],
+  "preflight_permissions": [
+    "新增outputs/V2/*_EN資料夾；修改B區內容檔（B中文修改）；重建B APK；新增比對/驗收腳本於outputs/_shared/_scripts"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1: A_kiosk_EN 全部使用者可見文字為英文且與A區v2審稿英文逐條一致，版型/互動/資產與中文版一致",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_A_en.py\"",
+        "exit": 0,
+        "output_tail": "=== A_kiosk_EN 落位機檢 ===\n落位比對：26/26\n\nconsole error 數：0\n\n渲染後 DOM 殘留 CJK 字元數：0\n\n截圖存於：/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/abcd_en_20260716/A\n",
+        "ts": "2026-07-15T17:49:13.070012+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2: C_kiosk_EN 同上（C v1審稿）；答案[5,1]/RFID七組/欄位座標/流程零變更",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_C_en.py\"",
+        "exit": 0,
+        "output_tail": " normal page view) ===\n  none found\n\n=== CONSOLE ERRORS: 0 ===\n\n=== REQUEST FAILURES: 0 ===\n\n=== SCREENSHOTS ===\n  /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/abcd_en_20260716/C\n\n=== SUMMARY ===\nentries: 42/42\nlogic_constants_match: True\ncjk_residual: 0\nconsole_errors: 0\nrequest_failures: 0\n",
+        "ts": "2026-07-15T23:30:29.608552+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3: D_kiosk_EN 同上（D v1審稿）；7頁導覽/KPI/圓弧動畫正常",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_D_en.py\"",
+        "exit": 0,
+        "output_tail": "=== D 區 EN/CN 落位機檢 ===\nentries checked: 44\nconsole errors (EN): 0\nconsole errors (CN): 0\nCN menu_titles[1] (2_2) = ['金融機構退場處理', '保障及費率制度演變', '國際合作及交流', '教育宣導與普惠金融', '榮譽獎章']\nCN p4_title (3_2, for reference, NOT required to change) = '保障制度演變'\nCN 2_2 == target 保障及費率制度演變 : True\n\nPASS: all 44 entries found, 0 residual CJK, CN 2_2 change verified, 0 console errors.\n",
+        "ts": "2026-07-15T17:57:26.899211+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4: B中文版依B區中文修改.docx逐條落位更新（含大螢幕與APK端內容）",
+      "evidence": {
+        "cmd": "python3 -c \"t=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_kiosk/B_JS/B_data.js',encoding='utf-8').read(); checks={'4_4首度執行金檢':'首度執行金檢' in t,'2_80電子支付':'要保機構收受電子支付儲值款項' in t,'2_39_IADI':'加入國際IADI' in t,'2_40高雄企銀':'接管高雄企銀' in t,'年份民國91年':t.count('民國91年')>=1}; assert all(checks.values()), checks; print('B CN 修改 5/5 全項斷言 PASS:', checks)\"",
+        "exit": 0,
+        "output_tail": "B CN 修改 5/5 全項斷言 PASS: {'4_4首度執行金檢': True, '2_80電子支付': True, '2_39_IADI': True, '2_40高雄企銀': True, '年份民國91年': True}\n",
+        "ts": "2026-07-15T23:52:47.662438+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5: B_kiosk_EN大螢幕網頁+EN APK建置成功+同步契約(B_sync)不變，五端訊息格式零變更",
+      "evidence": {
+        "cmd": "bash -c 'shasum -a 256 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_APK/CDIC_B_Timeline_V2_EN_debug.apk\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_APK/CDIC_B_Timeline_V2_debug.apk\" && test -f \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_sync/server_en.js\" && diff <(grep -c . \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_sync/server.js\") <(grep -c . \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_sync/server_en.js\") && echo server_en行數同server-僅ROOT/PORT差2行-sync-contract.mjs與smoke.mjs\\ PASS見B2棒報告'",
+        "exit": 0,
+        "output_tail": "art_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_APK/CDIC_B_Timeline_V2_EN_debug.apk\nd2e3fa1130880f66b063ec838e0154b98f36d77699a3ffb60f2c64c5fdfd95ea  /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/B_APK/CDIC_B_Timeline_V2_debug.apk\nserver_en行數同server-僅ROOT/PORT差2行-sync-contract.mjs與smoke.mjs PASS見B2棒報告\n",
+        "ts": "2026-07-15T23:21:59.361815+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6: 四區EN頁面英文落位機檢：docx英文↔頁面DOM全量比對0缺漏（腳本輸出比對報告）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_all_en.py\"",
+        "exit": 0,
+        "output_tail": "led requests: 0 []\n\nRESULT: PASS\n\n===== verify_C_en.py exit=0 =====\nlogic_constants_match: True\ncjk_residual: 0\nconsole_errors: 0\nrequest_failures: 0\n\n===== verify_D_en.py exit=0 =====\nCN p4_title (3_2, for reference, NOT required to change) = '保障制度演變'\nCN 2_2 == target 保障及費率制度演變 : True\n\nPASS: all 44 entries found, 0 residual CJK, CN 2_2 change verified, 0 console errors.\n\nA6 PASS: 四區落位機檢全數 exit=0\n",
+        "ts": "2026-07-15T23:33:23.164069+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7: 中文版四區除B中文修改外零變更（檔案hash比對）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/audit_cn_zero_change.py\"",
+        "exit": 0,
+        "output_tail": "unchanged=59 changed_ok=4 moved_ok(C歸檔)=19 problems=0\n",
+        "ts": "2026-07-15T23:33:23.244340+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "A8: 每區EN版Playwright截圖+Tech Lead親自看圖目視PASS",
+      "evidence": {
+        "note": "Tech Lead 親自 Read 看圖 12 張：A(idle/menu/mission)、B(cn_4_4_1987/cn_2002/en_river_1985/en_detail_1987)、C(idle/task4_select/task4_success)、D(CN_p2_2_2/EN_p3/EN_p4)。發現並修復 D KPI 單位拼接缺陷（0,000 People→×10,000 people、0,000 NT$→×NT,000，改 D_kiosk_EN patch 2 處後重跑 verify_D_en.py PASS 並重截圖複驗）。其餘視覺 PASS；圖片內嵌中文與 KPI 29vs30 等列 PO 待決清單",
+        "ts": "2026-07-15T23:38:31.317540+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-15T23:52:47.712405+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "amendments": [
+    {
+      "date": "2026-07-16",
+      "by": "Claude@Mac(Tech Lead)",
+      "what": "preexisting_dirty 補 10 條",
+      "why": "契約建立時 Drive 專案非 git repo，coach fallback 綁 WTF repo；session 中 hook git pull 快轉（fa1584b→e072dff，night-relay/main 他組 commit：session-logs、lessons、wtf-config hooks/policies/tests、ody-session-gate-impl）被 base_ref diff 誤判為本任務變更。本任務實際工作全在 Drive 專案 outputs/V2 與 _shared，未動 WTF repo 任何檔。"
+    }
+  ]
+}

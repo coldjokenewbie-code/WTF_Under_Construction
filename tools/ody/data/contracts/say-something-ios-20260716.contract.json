@@ -1,0 +1,124 @@
+{
+  "task_id": "say-something-ios-20260716",
+  "goal": "依 PRD_2026-07-16_iOS版本.md 方案B:建立 ios/ 原生 SwiftUI App(min iOS 16,iPhone X 公務機),AVAudioRecorder AAC 錄音→Gemini generateContent 轉錄+潤飾,七模式,Keychain 存 key,歷史30筆;完成階段1-3+5(階段4實機驗收待使用者接機)",
+  "created": "2026-07-16T06:58:35.367853+00:00",
+  "repo_root": "/Users/coma/git_mirror/say-something",
+  "base_ref": "c02ac33e8064a996dbad839bbf9077f64a670c83",
+  "preexisting_dirty": [
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "ios/**",
+    "_context/TaskLog_2026-07-16_iOS版本.md",
+    "_context/INDEX.md"
+  ],
+  "preflight_permissions": [
+    "新增修改 ios/** 檔案",
+    "執行 xcodebuild 建置",
+    "更新 _context TaskLog/INDEX",
+    "依 rules/git-sync-whitelist.md 複製 Drive→mirror 並於 mirror commit(push 另請示)"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 於 mirror 執行 xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO 回 exit 0",
+      "evidence": {
+        "cmd": "xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO",
+        "exit": 0,
+        "output_tail": "imulator, arch:arm64, id:6E0D8E13-E9A1-403E-A8D3-6343E0BB7305, OS:26.5, name:iPhone 17e }\n{ platform:iOS Simulator, arch:arm64, id:DA6506AB-1E9F-4D99-9B14-10DE7CDE6FA6, OS:26.5, name:iPhone Air }\n{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008142-001571483409401C, name:My Mac }\n{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }\n",
+        "ts": "2026-07-16T07:11:42.782799+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 pbxproj 全部 target 之 IPHONEOS_DEPLOYMENT_TARGET=16.0",
+      "evidence": {
+        "cmd": "grep -c 'IPHONEOS_DEPLOYMENT_TARGET = 16.0' ios/SaySomething.xcodeproj/project.pbxproj | grep -qx 4 && echo ALL_TARGETS_16 || (echo MISMATCH; exit 1)",
+        "exit": 0,
+        "output_tail": "ALL_TARGETS_16\n",
+        "ts": "2026-07-16T07:11:48.965405+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 七模式 key 與 android/app/src/main/java/com/saysomething/keyboard/Prompts.kt 一致(潤飾/原樣/正式/訊息/Email/筆記/翻譯),prompt 內容等義移植",
+      "evidence": {
+        "cmd": "grep -oE 'id: \"[a-z]+\", label: \"[^\"]+\"' ios/SaySomething/Prompts.swift | sed -E 's/id: \"([a-z]+)\", label: \"([^\"]+)\"/\\1|\\2/' > /tmp/ios_modes.txt; grep -oE '\"[a-z]+\", \"[^\"]+\",' android/app/src/main/java/com/saysomething/keyboard/Prompts.kt | sed -E 's/\"([a-z]+)\", \"([^\"]+)\",/\\1|\\2/' > /tmp/android_modes.txt; diff /tmp/ios_modes.txt /tmp/android_modes.txt && echo MODES_MATCH",
+        "exit": 0,
+        "output_tail": "MODES_MATCH\n",
+        "ts": "2026-07-16T07:12:14.654318+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 Gemini 走 REST v1beta generateContent,音檔以 inlineData base64 附帶,模型與輸出語言可於設定頁選",
+      "evidence": {
+        "cmd": "grep -q 'v1beta/models' ios/SaySomething/GeminiClient.swift && grep -q 'generateContent' ios/SaySomething/GeminiClient.swift && grep -q 'inline_data' ios/SaySomething/GeminiClient.swift && grep -q 'base64EncodedString' ios/SaySomething/GeminiClient.swift && grep -q 'static let models' ios/SaySomething/Settings.swift && grep -q 'static let langs' ios/SaySomething/Settings.swift && grep -q 'settings.model' ios/SaySomething/SettingsView.swift && grep -q 'settings.outputLang' ios/SaySomething/SettingsView.swift && echo A4_OK",
+        "exit": 0,
+        "output_tail": "A4_OK\n",
+        "ts": "2026-07-16T07:12:23.281461+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 API key 以 Keychain(SecItem API)儲存,程式碼中不得將 key 寫入 UserDefaults",
+      "evidence": {
+        "cmd": "grep -q 'kSecClassGenericPassword' ios/SaySomething/KeychainStore.swift && grep -q 'KeychainStore.save(geminiKey)' ios/SaySomething/Settings.swift && grep -q 'geminiKey = KeychainStore.load()' ios/SaySomething/Settings.swift && ! grep -q 'UserDefaults.standard\\|UserDefaults(' ios/SaySomething/KeychainStore.swift && ! grep -n 'geminiKey' ios/SaySomething/Settings.swift | grep -q 'defaults\\.' && echo A5_OK",
+        "exit": 0,
+        "output_tail": "A5_OK\n",
+        "ts": "2026-07-16T07:13:01.335668+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 歷史紀錄上限 30 筆(超過裁切),持久化重啟保留",
+      "evidence": {
+        "cmd": "grep -q 'static let limit = 30' ios/SaySomething/HistoryStore.swift && grep -q 'prefix(Self.limit)' ios/SaySomething/HistoryStore.swift && grep -q 'JSONEncoder' ios/SaySomething/HistoryStore.swift && grep -q 'JSONDecoder' ios/SaySomething/HistoryStore.swift && grep -q 'UserDefaults' ios/SaySomething/HistoryStore.swift && echo A6_OK",
+        "exit": 0,
+        "output_tail": "A6_OK\n",
+        "ts": "2026-07-16T07:12:28.373325+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7 Info.plist 含 NSMicrophoneUsageDescription 繁中說明",
+      "evidence": {
+        "cmd": "grep -A1 'NSMicrophoneUsageDescription' ios/SaySomething/Info.plist | grep -q '麥克風' && echo A7_OK",
+        "exit": 0,
+        "output_tail": "A7_OK\n",
+        "ts": "2026-07-16T07:12:30.614680+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "A8 ios/README.md 含安裝步驟(開發者模式/Xcode Run)與 7 天重簽 SOP",
+      "evidence": {
+        "cmd": "grep -q '安裝步驟' ios/README.md && grep -q '開發者模式' ios/README.md && grep -q 'Xcode' ios/README.md && grep -q '7 天重簽 SOP' ios/README.md && echo A8_OK",
+        "exit": 0,
+        "output_tail": "A8_OK\n",
+        "ts": "2026-07-16T07:12:33.115337+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "A9 UI 含麥克風鈕/七模式切換/結果區/複製鈕/設定頁/歷史列表,並以 safe-area 適配 iPhone X",
+      "evidence": {
+        "cmd": "grep -q 'mic.fill' ios/SaySomething/ContentView.swift && grep -q 'modePicker' ios/SaySomething/ContentView.swift && grep -q 'resultArea' ios/SaySomething/ContentView.swift && grep -q '複製結果' ios/SaySomething/ContentView.swift && grep -q 'SettingsView()' ios/SaySomething/ContentView.swift && grep -q 'HistoryView' ios/SaySomething/ContentView.swift && ! grep -q 'ignoresSafeArea' ios/SaySomething/ContentView.swift && echo A9_OK",
+        "exit": 0,
+        "output_tail": "A9_OK\n",
+        "ts": "2026-07-16T07:12:35.900145+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T07:22:04.370181+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

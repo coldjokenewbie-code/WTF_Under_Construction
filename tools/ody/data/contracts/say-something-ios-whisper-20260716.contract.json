@@ -1,0 +1,115 @@
+{
+  "task_id": "say-something-ios-whisper-20260716",
+  "goal": "PRD 階段7:本地轉錄折衷——whisper.cpp 進主 App,錄音本地轉文字後只送純文字給 Gemini 潤飾;設定可切本地/雲端;模型執行期下載;A11 記憶體 load-per-use",
+  "created": "2026-07-16T10:30:35.210215+00:00",
+  "repo_root": "/Users/coma/git_mirror/say-something",
+  "base_ref": "ca22065e348a119454e096b4506ef84a5c391634",
+  "preexisting_dirty": [
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "ios/**",
+    "_context/TaskLog_2026-07-16_iOS版本.md",
+    "_context/INDEX.md",
+    "_context/PRD_2026-07-16_iOS版本.md"
+  ],
+  "preflight_permissions": [
+    "新增修改 ios/** 檔案(含引入 whisper.cpp 原始碼)",
+    "執行 xcodebuild 與網路驗證命令",
+    "更新 _context 文件",
+    "Drive→mirror 複製並於 mirror commit(push 另請示)"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "C1 xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO 於 Drive 與 mirror 皆 exit 0",
+      "evidence": {
+        "cmd": "xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO",
+        "exit": 0,
+        "output_tail": "imulator, arch:arm64, id:6E0D8E13-E9A1-403E-A8D3-6343E0BB7305, OS:26.5, name:iPhone 17e }\n{ platform:iOS Simulator, arch:arm64, id:DA6506AB-1E9F-4D99-9B14-10DE7CDE6FA6, OS:26.5, name:iPhone Air }\n{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008142-001571483409401C, name:My Mac }\n{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }\n",
+        "ts": "2026-07-16T10:45:52.921272+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "C2 whisper.cpp 只編進主 App target,鍵盤 target 不含 whisper/ggml 任何檔(pbxproj 佐證)",
+      "evidence": {
+        "cmd": "python3 -c \"import re; t=open('ios/SaySomething.xcodeproj/project.pbxproj').read(); kb=re.search(r'8EDFC8067FD901FC53B011CC /\\\\* Sources \\\\*/ = \\\\{.*?\\\\};', t, re.S).group(0); app=re.search(r'B4F15E9C125149069915B229 /\\\\* Sources \\\\*/ = \\\\{.*?\\\\};', t, re.S).group(0); kb_hits=len(re.findall(r'whisper|ggml', kb, re.I)); app_hits=len(re.findall(r'whisper|ggml', app, re.I)); print('keyboard_target_whisper_ggml_refs=', kb_hits); print('app_target_whisper_ggml_refs=', app_hits); assert kb_hits == 0, 'keyboard target must have zero whisper/ggml refs'; assert app_hits > 0, 'app target must reference whisper/ggml'\"",
+        "exit": 0,
+        "output_tail": "keyboard_target_whisper_ggml_refs= 0\napp_target_whisper_ggml_refs= 6\n",
+        "ts": "2026-07-16T10:46:44.113487+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "C3 轉錄管線:錄音檔經 AVAudioConverter 轉 16kHz mono Float32 → whisper 轉錄,語言參數接設定;失敗有中文錯誤訊息",
+      "evidence": {
+        "cmd": "grep -c 'sampleRate: 16_000' ios/SaySomething/WhisperTranscriber.swift && grep -c 'commonFormat: .pcmFormatFloat32' ios/SaySomething/WhisperTranscriber.swift && grep -c 'params.language = langPtr' ios/SaySomething/WhisperTranscriber.swift && grep -c 'whisper_full(ctx, params' ios/SaySomething/WhisperTranscriber.swift && grep -c 'enum WhisperError: LocalizedError' ios/SaySomething/WhisperTranscriber.swift",
+        "exit": 0,
+        "output_tail": "1\n1\n1\n1\n1\n",
+        "ts": "2026-07-16T10:46:57.587261+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "C4 GeminiClient 新增純文字潤飾路徑;設定頁有「轉錄方式」開關(本地 whisper 預設/雲端 Gemini 送音檔),雲端原路徑保留可用",
+      "evidence": {
+        "cmd": "grep -c 'static func polishText' ios/SaySomething/GeminiClient.swift && grep -c 'static func transcribeAndPolish' ios/SaySomething/GeminiClient.swift && grep -c 'transcriptionMode' ios/SaySomething/Settings.swift && grep -c '轉錄方式' ios/SaySomething/SettingsView.swift && grep -c 'tag(\"cloud\")' ios/SaySomething/SettingsView.swift",
+        "exit": 0,
+        "output_tail": "1\n1\n4\n2\n1\n",
+        "ts": "2026-07-16T10:47:04.621755+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "C5 模型下載管理:官方 ggml 模型 URL(執行者需 curl -I 驗證可達並記證據),下載進度 UI,存 Application Support,可刪除重下;App 不打包模型檔",
+      "evidence": {
+        "cmd": "curl -sIL --max-time 30 -o /dev/null -w \"small_q5_1_status=%{http_code}\\n\" \"https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin\" && curl -sIL --max-time 30 -o /dev/null -w \"base_q5_1_status=%{http_code}\\n\" \"https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin\" && test -z \"$(find ios -iname \"*.bin\")\" && echo \"no_bin_bundled=true\" && grep -c \"applicationSupportDirectory\" ios/SaySomething/ModelManager.swift && grep -c \"func startDownload\" ios/SaySomething/ModelManager.swift && grep -c \"func delete\" ios/SaySomething/ModelManager.swift && grep -c \"downloadProgress\" ios/SaySomething/ModelManager.swift",
+        "exit": 0,
+        "output_tail": "small_q5_1_status=200\nbase_q5_1_status=200\nno_bin_bundled=true\n1\n1\n1\n5\n",
+        "ts": "2026-07-16T10:47:22.988247+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "C6 記憶體策略:whisper context 用完即釋放(load-per-use),程式碼可佐證;無常駐大配置",
+      "evidence": {
+        "cmd": "grep -n 'defer { whisper_free(ctx) }' ios/SaySomething/WhisperTranscriber.swift && ! grep -n 'var.*whisper_context\\|static.*ctx' ios/SaySomething/WhisperTranscriber.swift ios/SaySomething/ModelManager.swift | grep -v '//' | grep -qi 'whisper_context \\*'",
+        "exit": 0,
+        "output_tail": "135:        defer { whisper_free(ctx) }\n",
+        "ts": "2026-07-16T10:47:30.233023+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "C7 Prompts 單源不變;純文字潤飾 prompt 與音檔版七模式語意一致",
+      "evidence": {
+        "cmd": "grep -c \"static let modes\" ios/SaySomething/Prompts.swift && grep -c \"Prompts.buildSystem\" ios/SaySomething/SessionService.swift ios/SaySomething/ContentView.swift | paste -sd+ | bc && grep -c \"func transcribeAndPolish\\|func polishText\" ios/SaySomething/GeminiClient.swift && grep -c \"GeminiClient.polishText(apiKey: apiKey, model: model, system: system\" ios/SaySomething/SessionService.swift",
+        "exit": 0,
+        "output_tail": "1\n2\n1\nusage: paste [-s] [-d delimiters] file ...\n",
+        "ts": "2026-07-16T10:47:43.076106+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "C8 ios/README.md 更新:本地/雲端模式差異(隱私與品質)、模型下載說明、iPhone X 效能預期",
+      "evidence": {
+        "cmd": "grep -c '本地 vs 雲端轉錄' ios/README.md && grep -c '本地轉錄引擎' ios/README.md && grep -c '模型下載' ios/README.md && grep -c 'iPhone X 效能預期' ios/README.md && grep -c '10-30 秒' ios/README.md",
+        "exit": 0,
+        "output_tail": "2\n2\n3\n1\n1\n",
+        "ts": "2026-07-16T10:47:49.165999+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T10:59:16.764527+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

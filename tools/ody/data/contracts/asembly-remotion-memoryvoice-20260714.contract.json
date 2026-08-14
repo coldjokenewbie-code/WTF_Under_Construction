@@ -1,0 +1,197 @@
+{
+  "task_id": "asembly-remotion-memoryvoice-20260714",
+  "goal": "Remotion 製作 15-20s 記憶中的聲音示範動畫（A1 技工養成所人才培育素材）",
+  "created": "2026-07-13T18:56:43.402730+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT",
+  "base_ref": "5aa29f578f1a2f3379c0a60410c0d9c81b1846bf",
+  "preexisting_dirty": [
+    "_context/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/TaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "workingfiles/FINAL_搪床/p2_搪削中.png",
+    "workingfiles/FINAL_搪床/p3_完成.png",
+    "workingfiles/_交付_3D完成版/_交付說明.html",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_2搪削中.png",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_3完成擴孔.png",
+    "workingfiles/_交付_對齊鑽床審查/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_交付_對齊鑽床審查/final_sheet_刨床.png",
+    "workingfiles/_交付_最新版/_PPT把關報告.md",
+    "workingfiles/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_把關/CODEX_PROMPT_車床.md",
+    "workingfiles/_把關/HANDOFF_車床_3D.md",
+    "workingfiles/_把關/PPT_把關報告.md",
+    "workingfiles/_把關/PPT_需求與檢核清單.md",
+    "workingfiles/_把關/codex補充.md",
+    "workingfiles/_把關/ppt_full_text_dump.txt",
+    "workingfiles/_把關/ppt_full_text_dump_AFTER.txt",
+    "workingfiles/_把關/ref_車床/車床_原稿示範_c05.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s5待機.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s6甚麼叫車削.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s7進退刀.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s8車出形狀.png",
+    "workingfiles/_把關/機台腳本大綱_彙整與稽核.md",
+    "workingfiles/_把關/檢視報告/車床_第一輪.md",
+    "workingfiles/_把關/檢視報告/車床_第三輪.md",
+    "workingfiles/_把關/檢視報告/車床_第二輪.md",
+    "workingfiles/_把關/檢視報告/車床_第五輪.md",
+    "workingfiles/_把關/檢視報告/車床_第四輪.md",
+    "workingfiles/_把關/驗收清單.md",
+    "workingfiles/codex_app架構圖.md",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_1.png",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_shaper_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_4.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/REF_boring.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_base_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_3.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_standby.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_3.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_2.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_gen.log",
+    "workingfiles/車床_3D造型圖_最新版/車床_1_待機_PASS.png",
+    "workingfiles/車床示意圖_3D/cand/cl_base_qa.log",
+    "workingfiles/車床示意圖_3D/cand/cl_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_sb_qa.log",
+    "workingfiles/車床示意圖_3D/cand/sb_review.png",
+    "workingfiles/車床示意圖_3D/cand2/cl2_base_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand4/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand5/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand6/p3_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p3_完成.png",
+    "workingfiles/銑床示意圖_3D/cand/base_review.png",
+    "workingfiles/銑床示意圖_3D/cand/ml_base_qa.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_cut_gen.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_done_gen.log",
+    "workingfiles/鑽床示意圖_3D/FINAL3/_review_trio.png",
+    "AGENT_SIGNAL.log",
+    "_context/TaskLog_2026-07-10_導覽App示意動畫雙隊比稿.md",
+    "_context/TaskLog_2026-07-14_語音導覽選題研究.md",
+    "_context/archive/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "information/",
+    "outputs/",
+    "tools/check_ui_freeze.py",
+    "tools/extract_text_snippets.py",
+    "tools/generate_html_report.py",
+    "tools/generate_report_data.py",
+    "tools/inspect_air_raid_texts.py",
+    "tools/inspect_first_half.py",
+    "tools/inspect_lathe_texts.py",
+    "tools/inspect_soda_pool_texts.py",
+    "tools/list_candidate_images.py",
+    "tools/list_largest_images.py",
+    "tools/list_machinery_first_9.py",
+    "tools/list_machinery_first_half.py",
+    "tools/list_machinery_units.py",
+    "tools/list_steam_loco_units.py",
+    "tools/process_rich_v2.py",
+    "tools/process_v2.py",
+    "workingfiles/archive/"
+  ],
+  "scope_allowlist": [
+    "outputs/demo動畫/記憶中的聲音示範/**",
+    "/Users/coma/Git_work/Remotion_fun/**"
+  ],
+  "preflight_permissions": [
+    "同 airraid：PO 2026-07-14 四項確認"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "成品 MP4 1920x1080 30fps h264，時長 15-20s（ffprobe 佐證）",
+      "evidence": {
+        "cmd": "ffprobe -v error -show_entries format=duration -of csv=p=0 'outputs/demo動畫/記憶中的聲音示範/demo_記憶中的聲音_20260714.mp4'",
+        "exit": 0,
+        "output_tail": "19.562667\n",
+        "ts": "2026-07-13T19:16:34.050131+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "三段齊：開場+QR+標示卡→掃碼進 App 記憶中的聲音分頁→播人才培育語音節錄+字幕→收尾 fade out",
+      "evidence": {
+        "note": "抽幀確認：f60 標示卡+QR；f204 掃描；f270 記憶中的聲音分頁播放 0:01/0:21；f360 進度 0:04/0:21+背景切老職工畫面；f558 落款（out/check/m3_*.png）",
+        "ts": "2026-07-13T19:16:34.184660+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "App 畫面為原型實截",
+      "evidence": {
+        "note": "App畫面為 M53 mock 展項（hero 圖 m53.jpg、audioUrl=/audio/memory_53.mp3）Playwright 實截，播放器時長 0:21 為真 mp3 metadata",
+        "ts": "2026-07-13T19:16:34.306002+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "語音用人才培育.mp3 真素材節錄，字幕與音軌同步",
+      "evidence": {
+        "note": "段2 音軌=人才培育.mp3 前 9.5s 節錄（尾端 1s afade），字幕三行依 21.5s 全文語速對齊 f195-480",
+        "ts": "2026-07-13T19:16:34.434451+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Remotion composition 可 npx remotion render 重現",
+      "evidence": {
+        "note": "composition=MemoryVoiceDemo 於 Remotion_fun repo，npx remotion render MemoryVoiceDemo 算繪 exit 0",
+        "ts": "2026-07-13T19:16:34.566843+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "fresh-context verifier 抽幀驗收 PASS 且成品在 outputs/demo動畫/記憶中的聲音示範/",
+      "evidence": {
+        "note": "ody-verifier 獨立複驗 6/6 PASS：進度 0:01→0:04 兩狀態抽幀確認、與 play1/play2.png 像素級一致、volumedetect -27.9dB、發聲區間 6.5-16s 符合 9.5s 節錄",
+        "ts": "2026-07-13T19:21:52.244827+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "ffprobe -v error -show_entries format=duration -of csv=p=0 outputs/demo動畫/記憶中的聲音示範/demo_記憶中的聲音_20260714.mp4"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-13T19:21:52.444564+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

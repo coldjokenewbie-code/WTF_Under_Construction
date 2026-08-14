@@ -1,0 +1,84 @@
+{
+  "task_id": "asembly-4clips-rev-20260719",
+  "goal": "四支導覽示範片（AirRaidDemo/ARDemo/MemoryVoiceDemo/QuestDemo）整體修改：重點放導覽功能介紹而非展項展示；四支風格統一備串接；移除前段語音介紹（旁白僅在功能區塊段）；掃描段手機畫面改為鏡頭實拍視角呈現展板 QR",
+  "created": "2026-07-19T11:43:38.353541+00:00",
+  "repo_root": "/Users/coma/Git_work/git_work_bk/Remotion_fun",
+  "base_ref": "9071e9b0462bc9ed038e04f3060b0162b3e1d620",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "src/asembly/**",
+    "public/asembly/**",
+    "public/audio/**",
+    "tools/**"
+  ],
+  "preflight_permissions": [
+    "修改 Remotion_fun repo（PO 既有授權）",
+    "edge-tts 重生旁白、ffmpeg 抽幀自檢",
+    "Codex 為小隊長與主要執行者、Claude 驗收（PO 2026-07-19 指派）"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "四支 composition 於 Studio 正常載入：npx remotion compositions 列出四支且無編譯錯",
+      "evidence": {
+        "cmd": "npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T12:44:00.205022+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "各片開場段（功能區塊介紹前）無旁白音軌；旁白/功能音效僅自功能介紹段起（逐片機檢 Audio from 幀 >= 功能段起始幀常數）",
+      "evidence": {
+        "cmd": "node tools/verify_4clips.mjs",
+        "exit": 0,
+        "output_tail": "PASS AirRaidDemo.tsx: Audio >= 232f, 統一版式, 展板近拍\nPASS ARDemo.tsx: Audio >= 244f, 統一版式, 展板近拍\nPASS MemoryVoiceDemo.tsx: Audio >= 244f, 統一版式, 展板近拍\nPASS QuestDemo.tsx: Audio >= 140f, 統一版式, 展板近拍\nPASS 四支導覽靜態驗收\n",
+        "ts": "2026-07-19T12:44:00.305122+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "掃描段手機螢幕內容＝鏡頭視角近拍展板 QR（非合成疊圖、非展場背景照），四片逐一抽幀檢視佐證",
+      "evidence": {
+        "note": "初驗 ardemo/memory FAIL（訪客第三人稱入鏡、QR 不可讀）退修；複驗 4 張 scan_panel＝板面近拍＋QR 清晰可讀（out/_selfcheck_4clips/{AirRaidDemo_scan_f210,ARDemo_scan_f215,MemoryVoiceDemo_scan_f215,QuestDemo_scan_f410}.png Claude 逐張目驗）；verify_4clips.mjs 加 480×1040 解析度機檢 PASS",
+        "ts": "2026-07-19T12:43:50.327590+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "四支版式統一可串接：標示卡樣式/落款/淡出收尾一致，抽幀比對佐證",
+      "evidence": {
+        "note": "compare_title.png：四支標示卡統一「導覽功能 0X/04＋功能名＋示範情境」＋四色 QR 示意卡；compare_end.png：前三支極簡功能名收尾、末支落款「四種方式，走進工場故事」（Claude 目驗）",
+        "ts": "2026-07-19T12:43:50.363078+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "抽幀自檢關鍵時點無穿幫：框外像素/透明鬼影/文字錯誤皆無",
+      "evidence": {
+        "note": "17 張關鍵幀（compare_critical.png 等）Claude 目驗：無框外 UI 像素/透明鬼影/文字錯誤；codex 首輪自查抓到 Quest 展板/機台文字矛盾已修",
+        "ts": "2026-07-19T12:43:50.397497+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "不 render MP4；Studio 預覽留給 PO 最終驗收",
+      "evidence": {
+        "cmd": "bash -c '[ -z \"$(find out -name \"*.mp4\" -mtime -1)\" ]'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T12:44:22.111979+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-19T12:44:22.174261+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

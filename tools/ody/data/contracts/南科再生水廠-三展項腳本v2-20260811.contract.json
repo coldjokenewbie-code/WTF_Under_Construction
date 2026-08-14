@@ -1,0 +1,84 @@
+{
+  "task_id": "南科再生水廠-三展項腳本v2-20260811",
+  "goal": "依PO三點指示改版三展項展演腳本（A-1互動要有趣、A-2無實體機構動作僅螢幕影音、D-2流程階段化＋滑軌帶動解說），agy強力質疑後由Claude驗收修改，產出原生pptx（非html）；未經PO看過不commit/push",
+  "created": "2026-08-10T23:01:30.832470+00:00",
+  "repo_root": "/Users/coma/git_mirror/南科再生水廠",
+  "base_ref": "33054b24893031b64f558c8a6dc1a1673c62308f",
+  "preexisting_dirty": [
+    "rules/content-sources.md",
+    "tools/v04/CHALLENGE_agy_260809.md",
+    "tools/v04/RESPONSE_260809.md",
+    "tools/v04/REVIEW_BRIEF.md",
+    "tools/v04/REVIEW_codex_260809.md",
+    "tools/v04/build_v04_content.py",
+    "tools/v04/build_v04_docx.py",
+    "tools/v04/ref/study_articles.txt",
+    "tools/v04/ref/v03_dump.txt",
+    "workingfiles/展演腳本大綱_260811/簡報_2026-08-11_三展項展演腳本大綱.html"
+  ],
+  "scope_allowlist": [
+    "tools/script-outline/**",
+    "workingfiles/展演腳本大綱_260811/**"
+  ],
+  "preflight_permissions": [
+    "可執行 agy headless；可寫入 scope 內路徑；不 commit 不 push"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "腳本v2內容反映PO三點指示：A-1含互動趣味機制、A-2全部展演線索僅螢幕影音（無實體機構動作、3D為螢幕動畫）、D-2各站含進水/曝氣等流程階段且滑軌移動=水的移動敘事",
+      "evidence": {
+        "note": "PO 0811 追加修正：A-2 硬體改為兩台75吋螢幕皆平放模型下方（露出區=說明畫面/覆蓋區=透光底圖）；premise 四列重寫、七張卡標籤全改〔露出區〕〔覆蓋區〕、PENDING 同步；pptx 重建 10 頁、p6/p7 目視通過；機檢：A2_CARDS 標籤集合={露出區,覆蓋區,音效}",
+        "ts": "2026-08-11T00:48:40.234422+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "agy質疑報告CHALLENGE_agy_260811.md存在；逐條回應RESPONSE_260811.md存在且質疑均裁決（修正或說明）",
+      "evidence": {
+        "cmd": "test -f tools/script-outline/CHALLENGE_agy_260811.md && test -f tools/script-outline/RESPONSE_260811.md && python3 -c \"import re; t=open('tools/script-outline/RESPONSE_260811.md',encoding='utf-8').read(); assert len(re.findall(r'^\\| \\d+ \\|', t, re.M))==17; print('17條裁決')\"",
+        "exit": 0,
+        "output_tail": "17條裁決\n",
+        "ts": "2026-08-10T23:52:56.889725+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "產出pptx為python-pptx原生可編輯文字（非截圖貼頁），LibreOffice算繪頁數>0且逐頁抽查無爆版",
+      "evidence": {
+        "note": "python-pptx 原生組版（tools/script-outline/build_outline_pptx.py exit 0、10 slides、文字皆可編輯 shape/table）；LibreOffice 算繪 10 頁，p3/p4/p5/p7/p8/p9 逐頁目視無爆版（Drive 端執行，pptx 為二進位不入 mirror）",
+        "ts": "2026-08-10T23:52:56.924040+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "展演文字除園區名稱外一律「再生水廠」；知識數據帶時點且出自展示內容V04",
+      "evidence": {
+        "cmd": "python3 -c \"src=open('tools/script-outline/outline_content.py',encoding='utf-8').read(); assert '民營' not in src; import re; assert re.search(r'（2024）|2023/6|2026 ?報導|2023年報導', src); print('無民營字樣、數據帶時點')\"",
+        "exit": 0,
+        "output_tail": "無民營字樣、數據帶時點\n",
+        "ts": "2026-08-10T23:52:56.977437+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 -c \"import zipfile,glob; z=zipfile.ZipFile(sorted(glob.glob('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展演腳本大綱_260811/*.pptx'))[0]); n=len([x for x in z.namelist() if x.startswith('ppt/slides/slide')]); assert n>=10, n; print('slides:', n)\""
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "children": [
+    {
+      "task_id": "南科再生水廠-腳本v2-agy質疑-20260811",
+      "agent": "agy"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-08-10T23:54:07.148828+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "notes": [
+    "verify-cmd 改指 Drive 絕對路徑：pptx 為二進位，依版控鐵律不入 mirror"
+  ]
+}

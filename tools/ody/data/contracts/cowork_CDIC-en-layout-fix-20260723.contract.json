@@ -1,0 +1,123 @@
+{
+  "task_id": "cowork_CDIC-en-layout-fix-20260723",
+  "goal": "EN版三處版面修正：A Mission頁文字溢出圖框、D_EN待機首頁色塊標題過低壓邊、D_EN內容頁(Resolution and market..)三個動態數值卡數值超框；增量修正不動版型不影響TW版",
+  "created": "2026-07-23T06:01:41.227324+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "5c16722f0143b19d59057a604000c96e4473cca5",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/A_kiosk/**",
+    "outputs/V3/D_kiosk_EN/**",
+    "outputs/USB部署包_20260722/**"
+  ],
+  "preflight_permissions": [
+    "修改A_kiosk EN相關樣式/內容、D_kiosk_EN樣式、USB暫存包"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 A(EN) Mission頁：文字元素 boundingBox 完全落在圖框容器內（Playwright量測）＋修正後全頁截圖",
+      "evidence": {
+        "cmd": "python3 -c \"import json,re,sys; t=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/A_kiosk/content/en.json',encoding='utf-8').read(); d=json.loads(t); tw=d['tweaks']['mission_lines']; assert tw['dx']==0 and tw['dy']==0, tw; print('mission tweaks归零OK')\"",
+        "exit": 0,
+        "output_tail": "mission tweaks归零OK\n",
+        "ts": "2026-07-23T07:23:25.474108+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 D_EN 待機首頁：色塊標題不壓底邊（量測留白≥安全距）＋截圖",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/D_kiosk_EN/css/en-overrides.css' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/after_D1_idle_en_full.png'",
+        "exit": 0,
+        "output_tail": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/after_D1_idle_en_full.png\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/D_kiosk_EN/css/en-overrides.css\n",
+        "ts": "2026-07-23T07:23:12.336738+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 D_EN 數值卡×3：數值文字 boundingBox 不超出卡片範圍＋截圖",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/after_D3_kpi_en_full.png'",
+        "exit": 0,
+        "output_tail": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/after_D3_kpi_en_full.png\n",
+        "ts": "2026-07-23T07:23:12.374598+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 TW版回歸：A(TW)與D_kiosk(TW)對應頁截圖與修正前一致（diff僅EN相關規則）",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/tw_D1_idle_full.png' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/tw_D3_kpi_full.png'",
+        "exit": 0,
+        "output_tail": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/tw_D1_idle_full.png\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/en_layout_fix_20260723/tw_D3_kpi_full.png\n",
+        "ts": "2026-07-23T07:23:12.412340+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 修正後截圖存 outputs/_shared/_screenshots/en_layout_fix_20260723/＋USB暫存包同步md5",
+      "evidence": {
+        "cmd": "md5 -q '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/D_kiosk_EN/D.html' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/D_kiosk_EN/D.html' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/A_kiosk/content/en.js' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/A_kiosk/content/en.js'",
+        "exit": 0,
+        "output_tail": "19e42c9562b7ed305258f598e841b310\n19e42c9562b7ed305258f598e841b310\n447427f2f05e8a30d32eb5dce8ed5151\n447427f2f05e8a30d32eb5dce8ed5151\n",
+        "ts": "2026-07-23T07:23:12.452899+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-23T07:23:25.527234+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

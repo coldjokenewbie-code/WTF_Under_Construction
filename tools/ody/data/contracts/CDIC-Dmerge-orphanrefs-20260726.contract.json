@@ -1,0 +1,87 @@
+{
+  "task_id": "CDIC-Dmerge-orphanrefs-20260726",
+  "goal": "清除 D 區中英合併後殘留的 D_kiosk_EN 孤兒引用：12 個檔案（含 USB 部署包對應檔）仍指名已退役的資料夾，其中現場安裝手冊指向不存在路徑、兩支測試必然失敗。動機：合併契約的 goal 是現場部署不應再有 X_kiosk_EN，文件與測試沒跟上等於合併沒做完。",
+  "created": "2026-07-25T23:53:32.546129+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/**",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-26 授權 D 區中英合併，本契約為其收尾；USB 部署包是否剔除 archive 另候 PO 裁示，本契約不動 archive"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "C1 動工前備份 12 個待改檔到 outputs/V3/archive/_bak_20260726_orphanrefs/（保留相對路徑結構），以逐檔 md5 清單證明備份完整",
+      "evidence": {
+        "cmd": "set -e; PROJECT_ROOT=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\"; BACKUP=\"$PROJECT_ROOT/outputs/V3/archive/_bak_20260726_orphanrefs\"; COUNT=$(find \"$BACKUP\" -type f ! -name md5.txt | wc -l | tr -d \" \"); echo \"BACKUP_FILE_COUNT=$COUNT\"; test \"$COUNT\" -eq 12; while read -r EXPECTED REL; do ACTUAL=$(md5 -q \"$BACKUP/$REL\"); echo \"$ACTUAL  $REL\"; test \"$ACTUAL\" = \"$EXPECTED\"; done < \"$BACKUP/md5.txt\"",
+        "exit": 0,
+        "output_tail": "dbfa37fe218bc91  outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/部署需求彙整.md\n665e3fae310880c68aaf359948f4b96b  outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/現場安裝執行手冊_20260722.html\n35a54d4e9560c0d47596fe658c7ebf4b  outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/env_bridge/說明_環控橋.md\na26aba832994af06ce46f2398c71433c  outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/env_bridge/tools_verify/test_a4.py\n",
+        "ts": "2026-07-26T00:09:31.561384+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "C2 文件類 6 檔更新為合併後寫法（改用 D_kiosk/D.html?lang=en 或說明已頁內切換）：outputs/V3 的 README.md、部署需求彙整.md、現場安裝執行手冊_20260722.html、env_bridge/說明_環控橋.md 及 USB 包對應檔；逐檔列出修改前後片段",
+      "evidence": {
+        "cmd": "set -e; PROJECT_ROOT=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\"; BACKUP=\"$PROJECT_ROOT/outputs/V3/archive/_bak_20260726_orphanrefs\"; for REL in \"outputs/V3/README.md\" \"outputs/V3/部署需求彙整.md\" \"outputs/V3/現場安裝執行手冊_20260722.html\" \"outputs/V3/env_bridge/說明_環控橋.md\" \"outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/README.md\" \"outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/部署需求彙整.md\" \"outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/現場安裝執行手冊_20260722.html\" \"outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/env_bridge/說明_環控橋.md\"; do echo \"FILE:$REL\"; STATUS=0; diff -U1 \"$BACKUP/$REL\" \"$PROJECT_ROOT/$REL\" || STATUS=$?; test \"$STATUS\" -eq 1; ! grep -q D_kiosk_EN \"$PROJECT_ROOT/$REL\"; done",
+        "exit": 0,
+        "output_tail": "58:55\n@@ -109,5 +109,5 @@\n \n-A、D 頁面比照 C 的輪詢設計，各自保留一份實體複製 `js/env_stage.js`\n-（`A_kiosk/js/env_stage.js`、`D_kiosk/js/env_stage.js`、\n-`D_kiosk_EN/js/env_stage.js`，不跨資料夾引用）。`stage` 值域為\n+A、D 頁面比照 C 的輪詢設計，各自保留一份實體檔 `js/env_stage.js`\n+（`A_kiosk/js/env_stage.js`、`D_kiosk/js/env_stage.js`）。D 區已中英合併，\n+語言由環控訊號經 `D_kiosk/D.html?lang=tw`／`?lang=en` 頁內切換。`stage` 值域為\n `X_start`（導覽模式入口）、`X_k_start`（互動模式入口），無編號段；\n",
+        "ts": "2026-07-26T00:09:43.963682+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "C3 測試類 3 檔改為 ?lang= 版本：outputs/V3/tests/stage-ad.mjs（relPath D_kiosk_EN/D.html）、outputs/V3/tests/verify_a7_docs_usb.sh、outputs/V3/env_bridge/tools_verify/test_a4.py（含 USB 對應檔），改後三支測試各實跑一次並貼實際輸出證明通過，不得只做靜態修改",
+      "evidence": {
+        "cmd": "set -e; node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/tests/stage-ad.mjs\"; bash \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/tests/verify_a7_docs_usb.sh\"; PYTHONDONTWRITEBYTECODE=1 python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/env_bridge/tools_verify/test_a4.py\"",
+        "exit": 0,
+        "output_tail": "| owork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html?lang=tw\nOK: A 無參數→?lang=en reload | owork/projects/cowork_CDIC/outputs/V3/A_kiosk/A.html?lang=en\nOK: D ?lang=en→?lang=tw，頁面內容英→中 | url=owork/projects/cowork_CDIC/outputs/V3/D_kiosk/D.html?lang=tw, en=True, tw=True\nOK: bridge 關閉 5 秒 URL 不變 | Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html\nOK: 無未捕捉 error (pageerror)\nA4 RESULT: PASS\n",
+        "ts": "2026-07-26T00:10:38.706197+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "C4 交付範圍內無孤兒引用：對 outputs/V3 與 USB 部署包 V3 的交付檔 grep D_kiosk_EN，排除 archive/、退役夾、_shared/_scripts/（驗證腳本本就須提及舊名）後命中數為 0，貼完整 grep 輸出。專案其他位置（_context/ 歷史紀錄、outputs/V2、outputs/CDIC_test_v2 等舊版存證）刻意不改，屬歷史紀錄。",
+      "evidence": {
+        "cmd": "DRIVE=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3\"; USB=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/V3\"; echo \"C4_SCAN_ROOT=$DRIVE\"; echo \"C4_SCAN_ROOT=$USB\"; echo \"C4_GREP_OUTPUT_BEGIN\"; MATCHES=$(find \"$DRIVE\" \"$USB\" \\( -type d \\( -name archive -o -name \"*退役*\" -o -path \"*/_shared/_scripts\" \\) -prune \\) -o -type f -print0 | xargs -0 grep -nH -I \"D_kiosk_EN\" 2>&1); GREP_EXIT=$?; if [ -n \"$MATCHES\" ]; then printf \"%s\\n\" \"$MATCHES\"; MATCH_COUNT=$(printf \"%s\\n\" \"$MATCHES\" | wc -l | tr -d \" \"); else MATCH_COUNT=0; fi; echo \"C4_GREP_OUTPUT_END\"; echo \"C4_GREP_EXIT=$GREP_EXIT\"; echo \"C4_MATCH_COUNT=$MATCH_COUNT\"; test \"$GREP_EXIT\" -eq 1; test \"$MATCH_COUNT\" -eq 0",
+        "exit": 0,
+        "output_tail": "SCAN_ROOT=/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3\nC4_SCAN_ROOT=/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/V3\nC4_GREP_OUTPUT_BEGIN\nC4_GREP_OUTPUT_END\nC4_GREP_EXIT=1\nC4_MATCH_COUNT=0\n",
+        "ts": "2026-07-26T00:20:38.061092+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "C5 本次改動的 8 個文件檔在 Drive outputs/V3 與 USB 包對應路徑逐檔 md5 相同，貼對照表。註：V3 與 USB 全樹本就不相同（V3 另有 B_APK、tests、業主補充照片等不派送項，USB 另有 A_kiosk.zip），全樹 diff 不是本契約的正確判準。",
+      "evidence": {
+        "cmd": "set -e; DRIVE=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3\"; USB=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/V3\"; printf \"%-32s | %-32s | %-5s | %s\\n\" \"DRIVE_MD5\" \"USB_MD5\" \"RESULT\" \"FILE\"; PAIR_COUNT=0; for REL in \"README.md\" \"部署需求彙整.md\" \"現場安裝執行手冊_20260722.html\" \"env_bridge/說明_環控橋.md\" \"env_bridge/tools_verify/test_a4.py\"; do test -f \"$DRIVE/$REL\"; test -f \"$USB/$REL\"; DRIVE_MD5=$(md5 -q \"$DRIVE/$REL\"); USB_MD5=$(md5 -q \"$USB/$REL\"); RESULT=MATCH; if [ \"$DRIVE_MD5\" != \"$USB_MD5\" ]; then RESULT=FAIL; fi; printf \"%s | %s | %-5s | %s\\n\" \"$DRIVE_MD5\" \"$USB_MD5\" \"$RESULT\" \"$REL\"; test \"$DRIVE_MD5\" = \"$USB_MD5\"; PAIR_COUNT=$((PAIR_COUNT + 1)); done; echo \"C5_PAIR_COUNT=$PAIR_COUNT\"; echo \"C5_PHYSICAL_FILE_COUNT=$((PAIR_COUNT * 2))\"; test \"$PAIR_COUNT\" -eq 5",
+        "exit": 0,
+        "output_tail": "fb8c602c1012a4ae8377953d | MATCH | 部署需求彙整.md\nbc230af437c5a113c2fe0f82f8dda53a | bc230af437c5a113c2fe0f82f8dda53a | MATCH | 現場安裝執行手冊_20260722.html\n8043931be3734b5b5de27a9c8c447954 | 8043931be3734b5b5de27a9c8c447954 | MATCH | env_bridge/說明_環控橋.md\n618e26f013db159465120cc9b6c8d1c7 | 618e26f013db159465120cc9b6c8d1c7 | MATCH | env_bridge/tools_verify/test_a4.py\nC5_PAIR_COUNT=5\nC5_PHYSICAL_FILE_COUNT=10\n",
+        "ts": "2026-07-26T00:20:48.541222+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-26T00:24:32.458896+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "amendments": [
+    {
+      "ts": "2026-07-26T08:20:00+08:00",
+      "by": "Claude (Tech Lead)",
+      "reason": "C4/C5 原條文由 Claude 寫過寬，非執行者失誤：C4 要求全專案零命中，但 _context/ 歷史紀錄、outputs/V2、CDIC_test_v2 舊版包、dmerge 驗證腳本本就會提及舊資料夾名且不應修改；C5 要求 V3 與 USB 全樹逐檔相同，但兩者本就不同（V3 含 B_APK/tests/業主照片等不派送項）。已收斂為交付範圍判準。",
+      "changed": [
+        "acceptance#4 desc",
+        "acceptance#5 desc"
+      ]
+    }
+  ]
+}

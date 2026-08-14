@@ -1,0 +1,144 @@
+{
+  "task_id": "CDIC-A-assets-20260804",
+  "goal": "A區重製圖檔素材：CSS模擬圖層/佔位視覺→Codex程式化產出正式圖檔並替換；版型與程式行為不變(PO 2026-08-04 拍板：只重製圖檔素材)。",
+  "created": "2026-08-03T16:03:14.797118+00:00",
+  "repo_root": "/Users/coma/git_mirror/cowork_CDIC",
+  "base_ref": "e74c8afeb40f9787d976ca17f48e0a223776a06f",
+  "preexisting_dirty": [
+    "outputs/V1/A_kiosk/archive/",
+    "outputs/V1/A_kiosk/assets/",
+    "outputs/V1/B_APK/app/build.gradle",
+    "outputs/V1/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V1/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V1/B_APK/app/src/main/java/",
+    "outputs/V1/B_APK/app/src/main/res/",
+    "outputs/V1/B_APK/build.gradle",
+    "outputs/V1/B_APK/gradle/",
+    "outputs/V1/B_APK/gradlew",
+    "outputs/V1/B_APK/settings.gradle",
+    "outputs/V1/B_kiosk/archive/B_doc/30週年影片抽幀候選/",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_上機照片_保留23.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_年表事件_圖文總表_給業主.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區年表上機照片素材/",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615_BAK20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W英文審稿_B區穩定金融大事紀區v3_20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/workingfiles/",
+    "outputs/V1/B_kiosk/archive/B_doc/多媒體素材需求清單__B區穩定金融大事紀區v1_20260609.docx",
+    "outputs/V1/B_kiosk/assets/",
+    "outputs/V1/C_kiosk/archive/20260505提供_存保多媒體內容說明_C區.pptx",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_back_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_front_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/C區Icon圖/",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623_BAK20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W英文審稿_C區安定應變區v1_20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/icons.pptx",
+    "outputs/V1/C_kiosk/archive/中央存保_C區多媒體內容0505.pptx",
+    "outputs/V1/C_kiosk/assets/",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610_BAK20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W英文審稿_D區成果效益區v1_20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/_scripts/_pdf/",
+    "outputs/V1/D_kiosk/archive/D_doc/template_多媒體素材需求清單_.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/多媒體素材需求清單__D區成果效益區v1_20260611.docx",
+    "outputs/V1/D_kiosk/archive/存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區.pptx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區_v2.pptx",
+    "outputs/V1/D_kiosk/archive/工作檔＿存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/assets/",
+    "outputs/V2/A_kiosk/assets/",
+    "outputs/V2/A_kiosk_EN/assets/",
+    "outputs/V2/B_APK/app/build.gradle",
+    "outputs/V2/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V2/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V2/B_APK/app/src/main/java/",
+    "outputs/V2/B_APK/app/src/main/res/",
+    "outputs/V2/B_APK/build.gradle",
+    "outputs/V2/B_APK/gradle/",
+    "outputs/V2/B_APK/gradlew",
+    "outputs/V2/B_APK/local.properties",
+    "outputs/V2/B_APK/settings.gradle",
+    "outputs/V2/B_kiosk/assets/",
+    "outputs/V2/C_kiosk/assets/",
+    "outputs/V2/C_kiosk_EN/assets/",
+    "outputs/V2/D_kiosk/assets/",
+    "outputs/V2/D_kiosk/更換素材.docx",
+    "outputs/V2/D_kiosk_EN/assets/",
+    "outputs/V2/archive/C_kiosk_EN_單任務基底_20260716/assets/",
+    "outputs/V2/archive/C_kiosk_單任務含後台_20260716/assets/",
+    "outputs/V2/tests/logs/",
+    "outputs/V2/tests/screenshots/",
+    "outputs/V3/C_kiosk/assets/",
+    "outputs/_shared/_scripts/abcd_en_20260716/__pycache__/"
+  ],
+  "scope_allowlist": [
+    "outputs/V4_upgrade/A_kiosk/**",
+    "outputs/_shared/_scripts/a_assets_20260804/**",
+    "outputs/V4_upgrade/**",
+    "outputs/_shared/_scripts/copyaudit_20260804/**",
+    "outputs/_shared/_scripts/anim_20260804/**",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-31_ABCD升級_精簡與編輯介面.md",
+    "AGENTS.md"
+  ],
+  "preflight_permissions": [
+    "只動 outputs/V4_upgrade/A_kiosk 與 _shared/_scripts；不刪既有檔(舊圖層改隱藏或移archive)"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "盤點清單：A區所有CSS模擬/佔位視覺逐項列出(選擇器+檔案:行號+現況擷圖)",
+      "evidence": {
+        "note": "盤點 21 項：重製 8 項（10 SVG）、保留 13 項（動態層7/結構層3/既有正式圖檔2/文字效果1，逐項附理由）。抽對 A.html/main.css 原始碼核對未見漏項。",
+        "ts": "2026-08-04T03:29:15.128455+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "Codex產出圖檔：解析度符合2160×3840版位需求、色彩符合rules/色彩計畫.md(存保黃#F0C020/規範黃#E9CA2F等)",
+      "evidence": {
+        "note": "SVG 向量產出（解析度無關），色值取自原 CSS 實值與色彩計畫（#ff982f 選單卡、#ececec 遮罩等）；gen 腳本重跑 10/10 md5 一致。",
+        "ts": "2026-08-04T03:29:15.243467+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "替換後前後擷圖pixel-diff：僅目標圖層區域變化，版型零位移",
+      "evidence": {
+        "note": "pixel-diff（before=mirror 2287f82 重建、after=現行，1080×1920）：選單＋三內容頁中英 6 狀態初輪 0.000%；修正暫停注入造成的空轉比對後改自然安定態重比——idle 動畫停用結構比對 0.137%（三圓盤+中央環 1px AA 邊）、menu_tw 0.024%、內容頁 0.062%（標題塊 AA）；menu_en/idle_en 殘差經 mask 檢視＝地球景深循環與 CDIC 呼吸相位噪聲（自噪聲 2.54% 同量級）；mission_tw 3.76% 經 14s 全打完重比收斂 0.062%＝A-P3-01 已核定的打字漂移修復非資產回歸。目標區外零結構位移。mask 檔在 scratchpad/a_diff/。",
+        "ts": "2026-08-04T03:29:15.276764+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "file://雙擊直開可用(禁fetch)、零console error",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport json\nerrs=json.load(open('/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/5edaf4f4-7b84-4a3e-bd35-3160f8356acc/scratchpad/a_diff/after/pageerrors.json'))\nassert errs==[] , errs\nprint('after 版 idle/menu/3內容頁 ×中英 pageerror=0')\" && cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && ! grep -n 'fetch(' outputs/V4_upgrade/A_kiosk/A.html outputs/V4_upgrade/A_kiosk/css/*.css",
+        "exit": 0,
+        "output_tail": "after 版 idle/menu/3內容頁 ×中英 pageerror=0\n",
+        "ts": "2026-08-04T03:29:15.332441+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Gemini獨立質詢複驗PASS(實圖目視非盲評)",
+      "evidence": {
+        "cmd": "grep -q '質詢結論' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/a_assets_20260804/質詢原文_gemini.md' && grep -q '契約可 accept' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/a_assets_20260804/質詢紀錄_gemini.md' && grep -q '3bd69dcf' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/a_assets_20260804/質詢紀錄_gemini.md' && echo GEMINI_INTERROGATED_PIXELDIFF_BACKED",
+        "exit": 0,
+        "output_tail": "GEMINI_INTERROGATED_PIXELDIFF_BACKED\n",
+        "ts": "2026-08-04T08:37:48.135117+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-04T08:38:02.990535+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "scope_amendment_note": "scope 擴為三契約聯集（Tech Lead 覆判 2026-08-04）：三契約同源於 PO 單一指令、共用同一 repo diff 窗，coach 互見彼此產物誤報越界；lessons 既有前例（16 ABCD英文版 ody 契約）採人工覆判＋留紀錄。 AGENTS.md＝sync_config 自動時間戳（非本任務編輯），列白名單。"
+}

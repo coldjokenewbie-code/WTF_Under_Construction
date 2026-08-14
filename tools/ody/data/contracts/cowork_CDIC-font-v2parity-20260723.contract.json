@@ -1,0 +1,119 @@
+{
+  "task_id": "cowork_CDIC-font-v2parity-20260723",
+  "goal": "V3全展項字體回復V2設定：A/B/C/D(含EN夾)逐區比對V2 vs V3的font-family/weight差異，V3回復為V2值(TW對TW、EN對EN)，只動字體不動其他樣式",
+  "created": "2026-07-23T04:31:28.557598+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "5c16722f0143b19d59057a604000c96e4473cca5",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/**",
+    "outputs/USB部署包_20260722/**"
+  ],
+  "preflight_permissions": [
+    "修改V3各區CSS/HTML字體設定、USB暫存包"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 差異對照表：每區(A/B/C/D含EN)列V2與V3的font-family/font-weight差異點(檔:行)，含結論哪些是被改掉的",
+      "evidence": {
+        "note": "逐區逐檔grep font-family/font-weight/@font-face比對(A/A_EN/B/B_EN/C/C_EN/D/D_EN vs V3 A/B/C/C_EN/D/D_EN)：A/C/C_EN/D/D_EN 完全一致(diff exit=0，僅A有font-size改CSS變數，非font-family/weight)。B_kiosk/css/B_style.css為唯一差異：V3新增 --display-font:\"GenYoMin TW\",\"源樣明體\",\"Noto Serif TC\",serif(:root L22)，套用於.cover-title(L119)/.drawer-title(L377)/.detail-title(L495)font-family；且:root[data-lang=en] L44 --body-font改為\"Overpass\",Arial,sans-serif，V2兩態(TW/EN)font-family皆固定\"Noto Sans TC\",\"PingFang TC\",\"Microsoft JhengHei\",Arial,sans-serif且無任何選擇器覆寫display-font(V2該3選擇器皆無font-family屬性，繼承body)。結論：V3依照色彩計畫規範(大標=源樣明體/英文=Overpass)自行導入而偏離V2實際值，此為要回復的目標。",
+        "ts": "2026-07-23T04:40:16.240526+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 V3回復：TW版=V2 TW字體、EN版=V2 EN字體；diff僅含font相關屬性，無其他樣式變動（diff證據）",
+      "evidence": {
+        "cmd": "diff '/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/v2_b_font.txt' '/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/v3_b_font.txt' && echo B_FONT_MATCH_V2",
+        "exit": 0,
+        "output_tail": "B_FONT_MATCH_V2\n",
+        "ts": "2026-07-23T04:41:16.106285+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 Playwright computed style抽驗：每區首頁標題與內文元素的font-family與V2實開值一致（V2 vs V3並跑對照）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/_shared/_scripts/font_parity_check_tmp.mjs",
+        "exit": 0,
+        "output_tail": "intro-question)=true\n[PASS] C(EN) title(.intro-title)=true body(.intro-question)=true\n[PASS] D(TW) title(.p1-title)=true body(.p2-card-h)=true\n[PASS] D(EN) title(.p1-title)=true body(.p2-card-h)=true\n[PASS] B(TW) title(.cover-title)=true body(html)=true\n   note: V3 default data-lang=tw\n[PASS] B(EN) title(.cover-title)=true body(html)=true\n[PASS] A(EN) title(.v-title)=true body(null)=true\nALL_PASS\n",
+        "ts": "2026-07-23T04:43:42.841627+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 回歸：B區smoke+R12相關測試不受影響全PASS",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs && for f in sync-contract verify-apk-contract verify-kiosk-guard verify-lang-api verify-locales verify-structure verify-sync-clients verify-tw-regression; do node outputs/V3/B_sync/tests/$f.mjs || exit 1; done && echo ALL_B_TESTS_PASS",
+        "exit": 0,
+        "output_tail": "C stack; no language CSS files\nlaunch: verified Chrome flags and single bilingual server\n{\"guide\":1,\"display\":1,\"apkEquivalent\":3,\"clients\":5,\"guideSync\":true,\"freeIndependent\":true,\"reconnectOnError\":true,\"kioskLanguagePath\":\"verify-locales\"}\nTW regression: legacy content hash preserved; app logic unchanged except locale year rendering; structure and TW layout constants retained\nALL_B_TESTS_PASS\n",
+        "ts": "2026-07-23T04:46:31.780509+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 USB暫存包同步+md5",
+      "evidence": {
+        "cmd": "for f in 'V3/B_kiosk/css/B_style.css' 'V3/B_sync/tests/verify-structure.mjs' 'V3/B_sync/tests/verify-tw-regression.mjs'; do diff \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/$f\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/$f\" || exit 1; done; [ \"$(md5 -q '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_APK/app/build/outputs/apk/debug/app-debug.apk')\" = \"$(md5 -q '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722/APK/app-debug.apk')\" ] && echo USB_SYNC_MD5_MATCH",
+        "exit": 0,
+        "output_tail": "USB_SYNC_MD5_MATCH\n",
+        "ts": "2026-07-23T04:51:33.223322+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-23T04:52:41.431980+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

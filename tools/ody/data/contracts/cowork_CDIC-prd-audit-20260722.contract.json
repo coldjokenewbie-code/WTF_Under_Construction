@@ -1,0 +1,102 @@
+{
+  "task_id": "cowork_CDIC-prd-audit-20260722",
+  "goal": "全部署包對照 PRD R1-R10 逐條稽核並修正偏差：實跑驗證(smoke/tests/Playwright抽驗)、參數一致性(8123/6001/.32/.10/tablets)、五支自啟安裝bat與ps1終審、手冊/需求快照/說明文件三方一致、USB暫存包md5、無前後矛盾",
+  "created": "2026-07-22T08:37:37.027241+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "3b865654b3ce9513393e9feb4bbc0c44e9106e71",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/**",
+    "outputs/USB部署包_20260722/**",
+    "infomation/環控中介程式_API_TCP_Middleware_v1.0.0/**"
+  ],
+  "preflight_permissions": [
+    "稽核中發現偏差得直接修正(限scope內)並複驗"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 R1-R10 逐條稽核表：每條列驗證方式與實跑/機檢結果，偏差列清單並修正後複驗（未決Q1-Q3標示待PO不算偏差）",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "A2 smoke+tests 全 PASS＋A/C/D lang_poll 與 C stage 各抽一情境 Playwright 實跑 PASS",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "A3 參數矩陣零矛盾：全樹(含USB包)grep 8787/.153/6000誤用零命中(燈控目標6000除外)、8123/6001/.10/.32/tablets 值兩側一致",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "A4 文件三方一致：手冊html、部署需求彙整快照、說明_環控橋.md 對同一參數敘述無衝突（列對照表）",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "A5 USB暫存包與源樹 md5 全量對照零差異（排除.DS_Store）",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs"
+  ],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-07-22T08:38:17.805869+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 自驗] 驗收 #1「A1 R1-R10 逐條稽核表：每條列驗證方式與實跑/機檢結果，偏差列清單並修正後複驗（未決Q1-Q3標示待PO不算偏差）」無證據",
+      "[閘2 自驗] 驗收 #2「A2 smoke+tests 全 PASS＋A/C/D lang_poll 與 C stage 各抽一情境 Playwright 實跑 PASS」無證據",
+      "[閘2 自驗] 驗收 #3「A3 參數矩陣零矛盾：全樹(含USB包)grep 8787/.153/6000誤用零命中(燈控目標6000除外)、8123/6001/.10/.32/tablets 值兩側一致」無證據",
+      "[閘2 自驗] 驗收 #4「A4 文件三方一致：手冊html、部署需求彙整快照、說明_環控橋.md 對同一參數敘述無衝突（列對照表）」無證據",
+      "[閘2 自驗] 驗收 #5「A5 USB暫存包與源樹 md5 全量對照零差異（排除.DS_Store）」無證據"
+    ]
+  }
+}

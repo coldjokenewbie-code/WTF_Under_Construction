@@ -1,0 +1,48 @@
+{
+  "task_id": "asembly-overview-rush-20260721",
+  "goal": "交件前衝刺：OverviewIntro 段2a 掃描段改用與 01 片一致的新面板樣式（PhoneBubble+PhoneAssetFrame+PO 掃描螢幕）；標題下移已由 Claude 改",
+  "created": "2026-07-21T07:44:53.509024+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "c13c289cf76edea2959a417591855a75c031f973",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "src/asembly/OverviewIntro.tsx"
+  ],
+  "scope_allowlist": [
+    "src/asembly/OverviewIntro.tsx"
+  ],
+  "preflight_permissions": [
+    "codex headless 改 OverviewIntro.tsx；Claude 平行 render/驗收/串接；期限 20 分鐘走快速流程"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "段2a 改 PhoneBubble(anchor 240,605)+PhoneAssetFrame(hand_po)+ScanView(scan_screen_po.png, qr 123,544,133, chrome=false)，比照 AirRaidDemo 現行寫法",
+      "evidence": {
+        "note": "段2a 已改 PhoneBubble(240,605)+PhoneAssetFrame(hand_po)+ScanView(scan_screen_po,123/544/133,chrome=false)，f160 抽幀確認新面板樣式與 01 片一致",
+        "ts": "2026-07-21T07:47:41.191783+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "tsc 0 錯誤；f160 still 渲染成功且為新面板樣式",
+      "evidence": {
+        "cmd": "npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T07:47:42.549726+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T07:47:43.750891+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

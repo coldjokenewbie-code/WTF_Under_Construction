@@ -1,0 +1,134 @@
+{
+  "task_id": "cowork_CDIC-R12-tablet-quality-20260723",
+  "goal": "R12 B平板操作品質修復：①過場timer可追蹤可取消+free切換狀態校正(當機根除)②全可點元素:active按下態(≤80ms)③首屏loading遮罩+換場進行中提示；增量不改版型；伺服器資料夾派送",
+  "created": "2026-07-23T02:09:48.857031+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "5c16722f0143b19d59057a604000c96e4473cca5",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/B_kiosk/**",
+    "outputs/V3/B_sync/**",
+    "outputs/V3/B_APK/**",
+    "outputs/USB部署包_20260722/**"
+  ],
+  "preflight_permissions": [
+    "修改B_kiosk JS/CSS、B_sync、APK assets同步、USB暫存包"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 goCover/goTimeline/showTimelineFromCover 過場 timer 存變數、新呼叫先 cancel（比照 detailTimer 模式），grep+行號證據",
+      "evidence": {
+        "cmd": "bash /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/verify_a1.sh",
+        "exit": 0,
+        "output_tail": "30:  let detailTimer = null;\n31:  let timelineTransitionTimer = null;\n32:  let coverTransitionTimer = null;\nALL_CANCEL_FIRST_OK\n",
+        "ts": "2026-07-23T02:21:25.438854+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 B_sync free 分支解鎖後執行 B_app 狀態校正（current 與 .active 頁一致、清殘留 inline pointer-events），程式碼+實跑證據",
+      "evidence": {
+        "cmd": "bash /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/verify_a2.sh",
+        "exit": 0,
+        "output_tail": "nts();\n439-    const pageByView = { cover, timeline, detail };\n440-    const expectedPage = pageByView[current] || cover;\n441-    const activePages = [cover, timeline, detail].filter(page => page && page.classList.contains(\"active\"));\n442-    if (expectedPage && (activePages.length !== 1 || activePages[0] !== expectedPage)) activate(expectedPage);\n443-  }\n--實跑: repro 情境 1 次，斷言 free 校正後 state--\nOK\n",
+        "ts": "2026-07-23T02:25:20.957391+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 repro_mode_race.mjs 情境重放 20 次：current 與唯一 .active 頁 100% 一致且 computed pointer-events=auto（原版必炸、新版全過）",
+      "evidence": {
+        "cmd": "bash /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/run_repro_20x.sh",
+        "exit": 0,
+        "output_tail": "20/20 RUNS PASS: current==唯一.active頁 且 computed pointer-events=auto\n",
+        "ts": "2026-07-23T02:26:22.060231+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 可點元素（enterBtn/year-option/mini-card/detail返回等）皆有 :active 視覺回饋，CSS 證據+截圖抽樣",
+      "evidence": {
+        "cmd": "bash /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/verify_a4_full.sh",
+        "exit": 0,
+        "output_tail": ".8402\",\"transform\":\"matrix(0.970038, 0, 0, 0.970038, 0, 0)\"},\"changed\":true,\"shot\":\"/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/a4_button_mini_card_active.png\"}\nA4_OK: both sampled pressed-states show visible :active style change, screenshots saved\n",
+        "ts": "2026-07-23T02:29:30.455342+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 首屏載入 CSS loading 遮罩（B_locale 完成後移除）＋待機→年表過場進行中提示，Playwright 斷言出現與消失",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync' && node tools/_tmp_verify_a5.mjs",
+        "exit": 0,
+        "output_tail": "OK: 初期 loadingOverlay 存在\nOK: B_locale 完成後 loadingOverlay 已移除\nOK: content 載入失敗時 loadingOverlay 仍被移除（catch 生效），data-locale-error=true\nOK: 過場進行中 transitionIndicator 出現\nOK: 過場完成後 transitionIndicator 已淡出\nA5_OK: loading 遮罩(正常/失敗皆移除) + 過場指示(出現/淡出) 全數斷言通過\n",
+        "ts": "2026-07-23T02:31:41.763877+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 回歸：smoke+tests 全 PASS＋TW/EN 切換+guide/free 快速連續切換10次不卡死（自動化）＋APK assets 同步 update_www",
+      "evidence": {
+        "cmd": "bash /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/verify_a6_full.sh",
+        "exit": 0,
+        "output_tail": "nterBtn\",\"before\":\"cover\"} view after tap: timeline\nA6_RAPID_SWITCH_OK: 10x guide/free 快速切換後仍可點擊，畫面唯一 .active 且未鎖死\n-- APK assets 與 B_kiosk 對應檔一致性 --\nB_app.js: assets==B_kiosk OK\nB.html: assets==B_kiosk OK\nB_style.css: assets==B_kiosk OK\nB_sync.js: assets==overrides OK\nB_locale.js: assets==overrides OK\noverride B_sync.js 含 R12 reconcileView\noverride B_locale.js 含 R12 removeLoadingOverlay\nA6_ALL_OK\n",
+        "ts": "2026-07-23T02:41:33.492737+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-23T02:44:30.846308+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

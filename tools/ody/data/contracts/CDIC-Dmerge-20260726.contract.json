@@ -1,0 +1,109 @@
+{
+  "task_id": "CDIC-Dmerge-20260726",
+  "goal": "D 區中英合併為單一資料夾，比照 A 區 locale-runtime 架構：D.html 依 ?lang= 頁內換字，不再跳轉 D_kiosk_EN；舊 D_kiosk_EN 整夾退役進 archive。動機：A/B/C 三區已合併，D 是最後一個雙資料夾＋跳頁的區，現場部署要求不應再有 X_kiosk_EN。",
+  "created": "2026-07-25T23:19:47.272502+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/D_kiosk/**",
+    "outputs/V3/D_kiosk_EN/**",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/D_kiosk/**",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/D_kiosk_EN/**",
+    "outputs/V3/自啟安裝/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-26 授權：D 區中英合併參考 A 區作法、舊 D_kiosk_EN 退役進 archive、Drive 與 USB 部署包同步更新"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "B1 動工前備份：outputs/V3/D_kiosk 與 outputs/V3/D_kiosk_EN 兩夾完整複製到 outputs/V3/D_kiosk/archive/_bak_20260726_合併前/，以檔案數與逐檔 md5 清單證明備份完整",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_backup.py' verify",
+        "exit": 0,
+        "output_tail": "PASS D_kiosk: files=50 md5_match=true\nPASS D_kiosk_EN: files=50 md5_match=true\n",
+        "ts": "2026-07-25T23:23:35.977371+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "B2 新增 outputs/V3/D_kiosk/js/locale-runtime.js，行為比照 A_kiosk/js/locale-runtime.js：依 ?lang= 取 tw 或 en，用 script 標籤（非 fetch）載入 content/tw.js 與 content/en.js，設定 documentElement.lang 與 document.title，lang=en 時才注入 css/en-overrides.css，套完文案再依序載入既有 runtime 腳本；file:// 直開可運作",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_structure.py' && node '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/smoke_locale.mjs'",
+        "exit": 0,
+        "output_tail": "\nPASS lang_poll contains no _EN folder reference\nPASS folder-switch function removed\nPASS lang_poll switches ?lang= in-page\nPASS tw: console_errors=0 requestfailed=0 lang=zh-TW title=\"CDIC - D | 成果效益\" attract=\"觸碰螢幕開始\" kpi=240px/\"萬人\" en_css=0\nPASS en: console_errors=0 requestfailed=0 lang=en title=\"CDIC - D | Results and Benefits\" attract=\"Touch Screen to Start\" kpi=160px/\"×10,000 people\" en_css=1\n",
+        "ts": "2026-07-25T23:29:54.439937+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "B3 新增 content/tw.js 與 content/en.js，分別匯出 window.__D_LOCALE_TW__ 與 __D_LOCALE_EN__；en 的文案值一字不改沿用 D_kiosk_EN/content/D_content_patch.js 的 values，以逐鍵 diff 證明英文文案零變動",
+      "evidence": {
+        "cmd": "node '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_locales.mjs'",
+        "exit": 0,
+        "output_tail": "i_labels\nPASS English key unchanged: p5_title\nPASS English key unchanged: p5_unit\nPASS English key unchanged: p6_bullets\nPASS English key unchanged: p6_caption\nPASS English key unchanged: p6_label\nPASS English key unchanged: p6_title\nPASS English key unchanged: p6_unit\nPASS English key unchanged: p7_bullets\nPASS English key unchanged: p7_title\nPASS tw: symmetric_keys=32\nPASS en: symmetric_keys=32\n",
+        "ts": "2026-07-25T23:30:04.082528+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "B4 D.html 統一為單一版本：移除硬編 lang 與 title 與 en-overrides.css 連結，改由 locale-runtime 設定；原 EN 版與中文版的 5 處差異（html lang、title、en-overrides.css、p3 kpi 內嵌 font-size、待機標語 attract-label）逐項說明處理方式並證明兩語系皆正確",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_structure.py' && node '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/smoke_locale.mjs'",
+        "exit": 0,
+        "output_tail": "\nPASS lang_poll contains no _EN folder reference\nPASS folder-switch function removed\nPASS lang_poll switches ?lang= in-page\nPASS tw: console_errors=0 requestfailed=0 lang=zh-TW title=\"CDIC - D | 成果效益\" attract=\"觸碰螢幕開始\" kpi=240px/\"萬人\" en_css=0\nPASS en: console_errors=0 requestfailed=0 lang=en title=\"CDIC - D | Results and Benefits\" attract=\"Touch Screen to Start\" kpi=160px/\"×10,000 people\" en_css=1\n",
+        "ts": "2026-07-25T23:30:20.692006+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "B5 js/lang_poll.js 換成頁內切換版（比照 A_kiosk 與 C_kiosk）：移除 switchToFolderZone 不再跳 _EN 資料夾，改為只換 ?lang= 參數 reload；以 grep 證明檔內已無 _EN 字樣",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_structure.py' >/dev/null && ! grep -n '_EN' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/D_kiosk/js/lang_poll.js'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-25T23:30:04.139144+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "B6 D_kiosk_EN 整夾移入 outputs/V3/D_kiosk/archive/D_kiosk_EN_退役20260726/，outputs/V3 下不再有 D_kiosk_EN；同步在 USB 部署包 outputs/USB部署包_20260722/CDIC_deploy_20260722/V3 做相同處置，並清掉該包內的錯置殘檔 D_kiosk_EN/css/D.html",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_retirement.py'",
+        "exit": 0,
+        "output_tail": "PASS V3: direct D_kiosk_EN absent\nPASS V3: retired folder exists files=50\nPASS V3: misplaced css/D.html absent\nPASS USB: direct D_kiosk_EN absent\nPASS USB: retired folder exists files=50\nPASS USB: misplaced css/D.html absent\n",
+        "ts": "2026-07-25T23:31:27.510501+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "B7 Playwright 實跑驗收：file:// 開 D.html?lang=tw 與 ?lang=en，兩語系皆 0 console error 與 0 requestfailed，逐頁擷圖證明中文版全中文、英文版全英文（含待機標語與 KPI 單位），且 7 頁導覽轉場正常",
+      "evidence": {
+        "cmd": "node '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_b7_playwright.mjs'",
+        "exit": 0,
+        "output_tail": ": /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/screenshots/en/page-6.png\nSCREENSHOT en p7: /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/screenshots/en/page-7.png\n",
+        "ts": "2026-07-25T23:36:52.375808+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "B8 outputs/V3 與 USB 部署包 V3 的 D_kiosk 逐檔 diff 一致；自啟安裝 _build_startup.ps1 指向的 D 主機路徑仍有效（V3\\D_kiosk\\D.html），以實際檔案存在檢查證明",
+      "evidence": {
+        "cmd": "python3 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_b8.py'",
+        "exit": 0,
+        "output_tail": "PASS diff V3/USB: files=202 differences=0\nPASS startup target: V3\\D_kiosk\\D.html exists\nPASS active TW assets unchanged: files=32\nPASS retired EN assets unchanged: files=32\n",
+        "ts": "2026-07-25T23:37:38.141053+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-25T23:45:21.011162+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

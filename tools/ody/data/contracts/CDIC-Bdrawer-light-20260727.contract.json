@@ -1,0 +1,97 @@
+{
+  "task_id": "CDIC-Bdrawer-light-20260727",
+  "goal": "修 B 區平板實機兩個 bug：①抽屜年代目錄點選常無效或跳錯年代 ②黃色（orange）卡片點擊不觸發燈控，其他顏色卡正常。現場條件：伺服器有跑、平板跟隨導覽模式、自由模式下測試。",
+  "created": "2026-07-27T09:57:49.387089+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/B_kiosk/**",
+    "outputs/V3/B_APK/**",
+    "outputs/_shared/_scripts/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-27 指示：召集 ody 小隊由 Codex 除錯；平板實機測試環境已就緒（伺服器運作中、平板跟隨導覽模式）"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "J1 動工前備份受影響檔案並附 md5；修改僅限已確認為根因的檔案，不得順手重構無關程式",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J1",
+        "exit": 0,
+        "output_tail": "J1 PASS: 3 backup md5 match; B_app.js unchanged\n",
+        "ts": "2026-07-27T10:24:59.905729+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "J2 抽屜點選 bug 根因以證據定位（非臆測）：需說明為何 Playwright 桌面模擬 34 次點擊零錯位、實機卻常錯，並指出觸控與滑鼠路徑的差異點；證據需含實機 logcat 或頁面內插樁輸出",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J2",
+        "exit": 0,
+        "output_tail": "J2/J4 PASS: real-device cancel, inertia target drift, and click re-hit evidence present\n",
+        "ts": "2026-07-27T10:25:00.121762+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "J3 抽屜點選修正後，於實機以觸控實測全部 34 個年代各至少一次，逐筆記錄按鈕顯示年份與實際跳到的年份，錯位數須為 0；不得只在桌面 Playwright 驗收",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J3",
+        "exit": 0,
+        "output_tail": "J3 PASS: SM-X400 34/34; micro-move PASS; post-release momentum absent\n",
+        "ts": "2026-07-27T10:25:00.363614+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "J4 黃色卡燈控 bug 根因定位：黃色卡＝importance high 且 action detail，是唯一會在 pointerup 觸發 goDetail 跳頁的卡；需驗證 click 事件到達時卡片 DOM 是否已被重繪移除、導致 closest 取不到而不送 light",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J4",
+        "exit": 0,
+        "output_tail": "J2/J4 PASS: real-device cancel, inertia target drift, and click re-hit evidence present\n",
+        "ts": "2026-07-27T10:25:00.622124+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "J5 黃色卡燈控修正後實測：自由模式下逐一點擊黃色卡，伺服器端 logs/light_日期.log 須出現對應 OK sent 記錄；同時驗證其他顏色卡與年代卡的既有行為未被破壞、且不得產生重複送燈",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J5",
+        "exit": 0,
+        "output_tail": "J5/J6 PASS: yellow 10/10 single OK; other cards PASS; three off regressions PASS\n",
+        "ts": "2026-07-27T10:25:00.904164+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "J6 迴歸驗證：跨年代滑動自動滅燈、回待機滅燈、離開自由模式滅燈三項既有行為維持正常，逐項貼實測輸出",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J6",
+        "exit": 0,
+        "output_tail": "J5/J6 PASS: yellow 10/10 single OK; other cards PASS; three off regressions PASS\n",
+        "ts": "2026-07-27T10:25:01.242631+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "J7 修正後同步更新 APK 內建 www（現行 assets/www 停在 07-24 舊內容、缺 10 張業主照片），重編 APK 並依規則 apk-launch-on-device 做實機啟動驗證（pidof 存活＋crash log 空＋擷圖目視）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_results.mjs\" J7 && node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bdrawer_20260727/verify_device_launch.mjs\"",
+        "exit": 0,
+        "output_tail": "J7 PASS: version 11/3.2.2; fixes and 10 photos bundled; APK and screenshot present\n{\"serial\":\"R52Y80MXV9B\",\"pid\":\"18062\",\"versionCode\":11,\"versionName\":\"3.2.2\",\"crashFatalCount\":0,\"screenshot\":\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/bdrawer_apk_322_final.png\"}\n",
+        "ts": "2026-07-27T10:25:22.927492+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-27T10:29:44.028299+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

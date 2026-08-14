@@ -1,0 +1,50 @@
+{
+  "task_id": "remotionfun-cardplacement-impl-20260722",
+  "goal": "PO 已核准字卡位置提案（會議紀錄 20260722）——把 11 卡座標寫入 Root defaultProps 說明卡 X/Y/寬，保留 PO 於 Studio 的其他改動（AR 時間軸等）",
+  "created": "2026-07-21T18:43:33.816421+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "bf9279e8c5ee21e03e083ced1ac1aa4eaf704486",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "public/asembly/airraid/vo_airraid_guide_tw_v3.mp3",
+    "public/asembly/overview/home_en.png",
+    "public/asembly/overview/home_jp.png",
+    "src/Root.tsx",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/OverviewIntro.tsx",
+    "src/asembly/OverviewSegment77to116.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/asembly/shared.tsx",
+    "public/asembly/direct/scene_0B7_bright.png",
+    "public/asembly/quest/cert_filled_1.png"
+  ],
+  "scope_allowlist": [
+    "src/Root.tsx,public/asembly/airraid/vo_airraid_guide_tw_v3.mp3"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "1) Root 說明卡座標＝核准提案值（AR: 320,660/630,220/630,780/620,480；Quest: 72,620/500,700/620,280/620,420/620,300/620,340/740,300），其餘 PO Studio 改動保留；2) tsc --noEmit PASS；3) 12 幀抽圖與提案接觸表一致",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport json,re,sys\nsrc=open('src/Root.tsx',encoding='utf-8').read()\ndef cards(cid):\n    i=src.index('id=\\\"'+cid+'\\\"'); j=src.index('defaultProps={',i)+len('defaultProps={')\n    d=0;k=j\n    while True:\n        c=src[k]\n        if c=='{':d+=1\n        elif c=='}':\n            d-=1\n            if d==0:break\n        k+=1\n    return json.loads(src[j:k+1])['文案']['說明卡']\nar=[(c.get('X'),c.get('Y')) for c in cards('ARDemo')]\nq=[(c.get('X'),c.get('Y')) for c in cards('QuestDemo')]\nassert ar==[(320,660),(630,220),(630,780),(620,480)], ar\nassert q==[(72,620),(500,700),(620,280),(620,420),(620,300),(620,340),(740,300)], q\nprint('COORDS_MATCH_APPROVED')\" && npx tsc --noEmit && echo TSC_PASS && ls /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/cardimpl/impl_contact.png",
+        "exit": 0,
+        "output_tail": "COORDS_MATCH_APPROVED\nTSC_PASS\n/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/cardimpl/impl_contact.png\n",
+        "ts": "2026-07-21T18:44:58.263452+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T18:45:21.895035+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

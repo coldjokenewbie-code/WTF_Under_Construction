@@ -1,0 +1,39 @@
+{
+  "task_id": "md-editor-palette-20260803",
+  "goal": "把 NinaEditor 全站配色改為指定五色：#000000 底、#101010 面板、#202020 層級/邊界、#f04000 重點色、#f0f0f0 正文",
+  "created": "2026-08-03T09:02:09.029186+00:00",
+  "repo_root": "/Users/coma/git_mirror/md-editor",
+  "base_ref": "7bb1fa3c05492fd55bd55af407fe3cdfe589df53",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "index.html,manifest.json,workingfiles/outputs/**"
+  ],
+  "preflight_permissions": [
+    "改 index.html 與 manifest.json 的配色；改完 sync_to_mirror.sh push 並 commit/push"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "1) index.html 藏青(navy)主題的 CSS 變數全部改為新五色，無殘留舊色碼 #0a1120/#0e1728/#4d8fd6/#ccd7e8/#6f8199；2) manifest.json 與 meta[name=theme-color] 同步為 #000000；3) Playwright 43 項測試全通過；4) headed 實跑截圖確認畫面為新配色",
+      "evidence": {
+        "cmd": "test $(grep -c '0a1120\\|0e1728\\|4d8fd6\\|ccd7e8\\|eaf1fa\\|6f8199\\|2c4a72\\|120,160,220\\|26,58,110' /Users/coma/git_mirror/md-editor/index.html) -eq 0 && grep -q 'content=\"#000000\"' /Users/coma/git_mirror/md-editor/index.html && grep -q '\"theme_color\": \"#000000\"' /Users/coma/git_mirror/md-editor/manifest.json && NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad >/dev/null",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-03T09:17:15.274151+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js"
+  ],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-08-03T09:17:24.759755+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 scope] 越界檔案：['index.html', 'manifest.json']（還原或經 PO 擴 scope）"
+    ]
+  }
+}

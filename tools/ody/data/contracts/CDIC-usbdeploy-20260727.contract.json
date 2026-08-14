@@ -1,0 +1,52 @@
+{
+  "task_id": "CDIC-usbdeploy-20260727",
+  "goal": "把 0726/0727 全部更新同步進 USB 部署包、補上 B 與 D 主機的一鍵更新腳本、並複製到實體隨身碟 ESD-USB，讓現場雙擊即可更新。",
+  "created": "2026-07-27T07:29:55.245432+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/USB部署包_20260722/**",
+    "outputs/V3/自啟安裝/**",
+    "outputs/_shared/_scripts/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-27 指示：更新到 USB 部署包讓現場一鍵更新，並複製到 USB 隨身碟"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "H1 Drive outputs/V3 同步進部署包（排除 archive 類、.DS_Store、B_APK、tests、業主補充照片、B_sync/tools 測試腳本），同步後以 diff 證明 D_kiosk 與 B_kiosk 逐檔一致，並列出刻意未同步項的清單與理由",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "H2 新增 D主機一鍵更新.bat 與 _update_D主機.ps1，比照既有 C 主機版：從自啟腳本反推部署路徑、robocopy 不用 MIR 不刪目的地檔、更新後開頁驗證",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "H3 新增 B主機一鍵更新.bat 與 _update_B主機.ps1，同 H2 規格，另需處理 B_sync 服務（更新前提示停止、更新後重啟）並保留 light_config.json 現場設定不被覆蓋",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "H4 全部一鍵更新與自啟安裝 bat 通過格式機檢：逐檔驗 CRLF 行尾、無 BOM、chcp 65001 位置，輸出逐檔檢查表",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "H5 部署包完整複製到實體隨身碟 /Volumes/ESD-USB/CDIC_deploy_20260722（FAT32 須用 rsync -rltD --no-perms --no-owner --no-group，禁用 ditto），複製後清除 ._ AppleDouble 殘檔，逐檔 md5 核對來源與隨身碟一致，輸出檔數與不符清單須為空",
+      "evidence": null
+    },
+    {
+      "no": 6,
+      "desc": "H6 隨身碟上的部署包不得含任何 archive 類目錄，以 find 證明；並確認四區 kiosk 入口檔與全部 bat 皆存在",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "open"
+}

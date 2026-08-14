@@ -1,0 +1,188 @@
+{
+  "task_id": "南科再生水廠-知識來源審查-20260812b",
+  "goal": "對《展示內容知識點》專業版做兩份獨立審查（agy、codex），查知識來源正確性與連結有效性，交付問題清單；唯讀審查，不得改 docx",
+  "created": "2026-08-12T15:07:36.920595+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "dcb5f0bb62a4c088c0fd8a4bec2a99a211d0a190",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/CDIC-A-assets-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-abcd-anim-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-anim-impl-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-copyaudit-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/HsinchuSEC-finalreport-yellow-20260811.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-A-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-BCD-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-E-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-fixes-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R10-redraw-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R11-imagegen-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R8-codex-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R9-3ver-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-sketch-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-ending-docs-v2-20260804.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-opening-ending-docs-20260804.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-agy質詢-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-codex實作-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-媒體重製7筆-20260805.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-agy質疑-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-codex-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-三展項腳本v2-20260811.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-展示內容V04增補-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-知識來源與連結審查-20260812.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-腳本v2-agy質疑-20260811.contract.json"
+  ],
+  "scope_allowlist": [
+    "workingfiles/展示內容_新架構_260812/審查_260812/**"
+  ],
+  "preflight_permissions": [
+    "唯讀 docx 與網路查證；僅寫入 審查_260812/"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "全文相異 URL 逐一實測 HTTP 狀態，分為死連結／擋自動讀取／正常三類",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展示內容_新架構_260812/審查_260812/'",
+        "exit": 0,
+        "output_tail": "_urlcheck_clean.txt\n_URL清單修正說明.md\nURL清單_260812.txt\n審查報告_agy_260812.md\n審查報告_codex_260812.md\n審查總表_交叉比對_260812.md\n專業版全文_260812.txt\n",
+        "ts": "2026-08-12T15:31:01.375724+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "逐條比對資料來源與其支撐之內文陳述與數據，指出來源不支持或數據不符者",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展示內容_新架構_260812/審查_260812/'",
+        "exit": 0,
+        "output_tail": "_urlcheck_clean.txt\n_URL清單修正說明.md\nURL清單_260812.txt\n審查報告_agy_260812.md\n審查報告_codex_260812.md\n審查總表_交叉比對_260812.md\n專業版全文_260812.txt\n",
+        "ts": "2026-08-12T15:31:01.418011+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "指出仍為首頁或列表頁（非可直接看到內容之深連結）的來源",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展示內容_新架構_260812/審查_260812/'",
+        "exit": 0,
+        "output_tail": "_urlcheck_clean.txt\n_URL清單修正說明.md\nURL清單_260812.txt\n審查報告_agy_260812.md\n審查報告_codex_260812.md\n審查總表_交叉比對_260812.md\n專業版全文_260812.txt\n",
+        "ts": "2026-08-12T15:31:01.460019+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "agy 與 codex 各交付一份報告於 審查_260812/",
+      "evidence": {
+        "cmd": "ls '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展示內容_新架構_260812/審查_260812/'",
+        "exit": 0,
+        "output_tail": "_urlcheck_clean.txt\n_URL清單修正說明.md\nURL清單_260812.txt\n審查報告_agy_260812.md\n審查報告_codex_260812.md\n審查總表_交叉比對_260812.md\n專業版全文_260812.txt\n",
+        "ts": "2026-08-12T15:31:01.501535+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "兩份報告交叉比對彙整為總表，逐條標示兩方是否一致",
+      "evidence": {
+        "cmd": "test -s '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/展示內容_新架構_260812/審查_260812/審查總表_交叉比對_260812.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-12T15:31:01.332251+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "ls \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠\"/workingfiles/展示內容_新架構_260812/審查_260812/"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "children": [
+    {
+      "task_id": "南科再生水廠-知識來源審查-20260812b-codex",
+      "agent": "codex"
+    },
+    {
+      "task_id": "南科再生水廠-知識來源審查-20260812b-agy",
+      "agent": "agy"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-08-12T15:31:53.361799+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

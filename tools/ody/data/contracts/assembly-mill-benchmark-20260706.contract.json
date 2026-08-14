@@ -1,0 +1,29 @@
+{
+  "task_id": "assembly-mill-benchmark-20260706",
+  "goal": "銑床腳本deck重做對齊車床+鑽床基準(操作機台mockup插圖/內容/流程/編排,標案報告書等級)+刨床deck兩處紅色待處理修復+五機台定稿夾重整為最新版",
+  "created": "2026-07-06T13:15:12.603249+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Aseembly_Plant_Interactive_machine",
+  "base_ref": "bc3c0239c157af2ba055e50bbd66b8173231acb6",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-03_鑽床銑床定稿補完.md"
+  ],
+  "scope_allowlist": [
+    "workingfiles/w_銑床.pptx;workingfiles/P541組立_通用機具腳本_刨床.pptx;output/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "1.銑床deck各段落頁插圖=銑床操作機台mockup含螢幕內容,非裸機照;2.挑戰/證書頁kiosk=銑床造型,挑戰icon=銑削方塊icon,進度列高亮銑削;3.造型頁含場景render+尺寸標註48x164cm操作台高85cm;4.銑床+刨床全deck字詞過濾無待處理/待確認/TODO/錯用機種詞殘留;5.刨床p2地圖標籤與p4段落名稱兩紅banner解決並移除;6.LibreOffice全頁算繪視覺spot-check通過;7.定稿夾五機台=最新版(車床6/29,鑽床,搪床6/29,刨床修復版,銑床新版);8.ody-verifier獨立複驗PASS",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "python3 /private/tmp/claude-501/-Users-coma-Git-work-WTF-Under-Construction/0cf77b36-8d8e-4f71-a272-f8a31e1d1884/scratchpad/ody_mill/scan_words.py"
+  ],
+  "handoff_file": null,
+  "status": "open"
+}

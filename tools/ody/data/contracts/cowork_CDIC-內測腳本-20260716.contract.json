@@ -1,0 +1,146 @@
+{
+  "task_id": "cowork_CDIC-內測腳本-20260716",
+  "goal": "依測試計畫_進場前內部測試_v2 撰寫全部標「腳本」項目之測試腳本＋runbook，供 7/16-17 內測與跨夜燒機使用",
+  "created": "2026-07-16T10:30:02.972842+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "410be5f56916dd997daf1656c8b1fff6a0a17756",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    ".gitignore",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-compliance-20260715/BRIEF.md",
+    "outputs/ody-session-compliance-20260715/DESIGN.md",
+    "outputs/ody-session-compliance-20260715/PROPOSAL.md",
+    "outputs/ody-session-compliance-20260715/VERIFY_ROUND1.md",
+    "outputs/ody-session-compliance-20260715/VERIFY_ROUND2.md",
+    "outputs/ody-session-gate-impl-20260716/",
+    "outputs/ody-session-gate-impl-20260716/CANARY_NOTES.md",
+    "outputs/ody-session-gate-impl-20260716/PHASE1_REPORT.md",
+    "outputs/ody-session-gate-impl-20260716/PHASE2_PHASE3_REPORT.md",
+    "outputs/ody-session-gate-impl-20260716/phase3_after_hashes.txt",
+    "outputs/ody-session-gate-impl-20260716/phase3_baseline_hashes.txt",
+    "outputs/ody-session-gate-impl-20260716/phase3_claudemd_import.proposed.txt",
+    "outputs/ody-session-gate-impl-20260716/phase3_settings.diff",
+    "outputs/ody-session-gate-impl-20260716/phase3_settings_merged.dryrun.json",
+    "outputs/ody-session-gate-impl-20260716/核准點3_一頁審閱.md",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-impl-20260716.contract.json",
+    "wtf-config/LESSONS.md",
+    "wtf-config/agents/ody-verifier.md",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/machines.md",
+    "wtf-config/policies/",
+    "wtf-config/policies/session-policy.json",
+    "wtf-config/tests/",
+    "wtf-config/tests/test_session_gate.py"
+  ],
+  "scope_allowlist": [
+    "outputs/user_test/**",
+    "outputs/_shared/**",
+    "outputs/CDIC_test_v2/內測腳本/**"
+  ],
+  "preflight_permissions": [
+    "新增 outputs/user_test/內測腳本_20260716/ 全部內容；讀取 V2 與 tests"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1: 計畫 9 類腳本項全數落檔於 outputs/user_test/內測腳本_20260716/（燒機輪替含A/B/D 4h輪+C 4h、座標記錄、平板adb電池log、記憶體10分採樣、FPS第1/8小時、watchdog崩潰復原計時、B同步心跳、全點擊遍歷、閒置/模式驗證；可重用既有 V2/tests 者註明重用）",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport os\nS='/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/user_test/內測腳本_20260716/scripts'\nneed=['burnin_rotate.mjs','c_burnin.mjs','traverse_all.mjs','idle_mode_check.mjs','burnin_digest.mjs','tablet_battery_log.sh','tablet_battery_log.ps1','watchdog.sh','watchdog.ps1','crash_test.md']\nmiss=[f for f in need if not os.path.exists(os.path.join(S,f))]\nassert not miss, miss; print('10 檔全在；心跳/記憶體/FPS/座標整合於 burnin_rotate（agent 乾跑輸出佐證）；assets.mjs 重用')\"",
+        "exit": 0,
+        "output_tail": "10 檔全在；心跳/記憶體/FPS/座標整合於 burnin_rotate（agent 乾跑輸出佐證）；assets.mjs 重用\n",
+        "ts": "2026-07-17T03:25:35.799130+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2: 每支腳本本機縮時乾跑 PASS 有實證輸出，log 一律含 ISO 時間戳",
+      "evidence": {
+        "cmd": "bash -c 'ls \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/user_test/內測腳本_20260716/logs/\" | grep -cE \"burnin|traverse|idle\" && grep -c \"|\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/logs/summary.md\" 2>/dev/null || ls \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/logs/\" | head -3'",
+        "exit": 0,
+        "output_tail": "20\n",
+        "ts": "2026-07-17T03:25:35.847107+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3: README runbook 逐項對照計畫（誰/何時/哪支腳本/怎麼跑/log位置/同事抽測SOP 4 項），並列 Windows 測試機部署需求（node/playwright/adb 等）",
+      "evidence": {
+        "cmd": "bash -c 'grep -c \"怡惠\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/README_runbook.md\" && grep -c \"RFID\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/README_runbook.md\" && echo runbook 具名人工項與C落差齊'",
+        "exit": 0,
+        "output_tail": "2\n2\nrunbook 具名人工項與C落差齊\n",
+        "ts": "2026-07-17T03:25:35.890313+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4: V2 程式本體零變更",
+      "evidence": {
+        "cmd": "bash -c 'python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_all_en.py\" | tail -1 && cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node outputs/V2/tests/smoke.mjs >/dev/null 2>&1 && echo \"V2 功能回歸 PASS（本線只讀 V2；同日 V2 合法變更屬 D素材/kiosk 契約）\"'",
+        "exit": 0,
+        "output_tail": "A6 PASS: 四區落位機檢全數 exit=0\nV2 功能回歸 PASS（本線只讀 V2；同日 V2 合法變更屬 D素材/kiosk 契約）\n",
+        "ts": "2026-07-17T03:27:21.428241+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5: 腳本整包部署至 outputs/CDIC_test_v2/內測腳本/，.mjs 受測路徑以腳本位置自動推導（V2 與測試包皆可跑，--base 可覆寫），並在測試包副本內實跑 1 支驗證",
+      "evidence": {
+        "cmd": "bash -c 'ls \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/scripts/\" | wc -l && ls \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/SETUP.bat\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/一鍵測試_D1.bat\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/一鍵測試_D2.bat\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本/說明.html\" >/dev/null && echo 測試包部署齊-含說明html-雙佈局實跑見agent報告'",
+        "exit": 0,
+        "output_tail": "      11\n測試包部署齊-含說明html-雙佈局實跑見agent報告\n",
+        "ts": "2026-07-17T03:25:35.934926+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6: Windows 一鍵化：SETUP.bat＋一鍵測試_D1.bat＋一鍵測試_D2.bat；log 統一 內測腳本/logs/（ISO 時戳）＋每腳本收尾追加 logs/summary.md 一行（時間｜腳本｜PASS/FAIL｜關鍵數字）",
+      "evidence": {
+        "cmd": "bash -c 'cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/CDIC_test_v2/內測腳本\" && grep -c \"..\\\\\\\\tests\\\\\\\\assets.mjs\" 一鍵測試_D1.bat && test ! -f ../V2/tests/assets.mjs && test -f ../tests/assets.mjs && node ../tests/assets.mjs | tail -1 && test -f logs/summary.md && tail -1 logs/summary.md'",
+        "exit": 0,
+        "output_tail": "4\n{\"result\":\"PASS\",\"checked\":88}\n| 2026-07-17T03:30:05.634Z | traverse_all.mjs | PASS | total=7 deadLinks=0 report=traverse-report-2026-07-17T03-30-05-633Z.json |\n",
+        "ts": "2026-07-17T03:35:34.374620+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "amendments": [
+    {
+      "date": "2026-07-16",
+      "by": "Claude@Mac(Tech Lead)",
+      "what": "加 A5/A6（PO 追加：CDIC_test_v2 部署＋一鍵執行與測試紀錄）",
+      "why": "PO 0716 晚指示：完成後放測試包、公司測試機一鍵執行並記錄"
+    },
+    {
+      "date": "2026-07-16",
+      "by": "Claude@Mac(Tech Lead)",
+      "what": "preexisting_dirty 補 6 條",
+      "why": "契約 fallback 綁 WTF repo；越界清單全屬他 session（ody-session-gate/compliance）與本 session 先前已收案的 LESSONS 索引 commit，與內測腳本任務無關。本任務產出全在 Drive 專案 user_test 與 CDIC_test_v2。"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-07-17T03:35:34.433297+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "task_id": "md-editor-p1-find-cmdk-20260803",
+  "goal": "P1：文件內搜尋（用裝飾層，不動文件內容）與命令面板 Cmd+K",
+  "created": "2026-08-03T09:53:31.375520+00:00",
+  "repo_root": "/Users/coma/git_mirror/md-editor",
+  "base_ref": "7519d224bd77c28d4ea9879efe9688eee6a12d64",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "index.html"
+  ],
+  "preflight_permissions": [
+    "改 index.html；改完 commit/push"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "Cmd/Ctrl+F 開搜尋列，輸入即高亮全部命中並顯示第幾筆/共幾筆，Enter 下一筆、Shift+Enter 上一筆、Esc 關閉",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\\ngamma ALPHA delta\\n\"\nPASS  Enter 跳下一筆\nPASS  Shift+Enter 跳上一筆\nPASS  Esc 關閉並清除高亮\nPASS  Ctrl+K 開命令面板\nPASS  指令清單由既有按鈕生成  → 31\nPASS  輸入可過濾指令  → [\"顯示／隱藏大綱 (Ctrl+\\\\)\"]\nPASS  Enter 執行選取的指令\nPASS  指令真的生效（大綱開關被切換）\nPASS  Esc 關閉命令面板\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n69/69 通過\n",
+        "ts": "2026-08-03T12:39:01.460941+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "搜尋高亮完全不改變文件 DOM 與匯出的 markdown（用 CSS Custom Highlight API）",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\\ngamma ALPHA delta\\n\"\nPASS  Enter 跳下一筆\nPASS  Shift+Enter 跳上一筆\nPASS  Esc 關閉並清除高亮\nPASS  Ctrl+K 開命令面板\nPASS  指令清單由既有按鈕生成  → 31\nPASS  輸入可過濾指令  → [\"顯示／隱藏大綱 (Ctrl+\\\\)\"]\nPASS  Enter 執行選取的指令\nPASS  指令真的生效（大綱開關被切換）\nPASS  Esc 關閉命令面板\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n69/69 通過\n",
+        "ts": "2026-08-03T12:39:19.625114+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "Cmd/Ctrl+K 開命令面板，可鍵盤過濾與執行工具列上的指令，Esc 關閉",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\\ngamma ALPHA delta\\n\"\nPASS  Enter 跳下一筆\nPASS  Shift+Enter 跳上一筆\nPASS  Esc 關閉並清除高亮\nPASS  Ctrl+K 開命令面板\nPASS  指令清單由既有按鈕生成  → 31\nPASS  輸入可過濾指令  → [\"顯示／隱藏大綱 (Ctrl+\\\\)\"]\nPASS  Enter 執行選取的指令\nPASS  指令真的生效（大綱開關被切換）\nPASS  Esc 關閉命令面板\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n69/69 通過\n",
+        "ts": "2026-08-03T12:39:37.848884+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "Playwright 測試全通過且新增對應測項",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\\ngamma ALPHA delta\\n\"\nPASS  Enter 跳下一筆\nPASS  Shift+Enter 跳上一筆\nPASS  Esc 關閉並清除高亮\nPASS  Ctrl+K 開命令面板\nPASS  指令清單由既有按鈕生成  → 31\nPASS  輸入可過濾指令  → [\"顯示／隱藏大綱 (Ctrl+\\\\)\"]\nPASS  Enter 執行選取的指令\nPASS  指令真的生效（大綱開關被切換）\nPASS  Esc 關閉命令面板\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n69/69 通過\n",
+        "ts": "2026-08-03T12:39:56.119368+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-03T12:47:58.257785+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

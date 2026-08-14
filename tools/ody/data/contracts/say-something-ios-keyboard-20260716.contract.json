@@ -1,0 +1,125 @@
+{
+  "task_id": "say-something-ios-keyboard-20260716",
+  "goal": "PRD 階段6:Session 式鍵盤延伸(Wispr Flow 架構)——主 App 背景錄音保活,鍵盤延伸當遙控器+直接 insertText 潤飾結果進任何輸入框;iOS 16 相容",
+  "created": "2026-07-16T08:26:33.107396+00:00",
+  "repo_root": "/Users/coma/git_mirror/say-something",
+  "base_ref": "b69458e872069f73e06ed3d06a449f0acbb99b13",
+  "preexisting_dirty": [
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "ios/**",
+    "_context/TaskLog_2026-07-16_iOS版本.md",
+    "_context/INDEX.md",
+    "_context/PRD_2026-07-16_iOS版本.md"
+  ],
+  "preflight_permissions": [
+    "新增修改 ios/** 檔案",
+    "執行 xcodebuild 建置",
+    "更新 _context 文件",
+    "Drive→mirror 複製並於 mirror commit(push 另請示)"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "B1 xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO 於 mirror exit 0(App+鍵盤延伸兩 target 皆建置且延伸有 embed)",
+      "evidence": {
+        "cmd": "cd ios && xcodebuild -project SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO",
+        "exit": 0,
+        "output_tail": "imulator, arch:arm64, id:6E0D8E13-E9A1-403E-A8D3-6343E0BB7305, OS:26.5, name:iPhone 17e }\n{ platform:iOS Simulator, arch:arm64, id:DA6506AB-1E9F-4D99-9B14-10DE7CDE6FA6, OS:26.5, name:iPhone Air }\n{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008142-001571483409401C, name:My Mac }\n{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }\n",
+        "ts": "2026-07-16T08:38:12.583115+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "B2 鍵盤延伸 target 存在,Info.plist RequestsOpenAccess=YES,IsASCIICapable 等 IME 必要欄位齊備,deployment target 16.0",
+      "evidence": {
+        "cmd": "bash -c \"grep -q com.apple.keyboard-service ios/SaySomethingKeyboard/Info.plist && grep -A1 RequestsOpenAccess ios/SaySomethingKeyboard/Info.plist | grep -q true && grep -q PrimaryLanguage ios/SaySomethingKeyboard/Info.plist && grep -q IsASCIICapable ios/SaySomethingKeyboard/Info.plist && grep -A20 \\\"1AAC6B4E0BFE71BF5433DC24 /\\\\* Debug \\\\*/\\\" ios/SaySomething.xcodeproj/project.pbxproj | grep -q \\\"IPHONEOS_DEPLOYMENT_TARGET = 16.0\\\"\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:39:10.272424+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "B3 主 App Info.plist UIBackgroundModes 含 audio;有背景錄音保活服務(AVAudioEngine 常駐,未擷取時丟棄樣本),由 Darwin notification 觸發開始/停止擷取",
+      "evidence": {
+        "cmd": "bash -c \"grep -A2 UIBackgroundModes ios/SaySomething/Info.plist | grep -q audio && grep -q AVAudioEngine ios/SaySomething/SessionService.swift && grep -q installTap ios/SaySomething/SessionService.swift && grep -q recordStart ios/SaySomething/SessionService.swift && grep -q recordStop ios/SaySomething/SessionService.swift\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:39:23.653411+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "B4 鍵盤↔App 通訊:信號走 CFNotificationCenter Darwin notification,資料走 App Group(group.com.saysomething.app)共享容器;並有 named UIPasteboard 降級路徑(App Group 不可用時)",
+      "evidence": {
+        "cmd": "bash -c \"grep -q CFNotificationCenterGetDarwinNotifyCenter ios/Shared/KeyboardBridge.swift && grep -q group.com.saysomething.app ios/Shared/KeyboardBridge.swift && grep -q group.com.saysomething.app ios/SaySomething/SaySomething.entitlements && grep -q group.com.saysomething.app ios/SaySomethingKeyboard/SaySomethingKeyboard.entitlements && grep -q UIPasteboard ios/Shared/KeyboardBridge.swift && grep -q appGroupWorks ios/Shared/KeyboardBridge.swift\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:39:37.286994+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "B5 鍵盤以 textDocumentProxy.insertText 插入潤飾結果,並有退格/空白/換行/切換鍵盤(globe)基本鍵",
+      "evidence": {
+        "cmd": "bash -c \"grep -q textDocumentProxy.insertText ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q deleteBackward ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q spaceTapped ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q enterTapped ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q advanceToNextInputMode ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q needsInputModeSwitchKey ios/SaySomethingKeyboard/KeyboardViewController.swift\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:39:45.775761+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "B6 鍵盤有啟動 session 鈕:responder-chain 開啟 saysomething://session;App 處理該 URL 啟動保活並嘗試私有 API suspend 自動彈回,失敗顯示手動切回提示",
+      "evidence": {
+        "cmd": "bash -c \"grep -q sel_registerName ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q saysomething://session ios/Shared/KeyboardBridge.swift && grep -q handleSessionURL ios/SaySomething/SessionService.swift && grep -q handleSessionURL ios/SaySomething/SaySomethingApp.swift && grep -q suspend ios/SaySomething/SessionService.swift && grep -q showManualReturnHint ios/SaySomething/SessionService.swift && grep -q showManualReturnHint ios/SaySomething/ContentView.swift && grep -q saysomething ios/SaySomething/Info.plist\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:40:05.933152+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "B7 七模式可於鍵盤切換,與 Prompts.swift 同源(不得複製貼上兩份 prompt)",
+      "evidence": {
+        "cmd": "test 1 -eq $(find ios -iname Prompts.swift | wc -l | tr -d ' ') && grep -q Prompts.modes ios/SaySomethingKeyboard/KeyboardViewController.swift && grep -q 49951376AE084168B2DE8EDF ios/SaySomething.xcodeproj/project.pbxproj",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:40:25.446198+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "B8 ios/README.md 更新:鍵盤啟用步驟(設定→一般→鍵盤→新增→Full Access)、session 啟動說明、已知限制",
+      "evidence": {
+        "cmd": "grep -q 允許完整取用 ios/README.md && grep -q saysomething ios/README.md && grep -q 已知限制 ios/README.md && grep -q 回收 ios/README.md",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:40:33.151834+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "B9 兩 target 的 entitlements 檔含 App Group;主 App 與延伸 bundle id 分別為 com.saysomething.app 與 com.saysomething.app.keyboard",
+      "evidence": {
+        "cmd": "grep -q group.com.saysomething.app ios/SaySomething/SaySomething.entitlements && grep -q group.com.saysomething.app ios/SaySomethingKeyboard/SaySomethingKeyboard.entitlements && grep -q 'PRODUCT_BUNDLE_IDENTIFIER = com.saysomething.app;' ios/SaySomething.xcodeproj/project.pbxproj && grep -q 'PRODUCT_BUNDLE_IDENTIFIER = com.saysomething.app.keyboard;' ios/SaySomething.xcodeproj/project.pbxproj",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-16T08:40:41.234392+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "xcodebuild -project ios/SaySomething.xcodeproj -scheme SaySomething -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T08:59:25.401339+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

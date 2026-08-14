@@ -1,0 +1,96 @@
+{
+  "task_id": "南科再生水廠-展示內容V04增補-20260809",
+  "goal": "codex 審核並增補展示內容V04（信度高資料/豐富圖示/來源連結）→ agy 質疑 → Claude 驗收；產出更新後 docx，未經 PO 看過不 commit/push",
+  "created": "2026-08-09T15:05:53.163433+00:00",
+  "repo_root": "/Users/coma/git_mirror/南科再生水廠",
+  "base_ref": "33054b24893031b64f558c8a6dc1a1673c62308f",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "tools/v04/**",
+    "workingfiles/展示內容V04/**"
+  ],
+  "preflight_permissions": [
+    "可執行 codex exec 與 agy headless；可寫入 tools/v04/** 與 workingfiles/展示內容V04/**；不 commit 不 push"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "codex 審核報告 tools/v04/REVIEW_codex_260809.md 存在且逐知識點列結論",
+      "evidence": {
+        "cmd": "test -f tools/v04/REVIEW_codex_260809.md && grep -c '^| [A-D]' tools/v04/REVIEW_codex_260809.md",
+        "exit": 0,
+        "output_tail": "18\n",
+        "ts": "2026-08-09T15:37:30.532046+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "build_v04_content.py 更新後語法合法，18 知識點結構不變，每一知識點資料來源含至少1個URL",
+      "evidence": {
+        "cmd": "python3 -c \"import ast; src=open('tools/v04/build_v04_content.py',encoding='utf-8').read(); ast.parse(src); ns={}; exec(compile(src,'c','exec'),ns); S=ns['SECTIONS']; pts=[p for z,gs in S for g,ps in gs for p in ps]; assert len(pts)==18 and all(len(p)==5 for p in pts) and all('http' in p[4] for p in pts); print('18/18 五元組+URL')\"",
+        "exit": 0,
+        "output_tail": "18/18 五元組+URL\n",
+        "ts": "2026-08-09T15:37:30.587040+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "每一知識點相關圖說欄有具體圖示規劃；新增外部來源一律標【待驗證】且無自標◎",
+      "evidence": {
+        "cmd": "python3 -c \"src=open('tools/v04/build_v04_content.py',encoding='utf-8').read(); ns={}; exec(compile(src,'c','exec'),ns); S=ns['SECTIONS']; assert all(('圖名' in p[3]) or ('建議呈現' in p[3]) or ('分鏡' in p[3]) for z,gs in S for g,ps in gs for p in ps); import re; assert not re.search(r'【待驗證】[^\\n]*◎', src); print('圖示規劃18/18、無自標◎')\"",
+        "exit": 0,
+        "output_tail": "圖示規劃18/18、無自標◎\n",
+        "ts": "2026-08-09T15:37:30.639411+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "agy 質疑報告 tools/v04/CHALLENGE_agy_260809.md 存在；質疑點逐條回應於 tools/v04/RESPONSE_260809.md",
+      "evidence": {
+        "cmd": "test -f tools/v04/CHALLENGE_agy_260809.md && test -f tools/v04/RESPONSE_260809.md && python3 -c \"import re; t=open('tools/v04/RESPONSE_260809.md',encoding='utf-8').read(); rows=len(re.findall(r'^\\| \\d+ \\|', t, re.M)); assert rows==18, rows; print('18條質疑逐條回應')\"",
+        "exit": 0,
+        "output_tail": "18條質疑逐條回應\n",
+        "ts": "2026-08-09T15:37:30.692135+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "docx 重建成功（build_v04_docx.py exit 0）且 LibreOffice 算繪頁數>0、無範本殘留字樣（桃園/客家）",
+      "evidence": {
+        "note": "PO裁定後修訂：細部設計報告書引用全清除（content『細部設計』=0、8張報告書頁面圖移除、圖數58>49、docx重建51頁、document.xml禁詞全0、18/18仍含URL、Drive/mirror diff一致）；新增專案規則 rules/content-sources.md",
+        "ts": "2026-08-09T23:00:36.890607+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "codex 新增之【待驗證】URL 經 Claude 實開驗證後改標或移除；驗證不過的來源不得留存",
+      "evidence": {
+        "cmd": "python3 -c \"src=open('tools/v04/build_v04_content.py',encoding='utf-8').read(); n=src.count('【待驗證】'); assert n==0, n; print('codex 未新增外部來源，待驗證=0；Claude 另補之辦法URL已於2026-08-09實開驗證(J0110102)')\"",
+        "exit": 0,
+        "output_tail": "codex 未新增外部來源，待驗證=0；Claude 另補之辦法URL已於2026-08-09實開驗證(J0110102)\n",
+        "ts": "2026-08-09T15:37:30.778627+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 -c \"import ast; ast.parse(open('tools/v04/build_v04_content.py',encoding='utf-8').read()); print('syntax OK')\""
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "children": [
+    {
+      "task_id": "南科再生水廠-V04增補-codex-20260809",
+      "agent": "codex"
+    },
+    {
+      "task_id": "南科再生水廠-V04增補-agy質疑-20260809",
+      "agent": "agy"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-08-09T15:41:35.164801+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

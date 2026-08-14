@@ -1,0 +1,45 @@
+{
+  "task_id": "南科再生水廠-腳本v2-agy質疑-20260811",
+  "goal": "對腳本v2內容強力質疑（PO指示落實度/可行性/趣味機制是否老套/流程正確性/用語），產出CHALLENGE_agy_260811.md",
+  "created": "2026-08-10T23:01:30.907509+00:00",
+  "repo_root": "/Users/coma/git_mirror/南科再生水廠",
+  "base_ref": "33054b24893031b64f558c8a6dc1a1673c62308f",
+  "preexisting_dirty": [
+    "rules/content-sources.md",
+    "tools/v04/CHALLENGE_agy_260809.md",
+    "tools/v04/RESPONSE_260809.md",
+    "tools/v04/REVIEW_BRIEF.md",
+    "tools/v04/REVIEW_codex_260809.md",
+    "tools/v04/build_v04_content.py",
+    "tools/v04/build_v04_docx.py",
+    "tools/v04/ref/study_articles.txt",
+    "tools/v04/ref/v03_dump.txt",
+    "workingfiles/展演腳本大綱_260811/簡報_2026-08-11_三展項展演腳本大綱.html"
+  ],
+  "scope_allowlist": [
+    "tools/script-outline/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "CHALLENGE_agy_260811.md存在且逐條列質疑（嚴重度+位置+依據）",
+      "evidence": {
+        "cmd": "test -f tools/script-outline/CHALLENGE_agy_260811.md && grep -c '嚴重度' tools/script-outline/CHALLENGE_agy_260811.md",
+        "exit": 0,
+        "output_tail": "17\n",
+        "ts": "2026-08-10T23:52:56.708226+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "parent_task_id": "南科再生水廠-三展項腳本v2-20260811",
+  "last_check": {
+    "ts": "2026-08-10T23:54:07.220064+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

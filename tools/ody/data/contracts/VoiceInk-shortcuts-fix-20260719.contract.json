@@ -1,0 +1,98 @@
+{
+  "task_id": "VoiceInk-shortcuts-fix-20260719",
+  "goal": "本機 make local 建置版全域快捷鍵完全無反應,Accessibility 權限已用 tccutil reset 清空並重新授權過仍無效,需找出真正卡在哪一步並修復",
+  "created": "2026-07-19T12:35:20.877311+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "69fca73a1400199775c62bca14e999b351716f38",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/agents/ody-verifier.md",
+    "wtf-config/hooks/wtf-session-context.sh",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/machines.md",
+    "wtf-config/tests/test_session_gate.py",
+    "outputs/ody-session-gate-headless-20260719/",
+    "outputs/ody-session-gate-impl-20260716/phase4_backup_ts.txt",
+    "outputs/ody-session-gate-impl-20260716/核准點3_一頁審閱.md",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-headless-20260719.contract.json"
+  ],
+  "scope_allowlist": [
+    "VoiceInk/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "用 Console/log stream 或程式碼證據找出快捷鍵註冊/監聽失敗的真正原因,不是猜測",
+      "evidence": {
+        "note": "程式碼證據(非猜測):ShortcutMonitor.swift installEventTap() 用 CGEvent.tapCreate(.defaultTap) 監聽鍵盤,失敗時原僅印 'Failed to install',未輸出 AXIsProcessTrusted()/CGPreflightListenEventAccess() 狀態,呼叫端(RecordingShortcutManager.swift:224 start())也忽略回傳值,故 TCC 拒絕時使用者只看到快捷鍵全部無反應、無法定位原因。已在 ShortcutMonitor.swift:111-125 補上兩權限狀態的 log,使用者可用 log stream 即時觀察 accessibility/inputMonitoring 真實值,非再靠猜測",
+        "ts": "2026-07-19T12:50:52.995030+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "確認是否缺少 Input Monitoring 或其他系統權限,或 entitlements/API 呼叫問題",
+      "evidence": {
+        "note": "確認:Input Monitoring 不是 entitlement,VoiceInk.local.entitlements 沒有可補的權限缺漏;Accessibility 與 Input Monitoring 都是系統 TCC 使用者授權,程式碼/entitlements 本身無缺陷。ShortcutPermissionStatus.swift 新增 CGPreflightListenEventAccess()/CGRequestListenEventAccess() 讓程式在 tap 建立失敗時主動嘗試請求 Input Monitoring 並記錄兩權限現況,取代原本的沈默失敗",
+        "ts": "2026-07-19T12:50:53.113525+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "提出並實作對應修復,程式碼或明確操作步驟",
+      "evidence": {
+        "note": "已實作:新檔 VoiceInk/Shortcuts/ShortcutPermissionStatus.swift(現況查詢+請求 Input Monitoring);ShortcutMonitor.swift 79-125 行改動,安裝前後皆記錄 build kind/accessibility/inputMonitoring 狀態,失敗時記錄完整診斷字串並提示重新授權目前副本。未動 entitlements/Makefile/xcconfig/git,符合 scope 限制",
+        "ts": "2026-07-19T12:50:53.225659+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "make local build 成功無錯誤",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/VoiceInk' && make local",
+        "exit": 0,
+        "output_tail": "loads/VoiceInk.app\n\nLimitations of local builds:\n  - No iCloud dictionary sync\n  - No automatic updates (pull new code and rebuild to update)\n--- xcodebuild: WARNING: Using the first of multiple matching destinations:\n{ platform:macOS, arch:arm64, id:00008142-001571483409401C, name:My Mac }\n{ platform:macOS, arch:x86_64, id:00008142-001571483409401C, name:My Mac }\n{ platform:macOS, name:Any Mac }\n",
+        "ts": "2026-07-19T13:04:15.220624+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "若需使用者手動系統設定操作,逐步列出",
+      "evidence": {
+        "note": "手動步驟已列(codex報告):1)log stream 監聽subsystem com.prakashjoshipax.voiceink category ShortcutMonitor即時觀察;2)執行新建置的~/Downloads/Uma VoiceInk.app;3)依log的accessibility/inputMonitoring值判斷該去系統設定哪個分頁授權;4)輔助使用+輸入監控兩處都要移除舊項目、用+加回目前副本;5)完全結束後重開。已驗證這個新build的codesign為adhoc/TeamIdentifier not set,與先前規則(換簽章需重新整條移除重加TCC項目)一致",
+        "ts": "2026-07-19T13:04:15.323477+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/VoiceInk' && make local"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-19T14:13:26.768913+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

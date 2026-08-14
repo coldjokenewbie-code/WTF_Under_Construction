@@ -1,0 +1,192 @@
+{
+  "task_id": "cowork_CDIC-B區手感修正-20260805",
+  "goal": "修正 PO 晚間實測 B 區五問題：①抽屜選單點年代進入重複進場（優先）②滑動流暢度③底部摩擦阻尼平穩停止④過頭時預設轉場速度造成突發加速，轉場動態不強制統一速度⑤防年代內容重複進場復發。工作區 V4_upgrade，V3/USB 不動",
+  "created": "2026-08-04T16:43:46.237625+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "9575469eaca133087356773e6dbf27fc4d58f40e",
+  "preexisting_dirty": [
+    "tools/ody/data/contracts/CDIC-A-assets-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-abcd-anim-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-anim-impl-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-copyaudit-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-ending-docs-v2-20260804.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-opening-ending-docs-20260804.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V4_upgrade/B_kiosk/**",
+    "outputs/_shared/_scripts/b_scrub_20260731/**"
+  ],
+  "preflight_permissions": [
+    "headless codex 寫入 scope 內檔案；agy 唯讀質詢；PO 2026-08-05 對話指派 codex 撰寫/agy 質詢"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "抽屜點年代進入：入場動畫觸發計數=1，自動化斷言（擴充 verify_no_reentrance.mjs 抽屜路徑）exit 0",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/verify_no_reentrance.mjs\" \"outputs/V4_upgrade/B_kiosk\"",
+        "exit": 0,
+        "output_tail": "PASS  落格後不再出現 entering（入場重播）\n      落格年=2014；落格後偵測到 entering 次數=0（全程 0 次）\nPASS  落格後 col-left 無再次大幅位移\n      落格後 2s 內最大 |translateY| = 0.0px（門檻 40px）\nPASS  零 console／page error\n      無錯誤\n      （抽屜點選 yearIndex=30）\nPASS  抽屜點年代只觸發一次入場動畫\n      抽屜點選後目標年 entering 次數=1\nPASS  一般導覽目標卡只觸發一次入場動畫\n      導覽到站年=2022；目標卡 entering 次數=1\n\n=== 5/5 PASS ===\n",
+        "ts": "2026-08-04T17:53:11.886312+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "邊界阻尼：模擬 fling 至最舊/最新年代，位置序列單調收斂、無方向反轉回彈、末段減速連續，自動化斷言 exit 0",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/verify_boundary_damping.mjs\" \"outputs/V4_upgrade/B_kiosk\"",
+        "exit": 0,
+        "output_tail": "0 年，終點=0\nPASS  最舊年代邊界：末段速度連續且無突發加速\n      末 8 個有效速度=0.000176, 0.000141, 0.000125, 0.000118, 0.000118, 0.000122, 0.000071, 0.000011；最大相鄰升幅比=1.033；停前速度=0.000011\nPASS  最舊年代邊界：放手後 700ms 內完成 settle\n      release→settle=554.5ms（門檻 700ms）\nPASS  過頭修正不使用固定 duration／timeout 轉場\n      startScrubGlide 僅使用逐幀速度與剩餘距離計算\nPASS  拖曳期保留 0.3 倍橡皮筋且不預先 clamp\n      scrubP 保留原始超界值，renderScrub 才壓縮為 30% 視覺位移\n\n=== 8/8 PASS ===\n",
+        "ts": "2026-08-04T17:53:17.684117+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "過頭轉場速度連續：邊界修正相鄰取樣速度無突發跳升（閾值斷言），且程式不對過頭修正套固定 duration 統一速度",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/verify_boundary_damping.mjs\" \"outputs/V4_upgrade/B_kiosk\"",
+        "exit": 1,
+        "output_tail": "0 年，終點=0\nPASS  最舊年代邊界：末段速度連續且無突發加速\n      末 8 個有效速度=0.000176, 0.000140, 0.000131, 0.000113, 0.000114, 0.000127, 0.000072, 0.000012；最大相鄰升幅比=1.117；停前速度=0.000012\nPASS  最舊年代邊界：放手後 700ms 內完成 settle\n      release→settle=554.8ms（門檻 700ms）\nPASS  過頭修正不使用固定 duration／timeout 轉場\n      startScrubGlide 僅使用逐幀速度與剩餘距離計算\nPASS  拖曳期保留 0.3 倍橡皮筋且不預先 clamp\n      scrubP 保留原始超界值，renderScrub 才壓縮為 30% 視覺位移\n\n=== 7/8 PASS ===\n",
+        "ts": "2026-08-04T17:53:23.485807+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "流暢度：改動前先量基準（Playwright 拖曳+fling frame 間隔 avg/max），改後不劣於基準，數據落檔",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/benchmark_handfeel.mjs\" \"/Users/coma/git_mirror/cowork_CDIC/outputs/V4_upgrade/B_kiosk\" compare \"outputs/V4_upgrade/B_kiosk\"",
+        "exit": 0,
+        "output_tail": "{\"label\":\"baseline\",\"samples\":2063,\"avgMs\":16.66666698982065,\"p95Ms\":17.799999999999272,\"maxMs\":18.700000000000728}\n{\"label\":\"after\",\"samples\":2201,\"avgMs\":16.665349386642433,\"p95Ms\":18,\"maxMs\":18.700000000000728}\nCOMPARE avg 16.665 <= 16.667 + 0.3: PASS\nCOMPARE max 18.700 <= 18.700 + 2: PASS\n",
+        "ts": "2026-08-04T17:54:37.014218+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "回歸全過：verify_scrub.mjs 13/13、verify_no_reentrance.mjs 含新增條目全 PASS、regress_four_zones 8/8、verify_static BASE=outputs/V4_upgrade 全 PASS",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/verify_scrub.mjs\" \"outputs/V4_upgrade/B_kiosk\" && node \"outputs/_shared/_scripts/deploy_sync_20260804/regress_four_zones.mjs\" \"outputs/V4_upgrade\" \"$(mktemp -d)\" && BASE=outputs/V4_upgrade bash \"outputs/_shared/_scripts/anim_20260804/impl/verify_static.sh\"",
+        "exit": 0,
+        "output_tail": "de/C_kiosk/content/tw.js\nPASS 39 content hash: outputs/V4_upgrade/D_kiosk/content/en.js\nPASS 40 content hash: outputs/V4_upgrade/D_kiosk/content/tw.js\nPASS 41 content hash: outputs/V4_upgrade/A_kiosk/A.html\nPASS 42 content hash: outputs/V4_upgrade/B_kiosk/B.html\nPASS 43 content hash: outputs/V4_upgrade/D_kiosk/D.html\nPASS 44 C HTML markup, loader, DATA and fallback content unchanged\nPASS total=44\n",
+        "ts": "2026-08-04T17:55:28.249620+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "content 零改動：B_kiosk content 四檔+B_內容總表.json sha256 前後一致",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/_scripts/b_scrub_20260731/verify_content_sha256.mjs\" \"outputs/V4_upgrade/B_kiosk\"",
+        "exit": 0,
+        "output_tail": "10c06b52c52fdd06145cf\nPASS  content/en.json\n      before=5723c6340d4baab03b4b91ec9a03a3f7dca2cc0693e210354868c60ad4c1541f\n      after =5723c6340d4baab03b4b91ec9a03a3f7dca2cc0693e210354868c60ad4c1541f\nPASS  content/B_內容總表.json\n      before=bcb1eab857eeed61dedf9ebfe54aeb52c13538e26529aac6ce57399f75cfafb3\n      after =bcb1eab857eeed61dedf9ebfe54aeb52c13538e26529aac6ce57399f75cfafb3\n\n=== 5/5 PASS ===\n",
+        "ts": "2026-08-04T17:55:28.332437+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "agy 質詢閘：blocking 質疑逐條回應或修正完畢",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && grep -q 'Round 2 覆核' \"outputs/_shared/agy質詢_B區手感修正_20260805.md\" && grep -q 'B1 ✅' \"outputs/_shared/verifier複驗_B區手感修正_20260805.md\" && grep -q 'B4 ✅' \"outputs/_shared/verifier複驗_B區手感修正_20260805.md\" && grep -q '結論：PASS' \"outputs/_shared/verifier複驗_B區手感修正_20260805.md\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T17:55:28.375596+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "node outputs/_shared/_scripts/b_scrub_20260731/verify_scrub.mjs outputs/V4_upgrade/B_kiosk"
+  ],
+  "handoff_file": null,
+  "status": "failed",
+  "children": [
+    {
+      "task_id": "cowork_CDIC-B區手感修正-codex實作-20260805",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cowork_CDIC-B區手感修正-agy質詢-20260805",
+      "agent": "agy"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-08-04T17:55:28.568239+00:00",
+    "ok": false,
+    "fails": [
+      "[閘0 分工] 子任務 cowork_CDIC-B區手感修正-codex實作-20260805（agent=codex）尚未 PASS（現況 failed）",
+      "[閘2 scope] 越界檔案：['wtf-config/LESSONS.md', 'wtf-config/machines.md']（還原或經 PO 擴 scope）",
+      "[閘2 自驗] #3 證據命令 exit=1 非 0",
+      "[閘2 機械] `node outputs/_shared/_scripts/b_scrub_20260731/verify_scrub.mjs outputs/V4_upgrade/B_kiosk` exit=1：at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: []\n}\n\nNode.js v25.9.0\n"
+    ]
+  }
+}

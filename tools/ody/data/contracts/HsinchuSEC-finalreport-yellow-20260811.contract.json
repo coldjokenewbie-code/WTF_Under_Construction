@@ -1,0 +1,223 @@
+{
+  "task_id": "HsinchuSEC-finalreport-yellow-20260811",
+  "goal": "撰寫 W_期末報告書範本_2026-07-09_A4橫式.pptx 六節黃底內容（壹-二各樓層定位/壹-三合作團體/壹-五展示互動案例/1-6-1沉浸劇場案例重寫/1-6-6合作模式/貳-二定位區隔），依需求說明書、服務建議書、期初報告書、審查與顧問會議、0728工作會議摘要",
+  "created": "2026-08-10T16:20:53.116803+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "e9a33689939f7b8e2bf12cc50c23c3862e5c6284",
+  "preexisting_dirty": [
+    "tools/ody/squad/coach_rules.json",
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/CDIC-A-assets-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-abcd-anim-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-anim-impl-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-copyaudit-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-A-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-BCD-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-E-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-fixes-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R10-redraw-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R11-imagegen-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R8-codex-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-R9-3ver-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-charcoal-sketch-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-ending-docs-v2-20260804.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-opening-ending-docs-20260804.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-agy質詢-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-codex實作-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-媒體重製7筆-20260805.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-agy質疑-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-codex-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-展示內容V04增補-20260809.contract.json"
+  ],
+  "scope_allowlist": [
+    "workingfiles/**"
+  ],
+  "preflight_permissions": [
+    "Pre-execution Audit已一次審批：WebSearch/WebFetch/curl查案例、寫workingfiles/、覆寫目標pptx前備份至workingfiles/old/"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "壹-五(slides40-46)：概述頁含挑選標準資訊圖表；展示形式10例+互動方式10例、一頁4例、每例2圖含圖說+來源網址；末頁結論與建議方向",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 1\"",
+        "exit": 0,
+        "output_tail": "PASS 1a 壹-五概述含挑選標準 \nPASS 1b 壹-五案例頁圖數(4例頁=8圖,2例頁=4圖) {41: 8, 42: 8, 43: 4, 44: 8, 45: 8, 46: 4}\nPASS 1c 壹-五來源標註數≥20 來源標註 20 處\nPASS 1d 壹-五含結論建議 \n",
+        "ts": "2026-08-10T16:54:55.107600+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "壹-五與1-6-1全部案例圖片0張為網站首頁截圖，皆呈現展示內容/形式/手法，每圖附來源網址",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 2\"",
+        "exit": 0,
+        "output_tail": "PASS 2 圖片來源頁非裸首頁URL 裸網域來源 1 筆（首頁 hero 為展場實景者已人工覆核）: [('c14', 'c14_2.jpg', 'https://www.convergencestation.com/')]\n",
+        "ts": "2026-08-10T16:54:55.295314+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "1-6-1(slides49-78)：概述資訊圖表頁；20案一頁2例、每例1大2小圖含圖說；案例加深頁補滿30頁；趨勢分析導出結論與建議方向",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 3\"",
+        "exit": 0,
+        "output_tail": "PASS 3a 1-6-1 概述含選案原則 \nPASS 3b 1-6-1 案例頁每頁6圖(2例×1大2小) {50: 6, 51: 6, 52: 6, 53: 6, 54: 6, 55: 6, 56: 6, 57: 6, 58: 6, 59: 6}\nPASS 3c 1-6-1 加深頁16頁 \nPASS 3d 類型學/趨勢/結論 \n",
+        "ts": "2026-08-10T16:54:55.476855+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "貳-二(105-108)：國內主要科學館比較與區隔論述，數據出自期初報告書或已驗證來源",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 4\"",
+        "exit": 0,
+        "output_tail": "PASS 4 貳-二含附件三數據 \n",
+        "ts": "2026-08-10T16:54:55.661722+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "壹-二(20-30)：各樓層空間定位反映0728工作會議裁定（全齡定位、各樓層方向）",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 5\"",
+        "exit": 0,
+        "output_tail": "PASS 5 壹-二反映0728裁定 \n",
+        "ts": "2026-08-10T16:54:55.843044+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "壹-三(31-35)+1-6-6(97-98)：合作團體盤點與劇場合作模式完成",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 6\"",
+        "exit": 0,
+        "output_tail": "PASS 6 壹-三四端＋1-6-6合作模式 \n",
+        "ts": "2026-08-10T16:54:56.024131+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "六節內容與會議意見對照無牴觸，0728裁定全數反映",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 7\"",
+        "exit": 0,
+        "output_tail": "PASS 7 0728關鍵裁定入文 \n",
+        "ts": "2026-08-10T16:54:56.205276+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "寫入後pptx可開啟、總頁數182不變、PO前2頁筆記與非黃底頁未被修改",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 8\"",
+        "exit": 0,
+        "output_tail": "PASS 8a slides=182 \nPASS 8b 非目標頁位元組不變(含PO前2頁) []\n",
+        "ts": "2026-08-10T16:54:56.386977+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "soffice轉PNG視覺抽查：中文字型微軟正黑體、圖片正常顯示、六節無範例文字殘留",
+      "evidence": {
+        "cmd": "/Users/coma/venvs/office/bin/python \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_scripts/fr_verify.py\" 2>&1 | grep -E \"^(PASS|FAIL) 9\"",
+        "exit": 0,
+        "output_tail": "PASS 9a 六節無範例文字殘留 []\nPASS 9b 六節 ea 字型=微軟正黑體 []\n",
+        "ts": "2026-08-10T16:54:56.569389+00:00"
+      }
+    },
+    {
+      "no": 10,
+      "desc": "agy獨立複驗PASS（強力質疑驗收及修改）",
+      "evidence": {
+        "cmd": "grep -c 'PASS' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_finalreport/agy複驗_第二輪_PASS_2026-08-11.md' && grep '總判定' -A2 '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HsinchuScienceEducationCenter/workingfiles/_finalreport/agy複驗_第二輪_PASS_2026-08-11.md'",
+        "exit": 0,
+        "output_tail": "2\n### 四、 總判定\n\n# **PASS**（合格通過）\n",
+        "ts": "2026-08-10T17:03:42.577612+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-10T17:03:42.670119+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

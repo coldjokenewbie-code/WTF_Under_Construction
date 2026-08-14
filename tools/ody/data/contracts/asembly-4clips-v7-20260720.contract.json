@@ -1,0 +1,85 @@
+{
+  "task_id": "asembly-4clips-v7-20260720",
+  "goal": "四支示範片 v7（PO 退修）：三類對齊修正（示意圈對準實際QR／手機畫面=場景展板同源特寫／取景框對齊QR）＋01 語音重設（台灣男聲低沉年紀感、恢復日文、多語服務字卡、中文10-12s日文5-7s）",
+  "created": "2026-07-19T19:33:13.053449+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "4de9a1f9c480e564bdf90abbf33ea69db52c0cab",
+  "preexisting_dirty": [
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "src/asembly/**",
+    "src/index.tsx",
+    "public/asembly/**",
+    "public/audio/**",
+    "tools/**"
+  ],
+  "preflight_permissions": [
+    "修改 git_mirror/Remotion_fun（既有授權）",
+    "Vertex AI Gemini TTS＋imagegen（既有授權；沙箱開網路）",
+    "codex 主執行、Claude 驗收（驗收升級：座標量測＋標註疊圖，教訓 #28）"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "QR 示意圈/虛線端點對準場景展板上實際 QR：機檢量測 QR 於場景圖座標 vs 圈心常數，偏差 <= 容差；輸出標註疊圖",
+      "evidence": {
+        "note": "場景 QR 量測 vs 圈心常數偏差 0.46-1.70px（容差內），四支標註疊圖 out/_align_v7/*_scene_qr.png Claude 逐張核（綠測/紅常數重合）",
+        "ts": "2026-07-19T20:08:43.124735+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "手機鏡頭畫面＝場景展板同源特寫（同素材裁切放大，QR 唯一且與板上位置對應）：template match 分數過門檻＋QR decode count==1；禁止另繪不相干底圖",
+      "evidence": {
+        "note": "v7.3：烘焙示意圈不得入相機畫面（PO 規則）——airraid/memory scan_panel 去圈（徑向亮度機檢 arc 2.9/4.2 <門檻8，四支常駐）、airraid 兩張 App hero 同步 inpaint、其餘相機素材盤查無同類標記；比例/位置/同源機檢維持 PASS（match 0.79-0.97>0.7）；片內幀 Claude 目驗圈已消失",
+        "ts": "2026-07-20T00:06:35.384459+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "取景框中心＝掃描畫面 QR 中心：機檢座標偏差 <= 容差，四支皆驗；輸出標註疊圖",
+      "evidence": {
+        "note": "取景框中心=QR decode 中心偏差 0.00px×4（機檢）；*_scan_qr.png 疊圖核過",
+        "ts": "2026-07-19T20:08:43.192838+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "01 語音：新風格（台灣男性口音、低沉、年紀感；禁台語腔、嚴禁中國口音）；刪「不妨掃描…」句；中文解說 10-12s＋日文解說 5-7s（日文恢復）；新增「多語服務」字卡；ffprobe 時長佐證",
+      "evidence": {
+        "note": "新聲線 style（台灣男聲低沉年紀感、禁台語腔/中國口音）；「不妨掃描」句已刪（機檢黑名單反轉）；中文 11.67s∈[10,12]、日文 6.57s∈[5,7]（ffprobe 覆核）；多語服務字卡 f620 抽幀確認；口音聽感留 PO 耳測",
+        "ts": "2026-07-19T20:08:43.224614+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "tsc＋verify_4clips.mjs（含對齊機檢）PASS；四支時長機檢（01 若超 600f 需列偏差報 PO）",
+      "evidence": {
+        "cmd": "node tools/verify_4clips.mjs",
+        "exit": 0,
+        "output_tail": " QR: {\"path\": \"public/asembly/quest/scan_panel.png\", \"count\": 1, \"texts\": [\"https://assembly-guide.app/exhibit/3-9-4?f=quest\"]}\nPASS QuestDemo.tsx: 無旁白 Audio, 統一版式, 展板近拍\nairraid: scene=0.57px scan=0.00px match=0.821 QR=1\nardemo: scene=1.70px scan=0.00px match=0.864 QR=1\nmemory: scene=0.46px scan=0.00px match=0.736 QR=1\nquest: scene=1.32px scan=0.00px match=0.908 QR=1\nPASS 四片 v7 對齊機檢\nPASS 四支導覽靜態驗收\n",
+        "ts": "2026-07-19T20:08:44.371443+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "不 render 正式 MP4；抽幀與標註疊圖交驗收方複核",
+      "evidence": {
+        "cmd": "bash -c '[ -z \"$(find out -name \"*.mp4\" -mtime -1)\" ]'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T20:08:44.414802+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-20T00:07:05.037435+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
