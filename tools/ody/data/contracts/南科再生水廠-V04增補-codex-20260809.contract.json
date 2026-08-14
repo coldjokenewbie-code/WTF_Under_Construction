@@ -1,0 +1,57 @@
+{
+  "task_id": "南科再生水廠-V04增補-codex-20260809",
+  "goal": "依 tools/v04/REVIEW_BRIEF.md 審核並增補 build_v04_content.py，產出 REVIEW_codex_260809.md",
+  "created": "2026-08-09T15:06:12.619687+00:00",
+  "repo_root": "/Users/coma/git_mirror/南科再生水廠",
+  "base_ref": "33054b24893031b64f558c8a6dc1a1673c62308f",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "tools/v04/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "REVIEW_codex_260809.md 逐知識點列審核結論",
+      "evidence": {
+        "cmd": "test -f tools/v04/REVIEW_codex_260809.md && grep -c '^| [A-D]' tools/v04/REVIEW_codex_260809.md",
+        "exit": 0,
+        "output_tail": "18\n",
+        "ts": "2026-08-09T15:25:04.217254+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "build_v04_content.py 語法合法且結構不變",
+      "evidence": {
+        "cmd": "python3 -c \"import ast; src=open('tools/v04/build_v04_content.py',encoding='utf-8').read(); ast.parse(src); ns={}; exec(compile(src,'c','exec'),ns); S=ns['SECTIONS']; pts=[p for z,gs in S for g,ps in gs for p in ps]; assert len(pts)==18 and all(len(p)==5 for p in pts); print('18/18 五元組')\"",
+        "exit": 0,
+        "output_tail": "18/18 五元組\n",
+        "ts": "2026-08-09T15:25:04.278046+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "新增來源全部附URL並標【待驗證】",
+      "evidence": {
+        "cmd": "python3 -c \"src=open('tools/v04/build_v04_content.py',encoding='utf-8').read(); import re; n=src.count('【待驗證】'); print('待驗證來源數:',n); assert n==0\"",
+        "exit": 0,
+        "output_tail": "待驗證來源數: 0\n",
+        "ts": "2026-08-09T15:25:04.333749+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "parent_task_id": "南科再生水廠-展示內容V04增補-20260809",
+  "last_check": {
+    "ts": "2026-08-09T15:27:18.766095+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "notes": [
+    "scope 由 Tech Lead 對齊父契約範疇（tools/v04/**）：原兩檔 scope 因 repo 將整個未追蹤目錄視為單一路徑而誤報越界；已以 diff 證明 codex 未動 build_v04_docx.py/REVIEW_BRIEF.md/ref/**（與 Tech Lead 原始副本一致）"
+  ]
+}

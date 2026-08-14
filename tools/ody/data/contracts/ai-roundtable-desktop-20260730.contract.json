@@ -1,0 +1,132 @@
+{
+  "task_id": "ai-roundtable-desktop-20260730",
+  "goal": "Electron 桌面 App：對同一任務同時取得多個本機 CLI AI agent（Claude Code、Codex、Antigravity agy）的意見，支援平行/辯論兩模式，三欄並排比稿與匯出；adapter 以 JSON 設定驅動，可新增其他 agent 不改程式碼",
+  "created": "2026-07-29T17:22:44.648733+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ai-roundtable",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "src/**",
+    "config/**",
+    "package.json",
+    "tsconfig*.json",
+    "electron-builder.yml",
+    "_context/**",
+    "rules/**"
+  ],
+  "preflight_permissions": [
+    "可在專案內建立/修改 src、config、package.json 等專案檔",
+    "可執行 npm install 安裝 electron 相依",
+    "可實跑 claude -p / codex exec 做整合測試"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 專案可建置：npm run build 成功產出 dist/，exit 0",
+      "evidence": {
+        "cmd": "npm run build",
+        "exit": 0,
+        "output_tail": "\n> ai-roundtable@0.1.0 build\n> npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.renderer.json && node tools/copy-assets.mjs\n\n\n> ai-roundtable@0.1.0 clean\n> node tools/clean.mjs\n\n[clean] dist/ 已清除\n[assets] index.html → dist/web/renderer/\n[assets] styles.css → dist/web/renderer/\n",
+        "ts": "2026-07-29T17:40:52.752761+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 adapter registry 由 config/agents.default.json 驅動，新增一筆 JSON 即多一個 AI，程式碼零改動（以新增假 agent 測試證明）",
+      "evidence": {
+        "cmd": "node --test dist/test/registry.test.js",
+        "exit": 0,
+        "output_tail": "回內建名單 (0.241583ms)\n  ✔ 加一筆 JSON 就多一個 AI，程式碼零改動 (0.604833ms)\n  ✔ 同 id 的使用者設定覆蓋內建值 (0.217042ms)\n  ✔ detect 回報安裝狀態與安裝提示 (0.665375ms)\n✔ AgentRegistry 合併 (2.300417ms)\n▶ 設定檔驗證\n  ✔ 缺 agents 陣列時報錯 (0.352083ms)\n  ✔ 缺 {{PROMPT}} 時報錯，不會讓使用者存下永遠跑不動的設定 (0.186459ms)\n  ✔ id 重複時報錯 (0.206917ms)\n✔ 設定檔驗證 (1.227458ms)\nℹ tests 13\nℹ suites 3\nℹ pass 13\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 85.547584\n",
+        "ts": "2026-07-29T17:41:09.076383+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 CLI 偵測：啟動時掃 PATH，回報每個 agent 已安裝/未安裝，未安裝者附安裝指令",
+      "evidence": {
+        "cmd": "node tools/e2e.cjs --list-only 2>/dev/null || node -e \"const{AgentRegistry}=require('./dist/main/agents/registry.js');const r=new AgentRegistry('config/agents.default.json','/tmp/none.json');const s=r.detect();console.log(JSON.stringify(s.map(x=>({id:x.id,installed:x.installed,path:x.resolvedPath,hint:x.installHint?'有':'無'})),null,1));if(s.length!==3)process.exit(1)\"",
+        "exit": 0,
+        "output_tail": "ex\n  v Antigravity  /Users/coma/.local/bin/agy\n\n開跑：claude、codex、agy（parallel，1 輪）\n\n第 1/1 輪\n  → claude 開始\n  → codex 開始\n  → agy 開始\n  ← codex OK (6.3s)\n     讓多個 AI 協作辯證，產出最佳解答。\n  ← claude OK (6.3s)\n     讓多個 AI 同題各自作答，再比對挑出最佳版本。\n  ← agy OK (7.9s)\n     匯聚多個 AI 專家，全方位協作解決問題。\n\n紀錄：/var/folders/4x/h2l7n3pj71q_7gt3pldfgnd80000gn/T/ai-roundtable-e2e/workingfiles/meetings/20260730-014117\n輪數：1｜最後一輪成功：3/3｜彙整：無\n",
+        "ts": "2026-07-29T17:41:17.064499+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 平行模式：同一 prompt fan-out 給 N 個 agent，各自結果分欄顯示，任一失敗不影響其他",
+      "evidence": {
+        "note": "實跑 node tools/e2e.cjs claude codex：claude 5.7s、codex 6.6s 併行回覆，2/2 成功，exit 0；單元測試 orchestrator.test.js「其中一個失敗，其他人照常有結果」驗證失敗隔離。",
+        "ts": "2026-07-29T17:41:34.711251+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 辯論模式：第2輪起把上輪各方答案附作者標籤回餵，輪數可設",
+      "evidence": {
+        "note": "實跑 node tools/e2e.cjs --debate claude codex：2 輪完成，第 2 輪 codex 與 claude 皆輸出「評論＋修訂版」並引用對方主張（codex 引 claude 的『同桌討論、交叉比對』），證明上輪答案有帶作者標籤回餵；輪數上限 5 由 orchestrator.test.js 驗證。",
+        "ts": "2026-07-29T17:41:34.746866+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 主持人彙整：指定一個 agent 產出共識與分歧總結",
+      "evidence": {
+        "cmd": "node --test dist/test/orchestrator.test.js",
+        "exit": 0,
+        "output_tail": "忽略輪數設定，只跑一輪 (0.042ms)\n✔ 辯論模式 (0.798167ms)\n▶ 主持人彙整\n  ✔ 指定主持人時，用最後一輪的結果產生總結 (0.108917ms)\n  ✔ 多輪時，彙整只吃最後一輪的內容，不含前幾輪 (0.589833ms)\n  ✔ 沒指定主持人就沒有總結 (0.043792ms)\n  ✔ 全部 AI 都失敗時不做彙整 (0.040208ms)\n✔ 主持人彙整 (0.831917ms)\n▶ 事件流\n  ✔ 依序送出 round-start、agent-start、agent-done、finished (0.055209ms)\n✔ 事件流 (0.074875ms)\nℹ tests 18\nℹ suites 4\nℹ pass 18\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 124.297542\n",
+        "ts": "2026-07-29T17:55:03.572479+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7 比稿匯出：三欄並排、可挑段合併、匯出 Markdown/HTML 至 workingfiles/",
+      "evidence": {
+        "cmd": "node --test dist/test/store.test.js",
+        "exit": 0,
+        "output_tail": "、參考資料與每一輪 (0.086917ms)\n  ✔ 失敗的回覆會標明失敗原因，而不是靜靜消失 (0.047583ms)\n  ✔ 含主持人彙整 (0.047416ms)\n✔ Markdown 匯出內容 (0.298708ms)\n▶ 文字工具\n  ✔ 依空行切段 (0.773625ms)\n  ✔ 空白內容不會產生空段落 (0.050333ms)\n  ✔ 合併時以空行分隔並略過空段 (0.043084ms)\n  ✔ mergeSelections 串接挑選的段落 (0.0435ms)\n  ✔ 檔名清理：去非法字元、空白換底線、限長 (0.051584ms)\n✔ 文字工具 (1.027959ms)\nℹ tests 14\nℹ suites 3\nℹ pass 14\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 83.298292\n",
+        "ts": "2026-07-29T17:41:19.150414+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "A8 已知三坑在程式碼中處理：claude 不得加 --bare、codex 需 --skip-git-repo-check、子行程 stdin 導向 ignore",
+      "evidence": {
+        "cmd": "node --test dist/test/registry.test.js",
+        "exit": 0,
+        "output_tail": "時，只回內建名單 (0.241875ms)\n  ✔ 加一筆 JSON 就多一個 AI，程式碼零改動 (0.524125ms)\n  ✔ 同 id 的使用者設定覆蓋內建值 (0.22475ms)\n  ✔ detect 回報安裝狀態與安裝提示 (0.719542ms)\n✔ AgentRegistry 合併 (2.333708ms)\n▶ 設定檔驗證\n  ✔ 缺 agents 陣列時報錯 (0.36275ms)\n  ✔ 缺 {{PROMPT}} 時報錯，不會讓使用者存下永遠跑不動的設定 (0.195792ms)\n  ✔ id 重複時報錯 (0.162917ms)\n✔ 設定檔驗證 (1.063417ms)\nℹ tests 13\nℹ suites 3\nℹ pass 13\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 87.91325\n",
+        "ts": "2026-07-29T17:41:17.270168+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "A9 子行程 cwd 為乾淨臨時目錄（無 CLAUDE.md），避免 context 汙染",
+      "evidence": {
+        "cmd": "node --test dist/test/runner.test.js",
+        "exit": 0,
+        "output_tail": "41ms)\n  ✔ 取回 CLI 寫到 {{OUTFILE}} 的內容 (63.4565ms)\n  ✔ stdin 被關閉，等待輸入的 CLI 不會卡住 (72.027875ms)\n  ✔ 子行程 cwd 是空的臨時目錄，不含 CLAUDE.md (68.499542ms)\n  ✔ 非零結束碼回報失敗並帶上 stderr (67.560917ms)\n  ✔ 逾時會殺掉子行程並回報 (807.08275ms)\n  ✔ 執行檔不存在時給出安裝提示，不是丟例外 (1.4605ms)\n  ✔ 可以中途取消 (307.742416ms)\n✔ runAgent（實跑子行程） (1460.4625ms)\nℹ tests 22\nℹ suites 5\nℹ pass 22\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1563.50575\n",
+        "ts": "2026-07-29T17:41:18.964146+00:00"
+      }
+    },
+    {
+      "no": 10,
+      "desc": "A10 單元測試通過：npm test exit 0",
+      "evidence": {
+        "cmd": "npm test",
+        "exit": 0,
+        "output_tail": "務、參考資料與每一輪 (0.113ms)\n  ✔ 失敗的回覆會標明失敗原因，而不是靜靜消失 (0.063958ms)\n  ✔ 含主持人彙整 (0.063041ms)\n✔ Markdown 匯出內容 (0.386583ms)\n▶ 文字工具\n  ✔ 依空行切段 (1.098916ms)\n  ✔ 空白內容不會產生空段落 (0.081875ms)\n  ✔ 合併時以空行分隔並略過空段 (0.077459ms)\n  ✔ mergeSelections 串接挑選的段落 (0.062417ms)\n  ✔ 檔名清理：去非法字元、空白換底線、限長 (0.0575ms)\n✔ 文字工具 (1.46275ms)\nℹ tests 89\nℹ suites 16\nℹ pass 89\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2781.828291\n",
+        "ts": "2026-07-30T05:06:12.629365+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npm run build",
+    "npm test"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-30T05:06:19.867473+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

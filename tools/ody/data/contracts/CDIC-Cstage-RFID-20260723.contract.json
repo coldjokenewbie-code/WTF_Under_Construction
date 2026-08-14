@@ -1,0 +1,154 @@
+{
+  "task_id": "CDIC-Cstage-RFID-20260723",
+  "goal": "C區現場修正：①stage遙控指定任務可靠化（C_1..C_4→直進任務、C_5預留no-op、不吞開頁首值、同stage重送可重觸發）②RFID 7組cardNum鍵盤序列輸入觸發對應Agent（等同點擊），CN/EN雙版",
+  "created": "2026-07-23T08:09:56.028693+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "5c16722f0143b19d59057a604000c96e4473cca5",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/C_kiosk/**",
+    "outputs/V3/C_kiosk_EN/**",
+    "outputs/V3/env_bridge/**",
+    "outputs/_shared/_scripts/**",
+    "outputs/_shared/_screenshots/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 RFID監聽：CN/EN C.html以<script>掛載新js；keydown累積數字，滿16碼或Enter觸發；比對RFID_config.json 7組cardNum（左→右＝buttons序：存款保險/風險管理/配合主管機關/研究發展/推行永續發展/接管與退場處理/查核業務）；匹配→等同點擊對應Agent；不匹配靜默重置；不干擾既有鍵盤監聽",
+      "evidence": {
+        "cmd": "bash \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/check_a1_static.sh\"",
+        "exit": 0,
+        "output_tail": "A1_STATIC_OK\n",
+        "ts": "2026-07-23T08:29:21.115083+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 Playwright任務畫面逐一模擬7組cardNum鍵序→對應Agent被選取，CN+EN各7組全PASS",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/test_a2_a3.py\"",
+        "exit": 0,
+        "output_tail": "5, 帶Enter) → hp-5 被選取\nOK: A2 [EN] 卡號 1371881322585472 (id=7, 不帶Enter) → hp-7 被選取\nOK: A2 [EN] 卡號 1179196204785024 (id=2, 帶Enter) → hp-2 被選取\nOK: A2 [EN] 卡號 1227887426413952 (id=3, 不帶Enter) → hp-3 被選取\nOK: A2 [EN] 卡號 1386691444300164 (id=4, 帶Enter) → hp-4 被選取\nOK: A2 [EN] 卡號 1301585592851840 (id=6, 不帶Enter) → hp-6 被選取\nOK: A3 [CN] 待機畫面感應有效卡 → 離開待機\nOK: A3 [EN] 待機畫面感應有效卡 → 離開待機\nA2+A3 RESULT: PASS (16/16)\n",
+        "ts": "2026-07-23T08:30:03.881223+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 待機attract感應任一有效卡→喚醒（Playwright驗證）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/test_a2_a3.py\"",
+        "exit": 0,
+        "output_tail": "5, 帶Enter) → hp-5 被選取\nOK: A2 [EN] 卡號 1371881322585472 (id=7, 不帶Enter) → hp-7 被選取\nOK: A2 [EN] 卡號 1179196204785024 (id=2, 帶Enter) → hp-2 被選取\nOK: A2 [EN] 卡號 1227887426413952 (id=3, 不帶Enter) → hp-3 被選取\nOK: A2 [EN] 卡號 1386691444300164 (id=4, 帶Enter) → hp-4 被選取\nOK: A2 [EN] 卡號 1301585592851840 (id=6, 不帶Enter) → hp-6 被選取\nOK: A3 [CN] 待機畫面感應有效卡 → 離開待機\nOK: A3 [EN] 待機畫面感應有效卡 → 離開待機\nA2+A3 RESULT: PASS (16/16)\n",
+        "ts": "2026-07-23T08:30:46.156558+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 stage修正：開頁首拉/state若status非deactivate且stage有對應動作→立即執行；env_bridge /state加遞增欄位（若無）使同stage重送可重觸發；不破壞既有欄位（lang/stage/status），A/B/D相容",
+      "evidence": {
+        "cmd": "bash \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/check_a4_static.sh\"",
+        "exit": 0,
+        "output_tail": "A4_STATIC_OK\n",
+        "ts": "2026-07-23T08:30:46.304641+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 本機mock或實起env_bridge：C_start→選單、C_1..C_4→對應任務、C_5 no-op、deactivate→待機，Playwright全驗PASS",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/test_a5.py\"",
+        "exit": 0,
+        "output_tail": "年｜任務三'\nOK: A5-2b C_4 → s-intro 顯示 任務四 | screen=s-intro intro_src='任務四'\nOK: A5-2c C_5（預留任務）→ 畫面不變（no-op） | screen=s-intro intro_src='任務四'\nOK: A5-2d deactivate → 回待機 s-idle | screen=s-idle\nOK: A5-3a C_1 → 進 s-intro 任務一\nOK: A5-3b 手動點擊已離開 s-intro（進 s-select）\nOK: A5-3c 同 stage(C_1)/status(activate) 重送 → 重新觸發，回到 s-intro 任務一 | screen=s-intro intro_src='民國 87 年｜任務一'\nenv_bridge 已停止\nA5 RESULT: PASS (11/11)\n",
+        "ts": "2026-07-23T08:31:13.556514+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 檔案異動清單逐檔列示；未動任何文案content檔（或逐字diff證明文案不變）",
+      "evidence": {
+        "cmd": "bash \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/check_a6_files.sh\"",
+        "exit": 0,
+        "output_tail": "oogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/js/rfid_input.js\n  /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk_EN/js/rfid_input.js\n── C.html 加了且只加了 1 行 <script src=\"js/rfid_input.js\"> ──\n── env_bridge/bridge.js 未列入異動（本契約未觸碰）──\nA6_FILELIST_OK\n",
+        "ts": "2026-07-23T08:31:13.617384+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7 file://雙擊直開smoke：無新增fetch依賴、C.html直開零console error",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/test_a7.py\"",
+        "exit": 0,
+        "output_tail": "rce: net::ERR_CONNECTION_REFUSED\n    - Failed to load resource: net::ERR_CONNECTION_REFUSED\n    - Failed to load resource: net::ERR_CONNECTION_REFUSED\n    - Failed to load resource: net::ERR_CONNECTION_REFUSED\nOK: A7 [EN] 零 JS 執行期 console error（排除資源載入失敗類）\nOK: A7 [EN] 零 pageerror\nOK: A7 [EN] 無新增網路依賴（非 file:// 請求僅限既有 127.0.0.1:8790 bridge 輪詢） | non-bridge non-file requests: []\nA7 RESULT: PASS (6/6)\n",
+        "ts": "2026-07-23T08:31:22.325859+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/c_rfid_stage_20260723/run_all.py\""
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-23T08:36:39.504440+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "amendments": [
+    {
+      "when": "2026-07-23",
+      "by": "Claude@Mac",
+      "what": "verify_cmds 由立約佔位字串 ['見各evidence絕對路徑命令'] 改為實際驗證命令 run_all.py",
+      "reason": "立約時腳本尚未存在，佔位字串被 check 當 shell 指令執行致假 FAIL"
+    }
+  ]
+}

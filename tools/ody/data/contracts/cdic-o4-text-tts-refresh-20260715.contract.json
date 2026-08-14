@@ -1,0 +1,112 @@
+{
+  "task_id": "cdic-o4-text-tts-refresh-20260715",
+  "goal": "依英審定稿docx(多媒體文字英文審稿_O區主題影片四v2)更新O4六支影片：文字一字不差、重生TTS配音、時間軸隨新配音長度同步調整；中文版先行、英文版接續；音樂不動；不出MP4；Studio預覽驗收；compositions由remote agents製作、TTS本機GCP生成",
+  "created": "2026-07-14T23:15:04.476389+00:00",
+  "repo_root": "/Users/coma/git_mirror/claude_CDIC_O4",
+  "base_ref": "65cca053b31e042822d3646f4bf3759819675403",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "src/compositions/*.tsx",
+    "src/Root.tsx",
+    "src/constants.ts",
+    "public/audio/vo/**",
+    "outputs/tts_20260715/**"
+  ],
+  "preflight_permissions": [
+    "本機GCP TTS呼叫(計費)",
+    "remote agents派工",
+    "git_mirror repo commit/push v615工作分支"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "六支中文TTS wav依定稿文字生成於public/audio/vo/，時長已量測記錄於outputs/tts_20260715/",
+      "evidence": {
+        "cmd": "python3 -c \"import json;d=json.load(open('/Users/coma/git_mirror/claude_CDIC_O4/outputs/tts_20260715/zh_measurements.json'));assert len(d)==7;print({k:v['duration_sec'] for k,v in d.items()})\"",
+        "exit": 0,
+        "output_tail": "{'opening_vo': 52.791, 'e1_vo': 28.083, 'e2_vo': 32.035, 'e3_vo': 31.046, 'e4_vo': 30.891, 'e5_vo': 26.683, 'ending_vo': 24.996}\n",
+        "ts": "2026-07-14T23:21:55.251765+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "六支compositions中文文字(字幕/旁白/字卡)與定稿docx一字不差",
+      "evidence": {
+        "cmd": "python3 /Users/coma/git_mirror/claude_CDIC_O4/outputs/tts_20260715/verify_zh.py",
+        "exit": 0,
+        "output_tail": "PASS：文字逐字、時間軸涵蓋、無舊旁白殘留、音樂未動、7 wav 齊全\n",
+        "ts": "2026-07-15T00:04:31.740911+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "各composition時間軸依新VO長度調整，calculateMetadata總長涵蓋VO結尾",
+      "evidence": {
+        "cmd": "python3 /Users/coma/git_mirror/claude_CDIC_O4/outputs/tts_20260715/verify_zh.py",
+        "exit": 0,
+        "output_tail": "PASS：文字逐字、時間軸涵蓋、無舊旁白殘留、音樂未動、7 wav 齊全\n",
+        "ts": "2026-07-15T00:04:31.801529+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "npx tsc --noEmit 通過",
+      "evidence": {
+        "cmd": "cd /Users/coma/git_mirror/claude_CDIC_O4 && npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-15T00:04:32.788285+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Root.tsx defaultProps與schema同步，Studio載入六支無undefined錯誤",
+      "evidence": {
+        "note": "七支 composition 各以 npx remotion still 實渲一幀成功產出 PNG（scratchpad/smoke/ 7 檔：OpeningV2 f900、Event1985V2 f500、Event1997 f500、Event2008 f500、Event2011 f500、Event2019 f400、Ending f500），無 undefined/runtime 錯誤；Ending 承諾卡與 Event2008 字幕已目檢正常；Root defaultProps 由 verify_zh.py 的 durationInFrames 檢查覆蓋",
+        "ts": "2026-07-15T00:04:51.257633+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "英文版：六支英文TTS生成+英文compositions可於Studio預覽，文字與定稿英文版一字不差",
+      "evidence": {
+        "cmd": "python3 /Users/coma/git_mirror/claude_CDIC_O4/outputs/tts_20260715/verify_en.py",
+        "exit": 0,
+        "output_tail": "PASS：EN 文字逐字、時間軸涵蓋、wav 引用/存在、音樂未動\n",
+        "ts": "2026-07-15T00:35:39.080911+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "音樂檔public/audio/music/未變動",
+      "evidence": {
+        "cmd": "cd /Users/coma/git_mirror/claude_CDIC_O4 && test $(git diff --name-only origin/v615...HEAD | grep -ci music) -eq 0 && md5 -q 'public/audio/music/A_影片四開場_60s.wav'",
+        "exit": 0,
+        "output_tail": "d9243f5da482b845bf5d593192466d48\n",
+        "ts": "2026-07-15T00:04:51.321935+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "獨立Verifier(ody-verifier)複驗PASS",
+      "evidence": {
+        "note": "獨立 ody-verifier 兩輪複驗皆 PASS：中文波（7項：wav時長實測/逐字比對/時間軸重算/tsc/音樂md5/殘留掃描/抽渲2支）＋英文波（7項：四支字幕拼接逐字含撇號與數字/畫面英文無殘留中文/Root七支註冊核對/EN wav實測誤差<0.002s/tsc exit0/music diff零/抽渲Event1997EN f900與EndingEN f820目檢）。複驗報告全文存 session transcript",
+        "ts": "2026-07-15T00:35:39.112121+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-15T00:35:40.073471+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

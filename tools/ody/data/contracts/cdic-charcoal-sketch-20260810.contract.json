@@ -1,0 +1,204 @@
+{
+  "task_id": "cdic-charcoal-sketch-20260810",
+  "goal": "E區文化永續示意氛圍配圖四張改為真正的炭筆手繪線稿：把 R7 的半透明暈染換成近二值實心筆身＋1-3px 硬邊顆粒破口，構圖與文字可讀性不變。PO 退回原文：這不是炭筆，沒有細緻的顆粒感，反而出現水筆才會有的暈染效果。",
+  "created": "2026-08-09T23:21:23.886396+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "2bfb6adb327d6ad17545e06942d768bbbf0b57dd",
+  "preexisting_dirty": [
+    "tools/ody/squad/coach_rules.json",
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/CDIC-A-assets-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-abcd-anim-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-anim-impl-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-copyaudit-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-A-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-BCD-20260809.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-E-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-backend5-fixes-20260810.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-ending-docs-v2-20260804.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-opening-ending-docs-20260804.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-agy質詢-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-codex實作-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-媒體重製7筆-20260805.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-agy質疑-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-V04增補-codex-20260809.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-展示內容V04增補-20260809.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/_shared/sketch_同仁會議_20260805/**",
+    "outputs/_shared/sketch_形象牆_20260805/**",
+    "outputs/_shared/_scripts/sketch_R8_20260810/**",
+    "outputs/_shared/_scripts/measure_line_R8.py",
+    "outputs/_shared/sketch_風格R8_details_20260810/**",
+    "outputs/_shared/codex任務_炭筆手繪線稿_R8_20260810.md",
+    "outputs/_shared/codex回報_炭筆手繪線稿_R8_20260810.md",
+    "outputs/_shared/_codex_run_R8.log",
+    "outputs/_shared/_codex_last_message_R8.txt",
+    "outputs/_shared/_reference_炭筆質感/**"
+  ],
+  "preflight_permissions": [
+    "PO 指名 codex 繪製",
+    "只寫 Drive 工作區、不碰 git_mirror、不執行任何 git 指令",
+    "不得動 outputs/V3、outputs/V4_upgrade、_context"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "四張 mid_alpha ≤ 0.30（炭筆參照 0.202、R7 0.687-0.772）",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "四張 soft_ramp ≤ 0.70（參照 0.56、R7 0.88-1.01）",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "四張 longest_stroke_pct ≥ 120（線仍連續，未碎成點）",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "四張 speckle_area_pct ≤ 25（未撒雜點）",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "四張 midtone≤12 且 ink≤12 且 transparent≥82 且 solid_blocks=0 且 stray_far=0 且四角 alpha=0",
+      "evidence": null
+    },
+    {
+      "no": 6,
+      "desc": "四張與 R7 的 64-bit dHash 距離 ≤ 8（構圖不變）",
+      "evidence": null
+    },
+    {
+      "no": 7,
+      "desc": "四張灰階（飽和度≈0）且尺寸不小於 R7",
+      "evidence": null
+    },
+    {
+      "no": 8,
+      "desc": "四張 mean_width_px 落在 3.5-7.0（參照 5.44）",
+      "evidence": null
+    },
+    {
+      "no": 9,
+      "desc": "目視：400% 局部至少三處與炭筆參照並排，筆身實心、邊緣硬破口、無灰色過渡帶",
+      "evidence": null
+    },
+    {
+      "no": 10,
+      "desc": "目視：形象牆兩張文字四列逐字可讀（中央存款保險股份有限公司／CENTRAL DEPOSIT INSURANCE CORP./發揮存保機制/確保金融安定）無缺筆黏字",
+      "evidence": null
+    },
+    {
+      "no": 11,
+      "desc": "目視：會議兩張後牆三組浮雕與前景下沉造景辨識元素仍在",
+      "evidence": null
+    },
+    {
+      "no": 12,
+      "desc": "candidates/ 全程維持可交付狀態：codex 只寫 staging，由 Tech Lead 目視通過後才搬入",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/abb69c1e-fca0-44f3-996a-ec9c2a396815/scratchpad/venv/bin/python outputs/_shared/_scripts/measure_line_R8.py"
+  ],
+  "handoff_file": null,
+  "status": "open",
+  "children": [
+    {
+      "task_id": "cdic-charcoal-R8-codex-20260810",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-charcoal-R9-3ver-20260810",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-charcoal-R10-redraw-20260810",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdic-charcoal-R11-imagegen-20260810",
+      "agent": "codex"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "task_id": "claude_CDIC_O4-ending-docs-v2-20260804",
+  "goal": "Opening 段落C 文件畫面重做至 BBC/Netflix 文史紀錄片質感：先網研三方向各10例，小隊選型，Codex 重製場景素材（文件文字逐字不可改），Remotion 整合＋動態升級",
+  "created": "2026-08-04T15:46:29.060281+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "src/compositions/Opening.tsx",
+    "src/components/",
+    "public/images/",
+    "workingfiles/影片素材/",
+    "workingfiles/研究/",
+    "_context/"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "研究報告存檔於 workingfiles/研究/：3 方向 × 各 10 例，來源連結經實際開啟驗證",
+      "evidence": {
+        "cmd": "test -f 'workingfiles/研究/研究報告_2026-08-04_紀錄片文件呈現三方向.html' && [ $(grep -c 'href=' 'workingfiles/研究/研究報告_2026-08-04_紀錄片文件呈現三方向.html') -ge 30 ] && echo REPORT_30_LINKS_OK",
+        "exit": 0,
+        "output_tail": "REPORT_30_LINKS_OK\n",
+        "ts": "2026-08-04T16:29:06.113197+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "小隊選型討論記錄與最終方案理由存檔（含 PIL+Remotion 可行性與授權安全評估）",
+      "evidence": {
+        "cmd": "test -f 'workingfiles/研究/選型記錄_2026-08-04_片尾文件畫面.md' && grep -q 'GO-with-changes' 'workingfiles/研究/選型記錄_2026-08-04_片尾文件畫面.md' && echo DECISION_LOG_OK",
+        "exit": 0,
+        "output_tail": "DECISION_LOG_OK\n",
+        "ts": "2026-08-04T16:29:06.152994+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "Codex 產出新版場景素材：文件文字區逐字與原掃描一致（僅幾何校正/銳化/調光，禁改寫、禁 AI 生圖、禁外部素材）",
+      "evidence": {
+        "cmd": "ls public/images/opening_cA_wide.png public/images/opening_cB_close.png >/dev/null && grep -q 'SHA-256' 'workingfiles/影片素材/片尾文件合成_20260804/v3/codex_run3.log' && echo CODEX_V3_ASSETS_OK",
+        "exit": 0,
+        "output_tail": "CODEX_V3_ASSETS_OK\n",
+        "ts": "2026-08-04T16:57:44.314899+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "npx tsc --noEmit exit 0",
+      "evidence": {
+        "cmd": "npx tsc --noEmit && echo TSC_EXIT_0",
+        "exit": 0,
+        "output_tail": "TSC_EXIT_0\n",
+        "ts": "2026-08-04T16:57:45.623600+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "段落 A/B 抽樣幀 300/700/1100/1250 渲染 md5 改動前後一致",
+      "evidence": {
+        "cmd": "cd 'workingfiles/影片素材/片尾文件合成_20260804/v3' && for f in 300 700 1100 1250; do a=$(md5 -q \"../baseline/AB_${f}_after.png\"); b=$(md5 -q \"regress_AB_$f.png\"); [ \"$a\" = \"$b\" ] || exit 1; done && echo AB_MD5_ALL_MATCH_V3",
+        "exit": 0,
+        "output_tail": "AB_MD5_ALL_MATCH_V3\n",
+        "ts": "2026-08-04T16:57:45.719300+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "新版段落C預覽影片渲染並開啟給 PO，TaskLog 更新 HANDOFF 假設清單",
+      "evidence": {
+        "cmd": "test -f 'workingfiles/影片素材/片尾文件合成_20260804/v3/段落C預覽_v3.mp4' && echo PREVIEW_V3_EXISTS",
+        "exit": 0,
+        "output_tail": "PREVIEW_V3_EXISTS\n",
+        "ts": "2026-08-04T16:57:45.761361+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4' && npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-04T16:58:46.826196+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

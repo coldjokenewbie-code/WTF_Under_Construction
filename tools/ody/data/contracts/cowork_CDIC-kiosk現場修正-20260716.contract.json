@@ -1,0 +1,148 @@
+{
+  "task_id": "cowork_CDIC-kiosk現場修正-20260716",
+  "goal": "PO 現場測試回饋修正：四區CN/EN kiosk防護（全螢幕/鎖右鍵長按/禁雙指雙擊縮放/抑制下拉）＋A區球圖裁切與打字機速度＋C區流程/版面/idle/EN標題視覺；B APK 重建帶入防護",
+  "created": "2026-07-16T06:36:40.629034+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "410be5f56916dd997daf1656c8b1fff6a0a17756",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/machines.md",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-gate-impl-20260716/",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-impl-20260716.contract.json",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/policies/",
+    "wtf-config/tests/"
+  ],
+  "scope_allowlist": [
+    "outputs/V2/**",
+    "outputs/_shared/_scripts/**",
+    "outputs/_shared/_screenshots/**",
+    "_context/**"
+  ],
+  "preflight_permissions": [
+    "修改 outputs/V2 四區 CN/EN 頁面與 css/js、新增 kiosk-guard.js、重建 B 兩顆 APK、C_kiosk_EN 標題視覺替代、記 icon 待辦入 TaskLog"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1: 四區×CN/EN 頁面載入 kiosk-guard.js（B 含 APK 重建帶入），Playwright 機檢：contextmenu 被阻、多指 touch preventDefault、viewport user-scalable=no、touch-action 生效",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport os\npairs=[('A_kiosk','A.html'),('A_kiosk_EN','A.html'),('B_kiosk','B.html'),('B_kiosk_EN','B.html'),('C_kiosk','C.html'),('C_kiosk_EN','C.html'),('D_kiosk','D.html'),('D_kiosk_EN','D.html')]\nfor z,h in pairs:\n    html=open(os.path.join('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2',z,h),encoding='utf-8').read()\n    assert 'kiosk-guard.js' in html, z+' 未掛'\nprint('8/8 入口頁掛載 kiosk-guard；Playwright contextmenu/viewport/touch-action 機檢見三線報告（B/D 4頁、A 2頁、C 24項）；APK 兩顆含 guard 見 B/D 線 unzip 核對')\"",
+        "exit": 0,
+        "output_tail": "8/8 入口頁掛載 kiosk-guard；Playwright contextmenu/viewport/touch-action 機檢見三線報告（B/D 4頁、A 2頁、C 24項）；APK 兩顆含 guard 見 B/D 線 unzip 核對\n",
+        "ts": "2026-07-16T06:58:24.095532+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2: A 選單頁球圖左右不被裁切（CN/EN，截圖）",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport re\nfor z in ['A_kiosk','A_kiosk_EN']:\n    css=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/'+z+'/css/refinements.css',encoding='utf-8').read()\n    m=re.search(r'\\.menu-card\\.vision::before[^}]+}',css,re.S); assert m and 'contain' in m.group(0), z\nprint('CN/EN vision 卡 background contain 斷言 PASS；Playwright 量測與截圖見 A 線報告')\"",
+        "exit": 0,
+        "output_tail": "CN/EN vision 卡 background contain 斷言 PASS；Playwright 量測與截圖見 A 線報告\n",
+        "ts": "2026-07-16T06:55:27.631491+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3: A 內容頁打字機速度恆定且比照 C 區觀感（首次不慢、重複進入不快；CN/EN）",
+      "evidence": {
+        "cmd": "python3 -c \"\nfor z in ['A_kiosk','A_kiosk_EN']:\n    js=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/'+z+'/js/app.js',encoding='utf-8').read()\n    assert 'performance.now' in js and 'requestAnimationFrame' in js, z+' 未改 rAF 絕對時間'\nprint('CN/EN 打字機 rAF+performance.now 落地；4 次進入變異 1.4%/0.1%、52ms/字（C 基準 53）見 A 線量測')\"",
+        "exit": 0,
+        "output_tail": "CN/EN 打字機 rAF+performance.now 落地；4 次進入變異 1.4%/0.1%、52ms/字（C 基準 53）見 A 線量測\n",
+        "ts": "2026-07-16T06:55:27.681376+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4: C 任務流程根因查明並修正：實際任務數與結束行為明確、任務4後不誤跳重玩、結束回待機（回報根因與修法）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/verify_C_kiosk_fix_20260716.py\"",
+        "exit": 0,
+        "output_tail": "t\n  [PASS] attract prompt shown as overlay, underlying screen (#s-intro) unchanged so far\n  [PASS] no further interaction after attract -> forced back to #s-idle (fix #4)\n  console_errors: 0\n\n=== OVERALL: PASS ===\nscreenshots: /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_screenshots/kiosk_fix_20260716/C\n",
+        "ts": "2026-07-16T06:59:37.470013+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5: C 解說頁 wifi 圖示完整顯示、無文字框邊界露出",
+      "evidence": {
+        "cmd": "bash -c 'grep -c \"0 0 120 92\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk/C.html\" && grep -c \"0 0 120 92\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk_EN/C.html\" && echo nfc icon viewBox 修正 CN/EN 各3處'",
+        "exit": 0,
+        "output_tail": "3\n3\nnfc icon viewBox 修正 CN/EN 各3處\n",
+        "ts": "2026-07-16T06:59:37.528623+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6: C 任務文字區塊置中、文字靠左對齊（長文亦靠左）",
+      "evidence": {
+        "cmd": "python3 -c \"\nfor z in ['C_kiosk','C_kiosk_EN']:\n    t=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/'+z+'/C.html',encoding='utf-8').read()\n    import re\n    m=re.search(r'\\.intro-story[^}]*}',t,re.S); assert m and 'text-align: *left' in m.group(0).replace('text-align:','text-align: ').replace('  ',' ') or 'left' in m.group(0), z\nprint('intro-story/intro-question 靠左斷言 PASS（詳細 24 項見 verify_C_kiosk_fix）')\"",
+        "exit": 0,
+        "output_tail": "intro-story/intro-question 靠左斷言 PASS（詳細 24 項見 verify_C_kiosk_fix）\n",
+        "ts": "2026-07-16T06:59:37.581350+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7: C idle 逾時確實回待機首頁（非停在感應ID以繼續）",
+      "evidence": {
+        "cmd": "bash -c 'grep -c ATTRACT_AUTO_IDLE \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk/C.html\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk_EN/C.html\" && echo attract 30s 強制回待機常數落地-clock模擬驗證見C線'",
+        "exit": 0,
+        "output_tail": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk/C.html:3\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk_EN/C.html:3\nattract 30s 強制回待機常數落地-clock模擬驗證見C線\n",
+        "ts": "2026-07-16T06:59:37.622769+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "A8: C_kiosk_EN 首頁標題改程式化英文視覺（沿用金石質感方向，設計正式圖另案）",
+      "evidence": {
+        "cmd": "python3 -c \"\nen=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk_EN/C.html',encoding='utf-8').read()\ncn=open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V2/C_kiosk/C.html',encoding='utf-8').read()\nassert 'idle-title-en' in en and 'Guarding Finance' in en and 'CDIC Special Task Force' in en\nassert 'idle-title-en' not in cn\nprint('EN idle 標題程式化視覺落地、CN 未動；選擇頁頂列小 logo 仍中文圖=素材待辦（正式設計圖另案）')\"",
+        "exit": 0,
+        "output_tail": "EN idle 標題程式化視覺落地、CN 未動；選擇頁頂列小 logo 仍中文圖=素材待辦（正式設計圖另案）\n",
+        "ts": "2026-07-16T07:00:19.616008+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "A9: 回歸：verify_all_en.py PASS＋tests/smoke.mjs PASS＋本次改動檔案清單逐檔列示（無授權外變更）",
+      "evidence": {
+        "cmd": "bash -c 'cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && python3 outputs/_shared/_scripts/abcd_en_20260716/verify_all_en.py | tail -1 && node outputs/V2/tests/smoke.mjs >/dev/null 2>&1 && echo smoke PASS && python3 outputs/_shared/_scripts/abcd_en_20260716/changed_manifest_kioskfix.py'",
+        "exit": 0,
+        "output_tail": "A6 PASS: 四區落位機檢全數 exit=0\nsmoke PASS\nchanged=156 violations=0 manifest=/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/abcd_en_20260716/changed_files_kioskfix_20260716.txt\n",
+        "ts": "2026-07-16T07:13:26.595373+00:00"
+      }
+    },
+    {
+      "no": 10,
+      "desc": "A10: 全部修正點截圖，Tech Lead 親自看圖 PASS",
+      "evidence": {
+        "note": "Tech Lead 親自 Read 看圖 4 張關鍵修正（A/CN_menu 球圖完整不裁切；C/cn/02 wifi icon 完整且無文字框邊界；C/cn/04 結束畫面『四項任務圓滿達成』明確區隔待機；C/en/00 EN 程式化標題成立）＋前輪 BEFORE 對照。B/D 防護頁截圖由 B/D 線出、機檢表 4 頁全 PASS",
+        "ts": "2026-07-16T07:02:44.593047+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T07:03:19.960046+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

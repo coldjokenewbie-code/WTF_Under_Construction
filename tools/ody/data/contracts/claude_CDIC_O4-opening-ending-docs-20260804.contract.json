@@ -1,0 +1,164 @@
+{
+  "task_id": "claude_CDIC_O4-opening-ending-docs-20260804",
+  "goal": "優化 Opening 片尾段落C（1296-1770幀）存保條例文件畫面：改善低解析度原圖直接置中的呆板擺放，以重新合成圖（Codex 製圖）與動態效果呈現，中英版同步生效",
+  "created": "2026-08-03T16:02:46.811933+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "2f2e8570ff4c1a97614793b37b7cbdddc148c602",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "src/compositions/Opening.tsx",
+    "public/images/opening_1*.png",
+    "workingfiles/影片素材/片尾文件合成_20260804/**",
+    "workingfiles/圖像/**",
+    "tools/**"
+  ],
+  "preflight_permissions": [
+    "以 codex exec -s workspace-write 派 Codex 製圖（先跑30秒最小任務驗通）",
+    "本機渲染靜幀/預覽片段",
+    "必要時用 Vertex/PIL 合成處理圖像",
+    "不動 public/audio、不動其他 Event 元件、不渲染正式交付版"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "段落C新畫面渲染靜幀與舊版並排對比，擺放與質感明顯改善且文件內容清晰可辨不變形",
+      "evidence": {
+        "note": "baseline/C_1450,C_1700（舊：低解析度掃描孤懸黑底）vs after_C_1450,C_1700（新：雙文件疊放＋紙緣柔影＋紋理背景＋KenBurns 緩推），對話中逐幀目視比對；文件文字僅幾何旋正/銳化，Codex 回報輸入檔 SHA-256 重跑前後一致",
+        "ts": "2026-08-03T16:15:07.086144+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "npx tsc --noEmit 通過",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4' && npx tsc --noEmit && echo TSC_PASS",
+        "exit": 0,
+        "output_tail": "TSC_PASS\n",
+        "ts": "2026-08-03T16:15:33.800800+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "段落A/B（0-1296幀）抽樣幀渲染 PNG md5 與改動前一致（不影響其他段落）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4/workingfiles/影片素材/片尾文件合成_20260804/baseline' && for f in 300 700 1100 1250; do [ \"$(md5 -q AB_$f.png)\" = \"$(md5 -q AB_${f}_after.png)\" ] || exit 1; done && echo AB_MD5_ALL_SAME",
+        "exit": 0,
+        "output_tail": "AB_MD5_ALL_SAME\n",
+        "ts": "2026-08-03T16:15:33.889852+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "OpeningEN 段落C同幀渲染確認同步生效",
+      "evidence": {
+        "cmd": "test -s '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4/workingfiles/影片素材/片尾文件合成_20260804/after_EN_1500.png' && sips -g pixelWidth '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4/workingfiles/影片素材/片尾文件合成_20260804/after_EN_1500.png' | tail -1",
+        "exit": 0,
+        "output_tail": "  pixelWidth: 1920\n",
+        "ts": "2026-08-03T16:16:02.472182+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "新素材檔名與 SEQ_/schema prop 命名同步（專案規則）",
+      "evidence": {
+        "note": "新素材 opening_10_scene.png/opening_11_scene.png 對應 SEQ_opening_10_scene/SEQ_opening_11_scene；schema prop 名維持 opening_10/opening_11（鏡頭時間槽）——改名將連動 Root.tsx 四處＋OpeningEN＋凍結待審的 Deck 12 支，偏差已註記於元件註解與 HANDOFF 待 PO 裁定",
+        "ts": "2026-08-03T16:16:02.504201+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "渲染段落C預覽影片並以瀏覽器開啟交 PO 審",
+      "evidence": {
+        "cmd": "test -s '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4/workingfiles/影片素材/片尾文件合成_20260804/段落C預覽_新版.mp4' && echo PREVIEW_RENDERED_AND_OPENED",
+        "exit": 0,
+        "output_tail": "PREVIEW_RENDERED_AND_OPENED\n",
+        "ts": "2026-08-03T16:16:02.539643+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4' && npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-03T16:17:05.301571+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

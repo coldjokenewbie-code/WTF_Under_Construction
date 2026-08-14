@@ -1,0 +1,84 @@
+{
+  "task_id": "asembly-phonebubble-keyframe-20260721",
+  "goal": "四支示範片「手機拉出示意」改版為 PO 附圖白色氣泡樣式（refs_po/bubble_reference.png）：不透明白色圓角氣泡內含手持手機、App/掃描內容正置；楔形尾巴自展板 QR 錨點連至氣泡。先產 ARDemo 關鍵幀交 PO 確認，確認後才套用其餘三支",
+  "created": "2026-07-21T02:48:42.725593+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "7c091f63e79d1178f7dfdd2bd87785e75eb77d46",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/asembly/shared.tsx",
+    "refs_po/"
+  ],
+  "scope_allowlist": [
+    "src/asembly/*.tsx",
+    "AGENT_SPEC_phonebubble.md",
+    "public/asembly/*/hand_po.png",
+    "refs_po/*"
+  ],
+  "preflight_permissions": [
+    "codex exec headless 在 git_mirror/Remotion_fun 改 src/asembly/*.tsx；Claude 代跑抽幀與機檢（codex 沙箱擋 Chromium）；關鍵幀 PO 核可後另行套用其餘三支"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "PhoneCallout 改為不透明白色圓角氣泡＋楔形尾巴（自展板 QR 錨點圈連至氣泡左緣），視覺同 refs_po/bubble_reference.png 構圖",
+      "evidence": {
+        "note": "PO 2026-07-21 核可 R4 關鍵幀（PO 手素材版 f110/f300）：「OK 其他比照修改」。條1 成立",
+        "ts": "2026-07-21T04:39:32.940540+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "手機外框與螢幕內容正置：PhoneFrame 及其子內容無 rotate/skew/perspective transform（grep 機檢）",
+      "evidence": {
+        "cmd": "bash -c 'grep -n \"rotate\\|skew\\|perspective\" src/asembly/shared.tsx src/asembly/ARDemo.tsx; test $? -eq 1'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-21T02:57:58.867315+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "手部素材完整收在氣泡範圍內：抽幀後氣泡邊界外無手部膚色像素帶",
+      "evidence": {
+        "note": "R2 複檢：f70/f300 面板右緣外 15px 帶連續膚色 run=0（深色面板下手部素材判讀正常，無懸浮指尖/殘指誤讀）",
+        "ts": "2026-07-21T03:18:18.316563+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "npx remotion still ARDemo 掃描中段幀 exit 0，關鍵幀 PNG 交 PO 核可",
+      "evidence": {
+        "cmd": "npx remotion still src/index.tsx ARDemo /tmp/ody_ar_key.png --frame=55",
+        "exit": 0,
+        "output_tail": " 76%\nBundling 81%\nBundling 87%\nBundling 92%\nBundling 98%\nBundling 100%\nCopying public dir 11.4 MB\nCopying public dir 22.9 MB\nCopying public dir 32.4 MB\nCopying public dir 42.9 MB\nCopying public dir 53.6 MB\nGetting composition\nComposition          ARDemo\nFormat               png\nOutput               /tmp/ody_ar_key.png\nRendered 0/1\nRendered 0/1\nRendered 1/1\n○                    /tmp/ody_ar_key.png\n",
+        "ts": "2026-07-21T02:57:59.948054+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "其餘三支本階段不動樣式但不得壞編譯：still AirRaidDemo 亦 exit 0",
+      "evidence": {
+        "cmd": "npx remotion still src/index.tsx AirRaidDemo /tmp/ody_air_compile.png --frame=79",
+        "exit": 0,
+        "output_tail": "1%\nBundling 87%\nBundling 92%\nBundling 98%\nBundling 100%\nCopying public dir 11.4 MB\nCopying public dir 22.9 MB\nCopying public dir 32.4 MB\nCopying public dir 42.9 MB\nCopying public dir 53.6 MB\nGetting composition\nComposition          AirRaidDemo\nFormat               png\nOutput               /tmp/ody_air_compile.png\nRendered 0/1\nRendered 0/1\nRendered 1/1\n○                    /tmp/ody_air_compile.png\n",
+        "ts": "2026-07-21T02:58:01.020613+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "npx remotion still src/index.tsx ARDemo /tmp/ody_ar_key.png --frame=55"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T04:39:57.476942+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

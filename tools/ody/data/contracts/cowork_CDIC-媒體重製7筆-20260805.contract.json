@@ -1,0 +1,178 @@
+{
+  "task_id": "cowork_CDIC-媒體重製7筆-20260805",
+  "goal": "PO 勾選 7 筆媒體重製（全 codex，不用 artlist）：A 宗旨/使命/願景圓形視覺照片風重繪、A+B 金球（用 B 既有 4K 版產 A 規格）、C 主視覺 4K 放大、D menu_fullcov 過渡放大（真人照不改人物，正式解=向存保索原檔）。候選檔輸出，不覆蓋 V4_upgrade，PO 比對報告勾選採用後才換裝",
+  "created": "2026-08-04T21:43:59.550314+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "0b3abee5c59c984b87d47e9ba7149d635f5eefcf",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/CDIC-A-assets-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-Bdrawer-light-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bswap3233-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Bsync0726-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-Bvisual-20260727.contract.json",
+    "tools/ody/data/contracts/CDIC-C-adversarial-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Cmerge-onekey-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-RFID-20260723.contract.json",
+    "tools/ody/data/contracts/CDIC-Cstage-heartbeat-20260724.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-Dmerge-orphanrefs-20260726.contract.json.bak",
+    "tools/ody/data/contracts/CDIC-abcd-anim-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-anim-impl-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-abcd-copyaudit-20260804.contract.json",
+    "tools/ody/data/contracts/CDIC-docx0726-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usb-noarchive-20260726.contract.json",
+    "tools/ody/data/contracts/CDIC-usbdeploy-20260727.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730.contract.json",
+    "tools/ody/data/contracts/CDICO4-台北車流素材-20260730b.contract.json",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/ai-roundtable-desktop-20260730.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726-v2.contract.json",
+    "tools/ody/data/contracts/claude-cdic-o4-artlist-download-20260726.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-ending-docs-v2-20260804.contract.json",
+    "tools/ody/data/contracts/claude_CDIC_O4-opening-ending-docs-20260804.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-iptable-autostart-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-agy質詢-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B區手感修正-codex實作-20260805.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-R12-tablet-quality-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-b33-adstage-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-en-layout-fix-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-font-v2parity-20260723.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-prd-audit-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/md-editor-p0-save-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p1-find-cmdk-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p2-bubble-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-p3-focus-undo-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803b.contract.json",
+    "tools/ody/data/contracts/md-editor-palette-20260803c.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/_shared/media_remake_20260805/**"
+  ],
+  "preflight_permissions": [
+    "codex workspace-write 於 scope；候選不觸現行四區；PO 已於對話指派 codex 執行"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "候選檔齊備且規格正確：purpose/mission/vision ≥1800px 圓形裁切透明背景 PNG；金球A候選 1800×1799；C_hero 3840×2160；menu_fullcov ≥1024 寬（機檢尺寸與透明度）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && python3 \"outputs/_shared/media_remake_20260805/_scripts/verify_assets.py\"",
+        "exit": 0,
+        "output_tail": "PASS alpha A_purpose.png: (1800, 1783), mask byte-identical\nPASS alpha A_mission.png: (1800, 1725), mask byte-identical\nPASS alpha A_vision.png: (1800, 1520), mask byte-identical\nPASS globe: 1800x1799, dHash=0, pixels match Lanczos reference\nPASS C hero: 3840x2160, round-trip dHash=0\nPASS D menu: 1024x1125, round-trip dHash=1\nPASS previews: 14/14\n",
+        "ts": "2026-08-04T22:19:04.853561+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "金球候選=B 4K 版縮製，dHash 對 B 版距離≤4 且 logo 區域保真",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && python3 \"outputs/_shared/media_remake_20260805/_scripts/verify_assets.py\" | grep -q 'PASS globe'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T22:19:05.506740+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "C_hero 構圖不變：候選縮回 1672×941 對原檔 dHash≤6",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && python3 \"outputs/_shared/media_remake_20260805/_scripts/verify_assets.py\" | grep -q 'PASS C hero'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T22:19:06.156720+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "menu_fullcov 不改人物：候選縮回原尺寸對原檔 dHash≤6，報告標註過渡方案與索原檔建議",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && python3 \"outputs/_shared/media_remake_20260805/_scripts/verify_assets.py\" | grep -q 'PASS D menu' && grep -q '過渡方案——正式解＝向存保索取原始文宣檔' \"outputs/_shared/media_remake_20260805/前後比對_媒體重製_20260805.html\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T22:19:06.820213+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "前後比對報告 HTML：每項並排原/候選、點開大圖、採用勾選（FSA 存 JSON）、自動開啟、Playwright 零 error 零 broken img",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && node \"outputs/_shared/media_remake_20260805/_scripts/verify_report.mjs\"",
+        "exit": 0,
+        "output_tail": "{\"viewport\":\"mobile\",\"errors\":[],\"payloadItems\":7}\n{\"viewport\":\"tablet\",\"errors\":[],\"payloadItems\":7}\n{\"viewport\":\"desktop\",\"errors\":[],\"payloadItems\":7}\nPASS: 3 viewports, zero console/page/request errors, zero broken images, FSA payload 7 items\n",
+        "ts": "2026-08-04T22:19:09.796108+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "全程不動 outputs/V4_upgrade（find -newermt 開工時間 = 0）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && test $(find \"outputs/V4_upgrade\" -newermt \"2026-08-05 05:47:11\" -type f | wc -l) -eq 0",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T22:19:09.842555+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "三張圓形視覺主題對應正確（宗旨=協力拼圖、使命=資安防護、願景=城市天際線）且照片風質感——Verifier 目視核",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC\" && test $(ls \"outputs/_shared/media_remake_20260805/previews\" | wc -l) -eq 14",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-04T22:19:09.882085+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-04T22:21:56.087255+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

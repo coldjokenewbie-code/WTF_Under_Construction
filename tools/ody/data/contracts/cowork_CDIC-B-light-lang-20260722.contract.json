@@ -1,0 +1,156 @@
+{
+  "task_id": "cowork_CDIC-B-light-lang-20260722",
+  "goal": "B區燈控與輪詢端點：B_sync新增GET /lang(CORS,供A/C/D輪詢)與POST /light TCP中繼(年份→燈號映射、IP分區zone比對、換年關舊開新、離開關燈)；B_kiosk平板端自由模式點年份卡觸發燈控；B_APK overrides同步(語言觸控按鈕+燈控)並重建APK；mock燈控測試工具+Windows測試說明；B_sync過程文件歸檔",
+  "created": "2026-07-22T03:34:20.345007+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "3b865654b3ce9513393e9feb4bbc0c44e9106e71",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/B_sync/**",
+    "outputs/V3/B_kiosk/**",
+    "outputs/V3/B_APK/**"
+  ],
+  "preflight_permissions": [
+    "新增/修改 outputs/V3/B_sync、B_kiosk、B_APK/overrides 檔案；執行 build_apk.sh 重建 APK；移動 B_sync 過程文件至 archive；起本機測試伺服器與 mock TCP server"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 GET /lang 回傳 JSON 含 lang 欄位且回應標頭含 Access-Control-Allow-Origin: *（curl 實跑證據）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/smoke_light_lang.mjs\" 2>&1 | grep -E '^PASS A1(-preflight)? ' | wc -l | grep -q 2 && echo A1_OK",
+        "exit": 0,
+        "output_tail": "A1_OK\n",
+        "ts": "2026-07-22T03:52:49.834143+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 POST /light 依 year→燈號映射（源自協定表pptx 22組）送 on<NN> TCP 指令到可設定的 host:port（mock TCP server 收到指令字串證據）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/smoke_light_lang.mjs\" 2>&1 | grep -q '^PASS A2 '",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T03:52:55.960048+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 zone 比對生效：伺服器端 zones.json（IP→分區，可改免重編APK）＋客戶端 zone override 容錯；非本分區年份回 4xx 且 mock 無指令（實跑證據）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/smoke_light_lang.mjs\" 2>&1 | grep -q '^PASS A3 '",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T03:53:05.803444+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 狀態機正確：換年份送 of<舊> 再 on<新>；off action 送 of<目前>（mock 指令序列證據）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/smoke_light_lang.mjs\" 2>&1 | grep -q '^PASS A4 '",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T03:53:11.753885+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 B_kiosk 平板端 free 模式點年份卡觸發 POST /light；guide 模式不送（Playwright＋mock 證據）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools\" && uv run --with playwright python3 playwright_light_kiosk.py 2>&1 | grep -E '^PASS A5-(free|guide) ' | wc -l | grep -q 2",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T03:53:22.979947+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 B_APK overrides 同步：update_www 後 assets/www 含語言觸控按鈕與燈控程式碼（grep 證據）＋ build_apk.sh 重建成功（APK 檔存在且 mtime 為本次）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_APK\" && bash update_www.sh >/tmp/upd.log 2>&1 && grep -q 'sync-admin-lang-tw' app/src/main/assets/www/B_JS/B_sync.js && grep -q 'B_light' app/src/main/assets/www/B_JS/B_locale.js && bash build_apk.sh >/tmp/build.log 2>&1 && test -f app/build/outputs/apk/debug/app-debug.apk && echo A6_OK",
+        "exit": 0,
+        "output_tail": "A6_OK\n",
+        "ts": "2026-07-22T03:53:33.209495+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "A7 回歸：POST /lang|/mode|/nav、SSE /events、GET /state、靜態供頁與 B.html 注入行為不變（smoke 實跑）＋ file:// 雙擊直開 B.html 可點擊（Playwright）",
+      "evidence": {
+        "cmd": "node \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/smoke_light_lang.mjs\" 2>&1 | grep -q '^PASS A7 ' && cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools\" && uv run --with playwright python3 playwright_light_kiosk.py 2>&1 | grep -q '^PASS A7-file '",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T03:53:44.680844+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "A8 mock_light_server.js 存在可跑＋Windows 測試說明檔存在；所含 .bat 全為 CRLF 無 BOM（機檢證據）",
+      "evidence": {
+        "cmd": "node -c \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/mock_light_server.js\" && test -f \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/Windows本機測試說明.md\" && BAT=\"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync/tools/測試_啟動B區本機.bat\" && [ \"$(head -c3 \"$BAT\" | od -An -tx1 | tr -d ' ')\" != 'efbbbf' ] && perl -0777 -ne 'exit(($_ =~ /(?<!\\r)\\n/) ? 1 : 0)' \"$BAT\" && echo A8_OK",
+        "exit": 0,
+        "output_tail": "A8_OK\n",
+        "ts": "2026-07-22T03:53:51.575280+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "A9 B_sync 9 份 Plan/Task/Walkthrough 過程文件移入 archive，B_sync 根目錄不再含該類檔（清單列示證據）",
+      "evidence": {
+        "cmd": "cd \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/B_sync\" && [ -z \"$(ls Plan_* Task_* Walkthrough_* 2>/dev/null)\" ] && [ \"$(ls archive | grep -cE '^(Plan|Task|Walkthrough)_')\" = '9' ] && echo A9_OK",
+        "exit": 0,
+        "output_tail": "A9_OK\n",
+        "ts": "2026-07-22T03:53:57.497368+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-22T03:56:24.413377+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "task_id": "CDIC-abcd-copyaudit-20260804",
+  "goal": "V4_upgrade ABCD 四區 kiosk 文字與業主最終定稿逐句比對(中英)，kiosk端以定稿為準修正；盤點四區非業主提供內容清單。Codex主執行、Gemini嚴格質詢。",
+  "created": "2026-08-03T16:02:52.681063+00:00",
+  "repo_root": "/Users/coma/git_mirror/cowork_CDIC",
+  "base_ref": "e74c8afeb40f9787d976ca17f48e0a223776a06f",
+  "preexisting_dirty": [
+    "outputs/V1/A_kiosk/archive/",
+    "outputs/V1/A_kiosk/assets/",
+    "outputs/V1/B_APK/app/build.gradle",
+    "outputs/V1/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V1/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V1/B_APK/app/src/main/java/",
+    "outputs/V1/B_APK/app/src/main/res/",
+    "outputs/V1/B_APK/build.gradle",
+    "outputs/V1/B_APK/gradle/",
+    "outputs/V1/B_APK/gradlew",
+    "outputs/V1/B_APK/settings.gradle",
+    "outputs/V1/B_kiosk/archive/B_doc/30週年影片抽幀候選/",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_上機照片_保留23.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區_年表事件_圖文總表_給業主.xlsx",
+    "outputs/V1/B_kiosk/archive/B_doc/B區年表上機照片素材/",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W清稿-_B區穩定金融大事紀區v3_20260615_BAK20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/W英文審稿_B區穩定金融大事紀區v3_20260622.docx",
+    "outputs/V1/B_kiosk/archive/B_doc/workingfiles/",
+    "outputs/V1/B_kiosk/archive/B_doc/多媒體素材需求清單__B區穩定金融大事紀區v1_20260609.docx",
+    "outputs/V1/B_kiosk/assets/",
+    "outputs/V1/C_kiosk/archive/20260505提供_存保多媒體內容說明_C區.pptx",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_back_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/7agents_front_lit.png",
+    "outputs/V1/C_kiosk/archive/C_doc/C區Icon圖/",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W中文-多媒體C區格式0623_BAK20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/W英文審稿_C區安定應變區v1_20260624.docx",
+    "outputs/V1/C_kiosk/archive/C_doc/icons.pptx",
+    "outputs/V1/C_kiosk/archive/中央存保_C區多媒體內容0505.pptx",
+    "outputs/V1/C_kiosk/assets/",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W中文審稿_D區成果效益區v3_20260610_BAK20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/W英文審稿_D區成果效益區v1_20260624.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/_scripts/_pdf/",
+    "outputs/V1/D_kiosk/archive/D_doc/template_多媒體素材需求清單_.docx",
+    "outputs/V1/D_kiosk/archive/D_doc/多媒體素材需求清單__D區成果效益區v1_20260611.docx",
+    "outputs/V1/D_kiosk/archive/存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區.pptx",
+    "outputs/V1/D_kiosk/archive/存保多媒體文案_D區_v2.pptx",
+    "outputs/V1/D_kiosk/archive/工作檔＿存保多媒體中英文案_D區_v4.xlsx",
+    "outputs/V1/D_kiosk/assets/",
+    "outputs/V2/A_kiosk/assets/",
+    "outputs/V2/A_kiosk_EN/assets/",
+    "outputs/V2/B_APK/app/build.gradle",
+    "outputs/V2/B_APK/app/src/main/AndroidManifest.xml",
+    "outputs/V2/B_APK/app/src/main/assets/www/assets/",
+    "outputs/V2/B_APK/app/src/main/java/",
+    "outputs/V2/B_APK/app/src/main/res/",
+    "outputs/V2/B_APK/build.gradle",
+    "outputs/V2/B_APK/gradle/",
+    "outputs/V2/B_APK/gradlew",
+    "outputs/V2/B_APK/local.properties",
+    "outputs/V2/B_APK/settings.gradle",
+    "outputs/V2/B_kiosk/assets/",
+    "outputs/V2/C_kiosk/assets/",
+    "outputs/V2/C_kiosk_EN/assets/",
+    "outputs/V2/D_kiosk/assets/",
+    "outputs/V2/D_kiosk/更換素材.docx",
+    "outputs/V2/D_kiosk_EN/assets/",
+    "outputs/V2/archive/C_kiosk_EN_單任務基底_20260716/assets/",
+    "outputs/V2/archive/C_kiosk_單任務含後台_20260716/assets/",
+    "outputs/V2/tests/logs/",
+    "outputs/V2/tests/screenshots/",
+    "outputs/V3/C_kiosk/assets/",
+    "outputs/_shared/_scripts/abcd_en_20260716/__pycache__/"
+  ],
+  "scope_allowlist": [
+    "outputs/V4_upgrade/**",
+    "outputs/_shared/_scripts/copyaudit_20260804/**",
+    "_context/TaskLog_2026-07-31_ABCD升級_精簡與編輯介面.md",
+    "outputs/_shared/_scripts/anim_20260804/**",
+    "outputs/_shared/_scripts/a_assets_20260804/**",
+    "_context/INDEX.md",
+    "AGENTS.md"
+  ],
+  "preflight_permissions": [
+    "只動 outputs/V4_upgrade/ 與 _shared/_scripts；V3/USB/content定稿docx唯讀；不刪檔"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "定稿來源表：每區中/英列明所用docx絕對路徑與選版理由，疑義標註",
+      "evidence": {
+        "cmd": "grep -q '定稿來源與選版理由' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/差異報告.md' && [ $(grep -c 'docx' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/差異報告.md') -ge 5 ] && grep -q '疑義' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/差異報告.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-03T16:35:04.565355+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "抽取腳本：段落CJK判中英、lxml處理tracked changes(w:ins收/w:del排/刪除線排)，輸出JSON非手抄",
+      "evidence": {
+        "cmd": "grep -q 'w:ins' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/_docx_extract.py' && grep -q 'w:del' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/_docx_extract.py' && grep -qi 'strike' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/_docx_extract.py' && python3 -c \"import json;[json.load(open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/定稿_%s.json'%z)) for z in 'ABCD']; print('json ok')\"",
+        "exit": 0,
+        "output_tail": "json ok\n",
+        "ts": "2026-08-03T16:35:04.626096+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "四區×中英逐句比對報告：每筆差異含kiosk檔案:行號、現值、定稿值、差異類型",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport json\nneed={'kiosk_file','kiosk_value','final_value','difference_type','line'}\ntot=0\nfor z in 'ABCD':\n    d=json.load(open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/diff_%s.json'%z))\n    assert d['remaining_actionable']==0,(z,'remaining')\n    diffs=d['differences']\n    assert len(diffs)>0,(z,'empty differences')\n    for e in diffs:\n        tot+=1; assert need<=set(e),(z,sorted(e))\nassert tot>=400, tot\nprint('OK fields on %d entries (A21/B367/C61/D28 expected total 477)'%tot)\"",
+        "exit": 0,
+        "output_tail": "OK fields on 477 entries (A21/B367/C61/D28 expected total 477)\n",
+        "ts": "2026-08-04T00:02:28.272329+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "非業主提供內容清單：四區逐項(文字/圖像)標來源類別(業主定稿/業主素材/我方翻譯暫譯/我方自製/佔位)",
+      "evidence": {
+        "cmd": "for z in A B C D; do grep -q \"## $z\" '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/非業主內容清單.md' || grep -q \"$z 區\" '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/非業主內容清單.md' || exit 1; done && grep -qE '暫譯|我方|佔位' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/非業主內容清單.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-03T16:35:22.978503+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "差異修正：kiosk以定稿為準只改文字零版型變更；定稿本身疑錯與暫譯未確認項不改列待PO清單",
+      "evidence": {
+        "cmd": "python3 -c \"\nimport json\nfix=json.load(open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/修正紀錄.json')); wl=json.load(open('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/白名單.json'))\nassert len(fix)==6 and all(f['zone']=='D' for f in fix)\nassert len(wl)==2\nprint('fixes=6(D), whitelist=2; 待PO清單存在')\" && test -s '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/待PO清單.md'",
+        "exit": 0,
+        "output_tail": "fixes=6(D), whitelist=2; 待PO清單存在\n",
+        "ts": "2026-08-03T16:35:23.030106+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "修正後重跑比對腳本0差異(白名單除外)＋四區中英擷圖目視PASS",
+      "evidence": {
+        "note": "主對話目視：D_tw/en p5、p6（六筆修正落地：RGC 半形括號、備忘錄(民國92-115年)、認知度 label、EN p6 bullets 2025 認知度句）；A/B/C 中英首頁版面正常；環圈 59.9% 為 2.6s 計數動畫中間幀非錯誤。44 console errors 全為 lang_poll 連 B_sync 拒絕（本機無 server，展場正常）。",
+        "ts": "2026-08-03T16:35:23.254490+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "Gemini獨立質詢：每區至少2筆抽樣溯源質疑，紀錄存檔且無未回應質疑",
+      "evidence": {
+        "cmd": "grep -q '每區抽樣溯源質疑' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/質詢原文_gemini.md' && grep -qE '【A 區】|A 區' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/質詢原文_gemini.md' && grep -q '契約可 accept' '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/質詢紀錄_gemini.md' && test -s '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/copyaudit_20260804/非業主清單_修正附錄.md' && echo GEMINI_INTERROGATED_AND_ADJUDICATED",
+        "exit": 0,
+        "output_tail": "GEMINI_INTERROGATED_AND_ADJUDICATED\n",
+        "ts": "2026-08-04T08:37:57.186805+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-04T08:38:02.858617+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "scope_amendment_note": "scope 擴為三契約聯集（Tech Lead 覆判 2026-08-04）：三契約同源於 PO 單一指令、共用同一 repo diff 窗，coach 互見彼此產物誤報越界；lessons 既有前例（16 ABCD英文版 ody 契約）採人工覆判＋留紀錄。 AGENTS.md＝sync_config 自動時間戳（非本任務編輯），列白名單。"
+}

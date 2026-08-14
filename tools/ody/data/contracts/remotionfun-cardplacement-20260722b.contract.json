@@ -1,0 +1,50 @@
+{
+  "task_id": "remotionfun-cardplacement-20260722b",
+  "goal": "AR/每日任務片字卡位置提案（會議+評審+擷圖交PO，核准前不改碼）；同窗 PO 另令旁白重生成已完成（微台+1.3x，同名覆檔）",
+  "created": "2026-07-21T18:26:59.719417+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "bf9279e8c5ee21e03e083ced1ac1aa4eaf704486",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "public/asembly/airraid/vo_airraid_guide_tw_v3.mp3",
+    "public/asembly/overview/home_en.png",
+    "public/asembly/overview/home_jp.png",
+    "src/Root.tsx",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/OverviewIntro.tsx",
+    "src/asembly/OverviewSegment77to116.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/asembly/shared.tsx",
+    "public/asembly/direct/scene_0B7_bright.png",
+    "public/asembly/quest/cert_filled_1.png"
+  ],
+  "scope_allowlist": [
+    "src/asembly/ARDemo.tsx,src/asembly/QuestDemo.tsx,src/Root.tsx,public/asembly/airraid/vo_airraid_guide_tw_v3.mp3"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "會議紀錄逐卡對象/座標/理由（AR4+Quest7）＋獨立評審意見已採納；提案擷圖以 --props 渲染且 scope 內三個 src 檔 md5 與基線一致（零改碼）；接觸表已交 PO 待核准",
+      "evidence": {
+        "cmd": "md5 -q src/asembly/ARDemo.tsx src/asembly/QuestDemo.tsx src/Root.tsx | diff -q - /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/cardplan_baseline.md5 && ls /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/cardplan/proposal_contact.png /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/ar_proposal.json /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/quest_proposal.json >/dev/null && echo PROPOSAL_ARTIFACTS_OK",
+        "exit": 0,
+        "output_tail": "PROPOSAL_ARTIFACTS_OK\n",
+        "ts": "2026-07-21T18:26:59.779502+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "md5 -q src/asembly/ARDemo.tsx src/asembly/QuestDemo.tsx src/Root.tsx | diff -q - /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-Asembly-PPT/75793d58-258f-417a-b2b1-c538c2d64984/scratchpad/cardplan_baseline.md5"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-21T18:27:22.061706+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

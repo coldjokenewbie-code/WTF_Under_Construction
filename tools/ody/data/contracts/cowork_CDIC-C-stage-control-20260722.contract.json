@@ -1,0 +1,117 @@
+{
+  "task_id": "cowork_CDIC-C-stage-control-20260722",
+  "goal": "C區接收環控stage訊號：頁面輪詢bridge GET /state，stage=C_start/C_1..C_5/C_k_start與status activate/deactivate對應C.html導覽跳任務/互動模式/回待機；映射可設定；中英兩夾同步；與lang_poll並存不衝突",
+  "created": "2026-07-22T04:21:11.133333+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "3b865654b3ce9513393e9feb4bbc0c44e9106e71",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/C_kiosk/**",
+    "outputs/V3/C_kiosk_EN/**",
+    "outputs/V3/env_bridge/**"
+  ],
+  "preflight_permissions": [
+    "C 區兩夾新增 stage 腳本與入口 html 各一行；必要時 env_bridge 說明文件補充 stage 章節"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 C_kiosk 與 C_kiosk_EN 各含 stage 輪詢腳本且入口 html 各僅新增一行 script tag（diff 證據）",
+      "evidence": {
+        "cmd": "grep -n 'env_stage.js' \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html\" \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk_EN/C.html\"",
+        "exit": 0,
+        "output_tail": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html:1279:<script src=\"js/env_stage.js\"></script>\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk_EN/C.html:1309:<script src=\"js/env_stage.js\"></script>\n",
+        "ts": "2026-07-22T05:38:31.909293+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 stage 映射表位於腳本頂部可設定，含 C_start/C_1..C_5/C_k_start/deactivate 對應動作；C.html 實際任務數與 C_5 超出時安全 no-op＋console 註記（程式碼行號＋實跑證據）",
+      "evidence": {
+        "cmd": "env NODE_PATH=/Users/coma/git_mirror/claude_CDIC_O4/node_modules node \"/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/test_stage.js\" A2",
+        "exit": 0,
+        "output_tail": "{\n  \"A2_C5_noop\": {\n    \"screen\": \"s-idle\",\n    \"noopLogged\": true,\n    \"pass\": true\n  }\n}\n",
+        "ts": "2026-07-22T05:38:44.135053+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 實跑：stub 依序送 C_1→C_3→C_k_start→deactivate，頁面對應切換（Playwright DOM 斷言）",
+      "evidence": {
+        "cmd": "env NODE_PATH=/Users/coma/git_mirror/claude_CDIC_O4/node_modules node \"/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/test_stage.js\" A3",
+        "exit": 0,
+        "output_tail": "{\n  \"A3_sequence\": {\n    \"C1\": {\n      \"screen\": \"s-intro\",\n      \"taskIdx\": 0\n    },\n    \"C3\": {\n      \"screen\": \"s-intro\",\n      \"taskIdx\": 2\n    },\n    \"C_k_start\": {\n      \"screen\": \"s-select\"\n    },\n    \"deactivate\": {\n      \"screen\": \"s-idle\"\n    },\n    \"pass\": true\n  }\n}\n",
+        "ts": "2026-07-22T05:39:00.838505+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 bridge 關閉時頁面不受影響、console 無未捕捉 error（Playwright）",
+      "evidence": {
+        "cmd": "env NODE_PATH=/Users/coma/git_mirror/claude_CDIC_O4/node_modules node \"/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/test_stage.js\" A4",
+        "exit": 0,
+        "output_tail": "om/%E5%85%B6%E4%BB%96%E9%9B%BB%E8%85%A6/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html\",\n    \"urlAfter\": \"file:///Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/%E5%85%B6%E4%BB%96%E9%9B%BB%E8%85%A6/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk/C.html\",\n    \"screenAfter\": \"s-idle\",\n    \"pageErrorCount\": 0,\n    \"pass\": true\n  }\n}\n",
+        "ts": "2026-07-22T05:39:12.523462+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 與 lang_poll.js 並存：語言切換與 stage 控制同頁同跑不互斥（Playwright 同場景驗證）",
+      "evidence": {
+        "cmd": "env NODE_PATH=/Users/coma/git_mirror/claude_CDIC_O4/node_modules node \"/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/test_stage.js\" A5",
+        "exit": 0,
+        "output_tail": "o\",\n    \"preSwitchTask\": 0,\n    \"switchedToEN\": true,\n    \"urlAfterSwitch\": \"file:///Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/%E5%85%B6%E4%BB%96%E9%9B%BB%E8%85%A6/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/C_kiosk_EN/C.html\",\n    \"enScreen\": \"s-intro\",\n    \"enTaskIdx\": 2,\n    \"stageWorksAfterSwitch\": true,\n    \"pageErrorCount\": 0,\n    \"pass\": true\n  }\n}\n",
+        "ts": "2026-07-22T05:39:28.280568+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-22T05:39:33.410489+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "task_id": "asembly-remotion-airraid-20260714",
+  "goal": "Remotion 製作 15-20s 空襲語音導覽示範動畫（PO 核定精華版：標示卡「空襲——望遠鏡互動裝置」/段2旁白砍半/段3日文一句）",
+  "created": "2026-07-13T18:56:43.334318+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT",
+  "base_ref": "5aa29f578f1a2f3379c0a60410c0d9c81b1846bf",
+  "preexisting_dirty": [
+    "_context/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/TaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "workingfiles/FINAL_搪床/p2_搪削中.png",
+    "workingfiles/FINAL_搪床/p3_完成.png",
+    "workingfiles/_交付_3D完成版/_交付說明.html",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_2搪削中.png",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_3完成擴孔.png",
+    "workingfiles/_交付_對齊鑽床審查/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_交付_對齊鑽床審查/final_sheet_刨床.png",
+    "workingfiles/_交付_最新版/_PPT把關報告.md",
+    "workingfiles/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_把關/CODEX_PROMPT_車床.md",
+    "workingfiles/_把關/HANDOFF_車床_3D.md",
+    "workingfiles/_把關/PPT_把關報告.md",
+    "workingfiles/_把關/PPT_需求與檢核清單.md",
+    "workingfiles/_把關/codex補充.md",
+    "workingfiles/_把關/ppt_full_text_dump.txt",
+    "workingfiles/_把關/ppt_full_text_dump_AFTER.txt",
+    "workingfiles/_把關/ref_車床/車床_原稿示範_c05.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s5待機.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s6甚麼叫車削.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s7進退刀.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s8車出形狀.png",
+    "workingfiles/_把關/機台腳本大綱_彙整與稽核.md",
+    "workingfiles/_把關/檢視報告/車床_第一輪.md",
+    "workingfiles/_把關/檢視報告/車床_第三輪.md",
+    "workingfiles/_把關/檢視報告/車床_第二輪.md",
+    "workingfiles/_把關/檢視報告/車床_第五輪.md",
+    "workingfiles/_把關/檢視報告/車床_第四輪.md",
+    "workingfiles/_把關/驗收清單.md",
+    "workingfiles/codex_app架構圖.md",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_1.png",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_shaper_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_4.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/REF_boring.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_base_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_3.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_standby.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_3.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_2.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_gen.log",
+    "workingfiles/車床_3D造型圖_最新版/車床_1_待機_PASS.png",
+    "workingfiles/車床示意圖_3D/cand/cl_base_qa.log",
+    "workingfiles/車床示意圖_3D/cand/cl_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_sb_qa.log",
+    "workingfiles/車床示意圖_3D/cand/sb_review.png",
+    "workingfiles/車床示意圖_3D/cand2/cl2_base_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand4/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand5/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand6/p3_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p3_完成.png",
+    "workingfiles/銑床示意圖_3D/cand/base_review.png",
+    "workingfiles/銑床示意圖_3D/cand/ml_base_qa.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_cut_gen.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_done_gen.log",
+    "workingfiles/鑽床示意圖_3D/FINAL3/_review_trio.png",
+    "AGENT_SIGNAL.log",
+    "_context/TaskLog_2026-07-10_導覽App示意動畫雙隊比稿.md",
+    "_context/TaskLog_2026-07-14_語音導覽選題研究.md",
+    "_context/archive/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "information/",
+    "outputs/",
+    "tools/check_ui_freeze.py",
+    "tools/extract_text_snippets.py",
+    "tools/generate_html_report.py",
+    "tools/generate_report_data.py",
+    "tools/inspect_air_raid_texts.py",
+    "tools/inspect_first_half.py",
+    "tools/inspect_lathe_texts.py",
+    "tools/inspect_soda_pool_texts.py",
+    "tools/list_candidate_images.py",
+    "tools/list_largest_images.py",
+    "tools/list_machinery_first_9.py",
+    "tools/list_machinery_first_half.py",
+    "tools/list_machinery_units.py",
+    "tools/list_steam_loco_units.py",
+    "tools/process_rich_v2.py",
+    "tools/process_v2.py",
+    "workingfiles/archive/"
+  ],
+  "scope_allowlist": [
+    "outputs/demo動畫/空襲語音導覽示範/**",
+    "/Users/coma/Git_work/Remotion_fun/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-14 四項確認：Remotion_fun 新增 composition/app repo throwaway branch mock 截圖/Vertex AI 補繪小額費用/第二支不先審一起交；另告知 npm install、edge-tts、台味詞尾"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "成品 MP4 1920x1080 30fps h264，時長 15-20s（ffprobe 佐證）",
+      "evidence": {
+        "cmd": "ffprobe -v error -show_entries format=duration -of csv=p=0 'outputs/demo動畫/空襲語音導覽示範/demo_空襲語音導覽_20260714.mp4'",
+        "exit": 0,
+        "output_tail": "19.050667\n",
+        "ts": "2026-07-13T19:16:33.429244+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "三段齊：渲染圖開場+QR+標示卡→掃碼進 App 語音導覽分頁播放→點日本語介面切換+日文一句 fade out",
+      "evidence": {
+        "note": "抽幀確認：f60 標示卡「空襲——望遠鏡互動裝置」+QR立牌；f204 掃描動畫；f270 App語音導覽分頁朗讀中；f456 日文介面+點擊游標；f558 淡出落款（Remotion_fun/out/check/a3_*.png）",
+        "ts": "2026-07-13T19:16:33.537959+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "App 畫面為原型實截（throwaway branch 掛空襲 mock 頁）",
+      "evidence": {
+        "note": "App畫面為 mock/airraid-demo branch 掛 OB7 展項後 Playwright 實截（app_tw_play/app_jp_play.png，390x844 DPR2），非合成畫面",
+        "ts": "2026-07-13T19:16:33.648081+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "中文 TTS 老職工聲+全程字幕，日文一句 TTS",
+      "evidence": {
+        "note": "中文 edge-tts zh-TW-YunJheNeural 二段（5.66s+7.99s）、日文 ja-JP-KeitaNeural 一句 4.08s 尾端 fade；字幕四行覆蓋 0.3s-18.2s 全旁白區",
+        "ts": "2026-07-13T19:16:33.760787+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Remotion composition 可 npx remotion render 重現",
+      "evidence": {
+        "note": "composition=AirRaidDemo 於 Remotion_fun repo，npx remotion render AirRaidDemo 三次算繪 exit 0（最終版含 ScanView 滿版修正）",
+        "ts": "2026-07-13T19:16:33.864277+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "fresh-context verifier 抽幀驗收 PASS 且成品在 outputs/demo動畫/空襲語音導覽示範/",
+      "evidence": {
+        "note": "ody-verifier subagent（fresh-context, sonnet）獨立複驗 6/6 PASS：ffprobe 自跑、抽幀 6 點逐段核對、與 app_tw/jp_play.png 逐字比對、volumedetect -26.2dB、scope 抽查未逾越",
+        "ts": "2026-07-13T19:21:52.206894+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "ffprobe -v error -show_entries format=duration -of csv=p=0 outputs/demo動畫/空襲語音導覽示範/demo_空襲語音導覽_20260714.mp4"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-13T19:21:52.366639+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

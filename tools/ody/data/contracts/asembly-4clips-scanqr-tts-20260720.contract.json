@@ -1,0 +1,100 @@
+{
+  "task_id": "asembly-4clips-scanqr-tts-20260720",
+  "goal": "四支示範片 v5：掃描畫面正視圖+QR置中+僅QR清晰；01/03 改 Gemini TTS 微台版旁白；02/04 移除旁白（工作位置 git_mirror/Remotion_fun）",
+  "created": "2026-07-19T18:09:54.717829+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "2c28ef12afade6aeef66ac70b4094cd828196e49",
+  "preexisting_dirty": [
+    "AGENTS.md",
+    "public/asembly/airraid/scan_panel.png",
+    "public/asembly/ardemo/scan_panel.png",
+    "public/asembly/memory/scan_panel.png",
+    "public/asembly/quest/scan_panel.png",
+    "src/asembly/ARDemo.tsx",
+    "src/asembly/AirRaidDemo.tsx",
+    "src/asembly/MemoryVoiceDemo.tsx",
+    "src/asembly/QuestDemo.tsx",
+    "src/index.tsx",
+    "tools/verify_4clips.mjs",
+    "public/asembly/airraid/vo_airraid_guide_tw.mp3",
+    "public/asembly/memory/vo_memory_invite_tw.mp3"
+  ],
+  "scope_allowlist": [
+    "src/asembly/**",
+    "src/index.tsx",
+    "public/asembly/**",
+    "public/audio/**",
+    "tools/**"
+  ],
+  "preflight_permissions": [
+    "修改 git_mirror/Remotion_fun（既有授權）；src/index.tsx 入 scope＝時長註冊必然衍生（已向 PO 揭露）",
+    "Vertex AI Gemini TTS（ADC）",
+    "讀 Assembly_Plant_Mobile_Guide tools/ TTS 腳本（唯讀）",
+    "codex 主執行、Claude 驗收＋代跑沙箱受阻步驟"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "掃描畫面×4：正視圖、QR 置中不偏斜、QR 清晰、展板上下模糊+暗化；抽幀逐片佐證",
+      "evidence": {
+        "note": "9 張抽幀 Claude 逐張目驗（out/_selfcheck_v5/）：QR 置中取景框內、清晰、周圍模糊暗化、正視無偏斜、無訪客入鏡；QR 顏色對版 綠01/橘02/紫03/金04",
+        "ts": "2026-07-19T18:09:54.766148+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "01/03 旁白改 gen_gemini_tts.py 產生（Charon＋微台 STYLE_DEFAULT），時間軸對齊實測音長",
+      "evidence": {
+        "note": "vo_airraid_guide_tw.mp3 20.01s／vo_memory_invite_tw.mp3 10.29s＝Gemini TTS Charon 微台版（驗收方代跑，-18.8/-21.4dB），src 引用確認；時間軸 01=1027f/03=905f，音軌起始 240/252f ≥功能段；日文段沿用 Keita",
+        "ts": "2026-07-19T18:09:54.796834+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "02/04 無旁白音軌；verify_4clips.mjs 機檢 PASS",
+      "evidence": {
+        "cmd": "node tools/verify_4clips.mjs",
+        "exit": 0,
+        "output_tail": "PASS AirRaidDemo.tsx: Audio >= 232f, 統一版式, 展板近拍\nPASS ARDemo.tsx: 無旁白 Audio, 統一版式, 展板近拍\nPASS MemoryVoiceDemo.tsx: Audio >= 244f, 統一版式, 展板近拍\nPASS QuestDemo.tsx: 無旁白 Audio, 統一版式, 展板近拍\nPASS 四支導覽靜態驗收\n",
+        "ts": "2026-07-19T18:09:54.875497+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "npx tsc --noEmit PASS；四支 composition 載入正常",
+      "evidence": {
+        "cmd": "npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T18:09:55.656545+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "關鍵時點抽幀無穿幫",
+      "evidence": {
+        "note": "抽幀 01 f210/300/870/1010、03 f215/300/890、02 f215、04 f410：無框外 UI、無鬼影、字幕正常",
+        "ts": "2026-07-19T18:09:55.694567+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "不 render 正式 MP4",
+      "evidence": {
+        "cmd": "bash -c '[ -z \"$(find out -name \"*.mp4\" -mtime -1)\" ]'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T18:09:55.734604+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-19T18:09:55.782615+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

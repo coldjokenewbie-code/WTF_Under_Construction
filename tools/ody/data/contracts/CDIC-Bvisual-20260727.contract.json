@@ -1,0 +1,63 @@
+{
+  "task_id": "CDIC-Bvisual-20260727",
+  "goal": "B 區抽屜與詳情頁五項視覺修正（PO 2026-07-27 實機回報）：①年代穿過標題色塊時改走下層並漸淡 ②英文標題縮小至不溢出色塊 ③抽屜焦點移至畫面 40% 處、最大 1.5 倍、連續衰減取代三段跳 ④詳情頁返回鍵由垂直置中移至內文與照片之間 ⑤移除 index 0/9 的 orange-feature 字級特例。並將含此批改動的 APK 重編重裝。",
+  "created": "2026-07-27T10:48:50.006207+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/B_kiosk/**",
+    "outputs/V3/B_APK/**",
+    "outputs/_shared/_scripts/**",
+    "outputs/_shared/_screenshots/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-27 逐項確認：四項視覺修正已於瀏覽器目視通過，另指示 1998 字級改與其他一致"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "K1 動工前備份 B_style.css 與 B_app.js 至 archive/_bak_20260727_視覺四項修正前/ 並附 md5（此備份已於 18:29 建立，證據需列出備份檔 md5 與當時值一致）",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "K2 年代清單 z-index 低於橘色標題色塊、標題與副標高於色塊；清單上緣具漸層遮罩使年份捲入色塊區時漸淡；以 computed style 逐項列出三者 z-index 值佐證",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "K3 抽屜標題與副標字級改由 CSS 變數控制並沿用既有 data-lang 覆蓋機制；中文維持 168/72、英文縮為 104/52；量測英文標題實際寬度證明未溢出色塊",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "K4 抽屜縮放焦點為畫面高度 40 percent、最大倍率 1.5、以連續函數衰減；輸出實測縮放梯度證明焦點年份為 1.5 且向上下對稱遞減無階梯；openYearDrawer 開啟時的自動捲動需對齊同一焦點比例",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "K5 詳情頁返回鍵位於內文區塊下方且在照片上方，由 JS 依實測位置動態定位；中英雙語各量測返回鍵上下緣與內文底緣、照片頂緣的相對關係並證明成立",
+      "evidence": null
+    },
+    {
+      "no": 6,
+      "desc": "K6 移除 renderYearList 中 index 0 與 index 9 的 orange-feature 特例；量測全部年份 .ad 字級一致，輸出字級分布須僅有單一值",
+      "evidence": null
+    },
+    {
+      "no": 7,
+      "desc": "K7 中英雙語 Playwright 擷圖並目視確認，console error 為 0；擷圖存 outputs/_shared/_screenshots/ 並列出路徑",
+      "evidence": null
+    },
+    {
+      "no": 8,
+      "desc": "K8 APK 內建 www 以現行 B_kiosk 全量同步後重編，versionCode 進位至 12；以 md5 逐檔證明 APK 內 css/B_style.css 與 B_JS/B_app.js 與 B_kiosk 現行版一致；依規則 apk-launch-on-device 做實機啟動驗證並取穩定態中文語系擷圖",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "open"
+}

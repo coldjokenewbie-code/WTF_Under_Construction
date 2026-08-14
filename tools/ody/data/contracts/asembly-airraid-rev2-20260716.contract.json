@@ -1,0 +1,92 @@
+{
+  "task_id": "asembly-airraid-rev2-20260716",
+  "goal": "空襲語音導覽示範片修訂 v2：改四段結構（新增說明牌掃碼正視圖段落）、QR 換規劃 PPT p5 專屬設計（fun_B_audio）、旁白改台味 50 歲男聲並降速；先出 Remotion 預覽給 PO 驗收",
+  "created": "2026-07-16T02:58:31.852926+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "410be5f56916dd997daf1656c8b1fff6a0a17756",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/machines.md",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-gate-impl-20260716/",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-impl-20260716.contract.json",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/policies/",
+    "wtf-config/tests/"
+  ],
+  "scope_allowlist": [
+    "outputs/demo動畫/空襲語音導覽示範/**"
+  ],
+  "preflight_permissions": [
+    "Nano Banana（Vertex）補繪正視圖素材（PO 既往授權）；Remotion_fun repo 位於 /Users/coma/Git_work/git_work_bk/Remotion_fun"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "四段結構齊備：開場（場景＋說明牌上有 QR）→正視圖訪客靠近說明牌、鏡頭推近 QR、手機掃描→功能分頁實截展示→切日文收尾",
+      "evidence": {
+        "note": "四段結構已實作於 AirRaidDemo.tsx（總長726f）：段1 0-120f 場景+標示卡+說明牌QR提示卡；段2 120-232f 說明牌正視圖crossfade+鏡頭推近牌面（PlaqueFace疊字+QR）+手機180f入鏡+ScanView掃描232f完成；段3 232-542f app_tw_play原型實截+vo_s2；段4 542f起TapCursor點JP→562f切日文→vo_s3→700f淡出落款。抽幀 f60/f150/f215/f300/f560/f590 逐幀視覺檢視通過（標題折行問題已修）",
+        "ts": "2026-07-16T03:11:23.850277+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "全片 QR 一律用 qrcodes/FINAL/fun_B_audio.png（語音導覽綠/耳機，p5 設計）",
+      "evidence": {
+        "cmd": "grep -c 'qr_audio_0B7_badge' /Users/coma/Git_work/git_work_bk/Remotion_fun/src/asembly/AirRaidDemo.tsx",
+        "exit": 0,
+        "output_tail": "1\n",
+        "ts": "2026-07-16T03:11:23.892442+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "正視圖素材自製：人物自然、無紅圈紅字標註、說明牌版面清晰",
+      "evidence": {
+        "note": "bg_plaque_front.png 1920x1080 已產出（Nano Banana 2 次生成取第 2 版）。視覺檢視：直立式說明牌面板正對鏡頭、牌面素淨淺灰無任何文字/亂碼可供疊字疊 QR；成人訪客站牌前四分之三背面視角、姿態自然、手部無畸形、不看鏡頭；場景與 bg_scene_v2 同展區（55 EM 101 列車、桁架、望遠鏡立架）、同色調光線；無紅圈紅字標註浮水印；白邊已裁除。",
+        "ts": "2026-07-16T03:06:06.661057+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "旁白 zh-TW-YunJheNeural 降速降音高重製，總長維持 15–20 秒",
+      "evidence": {
+        "cmd": "grep -c '_v2.mp3' /Users/coma/Git_work/git_work_bk/Remotion_fun/src/asembly/AirRaidDemo.tsx",
+        "exit": 0,
+        "output_tail": "3\n",
+        "ts": "2026-07-16T03:11:23.934836+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "Remotion Studio 預覽可播放供 PO 驗收；未經 PO 通過不 render MP4",
+      "evidence": {
+        "cmd": "curl -s -o /dev/null -w '%{http_code}' http://localhost:3333/",
+        "exit": 0,
+        "output_tail": "200",
+        "ts": "2026-07-16T03:11:23.985511+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T03:11:24.047080+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

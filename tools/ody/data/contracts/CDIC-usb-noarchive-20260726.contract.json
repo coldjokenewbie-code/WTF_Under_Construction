@@ -1,0 +1,76 @@
+{
+  "task_id": "CDIC-usb-noarchive-20260726",
+  "goal": "出貨版 USB 部署包一律剔除 archive 類目錄（archive/、_bak*/、*退役*/），備份只保留在 Drive。動機：PO 2026-07-26 裁示——現場 USB 帶著可直接點開的舊版站台（如舊 D_kiosk_EN 的 D.html）有誤觸風險，且徒增體積。並建立日後同步規則避免再被打包進去。",
+  "created": "2026-07-26T00:10:14.661400+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/USB部署包_20260722/**",
+    "outputs/_shared/_scripts/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-26 裁示：出貨版都不需要 archive，archive 保留在 Drive 備份即可"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "E1 剔除前逐檔核對：USB 包內每個待刪檔案都要在 Drive 端 outputs/V3 有對應副本且 md5 相同，列出逐檔對照表；任何一檔在 Drive 找不到就中止不刪並回報",
+      "evidence": {
+        "cmd": "python3 -B '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/verify_e1_report.py'",
+        "exit": 0,
+        "output_tail": "PASS E1 table rows=160 ok=160 drive_rechecked=160 live_usb_rechecked=2 missing=0 mismatch=0\nREPORT /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/E1_archive逐檔md5對照表.tsv\n",
+        "ts": "2026-07-26T00:41:23.992472+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "E2 剔除 USB 包內全部 archive 類目錄（現況為 V3/C_kiosk/archive、V3/D_kiosk/archive、V3/B_sync/archive，共 158 檔），刪後以 find 證明包內已無任何 archive、_bak、退役 目錄",
+      "evidence": {
+        "cmd": "FOUND=$(/usr/bin/find \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/USB部署包_20260722/CDIC_deploy_20260722\" -type d \\( -iname \"*archive*\" -o -name \"_bak*\" -o -name \"*退役*\" \\) -print); if [ -n \"$FOUND\" ]; then printf \"%s\\n\" \"$FOUND\"; exit 1; fi; printf \"PASS find broad archive-like directories=0 removed_files=160\\n\"",
+        "exit": 0,
+        "output_tail": "PASS find broad archive-like directories=0 removed_files=160\n",
+        "ts": "2026-07-26T00:41:46.827504+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "E3 剔除後 USB 包檔案數與體積前後對照（前 413 檔 231M），並確認 kiosk 各區入口檔與自啟安裝腳本仍完整存在可用",
+      "evidence": {
+        "cmd": "python3 -B '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/verify_usb_package.py' && node '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/verify_d_languages.mjs'",
+        "exit": 0,
+        "output_tail": "aude_cowork/projects/cowork_CDIC/outputs/USB%E9%83%A8%E7%BD%B2%E5%8C%85_20260722/CDIC_deploy_20260722/V3/D_kiosk/D.html?lang=en console_errors=0 page_errors=0 requestfailed=0 active=page-1 html_lang=en screenshot=/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/screenshots/D_en.png\n",
+        "ts": "2026-07-26T00:42:29.767896+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "E4 建立可重跑的同步腳本 outputs/_shared/_scripts/usb_sync_20260726/sync_drive_to_usb.sh，把 Drive outputs/V3 同步到 USB 包時一律排除 archive/ _bak* *退役* .DS_Store；腳本需 dry-run 實跑一次貼出將被排除的清單",
+      "evidence": {
+        "cmd": "'/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/usb_sync_20260726/sync_drive_to_usb.sh' --dry-run",
+        "exit": 0,
+        "output_tail": "3/archive\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/archive/_bak_20260726_orphanrefs\n/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/業主補充_史料館照片0624/.DS_Store\n排除摘要：archive=15 _bak=4 退役=2 .DS_Store=11\nPASS dry-run 完成，未寫入目的地\n",
+        "ts": "2026-07-26T00:42:11.810054+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "E5 更新既有一致性檢查的判準：dmerge 與 orphanrefs 契約用的 V3 對 USB diff 從此須排除 archive 類目錄，改寫對應驗證腳本並實跑貼輸出證明 V3 與 USB 在排除 archive 後完全一致",
+      "evidence": {
+        "cmd": "python3 -B '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/dmerge_20260726/verify_b8.py'",
+        "exit": 0,
+        "output_tail": "PASS diff V3/USB excluding archive,_bak,退役,.DS_Store: files=52 differences=0\nPASS startup target: V3\\D_kiosk\\D.html exists\nPASS active TW assets unchanged: files=30\nPASS retired EN assets unchanged: files=30\n",
+        "ts": "2026-07-26T00:42:11.964093+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-26T00:43:42.121904+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

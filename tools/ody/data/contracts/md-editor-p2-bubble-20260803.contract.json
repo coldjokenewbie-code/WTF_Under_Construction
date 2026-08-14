@@ -1,0 +1,69 @@
+{
+  "task_id": "md-editor-p2-bubble-20260803",
+  "goal": "P2：浮動工具列改為選取觸發的 bubble menu，按鈕砍到只剩對選取範圍動手的指令，其餘收進命令面板",
+  "created": "2026-08-03T12:57:13.970720+00:00",
+  "repo_root": "/Users/coma/git_mirror/md-editor",
+  "base_ref": "6e21288d83b19665d4f700db6684cd18da294906",
+  "preexisting_dirty": [
+    "index.html"
+  ],
+  "scope_allowlist": [
+    "index.html"
+  ],
+  "preflight_permissions": [
+    "改 index.html；改完 commit/push"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "沒有選取時畫面上完全沒有工具列；選取文字後浮動選單出現在選取範圍旁且不超出視窗",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\":true}\nPASS  換檔後搜尋計數重算，不留幽靈命中  → {\"open\":true,\"total\":0,\"index\":0,\"supported\":true}\nPASS  Esc 一次只關一層  → {\"find\":true,\"cmdk\":false}\nPASS  隱藏按鈕不進命令面板  → [\"插入表格\"]\nPASS  長文件（16000 個文字節點）搜尋在 400ms 內完成  → {\"ms\":6,\"total\":5000}\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n79/79 通過\n",
+        "ts": "2026-08-03T12:57:35.707151+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "浮動選單只保留選取相關指令（粗體斜體刪除線、行內程式碼、顏色、清色、連結）共 8 顆",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\":true}\nPASS  換檔後搜尋計數重算，不留幽靈命中  → {\"open\":true,\"total\":0,\"index\":0,\"supported\":true}\nPASS  Esc 一次只關一層  → {\"find\":true,\"cmdk\":false}\nPASS  隱藏按鈕不進命令面板  → [\"插入表格\"]\nPASS  長文件（16000 個文字節點）搜尋在 400ms 內完成  → {\"ms\":6,\"total\":5000}\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n79/79 通過\n",
+        "ts": "2026-08-03T12:57:57.186005+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "被砍掉的指令（標題、清單、引用、分隔線、程式碼區塊、插入表格、復原重做）全部可在 Ctrl+K 命令面板找到並執行；表格增刪只在游標位於表格內時列出",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\":true}\nPASS  換檔後搜尋計數重算，不留幽靈命中  → {\"open\":true,\"total\":0,\"index\":0,\"supported\":true}\nPASS  Esc 一次只關一層  → {\"find\":true,\"cmdk\":false}\nPASS  隱藏按鈕不進命令面板  → [\"插入表格\"]\nPASS  長文件（16000 個文字節點）搜尋在 400ms 內完成  → {\"ms\":6,\"total\":5000}\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n79/79 通過\n",
+        "ts": "2026-08-03T12:58:18.754274+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "Playwright 測試全通過且新增對應測項",
+      "evidence": {
+        "cmd": "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad",
+        "exit": 0,
+        "output_tail": "\":true}\nPASS  換檔後搜尋計數重算，不留幽靈命中  → {\"open\":true,\"total\":0,\"index\":0,\"supported\":true}\nPASS  Esc 一次只關一層  → {\"find\":true,\"cmdk\":false}\nPASS  隱藏按鈕不進命令面板  → [\"插入表格\"]\nPASS  長文件（16000 個文字節點）搜尋在 400ms 內完成  → {\"ms\":6,\"total\":5000}\nPASS  主題循環 navy→light→dark→navy  → light>dark>navy\nPASS  主題色 meta 與目前主題底色一致\nPASS  manifest 可取得且為 standalone  → application/manifest+json; charset=utf-8\nPASS  全程無 JS 例外\n\n79/79 通過\n",
+        "ts": "2026-08-03T12:58:40.238647+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "NODE_PATH=/Users/coma/git_mirror/Assembly_Plant_Mobile_Guide/node_modules /opt/homebrew/bin/node /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad/test_ui.js /private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-md-editor/ed81e8e8-016c-4048-b51c-62c5b6415270/scratchpad"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-03T13:00:22.801322+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "task_id": "claude-cdic-o4-artlist-download-20260726-v2",
+  "goal": "透過公司 Artlist 授權下載 Opening 配樂候選與報告所列音效，保存來源與授權稽核資料",
+  "created": "2026-07-25T23:40:16.254111+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/聲音素材_20260726/**",
+    "outputs/案例研究_20260726/**"
+  ],
+  "preflight_permissions": [
+    "PO 已授權使用公司 Artlist 付費服務下載本案配樂與音效；不得以瀏覽器機器人大量下載或改動 Composition"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "5 支 Opening 配樂與 20 個音效候選均有對應下載結果或具體阻礙紀錄",
+      "evidence": {
+        "note": "Artlist 官方 MCP FAQ 僅列圖片與影片生成，未提供 stock 音樂／音效下載；Claude CLI 的 mcp list 也未出現 Artlist。依官方條款不得用 bot 自動批次下載，故 25 筆均標記 pending_manual_download 並提供逐項素材頁。",
+        "ts": "2026-07-25T23:44:07.198579+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "每個素材記錄檔名、素材名稱、Artist、素材頁、授權頁、下載日期與狀態",
+      "evidence": {
+        "cmd": "python3 -c 'import csv; p=\"outputs/聲音素材_20260726/download_manifest.csv\"; rows=list(csv.DictReader(open(p, encoding=\"utf-8\"))); required={\"kind\",\"group_id\",\"suggested_filename\",\"title\",\"artist\",\"source_url\",\"license_url\",\"status\",\"downloaded_at\",\"local_filename\"}; assert len(rows)==25 and all(required <= set(r) for r in rows); print(\"manifest=25 fields=PASS\")'",
+        "exit": 0,
+        "output_tail": "manifest=25 fields=PASS\n",
+        "ts": "2026-07-25T23:44:07.257776+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "所有已下載音訊可由 ffprobe 讀取，數量與 manifest 一致",
+      "evidence": {
+        "cmd": "node outputs/聲音素材_20260726/verify_downloads.mjs",
+        "exit": 1,
+        "output_tail": "{\n  \"manifestRows\": 25,\n  \"downloaded\": 0,\n  \"reuse\": 1,\n  \"pending\": 24,\n  \"issues\": [\n    \"共用素材找不到已下載目標：alert_confirm → 16_ui__confirmation.wav\"\n  ]\n}\n",
+        "ts": "2026-07-25T23:47:52.798873+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "Composition 與旁白檔案零修改",
+      "evidence": {
+        "note": "本任務所有 apply_patch 與複製目標僅在 outputs/案例研究_20260726、outputs/聲音素材_20260726 與 /private/tmp；未對任何 Composition 或旁白路徑執行寫入。",
+        "ts": "2026-07-25T23:44:07.371909+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "另一個 AI 依 manifest、檔案與報告連結完成獨立複驗",
+      "evidence": {
+        "note": "獨立代理複驗：清單一致、README 數量正確、Composition 契約後零修改；walkthrough 數量與 reuse 驗證器修正後兩項 PASS。整體仍因 24 個素材未人工下載而 FAIL。",
+        "ts": "2026-07-25T23:47:52.836583+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-07-25T23:48:04.076168+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 自驗] #3 證據命令 exit=1 非 0"
+    ]
+  }
+}

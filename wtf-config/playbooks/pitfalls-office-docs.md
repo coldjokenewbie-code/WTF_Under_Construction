@@ -35,3 +35,5 @@
 - **python-docx buffer 限制**：大型複雜 docx（含圖、表格）用 python-docx 會失敗，必須改用 `lxml + huge_tree=True + zipfile` 直接操作 XML。
 - **footnote ID 不可重複引用**：每個 `w:footnote/@w:id` 在 `document.xml` 只能有一個對應的 `w:footnoteReference`。若同一來源在多個表格都插入 fn_id，Word 會顯示「無法讀取的內容」並強制修復。解法：footnote 引用只放在詳細說明表格（Table[3/5]），分類總表（Table[1]）不加 fn_id。
 - **ZIP 壓縮保留**：原始圖片等二進位檔為 `ZIP_STORED`；寫回時必須逐檔保留 `orig_info.compress_type`，不可全部改成 `ZIP_DEFLATED`。
+
+- **openpyxl 不可回寫含繪圖物件的 xlsx**（2026-08-14 南科再生水廠）：檔內 `xl/drawings/` 有東西時，openpyxl 開檔存檔會破壞 drawing 與字串表，Excel 報錯無法修復。防：動手前 `unzip -l` 查 drawings；有圖→內容另開獨立新檔或 zip 層只改單一 sheet XML；改前必備份（Excel 自存的版本才保證健康）。

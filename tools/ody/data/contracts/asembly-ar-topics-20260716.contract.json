@@ -1,0 +1,81 @@
+{
+  "task_id": "asembly-ar-topics-20260716",
+  "goal": "AR 功能示意動畫選題研究：比照語音導覽選題方式，從三份設計文件找出適合 AR 展示的候選 5 項（科學/建築知識類、機具結構運轉原理、已不在現場可 AR 重現的機具），出 HTML 報告供 PO 圈選 1 項",
+  "created": "2026-07-16T02:58:31.795081+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "410be5f56916dd997daf1656c8b1fff6a0a17756",
+  "preexisting_dirty": [
+    ".claude/settings.local.json",
+    "wtf-config/machines.md",
+    "outputs/ody-session-compliance-20260715/",
+    "outputs/ody-session-gate-impl-20260716/",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/wtf-session-compliance-20260715.contract.json",
+    "tools/ody/data/contracts/wtf-session-gate-impl-20260716.contract.json",
+    "wtf-config/hooks/stop_dispatcher.py",
+    "wtf-config/hooks/wtf-session-gate.py",
+    "wtf-config/hooks/wtf-session-gate.sh",
+    "wtf-config/hooks/wtf_bundle.py",
+    "wtf-config/policies/",
+    "wtf-config/tests/"
+  ],
+  "scope_allowlist": [
+    "outputs/AR選題/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "候選 5 項均註明來源檔名＋頁碼，排除 5-7-1 空襲與線上解說 7 項",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT/outputs/AR選題/_work/check_report.py\"",
+        "exit": 0,
+        "output_tail": " 'candidate-3-7-5']\n[1] 排除項未入選: OK（G-1-3 為任務指示之例外，已標註規劃案原生範例）\n[2] candidate-G-1-3: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-G-1-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-1A-2-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-2: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-5: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[3] 嵌圖 9 張，頁碼不符/缺檔 = 0\n\nRESULT: PASS\n",
+        "ts": "2026-07-16T03:13:57.722048+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "每候選含縮圖、文字摘錄、AR 適合理由（結構原理可視化或機具重現，對照規劃 PPT p15 台工1677 分鏡模式）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT/outputs/AR選題/_work/check_report.py\"",
+        "exit": 0,
+        "output_tail": " 'candidate-3-7-5']\n[1] 排除項未入選: OK（G-1-3 為任務指示之例外，已標註規劃案原生範例）\n[2] candidate-G-1-3: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-G-1-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-1A-2-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-2: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-5: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[3] 嵌圖 9 張，頁碼不符/缺檔 = 0\n\nRESULT: PASS\n",
+        "ts": "2026-07-16T03:13:57.781681+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "HTML 報告內選圖來源頁碼標籤與嵌圖檔名頁碼一致（機檢全查）",
+      "evidence": {
+        "cmd": "python3 \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT/outputs/AR選題/_work/check_report.py\"",
+        "exit": 0,
+        "output_tail": " 'candidate-3-7-5']\n[1] 排除項未入選: OK（G-1-3 為任務指示之例外，已標註規劃案原生範例）\n[2] candidate-G-1-3: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-G-1-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-1A-2-1: 縮圖x2 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-2: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[2] candidate-3-7-5: 縮圖x1 摘錄=True AR理由=True 標題非空=True -> OK\n[3] 嵌圖 9 張，頁碼不符/缺檔 = 0\n\nRESULT: PASS\n",
+        "ts": "2026-07-16T03:13:57.834615+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "fresh-context verifier 複驗 PASS",
+      "evidence": {
+        "note": "ody-verifier fresh-context 複驗 PASS：五卡來源頁碼逐卡對到 HTML 行號；排除項核對候選7項.json 無違規（G-1-3 例外三處標註）；check_report.py 獨立重跑 9 嵌圖 0 不符＋人工開圖抽驗 3 張相符；獨立解析規劃表 AR導覽欄恰 12 單元＝報告 5 入選+7 落選全數交代；scope 抽查僅 preexisting_dirty",
+        "ts": "2026-07-16T03:18:54.331893+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-16T03:18:54.385834+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

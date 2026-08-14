@@ -1,0 +1,130 @@
+{
+  "task_id": "cowork_CDIC-B-iptable-autostart-20260722",
+  "goal": "照IP表重構部署參數並全自啟：B_sync port 8787→8123、APK SERVER_BASE→http://192.168.0.32:8123 重編、bridge TCP 6000→6001(避開燈控)、middleware config預填(.10 API/127.0.0.1:6001)、light_config tablets預填(.34/.35/.23)、開機自啟bat×5(B主機/B副機/A/C/D)、手冊同步、全樹掃殘無舊值",
+  "created": "2026-07-22T07:21:22.537434+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "3b865654b3ce9513393e9feb4bbc0c44e9106e71",
+  "preexisting_dirty": [
+    "wtf-config/machines.md",
+    "tools/ody/data/contracts/VoiceInk-shortcuts-fix-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-rev-20260719.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-scanqr-tts-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v6-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-4clips-v7-20260720.contract.json",
+    "tools/ody/data/contracts/asembly-airraid-rev2-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-storyboard-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ar-topics-20260716.contract.json",
+    "tools/ody/data/contracts/asembly-ardemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-claude-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-demo-anim-codex-20260710.contract.json",
+    "tools/ody/data/contracts/asembly-memory-rev2-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-overview-intro-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-rush-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-overview-v5-20260722.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-keyframe-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-phonebubble-rollout-20260721.contract.json",
+    "tools/ody/data/contracts/asembly-questdemo-20260717.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-airraid-20260714.contract.json",
+    "tools/ody/data/contracts/asembly-remotion-memoryvoice-20260714.contract.json",
+    "tools/ody/data/contracts/assembly-mill-benchmark-20260706.contract.json",
+    "tools/ody/data/contracts/cdic-o4-text-tts-refresh-20260715.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-A-twen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-ABCD英文版-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-light-lang-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-serverfirst-content-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-B-urgent-regression-20260721.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-Bapk-cnen-kiosk-20260720.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-C-stage-control-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-D區素材更換-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-envbridge-acd-20260722.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-kiosk現場修正-20260716.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-內測腳本-20260716.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-20260722b.contract.json",
+    "tools/ody/data/contracts/remotionfun-cardplacement-impl-20260722.contract.json",
+    "tools/ody/data/contracts/say-something-ios-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-keyboard-20260716.contract.json",
+    "tools/ody/data/contracts/say-something-ios-whisper-20260716.contract.json"
+  ],
+  "scope_allowlist": [
+    "outputs/V3/**",
+    "infomation/環控中介程式_API_TCP_Middleware_v1.0.0/**",
+    "outputs/USB部署包_20260722/**"
+  ],
+  "preflight_permissions": [
+    "修改 outputs/V3 部署參數與腳本、middleware config 預填、重編APK、更新手冊與USB暫存包"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 全樹grep掃殘：outputs/V3與USB暫存包內（排除archive/與*.md歷史紀錄）無 8787、無 192.168.0.153（tests與工具腳本一併更新）",
+      "evidence": {
+        "cmd": "bash '/private/tmp/claude-501/-Users-coma-Library-CloudStorage-GoogleDrive-coldjokenewbie-gmail-com------tachart-ihuy-Claude-cowork-projects-cowork-CDIC/29849afa-a504-48fb-b2b8-36043d4b9152/scratchpad/check_a1.sh'",
+        "exit": 0,
+        "output_tail": "PASS: 0 hits\n",
+        "ts": "2026-07-22T07:32:47.055677+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 smoke與tests全過：smoke_light_lang.mjs＋B_sync/tests/*.mjs 以新port實跑全PASS",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs && for f in outputs/V3/B_sync/tests/*.mjs; do [ \"$f\" = \"outputs/V3/B_sync/tests/capture-regression.mjs\" ] && continue; node \"$f\" || exit 1; done",
+        "exit": 0,
+        "output_tail": "es + TW/EN/display fonts; no language CSS files\nlaunch: verified Chrome flags and single bilingual server\n{\"guide\":1,\"display\":1,\"apkEquivalent\":3,\"clients\":5,\"guideSync\":true,\"freeIndependent\":true,\"reconnectOnError\":true,\"kioskLanguagePath\":\"verify-locales\"}\nTW regression: legacy content hash preserved; app logic unchanged except locale year rendering; structure and TW layout constants retained\n",
+        "ts": "2026-07-22T07:30:05.469590+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 APK重編成功且 assets/www 與 MainActivity 反映 192.168.0.32:8123（grep＋build輸出＋APK mtime）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && unzip -p outputs/V3/B_APK/app/build/outputs/apk/debug/app-debug.apk assets/www/B_JS/B_sync.js | grep -q 8123 && ! unzip -p outputs/V3/B_APK/app/build/outputs/apk/debug/app-debug.apk assets/www/B_JS/B_sync.js | grep -q 8787 && grep -q '192.168.0.32:8123' outputs/V3/B_APK/app/src/main/java/tw/com/tiangong/cdic/btimeline/MainActivity.java",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T07:32:47.101903+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 middleware config.json 與兩份 bridge_config 預填值正確（api.url=.10:18080、tcp=127.0.0.1:6001、tcpPort=6001、forward=127.0.0.1:8123/lang）且 json 合法",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && python3 -c \"\nimport json\nd1=json.load(open('outputs/V3/env_bridge/bridge_config.json'))\nd2=json.load(open('outputs/V3/env_bridge/bridge_config_B主機.json'))\nd3=json.load(open('outputs/V3/env_bridge/bridge_config_ACD主機.json'))\nd4=json.load(open('infomation/環控中介程式_API_TCP_Middleware_v1.0.0/config.json'))\nassert d1['tcpPort']==6001 and d2['tcpPort']==6001 and d3['tcpPort']==6001\nassert d2['forward']==['http://127.0.0.1:8123/lang']\nassert d4['api']['url']=='http://192.168.0.10:18080/api/process/status/history'\nassert d4['tcp']=={'host':'127.0.0.1','port':6001,'reconnect_interval':5,'timeout':3}\nprint('A4 PASS')\n\"",
+        "exit": 0,
+        "output_tail": "A4 PASS\n",
+        "ts": "2026-07-22T07:41:34.087973+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 自啟安裝bat×5各自建立Startup捷徑腳本且邏輯正確（B主機=server+bridge+middleware+延遲開kiosk display；B副機=延遲開 http://192.168.0.32:8123 display；A/C/D=bridge+middleware+延遲開各區頁）；全部bat CRLF無BOM第2行chcp；禁用括號區塊內set /p變數展開（前車之鑑）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/V3/自啟安裝' && for f in 自啟安裝_B主機.bat 自啟安裝_B副螢幕機.bat 自啟安裝_A主機.bat 自啟安裝_C主機.bat 自啟安裝_D主機.bat; do python3 -c \"\nimport sys\nd=open('$f','rb').read()\nassert d[:3]!=b'\\xef\\xbb\\xbf', 'BOM found: '+'$f'\nassert d.count(b'\\n')-d.count(b'\\r\\n')==0, 'lone LF: '+'$f'\nlines=d.decode('utf-8').split('\\r\\n')\nassert lines[1]=='chcp 65001 >nul', 'line2 not chcp: '+'$f'\nassert 'set /p' not in d.decode('utf-8'), 'set/p found: '+'$f'\nprint('PASS','$f')\n\" || exit 1; done",
+        "exit": 0,
+        "output_tail": "PASS 自啟安裝_B主機.bat\nPASS 自啟安裝_B副螢幕機.bat\nPASS 自啟安裝_A主機.bat\nPASS 自啟安裝_C主機.bat\nPASS 自啟安裝_D主機.bat\n",
+        "ts": "2026-07-22T07:38:54.901724+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 手冊與內容更新規範同步新值（8123/.32/.10/6001/自啟流程），USB暫存包全檔同步（md5對照清單）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && grep -q 8123 outputs/V3/現場安裝執行手冊_20260722.html && grep -q '一鍵開機自啟安裝' outputs/V3/現場安裝執行手冊_20260722.html && DEST=outputs/USB部署包_20260722/CDIC_deploy_20260722 && [ \"$(md5 -q outputs/V3/B_sync/server.js)\" = \"$(md5 -q $DEST/V3/B_sync/server.js)\" ] && [ \"$(md5 -q outputs/V3/現場安裝執行手冊_20260722.html)\" = \"$(md5 -q $DEST/V3/現場安裝執行手冊_20260722.html)\" ] && [ \"$(md5 -q outputs/V3/自啟安裝/_build_startup.ps1)\" = \"$(md5 -q $DEST/V3/自啟安裝/_build_startup.ps1)\" ] && [ \"$(md5 -q outputs/V3/B_APK/app/build/outputs/apk/debug/app-debug.apk)\" = \"$(md5 -q $DEST/APK/app-debug.apk)\" ]",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-22T07:43:25.131940+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC' && node outputs/V3/B_sync/tools/smoke_light_lang.mjs"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-22T07:45:33.802074+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

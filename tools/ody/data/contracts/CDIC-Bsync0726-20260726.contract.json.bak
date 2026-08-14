@@ -1,0 +1,129 @@
+{
+  "task_id": "CDIC-Bsync0726-20260726",
+  "goal": "B 區 kiosk 中英文案同步至 0726 版定稿：以 0726 版 docx 為唯一真相源重建 tw/en 的年代與事件，含 2015 兩筆改用現場展版內容、2023 年代標籤補入、3_14 年份更正。動機：現行 kiosk 文案停留在 06-15 清稿，與業主核可的 07-15 定稿有 41 筆子題不一致、10 個年份筆數不同。",
+  "created": "2026-07-26T00:30:27.755850+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "outputs/V3/B_kiosk/**",
+    "outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk/**",
+    "outputs/_shared/_scripts/**"
+  ],
+  "preflight_permissions": [
+    "PO 2026-07-26 授權：以 0726 版定稿為真相源、2015 以現場展版內容為主、子題由我方依語意斷行後擷圖送驗、流程4 缺詳情頁以流程2 內容暫代"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "G1 動工前備份 outputs/V3/B_kiosk/content 全部四檔（tw.json en.json tw.js en.js）到 content/_bak_20260726_文案同步前/，附逐檔 md5；備份不得覆蓋既有的 _bak_20260726_業主照片0624更新前",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g1",
+        "exit": 0,
+        "output_tail": "PASS G1 第一輪備份 md5.txt 與四個備份檔一致\ntw.json\tbd84ee54a9c27884c2bea77ffa69bcfe\nen.json\te9b8b9621fc2b9aeec53751d32a4c1d9\ntw.js\t980a7facbe0fae60b94100a5788059a6\nen.js\te6e40d1878d0b93a60210c28dc0109a7\n照片更新前備份夾存在且未作為本輪還原來源\n",
+        "ts": "2026-07-26T01:17:36.954650+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "G2 年代以 0726 版流程3 的 34 列為準重建 timelineYears：year 與 roc 取自內容欄年份、label 取年代標籤文字，中英各一份；驗證年份嚴格遞增、共 34 筆、含 2023、且 2002 為民國91年",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g2",
+        "exit": 0,
+        "output_tail": "PASS G2 中英34年代逐字對齊來源；嚴格遞增；含2023；2002=ROC91\n",
+        "ts": "2026-07-26T01:17:37.178643+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "G3 事件以 0726 版流程2 的 94 筆有效列為準重建 events：title 取子題、body 取內容，中英各一份；驗證總數 94 且逐年筆數與 0726 版完全相同（1993=1 1995=3 1999=5 2001=3 2008=5 2010=3 2011=5 2023=4 2024=5 2026=2），並輸出逐年對照表",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g3",
+        "exit": 0,
+        "output_tail": "PASS G3 中英94事件 title/body 逐字對齊來源\nyear\tcount\n1985\t6\n1987\t4\n1988\t1\n1991\t2\n1992\t2\n1993\t1\n1995\t3\n1996\t2\n1997\t1\n1998\t2\n1999\t5\n2000\t3\n2001\t3\n2002\t3\n2003\t1\n2004\t5\n2005\t2\n2006\t1\n2007\t6\n2008\t5\n2009\t2\n2010\t3\n2011\t5\n2012\t1\n2013\t2\n2014\t1\n2015\t2\n2018\t1\n2020\t1\n2021\t1\n2022\t6\n2023\t4\n2024\t5\n2026\t2\n",
+        "ts": "2026-07-26T01:17:37.397833+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "G4 2015 兩筆使用 0726 版的 2_99 與 2_100（受託監控大陸暴險與海外暴險、舉辦IADI亞太區域年會），kiosk 原有的三十週年與持續處分56家退場資產不得殘留，以 grep 證明兩句舊文案在 tw.json 與 en.json 皆已不存在",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g4",
+        "exit": 0,
+        "output_tail": "PASS G4 2015=2_99/2_100；三句舊文案零殘留\n",
+        "ts": "2026-07-26T01:17:37.614823+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "G5 子題依語意斷行加 br 維持現行兩行版型，每筆子題純文字長度不得超過 14 字、內容不得超過 35 字，輸出超標清單須為空",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g5",
+        "exit": 1,
+        "output_tail": "726/verify_data.py\", line 227, in main\n    globals()[args.gate]()\n    ~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/outputs/_shared/_scripts/bsync_20260726/verify_data.py\", line 169, in g5\n    assert not title_over and not body_over\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "ts": "2026-07-26T01:17:43.216757+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "G6 已套用的 4 張業主照片必須保留：2_14 應變機制、2_41 IADI執行理事、2_47 IADI最佳機構、2_67 三百萬保障，重建後這四個事件的 detail image 與 imageAlt 中英皆須存在且指向實體檔，逐筆列印路徑並確認檔案存在",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g6",
+        "exit": 0,
+        "output_tail": "eline/2003_IADI執行理事_業主0624_2_41.jpg\nen\t2_41\t2003-iadi-exec\tassets/b_timeline/2003_IADI執行理事_業主0624_2_41.jpg\ntw\t2_47\t2005-iadi-best\tassets/b_timeline/2005_IADI最佳機構_業主0624_2_47.jpg\nen\t2_47\t2005-iadi-best\tassets/b_timeline/2005_IADI最佳機構_業主0624_2_47.jpg\ntw\t2_67\t2011-300w\tassets/b_timeline/2011_三百萬保障_業主0624_2_67.jpg\nen\t2_67\t2011-300w\tassets/b_timeline/2011_三百萬保障_業主0624_2_67.jpg\nPASS G6 四張業主照片中英皆保留且實體存在\n",
+        "ts": "2026-07-26T01:17:51.376269+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "G7 詳情頁對齊 0726 版流程4：真實詳情頁 38 筆照 4_N(2_M) 對應寫入 detail；另將有業主照片但原無詳情頁的 6 張卡（2_48 2_52 2_58 2_59 2_81 2_93）升級為詳情頁並以流程2 內容暫代，其餘無詳情頁的卡維持簡卡不變，輸出三類各自的筆數與清單",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g7",
+        "exit": 0,
+        "output_tail": "2_56 2_62 2_64 2_65 2_67 2_71 2_72 2_74 2_77 2_78 2_79 2_80 2_86 2_92 2_94 2_98\nupgrade=6 2_48 2_52 2_58 2_59 2_81 2_93\nsimple=50 2_4 2_5 2_6 2_8 2_9 2_10 2_13 2_15 2_17 2_19 2_21 2_24 2_27 2_28 2_30 2_32 2_33 2_36 2_37 2_39 2_40 2_43 2_44 2_45 2_46 2_51 2_53 2_54 2_55 2_60 2_61 2_63 2_66 2_68 2_69 2_70 2_73 2_75 2_82 2_83 2_84 2_87 2_88 2_90 2_91 2_95 2_96 2_97 2_99 2_100\nPASS G7 38真實詳情+6升級+50簡卡\n",
+        "ts": "2026-07-26T01:17:51.597659+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "G8 content 四檔一致性：tw.js 與 en.js 必須是對應 json 加上 window 前綴的位元組等價，node --check 通過；所有 detail image 路徑實體存在",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_data.py g8 && node --check outputs/V3/B_kiosk/content/tw.js && node --check outputs/V3/B_kiosk/content/en.js",
+        "exit": 0,
+        "output_tail": "PASS G8 runtime JS/json 位元組等價；全部 detail 圖片存在\n",
+        "ts": "2026-07-26T01:17:51.746289+00:00"
+      }
+    },
+    {
+      "no": 9,
+      "desc": "G9 Playwright 實跑中英兩語系：0 console error 與 0 requestfailed，走訪全部 34 個年代與每年首張卡，逐年擷圖；另針對 G6 四張照片與 G7 六張升級卡各擷一張詳情頁圖供目視",
+      "evidence": {
+        "cmd": "node outputs/_shared/_scripts/bsync_20260726/verify_ui.mjs",
+        "exit": 0,
+        "output_tail": "PASS G9 tw/en: 68 year shots + 20 detail shots; 0 console error; 0 requestfailed\n",
+        "ts": "2026-07-26T01:18:16.332884+00:00"
+      }
+    },
+    {
+      "no": 10,
+      "desc": "G10 Drive 與 USB 部署包的 B_kiosk 逐檔一致（排除 archive 與 .DS_Store），貼 diff 輸出",
+      "evidence": {
+        "cmd": "python3 outputs/_shared/_scripts/bsync_20260726/verify_g10.py && diff -qr --exclude=archive --exclude=.DS_Store outputs/V3/B_kiosk outputs/USB部署包_20260722/CDIC_deploy_20260722/V3/B_kiosk",
+        "exit": 0,
+        "output_tail": "PASS G10 Drive/USB B_kiosk：73 files，diff=empty\n",
+        "ts": "2026-07-26T01:18:21.645038+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-07-26T01:18:28.442772+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 自驗] #5 證據命令 exit=1 非 0"
+    ]
+  }
+}

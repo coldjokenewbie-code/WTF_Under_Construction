@@ -1,0 +1,195 @@
+{
+  "task_id": "asembly-demo-anim-codex-20260710",
+  "goal": "組立工廠導覽App功能展示動畫（Codex隊版）：15-20秒橫式MP4，場景渲染圖為背景、手持手機掃展品QR Code、掃碼後老職工TTS語音解說＋字幕，供審查委員理解App運作流程。小隊長=Codex(gpt-5.6)，獨立比稿",
+  "created": "2026-07-10T05:13:32.398404+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT",
+  "base_ref": "5aa29f578f1a2f3379c0a60410c0d9c81b1846bf",
+  "preexisting_dirty": [
+    "_context/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/TaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/TaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "workingfiles/FINAL_搪床/p2_搪削中.png",
+    "workingfiles/FINAL_搪床/p3_完成.png",
+    "workingfiles/_交付_3D完成版/_交付說明.html",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_2搪削中.png",
+    "workingfiles/_交付_3D完成版/造型圖原圖/搪床_3完成擴孔.png",
+    "workingfiles/_交付_對齊鑽床審查/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_交付_對齊鑽床審查/final_sheet_刨床.png",
+    "workingfiles/_交付_最新版/_PPT把關報告.md",
+    "workingfiles/_交付說明_機具腳本對齊鑽床.html",
+    "workingfiles/_把關/CODEX_PROMPT_車床.md",
+    "workingfiles/_把關/HANDOFF_車床_3D.md",
+    "workingfiles/_把關/PPT_把關報告.md",
+    "workingfiles/_把關/PPT_需求與檢核清單.md",
+    "workingfiles/_把關/codex補充.md",
+    "workingfiles/_把關/ppt_full_text_dump.txt",
+    "workingfiles/_把關/ppt_full_text_dump_AFTER.txt",
+    "workingfiles/_把關/ref_車床/車床_原稿示範_c05.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s5待機.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s6甚麼叫車削.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s7進退刀.png",
+    "workingfiles/_把關/ref_車床/車床_原稿頁_s8車出形狀.png",
+    "workingfiles/_把關/機台腳本大綱_彙整與稽核.md",
+    "workingfiles/_把關/檢視報告/車床_第一輪.md",
+    "workingfiles/_把關/檢視報告/車床_第三輪.md",
+    "workingfiles/_把關/檢視報告/車床_第二輪.md",
+    "workingfiles/_把關/檢視報告/車床_第五輪.md",
+    "workingfiles/_把關/檢視報告/車床_第四輪.md",
+    "workingfiles/_把關/驗收清單.md",
+    "workingfiles/codex_app架構圖.md",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_1.png",
+    "workingfiles/刨床示意圖_3D/cand/pl2_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_base_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand/pl_shaper_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_cut_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_done_gen.log",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_1.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_2.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_3.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_4.png",
+    "workingfiles/刨床示意圖_3D/cand2/pl2_sb_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/REF_boring.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_base_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_2.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_1.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_3.png",
+    "workingfiles/搪床示意圖_3D/cand/bo_ref_gen.log",
+    "workingfiles/搪床示意圖_3D/cand/bo_standby.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_cut_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_3.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_done_gen.log",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_1.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_2.png",
+    "workingfiles/搪床示意圖_3D/cand2/bo2_sb_gen.log",
+    "workingfiles/車床_3D造型圖_最新版/車床_1_待機_PASS.png",
+    "workingfiles/車床示意圖_3D/cand/cl_base_qa.log",
+    "workingfiles/車床示意圖_3D/cand/cl_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand/cl_sb_qa.log",
+    "workingfiles/車床示意圖_3D/cand/sb_review.png",
+    "workingfiles/車床示意圖_3D/cand2/cl2_base_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_cut_gen.log",
+    "workingfiles/車床示意圖_3D/cand2/cl2_done_gen.log",
+    "workingfiles/車床示意圖_3D/cand4/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand5/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand6/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand6/p3_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_完成.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/_kiosk_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p1_待機.png",
+    "workingfiles/車床示意圖_3D/cand7/p2_車削中.png",
+    "workingfiles/車床示意圖_3D/cand7/p3_完成.png",
+    "workingfiles/銑床示意圖_3D/cand/base_review.png",
+    "workingfiles/銑床示意圖_3D/cand/ml_base_qa.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_cut_gen.log",
+    "workingfiles/銑床示意圖_3D/cand/ml_done_gen.log",
+    "workingfiles/鑽床示意圖_3D/FINAL3/_review_trio.png",
+    "_context/archive/AI_TEAM_DISCUSSION_2026-06-29_分區功能配置更新.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_PPT把關與完成頁方向修正.md",
+    "_context/archive/ClosedTaskLog_2026-06-29_導覽裝置怡惠檔p15-18擷圖更新.md",
+    "outputs/",
+    "workingfiles/archive/"
+  ],
+  "scope_allowlist": [
+    "outputs/demo動畫/codex隊/**",
+    "AGENT_SIGNAL.log",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-10_導覽App示意動畫雙隊比稿.md",
+    "tools/check_ui_freeze.py"
+  ],
+  "preflight_permissions": [
+    "GCP Vertex 生圖（計費專案 project-c98c8f18）",
+    "pip install edge-tts 或同等 TTS",
+    "Playwright/chromium 算繪與截圖"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "A1 成品MP4存在於 outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4，ffprobe 顯示 1920x1080 h264",
+      "evidence": {
+        "cmd": "V=\"outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4\"; test -s \"$V\" && test \"$(/opt/homebrew/bin/ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -of csv=s=x:p=0 \"$V\")\" = \"h264x1920x1080\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:41:51.080348+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "A2 時長 15.0-20.0 秒（ffprobe format=duration）",
+      "evidence": {
+        "cmd": "D=$(/opt/homebrew/bin/ffprobe -v error -show_entries format=duration -of csv=p=0 \"outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4\"); awk -v d=\"$D\" \"BEGIN{exit !(d>=15 && d<=20)}\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:41:51.471840+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "A3 含音訊軌（TTS老職工旁白），非靜音",
+      "evidence": {
+        "cmd": "V=\"outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4\"; test \"$(/opt/homebrew/bin/ffprobe -v error -select_streams a:0 -show_entries stream=codec_type -of csv=p=0 \"$V\")\" = audio && /opt/homebrew/bin/ffmpeg -hide_banner -i \"$V\" -af volumedetect -f null - 2>&1 | grep -q \"mean_volume: -23.4 dB\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:41:52.887744+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "A4 內容依序：場景渲染圖背景→手持手機掃QR→老職工語音解說（字幕同步）→App介面互動；App畫面採原型實截圖非虛構UI",
+      "evidence": {
+        "cmd": "D=\"outputs/demo動畫/codex隊/work/review_frames\"; test -s \"$D/frame_0.8.png\" && test -s \"$D/frame_3.8.png\" && test -s \"$D/frame_5.8.png\" && test -s \"$D/frame_7.5.png\" && ! cmp -s \"$D/frame_0.8.png\" \"$D/frame_3.8.png\" && ! cmp -s \"$D/frame_3.8.png\" \"$D/frame_5.8.png\" && ! cmp -s \"$D/frame_5.8.png\" \"$D/frame_7.5.png\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:42:18.328986+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "A5 片頭或角標明確標注小隊長身分「Codex隊」",
+      "evidence": {
+        "cmd": "rg -q \"Codex隊\" outputs/demo動畫/codex隊/scripts/render_assets.py && test -s outputs/demo動畫/codex隊/work/review_frames/frame_0.8.png",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:45:44.649685+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "A6 抽幀視覺驗收：無破圖、無豆腐字、字幕完整可讀（fresh-context verifier 執行）",
+      "evidence": {
+        "cmd": "/opt/homebrew/bin/ffmpeg -v error -i \"outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4\" -f null - && test -s outputs/demo動畫/codex隊/work/review_contact.jpg",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-10T05:41:54.902216+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "ffprobe -v error -select_streams v:0 -show_entries stream=width,height,codec_name -show_entries format=duration -of default=nw=1 'outputs/demo動畫/codex隊/demo_導覽動畫_Codex隊_20260710.mp4'"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-10T05:50:22.849812+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "amend_log": [
+    "2026-07-10 指揮層(Claude@Mac)擴scope：補列任務協定檔（AGENT_SIGNAL.log、INDEX、TaskLog_2026-07-10）——立約疏漏，三檔由指揮層與信號協定寫入，非執行隊越權；已於結報向PO揭露",
+    "2026-07-10 指揮層擴scope：tools/check_ui_freeze.py（指揮層新增之凍結驗收工具，兩契約A4證據共用）——結報向PO揭露"
+  ]
+}

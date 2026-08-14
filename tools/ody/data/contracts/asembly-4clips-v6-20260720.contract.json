@@ -1,0 +1,87 @@
+{
+  "task_id": "asembly-4clips-v6-20260720",
+  "goal": "四支示範片 v6（PO 退修）：①旁白正常語速重生 ②每支修剪至 10-20s ③掃描畫面重繪——正對 QR 實拍、單一 QR、邊緣帶模糊板面文字，禁用舊圖當底疊圖",
+  "created": "2026-07-19T18:18:33.601458+00:00",
+  "repo_root": "/Users/coma/git_mirror/Remotion_fun",
+  "base_ref": "736472a5b990a1e12b1243caf12b475ffc872eb5",
+  "preexisting_dirty": [
+    "AGENTS.md"
+  ],
+  "scope_allowlist": [
+    "src/asembly/**",
+    "src/index.tsx",
+    "public/asembly/**",
+    "public/audio/**",
+    "tools/**"
+  ],
+  "preflight_permissions": [
+    "修改 git_mirror/Remotion_fun＋src/index.tsx 時長註冊（既有授權）",
+    "Vertex AI Gemini TTS＋Nano Banana 重繪（PO 已授權；沙箱網路開啟或由驗收方代跑）",
+    "codex 主執行、Claude 驗收（PO 指派；驗收升級：QR 數量機檢）"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "scan_panel×4 底圖全新繪製（非舊 scan_panel/scene 裁圖疊合）：手機正對 QR、畫面內 QR 唯一（機檢：QR decode count==1 且解碼內容=對應功能深連結）、邊緣可見模糊板面文字",
+      "evidence": {
+        "cmd": "node tools/verify_4clips.mjs",
+        "exit": 0,
+        "output_tail": "_invite_tw.mp3 7.49s <= 9s\nPASS QR: {\"path\": \"public/asembly/memory/scan_panel.png\", \"count\": 1, \"texts\": [\"https://assembly-guide.app/exhibit/0B-3?f=memory\"]}\nPASS MemoryVoiceDemo.tsx: Audio >= 150f, 統一版式, 展板近拍\nPASS QR: {\"path\": \"public/asembly/quest/scan_panel.png\", \"count\": 1, \"texts\": [\"https://assembly-guide.app/exhibit/3-9-4?f=quest\"]}\nPASS QuestDemo.tsx: 無旁白 Audio, 統一版式, 展板近拍\nPASS 四支導覽靜態驗收\n",
+        "ts": "2026-07-19T19:11:12.280635+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "01/03 旁白正常語速重生（微台聲線不變、文稿不變）；音軌起始 >= 功能段",
+      "evidence": {
+        "note": "新稿（內斂職工版）TTS：01=13.25s/03=7.49s 正常語速 Charon；音軌起始 01 f150 前為開場（VO 常數經 verify 腳本核 >= functionStart）；PO 第5點邀約語降比已由字卡機檢黑名單佐證",
+        "ts": "2026-07-19T19:11:12.315662+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "四支總長各 300-600f（10-20s），remotion compositions 清單佐證",
+      "evidence": {
+        "note": "四支 600/450/600/480f＝20.0/15.0/20.0/16.0s 皆於 10-20s；verify 腳本含 300-600f 機檢與 index.tsx 時長一致機檢",
+        "ts": "2026-07-19T19:11:12.346105+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "npx tsc --noEmit 與 verify_4clips.mjs（含新 QR 數量機檢）PASS",
+      "evidence": {
+        "cmd": "npx tsc --noEmit",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T19:11:13.102812+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "關鍵時點抽幀無穿幫；驗收逐張確認畫面內 QR 數量",
+      "evidence": {
+        "note": "兩輪抽幀共 22 張 Claude 目驗（_selfcheck_v6/_v6r2）：掃描段 QR 唯一置中、開場節奏還原（01 掃描 86f）、Quest 證書手機=機台一致（f420 並列確認）、字卡全改功能說明語、無穿幫",
+        "ts": "2026-07-19T19:11:13.136428+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "不 render 正式 MP4",
+      "evidence": {
+        "cmd": "bash -c '[ -z \"$(find out -name \"*.mp4\" -mtime -1)\" ]'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-07-19T19:11:13.175353+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-07-19T19:11:13.227954+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
