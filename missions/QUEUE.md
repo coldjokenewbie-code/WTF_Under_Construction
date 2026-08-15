@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-15 08:30**：昨晚4棒（19:30/21:30/23:30/01:30）全秒退零增量（連續88棒），QUEUE 無待規劃/active項、無新blockers。night-relay 領先 main 761 commits（累積未收貨，非僅昨晚）。
+**提醒棒 2026-08-15 19:00**：與今早08:30晨報無變化——QUEUE 仍無待規劃/active項、無新blockers回覆。night-relay 領先 main 763 commits（累積未收貨，非僅昨晚）。今晚循環棒（19:30/21:30/23:30/01:30）預期比照連續88棒紀錄全秒退。
 **待核准/提名清單**（與08-14無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
 **blockers待決**（逾期天數，自07-21算至今日08-15）：
 - machine-report修正意見：**已逾期25天**（07-21起無回覆）
