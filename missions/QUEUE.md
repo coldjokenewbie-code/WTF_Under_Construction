@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-16 08:30**：昨晚4棒（19:33/21:33/23:33/01:33）全秒退零增量（連續92棒），QUEUE無待規劃/active項不變。blockers無新回覆：machine-report修正意見已逾期26天、guide-app anchor升級提案已逾期26天（皆自07-21起算）。待核准×2、提名×5與08-15現狀無變化（見下）。night-relay 領先 main 769 commits（累積未收貨，非僅昨晚）。
-**待核准/提名清單**（與08-15無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
+**提醒棒 2026-08-16 19:08**：QUEUE無待規劃/active項，今晚循環棒（19:33/21:33/23:33/01:33）將全數秒退（連續空轉已92棒，見晨報08:30紀錄）。待核准×2、提名×5、blockers×2逾期件，與08-15/08-16晨報現狀皆無變化。night-relay 領先 main 771 commits（累積未收貨）。
+**待核准/提名清單**：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
 **blockers待決**（逾期天數，自07-21算至今日08-16）：
 - machine-report修正意見：**已逾期26天**（07-21起無回覆）
 - guide-app anchor升級提案：**已逾期26天**（07-21起無回覆）
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決任一卡點，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
+**產能算術**：active mission數＝0 → 無backlog可推進，今晚4棒預計全秒退，無法推估完成日；解法唯一：裁決任一卡點，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 **合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
