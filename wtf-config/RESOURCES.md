@@ -52,6 +52,25 @@
 
 ---
 
+## 資源：CadQuery CAD 環境（.venv）
+- 用途：程式化建 B-Rep 實體、匯出 STEP／DXF／STL 給廠商加工（OpenCascade 核心）。首用於 3Dstudy 的 FBC 機台 STEP。
+- 性質：**系統專用二進位，約 1.3GB**（OCP 是 OpenCascade 的 Python 綁定）。不可跨機／跨平台複用、不同步，各機各自建。
+- 需 **Python 3.12**（3.14 沒有 OCP wheel），用 uv 指定版本最省事。
+
+| 機器 | OS | 路徑 | 狀態 |
+|---|---|---|---|
+| comaMacBookAir | mac | `~/.venvs/cadquery` | ✅ 可用（Python 3.12, cadquery 2.8.0, OCC 7.9） |
+| Mac.home | mac | `~/.venvs/cadquery` | ⬜ 待建 |
+| DESKTOP-7SF21LR | windows | `%USERPROFILE%\.venvs\cadquery` | ⬜ 待建 |
+
+用法（mac，已建）：`~/.venvs/cadquery/bin/python <script.py>`
+建立方式（新機）：`uv venv --python 3.12 ~/.venvs/cadquery` 後 `VIRTUAL_ENV=~/.venvs/cadquery uv pip install cadquery`。
+
+**已知坑**：OpenCascade 寫 STEP 時會把非 ASCII 名稱雙重編碼（UTF-8 位元組再編一次），CAD 打開是亂碼；
+要在寫檔後把字串改成 STEP 標準的 `\X2\<UTF-16 hex>\X0\` 逸出碼。範例見 3Dstudy `tools/export_fbc_step.py` 的 `fix_step_unicode()`。
+
+---
+
 ## GCP Vertex AI — 帳號／計費／模型（帳號級，跨機通用）
 > 這段與機器無關：綁 Google 帳號的 ADC，任何機器登入同帳號皆可用。**無需 service account key**。
 
