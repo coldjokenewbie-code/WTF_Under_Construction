@@ -270,3 +270,4 @@
 - 3Dstudy｜2026-08-17｜分享包要解壓到別的目錄實跑才算驗過：起伺服器載入每一頁、攔所有非本機請求確認零外部連線、並在解壓目錄直接跑工具腳本，才知道相對路徑與相依檔在對方電腦成不成立｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-08-17｜內網分享的主網址用 IP，mDNS 的 .local 只當備援（Edge 預設的自動 HTTPS 升級／安全 DNS 會擋掉，Safari 可開）；要換好記的名字又不改電腦名稱，用 `dns-sd -P <別名> _http._tcp local <port> <別名>.local <IP>` 做代理註冊｜projects/3Dstudy/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-17｜兩個相乘的不透明度旋鈕讓規格 30% 實看 21%＝業主「看不到」；對外規格必寫實際呈現值。視覺深淺是多輪收斂，每輪只擷圖呈現、等 PO 說採用才 commit＋改規格文件；被否決方案記 TaskLog 防重提｜projects/cowork_CDIC/_context/lessons-learned.md
+- claude_CDIC_O4｜2026-08-17｜Opening 片尾文件畫面七版迭代教訓：①語意先於美學（法規公文語域＝公開莊重光明，暗桌孤燈必被退）；②多版本提案先驗差異可辨性（graded 後亮度兩兩差≥25% 或構圖本身不同）；③低解析掃描件縮小佔比＋景深扛質感；④平面素材體積感＝AI 生成安全背景＋確定性幾何/調光（文字零風險）；⑤Remotion 兩鏡 crossfade 亮度下陷→改單一 Sequence 連續運鏡；⑥PDF 原件優於現場照（pdftoppm 200dpi 完全平正）｜projects/claude_CDIC_O4/_context/lessons-learned.md
