@@ -269,3 +269,4 @@
 - 3Dstudy｜2026-08-17｜cadquery 的 Assembly.add(子組件) 加的是複本，先掛空節點再塞零件會產出「表頭完整但只有 1.6 KB」的空檔且不報錯；驗收要對檔案大小與讀回的實體數設下限，不能只看 exit code｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-08-17｜分享包要解壓到別的目錄實跑才算驗過：起伺服器載入每一頁、攔所有非本機請求確認零外部連線、並在解壓目錄直接跑工具腳本，才知道相對路徑與相依檔在對方電腦成不成立｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-08-17｜內網分享的主網址用 IP，mDNS 的 .local 只當備援（Edge 預設的自動 HTTPS 升級／安全 DNS 會擋掉，Safari 可開）；要換好記的名字又不改電腦名稱，用 `dns-sd -P <別名> _http._tcp local <port> <別名>.local <IP>` 做代理註冊｜projects/3Dstudy/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-17｜兩個相乘的不透明度旋鈕讓規格 30% 實看 21%＝業主「看不到」；對外規格必寫實際呈現值。視覺深淺是多輪收斂，每輪只擷圖呈現、等 PO 說採用才 commit＋改規格文件；被否決方案記 TaskLog 防重提｜projects/cowork_CDIC/_context/lessons-learned.md
