@@ -1,5 +1,10 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-18 (heart-beat skill 新增＋LESSONS.md 合併衝突排除)
+
+* **「加性更新不用先問」不代表「不會衝突」**：`LESSONS.md` 規則允許 nightly／任一 session 直接 append 新教訓行，但兩個並行 session 若同時 append 到檔尾相鄰行，`git pull` 一樣會產生 merge conflict（此例：另一 session 的 claude_CDIC_O4 教訓行跟本 session 稍早重複 append 的簡略版撞在一起）。**因應**：一有 append 就盡快 commit＋push，不要留到 session 尾聲才處理——放越久，跟別的並行 session 撞行的機率越高；真的撞到時，優先採內容較完整、格式較正確的那版，不要各留一份造成重複。
+* **心跳規則若只設計成「呼叫等待/排程工具」會系統性失效**：`/heart-beat` skill 設計時發現，ScheduleWakeup、Monitor 這類工具本身不會產生使用者看得見的文字，若心跳實作依賴這類工具觸發而該回合沒有額外輸出文字，使用者完全看不到任何進度訊號。心跳必須被定義成「回合裡實際打出來的一句話」，工具呼叫本身不算數——這條已直接寫進 skill 本文的「已知失敗模式」，供之後任何定時回報類設計參考。
+
 ## 2026-08-11 (inbox 分流撤回＋ to-codex skill＋ nightly 待決收尾)
 
 * **本機多 session 共用同一 git checkout，未 commit 的 staged 變更會被另一 session 的 commit 意外帶走**：本 session 對 WTF repo 做的 `git mv outputs workingfiles/outputs` + 新增檔案只 `git add` 未 commit，之後另一並行 session（不同 session ID）在同一份本機 checkout 上執行自己的 commit，把我方已 staged 的內容一併吃進它的 commit 裡（commit message 完全無關，實測 diff 內容正確無誤、無資料損失）。WTF_Under_Construction 這個 repo 本身沒有比照 cowork_CDIC 用 git worktree 隔離並行 session；日後若常態多 session 同時碰 WTF repo，應考慮同樣隔離（見 `parallel-worktree.md`），或至少：staged 但未 commit 的變更盡快自己 commit 掉，不要跨對話輪次久放。
