@@ -3,13 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-19 08:30**：昨晚4棒（19:34/21:34/23:34/01:34）全秒退，零增量——與08-18同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app 待核准），非新故障。
-**各 mission 昨晚增量**：machine-report 無、guide-app 無、design-training 無（三案 journal 均無新條目）。
-**待核准/提名清單**（連續第3天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：無新增；逾期未決（自07-21算至今日08-19，**已逾期29天**）——machine-report修正意見、guide-app anchor升級提案。
-**night-relay 領先 main 804 commits**（幾乎全心跳/秒退噪音；08-18 skills 兩筆 W_Doc_Guard/W_colab 已另循 main 收錄，不在待收清單內）。
+**提醒棒 2026-08-19 19:00**：與08-19晨報同一狀態，日間無使用者新指令（merge origin/main 僅帶入 skills 更新：index-this 新增、W_colab 內文改名，QUEUE.md 本身無變化）。QUEUE 仍無待規劃/active 可作項；昨晚4棒（19:34/21:34/23:34/01:34）全秒退零增量。night-relay 領先 main 811 commits（累積未收貨，較晨報+7）。
+**待核准/提名清單**（連續第4天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill（皆待核准轉「待規劃」啟動，後4項另需補掛對應repo）。
+**blockers待決**（逾期天數，自07-21算至今日08-19）：
+- machine-report修正意見：**已逾期29天**（07-21起無回覆）
+- guide-app anchor升級提案：**已逾期29天**（07-21起無回覆）
+**產能算術**：active mission數＝0 → 無backlog可推進，今晚循環棒（19:34/21:34/23:34/01:34）預計全秒退，無法推估完成日；解法唯一：裁決兩條逾期blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 **合併指令（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
 ## 佇列
 
