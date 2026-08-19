@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-20 (GLOBAL：交付即預覽範圍擴大至所有格式)
+
+* **「交付即預覽」不限網頁格式**：規則的適用範圍不應只針對 HTML／網頁——文件、圖檔、影片、音檔等產出同樣需要即時呈現。正確做法：一律用系統預設軟體背景開啟（macOS: `/usr/bin/open`，Windows: `start ""`）；影音不自動播放改在 Finder/檔案總管顯示；批次產出改開資料夾而非逐檔觸發。已更新 `wtf-config/GLOBAL.md`（commit `2e3b2fc`）。
+
 ## 2026-08-18 (heart-beat skill 新增＋LESSONS.md 合併衝突排除)
 
 * **「加性更新不用先問」不代表「不會衝突」**：`LESSONS.md` 規則允許 nightly／任一 session 直接 append 新教訓行，但兩個並行 session 若同時 append 到檔尾相鄰行，`git pull` 一樣會產生 merge conflict（此例：另一 session 的 claude_CDIC_O4 教訓行跟本 session 稍早重複 append 的簡略版撞在一起）。**因應**：一有 append 就盡快 commit＋push，不要留到 session 尾聲才處理——放越久，跟別的並行 session 撞行的機率越高；真的撞到時，優先採內容較完整、格式較正確的那版，不要各留一份造成重複。
