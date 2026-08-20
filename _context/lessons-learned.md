@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-08-20 (output style 討論＋三個新 skill＋SSD 選購協助)
+
+* **skill 改名（`git mv`＋Edit 改 frontmatter）後，一律用 `git show <commit>:<path>` 核對內容，不能只看 `git add`/`git status` 沒報錯**：本 session 內兩次改名（`W_Doc_Guard→W_colab`、`mark-resume→resume-id-info`）都發生同一個模式——`git status --short` 顯示 `RM`（rename detected）、commit 也成功執行無錯誤，但事後用 `git show <commit>:<path>` 核對，commit 裡的 frontmatter/標題內容其實還是改名前的舊版，得再補一個 commit 修正。原因未完全查明，但兩次都重現同一症狀：中間夾了其他工具呼叫（例如跑 `sync_config.py sync`）才做 `git add`。**因應**：改名／整檔覆寫類操作，commit 後務必 `git show HEAD:<path> | head` 核對關鍵行，不能假設 `git add` 沒報錯就代表內容真的進了 commit。
+* **Output style／CLAUDE.md／AGENTS.md 三者強制力相同（都只是提示，非攔截）**：查證官方文件確認 output style 只修改 system prompt、靠模型自律遵守，沒有程式碼層級的攔截能力；跟現行 CLAUDE.md bundle import 機制屬同一層級，只是插入位置與生效時機（`/clear`才生效、單選一種風格）不同。真正的強制攔截只有 hook 能做到（例：`tools/ody/squad/stop_hook.py` 的 Tyrion 禁詞 lint，讀最後一則回覆文字命中禁詞就 block）。**要溝通規則被真的遵守而非只是提醒，得靠 hook，不是靠選對 prompt 放的位置。**
+* **momo/pchome 等 JS 動態載入價格的頁面，WebFetch 抓取不可靠，且不能因為「搜尋結果提及」就當作連結有效**：同一商品頁重複 WebFetch 兩次會抓到不同價格數字；更嚴重的是曾把僅出現在 WebSearch 摘要、未親自開頁確認的商品連結（SanDisk E81）直接列進推薦清單，經使用者要求驗證才發現該連結其實已下架（頁面顯示「商品目前無展售」）。**因應**：涉及金錢決策的推薦清單，每一個連結都要親自 WebFetch 開過確認仍在架，不能只憑 WebSearch 摘要或搜尋結果標題就當作連結有效；價格類動態數字至少重複抓取比對一致才視為可信，單次或前後矛盾的數字要明確標「未驗證/待確認」，不能照樣列出當作定案推薦。
+
 ## 2026-08-20 (GLOBAL：交付即預覽範圍擴大至所有格式)
 
 * **「交付即預覽」不限網頁格式**：規則的適用範圍不應只針對 HTML／網頁——文件、圖檔、影片、音檔等產出同樣需要即時呈現。正確做法：一律用系統預設軟體背景開啟（macOS: `/usr/bin/open`，Windows: `start ""`）；影音不自動播放改在 Finder/檔案總管顯示；批次產出改開資料夾而非逐檔觸發。已更新 `wtf-config/GLOBAL.md`（commit `2e3b2fc`）。

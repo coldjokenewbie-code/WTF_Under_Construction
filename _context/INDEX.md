@@ -1,5 +1,8 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-18
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-20
+
+## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
+- 查證 output style 跟 CLAUDE.md 一樣無強制力，確認 ody-lint Stop hook（Tyrion）不可省略。GLOBAL.md「交付即預覽」擴大到文件/圖檔/影片/音檔，`open` 補 `-g` 背景開啟。新增三個 skill：`W_colab`（共編檔守則）、`index-this`（快速記 INDEX）、`resume-id-info`（手動標記 session 供接續）。**附記：本 session 兩度發生「改名 commit 漏帶內容」，已修正並記教訓**。詳見 `_context/TaskLog_2026-08-20_output-style討論與三個新skill.md`（**當前 TaskLog**）。
 
 ## 2026-08-18 heart-beat skill 新增＋LESSONS.md 合併衝突排除
 - 新增 `/heart-beat` skill（`wtf-config/skills/heart-beat/`），把 AGENTS.md「n 分鐘心跳」規則落成可操作流程，已同步部署到三工具（Claude/Codex/Gemini）。順手排除 `wtf-config/LESSONS.md` 因另一 session 併發 append 造成的 merge conflict，採用較完整版本。詳見 `_context/TaskLog_2026-08-18_heart-beat-skill與LESSONS衝突排除.md`（**當前 TaskLog**）。
