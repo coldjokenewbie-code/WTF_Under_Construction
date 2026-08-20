@@ -13,5 +13,3 @@
 - [x] 2026-07-10 確認部署狀態：2026-07-14 已確認 Windows 部署完成，關閉此項。
 - [x] 2026-08-11 nightly 建議修改全域設定（使用者已核准，2026-08-11 套用）
   - 原建議指 `wtf-config/GLOBAL.md`，但該條目實際位置是 `tools/ai-team/cli-reference.html`（GLOBAL.md 內無此條目，nightly 指錯檔）；已在該檔 agy headless 警告框內補 Mac 平台解法：stdin 進不了模型，改用 `agy --print "<prompt>" --dangerously-skip-permissions` 命令列參數傳入，不需 node-pty。（來源：HsinchuSEC 2026-08-11 session）
-- [ ] 2026-08-13 nightly 建議修改全域設定（待用戶核准）
-  - `wtf-config/projects-registry.md`：3Dstudy 今日出現在 LESSONS.md（2 條教訓，路徑 `projects/3Dstudy/_context/lessons-learned.md`），但尚未登錄於 registry。若有對應 GitHub repo 或本機確定路徑，建議補一列；若為純本機實驗專案（無 remote），標明即可避免 nightly 誤判未掛載。
