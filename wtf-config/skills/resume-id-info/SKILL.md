@@ -1,11 +1,11 @@
 ---
-name: mark-resume
-description: 工作到一半不想中斷（例如 cmux 一直提醒更新、想把背景 session 獨立標出來）時，快速把目前 session id 記進當前 TaskLog，供之後任一新 session 手動接續。用法：/mark-resume [備註]。純手動，不做自動偵測或 hook 提醒。
+name: resume-id-info
+description: 工作到一半不想中斷（例如 cmux 一直提醒更新、想把背景 session 獨立標出來）時，快速把目前 session id 記進當前 TaskLog，供之後任一新 session 手動接續。用法：/resume-id-info [備註]。純手動，不做自動偵測或 hook 提醒。
 ---
 
-# /mark-resume — 標記目前 session 供之後接續
+# /resume-id-info — 標記目前 session 供之後接續
 
-用法：`/mark-resume [備註]`（備註可省略）
+用法：`/resume-id-info [備註]`（備註可省略）
 
 適用情境：工作進行中、還沒到可以 `/session-end` 收尾的段落，但預期可能要中斷這個 process（cmux 提醒更新、想把背景 session 獨立標出來留著之後接）——**由使用者自己判斷是否要標記，不做任何自動偵測**。若已經到一個段落、要正常收尾，直接用 `/session-end`，不用本 skill。
 
