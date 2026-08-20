@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-20 08:30**：昨晚4棒（19:34/21:34/23:34/01:34）全秒退，零增量——連續第5天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app 待核准）。
-**各 mission 昨晚增量**：machine-report 無、guide-app 無、design-training 無、test-baton-pickup-0706 無（四案 journal 均無新條目）。
-**非mission產出**：GLOBAL.md「交付即預覽」範圍擴大（commit 2e3b2fc，08-19 深夜），已由 nightly 棒收錄入 main（commit dd34e17）＋補登 1 條 lesson，不在待收清單內。
-**待核准/提名清單**（連續第5天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**提醒棒 2026-08-20 19:10**：今日日間4棒（19:34/21:34/23:34/01:34，即08-19晚至08-20凌晨）全秒退，零增量——連續第6天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app/test-baton 待核准）。
+**各 mission 今日增量**：machine-report 無、guide-app 無、design-training 無、test-baton-pickup-0706 無（四案 journal 均無新條目，_blockers.md 亦無新增）。
+**非mission產出**：session-end 08-20 收尾（output style 討論＋3個新 skill＋SSD選購紀錄，commit 4e9a43e）＋resume-id-info skill 改名收尾，已由 main 收錄，不在待收清單內。
+**待核准/提名清單**（連續第6天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **blockers**：無新增；逾期未決（自07-21算至今日08-20，**已逾期30天**）——machine-report修正意見、guide-app anchor升級提案。
-**night-relay 領先 main 818 commits**（幾乎全心跳/秒退噪音；skills/GLOBAL文件更新已另循 main 收錄，不在待收清單內）。
+**night-relay 領先 main 826 commits**（幾乎全心跳/秒退噪音；skills/GLOBAL文件更新已另循 main 收錄，不在待收清單內）。
 **合併指令（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期blocker（已逾期30天），或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
