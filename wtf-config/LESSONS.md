@@ -274,3 +274,5 @@
 - claude_CDIC_O4｜2026-08-18｜Deck 牆面透視教訓：①CSS 3D 透視參數不可公式外插，必渲染→像素擬合邊緣斜率→迭代（五輪才貼合目標線）；②與 PO 用「畫線」溝通視覺目標，顏色遮罩擬合線斜率量化再回推參數；③整面平移透視會把邊緣元素推出畫面、逐塊原位旋轉又成折線——把布景切片與內容物放同一透視平面才兩全；④交付檔音量對齊走渲染後 ffmpeg 後製（volumedetect+gain+alimiter），不動 props，跨 session 交接要明說｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - WTF｜2026-08-20｜「交付即預覽」規則擴大：不限網頁，文件/圖/影音也要用系統預設軟體背景開啟，批次產出開資料夾而非逐檔（GLOBAL.md commit 2e3b2fc）｜`_context/lessons-learned.md`（WTF repo）
 - md-editor｜2026-08-20｜File System Access 狀態不能只看路徑：`showSaveFilePicker()` 會給可寫回的 handle，但因安全限制不給絕對路徑，UI 應區分「有路徑」、「只有 handle」、「皆無」；`execCommand('removeFormat')` 只移除行內格式，H1–H6 等區塊結構要另轉成段落，驗收同時斷言 DOM 標籤與 Markdown 不再含 `#` 前綴｜projects/md-editor/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-20｜ElementTree 改 docx 必須保住原始根節點 namespace 並取聯集，產出後跑 LibreOffice 轉 PDF 才算驗收；沒有統計區間與口徑的數字寧可整條不用｜`projects/南科再生水廠/_context/lessons-learned.md`
+- claude_CDIC_O4｜2026-08-18｜影片串接與版面放大教訓：①驗 concat 接點必用 `select=eq(n\,N)` 逐像素比對，`-ss` 會 seek 到關鍵幀而誤判接錯；②有打字動畫的支數抽示意幀取「總幀數 −5」；③字級放大是幾何問題，先讓腳本印出各框結束 y 對照底線再決定，擠空間依序＝行高解耦／段距壓縮／整組上移／文字框加寬；④基準字級不同時等倍率放大不會等大，提案要主動標示｜projects/claude_CDIC_O4/_context/lessons-learned.md
