@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-21 08:30**：昨晚4棒（19:34/21:34/23:34/01:34）全秒退，零增量——連續第9天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app/test-baton 待核准）。
-**各 mission 昨晚增量**：machine-report 無、guide-app 無、design-training 無、test-baton-pickup-0706 無（四案 journal 均無新條目，_blockers.md 亦無新增）。
-**待核准/提名清單**（連續第9天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**提醒棒 2026-08-21 19:08**：今日日間4棒（19:34/21:34/23:34/01:34，即08-20晚至08-21凌晨）全秒退，零增量——連續第10天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app/test-baton 待核准）。
+**各 mission 今日增量**：machine-report 無、guide-app 無、design-training 無、test-baton-pickup-0706 無（四案 journal 均無新條目，_blockers.md 亦無新增）。
+**待核准/提名清單**（連續第10天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **blockers**：無新增；逾期未決（自07-21算至今日08-21，**已逾期31天**）——machine-report修正意見、guide-app anchor升級提案。
-**night-relay 領先 main 834 commits**（幾乎全心跳/秒退噪音；main 昨晚僅1個nightly報告commit，無實質衝突內容）。
-**合併建議（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**night-relay 領先 main 838 commits**（幾乎全心跳/秒退噪音；main 今日僅1個nightly報告commit，無實質衝突內容）。
+**合併指令（收貨＝以下指令）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期31天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
 ## 佇列
