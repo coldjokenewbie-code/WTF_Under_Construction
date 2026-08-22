@@ -263,8 +263,10 @@ def cmd_pretool(event: dict) -> dict | None:
         return deny("WTF protected session path") if protected(event) else None
     if recovery_read(directory, current, manifest, missing, event):
         return None
-    paths = ", ".join(str(Path(current["bundle_path"]) / name) for name in missing)
-    return deny("WTF session receipt missing. To recover, Read the full file(s): " + paths)
+    paths = [str(Path(current["bundle_path"]) / name) for name in missing]
+    listing = "\n".join(f"{i}. {p}" for i, p in enumerate(paths, 1))
+    return deny("WTF session receipt missing. Call Read separately for EACH file below "
+                "(one file_path per Read call, never combine paths in one call, no offset/limit):\n" + listing)
 def response_succeeded(event: dict) -> bool:
     response = event.get("tool_response")
     if response is None:
@@ -292,9 +294,12 @@ def cmd_postread(event: dict) -> None:
 def cmd_stop(event: dict) -> dict | None:
     _, current, _, missing = missing_receipts(event)
     if missing:
-        paths = ", ".join(str(Path(current["bundle_path"]) / name) for name in missing)
+        paths = [str(Path(current["bundle_path"]) / name) for name in missing]
+        listing = "\n".join(f"{i}. {p}" for i, p in enumerate(paths, 1))
         return {"decision": "block",
-                "reason": "全域設定尚未載入，不可結束。立即用 Read 工具完整讀取（不設 offset/limit）：" + paths}
+                "reason": ("全域設定尚未載入，不可結束。請對下列每個檔案「各自」呼叫一次 Read 工具、"
+                           "完整讀取（不設 offset/limit）；一次 Read 只能填一個路徑，不可把多個路徑合併成一次呼叫：\n"
+                           + listing)}
     return None
 def audit_bypass(event: dict) -> None:
     root = home() / ".claude" / "wtf-session-state"
