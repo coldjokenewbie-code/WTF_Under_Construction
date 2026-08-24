@@ -18,3 +18,15 @@
 - **右鍵選單會吞掉指標事件**：右鍵拖曳手勢失效與「右鍵選單一直跳」常是同一個 bug——選單一彈出就接管輸入、攔截後續 pointermove/up。要用右鍵當觸發須先 `document.addEventListener("contextmenu", e=>e.preventDefault())`；kiosk 一律擋掉右鍵選單即可。
 - **手勢中途開啟元素的誤觸**：在 pointermove 途中開啟覆蓋層（抽屜/選單），同一手勢結尾的 pointerup 會落在剛開的元素上、觸發它的 handler（誤選/誤關）。用「一次性旗標」消費下一個 pointerup，別用時間窗（慢速拖曳會超時失效）。
 - **新手勢易撞既有同鍵拖曳**：頁面已有左鍵拖曳（如時間軸）時，新增左鍵手勢會互搶事件；改用右鍵可避開（但須配合上一條擋 contextmenu）。
+
+## 檔案存取（FSA）——存檔預設路徑
+
+規則本文在 `GLOBAL.md`「工作品質底線」的「存檔預設路徑鐵律」。以下是寫法與踩過的坑。
+
+- **預設位置怎麼指**：`showSaveFilePicker({ suggestedName, startIn })`、`showDirectoryPicker({ startIn, mode:'readwrite' })`。`startIn` 收兩種值——先前存下的 `FileSystemHandle`（最精確，直接開在那個資料夾），或具名位置字串 `'documents' | 'downloads' | 'desktop' | 'pictures' | 'music' | 'videos'`。**沒有辦法用字串路徑指定任意資料夾**，這是瀏覽器的安全限制，所以第一次一定得由使用者選一次。
+- **第一次選完就別再問**：把回傳的 handle 存進 IndexedDB（handle 可被 structured-clone），下次直接 `handle.createWritable()` 寫回同一檔；只需先 `handle.requestPermission({mode:'readwrite'})` 確認權限沒過期。同一組 picker 也可帶 `id:'<用途代號'`，瀏覽器會記住該 id 上次開啟的位置。
+- **`startIn` 帶 handle 前要先確認它還活著**：權限被撤銷或檔案被刪後，handle 仍在 IndexedDB 但 `queryPermission` 會回 `prompt`／開啟時丟錯。一律 try/catch，失敗就退回重新選檔，別讓整個存檔流程掛掉。
+- **必須由使用者手勢觸發**：`showSaveFilePicker`／`showDirectoryPicker` 只能在 click 之類的手勢事件裡呼叫。放在 `await` 之後（尤其是先 await 了 IndexedDB 或 fetch）常會失去手勢資格，報 `Failed to execute 'showDirectoryPicker' on 'Window'`／`must be handling a user gesture`。**先開 picker、再做非同步準備**，順序不能顛倒。
+- **同一時間只能開一個 picker**：前一個還沒關就再呼叫會直接丟錯（訊息同上）。按鈕要在開啟期間 disable。
+- **取消不是錯誤**：使用者關掉選擇器會丟 `AbortError`，要靜默處理，不可當成失敗跳警告。
+- **不支援時的降級**：Safari 與多數行動瀏覽器沒有 FSA。降級為 `<a download>` 下載，並在畫面明示「請把檔案放回 ○○ 資料夾」。
