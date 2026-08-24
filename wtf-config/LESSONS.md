@@ -280,3 +280,6 @@
 - claude_CDIC_O4｜2026-08-18｜圖層旗標與白邊判讀教訓（en4k）：①改旗標前先驗素材 alpha（alpha 全 0 的旗標無視覺效果，逐位元 diff 3 分鐘可確認，比試渲快）；②白邊要先排除加法混合層（plus-lighter 投影機光束疊上去的亮點不是框白邊，要對框素材本身的開口外擴環帶做量測）；③搬動他 session 正在寫的輸出檔須三重確認（ps + 間隔取樣檔案大小不變 + lsof 無寫入 handle）；④等比放大文字會兩次放大（字級×行高後斷行增加行數再乘）｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-21｜文案一致性核對的兩個盲點：①知識點本身也要對照最新 PO 裁定（知識點 V02 仍寫舊口徑「再生水廠」，卻被當基準去核對已改「南科工業再生水廠」的文案）；②問句層也犯指標混接，統計類問句與陳述句適用同樣的數據口徑鐵律；③同展區禁止同一意象一詞兩用（游泳池比喻純度，不得再換算產能——訪客會混讀兩個數字）｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-23｜圖面問題先問「誰的問題」再送清單：假字→誰都不用找；資訊未定→找業主；畫錯→找設計端。判錯就把清單送錯人浪費一輪。「缺件」前先請業主指認一次圖上節點對應，比自己猜快得多｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜pkill GUI 列窗鐵律：pkill 整個 GUI 應用前必先 Quartz 列窗確認只有我方檔案（PowerPoint 是全 session 共享行程）；「預告後計時執行」≠授權，破壞性動作（殺行程／刪檔／覆蓋）一律等到明確 ACK 才動，跨 session 有延遲競態｜projects/南科再生水廠/_context/lessons-learned.md
+- 全域（前端）｜2026-08-24｜存檔預設路徑鐵律（PO 裁定）：可存檔/可寫回的程式與網頁，檔案選擇器預設位置一律指向目標資料夾；startIn 只收 handle 或具名位置（不接任意字串路徑）；handle 存 IndexedDB 複查；picker 必須在使用者手勢內呼叫（await 之後失去手勢資格是常見錯誤根因）；使用者若得自己翻資料夾才能存對地方＝沒做完｜`wtf-config/playbooks/pitfalls-frontend.md`（WTF repo）
+- 南科再生水廠（工具層）｜2026-08-24｜docx CT_RPr（w:rPr）子元素順序同理 pptx a:rPr：sz→szCs→highlight→u→… 的 XSD 順序強制，append() 塞 highlight 等元素會破壞順序觸發 Word 修復框；兩種 office 格式同一原則｜`wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo）
