@@ -3,11 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-23 19:06**：`origin/main..origin/night-relay` 領先 855 commits（幾乎全心跳/秒退噪音）；自今晨08:38晨報棒至今（08:40起）zero新增journal/blocker條目，四案（machine-report/guide-app/design-training/test-baton）均無變化——連續第16天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app/test-baton 待核准）。
-**待核准/提名清單**（連續第16天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：無新增；逾期未決（自07-21算至今日08-23，**已逾期33天**）——machine-report修正意見、guide-app anchor升級提案。
-**今晚計畫**：QUEUE無待規劃/active項→循環棒（19:30/21:30/23:30/01:30）將依規秒退，無新增量預期，除非使用者本棒後裁決任一待核准/blocker項。
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期33天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
+**晨報棒 2026-08-24 08:30**：`origin/main..origin/night-relay` 領先 863 commits（幾乎全心跳/秒退噪音）；昨夜（08-23 08:39起至今）僅新增5個commit（1個merge origin/main、4個心跳/秒退：19:07提醒棒快報、19:34/21:34/23:34秒退），零增量——連續第19天同因：QUEUE 無 active mission（machine-report/design-training 皆 parked，guide-app/test-baton 待核准）。
+**各 mission 昨夜增量**：machine-report 無、guide-app 無、design-training 無、test-baton-pickup-0706 無（四案 journal 均無新條目，_blockers.md 亦無新增；證據：`missions/heartbeat.log` 對應時間戳、各案 `journal.md` 最新條目日期未變）。
+**新觀察（非新blocker）**：01:33 台北棒本輪未見對應commit／heartbeat.log條目（近期首次缺席，此前每夜固定4棒19:30/21:30/23:30/01:30皆有記錄）；依 mission-loop.md 第6節，先懷疑額度窗打頂，非QUEUE變化，僅供你參考，下一循環棒若恢復記錄則排除。
+**待核准/提名清單**（連續第19天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers**：無新增；逾期未決（自07-21算至今日08-24，**已逾期34天**）——machine-report修正意見、guide-app anchor升級提案。
+**合併指令（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期34天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
 ## 佇列
 
