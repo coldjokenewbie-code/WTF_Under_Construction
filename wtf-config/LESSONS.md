@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 南科再生水廠 | 2026-08-24 | pptx 修復框四根因（sectionLst 懸空 sldId／timing 樹指向已刪 shape／app.xml 過時快取／rPr 子元素順序）與實開閘（LibreOffice+ElementTree 全過≠PowerPoint 相容，需實際開啟無修復框） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | Claude context-engineering 文章對照：「信任模型判斷力」只適用行為性規則，主觀品味/基礎設施可靠性規則不受影響；模型調度改預設 opus 優先；格式規則要先分清「匯報介面」vs「交付物」兩種情境 | `_context/lessons-learned.md`（WTF repo） |
@@ -278,3 +279,4 @@
 - claude_CDIC_O4｜2026-08-18｜影片串接與版面放大教訓：①驗 concat 接點必用 `select=eq(n\,N)` 逐像素比對，`-ss` 會 seek 到關鍵幀而誤判接錯；②有打字動畫的支數抽示意幀取「總幀數 −5」；③字級放大是幾何問題，先讓腳本印出各框結束 y 對照底線再決定，擠空間依序＝行高解耦／段距壓縮／整組上移／文字框加寬；④基準字級不同時等倍率放大不會等大，提案要主動標示｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-08-18｜圖層旗標與白邊判讀教訓（en4k）：①改旗標前先驗素材 alpha（alpha 全 0 的旗標無視覺效果，逐位元 diff 3 分鐘可確認，比試渲快）；②白邊要先排除加法混合層（plus-lighter 投影機光束疊上去的亮點不是框白邊，要對框素材本身的開口外擴環帶做量測）；③搬動他 session 正在寫的輸出檔須三重確認（ps + 間隔取樣檔案大小不變 + lsof 無寫入 handle）；④等比放大文字會兩次放大（字級×行高後斷行增加行數再乘）｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-21｜文案一致性核對的兩個盲點：①知識點本身也要對照最新 PO 裁定（知識點 V02 仍寫舊口徑「再生水廠」，卻被當基準去核對已改「南科工業再生水廠」的文案）；②問句層也犯指標混接，統計類問句與陳述句適用同樣的數據口徑鐵律；③同展區禁止同一意象一詞兩用（游泳池比喻純度，不得再換算產能——訪客會混讀兩個數字）｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-23｜圖面問題先問「誰的問題」再送清單：假字→誰都不用找；資訊未定→找業主；畫錯→找設計端。判錯就把清單送錯人浪費一輪。「缺件」前先請業主指認一次圖上節點對應，比自己猜快得多｜projects/南科再生水廠/_context/lessons-learned.md
