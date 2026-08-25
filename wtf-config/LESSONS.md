@@ -283,3 +283,4 @@
 - 南科再生水廠｜2026-08-24｜pkill GUI 列窗鐵律：pkill 整個 GUI 應用前必先 Quartz 列窗確認只有我方檔案（PowerPoint 是全 session 共享行程）；「預告後計時執行」≠授權，破壞性動作（殺行程／刪檔／覆蓋）一律等到明確 ACK 才動，跨 session 有延遲競態｜projects/南科再生水廠/_context/lessons-learned.md
 - 全域（前端）｜2026-08-24｜存檔預設路徑鐵律（PO 裁定）：可存檔/可寫回的程式與網頁，檔案選擇器預設位置一律指向目標資料夾；startIn 只收 handle 或具名位置（不接任意字串路徑）；handle 存 IndexedDB 複查；picker 必須在使用者手勢內呼叫（await 之後失去手勢資格是常見錯誤根因）；使用者若得自己翻資料夾才能存對地方＝沒做完｜`wtf-config/playbooks/pitfalls-frontend.md`（WTF repo）
 - 南科再生水廠（工具層）｜2026-08-24｜docx CT_RPr（w:rPr）子元素順序同理 pptx a:rPr：sz→szCs→highlight→u→… 的 XSD 順序強制，append() 塞 highlight 等元素會破壞順序觸發 Word 修復框；兩種 office 格式同一原則｜`wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo）
+- claude_CDIC_O4｜2026-08-24｜清 outputs 前先分辨「名字像過程檔的最新基準」；刪交付級資料夾記可救回窗口；現場更換包標配 md5 清單＋README｜projects 見該專案 _context/lessons-learned.md
