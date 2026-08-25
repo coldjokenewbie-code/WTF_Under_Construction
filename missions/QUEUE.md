@@ -3,14 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-24 19:00**：已進 night-relay 並併 origin/main（帶入 session-gate 修正／pitfalls 文件／lessons，皆與 QUEUE 無關，無衝突）。QUEUE 現況與今晨快報持平：0 active（machine-report/design-training 皆 parked，guide-app/test-baton 待核准），連續第19天同因零增量。
-**待核准/提名清單**（連續第19天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：無新增；逾期未決（自07-21算至今日08-24，**已逾期34天**）——machine-report修正意見、guide-app anchor升級提案。
-**新觀察**：今晨快報記錄的08-24 01:33棒缺席（疑額度窗打頂）尚無法排除，待今晚19:30起首棒觀察是否恢復記錄。
-**合併指令（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期34天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
-**合併指令（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期34天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
+**晨報棒 2026-08-25 08:30**：昨夜（08-24 19:00起）4棒——19:30/21:33循環棒、23:30心跳、01:33循環棒——全數秒退，QUEUE無待規劃/active項，連續第21天零增量（證據：`git log origin/main..origin/night-relay` 077e5db/1d5612f/c6b9110/62da6bf）。前晚缺席疑慮（01:33棒）本次已排除：01:33棒正常留下記錄，非額度窗問題。
+**待核准/提名清單**（連續第21天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers**：無新增；逾期未決（自07-21算至今日08-25，**已逾期35天**）——machine-report修正意見、guide-app anchor升級提案。
+**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期35天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
 ## 佇列
 
