@@ -53,3 +53,17 @@ python-pptx／XML 手改產出的 pptx，LibreOffice 轉檔與 ElementTree 解�
 **參考實作**：南科再生水廠專案 `tools/_shared/pptx_postprocess.py`——`postprocess()` 修①②③（sectionLst 懸空清除、timing 樹清除、app.xml 重算），`verify()` 四查（含①②③＋rPr 子元素順序＋zip 內重複項＋XML 解析），CLI 回傳碼 0＝PASS。跨專案處理 pptx 刪頁／刪 shape／手改 XML 時，優先取用或比照此腳本邏輯，不要重新摸索。
 
 **docx 類比**：同族問題原則相同——刪內容（樣式、編號清單、footnote）後，任何「引用」都要重掃一遍「引用集合 ⊆ 存在集合」，不能只驗刪除動作本身成功。
+
+## pptx 追加兩類坑——段落層順序（無閘可攔）＋ shape id 重複（2026-08-26 南科再生水廠）
+
+**A. `a:endParaRPr` 段落層順序——最危險，8/24 十一項機檢與「PowerPoint 實開無修復框」都攔不到**：
+- 症狀：PowerPoint 開啟該文字框**整框空白**、且**不跳「已修復」對話框**；LibreOffice 轉 PDF 正常、`text_frame.text` 讀得到全文、XML well-formed——全過，只有人眼看得出來。
+- 根因：`CT_TextParagraph` 規定子元素順序＝`a:pPr` →（`a:r`／`a:br`／`a:fld`）＊→ `a:endParaRPr`（必須最後）。改字時「清掉原 run 再 append 新 run」，若該段原本尾端已有 endParaRPr，append 會把新 run 排在 endParaRPr 之後，PowerPoint 嚴格剖析忽略其後所有 run。與 8/24 收錄的 `a:rPr` 屬性層順序同族，只是換到段落層。
+- 正解：填 run 一律 `insert` 在第一個 `a:endParaRPr` 之前；或只改既有 run 的 `a:t` 文字內容，不重建整個段落。
+- 機檢：掃每個 `a:p`，若段內同時有 run 與 `a:endParaRPr`，`a:endParaRPr` 的子元素索引必須大於所有 run 的索引（參考實作＝南科 `tools/_shared/pptx_postprocess.py` 的 `endpara_order_bad`）。
+- 通則：**「同樣寫法在別處沒事」不是寫法正確的證據**——同支腳本改了多處文字框，只有原本帶 endParaRPr 的那幾段中招，其餘沒事只是運氣好（該段原本無 endParaRPr）。
+
+**B. shape id 重複（deepcopy 陷阱）**：用 `deepcopy` 複製既有 shape 產生新元素時會沿用來源 `p:cNvPr/@id`，造成同頁 id 重複，屬 PowerPoint 可能判損毀的一類。deepcopy 後必須指派頁內未使用的新 id。
+- 機檢注意：shape id **只需頁內唯一**，跨頁重號是母檔常態——必須逐 `slideN.xml` 分別檢查，跨頁併池比對會大量誤報（參考實作＝`dup_shape_id`）。
+
+**C. 驗收流程補則**：8/24 收錄的「PowerPoint 實開確認無修復框」不足以攔 A 類（A 類不跳修復框）——實開時必須**逐頁目視自己改過的那幾個文字框**，不能只看有沒有跳對話框。原視窗不重載內容時，用**單頁複本**（刪掉其他頁的副本）開，比全檔複本更快定位問題頁。

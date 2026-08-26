@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 南科再生水廠 | 2026-08-26 | pptx 追加兩類坑：`a:endParaRPr` 段落層順序錯位（PowerPoint 整框空白、不跳修復框，8/24 十一項機檢與實開閘都攔不到，須逐頁目視）；deepcopy shape id 頁內重複（機檢須逐頁比對，跨頁併池會誤報） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | 南科再生水廠 | 2026-08-24 | pptx 修復框四根因（sectionLst 懸空 sldId／timing 樹指向已刪 shape／app.xml 過時快取／rPr 子元素順序）與實開閘（LibreOffice+ElementTree 全過≠PowerPoint 相容，需實際開啟無修復框） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
@@ -284,3 +285,10 @@
 - 全域（前端）｜2026-08-24｜存檔預設路徑鐵律（PO 裁定）：可存檔/可寫回的程式與網頁，檔案選擇器預設位置一律指向目標資料夾；startIn 只收 handle 或具名位置（不接任意字串路徑）；handle 存 IndexedDB 複查；picker 必須在使用者手勢內呼叫（await 之後失去手勢資格是常見錯誤根因）；使用者若得自己翻資料夾才能存對地方＝沒做完｜`wtf-config/playbooks/pitfalls-frontend.md`（WTF repo）
 - 南科再生水廠（工具層）｜2026-08-24｜docx CT_RPr（w:rPr）子元素順序同理 pptx a:rPr：sz→szCs→highlight→u→… 的 XSD 順序強制，append() 塞 highlight 等元素會破壞順序觸發 Word 修復框；兩種 office 格式同一原則｜`wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo）
 - claude_CDIC_O4｜2026-08-24｜清 outputs 前先分辨「名字像過程檔的最新基準」；刪交付級資料夾記可救回窗口；現場更換包標配 md5 清單＋README｜projects 見該專案 _context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜文案總表線：正式提交版唯讀（轉達「改什麼」≠授權「改哪份」）；繁中字體生效的是 theme `script="Hant"` 非 `<a:ea>`；LibreOffice 驗不到字體；Excel 存檔把 theme 展開成顯式字體名；子代理漏列須用手法欄複驗（別人的結論不帶你的前提）；展場主標題先索取標竿句校準語體；官方頁面異動日≠內容時點；業主嚴審數字連量詞動詞都回抄原文；程式繪圖「跑通」≠「版面可用」｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜pptx 母檔刪頁留五類殘留（僅 PowerPoint 判損毀，LibreOffice/ElementTree 全過）；連接線要修 xfrm 與 stCxn 兩層；轉檔輸出到全新資料夾並確認 pdf mtime 晚於 pptx 才採信（防 stale PDF 誤判）｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜流程層返工：區間替換前確認區間內無其他輪加入的物；自檢方法本身要能證明結論（逐 run 查 XML 片段，不引用計數器）；凍結期不動交付檔｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-20｜擬真地形地圖：知識文件地圖不能用 AI 生成（地形偽造）；空間假設要量化不能用位置相對條件；底圖越擬真示意線位警語越重要；OSM 查不到的東西不自己編座標｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜用語兩層制（PO 裁定）：畫面實際出現的字落文案總表；提報敘述用展示文案；設計行話不進業主文件；界線隨設計階段移動（腳本段名現階段是提報代稱）｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-24｜pptx 補充：交付後 open -g 重開會自我鎖檔（多輪迭代期間改完只通知、由 PO 開檔）；示意圖內文字也是「輸出文字」適用文案總表｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-25｜擬真合成圖：素材天花板高於合成技法（換素材勝過打磨合成參數）；派工前先查清執行者全部能力（codex/agy 有影像生成，勿擴大解讀禁令）；agy 影像生成：`agy --print "<prompt>"`，產物在 `~/.gemini/antigravity-cli/brain/<uuid>/`；每版視覺需 fresh-context 獨立驗收；交付預覽制度改做 HTML 頁開啟（PO 260825 裁定）｜projects/南科再生水廠/_context/lessons-learned.md
