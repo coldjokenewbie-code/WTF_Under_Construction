@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-26 19:00**：併 origin/main 無衝突（吃入 session-logs/20260826.md＋LESSONS 兩條＋pitfalls-office-docs 一條）。QUEUE 現況與今晨快報完全持平，連續第24天零增量（今日循環棒尚未跑，晚間仍會秒退——QUEUE 無 待規劃/active 項）。
-**待核准/提名清單**（連續第24天無變化）：待核准×2——20260706-guide-app（主題方向已裁A，剩氛圍底圖/縮圖風格待重拍裁決＋anchor升級提案待裁決）、test-baton-pickup-0706（backlog全勾，建議直接結案）；提名×5——ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：無新增；逾期未決（自07-21算至今日08-26，**已逾期36天**）——machine-report修正意見、guide-app anchor升級提案。
+**晨報棒 2026-08-27 08:30**：origin/main..origin/night-relay 領先 892 commits（多為長期未合併累積，非僅昨晚）；merge-base 後 main 側僅多 1 個新 commit（`162572a`），兩側無檔案衝突風險，可安全合併。
+**Mission-loop 循環棒**：昨夜 19:00 後 4 棒（19:33/21:34/23:34/01:35）全數秒退，QUEUE 無 待規劃/active 項，**連續第26天零增量**，無 mission 增量可報。
+**昨晚真實內容**（來自獨立 nightly 管線，非 mission-loop）：`6d6a317` pitfalls-office-docs 新增 2 坑（pptx endParaRPr 段落順序／shape id 重複）——證據：`wtf-config/playbooks/pitfalls-office-docs.md`；main 側 `162572a` 南科再生水廠 TCC-1743 PowerPoint 無法關窗教訓——證據：`wtf-config/LESSONS.md`、`session-logs/20260827.md`。
+**blockers**：無新增；逾期未決仍 2 條，自07-21起算**已逾期37天**——machine-report修正意見、guide-app anchor升級提案。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
-**產能算術**：active mission數＝0 → 無backlog可推進，無法推估完成日；解法唯一：裁決兩條逾期36天blocker，或核准 guide-app/test-baton 待核准項，或核准提名轉待規劃。
 
 ## 佇列
 
