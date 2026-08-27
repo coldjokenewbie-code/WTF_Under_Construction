@@ -295,3 +295,4 @@
 - 南科再生水廠｜2026-08-25｜擬真合成圖：素材天花板高於合成技法（換素材勝過打磨合成參數）；派工前先查清執行者全部能力（codex/agy 有影像生成，勿擴大解讀禁令）；agy 影像生成：`agy --print "<prompt>"`，產物在 `~/.gemini/antigravity-cli/brain/<uuid>/`；每版視覺需 fresh-context 獨立驗收；交付預覽制度改做 HTML 頁開啟（PO 260825 裁定）｜projects/南科再生水廠/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-27｜未決事項摘要層不會自己銷項：INDEX 主題段舊 🔴 註記照抄會報出早已結案的死條目，改設「未決唯一入口」節並逐條回驗；長 TaskLog（>300 行）不可只讀開頭，未決多在檔尾｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-27｜勾選類網頁存檔預設落「文件」＝沒做完（PO 裁定）：FSA 無法指定任意資料夾，改用 id＋既有 handle＋「複製資料夾路徑」配 ⌘⇧G；handle 須載入時預讀，click 內才 await 會失去手勢資格｜projects/cowork_CDIC/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-26｜主題9.1 三輪改版：交付預覽 `open -g` 會讓 PowerPoint 重寫正式檔、下一輪 BASE_MD5 必失效（同輪續改時預覽留最後）；母檔留白欄位的 a:p 只含 `<a:endParaRPr/>`＝append run 必踩整框空白坑；要格式一致就 deepcopy 姊妹檔整個 a:p 換字；直式素材進橫式格位＝版面決策先問 PO；裁切線用非背景像素逐列投影量測、優化前先量收益｜projects/南科再生水廠/_context/lessons-learned.md
