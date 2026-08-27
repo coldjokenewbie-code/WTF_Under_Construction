@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 南科再生水廠 | 2026-08-26 | macOS TCC -1743：AI 無法程式化關閉 PowerPoint 視窗（Apple Events 被擋）；只能刪檔、視窗殘留；驗證複本加醒目前綴、刪後請 PO 手動關窗；pkill 仍受禁殺鐵律；待 PO 開通 TCC 授權才可關窗 | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-08-26 | pptx 追加兩類坑：`a:endParaRPr` 段落層順序錯位（PowerPoint 整框空白、不跳修復框，8/24 十一項機檢與實開閘都攔不到，須逐頁目視）；deepcopy shape id 頁內重複（機檢須逐頁比對，跨頁併池會誤報） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | 南科再生水廠 | 2026-08-24 | pptx 修復框四根因（sectionLst 懸空 sldId／timing 樹指向已刪 shape／app.xml 過時快取／rPr 子元素順序）與實開閘（LibreOffice+ElementTree 全過≠PowerPoint 相容，需實際開啟無修復框） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
@@ -292,3 +293,6 @@
 - 南科再生水廠｜2026-08-24｜用語兩層制（PO 裁定）：畫面實際出現的字落文案總表；提報敘述用展示文案；設計行話不進業主文件；界線隨設計階段移動（腳本段名現階段是提報代稱）｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-24｜pptx 補充：交付後 open -g 重開會自我鎖檔（多輪迭代期間改完只通知、由 PO 開檔）；示意圖內文字也是「輸出文字」適用文案總表｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-25｜擬真合成圖：素材天花板高於合成技法（換素材勝過打磨合成參數）；派工前先查清執行者全部能力（codex/agy 有影像生成，勿擴大解讀禁令）；agy 影像生成：`agy --print "<prompt>"`，產物在 `~/.gemini/antigravity-cli/brain/<uuid>/`；每版視覺需 fresh-context 獨立驗收；交付預覽制度改做 HTML 頁開啟（PO 260825 裁定）｜projects/南科再生水廠/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-27｜未決事項摘要層不會自己銷項：INDEX 主題段舊 🔴 註記照抄會報出早已結案的死條目，改設「未決唯一入口」節並逐條回驗；長 TaskLog（>300 行）不可只讀開頭，未決多在檔尾｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-27｜勾選類網頁存檔預設落「文件」＝沒做完（PO 裁定）：FSA 無法指定任意資料夾，改用 id＋既有 handle＋「複製資料夾路徑」配 ⌘⇧G；handle 須載入時預讀，click 內才 await 會失去手勢資格｜projects/cowork_CDIC/_context/lessons-learned.md
+- 南科再生水廠｜2026-08-26｜主題9.1 三輪改版：交付預覽 `open -g` 會讓 PowerPoint 重寫正式檔、下一輪 BASE_MD5 必失效（同輪續改時預覽留最後）；母檔留白欄位的 a:p 只含 `<a:endParaRPr/>`＝append run 必踩整框空白坑；要格式一致就 deepcopy 姊妹檔整個 a:p 換字；直式素材進橫式格位＝版面決策先問 PO；裁切線用非背景像素逐列投影量測、優化前先量收益｜projects/南科再生水廠/_context/lessons-learned.md
