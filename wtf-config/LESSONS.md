@@ -293,3 +293,5 @@
 - 南科再生水廠｜2026-08-24｜用語兩層制（PO 裁定）：畫面實際出現的字落文案總表；提報敘述用展示文案；設計行話不進業主文件；界線隨設計階段移動（腳本段名現階段是提報代稱）｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-24｜pptx 補充：交付後 open -g 重開會自我鎖檔（多輪迭代期間改完只通知、由 PO 開檔）；示意圖內文字也是「輸出文字」適用文案總表｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-08-25｜擬真合成圖：素材天花板高於合成技法（換素材勝過打磨合成參數）；派工前先查清執行者全部能力（codex/agy 有影像生成，勿擴大解讀禁令）；agy 影像生成：`agy --print "<prompt>"`，產物在 `~/.gemini/antigravity-cli/brain/<uuid>/`；每版視覺需 fresh-context 獨立驗收；交付預覽制度改做 HTML 頁開啟（PO 260825 裁定）｜projects/南科再生水廠/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-27｜未決事項摘要層不會自己銷項：INDEX 主題段舊 🔴 註記照抄會報出早已結案的死條目，改設「未決唯一入口」節並逐條回驗；長 TaskLog（>300 行）不可只讀開頭，未決多在檔尾｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-08-27｜勾選類網頁存檔預設落「文件」＝沒做完（PO 裁定）：FSA 無法指定任意資料夾，改用 id＋既有 handle＋「複製資料夾路徑」配 ⌘⇧G；handle 須載入時預讀，click 內才 await 會失去手勢資格｜projects/cowork_CDIC/_context/lessons-learned.md
