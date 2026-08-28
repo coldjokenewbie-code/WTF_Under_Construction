@@ -3,12 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-27 19:00**：佇列現況 parked×2／待核准×2／done×2／提名×5，無 待規劃/active 項，**連續第26天零增量**（今晚循環棒 4 棒預期全數秒退，除非使用者先動 QUEUE）。
-**待核准清單**：20260706-guide-app（優先2）——剩餘卡點：氛圍底圖/縮圖/hero照風格統一路線待重拍截圖後裁決＋anchor升級提案（字級收斂/元件一致性驗收方法論）待裁決，均見該 mission `_blockers.md`；test-baton-pickup-0706（優先9）——backlog 全勾，僅探針性質，建議使用者直接改 `done` 或刪列，無需續跑。
-**提名清單**（5項，狀態=提名，棒子不碰，改「待規劃」即啟動）：ody-evidence-gate（tools/ody 完成證據機檢＋pytest，WTF 內可作）；southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill——**均待掛載對應 repo**（SouthLibrary／cowork_CDIC／S-reclaimed-water-plant／ppt_map_mark），掛載前無法啟動。
-**blockers 待決**（自 2026-07-21 起算，**已逾期37天**未獲使用者回覆）：20260706-machine-report——驗收未過，待使用者補充具體修正意見（內容方向 vs 文字/視覺問題，二選一才能對應小修或整篇重寫）；20260706-guide-app——anchor 升級提案是否採納。
-**產能算術**：目前 active mission 數＝0，可推進 backlog 項數＝0；今晚循環棒排定 4 棒（19:30/21:30/23:30/01:30），若使用者不動 QUEUE，預計今晚產出＝0 增量；20260706-guide-app 一經核准（改 active），仍卡在上述 2 項使用者裁決點（非 backlog 可代跑項），故核准動作本身不足以起算完成日，需先補裁決。
-**blockers**：無新增；逾期未決仍 2 條，自07-21起算**已逾期37天**——machine-report修正意見、guide-app anchor升級提案。
+**晨報棒 2026-08-28 08:30**：昨夜循環棒 4 棒（19:34/21:34/23:33/01:33）全數秒退，QUEUE **連續第28天零增量**（無 待規劃/active 項，現況與08-27 19:00快報持平：parked×2／待核准×2／done×2／提名×5）。chain-capability 探測連續 FAIL（CronCreate durable 參數仍明寫 session-only），PASS 計數仍為0。
+**mission 昨夜增量**：0（無 active mission 可推進）。證據：`missions/heartbeat.log` 08-27 19:34～08-28 01:33 四行；無執行棒觸發，各 mission journal 無新條目。
+**blockers 新增項**：無新增；原2條逾期未決，自2026-07-21起算**已逾期38天**——(1) 20260706-machine-report 待使用者補充具體修正意見（內容方向 vs 文字/視覺問題）；(2) 20260706-guide-app anchor升級提案是否採納。
+**旁支（非mission-loop）**：nightly管線另跑一筆「安靜日」記錄（GLOBAL存檔鐵律強化＋主題9.1 lesson索引入庫），與mission佇列無關，不影響上述增量統計。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
