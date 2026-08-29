@@ -3,12 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-08-29 08:30**：昨夜4循環棒（19:33/21:34/23:33/01:33）全秒退零增量，**連續第30天零增量**（QUEUE無待規劃/active項，現況：parked×2／待核准×2／done×2／提名×5，日間無新派工）。
-**各mission增量**：0件——無active/待規劃項可推進，無mission動工。
-**證據位置**：`missions/heartbeat.log` 尾4行（19:33/21:34/23:33/01:33台北）；journal 無新條目。
-**新blockers**：0條——`machine-report`／`guide-app` 兩條卡點仍未變化，累計逾期**39天**（自2026-07-21起算）。
+**提醒棒 2026-08-29 19:00**：佇列無任務，今晚循環棒將秒退；派工請在 main 的 QUEUE.md 加一行。
+**現況**：parked×2／待核准×2／done×2／提名×5（0 待規劃／0 active）——連續第30天零增量延續中。
+**待核准清單**：`20260706-guide-app`（優先2，等使用者裁決氛圍底圖/縮圖/hero照風格統一路線）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案）。
+**提名清單（候選，未核准不動）**：`ody-evidence-gate`／`southlibrary-fonts`（需掛SouthLibrary）／`cowork-c-tasks`（需掛cowork_CDIC）／`sreclaim-verify-b`（需掛S-reclaimed-water-plant）／`pptmap-skill`（需掛ppt_map_mark）。
+**blockers待決**：`machine-report`——使用者裁決「驗收未過，暫時擱置」尚未補充具體修正意見，逾期**39天**（自2026-07-21）；`guide-app`——氛圍底圖/縮圖/hero照風格統一路線待重拍截圖後裁決＋定錨升級提案待回覆（均自2026-07-09起未變化）。
+**產能算術**：active案0件，無backlog可推算；今晚排定循環棒4根（19:30/21:30/23:30/01:30）在無待規劃/active項下將全數秒退，預計完成日＝無法估算（待使用者核准`guide-app`或新派工後才重啟推進）。
 **chain-capability**：續FAIL（CronCreate durable 參數仍明寫 no effect/session-only）。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
 
