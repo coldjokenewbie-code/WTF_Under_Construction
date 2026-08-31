@@ -298,3 +298,6 @@
 - 南科再生水廠｜2026-08-26｜主題9.1 三輪改版：交付預覽 `open -g` 會讓 PowerPoint 重寫正式檔、下一輪 BASE_MD5 必失效（同輪續改時預覽留最後）；母檔留白欄位的 a:p 只含 `<a:endParaRPr/>`＝append run 必踩整框空白坑；要格式一致就 deepcopy 姊妹檔整個 a:p 換字；直式素材進橫式格位＝版面決策先問 PO；裁切線用非背景像素逐列投影量測、優化前先量收益｜projects/南科再生水廠/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-08-28｜擷圖驗收要直接驗比例，不要只驗亮度標準差：比例錯誤的截圖（如 16:9 塞進直式框）標準差仍落在健康範圍，機檢完全抓不到；驗收須在擷圖後立即比對實際寬高比與設計比例，不符即報錯｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-08-28｜產生器輸出鎖：對已交付的輸出檔加鎖（存在即中止），防止覆蓋業主已批註版本；要重生須先移走既有檔案，或以 FORCE_REBUILD=1 明示覆蓋；留一個顯式開關比靠人記「不能重跑」可靠，多 session 協作時後手不知情是常態｜projects/claude_CDIC_O4/_context/lessons-learned.md
+- Planner2Line｜2026-08-28｜螢幕座標點擊前要驗該點最上層視窗是誰（Outlook 提醒遮住 LINE 導致靜默失敗）｜projects/Planner2Line/_context/lessons-learned.md
+- Planner2Line｜2026-08-28｜會自動回寫的 UI 禁用「選取→另按套用」兩步式（輪詢抹掉中間態）｜projects/Planner2Line/_context/lessons-learned.md
+- Planner2Line｜2026-08-28｜unittest.main() 之後 append 的測試類不會跑，核對 Ran N 條數｜projects/Planner2Line/_context/lessons-learned.md
