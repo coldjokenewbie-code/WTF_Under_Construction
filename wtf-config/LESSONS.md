@@ -301,3 +301,8 @@
 - Planner2Line｜2026-08-28｜螢幕座標點擊前要驗該點最上層視窗是誰（Outlook 提醒遮住 LINE 導致靜默失敗）｜projects/Planner2Line/_context/lessons-learned.md
 - Planner2Line｜2026-08-28｜會自動回寫的 UI 禁用「選取→另按套用」兩步式（輪詢抹掉中間態）｜projects/Planner2Line/_context/lessons-learned.md
 - Planner2Line｜2026-08-28｜unittest.main() 之後 append 的測試類不會跑，核對 Ran N 條數｜projects/Planner2Line/_context/lessons-learned.md
+- attendance-dashboard｜2026-08-28｜控件會不會被擋看 z-order 不看幾何重疊：多餘的縮寬預防造成手機標題被裁，桌機 Studio 看不出來｜projects/attendance-dashboard/_context/lessons-learned.md
+- attendance-dashboard｜2026-08-28｜改既有流程的基準必須是「當下 Portal 匯出檔」，不是 repo 上一版匯入包：拿舊包會把使用者已刪的內容悄悄改回去｜projects/attendance-dashboard/_context/lessons-learned.md
+- attendance-dashboard｜2026-08-28｜改 JSON 用文字級 replace，不要整份重新序列化：否則失去「除改動處外位元相同」的自證能力｜projects/attendance-dashboard/_context/lessons-learned.md
+- attendance-dashboard｜2026-08-28｜統計判定欄位會被現場悄悄廢棄（行政停用 @@ 導致未加班總數恆為 0）：改統計文案前先問「這欄現在還有人填嗎」，describe 你真的量到的東西、不要 assert 沒量的｜projects/attendance-dashboard/_context/lessons-learned.md
+- attendance-dashboard｜2026-08-28｜下拉選項清單常被複製到第二處（txtNote.Default 的 LookUp），加選項前先全檔搜該串清單｜projects/attendance-dashboard/_context/lessons-learned.md
