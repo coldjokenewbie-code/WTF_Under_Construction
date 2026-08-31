@@ -306,3 +306,6 @@
 - attendance-dashboard｜2026-08-28｜改 JSON 用文字級 replace，不要整份重新序列化：否則失去「除改動處外位元相同」的自證能力｜projects/attendance-dashboard/_context/lessons-learned.md
 - attendance-dashboard｜2026-08-28｜統計判定欄位會被現場悄悄廢棄（行政停用 @@ 導致未加班總數恆為 0）：改統計文案前先問「這欄現在還有人填嗎」，describe 你真的量到的東西、不要 assert 沒量的｜projects/attendance-dashboard/_context/lessons-learned.md
 - attendance-dashboard｜2026-08-28｜下拉選項清單常被複製到第二處（txtNote.Default 的 LookUp），加選項前先全檔搜該串清單｜projects/attendance-dashboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-09-01｜沙盒 App 存檔對話框裡切換輸入來源會讓 IMK session 被拆掉，輸入法完全收不到按鍵（系統競態，所有輸入法都中招）｜projects/phonic_keyboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-09-01｜IMKInputController 對 flagsChanged 回傳 true 擋不住系統的中／英鍵語系切換，要讓系統放手只能拿掉 Info.plist 的 TICapsLockLanguageSwitchCapable 或關系統設定｜projects/phonic_keyboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-09-01｜請使用者實測前要先用可機檢方式確認前置設定真的生效，否則測到的是另一個組合、還會讓使用者體感愈修愈壞｜projects/phonic_keyboard/_context/lessons-learned.md
