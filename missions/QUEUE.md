@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-08-30 19:05**：QUEUE 無 `待規劃`/`active` 項（parked×2／待核准×2／done×2／提名×5），**連續第33天零增量**狀態未變。
-**待核准清單**：`20260706-guide-app`（優先2，M1裁決已完成，僅剩 anchor 升級提案待裁決）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接改 `done` 或刪列，無需續跑）。
-**提名清單（5，需先「待規劃」才會被規劃棒接手）**：`ody-evidence-gate`／`southlibrary-fonts`（需掛 SouthLibrary）／`cowork-c-tasks`（需掛 cowork_CDIC）／`sreclaim-verify-b`（需掛 S-reclaimed-water-plant）／`pptmap-skill`（需掛 ppt_map_mark）。
-**blockers 待決**：`machine-report`（parked，使用者驗收未過但未附具體修改點，待補充，逾期40天）／`guide-app`（anchor升級提案待裁決，逾期40天）／`design-training`（parked，本週雲端無可作項＝僅本機案例包，非待裁決卡點）。
-**產能算術**：0 個 active mission，backlog 剩餘可推進項＝0；今晚排定循環棒4根（19:30/21:30/23:30/01:30），以「無 active 項即秒退」規則，預計今晚4棒仍全數零增量——除非本快報後使用者核准 `guide-app`／`test-baton-pickup-0706` 其一改 active，或將任一「提名」改「待規劃」開規劃棒。
+**晨報棒 2026-08-31 08:30**：昨夜4循環棒（19:33/21:33/23:34/01:33）全秒退零增量，**連續第36天零增量**（QUEUE無待規劃/active項，現況：parked×2／待核准×2／done×2／提名×5，日間無新派工）。
+**各mission增量**：0件——無active/待規劃項可推進，無mission動工。
+**證據位置**：`missions/heartbeat.log` 尾4行（19:33/21:33/23:34/01:33台北）；journal 無新條目。main側僅`0f2c400`（nightly無人工活動session log入庫），非mission產出。
+**新blockers**：0條——`machine-report`／`guide-app` 兩條卡點仍未變化，累計逾期**41天**（自2026-07-21起算）。
+**chain-capability**：無新探測（無active mission觸發首棒探測），沿用上次FAIL。
+**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
