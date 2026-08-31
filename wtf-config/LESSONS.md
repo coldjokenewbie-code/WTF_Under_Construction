@@ -309,3 +309,4 @@
 - phonic_keyboard｜2026-09-01｜沙盒 App 存檔對話框裡切換輸入來源會讓 IMK session 被拆掉，輸入法完全收不到按鍵（系統競態，所有輸入法都中招）｜projects/phonic_keyboard/_context/lessons-learned.md
 - phonic_keyboard｜2026-09-01｜IMKInputController 對 flagsChanged 回傳 true 擋不住系統的中／英鍵語系切換，要讓系統放手只能拿掉 Info.plist 的 TICapsLockLanguageSwitchCapable 或關系統設定｜projects/phonic_keyboard/_context/lessons-learned.md
 - phonic_keyboard｜2026-09-01｜請使用者實測前要先用可機檢方式確認前置設定真的生效，否則測到的是另一個組合、還會讓使用者體感愈修愈壞｜projects/phonic_keyboard/_context/lessons-learned.md
+- phonic_keyboard｜2026-09-01｜修飾鍵要讀狀態不要記邊緣：用 IOKit 清大寫鎖定去配合 toggle 邏輯會與系統狀態機失步，每隔一次按下就不切換｜projects/phonic_keyboard/_context/lessons-learned.md
