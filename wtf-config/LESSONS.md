@@ -314,3 +314,7 @@
 - cowork_CDIC｜2026-09-02｜防覆蓋不能用內容比對：無基準時放行、把手改版當基準後相同也放行，兩個失敗模式怎麼寫都會中一個；要用明確鎖定清單＋檔名 W_ 前綴｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-02｜搬資料夾三類漏網面：被搬檔案的內文、靠 parents[N] 算根目錄的腳本、同夾內產生器輸出常數；搬完要掃全專案不是只掃來源目錄｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-02｜機檢只證明「不是空白」證不了「構圖對」：橫式版面用直式視窗擷圖，灰階標準差仍健康但畫面全錯，要驗輸出圖寬高比｜projects/cowork_CDIC/_context/lessons-learned.md
+- 國圖南｜2026-09-02｜不要用 openpyxl 回寫使用者的 xlsx：沒有 drawings 一樣會整包重寫，掉 customXml／sharedStrings／phoneticPr／命名空間，Excel 報錯；改走 zip 層只換要改的 part｜projects/國圖南/_context/lessons-learned.md
+- 國圖南｜2026-09-02｜Office 檔驗收要看 zip part 級差異（清單一致→逐 part 比對→只有預期 part 變動），「儲存格讀得回來」證明不了檔案沒壞｜projects/國圖南/_context/lessons-learned.md
+- 國圖南｜2026-09-02｜「中文改寫、英文盡量不動」類需求：未標改動的英文片段要能逐字比對回原文才算過關；原稿的中英不一致要標進備註欄，不要順手改掉｜projects/國圖南/_context/lessons-learned.md
+- 國圖南｜2026-09-02｜多 agent 並行改同一個 xlsx：subagent 只產 JSON payload，由主 agent 統一寫入，否則互相覆蓋｜projects/國圖南/_context/lessons-learned.md
