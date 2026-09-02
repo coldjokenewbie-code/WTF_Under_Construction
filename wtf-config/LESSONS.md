@@ -311,3 +311,6 @@
 - phonic_keyboard｜2026-09-01｜請使用者實測前要先用可機檢方式確認前置設定真的生效，否則測到的是另一個組合、還會讓使用者體感愈修愈壞｜projects/phonic_keyboard/_context/lessons-learned.md
 - phonic_keyboard｜2026-09-01｜修飾鍵要讀狀態不要記邊緣：用 IOKit 清大寫鎖定去配合 toggle 邏輯會與系統狀態機失步，每隔一次按下就不切換｜projects/phonic_keyboard/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-01｜文案風格線：說「查無出處」前要往回追舊版來源欄（改版漏掉來源比漏掉內容更難察覺）；為某主題做頁面取材限該主題〔展示內容〕，文案已標好邊界；〔相關圖說〕既有圖優先沿用不自製；open -g 預覽會讓 PowerPoint 重寫檔案、BASE_MD5 連環失效且需 read-back 才可更新基準；驗證改 LibreOffice headless（PowerPoint 複本視窗關不掉會干擾 PO）｜projects/南科再生水廠/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-02｜防覆蓋不能用內容比對：無基準時放行、把手改版當基準後相同也放行，兩個失敗模式怎麼寫都會中一個；要用明確鎖定清單＋檔名 W_ 前綴｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-02｜搬資料夾三類漏網面：被搬檔案的內文、靠 parents[N] 算根目錄的腳本、同夾內產生器輸出常數；搬完要掃全專案不是只掃來源目錄｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-02｜機檢只證明「不是空白」證不了「構圖對」：橫式版面用直式視窗擷圖，灰階標準差仍健康但畫面全錯，要驗輸出圖寬高比｜projects/cowork_CDIC/_context/lessons-learned.md
