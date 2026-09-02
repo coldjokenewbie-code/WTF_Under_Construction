@@ -3,12 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-01 19:20**：QUEUE無待規劃/active項，**連續第37天零增量**（現況：parked×2／待核准×2／done×2／提名×5，日間無新派工）。
-**待核准清單**：`20260706-guide-app`（優先2，待重拍截圖裁決氛圍底圖/縮圖/hero風格統一路線）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案改done或刪列）。
-**提名清單（5，未核准前棒子不碰）**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——改「待規劃」即可啟動規劃棒。
-**Blockers待決**：`machine-report` 使用者驗收未過但未附具體修改點，累計逾期**42天**（自2026-07-21起算，parked中）；`guide-app` 氛圍底圖/縮圖/hero風格路線待重拍截圖後裁決；`design-training` 案例包依裁決僅限本機，雲端本週無可作項（非新卡點）。
-**產能算術**：現況0個active mission，今晚循環棒（19:33/21:33/23:33/01:33台北）依規將全數秒退，預計增量0項——**無可推算完成日**；待使用者核准上列任一項目後才會有算術可報。
-**chain-capability**：連續PASS計數0（CronCreate durable參數仍明寫「Has no effect — durable persistence is not available」）。
+**晨報棒 2026-09-02 08:30**：昨夜4循環棒（19:34/21:36/23:33/01:33台北）全秒退零增量，**連續第38→39天零增量**（QUEUE無待規劃/active項，現況：parked×2／待核准×2／done×2／提名×5，日間無新派工）。
+**各mission增量**：0件——無active/待規劃項可推進，無mission動工。
+**證據位置**：`missions/heartbeat.log` 尾4行（19:34/21:36/23:33/01:33台北）；main側 `afe17b8`（LESSONS.md新增1行：南科再生水廠文案風格線）經merge(`6c8f14a`)已於昨日提醒棒前入night-relay，非mission-loop本身產出，非本棒新增。
+**新blockers**：0條——`machine-report`（逾期**43天**，自2026-07-21起算）／`guide-app`（風格路線待重拍截圖裁決）／`design-training`（本機限定續跳過）三條均無變化。
+**chain-capability**：續FAIL，連續PASS計數仍為0（CronCreate durable參數無效未變）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
