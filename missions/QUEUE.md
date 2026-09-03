@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-02 19:12**：QUEUE無待規劃/active項（整欄精確相等），現況：parked×2／待核准×2／done×2／提名×5，日間無新派工，**連續第39天零增量持續中**（今晚循環棒19:30/21:30/23:30/01:30台北大機率全數秒退）。
-**待核准清單**（2項，等使用者改active）：`20260706-guide-app`（優先序2，M2界達成，剩餘卡點=氛圍底圖/縮圖/hero照風格路線待重拍截圖裁決＋anchor升級提案）／`test-baton-pickup-0706`（優先序9，探針backlog全勾，建議直接結案）。
-**提名清單**（5項，等使用者改待規劃）：`ody-evidence-gate`／`southlibrary-fonts`（需掛SouthLibrary）／`cowork-c-tasks`（需掛cowork_CDIC）／`sreclaim-verify-b`（需掛S-reclaimed-water-plant）／`pptmap-skill`（需掛ppt_map_mark）——後4項來源repo均未掛載本環境。
-**blockers待決**（3條，均無變化）：`machine-report`（逾期**43天**，自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行，雲端固定跳過）。
-**產能算術（義務）**：0個active案，剩餘backlog項數=0（可推進），今晚排定4棒，預計完成日=無法推算（無active項）——佇列停滯純屬「待核准/提名」未被使用者轉態，非執行力不足。
-**chain-capability**：續FAIL，連續PASS計數仍為0（CronCreate durable參數無效未變）。
+**晨報棒 2026-09-03 08:30**：昨夜4循環棒（19:30/21:33/23:30/01:33台北）全秒退，QUEUE無待規劃/active項，**連續第40天零增量**。
+**各mission昨夜增量**：0個active案可推進，全案零增量；main側merge帶入LESSONS.md索引更新（cowork_CDIC三條＋國圖南4條）與session-log，非mission產出。
+**證據位置**：`missions/heartbeat.log`（4筆棒醒/秒退紀錄）；night-relay commit `7213440`/`12001c2`/`5e2dfa0`/`8ad3c8f`（各棒秒退訊息）。
+**blockers新增**：無新增，3條沿用——`machine-report`（逾期**44天**，自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行，雲端固定跳過）。
+**待核准／提名未變**：`20260706-guide-app`（優先2）／`test-baton-pickup-0706`（優先9，建議直接結案）；提名5項，4項來源repo未掛載本環境。
+**chain-capability**：續FAIL，連續PASS計數仍為0。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
