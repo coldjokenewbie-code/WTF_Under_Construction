@@ -318,3 +318,10 @@
 - 國圖南｜2026-09-02｜Office 檔驗收要看 zip part 級差異（清單一致→逐 part 比對→只有預期 part 變動），「儲存格讀得回來」證明不了檔案沒壞｜projects/國圖南/_context/lessons-learned.md
 - 國圖南｜2026-09-02｜「中文改寫、英文盡量不動」類需求：未標改動的英文片段要能逐字比對回原文才算過關；原稿的中英不一致要標進備註欄，不要順手改掉｜projects/國圖南/_context/lessons-learned.md
 - 國圖南｜2026-09-02｜多 agent 並行改同一個 xlsx：subagent 只產 JSON payload，由主 agent 統一寫入，否則互相覆蓋｜projects/國圖南/_context/lessons-learned.md
+- say-something-android｜2026-09-02｜照 API 文件寫的解析主路徑可能是死的：文件說回應有頂層 output_text，實測不存在、文字在 steps[0].content[0].text；寫解析器前先打一發真 API 看回應形狀｜projects/say-something-android/_context/lessons-learned.md
+- say-something-android｜2026-09-02｜429 絕不可放進退避重試清單：撞到 RPM 限速時重試必然也是 429，等於主動燒光剩餘配額還拖慢錯誤回報；只重試 500/503｜projects/say-something-android/_context/lessons-learned.md
+- say-something-android｜2026-09-02｜跨 session 協作的證據等級：有真實金鑰實測的一方結論優先於讀文件推論的一方；文件推論寫進紀錄要標明來源是文件而非實測｜projects/say-something-android/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜素材歸屬精度不能只看「編號出自哪一層資料夾」：單一資料夾同時標多台（如「清潔17,18,19,20」）一律算批次歸屬，UI 分開列並加警語，虛報數量比少列更傷信任｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜宣稱「離線自足」的 HTML 要實測：複製到來源以外的位置開啟，用 Playwright 記錄所有網路請求確認只有自身，光看畫面正常不算數｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜「複製很慢」先量再開藥方：本例 99.4% 是已壓縮 mp4、碎檔僅 50MB，打包 zip 完全無效，瓶頸是 505GB 走 Wi-Fi；先假設原因會給錯方案｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜macOS 診斷兩個坑：終端機存取 SMB 網路磁碟受 TCC 限制會回 Operation not permitted（非網路問題）；系統沒有 timeout 指令，寫診斷腳本別用｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
