@@ -3,14 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-03 19:12**：QUEUE無待規劃/active項，今晚循環棒（19:30/21:33/23:30/01:33台北）預期全秒退，**連續第40天零增量**（自晨報後狀態未變）。
-**產能算術**：0個active mission，backlog剩餘項數＝0，今晚排定4棒＝預期產出仍為0；無可推算完成日（無米下鍋，非排程問題）。
-**待核准清單**：`20260706-guide-app`（優先2，M2已達成，剩風格統一路線待使用者重拍截圖裁決）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案）。
-**提名清單（5項，候選未啟動）**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——後4項來源repo未掛載本環境，需使用者到該trigger手動補掛才能規劃。
-**blockers待決（3條沿用，無新增）**：
-1. `machine-report`（parked，逾期**44天**，自2026-07-21起算）：驗收未過，待使用者補充具體修正意見（內容方向 vs 文字/視覺問題），否則無法對應小修或重寫。
-2. `guide-app`（待核准）：氛圍底圖/縮圖/hero照風格統一路線，待重拍截圖後裁決；另有定錨棒稽核提案（截圖升級為與anchors並列四級等第）待使用者回覆，2026-07-21提示後仍待補。
-3. `design-training`（parked）：案例包僅本機(Mac)可執行，雲端棒固定跳過；本週雲端無可作項，非待裁決卡點。
+**晨報棒 2026-09-04 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33台北）全秒退，QUEUE無待規劃/active項，**連續第41天零增量**。
+**各mission昨夜增量**：0個active案可推進，全案零增量；僅一筆main側merge帶入lessons索引（Interactive_machine影片索引與NAS備份診斷4條），非mission產出。
+**證據位置**：`missions/heartbeat.log`（4筆19:33/21:33/23:33/01:33棒醒/秒退紀錄）；night-relay commit `0558f93`/`c5fccbe`/`b5b4127`/`b886c32`（各棒秒退訊息）。
+**blockers新增**：無新增，3條沿用——`machine-report`（逾期**45天**，自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行，雲端固定跳過）。
+**待核准／提名未變**：`20260706-guide-app`（優先2）／`test-baton-pickup-0706`（優先9，建議直接結案）；提名5項，4項來源repo未掛載本環境。
 **chain-capability**：續FAIL，連續PASS計數仍為0。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
