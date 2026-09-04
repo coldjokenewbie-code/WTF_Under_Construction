@@ -325,3 +325,5 @@
 - Interactive_machine｜2026-09-03｜宣稱「離線自足」的 HTML 要實測：複製到來源以外的位置開啟，用 Playwright 記錄所有網路請求確認只有自身，光看畫面正常不算數｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-03｜「複製很慢」先量再開藥方：本例 99.4% 是已壓縮 mp4、碎檔僅 50MB，打包 zip 完全無效，瓶頸是 505GB 走 Wi-Fi；先假設原因會給錯方案｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-03｜macOS 診斷兩個坑：終端機存取 SMB 網路磁碟受 TCC 限制會回 Operation not permitted（非網路問題）；系統沒有 timeout 指令，寫診斷腳本別用｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜對照表資料互相矛盾不臆測擇一：回第三份權威文件（如期末報告）以編號查證，採用與報告一致的版本，並主動回報業主訂正來源對照表｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜腳本 patch HTML 模板時禁把多行 HTML 插進 JS 單引號字串（跨行 = Invalid token，整頁 JS 死掉但畫面只顯示空白）；patch 後必須重跑 console 驗證，不能只看檔案產出成功｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
