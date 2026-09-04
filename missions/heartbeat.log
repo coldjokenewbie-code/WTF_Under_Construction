@@ -247,4 +247,4 @@
 2026-09-03 23:33 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等，現況：parked×2/待核准×2/done×2/提名×5，連續第41天零增量，狀態未變）
 2026-09-04 01:33 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等，現況：parked×2/待核准×2/done×2/提名×5，連續第41天零增量，狀態未變）
 2026-09-04 19:14 台北｜棒醒了｜model=claude-sonnet-5｜提醒棒19:00
-2026-09-04 19:33 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等，現況：parked×2/待核准×2/done×2/提名×5，連續第42天零增量，狀態未變）
+2026-09-04 19:33 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等，現況：parked×2/待核准×2/done×2/提名×5，連續第42天零增量，狀態未變）｜chain-capability: FAIL（今晚首棒測；CronCreate durable 參數仍明寫「Has no effect — durable persistence is not available. All jobs are session-only」，與既有判定一致，連續 PASS 計數仍為 0）
