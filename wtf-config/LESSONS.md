@@ -331,3 +331,5 @@
 - cowork_CDIC｜2026-09-03｜規則寫了但沒有執行點，下一支新腳本會原樣再犯：07-27 已明載「改 bat 一律 read_bytes/write_bytes」，08-11 新建包腳本仍用 read_text 一次產出 21 支 LF-only；凡「產出物須符合某規格」的規則，要在產出流程放一道會中止的機檢｜projects/cowork_CDIC/_context/lessons-learned.md
 - md-editor｜2026-09-04｜外部富文字貼上要清掉來源前景／背景色與可注入樣式的元素、屬性，讓文字繼承編輯器主題；編輯器內部自訂色用自訂 MIME 區分保留。macOS `open` 只會喚起既有 Edge PWA，不代表新版 JS 已載入，交付時須核對行程啟動時間並要求 `⌘R`／正常重啟｜projects/md-editor/_context/lessons-learned.md
 - say-something-android｜2026-09-02｜關掉的 Claude Code session 靠 ~/.claude/projects/<路徑編碼>/<session-id>.jsonl 找回(檔名即 ID)，resume 前必須先 cd 回原工作目錄；log/ps/status 那套對 Claude Code 不成立｜projects/say-something-android/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜對照表資料互相矛盾不臆測擇一：回第三份權威文件（如期末報告）以編號查證，採用與報告一致的版本，並主動回報業主訂正來源對照表｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-03｜腳本 patch HTML 模板時禁把多行 HTML 插進 JS 單引號字串（跨行 = Invalid token，整頁 JS 死掉但畫面只顯示空白）；patch 後必須重跑 console 驗證，不能只看檔案產出成功｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
