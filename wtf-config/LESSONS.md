@@ -336,3 +336,4 @@
 - Interactive_machine｜2026-09-03｜對照表資料互相矛盾不臆測擇一：回第三份權威文件（如期末報告）以編號查證，採用與報告一致的版本，並主動回報業主訂正來源對照表｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-03｜腳本 patch HTML 模板時禁把多行 HTML 插進 JS 單引號字串（跨行 = Invalid token，整頁 JS 死掉但畫面只顯示空白）；patch 後必須重跑 console 驗證，不能只看檔案產出成功｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-04｜docx 審稿稿的「刪除」有刪除線格式(w:strike)與追蹤修訂(w:del)兩種，只讀 w:t 會把業主已刪內容當成我方漏抄；比對前先數各有幾處，非 0 就必須濾除（同型第三次）｜wtf-config/playbooks/pitfalls-office-docs.md
+- 南科再生水廠｜2026-09-04｜主控結案前要回問各線版號與路徑（一天內真相源換三次）；「已渲染」≠「已過驗」要分欄；場地光環境要問不從底圖顏色推｜projects/南科再生水廠/_context/lessons-learned.md
