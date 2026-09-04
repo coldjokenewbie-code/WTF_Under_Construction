@@ -12,6 +12,7 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| 南科再生水廠 | 2026-09-04 | 主題10 留言牆重構：文案一句話會斷別展項的生產鏈（10.1 取消電子簽名→10.4 雷雕圖檔來源整條斷），裁定當下要追載體鏈並列候選路徑；實績與目標並列須寫「已達成並超越」、集團合計口徑標在數字旁不只放註腳；「不標目標數字」要拆目標與實績（已發生實績可放、須帶年度口徑）；docx 主題區間以頂層元素字串區間純字串替換＋逐頂層元素比對驗「只動一區」；macOS TCC 按負責行程歸屬，harness fork 後子行程不繼承授權、Drive 路徑全回 EPERM | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-09-03 | 客戶技術資料的證據等級三則：①技術歸屬題要同時查「型式名」與「該型特性」兩層，只查一層會誤以為補完（業主書面只寫 Sand Filter、無 Continuous＝型式歸屬本身未驗證，技術上正確的推論≠可寫進業主文件的事實）②被指定當語體範本的檔案本身可能載著校正前的技術內容，引用時切分「抄語體骨架」與「抄事實內容」③「依業主書面為準」只在雙方都有書面時是判準，單邊有書面時是授權，兩邊都沒有時幫不上忙——無書面者標【待複核】不寫機制斷言 | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-08-26 | macOS TCC -1743：AI 無法程式化關閉 PowerPoint 視窗（Apple Events 被擋）；只能刪檔、視窗殘留；驗證複本加醒目前綴、刪後請 PO 手動關窗；pkill 仍受禁殺鐵律；待 PO 開通 TCC 授權才可關窗 | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-08-26 | pptx 追加兩類坑：`a:endParaRPr` 段落層順序錯位（PowerPoint 整框空白、不跳修復框，8/24 十一項機檢與實開閘都攔不到，須逐頁目視）；deepcopy shape id 頁內重複（機檢須逐頁比對，跨頁併池會誤報） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
@@ -329,7 +330,9 @@
 - cowork_CDIC｜2026-09-03｜zip／apk 內 CJK 檔名以 cp437 解成亂碼，grep 回空、zipfile.read 直接 KeyError，症狀像「檔案不存在」；要 name.encode("cp437").decode("utf-8") 還原，這種假陰性會害人回頭亂改｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-03｜掃描類驗證本身不可靠三連（xargs -I{} 命令列過長整批不跑、Drive 掛載 grep -r 靜默漏檔、機檢腳本 wc -l 前導空白與截斷字串比對）：凡「命中 0＝通過」的驗證，先用一個確定存在的字串做正對照確認掃描鏈是活的｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-03｜規則寫了但沒有執行點，下一支新腳本會原樣再犯：07-27 已明載「改 bat 一律 read_bytes/write_bytes」，08-11 新建包腳本仍用 read_text 一次產出 21 支 LF-only；凡「產出物須符合某規格」的規則，要在產出流程放一道會中止的機檢｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜同一檔案兩個 session 並行：廣播只解決「不知情」、解決不了「同時做」，發訊後要等回覆再動；共用檔指定唯一維護者，改檔腳本一律「斷言命中唯一才寫」（對方腳本因斷言中止而沒造成二次破壞）｜projects/cowork_CDIC/_context/lessons-learned.md
 - md-editor｜2026-09-04｜外部富文字貼上要清掉來源前景／背景色與可注入樣式的元素、屬性，讓文字繼承編輯器主題；編輯器內部自訂色用自訂 MIME 區分保留。macOS `open` 只會喚起既有 Edge PWA，不代表新版 JS 已載入，交付時須核對行程啟動時間並要求 `⌘R`／正常重啟｜projects/md-editor/_context/lessons-learned.md
 - say-something-android｜2026-09-02｜關掉的 Claude Code session 靠 ~/.claude/projects/<路徑編碼>/<session-id>.jsonl 找回(檔名即 ID)，resume 前必須先 cd 回原工作目錄；log/ps/status 那套對 Claude Code 不成立｜projects/say-something-android/_context/lessons-learned.md
 - Interactive_machine｜2026-09-03｜對照表資料互相矛盾不臆測擇一：回第三份權威文件（如期末報告）以編號查證，採用與報告一致的版本，並主動回報業主訂正來源對照表｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-03｜腳本 patch HTML 模板時禁把多行 HTML 插進 JS 單引號字串（跨行 = Invalid token，整頁 JS 死掉但畫面只顯示空白）；patch 後必須重跑 console 驗證，不能只看檔案產出成功｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜docx 審稿稿的「刪除」有刪除線格式(w:strike)與追蹤修訂(w:del)兩種，只讀 w:t 會把業主已刪內容當成我方漏抄；比對前先數各有幾處，非 0 就必須濾除（同型第三次）｜wtf-config/playbooks/pitfalls-office-docs.md
