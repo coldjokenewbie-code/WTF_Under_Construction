@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-04 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33台北）全秒退，QUEUE無待規劃/active項，**連續第41天零增量**。
-**各mission昨夜增量**：0個active案可推進，全案零增量；僅一筆main側merge帶入lessons索引（Interactive_machine影片索引與NAS備份診斷4條），非mission產出。
-**證據位置**：`missions/heartbeat.log`（4筆19:33/21:33/23:33/01:33棒醒/秒退紀錄）；night-relay commit `0558f93`/`c5fccbe`/`b5b4127`/`b886c32`（各棒秒退訊息）。
-**blockers新增**：無新增，3條沿用——`machine-report`（逾期**45天**，自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行，雲端固定跳過）。
-**待核准／提名未變**：`20260706-guide-app`（優先2）／`test-baton-pickup-0706`（優先9，建議直接結案）；提名5項，4項來源repo未掛載本環境。
+**提醒棒 2026-09-04 19:00**：QUEUE無待規劃/active項，昨夜4循環棒（19:33/21:33/23:33/01:33台北）全秒退，**連續第41天零增量**；今晚循環棒（19:33/21:33/23:33/01:33）預期同樣秒退（第42天）。
+**待核准清單**：`20260706-guide-app`（優先2，主題方向A已裁定，剩氛圍底圖/縮圖/hero照風格統一路線待重拍裁決）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案：改done或刪列）。
+**提名清單**（5項，4項來源repo未掛載本環境）：`ody-evidence-gate`／`southlibrary-fonts`（需掛SouthLibrary）／`cowork-c-tasks`（需掛cowork_CDIC）／`sreclaim-verify-b`（需掛S-reclaimed-water-plant）／`pptmap-skill`（需掛ppt_map_mark）。
+**blockers待決**（3條沿用，無新增）：`machine-report`（逾期**45天**，自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行，雲端固定跳過）。
+**產能算術（義務）**：0個active案；今晚排定循環棒4支；以「每棒一項」推算＝無可推進項，預計完成日不適用。待核准2項一旦核准改active，下一循環棒即可起算。
 **chain-capability**：續FAIL，連續PASS計數仍為0。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
