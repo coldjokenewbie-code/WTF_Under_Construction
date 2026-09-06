@@ -3,12 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-06 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33台北）全秒退零增量，**連續第43天零增量**；main無新commit，night-relay也未再merge main（上次merge仍是09-05 00:40）。
-**各mission昨晚增量**：無——5案（`guide-app`待核准／`machine-report`、`design-training` parked／`o4-soundtrack`、`session-gate-fix` done）均無新動作；夜間僅新增4行心跳紀錄，證據：`missions/heartbeat.log`（09-05 11:33～17:34）。
+**提醒棒 2026-09-06 19:00**：QUEUE 現況 parked×2／待核准×2／done×2／提名×5，**無 待規劃/active 項**——今晚循環棒（19:33/21:33/23:33/01:33台北）預期全數秒退，將滿**第44天零增量**。night-relay 已含 main 全部內容（上次merge main：09-06 00:40，main側至今無新commit）。
+**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾，待風格統一路線裁決後可續）／`test-baton-pickup-0706`（優先9，backlog 4項全勾，建議直接結案改done或刪列）；5項提名（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）均待補掛來源repo或使用者核准升「待規劃」。
+**blockers待決**（3條沿用，無新增）：`machine-report`逾期**48天**（自07-21起算，待補充具體修正意見）／`guide-app`（氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋定錨稽核提案待裁決）／`design-training`（案例包僅本機執行，本週雲端無可作項，非待裁決）。
+**產能算術**：目前 active mission 數＝0，今晚排定4棒若無新核准，預計增量＝0；`guide-app` 一旦核准為active，剩餘6項backlog以「每棒一項」推算，需約6棒（4棒/晚）≈1.5晚，最快 09-08 台北可全數清空。
 **chain-capability探測**：續FAIL，連續PASS計數仍為0。
-**blockers新增項**：無新增，3條沿用——`machine-report`逾期**47天**（自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（風格統一路線待重拍截圖裁決）／`design-training`（案例包僅本機執行）。
-**待核准/待清清單**：`20260706-guide-app`（優先2）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案）；5項提名多數待補掛來源repo。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
 
