@@ -3,13 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-08 08:30**：昨夜4循環棒（19:30/21:30/23:30/01:30台北）全秒退零增量，**連續達47天零增量**（今晚循環棒起將滿48天）；main有新commit（`0894231` nightly-20260908，屬獨立nightly迴圈的session log存檔，非mission產出，未merge進night-relay）。
-**各mission昨晚增量**：無——5案（`guide-app`待核准／`machine-report`、`design-training` parked／`o4-soundtrack`、`session-gate-fix` done）均無新動作；夜間僅新增心跳＋提醒棒快報，證據：`missions/heartbeat.log`（09-07 19:30～09-08 01:30，5行）、`missions/QUEUE.md` 舊版（提醒棒09-07 19:00快報，已被本次覆蓋）。
-**非mission動態**：registry 新增 `e-reader-stuff`（09-07首推，尚未掛trigger，證據：`wtf-config/projects-registry.md`）；nightly session log 存檔（證據：`session-logs/20260907.md`，全掛載repo 09/06-09/07均無活動）。
-**chain-capability探測**：續FAIL，連續PASS計數仍為0。
-**blockers新增項**：無新增，3條沿用——`machine-report`逾期**49天**（自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋定錨稽核提案待裁決）／`design-training`（案例包僅本機執行，非待裁決）。
-**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案改done或刪列）；5項提名多數待補掛來源repo或使用者核准升「待規劃」。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**提醒棒 2026-09-08 19:00**：佇列現況——**0 active**／2 待核准／2 parked／2 done／5 提名。今晚循環棒（19:30/21:30/23:30/01:30台北）若無使用者動作，將延續**連續47天零增量**紀錄，跨入第48天全數秒退。
+**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾，待2項blocker裁決後可續跑）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案改done或刪列，免佔佇列）；5項提名（`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`）多數待補掛來源repo，其餘待使用者核准升「待規劃」。
+**blockers待決**：`machine-report`逾期**49天**（自2026-07-21起算，待使用者補充具體修正意見，否則無法判斷小修或整篇重寫）／`guide-app`——氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋定錨稽核提案（字級收斂驗收方法論升級）待裁決，2026-07-21已提示回覆待補／`design-training`（案例包僅本機執行，非待裁決，非阻塞）。
+**產能算術（義務）**：現無 active 案，剩餘backlog項數＝N/A；今晚排定循環棒4棒。若`guide-app`今晚獲核准改active：剩餘6項backlog，依「每棒一項」推算約需6棒（輪替制下與其他active案並行則更久）；若`test-baton-pickup-0706`今晚獲核准，backlog已全勾可直接改done，不耗棒。兩者皆未核准則今晚4棒預計全數秒退，完成日不適用。
+**建議**：`test-baton-pickup-0706`可立即結案（改done或刪列）；`guide-app`兩項blocker任一裁決即可解鎖6項backlog續跑。
 
 ## 佇列
 
