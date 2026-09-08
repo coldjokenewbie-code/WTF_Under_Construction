@@ -337,3 +337,5 @@
 - Interactive_machine｜2026-09-03｜腳本 patch HTML 模板時禁把多行 HTML 插進 JS 單引號字串（跨行 = Invalid token，整頁 JS 死掉但畫面只顯示空白）；patch 後必須重跑 console 驗證，不能只看檔案產出成功｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-04｜docx 審稿稿的「刪除」有刪除線格式(w:strike)與追蹤修訂(w:del)兩種，只讀 w:t 會把業主已刪內容當成我方漏抄；比對前先數各有幾處，非 0 就必須濾除（同型第三次）｜wtf-config/playbooks/pitfalls-office-docs.md
 - 南科再生水廠｜2026-09-04｜主控結案前要回問各線版號與路徑（一天內真相源換三次）；「已渲染」≠「已過驗」要分欄；場地光環境要問不從底圖顏色推｜projects/南科再生水廠/_context/lessons-learned.md
+- Interactive_machine｜2026-09-07｜離線影片網頁的可播性取決於觀看機器：HEVC 編碼在 Windows 瀏覽器預設無解碼器，交付含影片的離線網頁時先用 ffprobe 記錄 codec_name 並明寫觀看端需求（Windows 需 HEVC 視訊延伸模組）｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-07｜瀏覽器叫外部播放器只能下載播放清單：vlc:// 非內建協定且第三方處理器拒絕 file://；改下載 .m3u8，清單內寫 file:// URL（百分比編碼），否則 # 字元被截斷｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
