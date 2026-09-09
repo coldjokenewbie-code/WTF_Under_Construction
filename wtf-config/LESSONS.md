@@ -347,3 +347,4 @@
 - 南科再生水廠｜2026-09-09｜Office 檔的 `~$` 鎖檔＝記憶體裡有你看不到的內容（不是「沒被改過」），有鎖檔就先請使用者關檔；`del wb[sheet]` 這種同名刪除重建在共編檔上等於無聲覆蓋；黃底變動標記在 PO 複核後要清；PO 會直接動共編檔，每輪先重掃現況｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-09
 
 - 南科再生水廠｜2026-09-09｜平板 CAD 預設禁用會誤導的暈渲、幾何與視覺分開驗；Retina canvas CSS／像素尺寸分驗；展開僅更新地形水系；長報告分區擷取並驗 PDF 分頁；hash 一致不等於地理精度｜南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-09-09｜「檢視一下」是討論類任務、報告完等裁示再動檔；常識值不能當比對基準（烏山頭 36% 誤報）；file:// 下 ES module 被擋、外部圖片會汙染 canvas 擋 WebGL 貼圖，改 classic script＋data URI；相鄰 session 的幾何 import 同一份；官方頁 JS 陣列比截圖可靠；OSM relation full.json 夾子 relation 要依 id 篩｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-09-主題-2-圖表補強cad-複驗圓形螢幕互動水域數據線
