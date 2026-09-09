@@ -339,3 +339,8 @@
 - 南科再生水廠｜2026-09-04｜主控結案前要回問各線版號與路徑（一天內真相源換三次）；「已渲染」≠「已過驗」要分欄；場地光環境要問不從底圖顏色推｜projects/南科再生水廠/_context/lessons-learned.md
 - Interactive_machine｜2026-09-07｜離線影片網頁的可播性取決於觀看機器：HEVC 編碼在 Windows 瀏覽器預設無解碼器，交付含影片的離線網頁時先用 ffprobe 記錄 codec_name 並明寫觀看端需求（Windows 需 HEVC 視訊延伸模組）｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-07｜瀏覽器叫外部播放器只能下載播放清單：vlc:// 非內建協定且第三方處理器拒絕 file://；改下載 .m3u8，清單內寫 file:// URL（百分比編碼），否則 # 字元被截斷｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜比對出差異時先查第三方權威原件，不要在兩造之間猜誰對——兩造比對只能告訴你「不一樣」，不能告訴你「誰錯」｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜派工單引用摘要會把失真放大成指令：目標值一律寫「從 X 檔案讀出」，版號／md5 這類會變動的數字不要寫死｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜並行 agent 要各用獨立暫存目錄與獨立 LibreOffice profile，否則互刪算繪目錄、互搶輸出｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-04｜ListAgents 的 session 名稱不代表工作區，跨 session 協作前要看對方實際動過的檔案路徑｜projects/cowork_CDIC/_context/lessons-learned.md
+- 南科再生水廠｜2026-09-07｜實體按鍵一鍵一項、互動先問資料撐不撐、中央螢幕不重複地圖、「既有標注」須對到總表編號、業主腳本不放內部註記｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-04～07-光雕牆文字腳本
