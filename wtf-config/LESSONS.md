@@ -344,3 +344,4 @@
 - cowork_CDIC｜2026-09-04｜並行 agent 要各用獨立暫存目錄與獨立 LibreOffice profile，否則互刪算繪目錄、互搶輸出｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-09-04｜ListAgents 的 session 名稱不代表工作區，跨 session 協作前要看對方實際動過的檔案路徑｜projects/cowork_CDIC/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-07｜實體按鍵一鍵一項、互動先問資料撐不撐、中央螢幕不重複地圖、「既有標注」須對到總表編號、業主腳本不放內部註記｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-04～07-光雕牆文字腳本
+- 南科再生水廠｜2026-09-09｜Office 檔的 `~$` 鎖檔＝記憶體裡有你看不到的內容（不是「沒被改過」），有鎖檔就先請使用者關檔；`del wb[sheet]` 這種同名刪除重建在共編檔上等於無聲覆蓋；黃底變動標記在 PO 複核後要清；PO 會直接動共編檔，每輪先重掃現況｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-09
