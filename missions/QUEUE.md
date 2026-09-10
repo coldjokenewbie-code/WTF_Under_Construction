@@ -3,11 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-10 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33台北）全秒退零增量，**連續達51天零增量**（今晚循環棒起將滿52天）；main有新commit（`5877526` nightly-20260910＋`0d93fc1`/`651ace6`/`114e5ad`/`1b54206` 南科再生水廠與CAD lessons/docs補登），屬獨立nightly迴圈與日間lessons記錄，非mission產出，已merge進night-relay但無QUEUE狀態變動。
-**各mission昨晚增量**：無——QUEUE仍0 active（`guide-app`、`test-baton-pickup-0706`待核准／`machine-report`、`design-training` parked／`o4-soundtrack`、`session-gate-fix` done），無新動作；夜間僅新增4筆心跳，證據：`missions/heartbeat.log`（09-09 19:33～09-10 01:33，4行）。
-**chain-capability探測**：續FAIL，連續PASS計數仍為0。
-**blockers新增項**：無新增，沿用3條——`machine-report`逾期**51天**（自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋anchor升級提案待裁決）／`design-training`（案例包僅本機執行，非待裁決）。
-**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案改done或刪列）；5項提名（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）多數待補掛來源repo或使用者核准升「待規劃」。
+**提醒棒 2026-09-10 19:06**：與今早晨報棒相比QUEUE**零變動**（main無新使用者指令進night-relay，本次merge除晨報自身commit外無新內容）；0 active（`guide-app`、`test-baton-pickup-0706`待核准／`machine-report`、`design-training` parked／`o4-soundtrack`、`session-gate-fix` done），**連續52天零增量**（今晚循環棒起算）。
+**產能算術**：0 active案，故無剩餘backlog項數/今晚排定棒數可算；今晚4循環棒（19:33/21:33/23:33/01:33）預期全秒退，除非使用者本次快報後核准`待核准`兩項之一。
+**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾，唯一卡點anchor升級提案待裁決）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案改done或刪列）；5項提名（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）多數待補掛來源repo或核准升「待規劃」。
+**blockers待決**：沿用3條，無新增——`machine-report`逾期**52天**（自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋anchor升級提案待裁決）／`design-training`（案例包僅本機執行，非待裁決）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
