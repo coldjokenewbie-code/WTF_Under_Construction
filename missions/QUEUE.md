@@ -3,10 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-10 19:06**：與今早晨報棒相比QUEUE**零變動**（main無新使用者指令進night-relay，本次merge除晨報自身commit外無新內容）；0 active（`guide-app`、`test-baton-pickup-0706`待核准／`machine-report`、`design-training` parked／`o4-soundtrack`、`session-gate-fix` done），**連續52天零增量**（今晚循環棒起算）。
-**產能算術**：0 active案，故無剩餘backlog項數/今晚排定棒數可算；今晚4循環棒（19:33/21:33/23:33/01:33）預期全秒退，除非使用者本次快報後核准`待核准`兩項之一。
-**待核准/提名清單**：`20260706-guide-app`（優先2，backlog 19項剩6項未勾，唯一卡點anchor升級提案待裁決）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接結案改done或刪列）；5項提名（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）多數待補掛來源repo或核准升「待規劃」。
-**blockers待決**：沿用3條，無新增——`machine-report`逾期**52天**（自2026-07-21起算，待使用者補充具體修正意見）／`guide-app`（氛圍底圖/縮圖/hero照風格統一路線待重拍截圖裁決＋anchor升級提案待裁決）／`design-training`（案例包僅本機執行，非待裁決）。
+**晨報棒 2026-09-11 08:30**：昨夜4循環棒（19:34/21:33/23:33/01:33 台北）全秒退零增量，**連續52天零增量**，QUEUE無待規劃/active項（整欄精確相等檢查，現況：待核准×2／parked×2／done×2／提名×5，狀態未變）。證據：`missions/heartbeat.log` 對應4行＋提醒棒19:06快報（本段覆寫前內容）。
+main本次merge帶入5條新commit（`d0ac945`等）：屬獨立nightly迴圈補掛提醒＋lessons補登，非mission產出。
+chain-capability續FAIL（CronCreate durable參數仍明寫無持久化，連續PASS計數仍為0）。
+blockers：無新增，沿用3條——`machine-report`逾期**52天**（待使用者補充修正意見）／`guide-app`2條未裁決（氛圍底圖風格統一＋anchor升級提案）／`design-training`（僅本機執行，非待裁決）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
