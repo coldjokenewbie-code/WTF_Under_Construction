@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-11 19:06**：QUEUE無待規劃/active項（整欄精確相等：待核准×2／parked×2／done×2／提名×5，**連續52天零增量**，狀態未變）。
+**提醒棒 2026-09-12 19:05**：QUEUE無待規劃/active項（整欄精確相等：待核准×2／parked×2／done×2／提名×5，**連續54天零增量**，狀態未變）。
 **產能算術**：active=0 → 今晚4循環棒（19:33/21:33/23:33/01:33 台北）依規全數秒退，預計今晚增量=0。要破零，待核准2項須使用者先裁決（見下）。
-**待核准（2）**：`guide-app`——backlog剩4項未勾，卡2條blocker（氛圍底圖/展品縮圖/hero風格統一路線、anchor升級提案），裁決後改回active才能續跑；`test-baton-pickup-0706`——backlog已全勾，探針任務完成，建議直接改`done`或刪列結案，無需再排。
-**提名（5，候選未核准不碰）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill——後3項來源repo未掛載，核准前也需先補掛。
-**blockers待決**：`machine-report`逾期**52天**待使用者補充具體修正意見（沿用，無新增）／`guide-app`同上2條。`design-training`非待裁決（僅本機執行，雲端固定跳過）。
+**待核准（2）**：`guide-app`——backlog剩4項未勾；M1兩條高品味blocker已於2026-08-11裁定（工業風暗色），僅剩「字級收斂/元件一致性修整」卡在anchor升級提案（2026-07-21提示待補，仍待裁決）才能續跑；`test-baton-pickup-0706`——backlog已全勾，探針任務完成，建議直接改`done`或刪列結案，無需再排。
+**提名（5，候選未核准不碰，本次有變）**：`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b` 三項所需來源repo（SouthLibrary／cowork_CDIC／S-reclaimed-water-plant）**已於今日（09-12 nightly）補掛完成**，掛載門檻已解除，可考慮核准（改「待規劃」）；`ody-evidence-gate`（WTF內部，本無掛載限制）；`pptmap-skill`——需掛`ppt_map_mark`，仍未掛。
+**blockers待決**：`machine-report`逾期**54天**待使用者補充具體修正意見（沿用，無新增）／`guide-app`：anchor升級提案待裁決（沿用）。`design-training`非待裁決（僅本機執行，雲端固定跳過）。
 chain-capability續FAIL（CronCreate durable無持久化，連續PASS計數仍為0）。
 
 ## 佇列
