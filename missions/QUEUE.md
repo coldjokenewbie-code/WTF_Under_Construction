@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-13 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33 台北）全秒退零增量，**連續55天零增量**，QUEUE無待規劃/active項（整欄精確相等檢查，現況：待核准×2／parked×2／done×2／提名×5，狀態未變）。證據：`missions/heartbeat.log` 對應4行＋提醒棒19:05快報（本段覆寫前內容）。
-main本次merge帶入1條新commit（`eabbc6d`）：屬獨立nightly迴圈「今日全repo靜默」session log存檔，非mission產出。
-chain-capability續FAIL（CronCreate durable參數仍明寫無持久化；09-12 19:33首棒測FAIL，連續PASS計數仍為0）。
-blockers：無新增，沿用2條——`machine-report`逾期**55天**（待使用者補充具體修正意見）／`guide-app`：字級收斂/元件一致性修整卡在anchor升級提案待裁決。`design-training`非待裁決（僅本機執行）。
-待突破現況需使用者裁決：`guide-app`（anchor提案）或`test-baton-pickup-0706`（建議直接結案）任一核准，即可破56天零增量。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**提醒棒 2026-09-13 19:05**：現況延續今早晨報，未變——QUEUE 無待規劃/active項（整欄精確相等檢查：待核准×2／parked×2／done×2／提名×5），**連續55天零增量**。
+**待核准清單（2）**：`20260706-guide-app`（優先2，backlog剩4項，全數卡anchor升級提案裁決，非額度/技術問題）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案，無需續跑）。
+**提名清單（5，均需先補掛對應repo才能轉待規劃）**：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers待決（2，沿用）**：`machine-report`已parked 55天，待使用者補充具體修正意見（內容方向 vs 文字/視覺問題）／`guide-app`anchor升級提案裁決中（2026-07-21提示至今未回覆）。`design-training`非待裁決（案例包僅本機執行，本週雲端本無可作項）。
+**產能算術**：目前0個active mission，故今晚排定4棒（19:30/21:30/23:30/01:30台北）在狀態不變前提下將全數秒退零增量；guide-app剩4項backlog與test-baton剩0項皆非「可作項」（前者卡裁決、後者等結案指令），無法用「每棒一項」推算完成日——預計完成日＝使用者裁決後才可重新估算。
+**今晚計畫**：無新增量可排。使用者對`guide-app`anchor提案或`test-baton-pickup-0706`結案任一裁決，即可破56天零增量。
 
 ## 佇列
 
