@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-12 19:05**：QUEUE無待規劃/active項（整欄精確相等：待核准×2／parked×2／done×2／提名×5，**連續54天零增量**，狀態未變）。
-**產能算術**：active=0 → 今晚4循環棒（19:33/21:33/23:33/01:33 台北）依規全數秒退，預計今晚增量=0。要破零，待核准2項須使用者先裁決（見下）。
-**待核准（2）**：`guide-app`——backlog剩4項未勾；M1兩條高品味blocker已於2026-08-11裁定（工業風暗色），僅剩「字級收斂/元件一致性修整」卡在anchor升級提案（2026-07-21提示待補，仍待裁決）才能續跑；`test-baton-pickup-0706`——backlog已全勾，探針任務完成，建議直接改`done`或刪列結案，無需再排。
-**提名（5，候選未核准不碰，本次有變）**：`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b` 三項所需來源repo（SouthLibrary／cowork_CDIC／S-reclaimed-water-plant）**已於今日（09-12 nightly）補掛完成**，掛載門檻已解除，可考慮核准（改「待規劃」）；`ody-evidence-gate`（WTF內部，本無掛載限制）；`pptmap-skill`——需掛`ppt_map_mark`，仍未掛。
-**blockers待決**：`machine-report`逾期**54天**待使用者補充具體修正意見（沿用，無新增）／`guide-app`：anchor升級提案待裁決（沿用）。`design-training`非待裁決（僅本機執行，雲端固定跳過）。
-chain-capability續FAIL（CronCreate durable無持久化，連續PASS計數仍為0）。
+**晨報棒 2026-09-13 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33 台北）全秒退零增量，**連續55天零增量**，QUEUE無待規劃/active項（整欄精確相等檢查，現況：待核准×2／parked×2／done×2／提名×5，狀態未變）。證據：`missions/heartbeat.log` 對應4行＋提醒棒19:05快報（本段覆寫前內容）。
+main本次merge帶入1條新commit（`eabbc6d`）：屬獨立nightly迴圈「今日全repo靜默」session log存檔，非mission產出。
+chain-capability續FAIL（CronCreate durable參數仍明寫無持久化；09-12 19:33首棒測FAIL，連續PASS計數仍為0）。
+blockers：無新增，沿用2條——`machine-report`逾期**55天**（待使用者補充具體修正意見）／`guide-app`：字級收斂/元件一致性修整卡在anchor升級提案待裁決。`design-training`非待裁決（僅本機執行）。
+待突破現況需使用者裁決：`guide-app`（anchor提案）或`test-baton-pickup-0706`（建議直接結案）任一核准，即可破56天零增量。
+**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
 
