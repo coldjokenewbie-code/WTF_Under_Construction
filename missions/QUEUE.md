@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-14 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33 台北）全秒退零增量，**連續56天零增量**，QUEUE無待規劃/active項（整欄精確相等檢查，現況：待核准×2／parked×2／done×2／提名×5，狀態未變）。證據：`missions/heartbeat.log` 對應4行＋提醒棒19:05快報（本段覆寫前內容）。
-main本次merge無新commit（HEAD仍為`eabbc6d`，昨晨報已合併，本輪`origin/main..origin/night-relay`0條主線commit落差）。
-chain-capability續FAIL（19:33首棒漏測、23:33補測；CronCreate durable參數仍明寫無持久化，連續PASS計數仍為0）。
-blockers：無新增，沿用2條——`machine-report`逾期**56天**（待使用者補充具體修正意見）／`guide-app`：氛圍底圖/縮圖/hero照風格統一路線卡在anchor升級提案待裁決（2026-07-21提示至今未回覆）。`design-training`非待裁決（僅本機執行）。
-待突破現況需使用者裁決：`guide-app`（anchor提案）或`test-baton-pickup-0706`（建議直接結案）任一核准，即可破57天零增量。
+**提醒棒 2026-09-14 19:00**：**連續56天零增量**，QUEUE無待規劃/active項（整欄精確相等：待核准×2／parked×2／done×2／提名×5，狀態未變）。main本次merge無新commit（昨晨報後主線無新指令）。chain-capability續FAIL（CronCreate durable參數仍明寫無持久化，連續PASS計數仍為0）。
+**產能算術**：目前0個active案，「剩餘backlog項數÷每棒一項」無案可算——卡點是使用者裁決，不是產能，破局後才會重新有可排產案。
+**待核准清單**：組裝工廠導覽App（Assembly_Plant_Mobile_Guide）M2界已達，僅剩anchor升級提案待裁決／管線探針測試（內部、無外部repo）backlog全勾，建議直接結案，非續跑。
+**提名清單**（候選，棒子不碰，需先改「待規劃」）：ody證據閘機檢＋pytest／SouthLibrary字體去CDN／cowork_CDIC C區任務資料化／S-reclaimed-water-plant查證批次B／ppt_map_mark標註skill。
+**blockers待決**（沿用，無新增）：互動機具設計報告書逾期**56天**，待使用者補充具體修正意見；組裝工廠導覽App氛圍底圖/縮圖/hero照風格統一路線＋anchor升級提案卡使用者裁決（2026-07-21提示至今未回覆）。使用者設計能力訓練支援非待決（僅本機執行）。
+**破局路徑**：核准組裝工廠導覽App的anchor提案，或核准管線探針測試直接結案，任一即可終結57天零增量。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
