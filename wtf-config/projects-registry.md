@@ -10,14 +10,15 @@
 > - 新增專案或換機 → 只改本表。新機器＝加一欄（欄頭填該機 hostname，見 machines.md）。
 > - 機器欄留空 = sync 跳過該機該專案（尚未部署）。
 > - 路徑佔位用全形括號「（…）」開頭 → 視為未部署、sync 略過；github 欄同樣以「（…）」標未確認。
+> - **機器路徑欄只寫乾淨路徑，不得夾任何括號備註**（mirror 位置、複製腳本、排除規則一律寫進 github 欄）。`sync_config.py` 只把「（」開頭視為佔位，路徑中間夾括號會讓整串被當成路徑、判定不存在而**靜默略過部署**，且 `check` 不會報錯（2026-09-14 修正 5 列）。
 > - WTF_Under_Construction：Mac／Windows 皆已搬入 `git_mirror/`（2026-07-15）；Claude_cowork 專案的 Mac 路徑為 Google Drive「其他電腦」對 Windows 的鏡像。
 > - **2026-07-15 整併**：純 code 專案（無 Drive 對應）已從 Git_work 遷到 `git_mirror/`（Mac 已執行，舊 Git_work 副本移入 `Git_work/git_work_bk/` 備份；Windows 待執行同步驟）。往後新純 code 專案一律直接建在 `git_mirror/`，不再放 Git_work。
 
 | project | github | comaMacBookAir.local | DESKTOP-7SF21LR |
 |---|---|---|---|
 | WTF_Under_Construction | https://github.com/coldjokenewbie-code/WTF_Under_Construction.git | /Users/coma/git_mirror/WTF_Under_Construction | E:\git_mirror\WTF_Under_Construction |
-| ai-roundtable | git@github.com:coldjokenewbie-code/ai-roundtable.git（private，2026-07-30 建） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ai-roundtable（mirror：/Users/coma/git_mirror/ai-roundtable） | （待部署） |
-| HuaNan_Bank | （尚未建 remote，2026-08-03 本地 mirror 首次 commit） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HuaNan_Bank（mirror：/Users/coma/git_mirror/HuaNan_Bank） | （待部署） |
+| ai-roundtable | git@github.com:coldjokenewbie-code/ai-roundtable.git（private，2026-07-30 建；mirror：/Users/coma/git_mirror/ai-roundtable） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ai-roundtable | （待部署） |
+| HuaNan_Bank | （尚未建 remote，2026-08-03 本地 mirror 首次 commit；mirror：/Users/coma/git_mirror/HuaNan_Bank） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/HuaNan_Bank | （待部署） |
 | ai-team-todo | https://github.com/coldjokenewbie-code/ai-team-todo.git | /Users/coma/git_mirror/ai-team-todo | E:\git_mirror\ai-team-todo |
 | Assembly_Plant_Mobile_Guide | https://github.com/coldjokenewbie-code/Assembly_Plant_Mobile_Guide.git | /Users/coma/git_mirror/Assembly_Plant_Mobile_Guide | E:\git_mirror\Assembly_Plant_Mobile_Guide |
 | Planner2Line | https://github.com/coldjokenewbie-code/Planner2Line.git | /Users/coma/git_mirror/Planner2Line | E:\git_mirror\Planner2Line |
@@ -36,7 +37,7 @@
 | 國圖南 | git@github.com:coldjokenewbie-code/SouthLibrary.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/國圖南 | E:\Claude_cowork\projects\國圖南 |
 | ppt_map_mark | git@github.com:coldjokenewbie-code/ppt_map_mark.git | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ppt_map_mark | E:\Claude_cowork\projects\ppt_map_mark |
 | Asembly_PPT | https://github.com/coldjokenewbie-code/Asembly_PPT.git（mirror：git_mirror/Asembly_PPT，2026-07-20 自 git_work_bk/asembly_ppt.git 遷入；Drive 端 .git 指標已退役） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/Asembly_PPT | E:\Claude_cowork\projects\Asembly_PPT（待確認） |
-| md-editor | https://github.com/coldjokenewbie-code/md-editor.git（private，2026-08-01 首推） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/md-editor（mirror：/Users/coma/git_mirror/md-editor；用 tools/sync_to_mirror.sh 複製） | （待部署） |
-| 3Dstudy | git@github.com:coldjokenewbie-code/3Dstudy.git（branch main，2026-08-20 補登） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/3Dstudy（mirror：/Users/coma/git_mirror/3Dstudy） | （待部署） |
-| e-reader-stuff | git@github.com:coldjokenewbie-code/e-reader-stuff.git（branch main，2026-09-07 首推） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/e-reader-stuff（mirror：/Users/coma/git_mirror/e-reader-stuff；用 tools/sync_to_mirror.sh 複製，.mobi 成品不進 git） | （待部署） |
+| md-editor | https://github.com/coldjokenewbie-code/md-editor.git（private，2026-08-01 首推；mirror：/Users/coma/git_mirror/md-editor，用 tools/sync_to_mirror.sh 複製） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/md-editor | （待部署） |
+| 3Dstudy | git@github.com:coldjokenewbie-code/3Dstudy.git（branch main，2026-08-20 補登；mirror：/Users/coma/git_mirror/3Dstudy） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/3Dstudy | （待部署） |
+| e-reader-stuff | git@github.com:coldjokenewbie-code/e-reader-stuff.git（branch main，2026-09-07 首推；mirror：/Users/coma/git_mirror/e-reader-stuff，用 tools/sync_to_mirror.sh 複製，.mobi 成品不進 git） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/e-reader-stuff | （待部署） |
 | ChildrenFuture | （尚未建 remote；2026-09-14 本地 mirror 初始化於 /Users/coma/git_mirror/ChildrenFuture） | /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/ChildrenFuture | （待部署） |
