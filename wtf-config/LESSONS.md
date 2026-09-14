@@ -352,3 +352,4 @@
 - cowork_CDIC｜2026-09-09｜回報「缺口數」前先把無圖的列印出來看：結構列（如「詳情頁照片」行）語意本來就不該填，欄位語意決定該不該填，不是「空著就是缺口」｜projects/cowork_CDIC/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-11｜「座標精確＋擬真」先用程式畫高度與陰影、AI 只做材質潤飾（圖生圖不是版面漂就是偏平）；「模型要正確」與「要擬真」分開問；全長判斷（接縫沿道路）驗收要頭中尾三段；螢幕對位圖以兩台螢幕外框為畫面基準另出裁切版；多方案共用一支動畫用 URL 參數傳幾何轉換；內網 port 先 lsof、驗 title 不驗狀態碼｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-11-展桌對位擬真渲染動畫疊層場區模型線
 - HuaNan_Bank｜2026-09-14｜限期下架不能只靠本機 launchd，關機錯過不補跑；對外期限要用雲端排程或每小時輪詢｜projects/HuaNan_Bank/_context/lessons-learned.md
+- phonic_keyboard｜2026-09-14｜預測與明確學習分離，預覽驗收涵蓋所有送出及加詞入口；SDK 回傳與讀音／游標座標須實測；LaunchAgent 啟動等待避免 fallback 啟動第二份｜projects/phonic_keyboard/_context/lessons-learned.md
