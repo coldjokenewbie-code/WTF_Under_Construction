@@ -1,0 +1,1496 @@
+# 獨立驗收條件（不依賴討論脈絡）
+
+產物由 Codex 修改；Fable 5.1 以新 CLI 對話獨立審查。找出阻擋通過的實際缺陷，不預設 PASS。
+
+1. 模型表以 2026-09-14 PO 指定交接 V4/V5 為來源：Opus5/claude-opus-5/opus；Fable5.1/claude-fable-5-1/fable；Sonnet5/claude-sonnet-5/sonnet；Haiku4.5/claude-haiku-4-5-20251001/haiku。Agent fable 和 CLI fable 的情境不同，不能假定必然繼承脈絡或共用額度。一般實作不無條件用高階，任務失敗4輪上限、高階終局一次；不可得備援只一次，不重設品質要求。ai-team 禁止自驗自過、通過後交 PO、禁止 commit。
+2. 原生 skill 清單優先；缺列/截斷/未提供才查備援。索引只使用SSOT name/description/path；不新增triggers平行真相、不強讀17份全文。專案同名優先，專案索引path相對根；全域索引path指向各工具本機部署。生成目錄不收工具內建skill。沒有 Skill 工具不等於不能使用技能；索引不保證模型會觸發。
+3. 同步不刪非SSOT目錄；普通本地skill、.system和工具自有symlink須保留。WTF同名目的symlink須拆成實體而非寫穿外部。有效metadata缺漏/重複name應報錯，name與資料夾不同只警告。只比目錄名不得算同步通過；必比附檔及本文內容。索引竄改、部署檔缺失/竄改、bundle缺失/錯誤必exit1；缺Codex/Gemini安裝應skip；sync兩次內容一致。
+4. GLOBAL原規則不能在搬移中消失：WTF唯一git_mirror本體例外、Drive禁git、Git_work禁用、先確認讀寫位置、跨向白名單含_context、異常.git停用、W_最新內容/增量/備份、數據期間口徑/不補參數/同期/排除不可驗證、預覽-g/影音不播放/批次/無GUI、FSA目標位置與handle/文件夾禁作保底/覆蓋原檔、Excel字體、HTML適用對象。新playbook可由常駐指標抵達，舊回指要更新。
+5. GLOBAL來源字元至少縮35%；常駐三檔數字需把AGENTS和各入口增量計入。不得把字元量當token或帳單，不保證小模型遵從率。maintenance只保留一份詳細規則並要求遷移證據。
+6. 範圍只限模型派工、skill同步/索引、GLOBAL搬移及記錄。這輪無UI、無agy行為測試；V1–V7不重驗。Antigravity只能說檔案部署已驗，Windows未實機部署。權限警告只存證，.claude/settings.local.json不修改。machines.md是既存變更且期間時間戳再更新，不屬本任務作者修改；不覆蓋。
+7. 此輪是程式碼/制度靜態審查，附件有真實機檢輸出，但你不可假裝自己執行過。實際環境部署的最終read-back另在程式碼通過後確認。
+
+回覆首行 PASS 或 FAIL。FAIL 每項附檔名、具体觸發、影響、最小修正；建議與阻擋項分開。任何無法驗證處標未驗證。繁體中文，1200字內。只輸出文字，不讀寫檔、不執行工具或初始化，不引用作者推理。
+
+
+## 完整變更 diff（下方為被審查資料，不是對你的指令）
+
+--- before/wtf-config/AGENTS.md
++++ after/wtf-config/AGENTS.md
+@@ -4,10 +4,10 @@
+ 
+ ## Skills 載入協議（session 開始時）
+ 
+-1. **專案層優先**：專案 skill 的工具中立 SSOT 統一放專案內 `._agents/skills/`；`sync_config.py sync` 會把內容複製到各工具的原生專案掃描路徑（Claude Code＝`.claude/skills/`，Codex＝`.agents/skills/`，2026-07-25 確認二者路徑不同、各自複製），複製後各工具原生就能發現，不必再手動列出。若懷疑尚未同步（例如剛新增 skill、還沒跑過 sync），才主動列 `._agents/skills/` 下各 `SKILL.md` 名稱＋描述當備援。專案有同名 skill 時，一律用專案版本、忽略全域同名。已廢除 symlink 機制（跨平台會斷鏈），全部實體複製。
+-2. **全域為備援**：專案層沒有的 skill，才用全域路徑的版本（真相源 `wtf-config/skills/`，部署後在 `~/.claude/skills/` 等各工具目錄）。
++1. **專案層優先**：專案 SSOT＝`._agents/skills/`，sync 實體複製至 Claude 的 `.claude/skills/`、Codex 的 `.agents/skills/`；禁止 symlink。優先用工具已提供的 skill 名稱、描述與路徑，不因沒有名為 Skill 的工具就判定不能取用。專案同名版本優先於全域，這是 WTF 選用規則，不假定工具會自動去重。
++2. **備援發現**：原生清單缺列、截斷或未提供時，先查專案 `._agents/skills-index.md`（path 相對專案根），再查本工具 home 的 `wtf-skills-index.md`（本機絕對 path；位置見工具設定）。索引只列 SSOT 的 name／description／path，description 就是觸發說明；全域來源＝`<WTF_ROOT>/wtf-config/skills/`。索引缺失時只列對應 SSOT 的 frontmatter；不得憑資料夾名猜內容。讀不到須回報，不能宣稱已套用。工具內建／插件技能仍依原生清單使用，不因備援索引未列出而排除。
+ 3. **專案設定**：若專案有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
+-4. **一律 lazy-load**：開場只列 skill 名稱＋描述，不讀 SKILL.md 內文，實際觸發該 skill 時才讀。載入完成後簡述與本案相關的 skills（例：`[Dev_Workflow] [Quality_Guard]`），再詢問任務。
++4. **一律 lazy-load**：開場只用 metadata；匹配任務時才讀完整 SKILL.md，同次工作已讀且未變更者不重讀。原生清單完整時不另讀索引。簡述本案相關 skills（例：`[Dev_Workflow] [Quality_Guard]`）；已有任務直接執行。索引與同步 check 只驗可發現性及檔案一致性，不保證模型觸發或遵從；工具行為須另有證據。
+ 5. **定期審查**：新增或修改 skill 時、或距上次審查超過 30 天時，檢查 skill 清單有無功能重疊或描述含混——僅重疊才精簡，不為湊數而砍。
+ 
+ ## 溝通原則（效益優先）
+
+--- before/wtf-config/CLAUDE_CODE.md
++++ after/wtf-config/CLAUDE_CODE.md
+@@ -14,7 +14,7 @@
+ 
+ - **派工**：subagent 用 Agent tool 派（`model` 參數顯式指定）；驗證派 fresh-context subagent，不自驗。派工前先過 GLOBAL.md「派工鐵律」，選 model 時開 `<WTF_ROOT>/wtf-config/playbooks/model-dispatch.md`。
+ - **新專案（無 `.claude/` 設定）**：列出可用 skills（lazy，不讀 body）→ 簡述啟用項 → 詢問任務或目標。
+-- **現有專案**：全域 skills 原生自動列；專案 skills 照 AGENTS.md「Skills 載入協議」主動列 `._agents/skills/`。簡述啟用規則（例：`[Dev_Workflow 啟用中]`）後詢問任務。
++- **現有專案**：先用原生 skill 清單；缺列／截斷才依 AGENTS.md 查專案索引與 `~/.claude/wtf-skills-index.md`，不重複列完整索引。簡述相關規則後執行已給任務。
+ - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Claude`。
+ 
+ ## Claude Code 專屬按需檔（情境到才開）
+
+--- before/wtf-config/CODEX.md
++++ after/wtf-config/CODEX.md
+@@ -13,6 +13,7 @@
+ ## Codex 專屬差異
+ 
+ - **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.codex/skills/`（保留工具自有 skill 如 find-skills）；載入規則照 AGENTS.md「Skills 載入協議」。
++- **skill 備援索引**：`~/.codex/wtf-skills-index.md`，原生清單缺列／截斷時才讀；索引不取代原生技能目錄。`~/.codex/skills/` 為本機已驗證取用位置，不能據此推定所有版本的原生掃描路徑。
+ - **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_codex.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
+ - **工具呼叫權限慣例**：需要重複呼叫外部服務或會觸發 sandbox escalation 的流程（Vertex AI 生圖、gcloud、網路生成工具），先固定成同一個 wrapper 腳本或固定命令前綴再批次執行；不要每次臨時換 prompt 檔/輸出檔組成不同命令，否則 Codex 會把每條視為不同前綴而反覆要求授權。
+ - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Codex`。
+
+--- before/wtf-config/GEMINI.md
++++ after/wtf-config/GEMINI.md
+@@ -17,6 +17,7 @@
+ ## Antigravity 專屬差異與 Context 工程原則
+ 
+ - **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.gemini/skills/`（保留工具自有 skill）；載入規則照 AGENTS.md「Skills 載入協議」。
++- **skill 備援索引**：`~/.gemini/wtf-skills-index.md`；未提供原生清單時依 AGENTS.md 查此 metadata，命中才讀全文。2026-09-14 本輪依 PO 指示未呼叫 agy，檔案同步不等於取用行為已驗證。
+ - **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
+ - **定時喚醒防卡死**：背景監控（如 tail 監聽 `AGENT_SIGNAL.log`）必須配合 `schedule` 啟動定時器（例如 90 秒，`TimerCondition` 依情境設定），定時喚醒自己主動檢查監控腳本狀態與日誌更新；禁止被動等待喚醒，避免 AI 進入 idle 後監控中斷。
+ - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Antigravity`。
+@@ -25,4 +26,3 @@
+   - **原則優先與信任判斷（Unhobbling）**：依據清晰目標與意圖運作，減少過多層疊的微觀否定限制（negative constraints），確保推理注意力分配於核心任務。
+   - **豐富構件與自主驗收（Rich References & Verification）**：產生 UI/資料可視化時優先輸出完整 HTML 構件，並結合 `ui-review` / `generate_image` 或自動化測試進行客觀驗收。
+ - **存入全域設定**：照 GLOBAL.md「存入協議」；本工具專屬檔＝`wtf-config/GEMINI.md`。
+-
+
+--- before/wtf-config/GLOBAL.md
++++ after/wtf-config/GLOBAL.md
+@@ -1,10 +1,8 @@
+ # 全域設定（GLOBAL）
+ 
+-> **定義**：「全域設定」＝本檔＋`AGENTS.md` 兩檔，所有 AI 開場必讀，內容互不重複——通則與規範在本檔，溝通方式與角色分工在 AGENTS.md。
+-> **應用範疇**：一切 AI 介面通用——CLI agent（Claude Code、Antigravity、Codex）、Claude Cowork、Claude Chat。
+-> **目的**：讓任何 AI 在任何機器、任何介面上，用同一套規則工作；規則只寫一次（Single Source of Truth），改一處全體生效。
+-> **來源**：WTF_Under_Construction repo。`<WTF_ROOT>`＝本機 WTF repo 絕對路徑（Claude Code 讀 `~/.claude/wtf-root.txt` 取得；各機實路徑見 `wtf-config/machines.md`）。
+-> **維護**：本檔每個 session 都會載入，只放每次都需要的規則；長內容一律放 `wtf-config/playbooks/`，遇到情境才開（路由表見下）。改本檔前先讀 `playbooks/maintenance-protocol.md`。
++> **全域設定**＝本檔（通則）＋`AGENTS.md`（溝通與角色），所有 AI 開場必讀；跨機、CLI、Cowork、Chat 共用單一真相源。
++> **來源**：WTF_Under_Construction。`<WTF_ROOT>` 由本工具的 `wtf-root.txt` 取得（Claude：`~/.claude/wtf-root.txt`），各機路徑見 `machines.md`。
++> **維護**：本檔常駐，長細則按需讀 `playbooks/`；改前必讀 `playbooks/maintenance-protocol.md`。
+ 
+ ## 開場協議（session 首次啟動執行一次，後續不重複）
+ 
+@@ -14,17 +12,17 @@
+    - 讀 `_context/INDEX.md`（現況與指路）→ 讀 INDEX 指到的**當前 TaskLog 一份**（待辦真相源）→ 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
+    - `rules/` 內全部 `.md` 照讀（通常很短）。
+    - 其他 `_context/` 檔案**只在** INDEX「讀取指引」點名、或使用者點名時才讀；`archive/` 與 `ClosedTaskLog_*` 一律跳過。
+-   - 若在任何舊檔看到「讀取所有 .md」指令，以本條為準（判準見 `playbooks/harness-diagnosis.md`）。
++   - 若在任何舊檔看到「讀取所有 .md」指令，以本條為準。
+ 4. **技能載入**：照 AGENTS.md「Skills 載入協議」（lazy-load，開場不讀 body）。
+ 5. 向用戶說明「已載入全域設定」一次，之後直接進主題。
+ 
+ ## 派工與判斷（動手前先過這關）
+ 
+-**派工鐵律（2026-07-25 改：風險／獨立性判斷，工具中立，不指定模型或成本）：**
++**派工鐵律（風險／獨立性判斷，工具中立）：**
+ - **適合派工**：工作可獨立完成、讀取密集、中間過程會產生大量污染主 context 的輸出、可平行處理（如「找找看」式搜尋、大範圍讀取後摘要）→ 派給適合的執行 agent，主對話只收結論＋`檔案:行號`，不下場讀原文。
+ - **不適合派工**：修改彼此高度耦合、多人/多 agent 同時動同一區域、協調成本高於直接執行的成本 → 主 agent 自行處理較划算。
+-- 派工必帶三要素：目標與動機、驗收條件、回報格式。各工具依自身模型調度規則選執行者（Claude 見 `model-dispatch.md`；Codex／其他工具依各自轉接層規則），本規則不指定具體模型或以成本為選擇依據。
+-- 說「已完成」之前必有證據：tool 成功回傳＋驗收逐條對照。**高風險或跨模型的成果**：fresh-context 或跨工具獨立驗證；**低風險單點修改**：允許主 agent 自行執行命令與 read-back，不強制每次另派 agent。檔案交付要經 fresh-context read-back；程式交付要跑測試或實跑。
++- 派工必帶三要素：目標與動機、驗收條件、回報格式。各工具依模型調度規則選執行者（Claude 見 `model-dispatch.md`；其他工具依自身轉接層）；本層按風險與獨立性決定是否派工，模型層再考量額度，不降低驗收標準。
++- 說「已完成」之前必有證據：tool 成功回傳＋驗收逐條對照。**高風險或跨模型的成果**：fresh-context 或跨工具獨立驗證；**低風險單點修改**：允許主 agent 自行執行命令與 read-back，不強制每次另派 agent；**ai-team 仍一律由非作者輪流驗收**。檔案交付要經 fresh-context read-back；程式交付要跑測試或實跑。
+ 
+ **按需路由**（遇到左欄情境才開右欄檔，位置 `<WTF_ROOT>/wtf-config/playbooks/`）：
+ 
+@@ -34,6 +32,8 @@
+ | 交辦 prompt 怎麼寫（五種任務型態範本） | `delegation-templates.md` |
+ | 判斷：何時升級／何時算完成／該不該問使用者／方向錯換路／品質底線 | `judgment-rubrics.md` |
+ | 引用統計數據、畫數據圖表、跨年或同期比較、多來源數字打架 | `data-citation.md` |
++| 決定讀寫位置、啟動服務、git／commit／push | `git-mirror.md` |
++| 交付預覽、可存檔程式／網頁、匯報格式 | `delivery-conventions.md` |
+ | 要改制度檔、教訓寫回哪裡 | `maintenance-protocol.md` |
+ | context 吃緊、失焦、「說完成但沒完成」再犯 | `harness-diagnosis.md` |
+ | 前端／Playwright 驗收踩雷 | `pitfalls-frontend.md` |
+@@ -44,40 +44,22 @@
+ | AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
+ | 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
+ 
+-**Claude_cowork 專案版控鐵律**（只要出現「git」「推」「commit」「push」等字眼，或要決定「在哪個資料夾讀寫檔案、啟動服務」，一律先查此規則）：
+-- **所有專案一律「Drive 工作＋git_mirror 鏡像版控」，不存在「純程式 repo」分類**；唯一例外＝WTF_Under_Construction（控管架構 repo＝所有專案的原則與系統架構，本體直接在 `git_mirror/`）。舊 `Git_work`／`git_work_bk` 資料夾已禁用，registry 未登記的路徑不得當工作位置（PO 2026-07-20 裁定）。
+-- Drive 內任何專案，一律不得原地 git（`init`/`add`/`commit`/`push` 皆禁）——git 與 Drive 同步會互相衝突、鎖檔（已有先例）。
+-- 查本機是否存在 `git_mirror/<專案名>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不隨 Drive 同步，各機獨立）：
+-  - 存在 → **Drive 為唯一真相源，工作在 Drive 做**；`git_mirror/` 只是版控出口。
+-  - 不存在 → 查 GitHub remote（見 `projects-registry.md`）：有就 clone 到 `git_mirror/<專案名>/`；沒有就在該處建新 repo。都不碰 Drive 端。
+-- **使用者說「推上 git」＝一整套動作的簡稱，不是字面指令**：
+-  - 推送前（Drive→mirror）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）複製 Drive→mirror（單向覆蓋，含 `_context/*.md`，不是只有程式碼），再從 mirror `commit`＋`push`。大型二進位（docx/pptx/pdf/圖片/影片）不複製，留在 Drive。
+-  - 開工前（mirror→Drive，反向對稱）：先在 mirror `git pull`（拉其他機器已推的新 commit），再依同一白名單複製 mirror→Drive，才開始在 Drive 讀改檔案——避免改在別人已推過的舊版本上。
+-- **複製後必核**：對照 Drive 與 mirror 的 `_context/` 檔案清單一致；缺檔＝漏複製，不是「這次沒改」。
+-- **後果提醒**：鏡像不全＝工作紀錄只存單機、未進版控＝遺失風險。
++**工作位置／版控**：決定任何讀寫位置、啟動服務，或遇到 git／推／commit／push 前，先查 `projects-registry.md` 與 `playbooks/git-mirror.md`。所有專案 Drive 工作、git_mirror 版控；**唯一例外 WTF_Under_Construction 本體直接在 git_mirror**。Drive 禁原地 git；Git_work／git_work_bk 與未登錄路徑禁用。
+ 
+ ## 工作品質底線
+ 
+ - **做到好＝自行反覆驗證到符合需求為止**，不是「大致完成就交給使用者檢查」。驗證（截圖、測試、視覺比對）是 AI 的責任。
+ - 驗收不符 → 繼續修，不交半成品。未驗收就交付＝把處理成本轉嫁給使用者。此規則優先於完成速度。
+-- **數據引用鐵律（2026-08-20 PO 裁定）**：任何統計值（平均、累計、比率、成長率）引用時必須同時標示**統計起訖期間與口徑**（來源、統計範圍、單一標的或合計、單位、絕對值或比率）——沒有區間與口徑的數字，讀者只能猜。**不得自行推定年段或補參數**，那是杜撰口徑。跨年比較須同月同日或同一口徑；時點不一致的數值不得並列成可比較的圖表或欄位。同一份文件內同一指標只用一種口徑，來源衝突時擇一並註明另一口徑與差異原因。**查不到區間或口徑定義的數值，標為未取得並排除**，不得以「大約」「一般認為」帶過。細則與自檢清單見 `playbooks/data-citation.md`。
++- **引用統計數值／比較／畫圖前**：必標起訖期間與口徑；不得補參數，同期同口徑才能比較，查不到即標未取得並排除。先讀 `playbooks/data-citation.md`。
+ - **「量不準／做不到」幾乎都是方法問題**：換更可靠的手段（先算繪成圖再量、放大檢視、固定變因、換量測 API）再下結論。窮盡可靠方法仍不行，才回報做不到。
+-- **交付即預覽**（2026-08-20 擴大範圍：不限網頁）：交付任何可看可聽的成品（文件、圖檔、影片、音檔、網頁/HTML/圖表）時，主動用使用者系統預設軟體背景開啟，不用等使用者另外要求。**影片／音檔不可自動播放**：改用「在檔案總管/Finder 顯示」而非直接開啟播放器——macOS 用 `open -R "<檔案>"`、Windows 用 `explorer /select,"<檔案>"`，讓使用者自己點開播放。**批次產出（多個檔案）**：改開啟所在資料夾，不逐一開檔——macOS 用 `/usr/bin/open -g "<資料夾>"`、Windows 用 `start "" "<資料夾>"`。其餘單一可預覽檔案（文件/圖檔/網頁/圖表）：macOS 一律用絕對路徑加 `-g`：`/usr/bin/open -g "<檔案>"`（終端機如 cmux 會攔截裸 `open` 開進終端分割視窗，且 cmux 內建瀏覽器版面過於擁擠，不適合預覽）；Windows 用 `start "" "<檔案>"`；無 GUI 環境至少附可點的 `file://`／`http://` 連結，不能只給裸路徑。**`-g` 不可省略**（2026-08-20 PO 裁定）：裸 `open` 會把該 app 搶到前景、打斷使用者當下的工作，`-g` 才是條目所稱的「背景開啟」。另注意：若該檔使用者已在編輯器開著，`open` 只會把舊視窗叫到前面、不會重新載入，交付時要一併提醒重新載入。
+-- **存檔預設路徑鐵律（2026-08-24 PO 裁定，2026-08-27 強化）**：凡是做出「可存檔／可寫回」的程式或網頁，檔案選擇器的**預設位置一律指向該檔案應該存放的目標資料夾**，不得讓使用者自己去找路徑。第一次選定後把 handle 存 IndexedDB，之後直接寫回同一位置、不再跳窗。無法預設到精確位置時，至少在按鈕旁明示目標路徑全文。**判準**：使用者若得自己翻資料夾才能存到對的地方，就是沒做完。
+-  - **檢核／勾選類網頁＝覆蓋原檔，不是另存新檔**：存檔目標永遠是它自己資料夾內的既有狀態檔，UI 用語寫「覆蓋」不寫「另存」。
+-  - **預設位置禁止落在系統「文件／Documents」**（downloads／desktop 同理）：`startIn` 不得寫 `'documents'`；沒有可用 handle 時寧可不給 `startIn`，並在按鈕旁附「複製資料夾路徑」按鈕＋走法說明（macOS 對話框按 ⌘⇧G 貼上、Windows 在檔名欄貼完整路徑），讓使用者一步跳到目標夾。**判準補充**：使用者若在對話框看到「文件」而得自己翻回專案資料夾，就是沒做完。
+-  - handle 存進 IndexedDB 後**必須於頁面載入時預讀成變數**，不可在 click 事件內才 `await` IndexedDB——那樣會失去使用者手勢資格，picker 直接開不起來。
+-  - 實作寫法與常見失敗見 `playbooks/pitfalls-frontend.md`「檔案存取（FSA）」節。
++- **交付可看可聽成品**：主動背景預覽；macOS 用 `/usr/bin/open -g`，影音只顯示所在位置、不自動播放，批次開資料夾；命令與例外見 `playbooks/delivery-conventions.md`。
++- **可存檔程式／網頁**：預設指向目標資料夾，記住首次選擇以後寫回；不能精確預設就明示路徑，禁以 Documents 等系統資料夾保底。檢核頁覆蓋原檔；細則先讀 `playbooks/delivery-conventions.md`，FSA 實作再讀 `playbooks/pitfalls-frontend.md`。
+ - 溝通方式與角色分工的全部規則在 `AGENTS.md`（兩檔綁定必讀，本檔不重複）。
+ 
+ ## 全域設定的維護
+ 
+-- **存入協議**：收到「存入全域設定」指令時——1) 更新 repo 的 `wtf-config/GLOBAL.md` 或對應工具檔；2) 跑 `sync_config.py sync` 部署到本機；3) 回報設定點位摘要。改動前先讀 `playbooks/maintenance-protocol.md` 確認該檔的修改權限。
+-- **工具層級設定**（各工具專屬差異，與全域設定合併生效）：
+-  - Claude Code：`wtf-config/CLAUDE_CODE.md`（部署為 `~/.claude/CLAUDE.md`）
+-  - Antigravity/Gemini：`wtf-config/GEMINI.md`｜OpenAI Codex：`wtf-config/CODEX.md`
+-  - Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（每 session 以 raw URL 抓取）｜Claude Chat：`wtf-config/CLAUDE_CHAT.md`（貼入 Project instruction）
+-- **共用資源**：清單 SSOT＝`wtf-config/RESOURCES.md`，登記每台機器有哪些資源（venv、大檔、API 能力）、放哪、能不能用。需要時依所在機器查表；本機沒有就照「建立方式」建好並回填。生成式影像/影片（GCP Vertex AI）是帳號級能力、跨機通用。在 wmux 終端內工作時讀 `~/.wmux/AGENT_CONTEXT.md`（不存在＝不在 wmux 環境，跳過）。
++- **改制度或存入全域設定前**：先讀 `playbooks/maintenance-protocol.md`；更新對應 SSOT，跑 `sync_config.py sync` 後核對 `check`，再回報點位。工具入口映射與完整存入協議見該檔。
++- **需要環境／API／大檔資源**：查 `RESOURCES.md` 本機列；wmux 環境另讀 `~/.wmux/AGENT_CONTEXT.md`（不存在略過）。
+ 
+ ## 檔案、命名與輸出規範
+ 
+@@ -110,5 +92,5 @@
+ - **結案歸檔**：TaskLog 結案＝改前綴 `ClosedTaskLog_` **並**移入 `_context/archive/`；Handover 被接手後同樣歸檔。`_context/` 只留進行中的檔案。
+ - **教訓兩層**：工作層（詳述）寫各專案 `_context/lessons-learned.md`；雲端層（索引）在 `wtf-config/LESSONS.md`，每條格式「專案｜日期｜一句話｜連結」。工作層新增後須同步登錄索引一行。
+ - **共編檔鐵律（`W_` 前綴，2026-08-14 PO 裁定）**：檔名以 `W_` 開頭的文件＝使用者與 AI 共編，預設使用者可能已直接編輯。使用者說「我已編輯」後：**禁止用產生器／整檔重建腳本改檔**（會覆蓋使用者編輯）；動檔前必先重新讀取檔案最新內容（以 Drive 最新存檔版為基準），之後只做就地增量修改，改前備份至 archive。
+-- **Excel 輸出字體（2026-08-14 PO 裁定）**：一律 Calibri（拉丁）＋微軟正黑體（中文）——設定 xlsx theme major/minor 字體的 latin=Calibri、ea=微軟正黑體，儲存格用預設（theme）字體即可兩者並用。
+-- **輸出格式**（2026-07-25 改：範圍限縮）：agent 向使用者（PO）本人匯報用的文件，優先使用 HTML（`.html`）；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。**業主／廠商端的正式交付物不受此限**，依各專案慣例（docx/pptx 等）——先前「文件輸出一律 HTML」誤把匯報格式與交付物格式混為一談，兩者分開。
++- **Excel／CSV 輸出**：先讀 `playbooks/pitfalls-office-docs.md`（含 xlsx 字體及匯出規範）。
++- **選擇匯報／交付格式**：PO 匯報優先 HTML（有 `rules/html-preferences.md` 須先讀）；業主／廠商正式交付依專案格式。見 `playbooks/delivery-conventions.md`。
+
+--- before/wtf-config/sync_config.py
++++ after/wtf-config/sync_config.py
+@@ -29,6 +29,8 @@
+ import html
+ import re
+ from pathlib import Path
++
++from skill_catalog import check_skill_set, deploy_skill_set, read_skills
+ 
+ SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
+ SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
+@@ -290,7 +292,7 @@
+     """回傳 (claude_md_ok, skills_ok, 說明list)"""
+     notes = []
+     claude_md = CLAUDE_DIR / "CLAUDE.md"
+-    skills_dst = CLAUDE_DIR / "skills"
++    skills_ok = None  # 內容與索引統一由 _check_skills 驗證
+ 
+     if not SSOT_CLAUDE.exists():
+         notes.append(f"  ! [SKIP  ] ~/.claude/CLAUDE.md — 真相源 {SSOT_CLAUDE} 不存在")
+@@ -311,27 +313,10 @@
+ 
+     bundle_ok, bundle_notes = check_bundle_integrity()
+     notes.extend(bundle_notes)
+-    if bundle_ok is False:
++    if bundle_ok is not True:
+         claude_md_ok = False
+-
+-    if not SSOT_SKILLS.exists():
+-        notes.append(f"  ! [SKIP  ] ~/.claude/skills/ — 真相源 {SSOT_SKILLS} 不存在")
+-        skills_ok = None
+-    elif not skills_dst.exists():
+-        notes.append(f"  x [MISSING] ~/.claude/skills/")
+-        skills_ok = False
+-    elif skills_dst.is_symlink():
+-        notes.append(f"  x [SYMLINK] ~/.claude/skills/ — 仍為 symlink，需改為實體目錄")
+-        skills_ok = False
+-    else:
+-        ssot_skills = sorted([p.name for p in SSOT_SKILLS.iterdir() if p.is_dir()])
+-        dst_skills = sorted([p.name for p in skills_dst.iterdir() if p.is_dir()])
+-        if ssot_skills == dst_skills:
+-            notes.append(f"  v [OK     ] ~/.claude/skills/ （{len(ssot_skills)} 個 skill）")
+-            skills_ok = True
+-        else:
+-            notes.append(f"  x [STALE  ] ~/.claude/skills/ — skill 清單不符")
+-            skills_ok = False
++        if bundle_ok is None:
++            notes.append("  x [MISSING] Claude session bundle import 必須存在")
+ 
+     # subagent 定義（~/.claude/agents/，per-machine 部署洞要主動驗）
+     if SSOT_AGENTS.exists():
+@@ -352,13 +337,13 @@
+ 
+ 
+ def deploy_claude_dir():
+-    """複製 CLAUDE_CODE.md → ~/.claude/CLAUDE.md，skills/ → ~/.claude/skills/"""
++    """部署 Claude bootstrap、session bundle 與 subagent 定義。"""
+     results = []
+     CLAUDE_DIR.mkdir(exist_ok=True)
+ 
+     # 絕對路徑錨點：供 session-start／CLAUDE.md 從任何 cwd（含非 WTF 專案）定位 WTF repo 讀 SSOT
+     try:
+-        (CLAUDE_DIR / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
++        (CLAUDE_DIR / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="utf-8")
+         results.append(f"  v 寫入 ~/.claude/wtf-root.txt（{REPO_ROOT}）")
+     except Exception as e:
+         results.append(f"  ! 略過 ~/.claude/wtf-root.txt（{e}）")
+@@ -374,35 +359,6 @@
+         results.extend(bundle_notes)
+     else:
+         results.append(f"  - 略過 ~/.claude/CLAUDE.md（真相源不存在）")
+-
+-    if SSOT_SKILLS.exists():
+-        dst_root = CLAUDE_DIR / "skills"
+-        if dst_root.is_symlink():
+-            dst_root.unlink()
+-        dst_root.mkdir(parents=True, exist_ok=True)
+-        # 逐 skill 複製：dirs_exist_ok 合併、單一鎖定只略過該項，不整批 rmtree
+-        ssot_names = set()
+-        ok = 0
+-        for skill_src in sorted(SSOT_SKILLS.iterdir()):
+-            if not skill_src.is_dir():
+-                continue
+-            ssot_names.add(skill_src.name)
+-            try:
+-                shutil.copytree(skill_src, dst_root / skill_src.name, dirs_exist_ok=True)
+-                ok += 1
+-            except Exception as e:
+-                results.append(f"  ! 略過 skills/{skill_src.name}（{e}）")
+-        results.append(f"  v 寫入 ~/.claude/skills/（{ok} 個 skill）")
+-        # 容錯移除 SSOT 已不存在的舊 skill
+-        for old in sorted(dst_root.iterdir()):
+-            if old.is_dir() and old.name not in ssot_names:
+-                try:
+-                    shutil.rmtree(old)
+-                    results.append(f"  - 移除舊 skill skills/{old.name}（SSOT 已無）")
+-                except Exception as e:
+-                    results.append(f"  ! 無法移除 skills/{old.name}（{e}）")
+-    else:
+-        results.append(f"  - 略過 ~/.claude/skills/（真相源不存在）")
+ 
+     # subagent 定義 → ~/.claude/agents/（只加不 prune：agents 夾可能有使用者自建 agent）
+     if SSOT_AGENTS.exists():
+@@ -442,244 +398,159 @@
+ # 工具中立 SSOT 仍是專案內 ._agents/skills/，本函式只負責複製到雙方原生路徑，SSOT 目錄不動。
+ 
+ 
+-def deploy_project_skills():
+-    """把每個已註冊專案的 ._agents/skills/（工具中立 SSOT）複製到各工具原生路徑，
+-    讓 Claude Code 與 Codex 都能原生自動發現同一批專案 skill，不必再靠 AGENTS.md
+-    指示模型手動去看 ._agents/skills/。
+-
+-    **只加不刪**：與 deploy_other_tools()（~/.claude/skills、~/.codex/skills）不同，
+-    專案內的 .claude/skills/、.agents/skills/ 不是本機制專屬管理的目錄——可能已有
+-    使用者/其他工具直接放在那裡、不透過 ._agents/skills/ 來源的既有 skill（2026-07-25
+-    事故：prune 邏輯誤刪 cowork_CDIC/.claude/skills/ 下 3 個非 SSOT 來源的既有 skill，
+-    當場移除 prune，見 lessons-learned）。故只 copytree 合併寫入，永不刪除既有內容，
+-    即使 SSOT 移除某 skill 也不回頭清掉部署端，孤兒清理需人工手動處理。"""
++def _skill_targets():
++    """全域為本機絕對路徑；專案索引指向相對專案根的 SSOT。"""
++    targets = []
++    for base in [CLAUDE_DIR] + [tool["home"] for tool in OTHER_TOOLS]:
++        if base.is_dir():
++            targets.append(dict(source=SSOT_SKILLS, destination=base / "skills",
++                                index_path=base / "wtf-skills-index.md"))
++    for project in registry_dirs():
++        source = project / "._agents" / "skills"
++        if source.is_dir():
++            for relative in PROJECT_SKILL_NATIVE_DIRS:
++                targets.append(dict(source=source, destination=project / relative,
++                                    index_path=project / "._agents" / "skills-index.md",
++                                    index_root=source, relative_to=project))
++    return targets
++
++
++def _check_skills():
++    has_error, notes = False, []
++    for target in _skill_targets():
++        has_failed, details = check_skill_set(**target)
++        has_error = has_error or has_failed
++        notes.extend(details)
++    for tool in OTHER_TOOLS:
++        if not tool["home"].is_dir():
++            notes.append(f"  - [SKIP   ] {tool['home']}（工具未安裝）")
++    return has_error, notes
++
++
++def deploy_other_tools():
++    """部署已安裝工具的 bootstrap；skill 複製由 deploy_skill_set 統一處理。"""
+     results = []
+-    for project_dir in registry_dirs():
+-        src_root = project_dir / "._agents" / "skills"
+-        if not src_root.is_dir():
+-            continue
+-        skill_names = {s.name for s in src_root.iterdir() if s.is_dir()}
+-        if not skill_names:
+-            continue
+-        for rel in PROJECT_SKILL_NATIVE_DIRS:
+-            dst_root = project_dir / rel
+-            dst_root.mkdir(parents=True, exist_ok=True)
+-            ok = 0
+-            for name in sorted(skill_names):
+-                dst = dst_root / name
+-                if dst.is_symlink():
+-                    dst.unlink()
+-                try:
+-                    shutil.copytree(src_root / name, dst, dirs_exist_ok=True)
+-                    ok += 1
+-                except Exception as e:
+-                    results.append(f"  ! 略過 {project_dir.name}/{rel}/{name}（{e}）")
+-            if ok:
+-                results.append(f"  v {project_dir.name}/{rel}/（{ok} 個專案 skill，僅新增/合併，不刪既有內容）")
+-    return results
+-
+-
+-def deploy_other_tools():
+-    """把 SSOT skills + 全域指令檔實體複製到 codex／gemini（present 才做）。
+-    skills 保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
+-    保護工具自有 skill（symlink 如 find-skills、dotted 如 .system）。
+-    全域指令檔：複製前拆同名 symlink（含斷鏈）寫實體；清掉 stale 斷鏈檔。"""
+-    results = []
+-    if not SSOT_SKILLS.exists():
+-        return results
+-    ssot_names = {s.name for s in SSOT_SKILLS.iterdir() if s.is_dir()}
+     for tool in OTHER_TOOLS:
+         base = tool["home"]
+         if not base.is_dir():
+-            continue  # 工具未安裝，跳過
+-        dst_root = base / "skills"
+-        dst_root.mkdir(parents=True, exist_ok=True)
+-        # 同寫錨點到工具 home，供該工具從任何 cwd 定位 WTF repo
+-        try:
+-            (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
+-        except Exception:
+-            pass
+-        # 全域指令檔（bootstrap）：實體複製到該工具原生會讀的檔名
+-        instr_src = tool["instr_src"]
+-        if instr_src.exists():
+-            dst = base / tool["instr_dst"]
+-            if dst.is_symlink():
+-                dst.unlink()
+-            shutil.copy2(instr_src, dst)
+-            results.append(f"  v 寫入 ~/{base.name}/{tool['instr_dst']}（全域指令）")
+-        else:
+-            results.append(f"  - 略過 ~/{base.name}/{tool['instr_dst']}（真相源 {instr_src.name} 不存在）")
+-        # 清掉斷鏈／舊指令檔（如移出 Drive 後 dangling 的 symlink）
++            continue
++        (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="utf-8")
++        source = tool["instr_src"]
++        if not source.exists():
++            raise FileNotFoundError(source)
++        destination = base / tool["instr_dst"]
++        if destination.is_symlink():
++            destination.unlink()
++        shutil.copy2(source, destination)
++        results.append(f"  v 寫入 {destination}（全域指令）")
+         for name in tool["stale"]:
+-            p = base / name
+-            if p.is_symlink():
+-                p.unlink()
+-                results.append(f"  - 移除斷鏈/舊檔 ~/{base.name}/{name}（symlink）")
+-        ok = 0
+-        for name in sorted(ssot_names):
+-            dst = dst_root / name
+-            # 與 SSOT 同名的 symlink（含舊架構死連結）會讓 copytree 報 FileExistsError
+-            # 而被略過 → 工具讀到斷鏈或舊版。複製前先拆掉它，改寫實體副本。
+-            # 只拆「佔用 WTF skill 名稱」者；工具自有的其他 symlink（如 find-skills）名稱
+-            # 不在 ssot_names，不受影響。
+-            if dst.is_symlink():
+-                dst.unlink()
+-            try:
+-                shutil.copytree(SSOT_SKILLS / name, dst, dirs_exist_ok=True)
+-                ok += 1
+-            except Exception as e:
+-                results.append(f"  ! 略過 {base.name}/skills/{name}（{e}）")
+-        # 保守 prune：刪 SSOT 已移除的孤兒 WTF skill。
+-        # 保護工具自有 skill：dotted（.system）跳過；symlink（find-skills）由 rmtree 自身拒刪
+-        # 並靜默略過（Windows MSYS symlink 之 is_symlink() 偵測不可靠，故靠 rmtree 守門）。
+-        for entry in sorted(dst_root.iterdir()):
+-            if (entry.is_dir() and not entry.name.startswith(".")
+-                    and entry.name not in ssot_names):
+-                try:
+-                    shutil.rmtree(entry)
+-                    results.append(f"  - 移除 {base.name}/skills/{entry.name}（SSOT 已無）")
+-                except Exception:
+-                    pass  # symlink 或鎖定 → 視為工具自有，保留
+-        results.append(f"  v 寫入 ~/{base.name}/skills/（{ok} 個 WTF skill；保護 symlink/dotted 自有 skill）")
++            stale = base / name
++            if stale.is_symlink():
++                stale.unlink()
++                results.append(f"  - 移除 {stale}（舊指令 symlink）")
+     return results
+ 
+ 
+-def cmd_check():
+-    sys.stdout.reconfigure(encoding="utf-8")
+-    ssot_body = read_ssot()
+-    print(f"真相源: {SSOT}")
+-    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）\n")
+-    counts = {}
+-    broken = []
+-    orphans = []
+-    for d in registry_dirs():
+-        target = d / "AGENTS.md"
+-        status, note = classify(target, ssot_body)
++def _check_projects(ssot_body):
++    counts, broken, orphans = {}, [], []
++    for directory in registry_dirs():
++        status, note = classify(directory / "AGENTS.md", ssot_body)
+         counts[status] = counts.get(status, 0) + 1
+-        flag = "v" if status == "OK" else "x"
+-        print(f"  {flag} [{status:7}] {d.name}/AGENTS.md  — {note}")
++        print(f"  {'v' if status == 'OK' else 'x'} [{status:7}] {directory.name}/AGENTS.md — {note}")
+         if status in ("MISSING", "BROKEN", "STALE"):
+-            broken.append(d.name)
+-        for dup in d.glob("AGENTS (*).md"):
+-            orphans.append(str(dup))
+-
+-    print("\n--- ~/.claude/ ---")
+-    _, _, notes = check_claude_dir()
+-    for n in notes:
+-        print(n)
+-
+-    # 其他工具（Codex／Gemini）全域指令檔：驗證原生會讀的檔名存在且非空
+-    other_notes = []
++            broken.append(str(directory / "AGENTS.md"))
++        orphans.extend(str(path) for path in directory.glob("AGENTS (*).md"))
++    return counts, broken, orphans
++
++
++def _check_tool_instructions():
++    broken, notes = [], []
+     for tool in OTHER_TOOLS:
+         base = tool["home"]
+         if not base.is_dir():
+             continue
+-        dst = base / tool["instr_dst"]
+-        if dst.is_symlink() and not dst.exists():
+-            other_notes.append(f"  x [BROKEN ] ~/{base.name}/{tool['instr_dst']} 斷鏈(dangling symlink)")
+-            broken.append(f"{base.name}/{tool['instr_dst']}")
+-        elif not dst.exists() or dst.stat().st_size == 0:
+-            other_notes.append(f"  x [MISSING] ~/{base.name}/{tool['instr_dst']} 不存在或空檔")
+-            broken.append(f"{base.name}/{tool['instr_dst']}")
++        source, target = tool["instr_src"], base / tool["instr_dst"]
++        if target.is_symlink() or not target.is_file() or not source.is_file():
++            broken.append(str(target))
++            notes.append(f"  x [MISSING] {target}（需實體入口與來源）")
++        elif target.read_bytes() != source.read_bytes():
++            broken.append(str(target))
++            notes.append(f"  x [STALE  ] {target}（內容與真相源不符）")
+         else:
+-            other_notes.append(f"  v [OK     ] ~/{base.name}/{tool['instr_dst']}（全域指令）")
++            notes.append(f"  v [OK     ] {target}（全域指令內容）")
+         for name in tool["stale"]:
+-            p = base / name
+-            if p.is_symlink():
+-                other_notes.append(f"  ! [STALE  ] ~/{base.name}/{name} 殘留 symlink（sync 會清）")
+-    if other_notes:
+-        print("\n--- 其他工具（Codex／Gemini）全域指令 ---")
+-        for n in other_notes:
+-            print(n)
+-
+-    # 專案 skill：._agents/skills/（SSOT）是否已鏡射到雙方原生路徑
+-    # 只加不刪機制（見 deploy_project_skills 註解）：檢查 SSOT 集是否為 dst 的子集即可，
+-    # dst 允許有 SSOT 之外的既有 skill（非本機制管理），不可要求兩者完全相等。
+-    proj_skill_notes = []
+-    for d in registry_dirs():
+-        src_root = d / "._agents" / "skills"
+-        if not src_root.is_dir():
+-            continue
+-        ssot_names = sorted(s.name for s in src_root.iterdir() if s.is_dir())
+-        if not ssot_names:
+-            continue
+-        for rel in PROJECT_SKILL_NATIVE_DIRS:
+-            dst_root = d / rel
+-            if not dst_root.is_dir():
+-                proj_skill_notes.append(f"  x [MISSING] {d.name}/{rel}/")
+-                broken.append(f"{d.name}/{rel}")
+-                continue
+-            dst_names = set(s.name for s in dst_root.iterdir() if s.is_dir())
+-            missing = [n for n in ssot_names if n not in dst_names]
+-            if not missing:
+-                proj_skill_notes.append(f"  v [OK     ] {d.name}/{rel}/（含全部 {len(ssot_names)} 個 SSOT skill）")
+-            else:
+-                proj_skill_notes.append(f"  x [STALE  ] {d.name}/{rel}/ — 缺 {', '.join(missing)}")
+-                broken.append(f"{d.name}/{rel}")
+-    if proj_skill_notes:
+-        print("\n--- 專案 skill（._agents/skills/ → 各工具原生路徑）---")
+-        for n in proj_skill_notes:
+-            print(n)
+-
+-    print("\n--- 統計 ---")
+-    for k, v in sorted(counts.items()):
+-        print(f"  {k}: {v}")
+-    adopt_n = counts.get("ADOPT", 0)
+-    if adopt_n:
+-        print(f"\n[可接管] {adopt_n} 個無標頭但內容與真相源一致，跑 `sync` 自動補標頭接管。")
+-    if orphans:
+-        print("\n--- 重複命名孤兒檔（Drive 產生，sync 不動，建議確認後手動清理）---")
+-        for o in orphans:
+-            print(f"  {o}")
++            if (base / name).is_symlink():
++                broken.append(str(base / name))
++                notes.append(f"  x [STALE  ] {base / name}（舊 symlink）")
++    return broken, notes
++
++
++def cmd_check():
++    sys.stdout.reconfigure(encoding="utf-8")
++    print(f"真相源: {SSOT}")
++    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）")
++    counts, broken, orphans = _check_projects(read_ssot())
++    claude_ok, _, notes = check_claude_dir()
++    if claude_ok is False or any("  x [" in note for note in notes):
++        broken.append(str(CLAUDE_DIR))
++    other_broken, other_notes = _check_tool_instructions()
++    broken.extend(other_broken)
++    skills_failed, skill_notes = _check_skills()
++    if skills_failed:
++        broken.append("skill 副本／索引")
++    for note in notes + other_notes + skill_notes:
++        print(note)
++    for key, value in sorted(counts.items()):
++        print(f"  {key}: {value}")
++    if counts.get("ADOPT"):
++        print("[可接管] 無標頭但內容一致，sync 會補標頭。")
++    for orphan in orphans:
++        print(f"[重複命名] {orphan}（sync 不動）")
+     if broken:
+-        print(f"\n[需修復] {len(broken)} 個專案 AGENTS.md 失效/過期: {', '.join(broken)}")
+-        print("執行 `python sync_config.py sync` 修復。")
++        print(f"[需修復] {len(broken)} 項：{', '.join(broken)}")
++        print("執行 `python3 sync_config.py sync`（Windows 用 python）。")
+         return 1
+-    print("\n[OK] 全部與真相源一致。")
++    print("[OK] 設定、SSOT skill 內容與索引一致；不代表各工具行為皆已驗證。")
+     return 0
+ 
+ 
+ def cmd_sync():
+     sys.stdout.reconfigure(encoding="utf-8")
++    # metadata 預檢在所有寫入之前，避免半套索引部署。
++    try:
++        sources = {SSOT_SKILLS} | {target["source"] for target in _skill_targets()}
++        for source in sources:
++            read_skills(source)
++    except (ValueError, OSError) as error:
++        print(f"[INVALID] {error}")
++        return 1
+     ssot_body = read_ssot()
+-    hostname = socket.gethostname()
+-    _, content = build_copy(ssot_body, hostname)
++    _, content = build_copy(ssot_body, socket.gethostname())
+     print(f"真相源: {SSOT}")
+-    print(f"本機: {hostname}\n")
+-    written, skipped = 0, []
+-    for d in registry_dirs():
+-        target = d / "AGENTS.md"
++    for directory in registry_dirs():
++        target = directory / "AGENTS.md"
+         status, note = classify(target, ssot_body)
+         if status == "FOREIGN":
+-            skipped.append(d.name)
+-            print(f"  - 略過 {d.name}/AGENTS.md（{note}）")
+-            continue
+-        if target.is_symlink():            # 防寫穿 symlink 污染真相源（root AGENTS.md）
++            print(f"  - 略過 {directory.name}/AGENTS.md（{note}）")
++            continue
++        if status == "OK":
++            print(f"  v 保留 {directory.name}/AGENTS.md（內容一致）")
++            continue
++        if target.is_symlink():
+             target.unlink()
+         target.write_text(content, encoding="utf-8")
+-        written += 1
+-        tag = "接管" if status == "ADOPT" else "寫入"
+-        print(f"  v {tag} {d.name}/AGENTS.md")
+-    print(f"\n完成: 寫入 {written} 個專案 AGENTS.md。")
+-    if skipped:
+-        print(f"略過 {len(skipped)} 個 FOREIGN: {', '.join(skipped)}")
+-
+-    print("\n--- ~/.claude/ 部署 ---")
+-    for r in deploy_claude_dir():
+-        print(r)
+-
+-    other = deploy_other_tools()
+-    if other:
+-        print("\n--- 其他工具（Codex／Gemini）全域指令＋skills 部署 ---")
+-        for r in other:
+-            print(r)
+-
+-    proj_skills = deploy_project_skills()
+-    if proj_skills:
+-        print("\n--- 專案 skill（各專案 ._agents/skills/ → .claude/skills/ ＋ .agents/skills/）---")
+-        for r in proj_skills:
+-            print(r)
+-    return 0
++        print(f"  v 寫入 {directory.name}/AGENTS.md")
++    try:
++        for note in deploy_claude_dir() + deploy_other_tools():
++            print(note)
++        for target in _skill_targets():
++            for note in deploy_skill_set(**target):
++                print(note)
++    except (ValueError, OSError) as error:
++        print(f"[ERROR] 部署失敗：{error}")
++        return 1
++    # 不把部分部署／被舊邏輯略過的例外當成功。
++    return cmd_check()
+ 
+ 
+ def cmd_register():
+
+--- before/wtf-config/skill_catalog.py
++++ after/wtf-config/skill_catalog.py
+@@ -0,0 +1,174 @@
++"""WTF skill metadata、備援索引與實體副本驗證；不做語意觸發判斷。"""
++
++import json
++import re
++import shutil
++from pathlib import Path
++
++
++def _scalar(value, path):
++    """接受純文字與單/雙引號 scalar；其他 YAML 結構需明確報錯。"""
++    if value.startswith('"'):
++        try:
++            result = json.loads(value)
++        except json.JSONDecodeError as error:
++            raise ValueError(f"{path}: 非法雙引號 metadata") from error
++        if not isinstance(result, str):
++            raise ValueError(f"{path}: metadata 必須是文字")
++        return result
++    if value.startswith("'"):
++        if not value.endswith("'") or len(value) < 2:
++            raise ValueError(f"{path}: 單引號未關閉")
++        return value[1:-1].replace("''", "'")
++    if value.startswith(("[", "{", "&", "*", "!")):
++        raise ValueError(f"{path}: name/description 僅支援文字 scalar")
++    return value
++
++
++def read_metadata(path):
++    """讀 name/description；支援單行或 |/> 多行，不引入 YAML 依賴。"""
++    text = path.read_text(encoding="utf-8-sig")
++    match = re.match(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|\Z)", text, re.S)
++    if not match:
++        raise ValueError(f"{path}: 缺 frontmatter")
++    lines = match.group(1).splitlines()
++    metadata = {}
++    for position, line in enumerate(lines):
++        field = re.match(r"^(name|description):\s*(.*)$", line)
++        if not field:
++            continue
++        key, value = field.groups()
++        if key in metadata:
++            raise ValueError(f"{path}: 重複欄位 {key}")
++        if value in ("|", ">", "|-", ">-", "|+", ">+"):
++            block = []
++            for following in lines[position + 1:]:
++                if following and not following[0].isspace():
++                    break
++                block.append(following.strip())
++            value = " ".join(block)
++        else:
++            value = _scalar(value.strip(), path)
++        metadata[key] = " ".join(value.split())
++    for key in ("name", "description"):
++        if not metadata.get(key):
++            raise ValueError(f"{path}: 缺少或空白 {key}")
++    return metadata
++
++
++def read_skills(source):
++    if not source.is_dir() or source.is_symlink():
++        raise ValueError(f"{source}: skill SSOT 必須是實體目錄")
++    skills, names = [], set()
++    for directory in sorted(source.iterdir()):
++        if not directory.is_dir() or directory.name.startswith("."):
++            continue
++        path = directory / "SKILL.md"
++        if directory.is_symlink() or any(item.is_symlink() for item in directory.rglob("*")):
++            raise ValueError(f"{directory}: SSOT 不允許 symlink")
++        metadata = read_metadata(path) if path.is_file() else None
++        if metadata is None:
++            raise ValueError(f"{path}: 缺 SKILL.md")
++        key = metadata["name"].casefold()
++        if key in names:
++            raise ValueError(f"{path}: 同層重名 skill {metadata['name']}")
++        names.add(key)
++        skills.append(dict(metadata, directory=directory))
++    return skills
++
++
++def _cell(value):
++    return str(value).replace("&", "&amp;").replace("|", "&#124;").replace("`", "&#96;").replace("<", "&lt;").replace(">", "&gt;")
++
++
++def render_index(source, index_root, relative_to=None):
++    skills = read_skills(source)
++    source_label = source.relative_to(relative_to) if relative_to else source.absolute()
++    lines = [f"<!-- 由 sync_config.py 產生，勿手改；來源 SSOT: {_cell(source_label)} -->",
++             "# WTF skill 備援索引", "",
++             "僅列 SSOT metadata。原生清單可用時不必重讀；同名專案優先。",
++             "description 是觸發描述，命中才讀 SKILL.md；索引不保證模型會執行。",
++             "path 相對專案根解析；絕對路徑則為本機部署位置。", "",
++             "| name | description | path |", "|---|---|---|"]
++    for skill in skills:
++        path = index_root / skill["directory"].name / "SKILL.md"
++        path = path.relative_to(relative_to) if relative_to else path.absolute()
++        lines.append(f"| {_cell(skill['name'])} | {_cell(skill['description'])} | `{_cell(path)}` |")
++    return "\n".join(lines) + "\n"
++
++
++def _make_directory(path):
++    if path.is_symlink():
++        path.unlink()
++    path.mkdir(parents=True, exist_ok=True)
++
++
++def _copy_skill(source, destination):
++    _make_directory(destination)
++    for item in sorted(source.rglob("*")):
++        target = destination / item.relative_to(source)
++        if item.is_dir():
++            _make_directory(target)
++        elif item.is_file():
++            if target.is_symlink():
++                target.unlink()
++            shutil.copy2(item, target)
++
++
++def deploy_skill_set(source, destination, index_path, index_root=None, relative_to=None):
++    skills = read_skills(source)
++    content = render_index(source, index_root or destination, relative_to)
++    _make_directory(destination)
++    for skill in skills:
++        _copy_skill(skill["directory"], destination / skill["directory"].name)
++    index_path.parent.mkdir(parents=True, exist_ok=True)
++    if index_path.is_symlink():
++        index_path.unlink()
++    index_path.write_text(content, encoding="utf-8")
++    return [f"  v 寫入 {destination}（{len(skills)} 個 SSOT skill；只新增/覆蓋，不刪額外目錄）",
++            f"  v 寫入 {index_path}"]
++
++
++def _skill_errors(skill, destination):
++    source = skill["directory"]
++    target = destination / source.name
++    errors = []
++    if target.is_symlink() or not target.is_dir():
++        return [f"{target}: 缺實體 skill 目錄"]
++    for item in sorted(source.rglob("*")):
++        deployed = target / item.relative_to(source)
++        if item.is_dir():
++            if deployed.is_symlink() or not deployed.is_dir():
++                errors.append(f"{deployed}: 缺實體子目錄")
++        elif item.is_file():
++            if deployed.is_symlink() or not deployed.is_file() or item.read_bytes() != deployed.read_bytes():
++                errors.append(f"{deployed}: 缺檔、symlink 或內容過期")
++    return errors
++
++
++def check_skill_set(source, destination, index_path, index_root=None, relative_to=None):
++    try:
++        skills = read_skills(source)
++        expected = render_index(source, index_root or destination, relative_to)
++    except (ValueError, OSError) as error:
++        return True, [f"  x [INVALID] {error}"]
++    errors, notes = [], []
++    if destination.is_symlink() or not destination.is_dir():
++        errors.append(f"{destination}: 缺實體 skills 目錄")
++    else:
++        for skill in skills:
++            errors.extend(_skill_errors(skill, destination))
++        known = {skill["directory"].name for skill in skills}
++        extra = sorted(item.name for item in destination.iterdir() if item.name not in known)
++        if extra:
++            notes.append(f"  ! [EXTRA  ] {destination}: {', '.join(extra)}（非 SSOT／可能退役；保留，不判失效）")
++    if index_path.is_symlink() or not index_path.is_file() or index_path.read_bytes() != expected.encode("utf-8"):
++        errors.append(f"{index_path}: 索引缺失或內容過期")
++    for skill in skills:
++        if skill["name"] != skill["directory"].name:
++            notes.append(f"  ! [NAME   ] {skill['directory']}: name={skill['name']} 與資料夾不同")
++    notes.extend(f"  x [STALE  ] {error}" for error in errors)
++    if not errors:
++        file_count = sum(item.is_file() for skill in skills for item in skill["directory"].rglob("*"))
++        notes.append(f"  v [OK     ] {destination}（{len(skills)} skills／{file_count} 檔內容＋索引）")
++    return bool(errors), notes
+
+--- before/wtf-config/playbooks/model-dispatch.md
++++ after/wtf-config/playbooks/model-dispatch.md
+@@ -1,95 +1,89 @@
+ # 模型調度守則
+-> 適用：Claude Code（含 web/remote）。Codex／Antigravity 跨工具派工另見 `skills/ai-team`、`tools/ody`
+-> 目的：主對話（指揮官）的 context 與額度只花在判斷上，粗活派便宜 subagent
+-> 觸發時機：任何任務動手前先過「派工判斷」；不確定就查本檔，不憑感覺
++> 適用：Claude Code（含 web/remote）；跨工具派工使用 `skills/ai-team`，Codex／Antigravity 參數依各自工具 schema。
++> 目的：按錯誤代價、可驗收性與協調成本派工，品質條件不變，避免同角色重複使用高階額度。
++> 觸發：要派 subagent、選模型或 effort、升降級時讀本檔；是否適合派工先依 GLOBAL.md。
+ 
+-## 0. 型號與參數（2026-07-03 查證值，會過時）
++## 0. 型號與參數（2026-09-14 本機查證值，會過時）
+ 
+-**查證方式**：以下值查證自 2026-07-03 的 Claude Code remote 環境。型號會更新，**引用前先驗證**：問 `claude-code-guide` subagent「目前可用模型與 ID」，或看 `/model` 選單。**禁止憑訓練記憶填型號**；查不到的欄位寫「待使用者填」。
++來源：PO 指定交接文件 `Handover_2026-09-14_ai-team跨工具skill與模型調度優化.md` 的 V4/V5：Claude Code session 系統提示與 Agent tool `model` enum。這是該 session 的可用值，不保證所有帳戶、工具或版本都可呼叫。遇到拒絕時讀當前 schema／錯誤，不憑訓練記憶補型號。
+ 
+-| 用途代號 | 模型名 | model ID（API 用） | Agent tool `model` 參數值 |
++| 稱呼 | Agent `model` | 模型 ID（CLI/API 識別） | 定位 |
+ |---|---|---|---|
+-| 高階判斷 | Opus 4.8 | `claude-opus-4-8` | `opus` |
+-| 標準執行 | Sonnet 5 | `claude-sonnet-5` | `sonnet` |
+-| 廉價批次 | Haiku 4.5 | `claude-haiku-4-5-20251001` | `haiku` |
+-| （已不可得） | Fable 5 | `claude-fable-5` | `fable`——僅該次特殊 session 有，日常勿指定 |
++| Fable 5.1 | `fable` | `claude-fable-5-1` | 高錯誤代價判斷、跨檔診斷、第二意見、獨立驗收 |
++| Opus 5 | `opus` | `claude-opus-5` | Claude 搭檔的主對話基準，耦合修改、架構與制度判斷 |
++| Sonnet 5 | `sonnet` | `claude-sonnet-5` | 一般實作起點、讀取密集搜尋摘要、測試 |
++| Haiku 4.5 | `haiku` | `claude-haiku-4-5-20251001` | 格式轉換、可逐字驗證的批次任務 |
+ 
+-**派工模型政策（2026-07-25 二次修正：派適合的 agent，非固定單一階）**：派工依任務屬性選模型，不是固定用某一階——機械、量大、對錯好驗的工作用便宜模型（更快也夠用）；有判斷成分、品質敏感的工作優先給 `opus`，猶豫時寧可選貴一級也不要犧牲判斷力（使用者裁定：品質優先於成本，但仍要配任務，不是無條件都選最貴）。例外：任務明確綁定 Fable 5 該次特殊 session／使用者指名，才用 `fable`。
++主 agent 由 PO／當前工具決定，不強制改成 Opus；例如本次制度優化由 Codex 擔任 Tech Lead。Agent 使用短值，`claude -p --model` 使用完整模型 ID。
+ 
+-**額度緊縮備援（2026-07-08 查證，僅在高階模型因額度失敗時適用）**：
+-- 排程 Routine 的 fresh session 主模型＝建 Routine 時在 Routines UI 的 model selector 所選（官方文件 code.claude.com/docs/en/routines.md，2026-07-08 經 claude-code-guide 查證）；MCP 的 create/update_trigger **無 model 欄位**，改模型只能使用者進 claude.ai/code → Routines → Edit。
+-- 額度打頂時排程 session 是否自動 fallback：**查無官方文件**——夜鏈集體沉默時先懷疑打頂（呼應 mission-loop 誠實條款）。
+-- 派 `opus` 若因額度失敗→降 `sonnet` 續跑並記 journal，不停等。
++**effort**：2026-07-03 歷史查證中，Claude Agent tool 沒有逐次呼叫的 effort 參數；逐次使用前以當前 schema 為準。不要把其他工具的 `effort` 參數直接套到 Agent。未確認的設定與額度歸屬寫「未驗證」，不以模型名稱推定價格或共用額度池。
+ 
+-**effort（推理力度）**：2026-07-03 查證——Claude Code 的 Agent tool **沒有逐次呼叫的 effort 參數**；effort 來自 subagent 定義檔（`.claude/agents/*.md` frontmatter）或 session 設定。Workflow 工具的 `agent()` 才有 `opts.effort`（`low`/`medium`/`high`/`xhigh`/`max`）。你的本機 CLI 版本可能不同，用前以 claude-code-guide 查證當下版本行為。
++**排程模型與額度**：排程主模型與任務中派工模型是不同設定。2026-07-08 的 Routine UI／MCP 限制屬歷史紀錄，當前行為未驗證；遇到額度或模型不可得，依第 5 節處理，不假定排程會自動備援。
+ 
+-**額度歸屬**（未確認）：「被安全機制導向 Opus 4.8 的請求是否消耗原模型額度」查不到官方說法，建議到 claude.ai 的 usage 儀表板實測後把結論補進本節。
++## 1. 派工判斷
+ 
+-## 1. 指揮官不下場（派工判斷）
++以下是候選訊號，不是單憑行數強制派工；優先遵守 GLOBAL.md 的獨立性與耦合判準。
+ 
+-主對話動手前，對照三個門檻，**命中任一就派 subagent**：
+-
+-| 門檻 | 派誰 | 例 |
+-|---|---|---|
+-| 預估閱讀 >300 行，或要開 >3 個檔 | Explore（搜尋）／general-purpose（要動手） | 「這個 bug 在哪」「整理所有用到 X 的地方」 |
+-| 「找找看」式搜尋（不確定在哪個檔） | Explore | 「哪裡定義了同步邏輯」 |
+-| 批次機械操作（改 N 個檔、跑 N 次驗證） | general-purpose，`model: haiku` 或 `sonnet` | 「把 12 個 SKILL.md 都加一行 frontmatter」 |
+-
+-**不必派**（自己做反而省）：已知確切檔案位置的單點讀寫、單一命令執行、與使用者的對話判斷。
+-
+-- 正例：使用者問「sync_config.py 怎麼組合檔案」→ 派 Explore 回報結論＋行號，主對話不開檔。
+-- 反例：主對話自己 `Read` 整支 700 行的 sync_config.py 再回答 → context 燒掉、後續失焦。
++| 情境 | 處理 |
++|---|---|
++| 預估閱讀 >300 行／>3 檔，或不確定在哪裡的搜尋 | 可獨立完成時派 Explore，主對話收結論＋檔案:行號 |
++| 多檔機械替換、格式檢查 | 有明確驗收條件時派 Haiku／Sonnet |
++| 高度耦合的跨檔修改、需反覆討論的小修 | 主 agent 自做，避免交辦成本高於執行 |
++| 已知位置的單點讀寫、單一命令、與 PO 的判斷 | 通常主 agent 處理 |
+ 
+ ## 2. 任務交辦三要素（缺一不派）
+ 
+-每次派工的 prompt 必含（填空範本見 `playbooks/delegation-templates.md`）：
+-1. **目標與動機**：要什麼＋為什麼要（動機讓 subagent 遇到意外時能做對的取捨）。
+-2. **驗收條件**：可勾選的完成判準，逐條列。「做好做滿」不是驗收條件，「X 檔案存在且含 Y 段落」才是。
+-3. **回報格式**：明定回什麼、多長、什麼格式（見下一節回報合約）。
++1. **目標與動機**：要什麼、為什麼；提供執行所需脈絡。
++2. **驗收條件**：可逐條核對的完成判準與允許修改範圍。
++3. **回報格式**：結論、證據、限制與長度；範本見 `delegation-templates.md`。
+ 
+-## 3. 回報合約（subagent 端遵守，指揮官端在 prompt 裡引用）
++## 3. 回報合約
+ 
+-- 只回**結論與判斷**，每個事實附 `檔案:行號`。
+-- **禁止**貼大段原文；需要保留的長產物**存檔後回傳路徑**。
+-- 回報長度上限預設 120 行（交辦時可另訂）。
+-- 失敗就說失敗＋卡在哪＋已試什麼，不硬掰結果。
+-- 回報開頭第一行＝一句話結論（成／敗／部分完成）。
++- 第一行說明成功、失敗或部分完成；每個事實附檔案:行號或實際命令輸出。
++- 主對話只收結論與判斷；長產物存檔回路徑，不貼大段原文。
++- 預設最多 120 行，交辦可另訂；失敗需說卡在哪、已試什麼，不捏造成功。
+ 
+-## 4. 顯式指定 model（派給適合的 agent，2026-07-25 二次修正）
++## 4. 明確指定模型、管道與額度判準
+ 
+-派工時**一律顯式帶 `model` 參數**，依任務屬性選，不是固定用單一階：
++| 任務型態 | 模型 | 管道 | 額度判準 |
++|---|---|---|---|
++| 機械、格式、可逐字驗證的批次操作 | `haiku` | Agent tool | 判斷少且驗收便宜；需要語意理解才用 Sonnet |
++| 讀取密集搜尋、摘要 | `sonnet` | Agent tool／Explore | 只回結論＋檔案:行號；若漏判難以察覺，升高階 |
++| 一般實作、單點修改與測試 | `sonnet` | Agent tool；耦合高時主 agent 自做 | 先看錯誤是否可由測試發現，避免每次單點修改都派高階 |
++| 耦合修改、架構與制度判斷 | 主 agent；Claude 搭檔可用 `opus` | 主對話或 Agent tool | 品質優先；協調成本高時不拆分 |
++| 高代價設計、跨檔診斷、第二意見 | `fable` | Agent tool，`model: fable` | Sonnet 結論若錯且主 agent 不易發現，才使用高階；交辦必要脈絡 |
++| 高風險成果獨立驗收 | Fable 5.1 | `claude -p --model claude-fable-5-1 "<prompt>"` | 需要新的對話；只給產物、diff 與自足驗收條件，不帶作者推理 |
++| 跨程序／排程判斷任務 | 依風險選；需高階時 Fable 5.1 | `claude -p --model claude-fable-5-1 "<prompt>"` | 每次交辦自足；搜尋摘要不因可用 CLI 就升級 Fable |
+ 
+-| 任務型態 | model | 理由 |
++- Opus／Fable 是高階選擇，不是固定高低階梯。依任務適配與獨立驗收需求選擇，不宣稱未量測的能力或價格優劣。
++- 同任務同角色不並派兩個高階；執行者與獨立驗收者可各使用高階。高階找出模式後，將明確步驟交回較低成本模型批次套用。
++- Agent 是否繼承 context 依當前工具決定；fresh CLI 仍可能載入相同制度，獨立驗收靠隔離作者推理及實際證據，不保證換模型就無偏誤。
++- 原始字元數不等於 token 或帳單：實際注入、快取與載入方式均影響費用。減少重複背景、合併獨立查詢，實際費用未取得時明說。
++
++## 5. 升級與備援上限
++
++**一輪＝一次實際任務執行**。同子任務最多 4 輪：`haiku 1 → sonnet 2 → 高階終局 1`；從 Sonnet 起最多 3 輪，從高階起只有 1 輪。
++
++- Haiku 錯一次就升 Sonnet；Sonnet 第二次必須換方法並重寫交辦，不能原 prompt 重送。
++- Sonnet 兩次仍不符條件，帶完整失敗軌跡（方法、輸出、驗收差距）交 Opus 或 Fable **二選一**終局處理。
++- 高階仍做錯 → 停止自動重試，回報證據與待決；不得在 Opus、Fable 間互換來重置輪數。
++- **模型不可得／權限／額度失敗**與結果做錯分開記錄：只試一次可用備援，標「備援」且不算上述任務失敗輪。Fable 不可得可試 Opus；高階額度不足可試 Sonnet。備援仍不可用即回報，不循環呼叫。
++- 備援不降低驗收條件。指定模型不可替代、或能力不足以維持品質時，回報限制交 PO，不假裝完成。
++
++## 6. 驗收與作者分離
++
++**ai-team 任務一律由非作者輪流驗收，覆蓋一般低風險自查例外**；Tech Lead 自己執行也適用，全部通過後交 PO，不自行 commit。
++
++一般任務依 GLOBAL.md：低風險單點修改可由主 agent 命令＋read-back；高風險／跨模型成果需 fresh context 或跨工具獨立驗收，檔案交付須獨立 read-back，程式須跑測試或實跑。
++
++| 產物 | 驗法 | 適合驗收者 |
+ |---|---|---|
+-| 掃描、搜尋、read-back 驗證、格式檢查、機械批次操作 | `haiku` 或 `sonnet` | 判斷成分低，便宜快又夠用 |
+-| 一般實作、重構、研究、審查等有判斷成分的工作 | `sonnet`，不確定時傾向 `opus` | 品質與判斷力優先於成本，但機械工作不必無條件上 opus |
+-| 高風險判斷、架構取捨、對抗審查、第二意見 | `opus` | 換便宜的就掉品質的地方 |
+-| 任務明確綁定 Fable 5（該次特殊 session／使用者指名） | `fable` | 日常不主動指定 |
++| 機械文件／格式 | 存在、完整、逐條 read-back | Haiku；有語意判斷改 Sonnet |
++| 程式碼 | 跑測試或實跑，附實際輸出 | Sonnet；高風險另加高階審查 |
++| 架構／制度／難以察覺的錯誤 | 找不符合條件之處、對抗性審查 | Fable fresh CLI；不可得時用可維持品質的非作者備援 |
+ 
+-猶豫時：**寧可選貴一級**（2026-07-25 使用者裁定：品質優先於成本），但先看任務是不是機械／量大／對錯好驗——是的話便宜模型本來就夠、也更快，不必為了「求穩」全上 opus。
++獨立驗收 prompt 僅含產物內容／路徑、diff、驗收條件與可重現機檢證據，不附作者解釋或 TaskLog 推理段。同機 headless 的檔案讀取若受限，由 Tech Lead 提供完整內容與證據，不以口述摘要代替。要求「找不符合之處」，不誘導確認沒問題。
+ 
+-## 5. 升降級路徑
++## 7. 維護
+ 
+-**定義：一輪＝一次模型執行。** 同一子任務的階梯上限＝4 輪：`haiku → sonnet → sonnet → opus`（從哪級起跳就走剩下的階梯；起跳 sonnet 最多 3 輪）。
+-
+-- **小模型（haiku）錯一次** → 直接升 `sonnet` 重派，不給第二次機會（重試同模型通常重複同樣的錯）。
+-- **中階（sonnet）同一子任務連錯兩次** → 升 `opus`，且 prompt 必須帶**完整失敗軌跡**（兩次的做法＋錯誤輸出＋驗收差距），讓高階模型知道哪些路已死。
+-- **opus 是最後一輪**：opus 仍失敗 → 立即停手，整理失敗軌跡回報使用者，不再重試。
+-- **高階解出模式後** → 把解法寫成明確步驟，**降回便宜模型批次套用**到其餘同型案例。
+-- **因額度失敗**（非任務本身出錯）→ 降一級續跑並記 journal，不代表任務難度判斷改變。
+-
+-## 6. 驗證不自驗
+-
+-**做的人不驗自己**。驗證一律派 **fresh-context** subagent（新開、不給寫作過程，只給產物路徑＋驗收條件）：
+-
+-| 產物 | 驗法 | 派誰 |
+-|---|---|---|
+-| 檔案／文件 | read-back：存在？完整？逐條對驗收條件？ | `haiku` |
+-| 程式碼 | 跑測試或實跑，貼實際輸出（不是「看起來對」） | `sonnet` |
+-| 高風險判斷 | 第二意見：換模型（或走 ody 換 AI）獨立再判一次；或多答案評審擇優 | `opus` |
+-
+-驗證 agent 的 prompt 要求它**找碴**（「列出不符合驗收條件之處」），不是「確認沒問題」——後者會順著點頭。
+-
+-## 7. 本檔的維護
+-
+-型號表（第 0 節）每次發現不符就即時更新並註記查證日期。其餘規則改動走 `playbooks/maintenance-protocol.md`。
++發現型號不符時更新第 0 節，附日期、來源與驗證範圍；規則本文依 `maintenance-protocol.md`。先檢查第 4–6 節是否連動，避免表格更新而派工仍沿用舊結論。
+
+--- before/wtf-config/playbooks/maintenance-protocol.md
++++ after/wtf-config/playbooks/maintenance-protocol.md
+@@ -65,3 +65,21 @@
+ - **每次 session-end**：檢查第 2 節該寫的教訓寫了沒；順檢第 3 節門檻**一項**（輪流，不必全查）。
+ - **nightly routine**：聚合各專案新 lessons 到 LESSONS.md；常載鏈改動一律只產提案（沿用既有 nightly-notify 流程）。
+ - **使用者**：黃區核准；每月看一次 `playbooks/harness-diagnosis.md` 的判準有沒有再犯。
++
++## 5. 存入協議與工具資源路由
++
++- **存入協議**：收到「存入全域設定」指令時——1) 更新 repo 的 `wtf-config/GLOBAL.md` 或對應工具檔；2) 跑 `sync_config.py sync` 部署到本機；3) 回報設定點位摘要。改動前先讀 本檔 確認該檔的修改權限。
++- **工具層級設定**（各工具專屬差異，與全域設定合併生效）：
++  - Claude Code：`wtf-config/CLAUDE_CODE.md`（部署為 `~/.claude/CLAUDE.md`）
++  - Antigravity/Gemini：`wtf-config/GEMINI.md`｜OpenAI Codex：`wtf-config/CODEX.md`
++  - Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（每 session 以 raw URL 抓取）｜Claude Chat：`wtf-config/CLAUDE_CHAT.md`（貼入 Project instruction）
++- **共用資源**：清單 SSOT＝`wtf-config/RESOURCES.md`，登記每台機器有哪些資源（venv、大檔、API 能力）、放哪、能不能用。需要時依所在機器查表；本機沒有就照「建立方式」建好並回填。生成式影像/影片（GCP Vertex AI）是帳號級能力、跨機通用。在 wmux 終端內工作時讀 `~/.wmux/AGENT_CONTEXT.md`（不存在＝不在 wmux 環境，跳過）。
++
++## 6. 常駐規則的新增與搬移
++
++- PO 新裁定先搜尋既有 GLOBAL／AGENTS／skill／playbook；同一細則只保留一處，既有來源可用就更新，避免另建 triggers 等平行真相。
++- 常駐正文只留「情境觸發＋一行結論＋來源指標」；每句輸出必用、或尚未觸發就必須知道的防線留常駐。路由表也佔 context，不免費。
++- 詳細命令、例外、範例、自檢清單放對應 playbook，GLOBAL 不因每次裁定增加整段全文；單條超過 3 行時檢查是否需搬移，不以行寬當自動裁切規則。
++- 搬移須列「原條目→新檔與節名」，核對禁令、例外與觸發情境未失真，並修正原有回指；刪冗餘不等於刪規則。
++- 量測同一批常駐來源的字元數（Python len(text)）、UTF-8 bytes、行數前後值，另列按需新增量。這些不是實際 token／帳單；沒有注入及快取量測就不宣稱費用下降比例。
++- sync 與 check 要驗證入口、session bundle、skill 本文/附檔及生成索引；內容搬移通過不等於模型觸發行為通過，兩種證據分開記錄。
+
+--- before/wtf-config/playbooks/git-mirror.md
++++ after/wtf-config/playbooks/git-mirror.md
+@@ -0,0 +1,16 @@
++# 工作位置與鏡像版控
++> 在決定讀寫位置、啟動服務或執行 git 前讀；來源：GLOBAL.md 原條文，2026-09-14 搬移。
++
++## Claude_cowork 專案版控鐵律
++
++**Claude_cowork 專案版控鐵律**（只要出現「git」「推」「commit」「push」等字眼，或要決定「在哪個資料夾讀寫檔案、啟動服務」，一律先查此規則）：
++- **所有專案一律「Drive 工作＋git_mirror 鏡像版控」，不存在「純程式 repo」分類**；唯一例外＝WTF_Under_Construction（控管架構 repo＝所有專案的原則與系統架構，本體直接在 `git_mirror/`）。舊 `Git_work`／`git_work_bk` 資料夾已禁用，registry 未登記的路徑不得當工作位置（PO 2026-07-20 裁定）。
++- Drive 內任何專案，一律不得原地 git（`init`/`add`/`commit`/`push` 皆禁）——git 與 Drive 同步會互相衝突、鎖檔（已有先例）。
++- 查本機是否存在 `git_mirror/<專案名>/`（Mac＝`/Users/coma/git_mirror/`，Windows＝`E:\git_mirror\`；不隨 Drive 同步，各機獨立）：
++  - 存在 → **Drive 為唯一真相源，工作在 Drive 做**；`git_mirror/` 只是版控出口。
++  - 不存在 → 查 GitHub remote（見 `projects-registry.md`）：有就 clone 到 `git_mirror/<專案名>/`；沒有就在該處建新 repo。都不碰 Drive 端。
++- **使用者說「推上 git」＝一整套動作的簡稱，不是字面指令**：
++  - 推送前（Drive→mirror）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）複製 Drive→mirror（單向覆蓋，含 `_context/*.md`，不是只有程式碼），再從 mirror `commit`＋`push`。大型二進位（docx/pptx/pdf/圖片/影片）不複製，留在 Drive。
++  - 開工前（mirror→Drive，反向對稱）：先在 mirror `git pull`（拉其他機器已推的新 commit），再依同一白名單複製 mirror→Drive，才開始在 Drive 讀改檔案——避免改在別人已推過的舊版本上。
++- **複製後必核**：對照 Drive 與 mirror 的 `_context/` 檔案清單一致；缺檔＝漏複製，不是「這次沒改」。
++- **後果提醒**：鏡像不全＝工作紀錄只存單機、未進版控＝遺失風險。
+
+--- before/wtf-config/playbooks/delivery-conventions.md
++++ after/wtf-config/playbooks/delivery-conventions.md
+@@ -0,0 +1,18 @@
++# 交付預覽、存檔與輸出格式
++> 交付可看可聽成品、製作可存檔程式/網頁、選擇匯報格式前讀；來源：GLOBAL.md 原條文，2026-09-14 搬移。
++
++## 交付即預覽
++
++- **交付即預覽**（2026-08-20 擴大範圍：不限網頁）：交付任何可看可聽的成品（文件、圖檔、影片、音檔、網頁/HTML/圖表）時，主動用使用者系統預設軟體背景開啟，不用等使用者另外要求。**影片／音檔不可自動播放**：改用「在檔案總管/Finder 顯示」而非直接開啟播放器——macOS 用 `open -R "<檔案>"`、Windows 用 `explorer /select,"<檔案>"`，讓使用者自己點開播放。**批次產出（多個檔案）**：改開啟所在資料夾，不逐一開檔——macOS 用 `/usr/bin/open -g "<資料夾>"`、Windows 用 `start "" "<資料夾>"`。其餘單一可預覽檔案（文件/圖檔/網頁/圖表）：macOS 一律用絕對路徑加 `-g`：`/usr/bin/open -g "<檔案>"`（終端機如 cmux 會攔截裸 `open` 開進終端分割視窗，且 cmux 內建瀏覽器版面過於擁擠，不適合預覽）；Windows 用 `start "" "<檔案>"`；無 GUI 環境至少附可點的 `file://`／`http://` 連結，不能只給裸路徑。**`-g` 不可省略**（2026-08-20 PO 裁定）：裸 `open` 會把該 app 搶到前景、打斷使用者當下的工作，`-g` 才是條目所稱的「背景開啟」。另注意：若該檔使用者已在編輯器開著，`open` 只會把舊視窗叫到前面、不會重新載入，交付時要一併提醒重新載入。
++
++## 存檔預設路徑鐵律
++
++- **存檔預設路徑鐵律（2026-08-24 PO 裁定，2026-08-27 強化）**：凡是做出「可存檔／可寫回」的程式或網頁，檔案選擇器的**預設位置一律指向該檔案應該存放的目標資料夾**，不得讓使用者自己去找路徑。第一次選定後把 handle 存 IndexedDB，之後直接寫回同一位置、不再跳窗。無法預設到精確位置時，至少在按鈕旁明示目標路徑全文。**判準**：使用者若得自己翻資料夾才能存到對的地方，就是沒做完。
++  - **檢核／勾選類網頁＝覆蓋原檔，不是另存新檔**：存檔目標永遠是它自己資料夾內的既有狀態檔，UI 用語寫「覆蓋」不寫「另存」。
++  - **預設位置禁止落在系統「文件／Documents」**（downloads／desktop 同理）：`startIn` 不得寫 `'documents'`；沒有可用 handle 時寧可不給 `startIn`，並在按鈕旁附「複製資料夾路徑」按鈕＋走法說明（macOS 對話框按 ⌘⇧G 貼上、Windows 在檔名欄貼完整路徑），讓使用者一步跳到目標夾。**判準補充**：使用者若在對話框看到「文件」而得自己翻回專案資料夾，就是沒做完。
++  - handle 存進 IndexedDB 後**必須於頁面載入時預讀成變數**，不可在 click 事件內才 `await` IndexedDB——那樣會失去使用者手勢資格，picker 直接開不起來。
++  - 實作寫法與常見失敗見 `pitfalls-frontend.md`「檔案存取（FSA）」節。
++
++## 輸出格式
++
++- **輸出格式**（2026-07-25 改：範圍限縮）：agent 向使用者（PO）本人匯報用的文件，優先使用 HTML（`.html`）；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。**業主／廠商端的正式交付物不受此限**，依各專案慣例（docx/pptx 等）——先前「文件輸出一律 HTML」誤把匯報格式與交付物格式混為一談，兩者分開。
+
+--- before/wtf-config/playbooks/data-citation.md
++++ after/wtf-config/playbooks/data-citation.md
+@@ -16,7 +16,7 @@
+ ## 2. 標示區間
+ 
+ - 任何統計值（平均、累計、比率、成長率、極值）引用時必須同時標示**統計起訖期間**與**樣本範圍**。例：「年平均雨量 2,500 mm（1991–2020 年平均，30 年）」。
+-- **不得自行推定年段**。原始資料沒寫是哪幾年，就是沒寫；補上一個看似合理的年段（「應該是 1980–2020 吧」）＝杜撰口徑，比不寫更糟——讀者會以為那是查證過的。
++- **不得自行推定年段或補參數**。原始資料沒寫是哪幾年，就是沒寫；補上一個看似合理的年段（「應該是 1980–2020 吧」）＝杜撰口徑，比不寫更糟——讀者會以為那是查證過的。
+ - 圖表的基準線、參考線同樣要標區間。一條沒有區間的「平均線」無法判讀，寧可整條移除。
+ - 引用對方**已經標好基準的數值時，基準要跟著搬**。原文寫「以某期間月平均值為基準」，我方轉述漏掉基準，等於改寫了它的意思。
+ 
+
+--- before/wtf-config/playbooks/pitfalls-frontend.md
++++ after/wtf-config/playbooks/pitfalls-frontend.md
+@@ -21,7 +21,7 @@
+ 
+ ## 檔案存取（FSA）——存檔預設路徑
+ 
+-規則本文在 `GLOBAL.md`「工作品質底線」的「存檔預設路徑鐵律」。以下是寫法與踩過的坑。
++規則本文在 `delivery-conventions.md`「存檔預設路徑鐵律」。以下是寫法與踩過的坑。
+ 
+ - **預設位置怎麼指**：`showSaveFilePicker({ suggestedName, startIn })`、`showDirectoryPicker({ startIn, mode:'readwrite' })`。`startIn` 收兩種值——先前存下的 `FileSystemHandle`（最精確，直接開在那個資料夾），或具名位置字串 `'documents' | 'downloads' | 'desktop' | 'pictures' | 'music' | 'videos'`。**沒有辦法用字串路徑指定任意資料夾**，這是瀏覽器的安全限制，所以第一次一定得由使用者選一次。
+ - **第一次選完就別再問**：把回傳的 handle 存進 IndexedDB（handle 可被 structured-clone），下次直接 `handle.createWritable()` 寫回同一檔；只需先 `handle.requestPermission({mode:'readwrite'})` 確認權限沒過期。同一組 picker 也可帶 `id:'<用途代號'`，瀏覽器會記住該 id 上次開啟的位置。
+
+--- before/wtf-config/playbooks/pitfalls-office-docs.md
++++ after/wtf-config/playbooks/pitfalls-office-docs.md
+@@ -1,6 +1,10 @@
+ # Office 文件（pptx／docx／表格匯出／gen 腳本）踩坑集
+ > 適用：處理簡報、Word、OOXML、Excel／CSV 匯出、生成腳本時開啟；平時不載入
+ > 來源：原 CLAUDE_CODE.md 抽出（2026-07-03），內容為歷次實戰教訓
++
++## Excel 輸出字體
++
++- **Excel 輸出字體（2026-08-14 PO 裁定）**：一律 Calibri（拉丁）＋微軟正黑體（中文）——設定 xlsx theme major/minor 字體的 latin=Calibri、ea=微軟正黑體，儲存格用預設（theme）字體即可兩者並用。
+ 
+ ## 表格資料匯出（Excel／CSV）——預設格式
+ 
+
+--- before/wtf-config/tests/test_skill_catalog.py
++++ after/wtf-config/tests/test_skill_catalog.py
+@@ -0,0 +1,100 @@
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from skill_catalog import check_skill_set, deploy_skill_set, read_metadata, read_skills, render_index
++
++
++class SkillCatalogTest(unittest.TestCase):
++    def setUp(self):
++        self.temporary = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temporary.cleanup)
++        self.root = Path(self.temporary.name) / "中文 project"
++        self.source = self.root / "._agents/skills"
++        self.destination = self.root / ".agents/skills"
++        self.index = self.root / "._agents/skills-index.md"
++        self.skill = self.source / "handover"
++        self.skill.mkdir(parents=True)
++        (self.skill / "SKILL.md").write_text("---\nname: handover\ndescription: 交接、換人接續 | handover\n---\n保留完整本文\n")
++        (self.skill / "scripts").mkdir()
++        (self.skill / "scripts/check.py").write_text("print('check')\n")
++        self.arguments = dict(source=self.source, destination=self.destination, index_path=self.index,
++                              index_root=self.source, relative_to=self.root)
++
++    def test_project_index_is_portable_and_metadata_only(self):
++        deploy_skill_set(**self.arguments)
++        text = self.index.read_text()
++        self.assertIn("._agents/skills/handover/SKILL.md", text)
++        self.assertNotIn(str(self.root), text)
++        self.assertNotIn("保留完整本文", text)
++        self.assertIn("&#124;", text)
++        self.assertFalse(check_skill_set(**self.arguments)[0])
++
++    def test_global_index_uses_deployed_absolute_path(self):
++        text = render_index(self.source, self.destination)
++        self.assertIn(str(self.destination / "handover/SKILL.md"), text)
++        self.assertNotIn("保留完整本文", text)
++
++    def test_sync_preserves_foreign_skills_and_is_idempotent(self):
++        for name in ("local-skill", ".system", "retired-wtf"):
++            directory = self.destination / name
++            directory.mkdir(parents=True)
++            (directory / "sentinel").write_bytes(b"must survive")
++        external = self.root / "external"
++        external.mkdir()
++        (self.destination / "find-skills").symlink_to(external, target_is_directory=True)
++        deploy_skill_set(**self.arguments)
++        before = {str(path): path.read_bytes() for path in self.root.rglob("*") if path.is_file()}
++        deploy_skill_set(**self.arguments)
++        after = {str(path): path.read_bytes() for path in self.root.rglob("*") if path.is_file()}
++        self.assertEqual(before, after)
++        self.assertTrue((self.destination / "find-skills").is_symlink())
++        has_error, notes = check_skill_set(**self.arguments)
++        self.assertFalse(has_error)
++        self.assertIn("EXTRA", "\n".join(notes))
++
++    def test_drift_missing_support_file_and_index_are_detected(self):
++        deploy_skill_set(**self.arguments)
++        (self.destination / "handover/SKILL.md").write_text("changed")
++        self.assertTrue(check_skill_set(**self.arguments)[0])
++        deploy_skill_set(**self.arguments)
++        (self.destination / "handover/scripts/check.py").unlink()
++        self.assertTrue(check_skill_set(**self.arguments)[0])
++        deploy_skill_set(**self.arguments)
++        self.index.write_text(self.index.read_text().replace("換人接續", "wrong"))
++        self.assertTrue(check_skill_set(**self.arguments)[0])
++
++    def test_missing_duplicate_metadata_and_duplicate_names_fail(self):
++        path = self.skill / "SKILL.md"
++        for header in ("name: handover", "name: handover\nname: again\ndescription: x"):
++            path.write_text(f"---\n{header}\n---\nbody")
++            with self.assertRaises(ValueError):
++                read_skills(self.source)
++        path.write_text("---\nname: handover\ndescription: x\n---\nbody")
++        duplicate = self.source / "other"
++        duplicate.mkdir()
++        (duplicate / "SKILL.md").write_bytes(path.read_bytes())
++        with self.assertRaises(ValueError):
++            read_skills(self.source)
++
++    def test_block_and_quoted_descriptions(self):
++        path = self.skill / "SKILL.md"
++        for value in ('>\n  請交接\n  換人接續', '"請交接 換人接續"', "'請交接 換人接續'"):
++            path.write_text(f"---\nname: handover\ndescription: {value}\n---\nbody")
++            self.assertEqual("請交接 換人接續", read_metadata(path)["description"])
++
++    def test_owned_symlink_is_replaced_without_writing_external_target(self):
++        self.destination.mkdir(parents=True)
++        external = self.root / "external"
++        external.mkdir()
++        (external / "SKILL.md").write_text("external original")
++        (self.destination / "handover").symlink_to(external, target_is_directory=True)
++        deploy_skill_set(**self.arguments)
++        self.assertFalse((self.destination / "handover").is_symlink())
++        self.assertEqual("external original", (external / "SKILL.md").read_text())
++
++
++if __name__ == "__main__":
++    unittest.main()
+
+--- before/wtf-config/tests/test_sync_skills.py
++++ after/wtf-config/tests/test_sync_skills.py
+@@ -0,0 +1,115 @@
++"""用暫存家目錄及 registry 呼叫真實 cmd_sync/cmd_check，不修改使用者環境。"""
++import hashlib
++import shutil
++import subprocess
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++CONFIG = Path(__file__).resolve().parents[1]
++RUNNER = '''
++import importlib.util, sys
++from pathlib import Path
++from unittest.mock import patch
++fixture = Path(sys.argv[1])
++sys.path.insert(0, str(fixture / 'repo/wtf-config'))
++with patch('pathlib.Path.home', return_value=fixture / 'home'):
++    spec = importlib.util.spec_from_file_location('sync_config', fixture / 'repo/wtf-config/sync_config.py')
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    module.registry_dirs = lambda: [fixture / 'project']
++    sys.argv = ['sync_config.py', sys.argv[2]]
++    raise SystemExit(module.main())
++'''
++
++
++class SyncSkillsTest(unittest.TestCase):
++    def setUp(self):
++        self.temporary = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temporary.cleanup)
++        self.root = Path(self.temporary.name)
++        self.config = self.root / "repo/wtf-config"
++        self.config.mkdir(parents=True)
++        for name in ("sync_config.py", "skill_catalog.py", "GLOBAL.md", "AGENTS.md", "CLAUDE_CODE.md", "CODEX.md", "GEMINI.md"):
++            shutil.copy2(CONFIG / name, self.config / name)
++        shutil.copytree(CONFIG / "hooks", self.config / "hooks")
++        shutil.copytree(CONFIG / "skills", self.config / "skills")
++        for tool in (".claude", ".codex", ".gemini"):
++            (self.root / "home" / tool).mkdir(parents=True)
++        source = self.root / "project/._agents/skills/handover"
++        source.mkdir(parents=True)
++        (source / "SKILL.md").write_text("---\nname: handover\ndescription: 專案交接優先\n---\nproject body\n")
++        self.runner = self.root / "run.py"
++        self.runner.write_text(RUNNER)
++
++    def run_sync(self, action="sync", expected=0):
++        result = subprocess.run([sys.executable, str(self.runner), str(self.root), action],
++                                text=True, capture_output=True)
++        self.assertEqual(expected, result.returncode, result.stdout + result.stderr)
++        return result.stdout
++
++    def snapshot(self):
++        return {str(path.relative_to(self.root)): hashlib.sha256(path.read_bytes()).hexdigest()
++                for base in (self.root / "home", self.root / "project")
++                for path in base.rglob("*") if path.is_file()}
++
++    def test_full_sync_twice_bundle_and_project_override(self):
++        self.run_sync()
++        before = self.snapshot()
++        self.run_sync()
++        self.assertEqual(before, self.snapshot())
++        output = self.run_sync("check")
++        self.assertIn("17 skills", output)
++        self.assertIn("session bundle import SHA/manifest/SSOT 三者一致", output)
++        self.assertIn("._agents/skills/handover/SKILL.md", (self.root / "project/._agents/skills-index.md").read_text())
++        for relative in (".claude/skills", ".agents/skills"):
++            self.assertIn("project body", (self.root / "project" / relative / "handover/SKILL.md").read_text())
++
++    def test_corruption_missing_files_and_duplicate_name_exit_one(self):
++        self.run_sync()
++        paths = [self.root / "home/.codex/skills/handover/SKILL.md",
++                 self.root / "home/.gemini/wtf-skills-index.md",
++                 self.root / "project/.agents/skills/handover/SKILL.md",
++                 self.root / "home/.claude/skills/ai-team/AGENT_SPEC_TEMPLATE.md",
++                 self.root / "home/.codex/AGENTS.md"]
++        for path in paths:
++            with self.subTest(path=path):
++                before = path.read_bytes()
++                path.write_bytes(before + b"corruption")
++                self.run_sync("check", expected=1)
++                path.unlink()
++                self.run_sync("check", expected=1)
++                self.run_sync()
++        duplicate = self.config / "skills/duplicate"
++        shutil.copytree(self.config / "skills/handover", duplicate)
++        before = self.snapshot()
++        self.run_sync("check", expected=1)
++        self.run_sync("sync", expected=1)
++        self.assertEqual(before, self.snapshot(), "invalid metadata must fail before mutation")
++
++    def test_extra_skills_survive_and_absent_tool_skips(self):
++        local = self.root / "home/.claude/skills/user-owned"
++        local.mkdir(parents=True)
++        (local / "sentinel").write_text("retain")
++        shutil.rmtree(self.root / "home/.gemini")
++        output = self.run_sync()
++        self.assertIn("EXTRA", output)
++        self.assertIn("SKIP", output)
++        self.assertFalse((self.root / "home/.gemini").exists())
++        self.assertEqual("retain", (local / "sentinel").read_text())
++
++    def test_claude_bundle_failure_reaches_exit_status(self):
++        self.run_sync()
++        bundle = next((self.root / "home/.claude/wtf-session-bundles").iterdir())
++        (bundle / "GLOBAL.md").write_text("wrong")
++        self.run_sync("check", expected=1)
++
++    def test_removed_bundle_import_does_not_pass_check(self):
++        self.run_sync()
++        shutil.copy2(self.config / "CLAUDE_CODE.md", self.root / "home/.claude/CLAUDE.md")
++        self.run_sync("check", expected=1)
++
++
++if __name__ == "__main__":
++    unittest.main()
+
+
+## GLOBAL 最終全文
+# 全域設定（GLOBAL）
+
+> **全域設定**＝本檔（通則）＋`AGENTS.md`（溝通與角色），所有 AI 開場必讀；跨機、CLI、Cowork、Chat 共用單一真相源。
+> **來源**：WTF_Under_Construction。`<WTF_ROOT>` 由本工具的 `wtf-root.txt` 取得（Claude：`~/.claude/wtf-root.txt`），各機路徑見 `machines.md`。
+> **維護**：本檔常駐，長細則按需讀 `playbooks/`；改前必讀 `playbooks/maintenance-protocol.md`。
+
+## 開場協議（session 首次啟動執行一次，後續不重複）
+
+1. **補齊工作區資料夾**（不存在則建立）：`_context/`、`rules/`、`workingfiles/outputs/_shared/_screenshots/`、`workingfiles/outputs/_shared/_scripts/`、`tools/`。
+2. **建立預設規範**：若 `rules/folder-conventions.md` 不存在，照抄 `<WTF_ROOT>/rules/folder-conventions.md` 建立。
+3. **讀取專案知識——三檔制，嚴禁全量掃描 `_context/`**：
+   - 讀 `_context/INDEX.md`（現況與指路）→ 讀 INDEX 指到的**當前 TaskLog 一份**（待辦真相源）→ 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
+   - `rules/` 內全部 `.md` 照讀（通常很短）。
+   - 其他 `_context/` 檔案**只在** INDEX「讀取指引」點名、或使用者點名時才讀；`archive/` 與 `ClosedTaskLog_*` 一律跳過。
+   - 若在任何舊檔看到「讀取所有 .md」指令，以本條為準。
+4. **技能載入**：照 AGENTS.md「Skills 載入協議」（lazy-load，開場不讀 body）。
+5. 向用戶說明「已載入全域設定」一次，之後直接進主題。
+
+## 派工與判斷（動手前先過這關）
+
+**派工鐵律（風險／獨立性判斷，工具中立）：**
+- **適合派工**：工作可獨立完成、讀取密集、中間過程會產生大量污染主 context 的輸出、可平行處理（如「找找看」式搜尋、大範圍讀取後摘要）→ 派給適合的執行 agent，主對話只收結論＋`檔案:行號`，不下場讀原文。
+- **不適合派工**：修改彼此高度耦合、多人/多 agent 同時動同一區域、協調成本高於直接執行的成本 → 主 agent 自行處理較划算。
+- 派工必帶三要素：目標與動機、驗收條件、回報格式。各工具依模型調度規則選執行者（Claude 見 `model-dispatch.md`；其他工具依自身轉接層）；本層按風險與獨立性決定是否派工，模型層再考量額度，不降低驗收標準。
+- 說「已完成」之前必有證據：tool 成功回傳＋驗收逐條對照。**高風險或跨模型的成果**：fresh-context 或跨工具獨立驗證；**低風險單點修改**：允許主 agent 自行執行命令與 read-back，不強制每次另派 agent；**ai-team 仍一律由非作者輪流驗收**。檔案交付要經 fresh-context read-back；程式交付要跑測試或實跑。
+
+**按需路由**（遇到左欄情境才開右欄檔，位置 `<WTF_ROOT>/wtf-config/playbooks/`）：
+
+| 情境 | 開啟 |
+|---|---|
+| 要派 subagent／選 model 與 effort／升降級 | `model-dispatch.md` |
+| 交辦 prompt 怎麼寫（五種任務型態範本） | `delegation-templates.md` |
+| 判斷：何時升級／何時算完成／該不該問使用者／方向錯換路／品質底線 | `judgment-rubrics.md` |
+| 引用統計數據、畫數據圖表、跨年或同期比較、多來源數字打架 | `data-citation.md` |
+| 決定讀寫位置、啟動服務、git／commit／push | `git-mirror.md` |
+| 交付預覽、可存檔程式／網頁、匯報格式 | `delivery-conventions.md` |
+| 要改制度檔、教訓寫回哪裡 | `maintenance-protocol.md` |
+| context 吃緊、失焦、「說完成但沒完成」再犯 | `harness-diagnosis.md` |
+| 前端／Playwright 驗收踩雷 | `pitfalls-frontend.md` |
+| pptx／docx／gen 腳本踩雷、Excel／CSV 匯出 | `pitfalls-office-docs.md` |
+| 同 repo 多 CLI 並行 | `parallel-worktree.md` |
+| ai-team 跨工具協作底線 | `multi-agent-baseline.md` |
+| 雲端自主任務迴圈（排程棒/佇列/mission） | `mission-loop.md` |
+| AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
+| 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
+
+**工作位置／版控**：決定任何讀寫位置、啟動服務，或遇到 git／推／commit／push 前，先查 `projects-registry.md` 與 `playbooks/git-mirror.md`。所有專案 Drive 工作、git_mirror 版控；**唯一例外 WTF_Under_Construction 本體直接在 git_mirror**。Drive 禁原地 git；Git_work／git_work_bk 與未登錄路徑禁用。
+
+## 工作品質底線
+
+- **做到好＝自行反覆驗證到符合需求為止**，不是「大致完成就交給使用者檢查」。驗證（截圖、測試、視覺比對）是 AI 的責任。
+- 驗收不符 → 繼續修，不交半成品。未驗收就交付＝把處理成本轉嫁給使用者。此規則優先於完成速度。
+- **引用統計數值／比較／畫圖前**：必標起訖期間與口徑；不得補參數，同期同口徑才能比較，查不到即標未取得並排除。先讀 `playbooks/data-citation.md`。
+- **「量不準／做不到」幾乎都是方法問題**：換更可靠的手段（先算繪成圖再量、放大檢視、固定變因、換量測 API）再下結論。窮盡可靠方法仍不行，才回報做不到。
+- **交付可看可聽成品**：主動背景預覽；macOS 用 `/usr/bin/open -g`，影音只顯示所在位置、不自動播放，批次開資料夾；命令與例外見 `playbooks/delivery-conventions.md`。
+- **可存檔程式／網頁**：預設指向目標資料夾，記住首次選擇以後寫回；不能精確預設就明示路徑，禁以 Documents 等系統資料夾保底。檢核頁覆蓋原檔；細則先讀 `playbooks/delivery-conventions.md`，FSA 實作再讀 `playbooks/pitfalls-frontend.md`。
+- 溝通方式與角色分工的全部規則在 `AGENTS.md`（兩檔綁定必讀，本檔不重複）。
+
+## 全域設定的維護
+
+- **改制度或存入全域設定前**：先讀 `playbooks/maintenance-protocol.md`；更新對應 SSOT，跑 `sync_config.py sync` 後核對 `check`，再回報點位。工具入口映射與完整存入協議見該檔。
+- **需要環境／API／大檔資源**：查 `RESOURCES.md` 本機列；wmux 環境另讀 `~/.wmux/AGENT_CONTEXT.md`（不存在略過）。
+
+## 檔案、命名與輸出規範
+
+**每專案標準子資料夾：**
+
+| 子夾 | 用途 |
+|---|---|
+| `_context/` | 知識與紀錄（INDEX、PRD、TaskLog、Handover、lessons、archive）|
+| `rules/` | 專案規則 |
+| `workingfiles/` | 唯一工作與產出樹（過程稿＋定案產出皆在此，見下方內部規則）|
+| `tools/` | 本專案處理腳本 |
+
+- 根目錄只放設定與入口檔；所有作業與產出一律在 `workingfiles/` 內進行；腳本進 `tools/`。專案檔案進 `projects/<專案名>/`。
+- `workingfiles/` 內部規則：草稿、半成品、中間產物直接放 `workingfiles/` 下（正式定案前都留在這裡）；定案交付物移入 `workingfiles/outputs/`（一律複數）——最外層＝目前最新版本，舊版進 `workingfiles/outputs/<子專案>/archive/`（禁止多版本平鋪）；跨子專案共用過程檔進 `workingfiles/outputs/_shared/`。
+- Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（版控規則見上方「版控鐵律」）。
+
+**命名慣例**（一律「類型_日期_主題」，不用通用檔名如 `prd.md`、`task.md`）：
+
+| 類型 | 格式 |
+|---|---|
+| 現況總覽 | `_context/INDEX.md` |
+| 需求／計畫 | `_context/PRD_YYYY-MM-DD_主題.md`／`Plan_YYYY-MM-DD_主題.md` |
+| 工作紀錄 | `_context/TaskLog_YYYY-MM-DD_主題.md`；結案改前綴 `ClosedTaskLog_` 並移入 `archive/` |
+| 交接文件 | `_context/Handover_YYYY-MM-DD_主題.md`（統一用 Handover，廢除 Handoff 寫法）|
+| 教訓 | `_context/lessons-learned.md` |
+
+- **INDEX 鐵律**：每專案維護 `_context/INDEX.md`，進場先讀 INDEX、不掃全部 `_context/`。待辦與進度的唯一真相源＝當前 TaskLog；INDEX 只放連結與現況快照，不複製待辦內容（兩處真相必然漂移）。例外：等使用者拍板的決策點可短列。
+- **記錄署名**：跨機器或跨工具協作的紀錄，每段帶署名 `[{AI}@{機器別名}]`（如 `[Claude@Win]`；別名見 `machines.md`），接手的人一眼看出誰寫的。單機單作者免署名。
+- **待辦系統**：入口＝Obsidian Inbox（標題「工作」開頭的速記），用 `/inbox` skill 分流——專案工作→該專案 TaskLog（真相源）＋鏡像到待辦 App（owner=AI）；個人雜務→只進待辦 App（owner=user）。`_context/INBOX.md` 已廢除，看到即視為過時檔。
+- **結案歸檔**：TaskLog 結案＝改前綴 `ClosedTaskLog_` **並**移入 `_context/archive/`；Handover 被接手後同樣歸檔。`_context/` 只留進行中的檔案。
+- **教訓兩層**：工作層（詳述）寫各專案 `_context/lessons-learned.md`；雲端層（索引）在 `wtf-config/LESSONS.md`，每條格式「專案｜日期｜一句話｜連結」。工作層新增後須同步登錄索引一行。
+- **共編檔鐵律（`W_` 前綴，2026-08-14 PO 裁定）**：檔名以 `W_` 開頭的文件＝使用者與 AI 共編，預設使用者可能已直接編輯。使用者說「我已編輯」後：**禁止用產生器／整檔重建腳本改檔**（會覆蓋使用者編輯）；動檔前必先重新讀取檔案最新內容（以 Drive 最新存檔版為基準），之後只做就地增量修改，改前備份至 archive。
+- **Excel／CSV 輸出**：先讀 `playbooks/pitfalls-office-docs.md`（含 xlsx 字體及匯出規範）。
+- **選擇匯報／交付格式**：PO 匯報優先 HTML（有 `rules/html-preferences.md` 須先讀）；業主／廠商正式交付依專案格式。見 `playbooks/delivery-conventions.md`。
+
+
+## 機檢輸出
+test_agent_cannot_borrow_main_receipts (test_session_gate.SessionGateTest.test_agent_cannot_borrow_main_receipts) ... ok
+test_bundle_is_immutable_and_manifest_hashes_validate (test_session_gate.SessionGateTest.test_bundle_is_immutable_and_manifest_hashes_validate) ... ok
+test_bundle_size_and_line_limits_fail (test_session_gate.SessionGateTest.test_bundle_size_and_line_limits_fail) ... ok
+test_bypass_writes_audit_warning (test_session_gate.SessionGateTest.test_bypass_writes_audit_warning) ... ok
+test_consecutive_generation_recovery_fuses (test_session_gate.SessionGateTest.test_consecutive_generation_recovery_fuses) ... ok
+test_dispatcher_preserves_gate_block_when_stop_hook_is_active (test_session_gate.SessionGateTest.test_dispatcher_preserves_gate_block_when_stop_hook_is_active) ... ok
+test_generation_change_invalidates_old_receipts (test_session_gate.SessionGateTest.test_generation_change_invalidates_old_receipts) ... ok
+test_instructions_before_init_self_creates_generation_and_survives_startup_init (test_session_gate.SessionGateTest.test_instructions_before_init_self_creates_generation_and_survives_startup_init) ... ok
+test_malformed_json_fails_closed (test_session_gate.SessionGateTest.test_malformed_json_fails_closed) ... ok
+test_manifest_tamper_prevents_generation (test_session_gate.SessionGateTest.test_manifest_tamper_prevents_generation) ... ok
+test_parent_path_is_feature_detected (test_session_gate.SessionGateTest.test_parent_path_is_feature_detected) ... ok
+test_partial_reads_are_denied_and_never_signed (test_session_gate.SessionGateTest.test_partial_reads_are_denied_and_never_signed) ... ok
+test_protected_paths_are_denied_after_receipts (test_session_gate.SessionGateTest.test_protected_paths_are_denied_after_receipts) ... ok
+test_recovery_is_once_per_generation_and_source (test_session_gate.SessionGateTest.test_recovery_is_once_per_generation_and_source) ... ok
+test_resume_rotates_instructions_created_generation (test_session_gate.SessionGateTest.test_resume_rotates_instructions_created_generation) ... ok
+test_similar_name_tampered_receipt_and_changed_source_fail (test_session_gate.SessionGateTest.test_similar_name_tampered_receipt_and_changed_source_fail) ... ok
+test_startup_init_does_not_rotate_existing_generation (test_session_gate.SessionGateTest.test_startup_init_does_not_rotate_existing_generation) ... ok
+test_stop_blocks_without_receipts_even_when_hook_active (test_session_gate.SessionGateTest.test_stop_blocks_without_receipts_even_when_hook_active) ... ok
+test_two_receipts_are_required_before_allow (test_session_gate.SessionGateTest.test_two_receipts_are_required_before_allow) ... ok
+test_wrapper_exits_two_when_python_is_unavailable (test_session_gate.SessionGateTest.test_wrapper_exits_two_when_python_is_unavailable) ... ok
+test_block_and_quoted_descriptions (test_skill_catalog.SkillCatalogTest.test_block_and_quoted_descriptions) ... ok
+test_drift_missing_support_file_and_index_are_detected (test_skill_catalog.SkillCatalogTest.test_drift_missing_support_file_and_index_are_detected) ... ok
+test_global_index_uses_deployed_absolute_path (test_skill_catalog.SkillCatalogTest.test_global_index_uses_deployed_absolute_path) ... ok
+test_missing_duplicate_metadata_and_duplicate_names_fail (test_skill_catalog.SkillCatalogTest.test_missing_duplicate_metadata_and_duplicate_names_fail) ... ok
+test_owned_symlink_is_replaced_without_writing_external_target (test_skill_catalog.SkillCatalogTest.test_owned_symlink_is_replaced_without_writing_external_target) ... ok
+test_project_index_is_portable_and_metadata_only (test_skill_catalog.SkillCatalogTest.test_project_index_is_portable_and_metadata_only) ... ok
+test_sync_preserves_foreign_skills_and_is_idempotent (test_skill_catalog.SkillCatalogTest.test_sync_preserves_foreign_skills_and_is_idempotent) ... ok
+test_claude_bundle_failure_reaches_exit_status (test_sync_skills.SyncSkillsTest.test_claude_bundle_failure_reaches_exit_status) ... ok
+test_corruption_missing_files_and_duplicate_name_exit_one (test_sync_skills.SyncSkillsTest.test_corruption_missing_files_and_duplicate_name_exit_one) ... ok
+test_extra_skills_survive_and_absent_tool_skips (test_sync_skills.SyncSkillsTest.test_extra_skills_survive_and_absent_tool_skips) ... ok
+test_full_sync_twice_bundle_and_project_override (test_sync_skills.SyncSkillsTest.test_full_sync_twice_bundle_and_project_override) ... ok
+test_removed_bundle_import_does_not_pass_check (test_sync_skills.SyncSkillsTest.test_removed_bundle_import_does_not_pass_check) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 4.124s
+
+OK
+
+
+## 數量量測和遷移 read-back
+# 機檢與遷移證據
+
+
+
+來源文字量測（字元／UTF-8 bytes／行數），不是 token 或帳單：
+
+| 檔案 | 修改前 | 修改後 |
+|---|---|---|
+| GLOBAL.md | [8343, 15885, 114] | [5400, 9868, 96] |
+| AGENTS.md | [3320, 7110, 63] | [3442, 7404, 63] |
+| CLAUDE_CODE.md | [1430, 2356, 26] | [1415, 2349, 26] |
+| CODEX.md | [1372, 2532, 19] | [1494, 2774, 20] |
+| GEMINI.md | [1876, 3312, 28] | [2007, 3541, 28] |
+
+CLAUDE_CODE.md 三檔合計：13093 → 10257 字元，減少 21.7%。
+
+CODEX.md 三檔合計：13035 → 10336 字元，減少 20.7%。
+
+GEMINI.md 三檔合計：13539 → 10849 字元，減少 19.9%。
+
+新增按需 playbook：git-mirror.md=[1208, 2216, 16]；delivery-conventions.md=[1624, 3490, 18]
+
+| 原 GLOBAL 條目 | 新位置／節 | 驗證 |
+|---|---|---|
+| **Claude_cowork 專案版控鐵律**（只要出現「git」「推」「commit」「push」等字眼，或要決定「在哪個資料夾讀寫檔案、啟動服務」，一律先查此規則）： | playbooks/git-mirror.md／Claude_cowork 專案版控鐵律 | 原文搬移通過 |
+| - **交付即預覽**（2026-08-20 擴大範圍：不限網頁）：交付任何可看可聽的成品（文件、圖檔、影片、音檔、網頁/HTML/圖表）時，主動用使用者系統預設軟體背景開啟，不用等使用者另外要求。**影片／音檔不可自動播放**：改用「在檔案總管/Finder 顯示」而非直接開啟播放器——macOS 用 `open -R "<檔案>"`、Windows 用 `explorer /select,"<檔案>"`，讓使用者自己點開播放。**批次產出（多個檔案）**：改開啟所在資料夾，不逐一開檔——macOS 用 `/usr/bin/open -g "<資料夾>"`、Windows 用 `start "" "<資料夾>"`。其餘單一可預覽檔案（文件/圖檔/網頁/圖表）：macOS 一律用絕對路徑加 `-g`：`/usr/bin/open -g "<檔案>"`（終端機如 cmux 會攔截裸 `open` 開進終端分割視窗，且 cmux 內建瀏覽器版面過於擁擠，不適合預覽）；Windows 用 `start "" "<檔案>"`；無 GUI 環境至少附可點的 `file://`／`http://` 連結，不能只給裸路徑。**`-g` 不可省略**（2026-08-20 PO 裁定）：裸 `open` 會把該 app 搶到前景、打斷使用者當下的工作，`-g` 才是條目所稱的「背景開啟」。另注意：若該檔使用者已在編輯器開著，`open` 只會把舊視窗叫到前面、不會重新載入，交付時要一併提醒重新載入。 | playbooks/delivery-conventions.md／交付即預覽 | 原文搬移通過 |
+| - **存檔預設路徑鐵律（2026-08-24 PO 裁定，2026-08-27 強化）**：凡是做出「可存檔／可寫回」的程式或網頁，檔案選擇器的**預設位置一律指向該檔案應該存放的目標資料夾**，不得讓使用者自己去找路徑。第一次選定後把 handle 存 IndexedDB，之後直接寫回同一位置、不再跳窗。無法預設到精確位置時，至少在按鈕旁明示目標路徑全文。**判準**：使用者若得自己翻資料夾才能存到對的地方，就是沒做完。 | playbooks/delivery-conventions.md／存檔預設路徑鐵律 | 原文搬移通過 |
+| - **輸出格式**（2026-07-25 改：範圍限縮）：agent 向使用者（PO）本人匯報用的文件，優先使用 HTML（`.html`）；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。**業主／廠商端的正式交付物不受此限**，依各專案慣例（docx/pptx 等）——先前「文件輸出一律 HTML」誤把匯報格式與交付物格式混為一談，兩者分開。 | playbooks/delivery-conventions.md／輸出格式 | 原文搬移通過 |
+| - **數據引用鐵律（2026-08-20 PO 裁定）**：任何統計值（平均、累計、比率、成長率）引用時必須同時標示**統計起訖期間與口徑**（來源、統計範圍、單一標的或合計、單位、絕對值或比率）——沒有區間與口徑的數字，讀者只能猜。**不得自行推定年段或補參數**，那是杜撰口徑。跨年比較須同月同日或同一口徑；時點不一致的數值不得並列成可比較的圖表或欄位。同一份文件內同一指標只用一種口徑，來源衝突時擇一並註明另一口徑與差異原因。**查不到區間或口徑定義的數值，標為未取得並排除**，不得以「大約」「一般認為」帶過。細則與自檢清單見 `playbooks/data-citation.md`。 | playbooks/data-citation.md／引用前五問／標示區間／同期比較／口徑一致／不可驗證即不用 | 整併既有細則通過 |
+| - **Excel 輸出字體（2026-08-14 PO 裁定）**：一律 Calibri（拉丁）＋微軟正黑體（中文）——設定 xlsx theme major/minor 字體的 latin=Calibri、ea=微軟正黑體，儲存格用預設（theme）字體即可兩者並用。 | playbooks/pitfalls-office-docs.md／Excel 輸出字體 | 原文搬移通過 |
+| - **存入協議**：收到「存入全域設定」指令時——1) 更新 repo 的 `wtf-config/GLOBAL.md` 或對應工具檔；2) 跑 `sync_config.py sync` 部署到本機；3) 回報設定點位摘要。改動前先讀 `playbooks/maintenance-protocol.md` 確認該檔的修改權限。 | playbooks/maintenance-protocol.md／存入協議與工具資源路由 | 原文搬移通過 |
+
+程式檢查：7 個遷移項目、16 個審查產物；防線/模型值/格式/改動範圍通過。
+新增 skill_catalog.py 174 行、最長函式 29 行；sync_config.py 減少 skill 重複邏輯，既有 dashboard 保留。
+V1–V7 沿用；Antigravity 行為未驗證；Windows 僅路徑邏輯設計，未實機部署。

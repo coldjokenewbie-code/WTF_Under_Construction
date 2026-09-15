@@ -28,7 +28,7 @@ description: Session 開場標準流程：核對全域設定、載入 SSOT、讀
 
 ## 1.5 Claude_cowork 鏡像專案先 pull-back（若適用）
 
-若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下：查本機是否存在對應 `git_mirror/<名稱>/`（見 GLOBAL.md「制度層」版控鐵律）。存在 → 先 `git_mirror/<名稱>/` 執行 `git pull`（拉其他機器/session 已推的新 commit），再依白名單複製 mirror→Drive（覆蓋 Drive 舊版，含 `_context/*.md`），才進入下一步讀 `_context/` 知識——避免這次工作是改在別人已推過的舊版本上。
+若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下：查本機是否存在對應 `git_mirror/<名稱>/`（見 `<WTF_ROOT>/wtf-config/playbooks/git-mirror.md`）。存在 → 先 `git_mirror/<名稱>/` 執行 `git pull`（拉其他機器/session 已推的新 commit），再依白名單複製 mirror→Drive（覆蓋 Drive 舊版，含 `_context/*.md`），才進入下一步讀 `_context/` 知識——避免這次工作是改在別人已推過的舊版本上。
 
 ## 2. 讀取 _context 知識（三檔制，嚴禁全量掃描）
 

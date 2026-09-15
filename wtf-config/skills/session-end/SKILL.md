@@ -23,7 +23,7 @@ description: 產出工作紀錄、呼叫 lesson-add 萃取教訓、commit 並 me
    - 刪除前列出將清除的檔案清單；只清 `outputs/_shared/_screenshots/`，不碰 `outputs/<子專案>/` 內正式產出與 `archive/`。
 
 4. **Claude_cowork 鏡像專案先複製到 mirror（若適用）**：
-   - 若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下且本機存在對應 `git_mirror/<名稱>/`（見 GLOBAL.md「制度層」版控鐵律）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）把本次異動的檔案由 Drive 複製到 `git_mirror/<名稱>/`（含 `_context/*.md`，非僅 src/code），覆蓋舊版。
+   - 若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下且本機存在對應 `git_mirror/<名稱>/`（見 `<WTF_ROOT>/wtf-config/playbooks/git-mirror.md`）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）把本次異動的檔案由 Drive 複製到 `git_mirror/<名稱>/`（含 `_context/*.md`，非僅 src/code），覆蓋舊版。
    - 複製後核對 Drive 與 mirror 的 `_context/` 檔案清單一致，缺即補複製。
 
 5. **合併與推送 (`merge-main`)**：

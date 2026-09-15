@@ -1,0 +1,18 @@
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+PASS
+
+**阻擋項核對**
+- 前次唯一阻擋（GLOBAL「版控規則見上方『版控鐵律』」）已改為指向 `playbooks/git-mirror.md`，與同檔「工作位置／版控」一行一致，無殘留斷鏈。CLAUDE_CODE.md 回指「開場協議」「派工鐵律」、session-end 回指「結案歸檔」、CODEX/GEMINI 回指「開場協議」「Skills 載入協議」「存入協議與工具資源路由」，目標節名皆存在於當前產物。
+
+**逐條驗收**
+- data-citation：§2 不得推定年段／補參數、§3 同月同日或同口徑＋時點不一致不得並列、§4 同一指標一種口徑＋衝突擇一註明、§5 未取得即排除且禁「大約／一般認為」——前次「未驗證」兩句均在既有節，GLOBAL 一行摘要與之無矛盾。
+- maintenance：§6 只規範「怎麼搬、怎麼量、怎麼分開記證據」，不改 §1 分區權限與 §3 行數門檻；「既有來源可用就更新」前提是 PO 裁定，與黃區「使用者核准後才改」相容。無衝突。
+- bundle：`check_bundle_integrity` 僅 import 未部署回 None，其餘（目錄／manifest 缺、digest 不符、SSOT 或 bundle 缺檔、內容不一致）皆回 False。`check_claude_dir` 以 `is not True` 統一判失敗並補 `x [MISSING]`，`cmd_check` 再以 `claude_ok is False` 或任一 `x [` 進 broken→exit 1。None／False 兩路徑皆不會誤判通過；對應測試 `test_removed_bundle_import_does_not_pass_check`、`test_claude_bundle_failure_reaches_exit_status` 通過。
+- 契約不破壞：本輪 diff 僅 GLOBAL 一行與測試一處，未觸及 sync_config.py／skill_catalog.py／model-dispatch；32 測試全過。測試改為依 SSOT 目錄計數，消除寫死 17 的脆弱點。
+- 縮幅：8343→5414 字元，減 35.1%；量測明示為字元／bytes／行，非 token 或帳單。
+
+**未驗證（非阻擋，需自行留意）**
+- 未提供前次 SHA256 快照，「未修改區域一致」僅憑作者宣稱；建議附前後兩份快照 diff。
+- 回指掃描 pattern 要求 `GLOBAL.md` 與節名同行，且範圍未含 `wtf-config/agents/`、`rules/`、專案 `._agents/skills/`；寫成「GLOBAL 的『數據引用鐵律』」或跨行的回指抓不到。建議補跑 `rg -n '交付即預覽|存檔預設路徑鐵律|數據引用鐵律|Claude_cowork 專案版控鐵律|版控鐵律'` 全 repo。
+- 縮幅餘裕只剩 0.1 點，下次任何常駐新增即跌破 35%。
+- 測試 `glob("*/SKILL.md")` 會計入 dot 目錄；若日後 SSOT 出現 `.xxx/SKILL.md` 而索引依規則排除，計數將不符。

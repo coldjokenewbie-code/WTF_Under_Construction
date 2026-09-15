@@ -4,10 +4,10 @@
 
 ## Skills 載入協議（session 開始時）
 
-1. **專案層優先**：專案 skill 的工具中立 SSOT 統一放專案內 `._agents/skills/`；`sync_config.py sync` 會把內容複製到各工具的原生專案掃描路徑（Claude Code＝`.claude/skills/`，Codex＝`.agents/skills/`，2026-07-25 確認二者路徑不同、各自複製），複製後各工具原生就能發現，不必再手動列出。若懷疑尚未同步（例如剛新增 skill、還沒跑過 sync），才主動列 `._agents/skills/` 下各 `SKILL.md` 名稱＋描述當備援。專案有同名 skill 時，一律用專案版本、忽略全域同名。已廢除 symlink 機制（跨平台會斷鏈），全部實體複製。
-2. **全域為備援**：專案層沒有的 skill，才用全域路徑的版本（真相源 `wtf-config/skills/`，部署後在 `~/.claude/skills/` 等各工具目錄）。
+1. **專案層優先**：專案 SSOT＝`._agents/skills/`，sync 實體複製至 Claude 的 `.claude/skills/`、Codex 的 `.agents/skills/`；禁止 symlink。優先用工具已提供的 skill 名稱、描述與路徑，不因沒有名為 Skill 的工具就判定不能取用。專案同名版本優先於全域，這是 WTF 選用規則，不假定工具會自動去重。
+2. **備援發現**：原生清單缺列、截斷或未提供時，先查專案 `._agents/skills-index.md`（path 相對專案根），再查本工具 home 的 `wtf-skills-index.md`（本機絕對 path；位置見工具設定）。索引只列 SSOT 的 name／description／path，description 就是觸發說明；全域來源＝`<WTF_ROOT>/wtf-config/skills/`。索引缺失時只列對應 SSOT 的 frontmatter；不得憑資料夾名猜內容。讀不到須回報，不能宣稱已套用。工具內建／插件技能仍依原生清單使用，不因備援索引未列出而排除。
 3. **專案設定**：若專案有 `.claude/CLAUDE.md` 或 `._agents/AGENT_SPEC.md`，一併載入。
-4. **一律 lazy-load**：開場只列 skill 名稱＋描述，不讀 SKILL.md 內文，實際觸發該 skill 時才讀。載入完成後簡述與本案相關的 skills（例：`[Dev_Workflow] [Quality_Guard]`），再詢問任務。
+4. **一律 lazy-load**：開場只用 metadata；匹配任務時才讀完整 SKILL.md，同次工作已讀且未變更者不重讀。原生清單完整時不另讀索引。簡述本案相關 skills（例：`[Dev_Workflow] [Quality_Guard]`）；已有任務直接執行。索引與同步 check 只驗可發現性及檔案一致性，不保證模型觸發或遵從；工具行為須另有證據。
 5. **定期審查**：新增或修改 skill 時、或距上次審查超過 30 天時，檢查 skill 清單有無功能重疊或描述含混——僅重疊才精簡，不為湊數而砍。
 
 ## 溝通原則（效益優先）

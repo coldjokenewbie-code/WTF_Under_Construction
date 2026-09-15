@@ -1,0 +1,14 @@
+{
+  "index.html": {
+    "lines": 214,
+    "sha256": "450b704c3b9cc77adecb19101aa5cd4d554e0f675afa59d075774a6ec1ba39dd"
+  },
+  "styles.css": {
+    "lines": 489,
+    "sha256": "1505965aaf10d7eb5c4084452317113ae4cabcc2a2268dfe471a1b599470c45a"
+  },
+  "app.js": {
+    "lines": 219,
+    "sha256": "1ad82feef56b8c953b53d78207ecc4a828fc323f012eeff3fdf7722a3e0a385d"
+  }
+}

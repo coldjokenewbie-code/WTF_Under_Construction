@@ -1,0 +1,1 @@
+PASS: sync x2 + check; 99 deployed files identical after second sync; extra skill entries preserved.

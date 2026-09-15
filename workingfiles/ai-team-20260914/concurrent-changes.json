@@ -1,0 +1,11 @@
+{
+  "wtf-config/machines.md": {
+    "baseline_sha256": "755fcc2c0d7d7383d90646a975c9bbd9feb5f0668e71193f100bfcab7105e85f",
+    "observed_sha256": "4477910319217c97ab64455b5fe0f6e2ab050a97e7a791ec5634617c9e8d983c"
+  },
+  "wtf-config/LESSONS.md": {
+    "baseline_sha256": "e73a25b9a836544f0cd6679ac1dbedb9d37cecb9c91399a3ab477dae60d2110f",
+    "observed_sha256": "5dc7f7a616d2d77d0815a4dcb7463040ab5d0bdd882247de582a36c72ef2a705",
+    "note": "\u5176\u4ed6\u5de5\u4f5c\u65b0\u589ecowork_CDIC\u5c55\u677f\u7d22\u5f15\uff1b\u672c\u4efb\u52d9\u672a\u6539\uff0c\u4e0d\u8986\u84cb"
+  }
+}

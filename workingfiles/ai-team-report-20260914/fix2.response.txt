@@ -1,0 +1,928 @@
+===FILE:index.html===
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 工作守則改動簡報</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <h1 class="brand-title">AI 工作守則改動簡報</h1>
+      <div class="date-badge">
+        <span class="nowrap">資料快照：2026-09-14</span>
+        <span class="separator">｜</span>
+        <span class="nowrap">簡報製作：2026-09-15</span>
+      </div>
+    </div>
+    <progress id="slide-progress" value="1" max="6" aria-label="簡報頁面進度"></progress>
+    <nav class="slide-nav" aria-label="簡報頁面跳轉">
+      <button type="button" class="tab-btn" id="tab-1" aria-current="page">1. 守則改動</button>
+      <button type="button" class="tab-btn" id="tab-2">2. 派工依據</button>
+      <button type="button" class="tab-btn" id="tab-3">3. 手冊備援</button>
+      <button type="button" class="tab-btn" id="tab-4">4. 規則搬家</button>
+      <button type="button" class="tab-btn" id="tab-5">5. 副本比對</button>
+      <button type="button" class="tab-btn" id="tab-6">6. 目前邊界</button>
+    </nav>
+  </header>
+
+  <main id="presentation-content">
+    <!-- Slide 1 -->
+    <section class="slide" id="slide-1" tabindex="-1" aria-labelledby="heading-1">
+      <h2 id="heading-1">這次改的是 AI 的工作守則</h2>
+      <p class="lead-text">三個主要改動：「派對工作」「手冊有備援」「開場少帶細則」</p>
+
+      <div class="step-flow" aria-label="執行順序圖解">
+        <div class="step-item"><span class="step-idx">①</span> 更新派工表</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">②</span> 手冊備援與同步檢查</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">③</span> 搬移常駐細則</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">④</span> 獨立驗收</div>
+      </div>
+      <p class="step-note">執行順序說明：先確定怎麼派工、再補查找與檢查，最後才搬細則，避免搬完找不到。</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">以前</h3>
+          <p>派工表型號與部分做法過時、清單漏列時缺統一備援、細則常駐在開場文件。</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">現在</h3>
+          <p>按工作風險選人；需要時能查手冊索引；完整細則搬到需要時才讀的位置。</p>
+        </div>
+      </div>
+
+      <div class="card card-impact">
+        <h3 class="card-title">對你的影響</h3>
+        <p>派工有理由、手冊有查找規則、開場少帶細則；同步也會抓出舊副本，保留自有技能。</p>
+        <p class="sub-note">註：此為工作規則改善，不保證模型每次照做。</p>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" id="slide-2" tabindex="-1" aria-labelledby="heading-2" hidden>
+      <h2 id="heading-2">這件工作，該交給誰？</h2>
+      <div class="notice-tag">操作示意，不會真的派工</div>
+
+      <div class="btn-group" role="group" aria-label="工作類型選擇">
+        <button type="button" class="task-btn active" data-task="archive" aria-pressed="true">整理／找檔</button>
+        <button type="button" class="task-btn" data-task="feature" aria-pressed="false">一般改功能</button>
+        <button type="button" class="task-btn" data-task="policy" aria-pressed="false">容易漏判的制度修改</button>
+        <button type="button" class="task-btn" data-task="review" aria-pressed="false">獨立驗收</button>
+      </div>
+
+      <div id="task-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card">
+        <p><strong>調度原則：</strong>同一工作、同一角色不重複派兩個高階；作者與獨立驗收者可各用高階。獨立驗收只表示隔離作者推理，不保證換模型就沒偏誤。</p>
+      </div>
+
+      <details class="rule-card">
+        <summary class="rule-summary">重試上限與備援規範</summary>
+        <div class="details-body">
+          <p>同子任務最多 4 輪＝Haiku 1 → Sonnet 2（第二次換方法）→ Opus 或 Fable 終局 1；高階還錯就回報，不循環重試。模型不可用與做錯分開，只試一次可用備援。</p>
+        </div>
+      </details>
+
+      <details class="rule-card">
+        <summary class="rule-summary">本機查證模型代號清單</summary>
+        <div class="details-body">
+          <p>本機 2026-09-14 查證的模型 ID：<code>claude-opus-5</code>、<code>claude-fable-5-1</code>、<code>claude-sonnet-5</code>、<code>claude-haiku-4-5-20251001</code>。不能推定所有帳戶/工具可用。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" id="slide-3" tabindex="-1" aria-labelledby="heading-3" hidden>
+      <h2 id="heading-3">手冊本來能讀，現在多了備援</h2>
+
+      <div class="btn-group" role="group" aria-label="手冊情境選擇">
+        <button type="button" class="manual-btn active" data-scenario="full" aria-pressed="true">原生清單完整</button>
+        <button type="button" class="manual-btn" data-scenario="missing" aria-pressed="false">清單沒列出／截斷</button>
+      </div>
+
+      <div id="manual-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card card-warning">
+        <p><strong>務實邊界：</strong>Codex 原本就能讀 skill；檔案讀得到 ≠ 模型每次都會選對、照做。Antigravity 自動取用技能未實測。</p>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" id="slide-4" tabindex="-1" aria-labelledby="heading-4" hidden>
+      <h2 id="heading-4">規則搬家，開場少帶細則</h2>
+      <p class="lead-text">GLOBAL 單檔減 35.1%；各工具開場三檔合計減 19.5%–21.6%。資料快照 2026-09-14 本次修改前後；三檔＝GLOBAL＋AGENTS＋該工具設定。口徑為來源文字量（字元數），非實際 Token、帳單或速度；基準皆以修改前 = 100%。</p>
+
+      <div class="btn-group" role="group" aria-label="開場檔案字元減量統計">
+        <button type="button" class="slim-btn active" data-target="global" aria-pressed="true">GLOBAL 單檔</button>
+        <button type="button" class="slim-btn" data-target="claude" aria-pressed="false">Claude 開場三檔</button>
+        <button type="button" class="slim-btn" data-target="codex" aria-pressed="false">Codex 開場三檔</button>
+        <button type="button" class="slim-btn" data-target="gemini" aria-pressed="false">Gemini 開場三檔</button>
+      </div>
+
+      <div id="slimming-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="rule-stack">
+        <details class="rule-card">
+          <summary class="rule-summary">版控細則搬家說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>git-mirror.md</code></p>
+            <p>WTF 本體直接在 git_mirror 是唯一例外；其他專案仍遵守 Drive 工作／git_mirror 版控規則。保留完整要求，主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+        <details class="rule-card">
+          <summary class="rule-summary">預覽與存檔規範說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>delivery-conventions.md</code></p>
+            <p>成品背景預覽；影片與音檔不自動播放；存檔預設指向正確資料夾。主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+        <details class="rule-card">
+          <summary class="rule-summary">統計口徑規範說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>data-citation.md</code></p>
+            <p>資料口徑含起訖期間、來源、範圍、單位及計算口徑。主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide" id="slide-5" tabindex="-1" aria-labelledby="heading-5" hidden>
+      <h2 id="heading-5">副本改錯一個字，也查得出來</h2>
+      <div class="notice-tag">操作示意，不會改動檔案</div>
+
+      <div class="btn-group" role="group" aria-label="副本同步檢查情境">
+        <button type="button" class="drift-btn active" data-drift="same" aria-pressed="true">內容相同</button>
+        <button type="button" class="drift-btn" data-drift="diff" aria-pressed="false">只改一個字</button>
+        <button type="button" class="drift-btn" data-drift="missing" aria-pressed="false">少一個附檔</button>
+      </div>
+
+      <div id="drift-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card">
+        <p>現在也比對索引內容；自己另外裝的非 WTF 來源技能予以保留，不再因不在清單就刪除。退役的多餘內容仍需人工辨識清理，不保證每個附檔都有警示。</p>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide" id="slide-6" tabindex="-1" aria-labelledby="heading-6" hidden>
+      <h2 id="heading-6">完成到哪裡，還有哪些邊界？</h2>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3 class="card-title">已完成（工程證據）</h3>
+          <p>工程 32 項測試通過；7 項細則遷移核對；本機 sync 兩次＋check，99 個部署檔案內容一致。（此為 2026-09-14 工程證據，非簡報數字）</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">獨立驗收</h3>
+          <p>Fable 首輪抓到搬家後舊指標 → Codex 修正 → Fable 第二輪 PASS。制度已在本機部署，未 commit，待 PO 最終驗收。</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">尚未做／未驗證</h3>
+          <p>Windows 未實機驗證；Antigravity 自動挑選/讀取技能未實測（本次 agy 僅製作簡報）；先前權限規則警告已記錄未修改；實際費用與速度未量測。</p>
+        </div>
+      </div>
+
+      <details class="rule-card">
+        <summary class="rule-summary">工程檢驗紀錄檔案清單</summary>
+        <div class="details-body">
+          <ul class="file-list">
+            <li><a href="../../../_context/TaskLog_2026-09-14_ai-team制度優化.md">TaskLog_2026-09-14_ai-team制度優化.md</a>（完整工程紀錄）</li>
+            <li><a href="../../ai-team-20260914/verification.md">verification.md</a>（文字量與七項遷移）</li>
+            <li><a href="../../ai-team-20260914/review2.response.txt">review2.response.txt</a>（Fable 獨立複驗）</li>
+            <li><a href="../../ai-team-20260914/deployment-result.txt">deployment-result.txt</a>（99 份部署核對）</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="slide-footer">
+    <div class="footer-ctrl">
+      <button type="button" id="prev" aria-label="切換至上一頁">上一頁</button>
+      <span id="page-count" aria-live="polite">頁次 1 / 6</span>
+      <button type="button" id="next" aria-label="切換至下一頁">下一頁</button>
+    </div>
+    <div class="footer-status">agy 製作 · Codex 驗收 ｜ 驗收狀態：交 PO 檢閱</div>
+  </footer>
+</body>
+</html>
+===END_FILE===
+===FILE:styles.css===
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  background-color: #FAF8F5;
+  color: #1A2538;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:focus-visible {
+  outline: 2px solid #D97706;
+  outline-offset: 2px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.app-header {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E0D8;
+  padding: 16px 20px 0;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1A2538;
+}
+
+.date-badge {
+  font-size: 0.85rem;
+  color: #4A5568;
+}
+
+.separator {
+  margin: 0 4px;
+}
+
+progress#slide-progress {
+  width: 100%;
+  height: 4px;
+  border: none;
+  background-color: #E5E0D8;
+  display: block;
+  accent-color: #D97706;
+}
+
+progress#slide-progress::-webkit-progress-bar {
+  background-color: #E5E0D8;
+}
+
+progress#slide-progress::-webkit-progress-value {
+  background-color: #D97706;
+}
+
+.slide-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.tab-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: #FAF8F5;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  color: #1A2538;
+  cursor: pointer;
+}
+
+.tab-btn[aria-current="page"] {
+  background-color: #1A2538;
+  border-color: #1A2538;
+  color: #FAF8F5;
+  font-weight: 600;
+}
+
+#presentation-content {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.slide:focus {
+  outline: none;
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1A2538;
+  line-height: 1.3;
+}
+
+h3.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1A2538;
+}
+
+.lead-text {
+  font-size: 1.05rem;
+  color: #4A5568;
+}
+
+.step-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.step-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.step-idx {
+  color: #D97706;
+}
+
+.step-arrow {
+  color: #A0AEC0;
+  font-weight: bold;
+}
+
+.step-note {
+  font-size: 0.88rem;
+  color: #4A5568;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.card-impact {
+  border-left: 4px solid #D97706;
+}
+
+.card-warning {
+  border-left: 4px solid #B45309;
+  background-color: #FFFDF9;
+}
+
+.sub-note {
+  font-size: 0.85rem;
+  color: #4A5568;
+  margin-top: 6px;
+}
+
+.notice-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.85rem;
+  color: #B45309;
+  background-color: #FEF3C7;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.task-btn,
+.manual-btn,
+.slim-btn,
+.drift-btn {
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  color: #1A2538;
+  cursor: pointer;
+}
+
+.task-btn.active,
+.manual-btn.active,
+.slim-btn.active,
+.drift-btn.active {
+  background-color: #1A2538;
+  border-color: #1A2538;
+  color: #FAF8F5;
+  font-weight: 600;
+}
+
+.detail-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-row {
+  margin-bottom: 6px;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #1A2538;
+  margin-right: 6px;
+}
+
+.rule-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+details.rule-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  padding: 8px 14px;
+}
+
+summary.rule-summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1A2538;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+summary.rule-summary::after {
+  content: "＋";
+  color: #D97706;
+  font-weight: bold;
+}
+
+details[open] summary.rule-summary::after {
+  content: "−";
+}
+
+.details-body {
+  padding: 10px 0 6px;
+  border-top: 1px solid #F0ECE8;
+  font-size: 0.92rem;
+  color: #4A5568;
+}
+
+.file-path {
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.file-path code,
+.details-body code {
+  background-color: #F0ECE8;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.chart-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chart-name {
+  width: 90px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.chart-track {
+  flex-grow: 1;
+  height: 22px;
+  background-color: #E5E0D8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.chart-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.chart-fill.before {
+  background-color: #1A2538;
+}
+
+.chart-fill.after {
+  background-color: #D97706;
+}
+
+.chart-num {
+  width: 90px;
+  text-align: right;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.chart-badge-wrap {
+  margin-top: 6px;
+}
+
+.reduction-badge {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #B45309;
+  background-color: #FEF3C7;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 6px 0;
+}
+
+.compare-box {
+  background-color: #FAF8F5;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+
+.file-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-list a {
+  color: #1A2538;
+  text-decoration: underline;
+}
+
+.slide-footer {
+  margin-top: auto;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E5E0D8;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#prev,
+#next {
+  min-height: 44px;
+  min-width: 80px;
+  padding: 8px 16px;
+  background-color: #1A2538;
+  color: #FAF8F5;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#prev:disabled,
+#next:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+#page-count {
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+}
+
+.footer-status {
+  font-size: 0.88rem;
+  color: #4A5568;
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+  .slide-footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .footer-ctrl {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-fill {
+    transition: none;
+  }
+}
+===END_FILE===
+===FILE:app.js===
+let currentSlide = 1;
+const totalSlides = 6;
+
+const taskData = {
+  archive: {
+    rec: '機械格式與逐字可驗任務用 Haiku 4.5；要理解內容的搜尋摘要用 Sonnet 5。',
+    reason: '驗收容易，不必每件都用高階。'
+  },
+  feature: {
+    rec: 'Sonnet 5 起步；高度牽動其他檔案時由主 agent 處理。',
+    reason: '看測試能否抓錯，也看交辦成本。'
+  },
+  policy: {
+    rec: '主 agent 負責連動判斷；Claude 搭檔可用 Opus 5，需第二意見用 Fable 5.1。',
+    reason: '不是固定 Fable 比 Opus 更高，也不強制把 Codex 換成 Opus。'
+  },
+  review: {
+    rec: 'Fable 5.1 另開對話，拿產物與驗收條件檢查；作者不能自己核准。',
+    reason: '這次工程由 Codex 實作、Fable 複驗；本簡報由 agy 製作、Codex 檢查。'
+  }
+};
+
+const manualData = {
+  full: {
+    before: 'Codex 已能讀所需 SKILL.md。',
+    after: '優先沿用工具已列出的名稱/描述/路徑，不額外讀索引。',
+    impact: '正常流程不增加一層負擔。'
+  },
+  missing: {
+    before: '缺統一的查找備援。',
+    after: '「專案索引 → 全域索引 → 命中才讀完整手冊」，索引也缺就查看來源名稱/描述；讀不到要回報。',
+    impact: '查找方法有明文，容易核對，而非保證自動觸發。'
+  }
+};
+
+const slimData = {
+  global: { name: 'GLOBAL 單檔', before: 8343, after: 5414, reduction: '35.1%' },
+  claude: { name: 'Claude 開場三檔', before: 13093, after: 10271, reduction: '21.6%' },
+  codex: { name: 'Codex 開場三檔', before: 13035, after: 10383, reduction: '20.3%' },
+  gemini: { name: 'Gemini 開場三檔', before: 13539, after: 10896, reduction: '19.5%' }
+};
+
+const driftData = {
+  same: {
+    draft: '原稿「讀到」',
+    copy: '副本「讀到」',
+    beforeRes: '通過',
+    afterRes: '通過'
+  },
+  diff: {
+    draft: '原稿「讀到」',
+    copy: '副本「讀錯」',
+    beforeRes: '只看資料夾或入口是否存在，可能放過',
+    afterRes: '比較內容，標示需要同步'
+  },
+  missing: {
+    draft: '原稿支援檔「有」',
+    copy: '副本支援檔「缺少」',
+    beforeRes: '可能放過',
+    afterRes: '檢查支援檔，標示缺檔需要同步'
+  }
+};
+
+function goToSlide(targetIndex) {
+  if (targetIndex < 1 || targetIndex > totalSlides || targetIndex === currentSlide) {
+    return;
+  }
+  const prevSlideElem = document.getElementById('slide-' + currentSlide);
+  const targetSlideElem = document.getElementById('slide-' + targetIndex);
+  const prevTabElem = document.getElementById('tab-' + currentSlide);
+  const targetTabElem = document.getElementById('tab-' + targetIndex);
+
+  if (prevSlideElem) prevSlideElem.hidden = true;
+  if (targetSlideElem) targetSlideElem.hidden = false;
+
+  if (prevTabElem) prevTabElem.removeAttribute('aria-current');
+  if (targetTabElem) targetTabElem.setAttribute('aria-current', 'page');
+
+  currentSlide = targetIndex;
+  updateNavControls();
+
+  if (targetSlideElem) {
+    targetSlideElem.focus();
+  }
+}
+
+function updateNavControls() {
+  const progressBar = document.getElementById('slide-progress');
+  const pageCountElem = document.getElementById('page-count');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  if (progressBar) progressBar.value = currentSlide;
+  if (pageCountElem) pageCountElem.textContent = '頁次 ' + currentSlide + ' / ' + totalSlides;
+  if (prevBtn) prevBtn.disabled = (currentSlide === 1);
+  if (nextBtn) nextBtn.disabled = (currentSlide === totalSlides);
+}
+
+function handleKeyNavigation(e) {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const target = e.target;
+  if (target && target.closest('input, select, textarea, button, a, details, summary, [contenteditable="true"]')) {
+    return;
+  }
+  e.preventDefault();
+  if (e.key === 'ArrowLeft') {
+    goToSlide(currentSlide - 1);
+  } else if (e.key === 'ArrowRight') {
+    goToSlide(currentSlide + 1);
+  }
+}
+
+function renderTaskDetail(key) {
+  const container = document.getElementById('task-detail');
+  const item = taskData[key];
+  if (!container || !item) return;
+  container.innerHTML =
+    '<div class="detail-row"><span class="detail-label">推薦配置：</span>' + item.rec + '</div>' +
+    '<div class="detail-row"><span class="detail-label">派工理由：</span>' + item.reason + '</div>';
+}
+
+function renderManualDetail(key) {
+  const container = document.getElementById('manual-detail');
+  const item = manualData[key];
+  if (!container || !item) return;
+  container.innerHTML =
+    '<div class="detail-row"><span class="detail-label">以前：</span>' + item.before + '</div>' +
+    '<div class="detail-row"><span class="detail-label">現在：</span>' + item.after + '</div>' +
+    '<div class="detail-row"><span class="detail-label">影響：</span>' + item.impact + '</div>';
+}
+
+function renderSlimmingDetail(key) {
+  const container = document.getElementById('slimming-detail');
+  const item = slimData[key];
+  if (!container || !item) return;
+  const pct = ((item.after / item.before) * 100).toFixed(1);
+
+  container.innerHTML =
+    '<div class="chart-box" aria-label="' + item.name + ' 減少前與減少後圖表">' +
+      '<div class="chart-line">' +
+        '<span class="chart-name">修改前 (100%)</span>' +
+        '<div class="chart-track"><div class="chart-fill before" style="width: 100%;"></div></div>' +
+        '<span class="chart-num">' + item.before.toLocaleString() + ' 字元</span>' +
+      '</div>' +
+      '<div class="chart-line">' +
+        '<span class="chart-name">修改後 (' + pct + '%)</span>' +
+        '<div class="chart-track"><div class="chart-fill after" style="width: ' + pct + '%;"></div></div>' +
+        '<span class="chart-num">' + item.after.toLocaleString() + ' 字元</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="chart-badge-wrap">' +
+      '<span class="reduction-badge">字元減幅：減少 ' + item.reduction + '</span>' +
+    '</div>';
+}
+
+function renderDriftDetail(key) {
+  const container = document.getElementById('drift-detail');
+  const item = driftData[key];
+  if (!container || !item) return;
+
+  container.innerHTML =
+    '<div class="compare-grid">' +
+      '<div class="compare-box"><strong>原稿狀態：</strong>' + item.draft + '</div>' +
+      '<div class="compare-box"><strong>副本狀態：</strong>' + item.copy + '</div>' +
+    '</div>' +
+    '<div class="detail-row"><span class="detail-label">以前結果：</span>' + item.beforeRes + '</div>' +
+    '<div class="detail-row"><span class="detail-label">現在結果：</span>' + item.afterRes + '</div>';
+}
+
+function setupButtonGroup(selector, attrName, renderFn) {
+  const buttons = document.querySelectorAll(selector);
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      buttons.forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      const val = btn.getAttribute(attrName);
+      renderFn(val);
+    });
+  });
+}
+
+function initTabs() {
+  for (let i = 1; i <= totalSlides; i++) {
+    const tab = document.getElementById('tab-' + i);
+    if (tab) {
+      tab.addEventListener('click', function() {
+        goToSlide(i);
+      });
+    }
+  }
+}
+
+function initApp() {
+  initTabs();
+
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentSlide + 1); });
+
+  document.addEventListener('keydown', handleKeyNavigation);
+
+  setupButtonGroup('.task-btn', 'data-task', renderTaskDetail);
+  setupButtonGroup('.manual-btn', 'data-scenario', renderManualDetail);
+  setupButtonGroup('.slim-btn', 'data-target', renderSlimmingDetail);
+  setupButtonGroup('.drift-btn', 'data-drift', renderDriftDetail);
+
+  renderTaskDetail('archive');
+  renderManualDetail('full');
+  renderSlimmingDetail('global');
+  renderDriftDetail('same');
+  updateNavControls();
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+===END_FILE===

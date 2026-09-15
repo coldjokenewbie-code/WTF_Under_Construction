@@ -1,0 +1,56 @@
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+## 1. A–F 逐條
+
+**A 同意。** 補兩點：`fable` 呼叫被拒（權限／不可得）→ 改 `opus` 一次並在紀錄標「降級」，不重試迴圈。「同任務絕不兩高階」改為「同任務**同角色**不疊兩高階」；執行者與驗收者不同角色，各用高階不違規。
+
+**B 同意，附修正。**
+- 專案索引 `._agents/skills-index.md` 的 path 一律寫**相對專案根**；全域索引 path 可用本機絕對路徑（本機產物不進 SSOT）。
+- 兩種索引檔首行標「由 sync_config.py 產生，勿手改」＋來源 SSOT 路徑。
+- 只收錄 WTF SSOT（`wtf-config/skills/`）與專案 `._agents/skills/`；工具內建 skill（dataviz 等）不入索引。
+- 錯誤分級：name／description 缺漏或重複 → exit 1；name 與資料夾名不一致 → 本輪只警告，避免動 17 個 skill。
+- prune 改為只新增／覆蓋：同意，但 check 須列出「部署端存在、SSOT 沒有」的孤兒目錄（資訊，不刪），並在 TaskLog 明寫這是行為變更。
+- `~/.gemini` 索引照產，註記 Antigravity 是否讀取未驗證。
+
+**C 同意。** 補：Codex 交付時附「遷移對照表」（原 GLOBAL 條目 → 新檔＋節名），每條可 grep 到原關鍵語句。實測範圍＝常載三檔（GLOBAL、AGENTS、CLAUDE_CODE）各報 `len(text)`／UTF-8 bytes／行數前後值，另報新增 playbook 總量，證明是搬移不是刪除。sync 產出的 session bundle（`wtf-session-bundles/<hash>/`）必須同步重生，否則 hook 注入舊版。
+
+**D 同意。** 每塊完成後 sync 連跑兩次＋check，輸出存證；每塊前後 `git status --porcelain` 對照，只准出現預期檔案。
+
+**E 同意。** 下輪驗收條件由 Codex 寫成自足文件（不得引用本對話），我以 diff＋條件審查。
+
+**F 同意。** 只記證據與建議，不改。
+
+**第 3 輪共識成立**（以上為補強，非分歧）。
+
+## 2. model-dispatch 最終表
+
+**第 0 節 型號表**
+> 來源：2026-09-14 Claude Code session 系統提示與 Agent tool `model` enum，本機標本，非所有帳戶／工具保證。Codex／Gemini 依各自轉接層。
+
+| 稱呼 | Agent `model` | 模型 ID | 定位 | 備註 |
+|---|---|---|---|---|
+| Fable 5.1 | `fable` | `claude-fable-5-1` | 高錯誤代價判斷、設計仲裁、獨立驗收 | 帳戶可能無權限；被拒→`opus` 一次，紀錄標「降級」 |
+| Opus 5 | `opus` | `claude-opus-5` | 主對話日常預設；耦合修改、架構、制度檔 | 主模型承接耦合工作 |
+| Sonnet 5 | `sonnet` | `claude-sonnet-5` | 一般實作起點、讀取密集搜尋摘要、測試撰寫 | 派工預設 |
+| Haiku 4.5 | `haiku` | `claude-haiku-4-5-20251001` | 機械任務：格式、批次替換、模板產出 | 不做判斷型工作 |
+
+**第 4 節 任務／模型／管道／額度判準**
+
+| 任務型態 | 預設 | 管道 | 升級條件 | 失敗處理 |
+|---|---|---|---|---|
+| 機械、可逐字驗證 | Haiku | Agent 派工 | 需語意理解→Sonnet | 失敗一次即升，不重試同級 |
+| 讀取密集搜尋、摘要 | Sonnet（Explore） | Agent 派工，主對話只收結論＋檔案:行號 | 結論矛盾或跨檔推理→Opus | 同上 |
+| 一般實作、單點修改 | Sonnet | Agent 派工；耦合高時主 agent 自做 | 多檔耦合／架構判斷→Opus 主 agent | 驗收兩次不過→升一級並**重寫交辦**，非同 prompt 重派 |
+| 耦合修改、制度檔 | Opus 主 agent（本任務＝Codex） | 主對話 | 錯誤代價高、跨模型分歧→Fable | — |
+| 高代價判斷、仲裁 | Fable | 主對話或 fresh CLI | 無 | 不可得→Opus 一次，標降級 |
+| 獨立驗收 | 高風險：Fable fresh CLI；低風險單點：主 agent 命令＋read-back | fresh CLI／ody-verifier | — | 驗收者≠執行者；驗收條件須自足 |
+
+額度規則：
+- **任務失敗**（結果不對）與**額度耗盡**（rate limit／quota 錯誤）分開：前者換方法或升一級並重寫交辦；後者降一級或等候，不升級。
+- Fable／Opus 是選擇不是階梯：同任務同角色最多升一級一次，升級須寫原因。
+- subagent 是否繼承 context 依工具而定，不寫「必然共享」；fresh CLI 仍載同套制度 prompt，獨立性靠自足驗收條件，不靠換模型。
+
+## 3. 我獨立驗收最會找的 3 個失敗點
+
+1. **部署漂移**：repo 改了 GLOBAL，但 `~/.claude/CLAUDE.md` import 的 bundle hash 目錄未重生或舊 hash 殘留，hook 注入舊版。核法：sync 後 bundle 內容 hash 等於 repo 檔；用被搬走的關鍵語句 grep bundle 應為 0 筆。
+2. **遷移失真**：逐條 grep 原關鍵語句（`Git_work`、`.retired-`、`startIn`、`'documents'`、`⌘⇧G`、`-g 不可省略`、`Calibri`、`同月同日`、「備份至 archive」）必須在新 playbook 命中；GLOBAL 保留列須同時含觸發詞＋結論＋指標。任一語句兩處皆無＝弱化。
+3. **check 假通過**：改部署副本一個位元組、改索引一個描述、刪一個部署檔、暫放重名 skill → 四種各需 exit 1；暫時改名 `~/.gemini` → 應 skip 非 fail；sync 連跑兩次後 `diff -r` 部署樹相同；在 `~/.claude/skills/` 放假目錄 → sync 不刪、check 列孤兒。

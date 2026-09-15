@@ -1,0 +1,660 @@
+Fable 5.1，獨立複驗。只輸出文字，不用工具/讀寫檔/初始化。前次審查FAIL，阻擋是GLOBAL舊回指；以下給當前產物、修正diff、缺失的既有條文與可重現測試證據，不提供作者推理。原已通過且未修改的程式區域以SHA256快照核對；你仍須檢查修正是否引入新問題。回覆PASS/FAIL，600字內；有阻擋逐條指出。
+
+驗收：舊GLOBAL節名回指已更正，既有data-citation保留同期/口徑/不可驗證排除，maintenance新旧規則無衝突，bundle None/False情境能正確判定，後續修正不破壞首次通過的型號/索引/不自驗/同步檢查契約。GLOBAL縮幅是來源字元不是token帳單。這次無agy與commit。
+
+
+## 前輪審查紀錄
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+FAIL
+
+**阻擋項**
+
+1. `wtf-config/GLOBAL.md`「檔案、命名與輸出規範」節：「Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（版控規則見上方「版控鐵律」）」。觸發：版控鐵律整段已搬到 `playbooks/git-mirror.md`，GLOBAL 上方已無「版控鐵律」節，只剩「工作位置／版控」一行。影響：常駐檔留下指向不存在節名的回指，違反第 4 條「舊回指要更新」，讀者按指示往上找會落空。最小修正：改為「（版控規則見上方『工作位置／版控』與 `playbooks/git-mirror.md`）」。
+
+**未驢證（diff 未涵蓋，無法判定）**
+
+- 原 GLOBAL 數據鐵律中「跨年須同月同日／時點不一致不得並列」「同一文件同一指標只用一種口徑、衝突時註明」兩句，遷移表宣稱已在 `data-citation.md` 既有節，diff 只見「補參數」一處修改，其餘依賴既有內文。
+- 其他 playbook／skill（如 `judgment-rubrics.md`、`W_colab`、`harness-diagnosis.md`）是否仍回指 GLOBAL「交付即預覽」「存檔預設路徑鐵律」「數據引用鐵律」「存入協議」「Claude_cowork 專案版控鐵律」等已搬移節名，diff 未列，建議 grep 後補更新。
+- `check_bundle_integrity` 回傳 `None` 的所有情境（除 import 缺失外是否含 SSOT 不存在）未見程式碼；現改為一律判失敗。
+- `maintenance-protocol.md` 既有 §1–4 與新 §6 是否有重疊細則，僅見新增段。
+
+**已對照通過**
+
+- 第 1 條：型號表四列與 ID／短值一致；Agent 與 CLI 分列、不假定繼承或共用額度；4 輪上限、高階終局一次、備援一次不重設；ai-team 非作者驗收、交 PO、禁 commit 均在 §5–6。
+- 第 2 條：索引僅 name／description／path，無 triggers 欄；專案 path 相對根（`relative_to=project`），全域 path＝`<home>/skills/...` 部署位置；dot 目錄與非 SSOT 不入索引；三工具入口檔各指對應索引檔名。
+- 第 3 條：`deploy_skill_set` 只寫 SSOT 同名目錄，同名 symlink 先 unlink 再建實體；`_skill_errors` 逐檔比 bytes；重複 name／缺欄位 raise，name≠資料夾只出 NAME 警告；索引、入口、bundle 竄改或缺失皆進 broken→exit 1；未安裝工具 SKIP；sync 前 metadata 預檢避免半套寫入；測試涵蓋兩次 sync 快照相等。
+- 第 5 條：GLOBAL 8343→5400，縮 35.3%（僅高於門檻 0.3 點，無餘裕）；三檔合計含 AGENTS 與各入口增量；明示非 token／帳單。
+- 第 6 條：diff 未觸及 machines.md 與 settings.local.json；GEMINI.md 註明 agy 未呼叫。
+
+**建議（非阻擋）**
+
+- `git-mirror.md` 標題與首行粗體重複同一句，可刪其一。
+- `maintenance-protocol.md` §5「先讀 本檔 確認」多餘空格。
+- `_skill_errors` 不偵測部署端 skill 目錄內 SSOT 已刪除的殘留檔（如舊 script），工具仍可能讀到；可加 EXTRA-in-skill 警告。
+- `test_sync_skills` 寫死「17 skills」，新增 skill 即失敗，改為以 SSOT 目錄計數比對。
+- `deploy_other_tools` 現在 CODEX.md／GEMINI.md 缺失直接 raise 中止整個 sync，較舊版跳過更嚴，需確認是刻意。
+- 縮減比例只餘 0.3 點，下次 PO 新增常駐條目即跌破 35%，宜預留空間。
+
+
+## 當前產物 wtf-config/GLOBAL.md
+# 全域設定（GLOBAL）
+
+> **全域設定**＝本檔（通則）＋`AGENTS.md`（溝通與角色），所有 AI 開場必讀；跨機、CLI、Cowork、Chat 共用單一真相源。
+> **來源**：WTF_Under_Construction。`<WTF_ROOT>` 由本工具的 `wtf-root.txt` 取得（Claude：`~/.claude/wtf-root.txt`），各機路徑見 `machines.md`。
+> **維護**：本檔常駐，長細則按需讀 `playbooks/`；改前必讀 `playbooks/maintenance-protocol.md`。
+
+## 開場協議（session 首次啟動執行一次，後續不重複）
+
+1. **補齊工作區資料夾**（不存在則建立）：`_context/`、`rules/`、`workingfiles/outputs/_shared/_screenshots/`、`workingfiles/outputs/_shared/_scripts/`、`tools/`。
+2. **建立預設規範**：若 `rules/folder-conventions.md` 不存在，照抄 `<WTF_ROOT>/rules/folder-conventions.md` 建立。
+3. **讀取專案知識——三檔制，嚴禁全量掃描 `_context/`**：
+   - 讀 `_context/INDEX.md`（現況與指路）→ 讀 INDEX 指到的**當前 TaskLog 一份**（待辦真相源）→ 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
+   - `rules/` 內全部 `.md` 照讀（通常很短）。
+   - 其他 `_context/` 檔案**只在** INDEX「讀取指引」點名、或使用者點名時才讀；`archive/` 與 `ClosedTaskLog_*` 一律跳過。
+   - 若在任何舊檔看到「讀取所有 .md」指令，以本條為準。
+4. **技能載入**：照 AGENTS.md「Skills 載入協議」（lazy-load，開場不讀 body）。
+5. 向用戶說明「已載入全域設定」一次，之後直接進主題。
+
+## 派工與判斷（動手前先過這關）
+
+**派工鐵律（風險／獨立性判斷，工具中立）：**
+- **適合派工**：工作可獨立完成、讀取密集、中間過程會產生大量污染主 context 的輸出、可平行處理（如「找找看」式搜尋、大範圍讀取後摘要）→ 派給適合的執行 agent，主對話只收結論＋`檔案:行號`，不下場讀原文。
+- **不適合派工**：修改彼此高度耦合、多人/多 agent 同時動同一區域、協調成本高於直接執行的成本 → 主 agent 自行處理較划算。
+- 派工必帶三要素：目標與動機、驗收條件、回報格式。各工具依模型調度規則選執行者（Claude 見 `model-dispatch.md`；其他工具依自身轉接層）；本層按風險與獨立性決定是否派工，模型層再考量額度，不降低驗收標準。
+- 說「已完成」之前必有證據：tool 成功回傳＋驗收逐條對照。**高風險或跨模型的成果**：fresh-context 或跨工具獨立驗證；**低風險單點修改**：允許主 agent 自行執行命令與 read-back，不強制每次另派 agent；**ai-team 仍一律由非作者輪流驗收**。檔案交付要經 fresh-context read-back；程式交付要跑測試或實跑。
+
+**按需路由**（遇到左欄情境才開右欄檔，位置 `<WTF_ROOT>/wtf-config/playbooks/`）：
+
+| 情境 | 開啟 |
+|---|---|
+| 要派 subagent／選 model 與 effort／升降級 | `model-dispatch.md` |
+| 交辦 prompt 怎麼寫（五種任務型態範本） | `delegation-templates.md` |
+| 判斷：何時升級／何時算完成／該不該問使用者／方向錯換路／品質底線 | `judgment-rubrics.md` |
+| 引用統計數據、畫數據圖表、跨年或同期比較、多來源數字打架 | `data-citation.md` |
+| 決定讀寫位置、啟動服務、git／commit／push | `git-mirror.md` |
+| 交付預覽、可存檔程式／網頁、匯報格式 | `delivery-conventions.md` |
+| 要改制度檔、教訓寫回哪裡 | `maintenance-protocol.md` |
+| context 吃緊、失焦、「說完成但沒完成」再犯 | `harness-diagnosis.md` |
+| 前端／Playwright 驗收踩雷 | `pitfalls-frontend.md` |
+| pptx／docx／gen 腳本踩雷、Excel／CSV 匯出 | `pitfalls-office-docs.md` |
+| 同 repo 多 CLI 並行 | `parallel-worktree.md` |
+| ai-team 跨工具協作底線 | `multi-agent-baseline.md` |
+| 雲端自主任務迴圈（排程棒/佇列/mission） | `mission-loop.md` |
+| AI 行為異常、開場協議屢被跳過 | `ai-degradation.md` |
+| 想了解整套制度的來龍去脈 | `letter-from-fable5.md` |
+
+**工作位置／版控**：決定任何讀寫位置、啟動服務，或遇到 git／推／commit／push 前，先查 `projects-registry.md` 與 `playbooks/git-mirror.md`。所有專案 Drive 工作、git_mirror 版控；**唯一例外 WTF_Under_Construction 本體直接在 git_mirror**。Drive 禁原地 git；Git_work／git_work_bk 與未登錄路徑禁用。
+
+## 工作品質底線
+
+- **做到好＝自行反覆驗證到符合需求為止**，不是「大致完成就交給使用者檢查」。驗證（截圖、測試、視覺比對）是 AI 的責任。
+- 驗收不符 → 繼續修，不交半成品。未驗收就交付＝把處理成本轉嫁給使用者。此規則優先於完成速度。
+- **引用統計數值／比較／畫圖前**：必標起訖期間與口徑；不得補參數，同期同口徑才能比較，查不到即標未取得並排除。先讀 `playbooks/data-citation.md`。
+- **「量不準／做不到」幾乎都是方法問題**：換更可靠的手段（先算繪成圖再量、放大檢視、固定變因、換量測 API）再下結論。窮盡可靠方法仍不行，才回報做不到。
+- **交付可看可聽成品**：主動背景預覽；macOS 用 `/usr/bin/open -g`，影音只顯示所在位置、不自動播放，批次開資料夾；命令與例外見 `playbooks/delivery-conventions.md`。
+- **可存檔程式／網頁**：預設指向目標資料夾，記住首次選擇以後寫回；不能精確預設就明示路徑，禁以 Documents 等系統資料夾保底。檢核頁覆蓋原檔；細則先讀 `playbooks/delivery-conventions.md`，FSA 實作再讀 `playbooks/pitfalls-frontend.md`。
+- 溝通方式與角色分工的全部規則在 `AGENTS.md`（兩檔綁定必讀，本檔不重複）。
+
+## 全域設定的維護
+
+- **改制度或存入全域設定前**：先讀 `playbooks/maintenance-protocol.md`；更新對應 SSOT，跑 `sync_config.py sync` 後核對 `check`，再回報點位。工具入口映射與完整存入協議見該檔。
+- **需要環境／API／大檔資源**：查 `RESOURCES.md` 本機列；wmux 環境另讀 `~/.wmux/AGENT_CONTEXT.md`（不存在略過）。
+
+## 檔案、命名與輸出規範
+
+**每專案標準子資料夾：**
+
+| 子夾 | 用途 |
+|---|---|
+| `_context/` | 知識與紀錄（INDEX、PRD、TaskLog、Handover、lessons、archive）|
+| `rules/` | 專案規則 |
+| `workingfiles/` | 唯一工作與產出樹（過程稿＋定案產出皆在此，見下方內部規則）|
+| `tools/` | 本專案處理腳本 |
+
+- 根目錄只放設定與入口檔；所有作業與產出一律在 `workingfiles/` 內進行；腳本進 `tools/`。專案檔案進 `projects/<專案名>/`。
+- `workingfiles/` 內部規則：草稿、半成品、中間產物直接放 `workingfiles/` 下（正式定案前都留在這裡）；定案交付物移入 `workingfiles/outputs/`（一律複數）——最外層＝目前最新版本，舊版進 `workingfiles/outputs/<子專案>/archive/`（禁止多版本平鋪）；跨子專案共用過程檔進 `workingfiles/outputs/_shared/`。
+- Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（見 `playbooks/git-mirror.md`）。
+
+**命名慣例**（一律「類型_日期_主題」，不用通用檔名如 `prd.md`、`task.md`）：
+
+| 類型 | 格式 |
+|---|---|
+| 現況總覽 | `_context/INDEX.md` |
+| 需求／計畫 | `_context/PRD_YYYY-MM-DD_主題.md`／`Plan_YYYY-MM-DD_主題.md` |
+| 工作紀錄 | `_context/TaskLog_YYYY-MM-DD_主題.md`；結案改前綴 `ClosedTaskLog_` 並移入 `archive/` |
+| 交接文件 | `_context/Handover_YYYY-MM-DD_主題.md`（統一用 Handover，廢除 Handoff 寫法）|
+| 教訓 | `_context/lessons-learned.md` |
+
+- **INDEX 鐵律**：每專案維護 `_context/INDEX.md`，進場先讀 INDEX、不掃全部 `_context/`。待辦與進度的唯一真相源＝當前 TaskLog；INDEX 只放連結與現況快照，不複製待辦內容（兩處真相必然漂移）。例外：等使用者拍板的決策點可短列。
+- **記錄署名**：跨機器或跨工具協作的紀錄，每段帶署名 `[{AI}@{機器別名}]`（如 `[Claude@Win]`；別名見 `machines.md`），接手的人一眼看出誰寫的。單機單作者免署名。
+- **待辦系統**：入口＝Obsidian Inbox（標題「工作」開頭的速記），用 `/inbox` skill 分流——專案工作→該專案 TaskLog（真相源）＋鏡像到待辦 App（owner=AI）；個人雜務→只進待辦 App（owner=user）。`_context/INBOX.md` 已廢除，看到即視為過時檔。
+- **結案歸檔**：TaskLog 結案＝改前綴 `ClosedTaskLog_` **並**移入 `_context/archive/`；Handover 被接手後同樣歸檔。`_context/` 只留進行中的檔案。
+- **教訓兩層**：工作層（詳述）寫各專案 `_context/lessons-learned.md`；雲端層（索引）在 `wtf-config/LESSONS.md`，每條格式「專案｜日期｜一句話｜連結」。工作層新增後須同步登錄索引一行。
+- **共編檔鐵律（`W_` 前綴，2026-08-14 PO 裁定）**：檔名以 `W_` 開頭的文件＝使用者與 AI 共編，預設使用者可能已直接編輯。使用者說「我已編輯」後：**禁止用產生器／整檔重建腳本改檔**（會覆蓋使用者編輯）；動檔前必先重新讀取檔案最新內容（以 Drive 最新存檔版為基準），之後只做就地增量修改，改前備份至 archive。
+- **Excel／CSV 輸出**：先讀 `playbooks/pitfalls-office-docs.md`（含 xlsx 字體及匯出規範）。
+- **選擇匯報／交付格式**：PO 匯報優先 HTML（有 `rules/html-preferences.md` 須先讀）；業主／廠商正式交付依專案格式。見 `playbooks/delivery-conventions.md`。
+
+
+## 當前產物 wtf-config/CODEX.md
+# Codex 工具層設定
+
+> **應用範疇**：OpenAI Codex 專屬。
+> **載入方式**：本檔由 `sync_config.py sync` **實體複製**到 `~/.codex/AGENTS.md`（Codex 原生開場讀 `AGENTS.md`，不讀 `CODEX.md`；實測 `codex debug prompt-input` 確認）。不用 symlink（跨平台/搬遷會斷鏈）。
+> **定位**：只放初始化入口與 Codex 專屬差異；全域設定＝`GLOBAL.md`＋`AGENTS.md` 兩檔（通則與規範、溝通與角色），本檔不重複其內容。
+
+## 強制初始化協議（對話開始時立即執行，不得跳過）
+
+0. **定位 SSOT（絕對路徑）**：讀 `~/.codex/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，不可用相對路徑。
+1. **讀取 GLOBAL.md**：讀取檔案 `<WTF_ROOT>/wtf-config/GLOBAL.md`（工具原生的檔案讀取能力即可，不指定特定工具名稱），並依其「開場協議」執行（含專案知識三檔制）。**`AGENTS.md` 不必在此重讀**：Codex 原生已依專案目錄層級載入當前專案根目錄的 `AGENTS.md`（各已註冊專案根目錄皆有 `sync_config.py` 部署的同步副本），依其中「Skills 載入協議」執行即可，無需再手動讀一次 `wtf-config/AGENTS.md`。
+2. 向用戶說明「已載入全域與 CODEX 工具設定」再開始工作（僅 session 首次一次，後續不重複）。
+
+## Codex 專屬差異
+
+- **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.codex/skills/`（保留工具自有 skill 如 find-skills）；載入規則照 AGENTS.md「Skills 載入協議」。
+- **skill 備援索引**：`~/.codex/wtf-skills-index.md`，原生清單缺列／截斷時才讀；索引不取代原生技能目錄。`~/.codex/skills/` 為本機已驗證取用位置，不能據此推定所有版本的原生掃描路徑。
+- **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_codex.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
+- **工具呼叫權限慣例**：需要重複呼叫外部服務或會觸發 sandbox escalation 的流程（Vertex AI 生圖、gcloud、網路生成工具），先固定成同一個 wrapper 腳本或固定命令前綴再批次執行；不要每次臨時換 prompt 檔/輸出檔組成不同命令，否則 Codex 會把每條視為不同前綴而反覆要求授權。
+- **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Codex`。
+- **存入全域設定**：照 `playbooks/maintenance-protocol.md`「存入協議與工具資源路由」；本工具專屬檔＝`wtf-config/CODEX.md`。
+
+
+## 當前產物 wtf-config/GEMINI.md
+# Antigravity 工具層設定
+
+> **應用範疇**：Google Antigravity 專屬。
+> **載入方式**：本檔由 `sync_config.py sync` **實體複製**到 `~/.gemini/GEMINI.md`（Antigravity 原生開場讀 `GEMINI.md`）。不用 symlink（跨平台/搬遷會斷鏈）；`~/.gemini/AGENTS.md` 已棄用，靠本檔 bootstrap 讀 repo 內正本。
+> **定位**：只放初始化入口與 Antigravity 專屬差異；全域設定＝`GLOBAL.md`＋`AGENTS.md` 兩檔（通則與規範、溝通與角色），本檔不重複其內容。
+
+## 強制初始化協議（對話開始時立即執行，不得跳過）
+
+0. **定位 SSOT（絕對路徑）**：讀 `~/.gemini/wtf-root.txt`（或 `~/.claude/wtf-root.txt`）取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`。`wtf-config` 已移出工作區，不可用相對路徑。
+1. **讀取全域設定兩檔**：以 `view_file` 讀 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`，並依 GLOBAL.md「開場協議」執行（含專案知識三檔制）、依 AGENTS.md 執行 Skills 載入協議。
+2. **同步檢查**：在本地終端機執行 `python "<WTF_ROOT>/wtf-config/sync_config.py" check`，確認設定與真相源一致。
+3. **初始化回報與身分宣告**（僅 session 首次對話一次，後續不重複）：以「已載入全域與 GEMINI 工具設定」開頭，依序帶出：
+   - `我是 Antigravity@{hostname}（{OS}）、repo 在 {path}`
+   - `全域同步檢查狀態：[check 輸出狀態]`
+   - `目前可用技能：[列出與本案相關的 skills 名稱，不讀 body]`
+
+## Antigravity 專屬差異與 Context 工程原則
+
+- **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.gemini/skills/`（保留工具自有 skill）；載入規則照 AGENTS.md「Skills 載入協議」。
+- **skill 備援索引**：`~/.gemini/wtf-skills-index.md`；未提供原生清單時依 AGENTS.md 查此 metadata，命中才讀全文。2026-09-14 本輪依 PO 指示未呼叫 agy，檔案同步不等於取用行為已驗證。
+- **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_gemini.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
+- **定時喚醒防卡死**：背景監控（如 tail 監聽 `AGENT_SIGNAL.log`）必須配合 `schedule` 啟動定時器（例如 90 秒，`TimerCondition` 依情境設定），定時喚醒自己主動檢查監控腳本狀態與日誌更新；禁止被動等待喚醒，避免 AI 進入 idle 後監控中斷。
+- **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Antigravity`。
+- **Gemini 專屬 Context 工程原則 (Gemini 3.6+)**：
+  - **全景式大上下文檢視**：發揮 Gemini 巨量 Context 視窗優勢，遇到複雜排錯或重構時優先閱讀完整模組與相關上下文，避免碎片化觀測。
+  - **原則優先與信任判斷（Unhobbling）**：依據清晰目標與意圖運作，減少過多層疊的微觀否定限制（negative constraints），確保推理注意力分配於核心任務。
+  - **豐富構件與自主驗收（Rich References & Verification）**：產生 UI/資料可視化時優先輸出完整 HTML 構件，並結合 `ui-review` / `generate_image` 或自動化測試進行客觀驗收。
+- **存入全域設定**：照 `playbooks/maintenance-protocol.md`「存入協議與工具資源路由」；本工具專屬檔＝`wtf-config/GEMINI.md`。
+
+
+## 當前產物 wtf-config/playbooks/data-citation.md
+# 數據引用規範：區間、口徑、同期比較
+> 適用：任何要在交付物、簡報、圖表、報告中引用統計數值的工作（工具中立、專案中立）
+> 用法：動筆寫下第一個數字前先過第 1 節五問；做圖表前再過第 3 節。
+> 核心：**數字不會自己說明它在講什麼**。沒有區間與口徑的數值，讀者只能猜，而猜錯的責任算在我方頭上。
+
+## 1. 引用前五問（缺一即不可寫進交付物）
+
+1. **統計期間是什麼？** 起訖年月日，加樣本年數／筆數。「平均年雨量」要問是哪幾年的平均。
+2. **口徑是什麼？** 誰統計的、統計範圍（全球／全國／單一測站）、有沒有排除異常值、用什麼定義。
+3. **標的是單一還是合計？** 一座水庫還是全區加總、一個部門還是全公司。
+4. **單位與型別？** 絕對值還是比率、原始值還是指數、名目還是實質。
+5. **查得到出處嗎？** 能指到具體頁面／表號／發布日期，不能只寫「官網」。
+
+答不出任一項 → 回第 5 節「不可驗證即不用」。
+
+## 2. 標示區間
+
+- 任何統計值（平均、累計、比率、成長率、極值）引用時必須同時標示**統計起訖期間**與**樣本範圍**。例：「年平均雨量 2,500 mm（1991–2020 年平均，30 年）」。
+- **不得自行推定年段或補參數**。原始資料沒寫是哪幾年，就是沒寫；補上一個看似合理的年段（「應該是 1980–2020 吧」）＝杜撰口徑，比不寫更糟——讀者會以為那是查證過的。
+- 圖表的基準線、參考線同樣要標區間。一條沒有區間的「平均線」無法判讀，寧可整條移除。
+- 引用對方**已經標好基準的數值時，基準要跟著搬**。原文寫「以某期間月平均值為基準」，我方轉述漏掉基準，等於改寫了它的意思。
+
+## 3. 同期比較
+
+- 跨年比較必須**同月同日或同一統計口徑**（同為年度值、同為累計至某月）。年初對年中不是比較，是誤導。
+- **時點不一致的數值不得並列成可比較的視覺**——長條圖、折線圖、並排欄位都會讓讀者預設「這幾個可以互相比」。有季節性的指標（水情、用電、營收、氣溫）尤其致命：枯水期對豐水期的差異來自季節，不來自趨勢。
+- 真的要並列不同時點 → 兩種做法擇一：(a) 換成時間軸連續的序列，讓季節波動自己顯現；(b) 保留並列但在圖上明標各時點所屬期別，並在文字說明「不可橫向比較」。
+- 「較歷史同期減少 N 成」這類句子，必須交代**同期怎麼定義**（哪幾個月）與**歷史平均的基準年區間**。原文沒交代 → 改寫成不預設參數的說法（「較該單位所稱歷史同期偏低」），不要替它補參數。
+
+## 4. 口徑一致
+
+- 同一份文件內，**同一指標只用一種口徑**。不同來源對同一件事給出不同數字（統計年段不同、定義不同）很常見，混用會在文件內部自相矛盾。
+- 來源衝突時：擇一為主，並註明另一口徑的數值與差異原因（例：「A 版為 X（1961–1990 年平均），B 版為 Y（1991–2020 年平均），本文採 B 版」）。**不要平均兩者**，那會產生一個誰都沒發布過的數字。
+- 選哪一版的判準（依序）：與交付對象同體系的官方版本 > 統計期間較近、樣本較長 > 口徑寫得較完整。
+- 換口徑要全文一起換，含衍生數值（倍數、百分比、差額）。只改一處＝製造新的矛盾。
+
+## 5. 不可驗證即不用
+
+- 查不到區間或口徑定義的統計值 → 標為「未取得」並**排除**，不得用近似說法帶過（「大約」「一般認為」「據了解」）。
+- 少一個數字不會讓文件失敗；一個站不住的數字被業主或審查者抓到，整份文件的可信度一起賠進去。
+- 若該數值非用不可（例如業主指定引用），改為**轉述並標明責任歸屬**：「依 ◯◯ 單位 YYYY-MM-DD 發布資料」，讓讀者知道口徑未經我方確認。
+
+## 6. 自檢清單（交付前逐條打勾）
+
+- [ ] 文件內每個統計值都能指出出處與統計期間。
+- [ ] 沒有任何區間是我方推定的。
+- [ ] 每張圖表的座標軸、基準線、資料點都標了期別。
+- [ ] 並列比較的數值時點一致；不一致的已加註或改繪。
+- [ ] 同一指標全文口徑一致；有衝突的已註明取捨。
+- [ ] 查不到口徑的數值已移除，不是留著用模糊語氣蓋過。
+
+
+## 當前產物 wtf-config/playbooks/maintenance-protocol.md
+# 制度檔維護協議
+> 適用：任何 AI 要改 `wtf-config/` 或制度相關檔案之前，先讀本檔
+> 原則：制度是可累積資產。改之前先分區——綠區直接改，黃區先提案，紅區不碰
+
+## 1. 分區表（改檔前查這裡）
+
+### 綠區——可自行改，改完在回報中列出即可
+| 檔案 | 允許的改法 |
+|---|---|
+| 各專案 `_context/` 的 TaskLog、Handover、INDEX、lessons-learned | 照命名慣例新增/更新；結案歸檔 |
+| `outputs/` | 依 GLOBAL.md 檔案規範自由使用 |
+| `wtf-config/LESSONS.md` | **只加行**（`專案｜日期｜一句話｜連結`），不改不刪既有行 |
+| `playbooks/model-dispatch.md` 第 0 節型號表 | 查證到新值即更新，**必附查證日期與來源**（claude-code-guide／官方文件） |
+| `playbooks/pitfalls-*.md` | **只追加**新踩坑條目（格式見第 2 節），不改不刪既有條目 |
+| `missions/` 全目錄（QUEUE 狀態欄、MISSION/backlog/journal/_blockers） | mission-loop 循環棒依 `playbooks/mission-loop.md` 狀態機自主改寫；QUEUE 的表頭與使用說明段除外（黃區） |
+
+### 黃區——先提案、使用者核准後才改
+| 檔案 | 原因 |
+|---|---|
+| 常載鏈：`GLOBAL.md`、`CLAUDE_CODE.md`、`AGENTS.md`、`GEMINI.md`、`CODEX.md`、`CLAUDE_COWORK.md`、`CLAUDE_CHAT.md` | 每個 session 都吃，改壞影響全部工作（沿用 nightly「只建議不自改」慣例） |
+| playbooks 的規則本文（dispatch 規則、rubric、範本、本檔） | 制度骨架，改壞會被弱模型放大執行 |
+| `sync_config.py`、`projects-registry.md`、`machines.md` | 部署機制，改壞會斷跨機同步 |
+| `skills/*/SKILL.md`、`agents/*.md` | 影響所有觸發該 skill 的 session |
+| `settings.json`／hooks | 權限與自動化，安全敏感 |
+
+**黃區提案格式**（二選一路徑：當面問使用者，或寫入 `_context/nightly-notify.md` 待核准）：
+```
+提案：改 ｛檔案｝
+現文：｛原文引用，含行號｝
+改為：｛新文｝
+理由：｛觸發此提案的實際事件｝
+影響：｛哪些 session/工具會吃到｝
+```
+
+### 紅區——不碰
+- `wtf-config/archive/`（含 `2026-07-03_pre-fable5/` 備份）：歷史存證，只讀。
+- `playbooks/letter-from-fable5.md`：原文保存。有回應或後續，另開新檔（如 `letter-response_YYYY-MM-DD.md`）。
+
+## 2. 踩雷教訓寫回哪裡（格式固定）
+
+1. **當下**：寫進該專案 `_context/lessons-learned.md`（工作層，詳述），格式：
+   ```
+   ### YYYY-MM-DD ｛主題｝
+   - 坑：｛發生什麼、怎麼發現｝
+   - 修：｛怎麼解的，含命令/程式片段｝
+   - 防：｛下次怎麼避免，一句可執行的話｝
+   ```
+2. **同一次工作內**：到 `wtf-config/LESSONS.md` 加一行索引（綠區）。
+3. **屬於特定主題的技術坑**（前端/office/並行）：追加到對應 `playbooks/pitfalls-*.md`（綠區，只追加）。
+4. **屬於制度執行的坑**（派工錯、驗證漏、判斷失誤）：評估是否該改 rubric/dispatch 規則 → 走黃區提案，不直接改。
+
+## 3. 累積多長要精簡（觸發式門檻，session-end 時順檢一項）
+
+| 對象 | 門檻 | 動作 |
+|---|---|---|
+| 常載鏈合計（`cat GLOBAL.md CLAUDE_CODE.md AGENTS.md \| wc -l`） | >500 行 | 黃區提案：抽內容到 playbooks |
+| 入口檔（CLAUDE_CODE.md 或任一工具入口） | >150 行 | 黃區提案：索引化 |
+| 各專案 `lessons-learned.md` | >200 行 | 舊條目移 `_context/archive/lessons-YYYY.md`，留最近 6 個月 |
+| 單一 playbook | >200 行 | 拆分或去重（黃區提案） |
+| `LESSONS.md` 索引 | >150 行 | 按年拆檔（黃區提案） |
+| INDEX.md「現況」段 | >15 行 | 直接壓縮成一段（綠區，INDEX 本來就該短） |
+
+## 4. 誰來執行維護
+
+- **每次 session-end**：檢查第 2 節該寫的教訓寫了沒；順檢第 3 節門檻**一項**（輪流，不必全查）。
+- **nightly routine**：聚合各專案新 lessons 到 LESSONS.md；常載鏈改動一律只產提案（沿用既有 nightly-notify 流程）。
+- **使用者**：黃區核准；每月看一次 `playbooks/harness-diagnosis.md` 的判準有沒有再犯。
+
+## 5. 存入協議與工具資源路由
+
+- **存入協議**：收到「存入全域設定」指令時——1) 更新 repo 的 `wtf-config/GLOBAL.md` 或對應工具檔；2) 跑 `sync_config.py sync` 部署到本機；3) 回報設定點位摘要。改動前先讀 本檔 確認該檔的修改權限。
+- **工具層級設定**（各工具專屬差異，與全域設定合併生效）：
+  - Claude Code：`wtf-config/CLAUDE_CODE.md`（部署為 `~/.claude/CLAUDE.md`）
+  - Antigravity/Gemini：`wtf-config/GEMINI.md`｜OpenAI Codex：`wtf-config/CODEX.md`
+  - Claude Cowork：`wtf-config/CLAUDE_COWORK.md`（每 session 以 raw URL 抓取）｜Claude Chat：`wtf-config/CLAUDE_CHAT.md`（貼入 Project instruction）
+- **共用資源**：清單 SSOT＝`wtf-config/RESOURCES.md`，登記每台機器有哪些資源（venv、大檔、API 能力）、放哪、能不能用。需要時依所在機器查表；本機沒有就照「建立方式」建好並回填。生成式影像/影片（GCP Vertex AI）是帳號級能力、跨機通用。在 wmux 終端內工作時讀 `~/.wmux/AGENT_CONTEXT.md`（不存在＝不在 wmux 環境，跳過）。
+
+## 6. 常駐規則的新增與搬移
+
+- PO 新裁定先搜尋既有 GLOBAL／AGENTS／skill／playbook；同一細則只保留一處，既有來源可用就更新，避免另建 triggers 等平行真相。
+- 常駐正文只留「情境觸發＋一行結論＋來源指標」；每句輸出必用、或尚未觸發就必須知道的防線留常駐。路由表也佔 context，不免費。
+- 詳細命令、例外、範例、自檢清單放對應 playbook，GLOBAL 不因每次裁定增加整段全文；單條超過 3 行時檢查是否需搬移，不以行寬當自動裁切規則。
+- 搬移須列「原條目→新檔與節名」，核對禁令、例外與觸發情境未失真，並修正原有回指；刪冗餘不等於刪規則。
+- 量測同一批常駐來源的字元數（Python len(text)）、UTF-8 bytes、行數前後值，另列按需新增量。這些不是實際 token／帳單；沒有注入及快取量測就不宣稱費用下降比例。
+- sync 與 check 要驗證入口、session bundle、skill 本文/附檔及生成索引；內容搬移通過不等於模型觸發行為通過，兩種證據分開記錄。
+
+
+## 當前產物 wtf-config/skills/session-start/SKILL.md
+---
+name: session-start
+description: Session 開場標準流程：核對全域設定、載入 SSOT、讀取 _context 知識。每次新對話開場執行。
+---
+
+# Session Start
+
+每次新對話開場，依序執行下列三步，不需逐步確認；全部完成後回報「已載入全域設定」再詢問任務。
+
+> **前置（自動，無需手動）**：本機 `~/.claude/` 已掛 UserPromptSubmit hook（`wtf-sync.sh`／`wtf-sync.ps1`），在本 session 第一個 prompt 即自動「清 lock → `git pull` → `sync_config.py sync`」（5 分冷卻）。
+> 故本 skill **不再無條件 git pull／sync**，只做核對與必要時 fallback，避免與 hook 重工。
+
+## 1. 核對全域設定
+
+> **python 指令依平台選（毋須試錯）**：環境 block 的 `Platform` 已標明 OS——macOS／Linux（darwin/linux）用 `python3`，Windows（win32）用 `python`。下文 `<PY>` 即代表此指令；別固定寫死，否則 Mac 上 `python` 不存在會報 `command not found`。
+
+0. **定位 SSOT（絕對路徑）**：讀 `~/.claude/wtf-root.txt` 取得本機 WTF repo 絕對路徑 `<WTF_ROOT>`（hook／`sync_config.py` 寫出）。以下一律用 `<WTF_ROOT>` 組**絕對路徑**——`wtf-config` 已移出工作區，**非 WTF 專案用相對 `wtf-config/` 會抓不到**。讀不到 wtf-root.txt → 讀專案本地 `AGENTS.md`（已部署）並回報「SSOT 錨點缺失，請先跑一次 hook 或 sync」。
+1. 偵測電腦：本機（Claude Code／終端機）執行
+   `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" register`
+   （Cowork 沙盒內跳過 `register`，沙盒抓不到實體機名）。
+2. 設定檢查：執行
+   `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" check`
+   - 全 OK（hook 已同步）→ 不需動作。
+   - **僅當** check 報 `STALE`／`BROKEN`／`MISSING`（hook 未生效或失敗）→ fallback 執行
+     `<PY> "<WTF_ROOT>/wtf-config/sync_config.py" sync` 修復，並回報。
+3. 載入 SSOT：讀取 `<WTF_ROOT>/wtf-config/GLOBAL.md` 與 `<WTF_ROOT>/wtf-config/AGENTS.md`。
+4. **全域設定修改建議**：讀 `<WTF_ROOT>/_context/nightly-notify.md`（不存在則略過）。若有**未勾 `- [ ]`** 項 → 開場**優先醒目提醒**：「💡 nightly 建議修改全域設定：<列出>，要採用嗎？採用我幫你套用並移除該行，不採用就刪行。」夜間 routine **只建議不自改**全域設定，由用戶在此核准（routine 寫建議→commit main→本機 pull→此處浮出）。
+
+## 1.5 Claude_cowork 鏡像專案先 pull-back（若適用）
+
+若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下：查本機是否存在對應 `git_mirror/<名稱>/`（見 `<WTF_ROOT>/wtf-config/playbooks/git-mirror.md`）。存在 → 先 `git_mirror/<名稱>/` 執行 `git pull`（拉其他機器/session 已推的新 commit），再依白名單複製 mirror→Drive（覆蓋 Drive 舊版，含 `_context/*.md`），才進入下一步讀 `_context/` 知識——避免這次工作是改在別人已推過的舊版本上。
+
+## 2. 讀取 _context 知識（三檔制，嚴禁全量掃描）
+
+與 GLOBAL.md 開場協議第 3 步同文，對當前工作目錄（根層或專案層皆同）：
+1. 讀 `_context/INDEX.md`（現況與指路）。
+2. 讀 INDEX 指到的**當前 TaskLog 一份**（todo 真相源）。
+3. 讀 `_context/lessons-learned.md`（若存在，永遠讀）。
+4. 其他 `_context/` 檔案（PRD、Handover、其他 TaskLog）**只在** INDEX「讀取指引」點名、或使用者點名時才讀；`archive/`／`ClosedTaskLog_*` 一律跳過。
+
+## 3. 讀取並套用 rules 規範
+
+讀取 repo 根 `rules/` 全部 `.md`（如 `folder-conventions.md`），套用其規範（檔案存放、命名慣例、輸出格式等）；進入專案後一併讀該專案 `rules/` 全部 `.md`，**專案規範優先於根規範**。
+
+## 完成回報
+
+三步完成後回報「已載入全域設定」，依序帶出：
+1. **身分宣告**：`我是 {AI}@{hostname}（{OS}）、repo 在 {path}`。
+   - `{AI}`＝本工具類型（Claude／Gemini／Codex，自知）；`{hostname}`／`{OS}`／`{path}` 取自 `register`／`machines.md`／`projects-registry.md` 本機列。
+   - 目的：跨機（兩台 Claude）／跨工具協作時，一眼可知「誰在講、哪台、什麼 OS」，避免接手 agent 誤判他人作為己作。
+2. 一行 check 狀態（全 OK／已 fallback sync 修復 N 項）。
+
+再詢問本次任務。
+
+> 工作區異常處置：若 `git status` 顯示工作區有未提交變更或無法快轉，**停下通知使用者**，不擅自 merge／rebase／覆蓋（此情境 hook 也會在 pull 失敗時回報）。
+
+> 本 skill 為共用 SSOT，位於 `wtf-config/skills/session-start/`。
+> 修改後需各機器執行 `<PY> wtf-config/sync_config.py sync`（`<PY>`：Mac/Linux=`python3`、Windows=`python`）重新部署至全域 `~/.claude/skills/`。
+
+
+## 當前產物 wtf-config/skills/session-end/SKILL.md
+---
+name: session-end
+description: 產出工作紀錄、呼叫 lesson-add 萃取教訓、commit 並 merge 至 main。
+---
+
+# Session End
+
+執行以下步驟，不需逐步確認：
+
+1. **產出/更新工作紀錄 (TaskLog)**：
+   - 在 `_context/` 下建立或更新 `TaskLog_YYYY-MM-DD_[當前主題].md`（依 `rules`／GLOBAL.md 命名慣例，不用 `WorkLog_` 等通用名）。
+   - 記錄本次 Session 完成項目、未解決問題與下一步建議。
+   - 任務若已結案：依 GLOBAL.md「結案歸檔」規則改前綴 `ClosedTaskLog_` 並移入 `_context/archive/`。
+
+2. **執行 `lesson-add`（更新教訓）**：
+   - 讀取 `_context/lessons-learned.md`（不存在則建立）。
+   - 呼叫 `lesson-add` 邏輯，從本次對話萃取有價值的教訓（錯誤修正、新規則、流程改善），追加至檔案中。
+
+3. **清理視覺驗證擷圖**：
+   - AI 工作過程用於視覺驗證的擷圖屬暫時性產物，結案時一律清除，不入 commit、不長期堆積。
+   - 清除範圍：本專案 `outputs/_shared/_screenshots/` 下本次工作產生的擷圖（含各區子夾如 `_screenshots/ebook/`）。
+   - **保留例外**：已被 TaskLog／審查文件／交付物**引用**的圖，或使用者明確指定保留者，不刪。不確定是否被引用先 grep 檔名，再決定。
+   - 刪除前列出將清除的檔案清單；只清 `outputs/_shared/_screenshots/`，不碰 `outputs/<子專案>/` 內正式產出與 `archive/`。
+
+4. **Claude_cowork 鏡像專案先複製到 mirror（若適用）**：
+   - 若當前工作目錄在 `Claude_cowork/projects/<名稱>/` 下且本機存在對應 `git_mirror/<名稱>/`（見 `<WTF_ROOT>/wtf-config/playbooks/git-mirror.md`）：依副檔名白名單（html/css/js/json/md/ts/tsx/jsx/mjs/py/txt/yaml/yml/sh）把本次異動的檔案由 Drive 複製到 `git_mirror/<名稱>/`（含 `_context/*.md`，非僅 src/code），覆蓋舊版。
+   - 複製後核對 Drive 與 mirror 的 `_context/` 檔案清單一致，缺即補複製。
+
+5. **合併與推送 (`merge-main`)**：
+   - 非鏡像專案：在原地執行 `/merge-main` commit、push 並 merge 至 main 分支。
+   - 鏡像專案：改在 `git_mirror/<名稱>/` 執行 `/merge-main`（Drive 端一律不 commit/push）。
+
+6. **回報摘要**：
+   - 在對話中回報本次 Session 簡短摘要（3-5 條）。
+
+--- review1/GLOBAL.md
++++ review2/GLOBAL.md
+@@ -74,7 +74,7 @@
+ 
+ - 根目錄只放設定與入口檔；所有作業與產出一律在 `workingfiles/` 內進行；腳本進 `tools/`。專案檔案進 `projects/<專案名>/`。
+ - `workingfiles/` 內部規則：草稿、半成品、中間產物直接放 `workingfiles/` 下（正式定案前都留在這裡）；定案交付物移入 `workingfiles/outputs/`（一律複數）——最外層＝目前最新版本，舊版進 `workingfiles/outputs/<子專案>/archive/`（禁止多版本平鋪）；跨子專案共用過程檔進 `workingfiles/outputs/_shared/`。
+-- Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（版控規則見上方「版控鐵律」）。
++- Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（見 `playbooks/git-mirror.md`）。
+ 
+ **命名慣例**（一律「類型_日期_主題」，不用通用檔名如 `prd.md`、`task.md`）：
+ 
+
+--- review1/tests/test_sync_skills.py
++++ review2/tests/test_sync_skills.py
+@@ -60,7 +60,9 @@
+         self.run_sync()
+         self.assertEqual(before, self.snapshot())
+         output = self.run_sync("check")
+-        self.assertIn("17 skills", output)
++        skill_count = len(list((self.config / "skills").glob("*/SKILL.md")))
++        self.assertGreater(skill_count, 0)
++        self.assertIn(f"{skill_count} skills", output)
+         self.assertIn("session bundle import SHA/manifest/SSOT 三者一致", output)
+         self.assertIn("._agents/skills/handover/SKILL.md", (self.root / "project/._agents/skills-index.md").read_text())
+         for relative in (".claude/skills", ".agents/skills"):
+
+
+## 當前 sync_config.py 函式
+def check_bundle_integrity():
+    """機檢：CLAUDE.md import SHA ＝ bundle 目錄名 ＝ manifest digest，且 bundle 內容與當前 SSOT 一致。
+    回傳 (ok: bool|None, notes: list)。ok=None＝未部署 import，由 check_claude_dir 判失敗。"""
+    import hashlib
+    notes = []
+    sha = bundle_sha_in_claude_md()
+    if sha is None:
+        return None, ["  ! [MISSING] session bundle import 未部署"]
+    bundle_dir = CLAUDE_DIR / "wtf-session-bundles" / sha
+    manifest = bundle_dir / "manifest.json"
+    if not manifest.exists():
+        return False, [f"  x [BROKEN ] bundle {sha[:12]}… 目錄或 manifest 不存在"]
+    digest = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    if digest != sha:
+        return False, [f"  x [BROKEN ] manifest digest 與目錄名不符（{digest[:12]}…≠{sha[:12]}…）"]
+    for name, ssot in (("GLOBAL.md", SSOT_GLOBAL), ("AGENTS.md", SSOT)):
+        bfile = bundle_dir / name
+        if not bfile.exists() or not ssot.exists():
+            return False, [f"  x [BROKEN ] bundle 或 SSOT 缺 {name}"]
+        if hashlib.sha256(bfile.read_bytes()).hexdigest() != hashlib.sha256(ssot.read_bytes()).hexdigest():
+            return False, [f"  x [STALE  ] bundle 的 {name} 與當前 SSOT 不一致（需重跑 sync）"]
+    notes.append(f"  v [OK     ] session bundle import SHA/manifest/SSOT 三者一致（{sha[:12]}…）")
+    return True, notes
+
+## 當前 sync_config.py 函式
+def check_claude_dir():
+    """回傳 (claude_md_ok, skills_ok, 說明list)"""
+    notes = []
+    claude_md = CLAUDE_DIR / "CLAUDE.md"
+    skills_ok = None  # 內容與索引統一由 _check_skills 驗證
+
+    if not SSOT_CLAUDE.exists():
+        notes.append(f"  ! [SKIP  ] ~/.claude/CLAUDE.md — 真相源 {SSOT_CLAUDE} 不存在")
+        claude_md_ok = None
+    elif not claude_md.exists():
+        notes.append(f"  x [MISSING] ~/.claude/CLAUDE.md")
+        claude_md_ok = False
+    elif claude_md.is_symlink():
+        notes.append(f"  x [SYMLINK] ~/.claude/CLAUDE.md — 仍為 symlink，需改為實體檔")
+        claude_md_ok = False
+    elif strip_bundle_block(claude_md.read_text(encoding="utf-8", errors="replace")).rstrip() == SSOT_CLAUDE.read_text(encoding="utf-8").rstrip():
+        # 去掉 managed bundle block 後比對本體；block 由 deploy_session_bundle 維護，另有機檢
+        notes.append(f"  v [OK     ] ~/.claude/CLAUDE.md")
+        claude_md_ok = True
+    else:
+        notes.append(f"  x [STALE  ] ~/.claude/CLAUDE.md — 內容與真相源不符")
+        claude_md_ok = False
+
+    bundle_ok, bundle_notes = check_bundle_integrity()
+    notes.extend(bundle_notes)
+    if bundle_ok is not True:
+        claude_md_ok = False
+        if bundle_ok is None:
+            notes.append("  x [MISSING] Claude session bundle import 必須存在")
+
+    # subagent 定義（~/.claude/agents/，per-machine 部署洞要主動驗）
+    if SSOT_AGENTS.exists():
+        agents_dst = CLAUDE_DIR / "agents"
+        missing = []
+        for src in sorted(SSOT_AGENTS.glob("*.md")):
+            dst = agents_dst / src.name
+            if not dst.exists() or dst.read_text(encoding="utf-8", errors="replace").rstrip() \
+                    != src.read_text(encoding="utf-8").rstrip():
+                missing.append(src.name)
+        if missing:
+            notes.append(f"  x [STALE  ] ~/.claude/agents/ — 缺/不符：{missing}")
+        else:
+            n = len(list(SSOT_AGENTS.glob('*.md')))
+            notes.append(f"  v [OK     ] ~/.claude/agents/ （{n} 個 agent）")
+
+    return claude_md_ok, skills_ok, notes
+
+## 當前 sync_config.py 函式
+def cmd_check():
+    sys.stdout.reconfigure(encoding="utf-8")
+    print(f"真相源: {SSOT}")
+    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）")
+    counts, broken, orphans = _check_projects(read_ssot())
+    claude_ok, _, notes = check_claude_dir()
+    if claude_ok is False or any("  x [" in note for note in notes):
+        broken.append(str(CLAUDE_DIR))
+    other_broken, other_notes = _check_tool_instructions()
+    broken.extend(other_broken)
+    skills_failed, skill_notes = _check_skills()
+    if skills_failed:
+        broken.append("skill 副本／索引")
+    for note in notes + other_notes + skill_notes:
+        print(note)
+    for key, value in sorted(counts.items()):
+        print(f"  {key}: {value}")
+    if counts.get("ADOPT"):
+        print("[可接管] 無標頭但內容一致，sync 會補標頭。")
+    for orphan in orphans:
+        print(f"[重複命名] {orphan}（sync 不動）")
+    if broken:
+        print(f"[需修復] {len(broken)} 項：{', '.join(broken)}")
+        print("執行 `python3 sync_config.py sync`（Windows 用 python）。")
+        return 1
+    print("[OK] 設定、SSOT skill 內容與索引一致；不代表各工具行為皆已驗證。")
+    return 0
+
+## 活動制度/skill回指掃描實際輸出
+command: ['rg', '-n', 'GLOBAL\\.md.*(版控|交付即預覽|存檔預設路徑|數據引用|存入協議)|版控規則見上方', 'wtf-config/playbooks', 'wtf-config/skills', 'wtf-config/CLAUDE_COWORK.md', 'wtf-config/CLAUDE_CHAT.md', 'wtf-config/CODEX.md', 'wtf-config/GEMINI.md']
+exit=1 (rg exit1=無命中)
+
+
+## 驗證輸出
+test_agent_cannot_borrow_main_receipts (test_session_gate.SessionGateTest.test_agent_cannot_borrow_main_receipts) ... ok
+test_bundle_is_immutable_and_manifest_hashes_validate (test_session_gate.SessionGateTest.test_bundle_is_immutable_and_manifest_hashes_validate) ... ok
+test_bundle_size_and_line_limits_fail (test_session_gate.SessionGateTest.test_bundle_size_and_line_limits_fail) ... ok
+test_bypass_writes_audit_warning (test_session_gate.SessionGateTest.test_bypass_writes_audit_warning) ... ok
+test_consecutive_generation_recovery_fuses (test_session_gate.SessionGateTest.test_consecutive_generation_recovery_fuses) ... ok
+test_dispatcher_preserves_gate_block_when_stop_hook_is_active (test_session_gate.SessionGateTest.test_dispatcher_preserves_gate_block_when_stop_hook_is_active) ... ok
+test_generation_change_invalidates_old_receipts (test_session_gate.SessionGateTest.test_generation_change_invalidates_old_receipts) ... ok
+test_instructions_before_init_self_creates_generation_and_survives_startup_init (test_session_gate.SessionGateTest.test_instructions_before_init_self_creates_generation_and_survives_startup_init) ... ok
+test_malformed_json_fails_closed (test_session_gate.SessionGateTest.test_malformed_json_fails_closed) ... ok
+test_manifest_tamper_prevents_generation (test_session_gate.SessionGateTest.test_manifest_tamper_prevents_generation) ... ok
+test_parent_path_is_feature_detected (test_session_gate.SessionGateTest.test_parent_path_is_feature_detected) ... ok
+test_partial_reads_are_denied_and_never_signed (test_session_gate.SessionGateTest.test_partial_reads_are_denied_and_never_signed) ... ok
+test_protected_paths_are_denied_after_receipts (test_session_gate.SessionGateTest.test_protected_paths_are_denied_after_receipts) ... ok
+test_recovery_is_once_per_generation_and_source (test_session_gate.SessionGateTest.test_recovery_is_once_per_generation_and_source) ... ok
+test_resume_rotates_instructions_created_generation (test_session_gate.SessionGateTest.test_resume_rotates_instructions_created_generation) ... ok
+test_similar_name_tampered_receipt_and_changed_source_fail (test_session_gate.SessionGateTest.test_similar_name_tampered_receipt_and_changed_source_fail) ... ok
+test_startup_init_does_not_rotate_existing_generation (test_session_gate.SessionGateTest.test_startup_init_does_not_rotate_existing_generation) ... ok
+test_stop_blocks_without_receipts_even_when_hook_active (test_session_gate.SessionGateTest.test_stop_blocks_without_receipts_even_when_hook_active) ... ok
+test_two_receipts_are_required_before_allow (test_session_gate.SessionGateTest.test_two_receipts_are_required_before_allow) ... ok
+test_wrapper_exits_two_when_python_is_unavailable (test_session_gate.SessionGateTest.test_wrapper_exits_two_when_python_is_unavailable) ... ok
+test_block_and_quoted_descriptions (test_skill_catalog.SkillCatalogTest.test_block_and_quoted_descriptions) ... ok
+test_drift_missing_support_file_and_index_are_detected (test_skill_catalog.SkillCatalogTest.test_drift_missing_support_file_and_index_are_detected) ... ok
+test_global_index_uses_deployed_absolute_path (test_skill_catalog.SkillCatalogTest.test_global_index_uses_deployed_absolute_path) ... ok
+test_missing_duplicate_metadata_and_duplicate_names_fail (test_skill_catalog.SkillCatalogTest.test_missing_duplicate_metadata_and_duplicate_names_fail) ... ok
+test_owned_symlink_is_replaced_without_writing_external_target (test_skill_catalog.SkillCatalogTest.test_owned_symlink_is_replaced_without_writing_external_target) ... ok
+test_project_index_is_portable_and_metadata_only (test_skill_catalog.SkillCatalogTest.test_project_index_is_portable_and_metadata_only) ... ok
+test_sync_preserves_foreign_skills_and_is_idempotent (test_skill_catalog.SkillCatalogTest.test_sync_preserves_foreign_skills_and_is_idempotent) ... ok
+test_claude_bundle_failure_reaches_exit_status (test_sync_skills.SyncSkillsTest.test_claude_bundle_failure_reaches_exit_status) ... ok
+test_corruption_missing_files_and_duplicate_name_exit_one (test_sync_skills.SyncSkillsTest.test_corruption_missing_files_and_duplicate_name_exit_one) ... ok
+test_extra_skills_survive_and_absent_tool_skips (test_sync_skills.SyncSkillsTest.test_extra_skills_survive_and_absent_tool_skips) ... ok
+test_full_sync_twice_bundle_and_project_override (test_sync_skills.SyncSkillsTest.test_full_sync_twice_bundle_and_project_override) ... ok
+test_removed_bundle_import_does_not_pass_check (test_sync_skills.SyncSkillsTest.test_removed_bundle_import_does_not_pass_check) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 3.958s
+
+OK
+
+# 機檢與遷移證據
+
+> [Codex@comaMacBookAir] 程式機檢；獨立審查另見 Fable 回覆。
+
+來源文字量測（字元／UTF-8 bytes／行數），不是 token 或帳單：
+
+| 檔案 | 修改前 | 修改後 |
+|---|---|---|
+| GLOBAL.md | [8343, 15885, 114] | [5414, 9858, 96] |
+| AGENTS.md | [3320, 7110, 63] | [3442, 7404, 63] |
+| CLAUDE_CODE.md | [1430, 2356, 26] | [1415, 2349, 26] |
+| CODEX.md | [1372, 2532, 19] | [1527, 2821, 20] |
+| GEMINI.md | [1876, 3312, 28] | [2040, 3588, 28] |
+
+CLAUDE_CODE.md 三檔合計：13093 → 10271 字元，減少 21.6%。
+
+CODEX.md 三檔合計：13035 → 10383 字元，減少 20.3%。
+
+GEMINI.md 三檔合計：13539 → 10896 字元，減少 19.5%。
+
+新增按需 playbook：git-mirror.md=[1208, 2216, 16]；delivery-conventions.md=[1624, 3490, 18]
+
+| 原 GLOBAL 條目 | 新位置／節 | 驗證 |
+|---|---|---|
+| **Claude_cowork 專案版控鐵律**（只要出現「git」「推」「commit」「push」等字眼，或要決定「在哪個資料夾讀寫檔案、啟動服務」，一律先查此規則）： | playbooks/git-mirror.md／Claude_cowork 專案版控鐵律 | 原文搬移通過 |
+| - **交付即預覽**（2026-08-20 擴大範圍：不限網頁）：交付任何可看可聽的成品（文件、圖檔、影片、音檔、網頁/HTML/圖表）時，主動用使用者系統預設軟體背景開啟，不用等使用者另外要求。**影片／音檔不可自動播放**：改用「在檔案總管/Finder 顯示」而非直接開啟播放器——macOS 用 `open -R "<檔案>"`、Windows 用 `explorer /select,"<檔案>"`，讓使用者自己點開播放。**批次產出（多個檔案）**：改開啟所在資料夾，不逐一開檔——macOS 用 `/usr/bin/open -g "<資料夾>"`、Windows 用 `start "" "<資料夾>"`。其餘單一可預覽檔案（文件/圖檔/網頁/圖表）：macOS 一律用絕對路徑加 `-g`：`/usr/bin/open -g "<檔案>"`（終端機如 cmux 會攔截裸 `open` 開進終端分割視窗，且 cmux 內建瀏覽器版面過於擁擠，不適合預覽）；Windows 用 `start "" "<檔案>"`；無 GUI 環境至少附可點的 `file://`／`http://` 連結，不能只給裸路徑。**`-g` 不可省略**（2026-08-20 PO 裁定）：裸 `open` 會把該 app 搶到前景、打斷使用者當下的工作，`-g` 才是條目所稱的「背景開啟」。另注意：若該檔使用者已在編輯器開著，`open` 只會把舊視窗叫到前面、不會重新載入，交付時要一併提醒重新載入。 | playbooks/delivery-conventions.md／交付即預覽 | 原文搬移通過 |
+| - **存檔預設路徑鐵律（2026-08-24 PO 裁定，2026-08-27 強化）**：凡是做出「可存檔／可寫回」的程式或網頁，檔案選擇器的**預設位置一律指向該檔案應該存放的目標資料夾**，不得讓使用者自己去找路徑。第一次選定後把 handle 存 IndexedDB，之後直接寫回同一位置、不再跳窗。無法預設到精確位置時，至少在按鈕旁明示目標路徑全文。**判準**：使用者若得自己翻資料夾才能存到對的地方，就是沒做完。 | playbooks/delivery-conventions.md／存檔預設路徑鐵律 | 原文搬移通過 |
+| - **輸出格式**（2026-07-25 改：範圍限縮）：agent 向使用者（PO）本人匯報用的文件，優先使用 HTML（`.html`）；輸出前若存在 `rules/html-preferences.md` 先讀完再動筆。**業主／廠商端的正式交付物不受此限**，依各專案慣例（docx/pptx 等）——先前「文件輸出一律 HTML」誤把匯報格式與交付物格式混為一談，兩者分開。 | playbooks/delivery-conventions.md／輸出格式 | 原文搬移通過 |
+| - **數據引用鐵律（2026-08-20 PO 裁定）**：任何統計值（平均、累計、比率、成長率）引用時必須同時標示**統計起訖期間與口徑**（來源、統計範圍、單一標的或合計、單位、絕對值或比率）——沒有區間與口徑的數字，讀者只能猜。**不得自行推定年段或補參數**，那是杜撰口徑。跨年比較須同月同日或同一口徑；時點不一致的數值不得並列成可比較的圖表或欄位。同一份文件內同一指標只用一種口徑，來源衝突時擇一並註明另一口徑與差異原因。**查不到區間或口徑定義的數值，標為未取得並排除**，不得以「大約」「一般認為」帶過。細則與自檢清單見 `playbooks/data-citation.md`。 | playbooks/data-citation.md／引用前五問／標示區間／同期比較／口徑一致／不可驗證即不用 | 整併既有細則通過 |
+| - **Excel 輸出字體（2026-08-14 PO 裁定）**：一律 Calibri（拉丁）＋微軟正黑體（中文）——設定 xlsx theme major/minor 字體的 latin=Calibri、ea=微軟正黑體，儲存格用預設（theme）字體即可兩者並用。 | playbooks/pitfalls-office-docs.md／Excel 輸出字體 | 原文搬移通過 |
+| - **存入協議**：收到「存入全域設定」指令時——1) 更新 repo 的 `wtf-config/GLOBAL.md` 或對應工具檔；2) 跑 `sync_config.py sync` 部署到本機；3) 回報設定點位摘要。改動前先讀 `playbooks/maintenance-protocol.md` 確認該檔的修改權限。 | playbooks/maintenance-protocol.md／存入協議與工具資源路由 | 原文搬移通過 |
+
+程式檢查：7 個遷移項目、18 個審查產物；防線/模型值/格式/改動範圍通過。
+新增 skill_catalog.py 174 行、最長函式 29 行；sync_config.py 減少 skill 重複邏輯，既有 dashboard 保留。
+V1–V7 沿用；Antigravity 行為未驗證；Windows 僅路徑邏輯設計，未實機部署。
+
+
+## 產物SHA256（目前快照）
+{
+  "wtf-config/AGENTS.md": "deb4c257c8944b1d23274cc03b9e6484ae54af24313469e115d1b4dc5aaf88da",
+  "wtf-config/CLAUDE_CODE.md": "ee8e52d449712d5e18ef4cf6028cace803913e690a2ada5d5a48cad1aa946f22",
+  "wtf-config/CODEX.md": "0930a0dbe60d5e83881bf65269bc2a309bf6f8621a3da57567870eb19d64472e",
+  "wtf-config/GEMINI.md": "55bf0f7c8d44628e9c12b22569abeaf9a25f8aa8b3f3f451f688ec23770f8d68",
+  "wtf-config/GLOBAL.md": "b9da87ac21a2ed67b53cf463916e2d7c1ebab561ec70db65e5c259c2f876a589",
+  "wtf-config/sync_config.py": "98e7a15d73fc8e13f53f2dfea7492a95255a1e6f01838a44360f03a3a01f8280",
+  "wtf-config/skill_catalog.py": "7cbecadd0541efd902740e78e0a1d79786a09a3cab1aa218ed1d719fbc7764dd",
+  "wtf-config/playbooks/model-dispatch.md": "37e680fd87ebac7372188fbda7415436c086970317381505e782e2d6f34ea44b",
+  "wtf-config/playbooks/maintenance-protocol.md": "008b70f32d3d0ba11d97efb6a75a0a7e314e08ec327fe57d67593c56d3fa6181",
+  "wtf-config/playbooks/git-mirror.md": "cb17677f16c9b29446cc82708f6f2dddcb107d72b6dc212ba858754debbded85",
+  "wtf-config/playbooks/delivery-conventions.md": "aa7eab7f0b149cf3cd4cea0bd0125137af60c29f9358584ae4113b9744a483fd",
+  "wtf-config/playbooks/data-citation.md": "53a9331577685f575715c8344d01321ad4fa51845a7a6bfadf2a27754a0fa7b6",
+  "wtf-config/playbooks/pitfalls-frontend.md": "e098f129dc353c5c2d0473f9fc0ac96196f90f04fed7b74677c82a5bc9c55115",
+  "wtf-config/playbooks/pitfalls-office-docs.md": "d602c215aa4abf31a995d2b231e6a6a6b437b10efe3f0d0516fd6874e6da913b",
+  "wtf-config/tests/test_skill_catalog.py": "c0fa10d57ed96019ab78370c647c1e2f79a02cfdfe22c38c7a3f3d5f420c05fd",
+  "wtf-config/tests/test_sync_skills.py": "fbacc0487fd66606d78ff7ea5863aa2a1c039cd59944bc0cb3c02d9c39f1cfa3",
+  "wtf-config/skills/session-start/SKILL.md": "b4b9f4c2c0b618c0390d39a87a23a27db9889d5ab99fd8a365f92fe762745f29",
+  "wtf-config/skills/session-end/SKILL.md": "7bcbeb7a7d6321555673b7430db804c7335a136ce5f1ed66cffdf8cabbdcba35"
+}

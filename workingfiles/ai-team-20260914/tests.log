@@ -1,0 +1,37 @@
+test_agent_cannot_borrow_main_receipts (test_session_gate.SessionGateTest.test_agent_cannot_borrow_main_receipts) ... ok
+test_bundle_is_immutable_and_manifest_hashes_validate (test_session_gate.SessionGateTest.test_bundle_is_immutable_and_manifest_hashes_validate) ... ok
+test_bundle_size_and_line_limits_fail (test_session_gate.SessionGateTest.test_bundle_size_and_line_limits_fail) ... ok
+test_bypass_writes_audit_warning (test_session_gate.SessionGateTest.test_bypass_writes_audit_warning) ... ok
+test_consecutive_generation_recovery_fuses (test_session_gate.SessionGateTest.test_consecutive_generation_recovery_fuses) ... ok
+test_dispatcher_preserves_gate_block_when_stop_hook_is_active (test_session_gate.SessionGateTest.test_dispatcher_preserves_gate_block_when_stop_hook_is_active) ... ok
+test_generation_change_invalidates_old_receipts (test_session_gate.SessionGateTest.test_generation_change_invalidates_old_receipts) ... ok
+test_instructions_before_init_self_creates_generation_and_survives_startup_init (test_session_gate.SessionGateTest.test_instructions_before_init_self_creates_generation_and_survives_startup_init) ... ok
+test_malformed_json_fails_closed (test_session_gate.SessionGateTest.test_malformed_json_fails_closed) ... ok
+test_manifest_tamper_prevents_generation (test_session_gate.SessionGateTest.test_manifest_tamper_prevents_generation) ... ok
+test_parent_path_is_feature_detected (test_session_gate.SessionGateTest.test_parent_path_is_feature_detected) ... ok
+test_partial_reads_are_denied_and_never_signed (test_session_gate.SessionGateTest.test_partial_reads_are_denied_and_never_signed) ... ok
+test_protected_paths_are_denied_after_receipts (test_session_gate.SessionGateTest.test_protected_paths_are_denied_after_receipts) ... ok
+test_recovery_is_once_per_generation_and_source (test_session_gate.SessionGateTest.test_recovery_is_once_per_generation_and_source) ... ok
+test_resume_rotates_instructions_created_generation (test_session_gate.SessionGateTest.test_resume_rotates_instructions_created_generation) ... ok
+test_similar_name_tampered_receipt_and_changed_source_fail (test_session_gate.SessionGateTest.test_similar_name_tampered_receipt_and_changed_source_fail) ... ok
+test_startup_init_does_not_rotate_existing_generation (test_session_gate.SessionGateTest.test_startup_init_does_not_rotate_existing_generation) ... ok
+test_stop_blocks_without_receipts_even_when_hook_active (test_session_gate.SessionGateTest.test_stop_blocks_without_receipts_even_when_hook_active) ... ok
+test_two_receipts_are_required_before_allow (test_session_gate.SessionGateTest.test_two_receipts_are_required_before_allow) ... ok
+test_wrapper_exits_two_when_python_is_unavailable (test_session_gate.SessionGateTest.test_wrapper_exits_two_when_python_is_unavailable) ... ok
+test_block_and_quoted_descriptions (test_skill_catalog.SkillCatalogTest.test_block_and_quoted_descriptions) ... ok
+test_drift_missing_support_file_and_index_are_detected (test_skill_catalog.SkillCatalogTest.test_drift_missing_support_file_and_index_are_detected) ... ok
+test_global_index_uses_deployed_absolute_path (test_skill_catalog.SkillCatalogTest.test_global_index_uses_deployed_absolute_path) ... ok
+test_missing_duplicate_metadata_and_duplicate_names_fail (test_skill_catalog.SkillCatalogTest.test_missing_duplicate_metadata_and_duplicate_names_fail) ... ok
+test_owned_symlink_is_replaced_without_writing_external_target (test_skill_catalog.SkillCatalogTest.test_owned_symlink_is_replaced_without_writing_external_target) ... ok
+test_project_index_is_portable_and_metadata_only (test_skill_catalog.SkillCatalogTest.test_project_index_is_portable_and_metadata_only) ... ok
+test_sync_preserves_foreign_skills_and_is_idempotent (test_skill_catalog.SkillCatalogTest.test_sync_preserves_foreign_skills_and_is_idempotent) ... ok
+test_claude_bundle_failure_reaches_exit_status (test_sync_skills.SyncSkillsTest.test_claude_bundle_failure_reaches_exit_status) ... ok
+test_corruption_missing_files_and_duplicate_name_exit_one (test_sync_skills.SyncSkillsTest.test_corruption_missing_files_and_duplicate_name_exit_one) ... ok
+test_extra_skills_survive_and_absent_tool_skips (test_sync_skills.SyncSkillsTest.test_extra_skills_survive_and_absent_tool_skips) ... ok
+test_full_sync_twice_bundle_and_project_override (test_sync_skills.SyncSkillsTest.test_full_sync_twice_bundle_and_project_override) ... ok
+test_removed_bundle_import_does_not_pass_check (test_sync_skills.SyncSkillsTest.test_removed_bundle_import_does_not_pass_check) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 3.958s
+
+OK

@@ -1,0 +1,20 @@
+{
+  "wtf-config/AGENTS.md": "deb4c257c8944b1d23274cc03b9e6484ae54af24313469e115d1b4dc5aaf88da",
+  "wtf-config/CLAUDE_CODE.md": "ee8e52d449712d5e18ef4cf6028cace803913e690a2ada5d5a48cad1aa946f22",
+  "wtf-config/CODEX.md": "0930a0dbe60d5e83881bf65269bc2a309bf6f8621a3da57567870eb19d64472e",
+  "wtf-config/GEMINI.md": "55bf0f7c8d44628e9c12b22569abeaf9a25f8aa8b3f3f451f688ec23770f8d68",
+  "wtf-config/GLOBAL.md": "b9da87ac21a2ed67b53cf463916e2d7c1ebab561ec70db65e5c259c2f876a589",
+  "wtf-config/sync_config.py": "98e7a15d73fc8e13f53f2dfea7492a95255a1e6f01838a44360f03a3a01f8280",
+  "wtf-config/skill_catalog.py": "7cbecadd0541efd902740e78e0a1d79786a09a3cab1aa218ed1d719fbc7764dd",
+  "wtf-config/playbooks/model-dispatch.md": "37e680fd87ebac7372188fbda7415436c086970317381505e782e2d6f34ea44b",
+  "wtf-config/playbooks/maintenance-protocol.md": "008b70f32d3d0ba11d97efb6a75a0a7e314e08ec327fe57d67593c56d3fa6181",
+  "wtf-config/playbooks/git-mirror.md": "cb17677f16c9b29446cc82708f6f2dddcb107d72b6dc212ba858754debbded85",
+  "wtf-config/playbooks/delivery-conventions.md": "aa7eab7f0b149cf3cd4cea0bd0125137af60c29f9358584ae4113b9744a483fd",
+  "wtf-config/playbooks/data-citation.md": "53a9331577685f575715c8344d01321ad4fa51845a7a6bfadf2a27754a0fa7b6",
+  "wtf-config/playbooks/pitfalls-frontend.md": "e098f129dc353c5c2d0473f9fc0ac96196f90f04fed7b74677c82a5bc9c55115",
+  "wtf-config/playbooks/pitfalls-office-docs.md": "d602c215aa4abf31a995d2b231e6a6a6b437b10efe3f0d0516fd6874e6da913b",
+  "wtf-config/tests/test_skill_catalog.py": "c0fa10d57ed96019ab78370c647c1e2f79a02cfdfe22c38c7a3f3d5f420c05fd",
+  "wtf-config/tests/test_sync_skills.py": "fbacc0487fd66606d78ff7ea5863aa2a1c039cd59944bc0cb3c02d9c39f1cfa3",
+  "wtf-config/skills/session-start/SKILL.md": "b4b9f4c2c0b618c0390d39a87a23a27db9889d5ab99fd8a365f92fe762745f29",
+  "wtf-config/skills/session-end/SKILL.md": "7bcbeb7a7d6321555673b7430db804c7335a136ce5f1ed66cffdf8cabbdcba35"
+}

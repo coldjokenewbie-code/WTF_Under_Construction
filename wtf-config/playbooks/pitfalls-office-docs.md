@@ -2,6 +2,10 @@
 > 適用：處理簡報、Word、OOXML、Excel／CSV 匯出、生成腳本時開啟；平時不載入
 > 來源：原 CLAUDE_CODE.md 抽出（2026-07-03），內容為歷次實戰教訓
 
+## Excel 輸出字體
+
+- **Excel 輸出字體（2026-08-14 PO 裁定）**：一律 Calibri（拉丁）＋微軟正黑體（中文）——設定 xlsx theme major/minor 字體的 latin=Calibri、ea=微軟正黑體，儲存格用預設（theme）字體即可兩者並用。
+
 ## 表格資料匯出（Excel／CSV）——預設格式
 
 要求「做成 Excel」時，除非對方明講要 `.xlsx`，一律輸出 **CSV**：

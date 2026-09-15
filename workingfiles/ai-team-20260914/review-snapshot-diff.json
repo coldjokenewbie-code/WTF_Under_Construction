@@ -1,0 +1,92 @@
+{
+  "wtf-config/AGENTS.md": {
+    "review1": "deb4c257c8944b1d23274cc03b9e6484ae54af24313469e115d1b4dc5aaf88da",
+    "review2": "deb4c257c8944b1d23274cc03b9e6484ae54af24313469e115d1b4dc5aaf88da",
+    "status": "unchanged"
+  },
+  "wtf-config/CLAUDE_CODE.md": {
+    "review1": "ee8e52d449712d5e18ef4cf6028cace803913e690a2ada5d5a48cad1aa946f22",
+    "review2": "ee8e52d449712d5e18ef4cf6028cace803913e690a2ada5d5a48cad1aa946f22",
+    "status": "unchanged"
+  },
+  "wtf-config/CODEX.md": {
+    "review1": "7326ceaa39ef2c850c4059628a91c712ea70f70dc5accf828284e3f0b85307e4",
+    "review2": "0930a0dbe60d5e83881bf65269bc2a309bf6f8621a3da57567870eb19d64472e",
+    "status": "changed"
+  },
+  "wtf-config/GEMINI.md": {
+    "review1": "512ba32f45ef69ec921e529231dabb0ee3369e1af71f8d9cf48b5657340c752a",
+    "review2": "55bf0f7c8d44628e9c12b22569abeaf9a25f8aa8b3f3f451f688ec23770f8d68",
+    "status": "changed"
+  },
+  "wtf-config/GLOBAL.md": {
+    "review1": "dca682e3cd9257bc2ea01557c4aeee01fe28d99aa26a47e7142c0d8428d8546d",
+    "review2": "b9da87ac21a2ed67b53cf463916e2d7c1ebab561ec70db65e5c259c2f876a589",
+    "status": "changed"
+  },
+  "wtf-config/playbooks/data-citation.md": {
+    "review1": "53a9331577685f575715c8344d01321ad4fa51845a7a6bfadf2a27754a0fa7b6",
+    "review2": "53a9331577685f575715c8344d01321ad4fa51845a7a6bfadf2a27754a0fa7b6",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/delivery-conventions.md": {
+    "review1": "aa7eab7f0b149cf3cd4cea0bd0125137af60c29f9358584ae4113b9744a483fd",
+    "review2": "aa7eab7f0b149cf3cd4cea0bd0125137af60c29f9358584ae4113b9744a483fd",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/git-mirror.md": {
+    "review1": "cb17677f16c9b29446cc82708f6f2dddcb107d72b6dc212ba858754debbded85",
+    "review2": "cb17677f16c9b29446cc82708f6f2dddcb107d72b6dc212ba858754debbded85",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/maintenance-protocol.md": {
+    "review1": "008b70f32d3d0ba11d97efb6a75a0a7e314e08ec327fe57d67593c56d3fa6181",
+    "review2": "008b70f32d3d0ba11d97efb6a75a0a7e314e08ec327fe57d67593c56d3fa6181",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/model-dispatch.md": {
+    "review1": "37e680fd87ebac7372188fbda7415436c086970317381505e782e2d6f34ea44b",
+    "review2": "37e680fd87ebac7372188fbda7415436c086970317381505e782e2d6f34ea44b",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/pitfalls-frontend.md": {
+    "review1": "e098f129dc353c5c2d0473f9fc0ac96196f90f04fed7b74677c82a5bc9c55115",
+    "review2": "e098f129dc353c5c2d0473f9fc0ac96196f90f04fed7b74677c82a5bc9c55115",
+    "status": "unchanged"
+  },
+  "wtf-config/playbooks/pitfalls-office-docs.md": {
+    "review1": "d602c215aa4abf31a995d2b231e6a6a6b437b10efe3f0d0516fd6874e6da913b",
+    "review2": "d602c215aa4abf31a995d2b231e6a6a6b437b10efe3f0d0516fd6874e6da913b",
+    "status": "unchanged"
+  },
+  "wtf-config/skill_catalog.py": {
+    "review1": "7cbecadd0541efd902740e78e0a1d79786a09a3cab1aa218ed1d719fbc7764dd",
+    "review2": "7cbecadd0541efd902740e78e0a1d79786a09a3cab1aa218ed1d719fbc7764dd",
+    "status": "unchanged"
+  },
+  "wtf-config/skills/session-end/SKILL.md": {
+    "review1": null,
+    "review2": "7bcbeb7a7d6321555673b7430db804c7335a136ce5f1ed66cffdf8cabbdcba35",
+    "status": "added"
+  },
+  "wtf-config/skills/session-start/SKILL.md": {
+    "review1": null,
+    "review2": "b4b9f4c2c0b618c0390d39a87a23a27db9889d5ab99fd8a365f92fe762745f29",
+    "status": "added"
+  },
+  "wtf-config/sync_config.py": {
+    "review1": "ca54d8a239959fac96f23bb620e2f64106d2d3fa47f547400cd55da48adfb06e",
+    "review2": "98e7a15d73fc8e13f53f2dfea7492a95255a1e6f01838a44360f03a3a01f8280",
+    "status": "changed"
+  },
+  "wtf-config/tests/test_skill_catalog.py": {
+    "review1": "c0fa10d57ed96019ab78370c647c1e2f79a02cfdfe22c38c7a3f3d5f420c05fd",
+    "review2": "c0fa10d57ed96019ab78370c647c1e2f79a02cfdfe22c38c7a3f3d5f420c05fd",
+    "status": "unchanged"
+  },
+  "wtf-config/tests/test_sync_skills.py": {
+    "review1": "0be6f767f3e3b9595c1fa2be78ecdfe2d91a5367a8d5e03dcd76d48dca857230",
+    "review2": "fbacc0487fd66606d78ff7ea5863aa2a1c039cd59944bc0cb3c02d9c39f1cfa3",
+    "status": "changed"
+  }
+}
