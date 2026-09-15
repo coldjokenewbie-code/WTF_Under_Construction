@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-09-14 (registry 路徑欄夾括號 → sync 靜默略過)
+
+* **`projects-registry.md` 機器路徑欄禁夾括號備註**：`sync_config.py` 把「有括號的整串」當路徑判定不存在→靜默略過（`check` 也不報 ERROR，只在 sync stderr 出 WARN），導致 3Dstudy／ai-roundtable／e-reader-stuff／HuaNan_Bank／md-editor 5 個專案長期未收到 AGENTS.md 部署、部署數低報（20 而非 25）。備註一律移入 `github` 欄，路徑欄只留乾淨路徑；維護規則已補入 registry 表頭防再犯。
+
 ## 2026-08-20 (output style 討論＋三個新 skill＋SSD 選購協助)
 
 * **skill 改名（`git mv`＋Edit 改 frontmatter）後，一律用 `git show <commit>:<path>` 核對內容，不能只看 `git add`/`git status` 沒報錯**：本 session 內兩次改名（`W_Doc_Guard→W_colab`、`mark-resume→resume-id-info`）都發生同一個模式——`git status --short` 顯示 `RM`（rename detected）、commit 也成功執行無錯誤，但事後用 `git show <commit>:<path>` 核對，commit 裡的 frontmatter/標題內容其實還是改名前的舊版，得再補一個 commit 修正。原因未完全查明，但兩次都重現同一症狀：中間夾了其他工具呼叫（例如跑 `sync_config.py sync`）才做 `git add`。**因應**：改名／整檔覆寫類操作，commit 後務必 `git show HEAD:<path> | head` 核對關鍵行，不能假設 `git add` 沒報錯就代表內容真的進了 commit。

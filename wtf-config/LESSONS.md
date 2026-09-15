@@ -17,6 +17,7 @@
 | 南科再生水廠 | 2026-08-26 | macOS TCC -1743：AI 無法程式化關閉 PowerPoint 視窗（Apple Events 被擋）；只能刪檔、視窗殘留；驗證複本加醒目前綴、刪後請 PO 手動關窗；pkill 仍受禁殺鐵律；待 PO 開通 TCC 授權才可關窗 | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-08-26 | pptx 追加兩類坑：`a:endParaRPr` 段落層順序錯位（PowerPoint 整框空白、不跳修復框，8/24 十一項機檢與實開閘都攔不到，須逐頁目視）；deepcopy shape id 頁內重複（機檢須逐頁比對，跨頁併池會誤報） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
 | 南科再生水廠 | 2026-08-24 | pptx 修復框四根因（sectionLst 懸空 sldId／timing 樹指向已刪 shape／app.xml 過時快取／rPr 子元素順序）與實開閘（LibreOffice+ElementTree 全過≠PowerPoint 相容，需實際開啟無修復框） | `wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo） |
+| WTF | 2026-09-14 | projects-registry.md 路徑欄禁夾括號備註：sync_config.py 把整串當路徑判定不存在→靜默略過（check 不報錯），5 個專案長期未收到 AGENTS.md 部署；備註移入 github 欄，路徑欄只留乾淨路徑 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-30 | wtf-session-gate 正式接線 PreToolUse/Stop：stop_dispatcher 漏傳子命令參數導致無條件 block（測內層腳本不代表外層組裝正確）；SubagentStart 官方確認不可靠（GitHub #27755 close/not planned），subagent 收據檢查改用 PreToolUse 的 agent_id 欄位直接放行不依賴該事件；protected() 純 substring 比對會誤擋文字裡提到完整路徑的 Write，非 bug 是保守設計副作用；hook 註冊本身即時生效不需新 session（快取的是 bundle SHA/generation，非 hook 本身） | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | 專案 skill 同步新函式沿用 home 層級的 prune 邏輯，首跑誤刪 cowork_CDIC 3 個非本機制來源的既有 skill；教訓：home 目錄「整個由本機制管理」的假設不能套用到專案內、其他工具原生使用的目錄，寫刪除邏輯前先確認目錄所有權範圍；Google Drive 桌面版本地刪除會同步成雲端垃圾桶可復原 | `_context/lessons-learned.md`（WTF repo） |
 | WTF | 2026-07-25 | Claude context-engineering 文章對照：「信任模型判斷力」只適用行為性規則，主觀品味/基礎設施可靠性規則不受影響；模型調度改預設 opus 優先；格式規則要先分清「匯報介面」vs「交付物」兩種情境 | `_context/lessons-learned.md`（WTF repo） |
@@ -353,3 +354,6 @@
 - 南科再生水廠｜2026-09-11｜「座標精確＋擬真」先用程式畫高度與陰影、AI 只做材質潤飾（圖生圖不是版面漂就是偏平）；「模型要正確」與「要擬真」分開問；全長判斷（接縫沿道路）驗收要頭中尾三段；螢幕對位圖以兩台螢幕外框為畫面基準另出裁切版；多方案共用一支動畫用 URL 參數傳幾何轉換；內網 port 先 lsof、驗 title 不驗狀態碼｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-11-展桌對位擬真渲染動畫疊層場區模型線
 - HuaNan_Bank｜2026-09-14｜限期下架不能只靠本機 launchd，關機錯過不補跑；對外期限要用雲端排程或每小時輪詢｜projects/HuaNan_Bank/_context/lessons-learned.md
 - phonic_keyboard｜2026-09-14｜預測與明確學習分離，預覽驗收涵蓋所有送出及加詞入口；SDK 回傳與讀音／游標座標須實測；LaunchAgent 啟動等待避免 fallback 啟動第二份｜projects/phonic_keyboard/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-14｜Illustrator 展板檔取中英文案：.ai 即 PDF 但中英分兩頁需依 x 座標配對；重疊複本要去重、字距要自行組字、ligature 要還原；已轉曲的年份抓不到不代表展板沒有；業主來信轉述 ≠ 展板定稿（8 項有 3 項出入），以展板為準並標明請確認｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-15｜共編 docx 被使用者存檔後 Word 會把句子拆成多個 run，run 層比對必落空——改以 `<w:br/>` 切段比對、只改該段第一個 w:t，命中數寫進斷言；「以來信或以定稿為準」是 PO 的決定，agent 只攤開差異並標疑似誤植，錯字不照抄到每一欄｜projects/cowork_CDIC/_context/lessons-learned.md
+- 南科再生水廠｜2026-09-15｜開發期寫死的播放邊界與速度檔位要抽成參數並保留舊預設；腳本文字上畫面前先分「指示／標籤／輸出字」，導演資訊層在投影模式一律關閉｜`projects/南科再生水廠/_context/lessons-learned.md`
