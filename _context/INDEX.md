@@ -2,6 +2,7 @@
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-20
 
 - 2026-09-14 ai-team 制度優化，Codex 接手 Tech Lead：[交接](Handover_2026-09-14_ai-team跨工具skill與模型調度優化.md) → [當前 TaskLog](TaskLog_2026-09-14_ai-team制度優化.md)（共識後實作，待 PO 驗收）。
+- 2026-09-14 案例分析 skill 全域化：跨專案彙整完成、三項拍板已記，skill 未動工（暫停）：[TaskLog](TaskLog_2026-09-14_案例分析skill全域化.md)。ChildrenFuture 專案同日建立並登記。
 - 2026-09-15 制度優化六頁[互動簡報](../workingfiles/outputs/簡報_2026-09-14_制度優化/index.html)（agy 製作、Codex 獨立驗收通過，交 PO 檢閱，未 commit）：[TaskLog](TaskLog_2026-09-14_制度優化互動簡報.md)。
 
 ## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
