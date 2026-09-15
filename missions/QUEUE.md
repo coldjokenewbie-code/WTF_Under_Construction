@@ -3,8 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-15 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33）全秒退零增量（**連續58天**），QUEUE無待規劃/active項，狀態未變（待核准×2／parked×2／done×2／提名×5）。各mission昨晚增量：零，無案可推進。證據：`missions/heartbeat.log` 對應4筆時間戳記。
-**main動態**：1條非mission commit（b4f58ed，registry路徑lesson歸檔）尚未併入night-relay——本棒`git merge origin/main`被執行環境權限機制擋下（Modify Shared Resources），未強行繞過；不影響mission內容，僅記錄待下一有效棒補做。
+**提醒棒 2026-09-15 19:00**：`git merge origin/main`本棒已成功併入night-relay（晨報記錄的b4f58ed卡點已解除，另帶入heart-beat skill改版等4筆main commit）。QUEUE現況：待核准×2／parked×2／done×2／提名×5，**連續58天零 active 增量**。
+**待核准清單**：20260706-guide-app（優先序2，剩唯一卡點＝anchor升級提案裁決）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
+**提名清單（候選，未啟動）**：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill（需掛ppt_map_mark）。
+**blockers待決（逾期未回覆）**：互動機具設計報告書驗收未過待補充具體修改點（**58天**）；guide-app anchor升級提案裁決（**58天**）。
+**產能算術**：現無 active mission（0案）→ 今晚排定4循環棒（19:33/21:33/23:33/01:33）預計全數秒退，無可推進項，無法推算完成日；如需今晚有產出，請將上述待核准或提名任一項改狀態。
 **chain-capability**：續FAIL（CronCreate durable參數仍明寫無持久化），連續PASS計數仍為0。
 **blockers新增項**：無。沿用：互動機具設計報告書逾期**58天**待使用者補充修正意見；組裝工廠導覽App anchor升級提案卡裁決（2026-07-21提示至今未回覆）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
