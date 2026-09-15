@@ -30,6 +30,8 @@ import html
 import re
 from pathlib import Path
 
+from skill_catalog import check_skill_set, deploy_skill_set, read_skills
+
 SCRIPT_DIR = Path(__file__).resolve().parent          # .../wtf-config
 SSOT = SCRIPT_DIR / "AGENTS.md"                        # 真相源
 SSOT_CLAUDE = SCRIPT_DIR / "CLAUDE_CODE.md"            # ~/.claude/CLAUDE.md 真相源
@@ -105,12 +107,12 @@ def deploy_session_bundle():
 
 def check_bundle_integrity():
     """機檢：CLAUDE.md import SHA ＝ bundle 目錄名 ＝ manifest digest，且 bundle 內容與當前 SSOT 一致。
-    回傳 (ok: bool|None, notes: list)。ok=None＝未部署 import（尚未啟用，不算失敗）。"""
+    回傳 (ok: bool|None, notes: list)。ok=None＝未部署 import，由 check_claude_dir 判失敗。"""
     import hashlib
     notes = []
     sha = bundle_sha_in_claude_md()
     if sha is None:
-        return None, ["  ! [SKIP  ] session bundle import 未部署（尚未啟用強制載入）"]
+        return None, ["  ! [MISSING] session bundle import 未部署"]
     bundle_dir = CLAUDE_DIR / "wtf-session-bundles" / sha
     manifest = bundle_dir / "manifest.json"
     if not manifest.exists():
@@ -290,7 +292,7 @@ def check_claude_dir():
     """回傳 (claude_md_ok, skills_ok, 說明list)"""
     notes = []
     claude_md = CLAUDE_DIR / "CLAUDE.md"
-    skills_dst = CLAUDE_DIR / "skills"
+    skills_ok = None  # 內容與索引統一由 _check_skills 驗證
 
     if not SSOT_CLAUDE.exists():
         notes.append(f"  ! [SKIP  ] ~/.claude/CLAUDE.md — 真相源 {SSOT_CLAUDE} 不存在")
@@ -311,27 +313,10 @@ def check_claude_dir():
 
     bundle_ok, bundle_notes = check_bundle_integrity()
     notes.extend(bundle_notes)
-    if bundle_ok is False:
+    if bundle_ok is not True:
         claude_md_ok = False
-
-    if not SSOT_SKILLS.exists():
-        notes.append(f"  ! [SKIP  ] ~/.claude/skills/ — 真相源 {SSOT_SKILLS} 不存在")
-        skills_ok = None
-    elif not skills_dst.exists():
-        notes.append(f"  x [MISSING] ~/.claude/skills/")
-        skills_ok = False
-    elif skills_dst.is_symlink():
-        notes.append(f"  x [SYMLINK] ~/.claude/skills/ — 仍為 symlink，需改為實體目錄")
-        skills_ok = False
-    else:
-        ssot_skills = sorted([p.name for p in SSOT_SKILLS.iterdir() if p.is_dir()])
-        dst_skills = sorted([p.name for p in skills_dst.iterdir() if p.is_dir()])
-        if ssot_skills == dst_skills:
-            notes.append(f"  v [OK     ] ~/.claude/skills/ （{len(ssot_skills)} 個 skill）")
-            skills_ok = True
-        else:
-            notes.append(f"  x [STALE  ] ~/.claude/skills/ — skill 清單不符")
-            skills_ok = False
+        if bundle_ok is None:
+            notes.append("  x [MISSING] Claude session bundle import 必須存在")
 
     # subagent 定義（~/.claude/agents/，per-machine 部署洞要主動驗）
     if SSOT_AGENTS.exists():
@@ -352,13 +337,13 @@ def check_claude_dir():
 
 
 def deploy_claude_dir():
-    """複製 CLAUDE_CODE.md → ~/.claude/CLAUDE.md，skills/ → ~/.claude/skills/"""
+    """部署 Claude bootstrap、session bundle 與 subagent 定義。"""
     results = []
     CLAUDE_DIR.mkdir(exist_ok=True)
 
     # 絕對路徑錨點：供 session-start／CLAUDE.md 從任何 cwd（含非 WTF 專案）定位 WTF repo 讀 SSOT
     try:
-        (CLAUDE_DIR / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
+        (CLAUDE_DIR / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="utf-8")
         results.append(f"  v 寫入 ~/.claude/wtf-root.txt（{REPO_ROOT}）")
     except Exception as e:
         results.append(f"  ! 略過 ~/.claude/wtf-root.txt（{e}）")
@@ -374,35 +359,6 @@ def deploy_claude_dir():
         results.extend(bundle_notes)
     else:
         results.append(f"  - 略過 ~/.claude/CLAUDE.md（真相源不存在）")
-
-    if SSOT_SKILLS.exists():
-        dst_root = CLAUDE_DIR / "skills"
-        if dst_root.is_symlink():
-            dst_root.unlink()
-        dst_root.mkdir(parents=True, exist_ok=True)
-        # 逐 skill 複製：dirs_exist_ok 合併、單一鎖定只略過該項，不整批 rmtree
-        ssot_names = set()
-        ok = 0
-        for skill_src in sorted(SSOT_SKILLS.iterdir()):
-            if not skill_src.is_dir():
-                continue
-            ssot_names.add(skill_src.name)
-            try:
-                shutil.copytree(skill_src, dst_root / skill_src.name, dirs_exist_ok=True)
-                ok += 1
-            except Exception as e:
-                results.append(f"  ! 略過 skills/{skill_src.name}（{e}）")
-        results.append(f"  v 寫入 ~/.claude/skills/（{ok} 個 skill）")
-        # 容錯移除 SSOT 已不存在的舊 skill
-        for old in sorted(dst_root.iterdir()):
-            if old.is_dir() and old.name not in ssot_names:
-                try:
-                    shutil.rmtree(old)
-                    results.append(f"  - 移除舊 skill skills/{old.name}（SSOT 已無）")
-                except Exception as e:
-                    results.append(f"  ! 無法移除 skills/{old.name}（{e}）")
-    else:
-        results.append(f"  - 略過 ~/.claude/skills/（真相源不存在）")
 
     # subagent 定義 → ~/.claude/agents/（只加不 prune：agents 夾可能有使用者自建 agent）
     if SSOT_AGENTS.exists():
@@ -442,244 +398,159 @@ PROJECT_SKILL_NATIVE_DIRS = [".claude/skills", ".agents/skills"]
 # 工具中立 SSOT 仍是專案內 ._agents/skills/，本函式只負責複製到雙方原生路徑，SSOT 目錄不動。
 
 
-def deploy_project_skills():
-    """把每個已註冊專案的 ._agents/skills/（工具中立 SSOT）複製到各工具原生路徑，
-    讓 Claude Code 與 Codex 都能原生自動發現同一批專案 skill，不必再靠 AGENTS.md
-    指示模型手動去看 ._agents/skills/。
+def _skill_targets():
+    """全域為本機絕對路徑；專案索引指向相對專案根的 SSOT。"""
+    targets = []
+    for base in [CLAUDE_DIR] + [tool["home"] for tool in OTHER_TOOLS]:
+        if base.is_dir():
+            targets.append(dict(source=SSOT_SKILLS, destination=base / "skills",
+                                index_path=base / "wtf-skills-index.md"))
+    for project in registry_dirs():
+        source = project / "._agents" / "skills"
+        if source.is_dir():
+            for relative in PROJECT_SKILL_NATIVE_DIRS:
+                targets.append(dict(source=source, destination=project / relative,
+                                    index_path=project / "._agents" / "skills-index.md",
+                                    index_root=source, relative_to=project))
+    return targets
 
-    **只加不刪**：與 deploy_other_tools()（~/.claude/skills、~/.codex/skills）不同，
-    專案內的 .claude/skills/、.agents/skills/ 不是本機制專屬管理的目錄——可能已有
-    使用者/其他工具直接放在那裡、不透過 ._agents/skills/ 來源的既有 skill（2026-07-25
-    事故：prune 邏輯誤刪 cowork_CDIC/.claude/skills/ 下 3 個非 SSOT 來源的既有 skill，
-    當場移除 prune，見 lessons-learned）。故只 copytree 合併寫入，永不刪除既有內容，
-    即使 SSOT 移除某 skill 也不回頭清掉部署端，孤兒清理需人工手動處理。"""
-    results = []
-    for project_dir in registry_dirs():
-        src_root = project_dir / "._agents" / "skills"
-        if not src_root.is_dir():
-            continue
-        skill_names = {s.name for s in src_root.iterdir() if s.is_dir()}
-        if not skill_names:
-            continue
-        for rel in PROJECT_SKILL_NATIVE_DIRS:
-            dst_root = project_dir / rel
-            dst_root.mkdir(parents=True, exist_ok=True)
-            ok = 0
-            for name in sorted(skill_names):
-                dst = dst_root / name
-                if dst.is_symlink():
-                    dst.unlink()
-                try:
-                    shutil.copytree(src_root / name, dst, dirs_exist_ok=True)
-                    ok += 1
-                except Exception as e:
-                    results.append(f"  ! 略過 {project_dir.name}/{rel}/{name}（{e}）")
-            if ok:
-                results.append(f"  v {project_dir.name}/{rel}/（{ok} 個專案 skill，僅新增/合併，不刪既有內容）")
-    return results
+
+def _check_skills():
+    has_error, notes = False, []
+    for target in _skill_targets():
+        has_failed, details = check_skill_set(**target)
+        has_error = has_error or has_failed
+        notes.extend(details)
+    for tool in OTHER_TOOLS:
+        if not tool["home"].is_dir():
+            notes.append(f"  - [SKIP   ] {tool['home']}（工具未安裝）")
+    return has_error, notes
 
 
 def deploy_other_tools():
-    """把 SSOT skills + 全域指令檔實體複製到 codex／gemini（present 才做）。
-    skills 保守 prune 孤兒 WTF skill：只刪「實體目錄、名稱非 . 開頭、且不在 SSOT 集」者；
-    保護工具自有 skill（symlink 如 find-skills、dotted 如 .system）。
-    全域指令檔：複製前拆同名 symlink（含斷鏈）寫實體；清掉 stale 斷鏈檔。"""
+    """部署已安裝工具的 bootstrap；skill 複製由 deploy_skill_set 統一處理。"""
     results = []
-    if not SSOT_SKILLS.exists():
-        return results
-    ssot_names = {s.name for s in SSOT_SKILLS.iterdir() if s.is_dir()}
     for tool in OTHER_TOOLS:
         base = tool["home"]
         if not base.is_dir():
-            continue  # 工具未安裝，跳過
-        dst_root = base / "skills"
-        dst_root.mkdir(parents=True, exist_ok=True)
-        # 同寫錨點到工具 home，供該工具從任何 cwd 定位 WTF repo
-        try:
-            (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="ascii")
-        except Exception:
-            pass
-        # 全域指令檔（bootstrap）：實體複製到該工具原生會讀的檔名
-        instr_src = tool["instr_src"]
-        if instr_src.exists():
-            dst = base / tool["instr_dst"]
-            if dst.is_symlink():
-                dst.unlink()
-            shutil.copy2(instr_src, dst)
-            results.append(f"  v 寫入 ~/{base.name}/{tool['instr_dst']}（全域指令）")
-        else:
-            results.append(f"  - 略過 ~/{base.name}/{tool['instr_dst']}（真相源 {instr_src.name} 不存在）")
-        # 清掉斷鏈／舊指令檔（如移出 Drive 後 dangling 的 symlink）
+            continue
+        (base / "wtf-root.txt").write_text(str(REPO_ROOT), encoding="utf-8")
+        source = tool["instr_src"]
+        if not source.exists():
+            raise FileNotFoundError(source)
+        destination = base / tool["instr_dst"]
+        if destination.is_symlink():
+            destination.unlink()
+        shutil.copy2(source, destination)
+        results.append(f"  v 寫入 {destination}（全域指令）")
         for name in tool["stale"]:
-            p = base / name
-            if p.is_symlink():
-                p.unlink()
-                results.append(f"  - 移除斷鏈/舊檔 ~/{base.name}/{name}（symlink）")
-        ok = 0
-        for name in sorted(ssot_names):
-            dst = dst_root / name
-            # 與 SSOT 同名的 symlink（含舊架構死連結）會讓 copytree 報 FileExistsError
-            # 而被略過 → 工具讀到斷鏈或舊版。複製前先拆掉它，改寫實體副本。
-            # 只拆「佔用 WTF skill 名稱」者；工具自有的其他 symlink（如 find-skills）名稱
-            # 不在 ssot_names，不受影響。
-            if dst.is_symlink():
-                dst.unlink()
-            try:
-                shutil.copytree(SSOT_SKILLS / name, dst, dirs_exist_ok=True)
-                ok += 1
-            except Exception as e:
-                results.append(f"  ! 略過 {base.name}/skills/{name}（{e}）")
-        # 保守 prune：刪 SSOT 已移除的孤兒 WTF skill。
-        # 保護工具自有 skill：dotted（.system）跳過；symlink（find-skills）由 rmtree 自身拒刪
-        # 並靜默略過（Windows MSYS symlink 之 is_symlink() 偵測不可靠，故靠 rmtree 守門）。
-        for entry in sorted(dst_root.iterdir()):
-            if (entry.is_dir() and not entry.name.startswith(".")
-                    and entry.name not in ssot_names):
-                try:
-                    shutil.rmtree(entry)
-                    results.append(f"  - 移除 {base.name}/skills/{entry.name}（SSOT 已無）")
-                except Exception:
-                    pass  # symlink 或鎖定 → 視為工具自有，保留
-        results.append(f"  v 寫入 ~/{base.name}/skills/（{ok} 個 WTF skill；保護 symlink/dotted 自有 skill）")
+            stale = base / name
+            if stale.is_symlink():
+                stale.unlink()
+                results.append(f"  - 移除 {stale}（舊指令 symlink）")
     return results
+
+
+def _check_projects(ssot_body):
+    counts, broken, orphans = {}, [], []
+    for directory in registry_dirs():
+        status, note = classify(directory / "AGENTS.md", ssot_body)
+        counts[status] = counts.get(status, 0) + 1
+        print(f"  {'v' if status == 'OK' else 'x'} [{status:7}] {directory.name}/AGENTS.md — {note}")
+        if status in ("MISSING", "BROKEN", "STALE"):
+            broken.append(str(directory / "AGENTS.md"))
+        orphans.extend(str(path) for path in directory.glob("AGENTS (*).md"))
+    return counts, broken, orphans
+
+
+def _check_tool_instructions():
+    broken, notes = [], []
+    for tool in OTHER_TOOLS:
+        base = tool["home"]
+        if not base.is_dir():
+            continue
+        source, target = tool["instr_src"], base / tool["instr_dst"]
+        if target.is_symlink() or not target.is_file() or not source.is_file():
+            broken.append(str(target))
+            notes.append(f"  x [MISSING] {target}（需實體入口與來源）")
+        elif target.read_bytes() != source.read_bytes():
+            broken.append(str(target))
+            notes.append(f"  x [STALE  ] {target}（內容與真相源不符）")
+        else:
+            notes.append(f"  v [OK     ] {target}（全域指令內容）")
+        for name in tool["stale"]:
+            if (base / name).is_symlink():
+                broken.append(str(base / name))
+                notes.append(f"  x [STALE  ] {base / name}（舊 symlink）")
+    return broken, notes
 
 
 def cmd_check():
     sys.stdout.reconfigure(encoding="utf-8")
-    ssot_body = read_ssot()
     print(f"真相源: {SSOT}")
-    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）\n")
-    counts = {}
-    broken = []
-    orphans = []
-    for d in registry_dirs():
-        target = d / "AGENTS.md"
-        status, note = classify(target, ssot_body)
-        counts[status] = counts.get(status, 0) + 1
-        flag = "v" if status == "OK" else "x"
-        print(f"  {flag} [{status:7}] {d.name}/AGENTS.md  — {note}")
-        if status in ("MISSING", "BROKEN", "STALE"):
-            broken.append(d.name)
-        for dup in d.glob("AGENTS (*).md"):
-            orphans.append(str(dup))
-
-    print("\n--- ~/.claude/ ---")
-    _, _, notes = check_claude_dir()
-    for n in notes:
-        print(n)
-
-    # 其他工具（Codex／Gemini）全域指令檔：驗證原生會讀的檔名存在且非空
-    other_notes = []
-    for tool in OTHER_TOOLS:
-        base = tool["home"]
-        if not base.is_dir():
-            continue
-        dst = base / tool["instr_dst"]
-        if dst.is_symlink() and not dst.exists():
-            other_notes.append(f"  x [BROKEN ] ~/{base.name}/{tool['instr_dst']} 斷鏈(dangling symlink)")
-            broken.append(f"{base.name}/{tool['instr_dst']}")
-        elif not dst.exists() or dst.stat().st_size == 0:
-            other_notes.append(f"  x [MISSING] ~/{base.name}/{tool['instr_dst']} 不存在或空檔")
-            broken.append(f"{base.name}/{tool['instr_dst']}")
-        else:
-            other_notes.append(f"  v [OK     ] ~/{base.name}/{tool['instr_dst']}（全域指令）")
-        for name in tool["stale"]:
-            p = base / name
-            if p.is_symlink():
-                other_notes.append(f"  ! [STALE  ] ~/{base.name}/{name} 殘留 symlink（sync 會清）")
-    if other_notes:
-        print("\n--- 其他工具（Codex／Gemini）全域指令 ---")
-        for n in other_notes:
-            print(n)
-
-    # 專案 skill：._agents/skills/（SSOT）是否已鏡射到雙方原生路徑
-    # 只加不刪機制（見 deploy_project_skills 註解）：檢查 SSOT 集是否為 dst 的子集即可，
-    # dst 允許有 SSOT 之外的既有 skill（非本機制管理），不可要求兩者完全相等。
-    proj_skill_notes = []
-    for d in registry_dirs():
-        src_root = d / "._agents" / "skills"
-        if not src_root.is_dir():
-            continue
-        ssot_names = sorted(s.name for s in src_root.iterdir() if s.is_dir())
-        if not ssot_names:
-            continue
-        for rel in PROJECT_SKILL_NATIVE_DIRS:
-            dst_root = d / rel
-            if not dst_root.is_dir():
-                proj_skill_notes.append(f"  x [MISSING] {d.name}/{rel}/")
-                broken.append(f"{d.name}/{rel}")
-                continue
-            dst_names = set(s.name for s in dst_root.iterdir() if s.is_dir())
-            missing = [n for n in ssot_names if n not in dst_names]
-            if not missing:
-                proj_skill_notes.append(f"  v [OK     ] {d.name}/{rel}/（含全部 {len(ssot_names)} 個 SSOT skill）")
-            else:
-                proj_skill_notes.append(f"  x [STALE  ] {d.name}/{rel}/ — 缺 {', '.join(missing)}")
-                broken.append(f"{d.name}/{rel}")
-    if proj_skill_notes:
-        print("\n--- 專案 skill（._agents/skills/ → 各工具原生路徑）---")
-        for n in proj_skill_notes:
-            print(n)
-
-    print("\n--- 統計 ---")
-    for k, v in sorted(counts.items()):
-        print(f"  {k}: {v}")
-    adopt_n = counts.get("ADOPT", 0)
-    if adopt_n:
-        print(f"\n[可接管] {adopt_n} 個無標頭但內容與真相源一致，跑 `sync` 自動補標頭接管。")
-    if orphans:
-        print("\n--- 重複命名孤兒檔（Drive 產生，sync 不動，建議確認後手動清理）---")
-        for o in orphans:
-            print(f"  {o}")
+    print(f"掃描來源: {REGISTRY.name}（本機 {socket.gethostname()}）")
+    counts, broken, orphans = _check_projects(read_ssot())
+    claude_ok, _, notes = check_claude_dir()
+    if claude_ok is False or any("  x [" in note for note in notes):
+        broken.append(str(CLAUDE_DIR))
+    other_broken, other_notes = _check_tool_instructions()
+    broken.extend(other_broken)
+    skills_failed, skill_notes = _check_skills()
+    if skills_failed:
+        broken.append("skill 副本／索引")
+    for note in notes + other_notes + skill_notes:
+        print(note)
+    for key, value in sorted(counts.items()):
+        print(f"  {key}: {value}")
+    if counts.get("ADOPT"):
+        print("[可接管] 無標頭但內容一致，sync 會補標頭。")
+    for orphan in orphans:
+        print(f"[重複命名] {orphan}（sync 不動）")
     if broken:
-        print(f"\n[需修復] {len(broken)} 個專案 AGENTS.md 失效/過期: {', '.join(broken)}")
-        print("執行 `python sync_config.py sync` 修復。")
+        print(f"[需修復] {len(broken)} 項：{', '.join(broken)}")
+        print("執行 `python3 sync_config.py sync`（Windows 用 python）。")
         return 1
-    print("\n[OK] 全部與真相源一致。")
+    print("[OK] 設定、SSOT skill 內容與索引一致；不代表各工具行為皆已驗證。")
     return 0
 
 
 def cmd_sync():
     sys.stdout.reconfigure(encoding="utf-8")
+    # metadata 預檢在所有寫入之前，避免半套索引部署。
+    try:
+        sources = {SSOT_SKILLS} | {target["source"] for target in _skill_targets()}
+        for source in sources:
+            read_skills(source)
+    except (ValueError, OSError) as error:
+        print(f"[INVALID] {error}")
+        return 1
     ssot_body = read_ssot()
-    hostname = socket.gethostname()
-    _, content = build_copy(ssot_body, hostname)
+    _, content = build_copy(ssot_body, socket.gethostname())
     print(f"真相源: {SSOT}")
-    print(f"本機: {hostname}\n")
-    written, skipped = 0, []
-    for d in registry_dirs():
-        target = d / "AGENTS.md"
+    for directory in registry_dirs():
+        target = directory / "AGENTS.md"
         status, note = classify(target, ssot_body)
         if status == "FOREIGN":
-            skipped.append(d.name)
-            print(f"  - 略過 {d.name}/AGENTS.md（{note}）")
+            print(f"  - 略過 {directory.name}/AGENTS.md（{note}）")
             continue
-        if target.is_symlink():            # 防寫穿 symlink 污染真相源（root AGENTS.md）
+        if status == "OK":
+            print(f"  v 保留 {directory.name}/AGENTS.md（內容一致）")
+            continue
+        if target.is_symlink():
             target.unlink()
         target.write_text(content, encoding="utf-8")
-        written += 1
-        tag = "接管" if status == "ADOPT" else "寫入"
-        print(f"  v {tag} {d.name}/AGENTS.md")
-    print(f"\n完成: 寫入 {written} 個專案 AGENTS.md。")
-    if skipped:
-        print(f"略過 {len(skipped)} 個 FOREIGN: {', '.join(skipped)}")
-
-    print("\n--- ~/.claude/ 部署 ---")
-    for r in deploy_claude_dir():
-        print(r)
-
-    other = deploy_other_tools()
-    if other:
-        print("\n--- 其他工具（Codex／Gemini）全域指令＋skills 部署 ---")
-        for r in other:
-            print(r)
-
-    proj_skills = deploy_project_skills()
-    if proj_skills:
-        print("\n--- 專案 skill（各專案 ._agents/skills/ → .claude/skills/ ＋ .agents/skills/）---")
-        for r in proj_skills:
-            print(r)
-    return 0
+        print(f"  v 寫入 {directory.name}/AGENTS.md")
+    try:
+        for note in deploy_claude_dir() + deploy_other_tools():
+            print(note)
+        for target in _skill_targets():
+            for note in deploy_skill_set(**target):
+                print(note)
+    except (ValueError, OSError) as error:
+        print(f"[ERROR] 部署失敗：{error}")
+        return 1
+    # 不把部分部署／被舊邏輯略過的例外當成功。
+    return cmd_check()
 
 
 def cmd_register():

@@ -21,7 +21,7 @@
 
 ## 檔案存取（FSA）——存檔預設路徑
 
-規則本文在 `GLOBAL.md`「工作品質底線」的「存檔預設路徑鐵律」。以下是寫法與踩過的坑。
+規則本文在 `delivery-conventions.md`「存檔預設路徑鐵律」。以下是寫法與踩過的坑。
 
 - **預設位置怎麼指**：`showSaveFilePicker({ suggestedName, startIn })`、`showDirectoryPicker({ startIn, mode:'readwrite' })`。`startIn` 收兩種值——先前存下的 `FileSystemHandle`（最精確，直接開在那個資料夾），或具名位置字串 `'documents' | 'downloads' | 'desktop' | 'pictures' | 'music' | 'videos'`。**沒有辦法用字串路徑指定任意資料夾**，這是瀏覽器的安全限制，所以第一次一定得由使用者選一次。
 - **第一次選完就別再問**：把回傳的 handle 存進 IndexedDB（handle 可被 structured-clone），下次直接 `handle.createWritable()` 寫回同一檔；只需先 `handle.requestPermission({mode:'readwrite'})` 確認權限沒過期。同一組 picker 也可帶 `id:'<用途代號'`，瀏覽器會記住該 id 上次開啟的位置。

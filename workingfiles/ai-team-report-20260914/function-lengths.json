@@ -1,0 +1,12 @@
+{
+  "goToSlide": 22,
+  "updateNavControls": 11,
+  "handleKeyNavigation": 13,
+  "renderTaskDetail": 8,
+  "renderManualDetail": 9,
+  "renderSlimmingDetail": 23,
+  "renderDriftDetail": 13,
+  "setupButtonGroup": 15,
+  "initTabs": 10,
+  "initApp": 21
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 工作守則改動簡報</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <h1 class="brand-title">AI 工作守則改動簡報</h1>
+      <div class="date-badge">
+        <span class="nowrap">資料快照：2026-09-14</span>
+        <span class="separator">｜</span>
+        <span class="nowrap">簡報製作：2026-09-15</span>
+      </div>
+    </div>
+    <progress id="slide-progress" value="1" max="6" aria-label="簡報頁面進度"></progress>
+    <nav class="slide-nav" aria-label="簡報頁面跳轉">
+      <button type="button" class="tab-btn" id="tab-1" aria-current="page">1. 守則改動</button>
+      <button type="button" class="tab-btn" id="tab-2">2. 派工依據</button>
+      <button type="button" class="tab-btn" id="tab-3">3. 手冊備援</button>
+      <button type="button" class="tab-btn" id="tab-4">4. 規則搬家</button>
+      <button type="button" class="tab-btn" id="tab-5">5. 副本比對</button>
+      <button type="button" class="tab-btn" id="tab-6">6. 目前邊界</button>
+    </nav>
+  </header>
+
+  <main id="presentation-content">
+    <!-- Slide 1 -->
+    <section class="slide" id="slide-1" tabindex="-1" aria-labelledby="heading-1">
+      <h2 id="heading-1">這次改的是 AI 的工作守則</h2>
+      <p class="lead-text">三個主要改動：「工作交給合適模型」「手冊有備援」「開場少帶細則」</p>
+
+      <div class="step-flow" aria-label="執行順序圖解">
+        <div class="step-item"><span class="step-idx">①</span> 更新派工表</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">②</span> 手冊備援與同步檢查</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">③</span> 搬移常駐細則</div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-item"><span class="step-idx">④</span> 獨立驗收</div>
+      </div>
+      <p class="step-note">執行順序說明：先確定怎麼派工、再補查找與檢查，最後才搬細則，避免搬完找不到。</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">以前</h3>
+          <p>派工表型號與部分做法過時、清單漏列時缺統一備援、細則常駐在開場文件。</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">現在</h3>
+          <p>按工作風險選人；需要時能查手冊索引；完整細則搬到需要時才讀的位置。</p>
+        </div>
+      </div>
+
+      <div class="card card-impact">
+        <h3 class="card-title">對你的影響</h3>
+        <p>派工有理由、手冊有查找規則、開場少帶細則；同步也會抓出舊副本，保留自有技能。</p>
+        <p class="sub-note">註：此為工作規則改善，不保證模型每次照做。</p>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" id="slide-2" tabindex="-1" aria-labelledby="heading-2" hidden>
+      <h2 id="heading-2">這件工作，該交給誰？</h2>
+      <div class="notice-tag">操作示意，不會真的派工</div>
+
+      <div class="btn-group" role="group" aria-label="工作類型選擇">
+        <button type="button" class="task-btn active" data-task="archive" aria-pressed="true">整理／找檔</button>
+        <button type="button" class="task-btn" data-task="feature" aria-pressed="false">一般改功能</button>
+        <button type="button" class="task-btn" data-task="policy" aria-pressed="false">容易漏判的制度修改</button>
+        <button type="button" class="task-btn" data-task="review" aria-pressed="false">獨立驗收</button>
+      </div>
+
+      <div id="task-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card">
+        <p><strong>調度原則：</strong>同一工作、同一角色不重複派兩個高階；作者與獨立驗收者可各用高階。獨立驗收只表示隔離作者推理，不保證換模型就沒偏誤。</p>
+      </div>
+
+      <details class="rule-card">
+        <summary class="rule-summary">重試上限與備援規範</summary>
+        <div class="details-body">
+          <p>同子任務最多 4 輪＝Haiku 1 → Sonnet 2（第二次換方法）→ Opus 或 Fable 終局 1；高階還錯就回報，不循環重試。模型不可用與做錯分開，只試一次可用備援。</p>
+        </div>
+      </details>
+
+      <details class="rule-card">
+        <summary class="rule-summary">本機查證模型代號清單</summary>
+        <div class="details-body">
+          <p>本機 2026-09-14 查證的模型 ID：<code>claude-opus-5</code>、<code>claude-fable-5-1</code>、<code>claude-sonnet-5</code>、<code>claude-haiku-4-5-20251001</code>。不能推定所有帳戶/工具可用。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" id="slide-3" tabindex="-1" aria-labelledby="heading-3" hidden>
+      <h2 id="heading-3">手冊本來能讀，現在多了備援</h2>
+
+      <div class="btn-group" role="group" aria-label="手冊情境選擇">
+        <button type="button" class="manual-btn active" data-scenario="full" aria-pressed="true">原生清單完整</button>
+        <button type="button" class="manual-btn" data-scenario="missing" aria-pressed="false">清單沒列出／截斷</button>
+      </div>
+
+      <div id="manual-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card card-warning">
+        <p><strong>務實邊界：</strong>Codex 原本就能讀 skill；檔案讀得到 ≠ 模型每次都會選對、照做。Antigravity 自動取用技能未實測。</p>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" id="slide-4" tabindex="-1" aria-labelledby="heading-4" hidden>
+      <h2 id="heading-4">規則搬家，開場少帶細則</h2>
+      <p class="lead-text">GLOBAL 單檔減 35.1%；各工具開場三檔合計減 19.5%–21.6%。資料快照 2026-09-14 本次修改前後；三檔＝GLOBAL＋AGENTS＋該工具設定。口徑為來源文字量（字元數），非實際 Token、帳單或速度；基準皆以修改前 = 100%。</p>
+
+      <div class="btn-group" role="group" aria-label="開場檔案字元減量統計">
+        <button type="button" class="slim-btn active" data-target="global" aria-pressed="true">GLOBAL 單檔</button>
+        <button type="button" class="slim-btn" data-target="claude" aria-pressed="false">Claude 開場三檔</button>
+        <button type="button" class="slim-btn" data-target="codex" aria-pressed="false">Codex 開場三檔</button>
+        <button type="button" class="slim-btn" data-target="gemini" aria-pressed="false">Gemini 開場三檔</button>
+      </div>
+
+      <div id="slimming-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="rule-stack">
+        <details class="rule-card">
+          <summary class="rule-summary">版控細則搬家說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>git-mirror.md</code></p>
+            <p>WTF 本體直接在 git_mirror 是唯一例外；其他專案仍遵守 Drive 工作／git_mirror 版控規則。保留完整要求，主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+        <details class="rule-card">
+          <summary class="rule-summary">預覽與存檔規範說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>delivery-conventions.md</code></p>
+            <p>成品背景預覽；影片與音檔不自動播放；存檔預設指向正確資料夾。主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+        <details class="rule-card">
+          <summary class="rule-summary">統計口徑規範說明</summary>
+          <div class="details-body">
+            <p class="file-path">搬移目標：<code>data-citation.md</code></p>
+            <p>資料口徑含起訖期間、來源、範圍、單位及計算口徑。主文件留入口與重要禁令，並非刪除規則。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide" id="slide-5" tabindex="-1" aria-labelledby="heading-5" hidden>
+      <h2 id="heading-5">副本改錯一個字，也查得出來</h2>
+      <div class="notice-tag">操作示意，不會改動檔案；下方文字僅供示意，並非制度原文</div>
+
+      <div class="btn-group" role="group" aria-label="副本同步檢查情境">
+        <button type="button" class="drift-btn active" data-drift="same" aria-pressed="true">內容相同</button>
+        <button type="button" class="drift-btn" data-drift="diff" aria-pressed="false">只改一個字</button>
+        <button type="button" class="drift-btn" data-drift="missing" aria-pressed="false">少一個附檔</button>
+      </div>
+
+      <div id="drift-detail" class="detail-panel" aria-live="polite"></div>
+
+      <div class="card">
+        <p>現在也比對索引內容；自己另外裝的非 WTF 來源技能予以保留，不再因不在清單就刪除。退役的多餘內容仍需人工辨識清理，不保證每個附檔都有警示。</p>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide" id="slide-6" tabindex="-1" aria-labelledby="heading-6" hidden>
+      <h2 id="heading-6">完成到哪裡，還有哪些邊界？</h2>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3 class="card-title">已完成（工程證據）</h3>
+          <p>工程 32 項測試通過；7 項細則遷移核對；本機 sync 兩次＋check，99 個部署檔案內容一致。（此為 2026-09-14 工程證據，非簡報數字）</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">獨立驗收</h3>
+          <p>Fable 首輪抓到搬家後舊指標 → Codex 修正 → Fable 第二輪 PASS。制度已在本機部署，未 commit，待 PO 最終驗收。</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">尚未做／未驗證</h3>
+          <p>Windows 未實機驗證；Antigravity 自動挑選/讀取技能未實測（本次 agy 僅製作簡報）；先前權限規則警告已記錄未修改；實際費用與速度未量測。</p>
+        </div>
+      </div>
+
+      <details class="rule-card">
+        <summary class="rule-summary">工程檢驗紀錄檔案清單</summary>
+        <div class="details-body">
+          <ul class="file-list">
+            <li><a href="../../../_context/archive/ClosedTaskLog_2026-09-14_ai-team制度優化.md">TaskLog_2026-09-14_ai-team制度優化.md</a>（完整工程紀錄）</li>
+            <li><a href="../../ai-team-20260914/verification.md">verification.md</a>（文字量與七項遷移）</li>
+            <li><a href="../../ai-team-20260914/review2.response.txt">review2.response.txt</a>（Fable 獨立複驗）</li>
+            <li><a href="../../ai-team-20260914/deployment-result.txt">deployment-result.txt</a>（99 份部署核對）</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="slide-footer">
+    <div class="footer-ctrl">
+      <button type="button" id="prev" aria-label="切換至上一頁">上一頁</button>
+      <span id="page-count" aria-live="polite">頁次 1 / 6</span>
+      <button type="button" id="next" aria-label="切換至下一頁">下一頁</button>
+    </div>
+    <div class="footer-status">agy 製作 · Codex 驗收 ｜ 驗收狀態：交 PO 檢閱</div>
+  </footer>
+</body>
+</html>

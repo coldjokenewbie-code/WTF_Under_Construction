@@ -14,7 +14,7 @@
 
 - **派工**：subagent 用 Agent tool 派（`model` 參數顯式指定）；驗證派 fresh-context subagent，不自驗。派工前先過 GLOBAL.md「派工鐵律」，選 model 時開 `<WTF_ROOT>/wtf-config/playbooks/model-dispatch.md`。
 - **新專案（無 `.claude/` 設定）**：列出可用 skills（lazy，不讀 body）→ 簡述啟用項 → 詢問任務或目標。
-- **現有專案**：全域 skills 原生自動列；專案 skills 照 AGENTS.md「Skills 載入協議」主動列 `._agents/skills/`。簡述啟用規則（例：`[Dev_Workflow 啟用中]`）後詢問任務。
+- **現有專案**：先用原生 skill 清單；缺列／截斷才依 AGENTS.md 查專案索引與 `~/.claude/wtf-skills-index.md`，不重複列完整索引。簡述相關規則後執行已給任務。
 - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Claude`。
 
 ## Claude Code 專屬按需檔（情境到才開）

@@ -1,0 +1,19 @@
+{
+  "index.html": {
+    "lines": 215,
+    "sha256": "29e13dc57bd908bb6bbb0440f8099328c3686a3adcea09b765f6cba7a771177f"
+  },
+  "base.css": {
+    "lines": 248,
+    "sha256": "4bc33a5d399a9ea2fa2d41aa9d0719c3f3bf896ff51a7da868b48ff9e66a41b6"
+  },
+  "styles.css": {
+    "lines": 241,
+    "sha256": "cb35f37a725aa2add0e3057c937f91e1ba2a980170108a570236333db3317430"
+  },
+  "app.js": {
+    "lines": 219,
+    "sha256": "1ad82feef56b8c953b53d78207ecc4a828fc323f012eeff3fdf7722a3e0a385d"
+  },
+  "css_concat_matches_agy_original": true
+}

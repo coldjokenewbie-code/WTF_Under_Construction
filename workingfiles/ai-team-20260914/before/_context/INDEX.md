@@ -1,0 +1,72 @@
+# WTF_Under_Construction — 現況總覽 (INDEX)
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-20
+
+## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
+- 查證 output style 跟 CLAUDE.md 一樣無強制力，確認 ody-lint Stop hook（Tyrion）不可省略。GLOBAL.md「交付即預覽」擴大到文件/圖檔/影片/音檔，`open` 補 `-g` 背景開啟。新增三個 skill：`W_colab`（共編檔守則）、`index-this`（快速記 INDEX）、`resume-id-info`（手動標記 session 供接續）。**附記：本 session 兩度發生「改名 commit 漏帶內容」，已修正並記教訓**。詳見 `_context/TaskLog_2026-08-20_output-style討論與三個新skill.md`（**當前 TaskLog**）。
+
+## 2026-08-18 heart-beat skill 新增＋LESSONS.md 合併衝突排除
+- 新增 `/heart-beat` skill（`wtf-config/skills/heart-beat/`），把 AGENTS.md「n 分鐘心跳」規則落成可操作流程，已同步部署到三工具（Claude/Codex/Gemini）。順手排除 `wtf-config/LESSONS.md` 因另一 session 併發 append 造成的 merge conflict，採用較完整版本。詳見 `_context/TaskLog_2026-08-18_heart-beat-skill與LESSONS衝突排除.md`（**當前 TaskLog**）。
+
+## 2026-08-11 inbox 分流撤回＋ to-codex skill 分享包＋ nightly 待決收尾
+- `/inbox` 分流 cowork_CDIC 三筆語音待辦後使用者要求全撤（App 內容不清楚），已還原 TaskLog／刪 App 25 筆／語音速記搬回 Clippings；順手修正 `ai-team-todo` 22 筆「頂層/子專案」未拆分的舊資料。新做 `/to-codex` skill（把工作交辦 Codex CLI，ChatGPT 帳號登入非 API）＋ HTML 安裝說明分享包，定案放 `workingfiles/outputs/to-codex-分享包/`（原頂層 `outputs/` 已併入 `workingfiles/outputs/`，符合現行資料夾規範）。nightly 三項待決已收尾：agy Mac 修法套用（實際條目在 `tools/ai-team/cli-reference.html`，非 GLOBAL.md）、o4-soundtrack mission 結案、guide-app 主題定調＝暗色為主（決策記在專案本身，WTF 層級只留指標）。**⚠️ 發現本機多 session 共用同一 WTF checkout 時，未 commit 的 staged 變更可能被另一並行 session 的 commit 意外一併帶走**（這次無資料損失，已核對）。詳見 `_context/TaskLog_2026-08-11_inbox分流與nightly待決收尾.md`（**當前 TaskLog**）。
+
+## 2026-07-30 SSOT 維護（代號範圍／Artlist 登記／pull）＋ wtf-session-gate 正式接線
+- 三藏代號適用範圍擴及一般對話；Artlist MCP connector 研究登記進 `RESOURCES.md`；`workingfiles/` 資料夾規範恢復（與 `outputs/` 職責分離，`outputs/` 限定正式定案產出）。**重點**：`wtf-session-gate` 的 PreToolUse／Stop 正式接線上線——過程中發現並修復 `stop_dispatcher.py` 漏傳 CLI 參數（原本會讓所有 session 卡死無法結束）＋ subagent 因 SubagentStart 事件不可靠會被永久 deny 的風險（已加 `agent_id` 例外繞過），sandbox 全流程驗證後才部署，部署後同 session 內立即生效（已用 `protected()` 攔下自己的指令現場驗證）。詳見 `_context/TaskLog_2026-07-30_SSOT維護與session-gate正式接線.md`（**當前 TaskLog**）。
+
+## 2026-07-25 Context Engineering 文章審視與跨工具規範修正
+- 三份獨立報告（Claude×2＋Codex Handover）交叉核對後，完成一輪較大的制度調整：`model-dispatch.md` 改為「派適合的 agent」（依任務屬性選模型，非固定單一階，兩輪裁定後定案）；`GLOBAL.md` 派工鐵律改工具中立（移除 Claude 專屬「便宜 subagent／顯式指定 model」用語）＋輸出格式限縮為僅「agent 向使用者匯報」用 HTML；`AGENTS.md` 溝通原則去重濃縮（保留硬項、合併語意重複）＋加使用者代號「三藏」；`CODEX.md` 移除不穩定工具名與重複讀取；`delegation-templates.md` 全面介面化改寫（新增 T-視覺範本）；cowork_CDIC 翻譯 SOP／Assembly_Plant_Mobile_Guide 展項模板兩個子專案的 rules/skill 調整。Claude／Codex 專案 skill 原生路徑不同（`.claude/skills/` vs `.agents/skills/`）：已依使用者裁定完成遷移，`sync_config.py` 新增 `deploy_project_skills()` 把各專案 `._agents/skills/` 複製到雙方原生路徑。⚠️ **首跑事故**：prune 邏輯誤刪 cowork_CDIC 3 個既有 skill，已修好（改只加不刪）並經使用者透過 Google Drive 垃圾桶復原確認乾淨。`wtf-session-gate` 維持現況不動。詳見 `_context/TaskLog_2026-07-25_context-engineering審視與設定調整.md`（**當前 TaskLog**）＋ `_context/Handover_2026-07-25_context-engineering跨模型規範優化.md`。
+
+## 2026-07-22 wtf-session-gate 故障修復
+- 診斷＋修復 `cmd_postread` 缺檔崩潰＋bundle SHA 過期兩個問題：postread 補 exists 檢查；`choose_bundle()` 改讀 `~/.claude/CLAUDE.md` import block（`sync_config.py` 每次 sync 自動跟代，取代原本寫死在 settings.json 的 env var，本機已清）。PreToolUse/Stop 接線經詢問使用者後暫不做（fail-closed 尚未 canary 測試）。sandbox 驗證 init→instructions→postread 全綠。**Windows 端 settings.json 若同樣寫死 env var，待下次 Windows session 處理**。詳見 `_context/TaskLog_2026-07-21_session-gate診斷.md`（**當前 TaskLog**）。
+
+## 2026-07-15 git_mirror 跨機部署與 Git_work 整併
+- git_mirror 機制從 cowork_CDIC 一個試點擴展到全部 Claude_cowork 專案＋全部純 code 專案。Mac／Windows 兩機 `Git_work/` 皆已整併完成，只剩備份用 `git_work_bk/`（Windows `E:\Git_work\` 另有 `AgentIDE`／`claude_CDIC_O4` 未搬，屬既定例外／待補）。VoiceInk 已 fork 為 `coldjokenewbie-code/UmaVoiceInk` 納管。
+- Windows 端 Handover 已執行完成（Claude@Win，2026-07-15）；`projects-registry.md` Windows 欄位已對齊實況。唯一未完成：`claude_CDIC_O4` 因網路傳輸問題（`invalid index-pack output`）暫緩 push/clone。詳見 `_context/TaskLog_2026-07-15_git_mirror跨機部署與Git_work整併.md`（**當前 TaskLog**）。
+
+## 2026-07-09 SessionStart hook 補強
+- 三檔制注入有效，但 GLOBAL.md／AGENTS.md 從未被結構讀取（純文字指示不可靠，兩個獨立 session 各自證實）。已改 hook 強制注入這兩檔；曾加的自報 banner 證實是假陰性指標，已刪除、不建稽核腳本。
+- 遵循度（模型讀到內容後是否照做）無結構性保證手段，Claude Code 官方文件未承諾，維持現況不再投入。詳見 `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`。
+
+## 2026-07-03 制度更新（Fable 5 session）
+- 常載鏈已重寫（開場改**三檔制**：INDEX → 當前 TaskLog → lessons-learned，嚴禁全量掃 `_context/`）；派工/判斷/交辦/維護守則在 `wtf-config/playbooks/`（路由表見 GLOBAL.md「制度層」）。
+- 詳見 `_context/TaskLog_2026-07-03_fable5制度建置.md`（含「派 claude@windows」待辦節）；總覽 `wtf-config/playbooks/letter-from-fable5.md`。舊常載鏈備份 `wtf-config/archive/2026-07-03_pre-fable5/`。
+
+## 一句話目標
+Workflows That Flow：以複利累積跨工具（Claude Code／Cowork／Codex／Antigravity）協作效率與效益。本專案＝全域設定與 Skills 的真相源（SSOT）。
+
+## 現況（一句話）
+**階段二已結案（2026-06-04 Mac pull+sync+跨工具部署驗證完成，TaskLog 移 archive）**。整個 WTF repo 移出 Drive（兩機 Git_work），放棄 split。hook 只 `git pull`＋`sync`、不 auto-commit。skills 命名/規範已對齊（TaskLog_、session-start 增 rules＋身分宣告）；registry 已登記 Windows Git_work repos；新增跨機/跨工具「記錄署名」慣例。WTF skills 已跨工具部署（Windows 的 Codex／Gemini，`deploy_other_tools()`）；常駐 monitor 僅 ai-team＋明示跨機討論才開（餘靠 INDEX/TaskLog 非同步交棒）。主控/可視：`sync_config.py status`／`dashboard`（產 `outputs/dashboard.html`）。夜間 routine 已 realign（commit 進 main 只推加性檔；全域設定**只建議不自改**→寫 `nightly-notify.md`→session-start 浮出待核准；不碰 dashboard）。
+
+## 關鍵檔
+- SSOT：`wtf-config/GLOBAL.md`、`wtf-config/AGENTS.md`、`wtf-config/sync_config.py`、`wtf-config/projects-registry.md`（專案×機器×路徑）
+- 🖥️跨機即時協調（Drive，非 repo）：`E:\Claude_cowork\projects\Git_work_agents\WTFrepo\signals_WIN.md`／`signals_MAC.md`（per-machine 單寫檔，見下「讀取指引」）
+- 同步架構決策：`workingfiles/SSOT同步架構討論_2026-06-03.md`（結論段）
+- 最新工作紀錄：
+  - `_context/Handover_2026-07-07_三任務測試接棒.md`（**接棒者先讀這份**：三任務現況/基建/誠實遺留）
+  - `_context/TaskLog_2026-07-09_hook注入強制化與遵循度診斷.md`（GLOBAL/AGENTS 強制注入＋遵循度診斷；**當前 TaskLog**）
+  - `_context/TaskLog_2026-07-03_fable5制度建置.md`（制度建置＋常載鏈重寫；含 Windows hook 部署待辦）
+  - `_context/TaskLog_2026-06-07_跨工具開場載入對等.md`（Codex/agy 開場載入全域設定+skills 對等已落地 Mac；**待 Windows 跑 sync 部署**）
+  - `_context/TaskLog_2026-06-07_inbox語音速記分流.md`（Phase B inbox `/inbox` skill 已建，待 Windows 補 vault 路徑）
+  - 階段二已結案 `_context/archive/ClosedTaskLog_2026-06-03_階段二-移出Drive.md`
+- 交接/階段一/階段二已 archive：`_context/archive/`
+- lessons：`_context/lessons-learned.md`、雲端層 `wtf-config/LESSONS.md`
+
+## 讀取指引（指路，只讀必要文件）
+> 🖥️＝含對方機器內容的跨機檔；看 byline `[Claude@Win/Mac]` 辨歸屬，**非己作不必重讀**。
+- **接手階段二/同步架構**：讀 `TaskLog_2026-06-03_階段二-移出Drive.md` ＋ 🖥️Drive `signals_WIN.md`/`signals_MAC.md`（跨機現狀），其餘跳過。
+- **只查教訓**：`_context/lessons-learned.md`（詳述）／`wtf-config/LESSONS.md`（雲端索引）。
+- **改同步腳本/registry**：`wtf-config/sync_config.py` ＋ `projects-registry.md`，不必讀 workingfiles 討論全文。
+- 跨機協作前先看 session-start 的「身分宣告」確認自己是哪台/哪工具。
+
+## 架構要點（已定案）
+- 全實體副本，放棄 symlink（Drive 跨平台失效）。
+- 自動同步＝UserPromptSubmit hook + 5 分冷卻（兩端統一）；`session-start` skill 只核對＋讀知識，不重工。
+- `sync_config.py` 由 `projects-registry.md` 取本機 hostname 的專案清單（絕對路徑）；`deploy_claude_dir()` 逐 skill 容錯覆蓋（不整批 rmtree）。
+- **階段二（已執行）**：整個 WTF repo 移出 Drive（兩機 Git_work），非 split。hook 只 `git pull`＋`sync`、不清 lock、不 auto-commit（commit 手動）。其餘 6 個 Drive 專案不動，續吃 sync 副本。
+
+## 待用戶拍板（決策閘，非工作線 todo）
+1. Antigravity 原生 Gemini 是否只認 `GEMINI.md`（需實測，決定要不要產第二種副本）。
+2. （可選）清理 project `.claude/settings.json` 殘留死路徑（claude-config 舊名、Mac Drive 絕對路徑、Git_foler_anti）——本次 auto-mode 擋下 agent 改 settings，待用戶手動清。
+
+## 備註
+- Windows 跑 `sync_config.py` 若遇 cp950 中文錯誤，先 `$env:PYTHONIOENCODING="utf-8"`（腳本已 reconfigure，多數情境免）。

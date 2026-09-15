@@ -1,0 +1,27 @@
+ai-team 第 3 輪。你是 Fable 5.1，Tech Lead＝Codex。繁體中文。只輸出文字，不呼叫工具、不讀寫檔、不執行初始化、不派 agent。本輪先達成共識，之後才修改 repo。PO 已授權共識後動工、交互驗收後交 PO，不可 commit；agy 先不用；節省額度。
+
+前情：第 1 輪由 Opus 5 與你討論：先型號表、再 skill 對等、再 GLOBAL 瘦身；用 Fable 做高代價判斷與獨立驗收，機械任務用 Sonnet/Haiku。第 2 輪你提議 sync 生成四欄索引（name/when/triggers/path）、frontmatter 新增 triggers；Claude 不加指標、Codex/Gemini 加；Opus 日常預設；GLOBAL 逐節降級，預估 13k→6k；需跑 agy 行為驗證。Codex 已收到完整回覆。
+
+Tech Lead 的異議與新證據（不是重跑交接 V1–V7）：
+1. 現在 Codex session 的系統提示已給所有 skill 的名稱、描述、路徑。本機 sync_config.py:439 也已部署 .agents/skills 原生專案路徑。已實開官方 https://learn.chatgpt.com/docs/build-skills ：原生先列 name/description/path，命中才讀全文；清單有 context 預算可能省略。V2「無 Skill 工具」不等於沒有原生發現能力，V3 不能推出「只能靠 glob 猜」。保留 V3 成功事實，機制推論要修正。
+2. 機器路徑不能寫進跨機 SSOT。新增 triggers/when 會跟 description 形成雙份真相，也要求改 17 個 SKILL。本輪先利用既有 name/description，不另建 NLP 匹配器；索引改善可發現與可稽核，不保證模型必触發。
+3. Opus 每個單點修改預設、同任務絕不兩高階，與風險/成本判斷及獨立驗收衝突。一般實作仍 Sonnet 起，主模型承接耦合工作（本任务 Codex，常态可 Opus 5），難驗收/高錯誤代價再用 Opus/Fable。Agent context 有繼承與否依工具，不稱「必然共享 context/額度」；CLI fresh session 仍帶相同制度 prompt，不保證無偏誤。
+4. 13k 是來源字元數，不是 token 或實際每次帳單；快取/注入/遞迴讀取會改變實際量。常載正文縮 35% 當目標，以 len(text)、UTF-8 bytes、行數報實測。不能保証 13k→6k。路由表也吃 context。
+5. git-mirror 必須在任何讀寫/啟服務決定前觸發，不只 git 字樣；GLOBAL 常駐必留 WTF 唯一例外、Drive 不可原地 git、禁 Git_work/未登錄路徑。W_ 常駐保留備份+重讀+增量修改，不能把防線整個藏起來。
+6. agy 本輪禁止，V1–V7 沿用，Antigravity 註記行為未驗證，不宣稱三端行為均通過。
+
+擬定共識與 scope：
+A. model-dispatch 一次更新第 0/4 節及必要的第 5/6 連動，移除 Fable 不可得、Opus 4.8 舊值。型號據交接 V4/V5，日期 2026-09-14，標本 session 來源/非所有帳戶保證：Opus 5 claude-opus-5/opus、Fable 5.1 claude-fable-5-1/fable、Sonnet 5 claude-sonnet-5/sonnet、Haiku 4.5 claude-haiku-4-5-20251001/haiku。任務失敗與額度耗盡分開；Fable 與 Opus 是高階選擇而非無限往上重試階梯。
+B. 索引新增小模組 skill_catalog.py（不把原本 950 行 sync 全面重構）。從有效 SKILL.md frontmatter name/description 產生 Markdown 三欄 name/description/path；使用原 description 作触發說明，不改17個 skill。全域本機產物各 ~/.claude|.codex|.gemini/wtf-skills-index.md；專案各 <project>/._agents/skills-index.md（path 指向專案 SSOT 的 SKILL）。跨機 SSOT 只放中立指標。
+AGENTS 共用協議：先使用已提供原生目錄；明確需要但未列/清單截斷時才查專案索引，再查該工具全域索引，同名專案優先、同次工作不重讀已載全文；索引不存在才列對應 SSOT metadata。Claude/Codex/Gemini 遵守同一條，沒有原生清單的工具開場只查 metadata 索引。索引不是常載全文。名稱/描述缺漏或重複要報錯。
+check 驗證索引內容、所有 SSOT 檔案與部署副本內容（不只目錄名稱）；故意竄改應 exit 1；tool 不存在 skip。sync 連跑穩定，工具自有 .system/symlink/普通本地 skill 皆保留。讀碼發現舊 prune 會刪所有非 SSOT 普通目錄，為安全部署改只新增/覆蓋 WTF 同名內容，刪除需人工處理，與專案既有策略一致。這是 scope 內避免部署誤刪的必要修正。
+C. GLOBAL 開場/版控禁令/品質證據/各路由/命名/INDEX/W_ 保留精簡防線；完整版控細則搬 git-mirror.md；預覽命令和存檔/輸出細則搬 delivery-conventions.md；FSA 既有技術條目保留，但規則回指改新 SSOT；數據與 Excel 細則整併既有 playbook（不複製兩份）。maintenance 補「新增裁定先搜既有；常載一行觸發+結論+指標，细則一处保存；比字元/bytes/行数，不冒稱token」。移走規則逐條對照可追到、原義不可弱化。
+D. 順序＝型號+派工政策一起→skill catalog與check→GLOBAL/maintenance遷移→測試/輪流驗收→PO，禁止 commit。本輪無 UI 視覺變更，擷圖不適用。當前工作區既有 machines.md 改動和20個未追蹤產物，保留原樣。
+E. 驗收：你提供下方兩張最终表作為 Fable 所寫的最終設計；Codex 在共識後貼用並獨立核對你的表（Fable→Codex 一輪）。其餘 Codex 寫的 sync/GLOBAL/遷移全文及機檢證據，另開 fresh Fable CLI 給 diff+自足驗收條件審查（Codex→Fable 下一輪），你不得因先前設計就預設 PASS，提出問題由 Codex 修正後再次交外部驗收。不把主 agent 自跑測試當獨立驗收。
+F. 權限警告 .claude/settings.local.json 本機已重現，本輪只記證據與建議移除那一條已禁路徑 allow 規則，與四塊優化分開，不修改其他權限。
+
+請輸出：
+1. 對 A–F 逐條同意/異議及必要修正，若無未解分歧明寫「第3輪共識成立」。有異議請直接給替代、不要默許。
+2. model-dispatch 第 0 節四列型號表＋第 4 節任務/模型/管道/額度判準完整最终 Markdown，符合以上修正。
+3. 你獨立驗收最會找的 3 個失敗點。
+限 1800 中文字左右，禁止呼叫工具。

@@ -1,0 +1,57 @@
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+## 1 skill 索引規格
+
+sync 生成 `wtf-config/skills/INDEX.md`（機器生成、禁手改），各工具指示檔只內聯一行指標：「需流程時先讀 <絕對路徑>/INDEX.md，命中觸發詞才讀該 SKILL.md」。欄位與範例：
+
+| name | when | triggers | path |
+|---|---|---|---|
+| handover | 要交接、產 TaskLog／Handover、換人接續 | 交接, 接手, 收工, 換 session, handover | /Users/coma/.codex/skills/handover/SKILL.md |
+
+觸發詞來源＝SKILL.md frontmatter 新增 `triggers:`（中英並列、含使用者口語，3–6 個）；缺欄位時 sync 取 description 首句並警告。Claude 系原生 Skill 已讀 description，索引屬重複，sync 對 Claude 指示檔不寫指標（工具旗標 `index:false`），不隱藏檔案。取捨判準：內聯≤5 行可內聯，否則一律指標＋獨立檔——17 列約 700 字常駐等於再加一節鐵律，違反 C；獨立檔按需付稅。
+
+風險評估：(a) 中，索引把「猜資料夾」變「查表」；(b) 低，索引後只依賴「會讀檔」這一能力；(c) 高，Antigravity 用驗證 1 同法測一次，未過不算落地。
+
+## 2 型號表與派工對照表
+
+| 型號 | model ID | Agent tool 值 | 定位 |
+|---|---|---|---|
+| Fable 5.1 | claude-fable-5-1 | fable | 架構、制度改寫、跨模型驗收 |
+| Opus 5 | claude-opus-5 | opus | 日常實作預設 |
+| Sonnet 5 | claude-sonnet-5 | sonnet | 讀取密集搜尋、摘要、機械修改 |
+| Haiku 4.5 | claude-haiku-4-5-20251001 | haiku | 格式轉換、批次小任務 |
+
+| 任務 | 執行者 | 管道 | 判準（額度） |
+|---|---|---|---|
+| 找找看／大範圍讀後摘要 | sonnet | Agent | 答錯主 agent 看得出→不升級 |
+| 單點修改＋測試 | opus | Agent | 預設 |
+| 架構、多方案取捨、制度文 | fable | Agent | Opus 答錯發現不了才派；需共享 context |
+| 高風險成果獨立驗收 | fable | claude -p | 需無狀態、不受主對話污染；一次驗收一次呼叫 |
+| 跨工具成果驗收 | fable | claude -p | 同上 |
+| 批次格式化 | haiku | Agent | 最低額度 |
+
+通則：先用最低級能驗收的；同一任務不派兩個高階。第 0 節刪「Opus 4.8」「Fable 5 不可得」兩條。
+
+## 3 GLOBAL.md 刀法
+
+| 節 | 判定 | C 段判準 |
+|---|---|---|
+| 開場協議 | 常駐全文 | 每 session 必執行，無法延遲載入 |
+| 派工與判斷 | 鐵律留 4 條＋路由表常駐，餘進 model-dispatch | 路由表是索引不是規則，不計條數 |
+| Claude_cowork 版控鐵律 | 一行指標→新 `playbooks/git-mirror.md` | 情境觸發（出現 git 字眼），佔四分之一卻與多數 session 無關 |
+| 數據引用鐵律 | 一行指標→`data-citation.md` | playbook 已存在，全文內聯即「事後被內聯」 |
+| 交付即預覽 | 常駐砍成 3 行（規則＋兩指令） | 幾乎每 session 用；cmux、-g 理由進 pitfalls-frontend |
+| 存檔預設路徑鐵律 | 一行指標→`pitfalls-frontend.md` FSA 節 | 只做網頁時觸發，playbook 已存在 |
+| 全域設定的維護 | 常駐 3 行 | 須知道存入協議存在；細節已在 maintenance-protocol |
+| 檔案命名與輸出規範 | 子夾表＋命名表常駐；W_、Excel 字體、輸出格式降級 | 命名每次用；W_ 已有 skill，Excel 進 pitfalls-office-docs |
+
+預期 13k→6k 以下，條數約砍半。maintenance-protocol 立規：GLOBAL 單條超過 3 行必進 playbook。
+
+## 4 順序與驗收
+
+順序：型號表（Tech Lead 自做，資料權威無爭議）→ skill 索引（派 Codex 改 sync_config.py＋frontmatter）→ GLOBAL 瘦身（派 Opus 依第 3 節表執行，先立 maintenance 規）→ 派工表（最後，依賴前三）。
+
+我驗收看的證據：
+- 型號表：diff 顯示舊兩條刪除；四個 Agent tool 值與表一致。
+- 索引：sync 後 Codex／Antigravity 指示檔有指標行、Claude 無；手改 INDEX.md 再 sync 被覆蓋；行為測試兩工具各一次，不提 skill 字，回覆須引到 INDEX.md 再到 SKILL.md 路徑。
+- 瘦身：前後字數；每條降級能在目標 playbook grep 到原節標題；playbook 間無重複段落。
+- 不自驗自過：Codex 改的由我用 claude -p 驗，Opus 改的由 Codex 驗，Tech Lead 只做型號表且由我驗。

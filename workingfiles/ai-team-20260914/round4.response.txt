@@ -1,0 +1,12 @@
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+**結論：三處與 D 全部接受，無阻擋分歧。Codex 可正式動工。**
+
+補三點文案細節，供 Codex 核對時併入，不改共識：
+
+1. 兩列 fable 用途的「別帶前手推理」需寫成可檢條件：驗收 prompt 只含 diff、驗收條件、產物路徑；作者的解釋、TaskLog 推理段一律不附。
+2. 升級梯：haiku 1→sonnet 2（第二次重寫 prompt）→高階終局 1，合計 4；高階起跑 1 輪即止。「不可得／限額」備援只試 1 次且不計入 4 輪，須在紀錄標「備援」以免事後被誤算為失敗。
+3. 分層寫法：GLOBAL 保留「一般任務低風險可自查」；ai-team skill 內寫「一律非作者驗收，覆蓋 GLOBAL 該條」，並註明覆蓋關係，避免兩檔看似矛盾。
+
+D 接受：fixture 每塊 sync 兩次＋check，真實部署待整體驗收後一次到位；本次無視覺層，免 HTML 與截圖。
+
+待決：無。最終檔案完成後，以 fresh session 給我完整 diff＋驗收條件即可。

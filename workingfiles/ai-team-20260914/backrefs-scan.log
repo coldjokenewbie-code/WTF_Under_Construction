@@ -1,0 +1,2 @@
+command: ['rg', '-n', 'GLOBAL\\.md.*(版控|交付即預覽|存檔預設路徑|數據引用|存入協議)|版控規則見上方', 'wtf-config/playbooks', 'wtf-config/skills', 'wtf-config/CLAUDE_COWORK.md', 'wtf-config/CLAUDE_CHAT.md', 'wtf-config/CODEX.md', 'wtf-config/GEMINI.md']
+exit=1 (rg exit1=無命中)
