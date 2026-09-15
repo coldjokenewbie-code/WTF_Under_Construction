@@ -354,3 +354,6 @@
 - 南科再生水廠｜2026-09-11｜「座標精確＋擬真」先用程式畫高度與陰影、AI 只做材質潤飾（圖生圖不是版面漂就是偏平）；「模型要正確」與「要擬真」分開問；全長判斷（接縫沿道路）驗收要頭中尾三段；螢幕對位圖以兩台螢幕外框為畫面基準另出裁切版；多方案共用一支動畫用 URL 參數傳幾何轉換；內網 port 先 lsof、驗 title 不驗狀態碼｜projects/南科再生水廠/_context/lessons-learned.md#2026-09-11-展桌對位擬真渲染動畫疊層場區模型線
 - HuaNan_Bank｜2026-09-14｜限期下架不能只靠本機 launchd，關機錯過不補跑；對外期限要用雲端排程或每小時輪詢｜projects/HuaNan_Bank/_context/lessons-learned.md
 - phonic_keyboard｜2026-09-14｜預測與明確學習分離，預覽驗收涵蓋所有送出及加詞入口；SDK 回傳與讀音／游標座標須實測；LaunchAgent 啟動等待避免 fallback 啟動第二份｜projects/phonic_keyboard/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-14｜Illustrator 展板檔取中英文案：.ai 即 PDF 但中英分兩頁需依 x 座標配對；重疊複本要去重、字距要自行組字、ligature 要還原；已轉曲的年份抓不到不代表展板沒有；業主來信轉述 ≠ 展板定稿（8 項有 3 項出入），以展板為準並標明請確認｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-09-15｜共編 docx 被使用者存檔後 Word 會把句子拆成多個 run，run 層比對必落空——改以 `<w:br/>` 切段比對、只改該段第一個 w:t，命中數寫進斷言；「以來信或以定稿為準」是 PO 的決定，agent 只攤開差異並標疑似誤植，錯字不照抄到每一欄｜projects/cowork_CDIC/_context/lessons-learned.md
+- 南科再生水廠｜2026-09-15｜開發期寫死的播放邊界與速度檔位要抽成參數並保留舊預設；腳本文字上畫面前先分「指示／標籤／輸出字」，導演資訊層在投影模式一律關閉｜`projects/南科再生水廠/_context/lessons-learned.md`
