@@ -1,6 +1,9 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
 > 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-08-20
 
+- 2026-09-14 ai-team 制度優化，Codex 接手 Tech Lead：[交接](Handover_2026-09-14_ai-team跨工具skill與模型調度優化.md) → [當前 TaskLog](TaskLog_2026-09-14_ai-team制度優化.md)（共識後實作，待 PO 驗收）。
+- 2026-09-15 制度優化六頁[互動簡報](../workingfiles/outputs/簡報_2026-09-14_制度優化/index.html)（agy 製作、Codex 獨立驗收通過，交 PO 檢閱，未 commit）：[TaskLog](TaskLog_2026-09-14_制度優化互動簡報.md)。
+
 ## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
 - 查證 output style 跟 CLAUDE.md 一樣無強制力，確認 ody-lint Stop hook（Tyrion）不可省略。GLOBAL.md「交付即預覽」擴大到文件/圖檔/影片/音檔，`open` 補 `-g` 背景開啟。新增三個 skill：`W_colab`（共編檔守則）、`index-this`（快速記 INDEX）、`resume-id-info`（手動標記 session 供接續）。**附記：本 session 兩度發生「改名 commit 漏帶內容」，已修正並記教訓**。詳見 `_context/TaskLog_2026-08-20_output-style討論與三個新skill.md`（**當前 TaskLog**）。
 
