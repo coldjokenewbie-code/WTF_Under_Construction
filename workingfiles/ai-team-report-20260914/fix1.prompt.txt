@@ -1,0 +1,1201 @@
+# 第一輪独立驗收退修
+
+> Codex 2026-09-15 實際讀碼、Playwright 與讀圖後提出。446 項功能／幾何檢查通過、無瀏覽器錯誤或外網請求，但內容與交付契約仍未通過。
+
+請 agy 在現有六頁上修正，保留版面架構、選項、nav、footer，不整套另設計。只回傳三份完整檔案，與 implement 相同標記；不要執行工具或另派人。
+
+1. **必修數字口徑**：第4頁 lead 把「各工具開場」寫成19.5%～35.1%，違反原始契約。改為「GLOBAL 單檔字元減少 35.1%；各工具開場三檔合計減少 19.5%–21.6%。」保留選項與原始數字、2026-09-14日期口徑。要說來源文字量，不稱實際讀取量。
+2. **刪除無依據歷史**：首頁「未按任務風險區分」「不再所有事都隨意指派」沒有證據，改為「派工表型號與部分做法過時」「派工依據、管道與重試上限更明確」。首頁改動一標題「派對工作」易誤讀成派對，改「工作交給合適模型」；「重制度判定」改通順文字。JS tasksData 中未使用的 before 四欄都是無依據歷史，全部刪除。「獨立驗收切斷偏見、確保無殘留」改成「另開對話，隔離作者推理，依產物與驗收條件核對；不能保證換模型就沒有偏誤」。所有文字勿新增未提供事實。
+3. **規則卡內容回歸真相**：交付與存檔卡不得憑空寫「封裝檢查」與新命名要求。改為「成品背景預覽；影片與音檔不自動播放；存檔預設指向正確資料夾」。版控卡改為「WTF 本體直接在 git_mirror，是唯一例外；其他專案在 Drive 工作，git_mirror 負責版控；禁止舊 Git_work 路徑」。統計卡保留來源、統計起訖期間、範圍、單位與計算口徑。版控/交付檔名可放展開內容，summary 優先中文，並加＋/−或箭頭提示能展開。
+4. **圖表易讀**：目前填色長度是修改後80.5%卻在條內寫「減少19.5%」，視覺含義混淆。改為上下兩條：修改前100%＋字元數、修改後after/before%＋字元數；減少量/減幅單獨標在旁邊。比例必須依資料計算，兩條同一尺度，保留正常文字供輔具理解。
+5. **具體同步示意**：第5頁目前只有文字結果，補一個簡短原稿/副本可視對照：如原稿「讀到」對副本「讀到／讀錯」及「支援檔：有／缺少」，依三個情境切換。標示這是示意內容，不是真的制度原文。以前结果「可能放過」，不寫絕對；現在相同通過、改字/缺檔需同步。不要宣稱所有檔案都是雜湊比較，用「內容一致」。頁5退役附檔只說「不自動刪除，仍需人工辨識清理」，不要保證每個額外附檔都有警示。
+6. **可讀性小修**：375px首頁品牌標籤與日期拆字，窄螢幕把兩者上下排，日期不要斷成2026-09-／15。summary 目前 display:flex 藏住原生箭頭，補展開提示。保留目前字體大小，不需大改。
+7. **鍵盤語意**：目前 nav 宣稱 role=tab卻無tab鍵盤操作。契約要求控制項不攔截左右鍵，可直接改用普通導覽按鈕，以 aria-current=page 表示當頁（保留id及樣式）；不假裝tab元件。事件用 closest('input,select,button,a,details,summary,[contenteditable]') 排除控制項含子元素，翻頁時 preventDefault。增加細薄progress元素顯示六頁進度，具標籤。保留 hidden/focus/首尾禁用。
+8. **程式範圍契約**：CSS579行、JS321行超過每檔300行；需精簡重複樣式、資料與共用邏輯，不要靠一行塞多個宣告壓縮湊數。每檔正常格式≤300行、每JS函式≤50行（不要以長達全檔的IIFE包起來）。HTML270行留意新增後仍≤300。
+
+驗收者已實跑：四種派工、兩種手冊、四組字元、三種副本情境，前後/直跳/快速連按/首尾/控制項焦點、18張基本截圖＋3張展開截圖、證據連結與外網錯誤檢查。修正後 Codex 會複驗；你不自行宣布驗收通過。
+
+
+以下為你第一版完整產物，僅供就地修正：
+
+===FILE:index.html===
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 工作守則調整說明｜2026-09-14 優化簡報</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="deck-container">
+    <header class="deck-header" role="banner">
+      <div class="deck-brand">
+        <span class="brand-tag">工作守則改版說明</span>
+        <span class="brand-meta">快照 2026-09-14 · 製作 2026-09-15</span>
+      </div>
+      <nav class="slide-nav-bar" aria-label="簡報頁面導覽">
+        <div class="slide-tabs" role="tablist" aria-label="簡報六大主題">
+          <button type="button" role="tab" class="tab-btn" id="tab-1" aria-selected="true" aria-controls="slide-1">1. 工作守則</button>
+          <button type="button" role="tab" class="tab-btn" id="tab-2" aria-selected="false" aria-controls="slide-2">2. 派工規則</button>
+          <button type="button" role="tab" class="tab-btn" id="tab-3" aria-selected="false" aria-controls="slide-3">3. 手冊備援</button>
+          <button type="button" role="tab" class="tab-btn" id="tab-4" aria-selected="false" aria-controls="slide-4">4. 規則搬家</button>
+          <button type="button" role="tab" class="tab-btn" id="tab-5" aria-selected="false" aria-controls="slide-5">5. 副本檢查</button>
+          <button type="button" role="tab" class="tab-btn" id="tab-6" aria-selected="false" aria-controls="slide-6">6. 進度與邊界</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content" class="deck-main">
+      <!-- 頁面 1 -->
+      <section id="slide-1" class="slide" tabindex="-1" role="region" aria-labelledby="slide-1-title">
+        <div class="slide-header">
+          <span class="slide-kicker">核心改動總覽</span>
+          <h1 id="slide-1-title">這次改的是 AI 的工作守則</h1>
+          <p class="slide-lead">聚焦三件事：把工作交給合適的模型、手冊找不到時有備援查法、開場不帶非必要細則。這是工作規則的改善，不保證模型每次都能完美照做。</p>
+        </div>
+
+        <div class="grid-three">
+          <article class="card">
+            <div class="card-badge">改動一</div>
+            <h2>派對工作</h2>
+            <p class="card-before"><strong>以前：</strong>派工表型號與做法過時，未按任務風險區分。</p>
+            <p class="card-now"><strong>現在：</strong>依任務風險與驗收成本選人，重制度判定與改動由合適角色處理。</p>
+            <p class="card-impact"><strong>影響：</strong>每次派工有明確理由，不再所有事都隨意指派。</p>
+          </article>
+          <article class="card">
+            <div class="card-badge">改動二</div>
+            <h2>手冊有備援</h2>
+            <p class="card-before"><strong>以前：</strong>開場清單若沒列出技能，缺少統一的備援查法。</p>
+            <p class="card-now"><strong>現在：</strong>清單漏列時，能依序查專案索引與全域索引，命中才讀手冊全文。</p>
+            <p class="card-impact"><strong>影響：</strong>找不到技能時有標準查法，同時保留本機自有技能。</p>
+          </article>
+          <article class="card">
+            <div class="card-badge">改動三</div>
+            <h2>開場少帶細則</h2>
+            <p class="card-before"><strong>以前：</strong>版控、預覽與統計等作業細則常駐在每一次開場。</p>
+            <p class="card-now"><strong>現在：</strong>主檔保留入口與紅線禁令，完整實作指引搬到需要時才讀的文件。</p>
+            <p class="card-impact"><strong>影響：</strong>開場負擔減輕，細則依情境在執行當下查閱。</p>
+          </article>
+        </div>
+
+        <div class="step-flow" aria-label="執行順序">
+          <div class="step-flow-title">落實順序：先定規則、再建備援與檢查，最後才搬家，避免搬完找不到</div>
+          <ol class="step-list">
+            <li><span class="step-num">①</span>更新派工表</li>
+            <li><span class="step-num">②</span>補手冊備援與同步檢查</li>
+            <li><span class="step-num">③</span>搬移常駐細則</li>
+            <li><span class="step-num">④</span>獨立驗收</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 頁面 2 -->
+      <section id="slide-2" class="slide" tabindex="-1" role="region" aria-labelledby="slide-2-title" hidden>
+        <div class="slide-header">
+          <span class="slide-kicker">分工與風險配置</span>
+          <h1 id="slide-2-title">這件工作，該交給誰？</h1>
+          <div class="disclaimer-banner">操作示意，不會真的派工</div>
+        </div>
+
+        <div class="control-group" role="group" aria-label="選擇任務類型">
+          <button type="button" class="btn-scenario task-btn" data-task="0" aria-pressed="true">整理／找檔</button>
+          <button type="button" class="btn-scenario task-btn" data-task="1" aria-pressed="false">一般改功能</button>
+          <button type="button" class="btn-scenario task-btn" data-task="2" aria-pressed="false">容易漏判的制度修改</button>
+          <button type="button" class="btn-scenario task-btn" data-task="3" aria-pressed="false">獨立驗收</button>
+        </div>
+
+        <div id="task-detail" class="detail-panel" aria-live="polite">
+          <!-- 由 JS 渲染對應內容 -->
+        </div>
+
+        <div class="rule-callout">
+          <strong>重要原則：</strong>同一工作、同一角色不重複派兩個高階；作者與獨立驗收者可各用高階模型，避免自己核准自己的產物。
+        </div>
+
+        <div class="details-stack">
+          <details class="tech-details">
+            <summary>重試上限與替代原則（同子任務最多 4 輪）</summary>
+            <div class="details-body">
+              <p>同一個子任務最多嘗試 4 輪：Haiku 1 輪 → Sonnet 2 輪（第二次須換方法）→ Opus 或 Fable 終局 1 輪。若高階仍無法解決，應回報問題而非循環重試。模型不可用與做錯分開處理，連線故障只試一次可用備援。</p>
+            </div>
+          </details>
+          <details class="tech-details">
+            <summary>本機 2026-09-14 查證之模型識別碼</summary>
+            <div class="details-body">
+              <p>查證識別碼：<code>claude-opus-5</code>、<code>claude-fable-5-1</code>、<code>claude-sonnet-5</code>、<code>claude-haiku-4-5-20251001</code>。此為本機目前配置，不推定所有帳戶或工具皆支援。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 頁面 3 -->
+      <section id="slide-3" class="slide" tabindex="-1" role="region" aria-labelledby="slide-3-title" hidden>
+        <div class="slide-header">
+          <span class="slide-kicker">技能手冊機制</span>
+          <h1 id="slide-3-title">手冊本來能讀，現在多了備援</h1>
+          <p class="slide-lead">以前工具若漏列技能清單，缺少查找依據；現在明定備援查法，但檔案讀得到不等於模型每次都會選對、照做。</p>
+        </div>
+
+        <div class="control-group" role="group" aria-label="選擇開場技能清單狀態">
+          <button type="button" class="btn-scenario manual-btn" data-scenario="0" aria-pressed="true">情境一：原生清單完整</button>
+          <button type="button" class="btn-scenario manual-btn" data-scenario="1" aria-pressed="false">情境二：清單沒列出或截斷</button>
+        </div>
+
+        <div id="manual-detail" class="detail-panel" aria-live="polite">
+          <!-- 由 JS 渲染對應內容 -->
+        </div>
+
+        <div class="notice-box">
+          <p><strong>重要事實說明：</strong>Codex 原本就能讀取所需手冊；這次改動是補齊查找規則，而非替模型建立自動觸發保證。此外，Antigravity 自動取用技能本輪未實測。</p>
+        </div>
+      </section>
+
+      <!-- 頁面 4 -->
+      <section id="slide-4" class="slide" tabindex="-1" role="region" aria-labelledby="slide-4-title" hidden>
+        <div class="slide-header">
+          <span class="slide-kicker">開場設定減量</span>
+          <h1 id="slide-4-title">規則搬家，開場少帶細則</h1>
+          <p class="slide-lead">各工具開場讀取字元減少 19.5% ~ 35.1%。每次比較以「修改前 = 100%」為基準計算減少比例。此數字為來源文字量，非實際 token 數或費用。</p>
+        </div>
+
+        <div class="control-group" role="group" aria-label="選擇檢視的設定檔範圍">
+          <button type="button" class="btn-scenario slim-btn" data-target="0" aria-pressed="true">全域通則 (GLOBAL 單檔)</button>
+          <button type="button" class="btn-scenario slim-btn" data-target="1" aria-pressed="false">Claude 開場三檔</button>
+          <button type="button" class="btn-scenario slim-btn" data-target="2" aria-pressed="false">Codex 開場三檔</button>
+          <button type="button" class="btn-scenario slim-btn" data-target="3" aria-pressed="false">Gemini 開場三檔</button>
+        </div>
+
+        <div id="slimming-detail" class="detail-panel" aria-live="polite">
+          <!-- 由 JS 渲染對應內容 -->
+        </div>
+
+        <div class="card-sub-header">規則搬到哪裡去？（主文件留入口與禁令，非刪除規則）</div>
+        <div class="grid-three">
+          <details class="relocation-card">
+            <summary><strong>版控細則</strong> → git-mirror.md</summary>
+            <p>保留乾淨鏡像與備份規範。WTF 本體直接在 git_mirror 操作是唯一特例，其他專案維持 Drive 工作、鏡像版控機制。</p>
+          </details>
+          <details class="relocation-card">
+            <summary><strong>交付與存檔</strong> → delivery-conventions.md</summary>
+            <p>保留產出物命名、預覽位置與封裝檢查要求，開場時不反覆灌入全套檢驗流程。</p>
+          </details>
+          <details class="relocation-card">
+            <summary><strong>統計口徑</strong> → data-citation.md</summary>
+            <p>保留數據引用必須標註來源、時間與計算口徑的要求，避免對話開頭占用過多篇幅。</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 頁面 5 -->
+      <section id="slide-5" class="slide" tabindex="-1" role="region" aria-labelledby="slide-5-title" hidden>
+        <div class="slide-header">
+          <span class="slide-kicker">同步檢查機制</span>
+          <h1 id="slide-5-title">副本改錯一個字，也查得出來</h1>
+          <div class="disclaimer-banner">操作示意，不會改動檔案（真實機檢數字見下一頁）</div>
+        </div>
+
+        <div class="control-group" role="group" aria-label="選擇同步比對示意情境">
+          <button type="button" class="btn-scenario drift-btn" data-drift="0" aria-pressed="true">情境 A：內容相同</button>
+          <button type="button" class="btn-scenario drift-btn" data-drift="1" aria-pressed="false">情境 B：只改一個字</button>
+          <button type="button" class="btn-scenario drift-btn" data-drift="2" aria-pressed="false">情境 C：少一個附檔</button>
+        </div>
+
+        <div id="drift-detail" class="detail-panel" aria-live="polite">
+          <!-- 由 JS 渲染對應內容 -->
+        </div>
+
+        <div class="policy-grid">
+          <div class="policy-item">
+            <h3>索引內容同步比對</h3>
+            <p>同步檢查不再只看檔案存不存在，而是比對索引內容的一致性，確保查找結果可信。</p>
+          </div>
+          <div class="policy-item">
+            <h3>保留本機自有技能</h3>
+            <p>自己另外安裝的非 WTF 來源手冊予以保留，不再因不在全域清單中就被直接清掉。</p>
+          </div>
+          <div class="policy-item">
+            <h3>退役多餘檔案人工清理</h3>
+            <p>歷史殘留或退役的檔案不自動暴力抹除，保留警示並由工程人員人工確認清理。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 頁面 6 -->
+      <section id="slide-6" class="slide" tabindex="-1" role="region" aria-labelledby="slide-6-title" hidden>
+        <div class="slide-header">
+          <span class="slide-kicker">交付驗收與限制</span>
+          <h1 id="slide-6-title">完成到哪裡，還有哪些邊界？</h1>
+          <p class="slide-lead">制度已在本機部署，尚未 commit，待 PO 最終審閱。以下為工程證據與客觀界線。</p>
+        </div>
+
+        <div class="grid-three">
+          <article class="card boundary-card">
+            <div class="card-badge badge-done">已完成證據</div>
+            <h2>工程驗收一致</h2>
+            <ul class="clean-list">
+              <li>工程 32 項自動化測試全數通過</li>
+              <li>7 項細則搬遷路徑與內容核對無誤</li>
+              <li>本機執行 sync 兩次＋check，99 個部署檔案內容完全一致</li>
+            </ul>
+            <span class="footnote">註：以上為 2026-09-14 工程證據，非本簡報執行結果。</span>
+          </article>
+
+          <article class="card boundary-card">
+            <div class="card-badge badge-review">獨立驗收歷程</div>
+            <h2>雙重核驗通過</h2>
+            <p><strong>第一輪：</strong>獨立驗收角色 (Fable) 抓出搬遷後殘留的舊指標。</p>
+            <p><strong>修正：</strong>Codex 針對反饋修正路徑與索引引用。</p>
+            <p><strong>第二輪：</strong>Fable 複驗給予 PASS 結論。</p>
+            <p class="status-alert">制度已在本機部署生效，未送 commit，等待 PO 檢視成果。</p>
+          </article>
+
+          <article class="card boundary-card">
+            <div class="card-badge badge-limit">邊界與未驗證</div>
+            <h2>明確邊界聲明</h2>
+            <ul class="clean-list">
+              <li>Windows 環境尚未進行實機驗證</li>
+              <li>Antigravity 自動挑選/讀取技能本輪未實測（本簡報製作不代表該行為測試）</li>
+              <li>先前記錄之權限規則警告已列案，本次未修改</li>
+              <li>未量測模型實際運行費用或速度變化</li>
+            </ul>
+          </article>
+        </div>
+
+        <details class="evidence-box">
+          <summary>檢視本機工程驗收證據檔案連結（本機相對路徑）</summary>
+          <ul class="link-list">
+            <li><a href="../../../_context/TaskLog_2026-09-14_ai-team制度優化.md">完整工程紀錄檔 (TaskLog_2026-09-14)</a></li>
+            <li><a href="../../ai-team-20260914/verification.md">文字量減少與七項遷移核對 (verification.md)</a></li>
+            <li><a href="../../ai-team-20260914/review2.response.txt">Fable 獨立複驗報告 (review2.response.txt)</a></li>
+            <li><a href="../../ai-team-20260914/deployment-result.txt">99 份部署檔案核對清單 (deployment-result.txt)</a></li>
+          </ul>
+        </details>
+      </section>
+    </main>
+
+    <footer class="deck-footer" role="contentinfo">
+      <div class="nav-actions">
+        <button type="button" id="prev" class="nav-btn" aria-label="切換至上一頁">上一頁</button>
+        <span id="page-count" class="page-indicator" aria-live="polite">1 / 6</span>
+        <button type="button" id="next" class="nav-btn" aria-label="切換至下一頁">下一頁</button>
+      </div>
+      <div class="deck-info">
+        <span class="deck-status">驗收狀態：交 PO 檢閱</span>
+        <span class="deck-sign">agy 製作 · Codex 驗收</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
+
+===END_FILE===
+
+===FILE:styles.css===
+:root {
+  --bg-paper: #FAF8F5;
+  --ink-blue: #1A2538;
+  --ink-muted: #5A6679;
+  --ink-light: #7E8C9F;
+  --amber-accent: #C25E00;
+  --amber-hover: #9E4A00;
+  --amber-soft: #FFF7ED;
+  --amber-border: #FED7AA;
+  --card-bg: #FFFFFF;
+  --border-subtle: #E5E0D8;
+  --border-focus: #1A2538;
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  background-color: var(--bg-paper);
+  color: var(--ink-blue);
+  font-family: var(--font-base);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.deck-container {
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.deck-header {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.deck-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.brand-tag {
+  font-weight: 700;
+  color: var(--amber-accent);
+  letter-spacing: 0.05em;
+}
+
+.brand-meta {
+  color: var(--ink-muted);
+}
+
+.slide-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.tab-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-muted);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-btn:hover {
+  background-color: #F0EBE1;
+  color: var(--ink-blue);
+}
+
+.tab-btn[aria-selected="true"] {
+  background-color: var(--ink-blue);
+  color: #FFFFFF;
+  border-color: var(--ink-blue);
+}
+
+.tab-btn:focus-visible,
+.btn-scenario:focus-visible,
+.nav-btn:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.deck-main {
+  flex: 1;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  outline: none;
+}
+
+.slide-kicker {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--amber-accent);
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+h1 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  color: var(--ink-blue);
+  font-weight: 700;
+}
+
+.slide-lead {
+  color: var(--ink-muted);
+  font-size: 1.0625rem;
+  max-width: 900px;
+}
+
+.disclaimer-banner {
+  display: inline-block;
+  background-color: #EFECE6;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--amber-accent);
+  background: var(--amber-soft);
+  border: 1px solid var(--amber-border);
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.card-before {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.card-now {
+  color: var(--ink-blue);
+  font-size: 0.9375rem;
+}
+
+.card-impact {
+  font-size: 0.9375rem;
+  color: var(--amber-accent);
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.step-flow {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+}
+
+.step-flow-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--ink-blue);
+}
+
+.step-list {
+  display: flex;
+  list-style: none;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.step-list li {
+  background: #F4EFEA;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.step-num {
+  color: var(--amber-accent);
+}
+
+.control-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn-scenario {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-blue);
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.btn-scenario:hover {
+  border-color: var(--amber-accent);
+}
+
+.btn-scenario[aria-pressed="true"] {
+  background-color: var(--amber-soft);
+  border-color: var(--amber-accent);
+  color: var(--amber-accent);
+}
+
+.detail-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+
+.detail-header-group {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.75rem;
+}
+
+.detail-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-blue);
+}
+
+.detail-desc {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+  margin-top: 0.25rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.detail-block {
+  background: var(--bg-paper);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-size: 0.9375rem;
+}
+
+.detail-block strong {
+  display: block;
+  margin-bottom: 0.375rem;
+  color: var(--ink-blue);
+}
+
+.rule-callout {
+  background-color: var(--amber-soft);
+  border-left: 4px solid var(--amber-accent);
+  padding: 0.875rem 1rem;
+  font-size: 0.9375rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.notice-box {
+  background: #F4EFEA;
+  border: 1px solid var(--border-subtle);
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+}
+
+.details-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tech-details,
+.relocation-card,
+.evidence-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink-blue);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.details-body {
+  padding-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  border-top: 1px dashed var(--border-subtle);
+  margin-top: 0.5rem;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  background: #EFECE6;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+}
+
+.meter-wrapper {
+  margin: 1rem 0;
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  margin-bottom: 0.375rem;
+}
+
+.meter-track {
+  background: #EFECE6;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-bar {
+  background: var(--amber-accent);
+  height: 100%;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  transition: width 0.3s ease;
+}
+
+.card-sub-header {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.policy-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.policy-item h3 {
+  font-size: 1rem;
+  margin-bottom: 0.375rem;
+}
+
+.policy-item p {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.boundary-card {
+  font-size: 0.9375rem;
+}
+
+.clean-list {
+  list-style: square;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--ink-blue);
+}
+
+.badge-done {
+  background: #DCFCE7;
+  color: #166534;
+  border: 1px solid #BBF7D0;
+}
+
+.badge-review {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.badge-limit {
+  background: #F3F4F6;
+  color: #4B5563;
+  border: 1px solid #E5E7EB;
+}
+
+.status-alert {
+  background: var(--amber-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--amber-accent);
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.footnote {
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  margin-top: auto;
+}
+
+.link-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.link-list a {
+  color: var(--ink-blue);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-list a:hover {
+  color: var(--amber-accent);
+}
+
+.deck-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-btn {
+  background: var(--ink-blue);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.nav-btn:disabled {
+  background: #CCD2DC;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink-blue);
+  min-width: 3.5rem;
+  text-align: center;
+}
+
+.deck-info {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.deck-status {
+  font-weight: 700;
+  color: var(--amber-accent);
+}
+
+@media (max-width: 768px) {
+  .grid-three,
+  .policy-grid,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slide-tabs {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .deck-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+===END_FILE===
+
+===FILE:app.js===
+(function () {
+  'use strict';
+
+  var currentSlide = 0;
+  var totalSlides = 6;
+
+  var tasksData = [
+    {
+      title: '整理／找檔',
+      badge: '機械格式與逐字可驗任務用 Haiku 4.5；搜尋摘要用 Sonnet 5',
+      before: '過往缺乏層級指引，容易隨意選用高階模型或無標準。',
+      reason: '格式整理與檔案查找驗收成本低、結果直觀，不必每件都用高階模型。',
+      allocation: '優先派給 Haiku 4.5，需要理解內文進行搜尋摘要時升級至 Sonnet 5。'
+    },
+    {
+      title: '一般改功能',
+      badge: 'Sonnet 5 起步；牽動多檔由主 agent 處理',
+      before: '未明定改動規模與接辦門檻，常有溝通交接耗損。',
+      reason: '標準開發任務著重測試是否能有效抓錯，並評估交辦與脈絡成本。',
+      allocation: '標準功能由 Sonnet 5 起步；若牽動跨檔案連鎖架構，則由主 agent 承擔。'
+    },
+    {
+      title: '容易漏判的制度修改',
+      badge: '主 agent 判斷連動；搭檔選 Opus 5，第二意見用 Fable 5.1',
+      before: '過去缺乏制度防護，容易出現自相矛盾或遺漏全域關聯。',
+      reason: '全域規則需全面考慮多工具相容性，並非固定 Fable 比 Opus 更高，也不強制替換 Codex。',
+      allocation: '主 agent 負責連鎖影響，搭檔可用 Opus 5；若需不同視角的第二意見則由 Fable 5.1 複核。'
+    },
+    {
+      title: '獨立驗收',
+      badge: 'Fable 5.1 另開對話，依驗收條件獨立檢查；作者不得自審',
+      before: '曾由實作者自行核可產出，容易帶有檢驗盲點。',
+      reason: '獨立驗收要求切斷前輪推論偏見，確保條件一一對應無殘留。',
+      allocation: '本次工程由 Codex 實作、Fable 複驗；本簡報由 agy 製作、Codex 檢查。'
+    }
+  ];
+
+  var manualData = [
+    {
+      title: '原生清單完整',
+      before: 'Codex 已能讀取所需的 SKILL.md 手冊內容。',
+      now: '優先沿用工具原生列出的名稱、描述與路徑，不額外多讀一層備援索引。',
+      impact: '正常呼叫路徑不增加額外的檔案存取負擔，保持簡潔流暢。'
+    },
+    {
+      title: '清單沒列出／截斷',
+      before: '一旦工具原生清單漏列或截斷，缺少統一的備援查找規則。',
+      now: '依序依循「專案索引 → 全域索引 → 命中才讀完整手冊」，若皆無則比對來源資訊，讀不到主動回報。',
+      impact: '手冊查找路徑有明文準則，便於核對落實；但不等於保證模型每次自動觸發。'
+    }
+  ];
+
+  var slimmingData = [
+    {
+      label: '全域通則 (GLOBAL 單檔)',
+      before: 8343,
+      after: 5414,
+      reduction: '35.1%',
+      note: 'GLOBAL 單檔減少 2,929 字元。以修改前 8,343 字元 = 100% 為基準。'
+    },
+    {
+      label: 'Claude 開場三檔 (GLOBAL + AGENTS + Claude)',
+      before: 13093,
+      after: 10271,
+      reduction: '21.6%',
+      note: 'Claude 開場配置減少 2,822 字元。以修改前 13,093 字元 = 100% 為基準。'
+    },
+    {
+      label: 'Codex 開場三檔 (GLOBAL + AGENTS + Codex)',
+      before: 13035,
+      after: 10383,
+      reduction: '20.3%',
+      note: 'Codex 開場配置減少 2,652 字元。以修改前 13,035 字元 = 100% 為基準。'
+    },
+    {
+      label: 'Gemini 開場三檔 (GLOBAL + AGENTS + Gemini)',
+      before: 13539,
+      after: 10896,
+      reduction: '19.5%',
+      note: 'Gemini 開場配置減少 2,643 字元。以修改前 13,539 字元 = 100% 為基準。'
+    }
+  ];
+
+  var driftData = [
+    {
+      title: '情境 A：內容完全相同',
+      desc: '原稿與本機部署副本內容完全一致。',
+      beforeRes: '檢查通過。',
+      nowRes: '比對內容雜湊完全一致，檢查通過。'
+    },
+    {
+      title: '情境 B：副本只改一個字',
+      desc: '副本曾被手動修改或版本出現輕微落差。',
+      beforeRes: '過往只驗證檔案或目錄是否存在，此類微小改動容易被放過。',
+      nowRes: '嚴格比對文字內容，立刻明確標示需要重新同步。'
+    },
+    {
+      title: '情境 C：少了一個附檔',
+      desc: '主要設定檔在，但缺少關聯的參照或支援檔案。',
+      beforeRes: '過往可能僅確認主設定即認定就緒，遺漏附屬檔。',
+      nowRes: '納入支援檔案完整度檢查，明確標示缺漏並提示補全。'
+    }
+  ];
+
+  function renderSlide2(index) {
+    var item = tasksData[index];
+    var container = document.getElementById('task-detail');
+    if (!container || !item) return;
+
+    var html = '<div class="detail-header-group">' +
+      '<div class="detail-title">' + item.title + '</div>' +
+      '<div class="detail-desc">' + item.badge + '</div>' +
+      '</div>' +
+      '<div class="detail-grid">' +
+      '<div class="detail-block"><strong>考量原因</strong>' + item.reason + '</div>' +
+      '<div class="detail-block"><strong>派工原則</strong>' + item.allocation + '</div>' +
+      '</div>';
+    container.innerHTML = html;
+
+    var buttons = document.querySelectorAll('.task-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-pressed', i === index ? 'true' : 'false');
+    }
+  }
+
+  function renderSlide3(index) {
+    var item = manualData[index];
+    var container = document.getElementById('manual-detail');
+    if (!container || !item) return;
+
+    var html = '<div class="detail-header-group">' +
+      '<div class="detail-title">' + item.title + '</div>' +
+      '</div>' +
+      '<div class="detail-grid">' +
+      '<div class="detail-block"><strong>以前的做法</strong>' + item.before + '</div>' +
+      '<div class="detail-block"><strong>現在的做法</strong>' + item.now + '</div>' +
+      '</div>' +
+      '<div style="margin-top: 0.75rem; font-size: 0.9375rem; color: var(--amber-accent);">' +
+      '<strong>實質影響：</strong>' + item.impact +
+      '</div>';
+    container.innerHTML = html;
+
+    var buttons = document.querySelectorAll('.manual-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-pressed', i === index ? 'true' : 'false');
+    }
+  }
+
+  function renderSlide4(index) {
+    var item = slimmingData[index];
+    var container = document.getElementById('slimming-detail');
+    if (!container || !item) return;
+
+    var percentWidth = ((item.after / item.before) * 100).toFixed(1);
+
+    var html = '<div class="detail-header-group">' +
+      '<div class="detail-title">' + item.label + '</div>' +
+      '<div class="detail-desc">' + item.note + '</div>' +
+      '</div>' +
+      '<div class="meter-wrapper">' +
+      '<div class="meter-labels">' +
+      '<span>修改後：' + item.after.toLocaleString() + ' 字元 (' + percentWidth + '%)</span>' +
+      '<span>修改前：' + item.before.toLocaleString() + ' 字元 (100%)</span>' +
+      '</div>' +
+      '<div class="meter-track" aria-label="縮減比例示意">' +
+      '<div class="meter-bar" style="width: ' + percentWidth + '%;">減少 ' + item.reduction + '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div style="font-size: 0.875rem; color: var(--ink-muted);">' +
+      '說明：資料快照為 2026-09-14 本次修改前後。三檔＝GLOBAL＋AGENTS＋該工具設定。統計為來源文字量，非 token 數、速度或帳單。' +
+      '</div>';
+    container.innerHTML = html;
+
+    var buttons = document.querySelectorAll('.slim-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-pressed', i === index ? 'true' : 'false');
+    }
+  }
+
+  function renderSlide5(index) {
+    var item = driftData[index];
+    var container = document.getElementById('drift-detail');
+    if (!container || !item) return;
+
+    var html = '<div class="detail-header-group">' +
+      '<div class="detail-title">' + item.title + '</div>' +
+      '<div class="detail-desc">' + item.desc + '</div>' +
+      '</div>' +
+      '<div class="detail-grid">' +
+      '<div class="detail-block"><strong>以前檢查模式</strong>' + item.beforeRes + '</div>' +
+      '<div class="detail-block"><strong>現在檢查模式</strong>' + item.nowRes + '</div>' +
+      '</div>';
+    container.innerHTML = html;
+
+    var buttons = document.querySelectorAll('.drift-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-pressed', i === index ? 'true' : 'false');
+    }
+  }
+
+  function goToSlide(targetIndex) {
+    if (targetIndex < 0 || targetIndex >= totalSlides) return;
+
+    for (var i = 0; i < totalSlides; i++) {
+      var slideEl = document.getElementById('slide-' + (i + 1));
+      var tabEl = document.getElementById('tab-' + (i + 1));
+      if (slideEl) {
+        slideEl.hidden = (i !== targetIndex);
+      }
+      if (tabEl) {
+        tabEl.setAttribute('aria-selected', i === targetIndex ? 'true' : 'false');
+      }
+    }
+
+    currentSlide = targetIndex;
+
+    var pageCountEl = document.getElementById('page-count');
+    if (pageCountEl) {
+      pageCountEl.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+    }
+
+    var prevBtn = document.getElementById('prev');
+    var nextBtn = document.getElementById('next');
+    if (prevBtn) prevBtn.disabled = (currentSlide === 0);
+    if (nextBtn) nextBtn.disabled = (currentSlide === totalSlides - 1);
+
+    var currentSlideEl = document.getElementById('slide-' + (currentSlide + 1));
+    if (currentSlideEl) {
+      currentSlideEl.focus();
+    }
+  }
+
+  function setupNavigation() {
+    var prevBtn = document.getElementById('prev');
+    var nextBtn = document.getElementById('next');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        goToSlide(currentSlide - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        goToSlide(currentSlide + 1);
+      });
+    }
+
+    var tabs = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) {
+        tabs[idx].addEventListener('click', function () {
+          goToSlide(idx);
+        });
+      })(i);
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+      var target = e.target;
+      var tag = target ? target.tagName.toLowerCase() : '';
+      var isInput = ['input', 'select', 'button', 'a', 'details', 'summary'].indexOf(tag) !== -1;
+      var isEditable = target && target.isContentEditable;
+
+      if (isInput || isEditable) return;
+
+      if (e.key === 'ArrowLeft') {
+        goToSlide(currentSlide - 1);
+      } else if (e.key === 'ArrowRight') {
+        goToSlide(currentSlide + 1);
+      }
+    });
+  }
+
+  function setupInteractions() {
+    var taskButtons = document.querySelectorAll('.task-btn');
+    for (var i = 0; i < taskButtons.length; i++) {
+      taskButtons[i].addEventListener('click', function () {
+        var idx = parseInt(this.getAttribute('data-task'), 10);
+        renderSlide2(idx);
+      });
+    }
+
+    var manualButtons = document.querySelectorAll('.manual-btn');
+    for (var j = 0; j < manualButtons.length; j++) {
+      manualButtons[j].addEventListener('click', function () {
+        var idx = parseInt(this.getAttribute('data-scenario'), 10);
+        renderSlide3(idx);
+      });
+    }
+
+    var slimButtons = document.querySelectorAll('.slim-btn');
+    for (var k = 0; k < slimButtons.length; k++) {
+      slimButtons[k].addEventListener('click', function () {
+        var idx = parseInt(this.getAttribute('data-target'), 10);
+        renderSlide4(idx);
+      });
+    }
+
+    var driftButtons = document.querySelectorAll('.drift-btn');
+    for (var m = 0; m < driftButtons.length; m++) {
+      driftButtons[m].addEventListener('click', function () {
+        var idx = parseInt(this.getAttribute('data-drift'), 10);
+        renderSlide5(idx);
+      });
+    }
+  }
+
+  function init() {
+    setupNavigation();
+    setupInteractions();
+    renderSlide2(0);
+    renderSlide3(0);
+    renderSlide4(0);
+    renderSlide5(0);
+    goToSlide(0);
+  }
+
+  init();
+})();
+
+===END_FILE===

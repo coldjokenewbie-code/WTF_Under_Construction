@@ -1,0 +1,30 @@
+Permission allow rule (.claude/settings.local.json): Bash(grep -o "E:\\\\\\\\Git_work[^\\"]*" ~/.claude/settings.json) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+FAIL
+
+**阻擋項**
+
+1. `wtf-config/GLOBAL.md`「檔案、命名與輸出規範」節：「Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（版控規則見上方「版控鐵律」）」。觸發：版控鐵律整段已搬到 `playbooks/git-mirror.md`，GLOBAL 上方已無「版控鐵律」節，只剩「工作位置／版控」一行。影響：常駐檔留下指向不存在節名的回指，違反第 4 條「舊回指要更新」，讀者按指示往上找會落空。最小修正：改為「（版控規則見上方『工作位置／版控』與 `playbooks/git-mirror.md`）」。
+
+**未驢證（diff 未涵蓋，無法判定）**
+
+- 原 GLOBAL 數據鐵律中「跨年須同月同日／時點不一致不得並列」「同一文件同一指標只用一種口徑、衝突時註明」兩句，遷移表宣稱已在 `data-citation.md` 既有節，diff 只見「補參數」一處修改，其餘依賴既有內文。
+- 其他 playbook／skill（如 `judgment-rubrics.md`、`W_colab`、`harness-diagnosis.md`）是否仍回指 GLOBAL「交付即預覽」「存檔預設路徑鐵律」「數據引用鐵律」「存入協議」「Claude_cowork 專案版控鐵律」等已搬移節名，diff 未列，建議 grep 後補更新。
+- `check_bundle_integrity` 回傳 `None` 的所有情境（除 import 缺失外是否含 SSOT 不存在）未見程式碼；現改為一律判失敗。
+- `maintenance-protocol.md` 既有 §1–4 與新 §6 是否有重疊細則，僅見新增段。
+
+**已對照通過**
+
+- 第 1 條：型號表四列與 ID／短值一致；Agent 與 CLI 分列、不假定繼承或共用額度；4 輪上限、高階終局一次、備援一次不重設；ai-team 非作者驗收、交 PO、禁 commit 均在 §5–6。
+- 第 2 條：索引僅 name／description／path，無 triggers 欄；專案 path 相對根（`relative_to=project`），全域 path＝`<home>/skills/...` 部署位置；dot 目錄與非 SSOT 不入索引；三工具入口檔各指對應索引檔名。
+- 第 3 條：`deploy_skill_set` 只寫 SSOT 同名目錄，同名 symlink 先 unlink 再建實體；`_skill_errors` 逐檔比 bytes；重複 name／缺欄位 raise，name≠資料夾只出 NAME 警告；索引、入口、bundle 竄改或缺失皆進 broken→exit 1；未安裝工具 SKIP；sync 前 metadata 預檢避免半套寫入；測試涵蓋兩次 sync 快照相等。
+- 第 5 條：GLOBAL 8343→5400，縮 35.3%（僅高於門檻 0.3 點，無餘裕）；三檔合計含 AGENTS 與各入口增量；明示非 token／帳單。
+- 第 6 條：diff 未觸及 machines.md 與 settings.local.json；GEMINI.md 註明 agy 未呼叫。
+
+**建議（非阻擋）**
+
+- `git-mirror.md` 標題與首行粗體重複同一句，可刪其一。
+- `maintenance-protocol.md` §5「先讀 本檔 確認」多餘空格。
+- `_skill_errors` 不偵測部署端 skill 目錄內 SSOT 已刪除的殘留檔（如舊 script），工具仍可能讀到；可加 EXTRA-in-skill 警告。
+- `test_sync_skills` 寫死「17 skills」，新增 skill 即失敗，改為以 SSOT 目錄計數比對。
+- `deploy_other_tools` 現在 CODEX.md／GEMINI.md 缺失直接 raise 中止整個 sync，較舊版跳過更嚴，需確認是刻意。
+- 縮減比例只餘 0.3 點，下次 PO 新增常駐條目即跌破 35%，宜預留空間。

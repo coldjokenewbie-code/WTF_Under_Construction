@@ -1,0 +1,1 @@
+{"blocking_issues":[],"css_split_before":".detail-panel {","css_load_order":["base.css","styles.css"],"text_replacements":[{"old":"派對工作","new":"工作交給合適模型"},{"old":"操作示意，不會改動檔案","new":"操作示意，不會改動檔案；下方文字僅供示意，並非制度原文"}],"additional_checks":[]}

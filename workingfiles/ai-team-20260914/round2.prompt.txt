@@ -1,0 +1,30 @@
+ai-team 第 2 輪。你是 Fable 5.1，Tech Lead 是 Codex。繁體中文台灣用語，只輸出文字不讀寫檔。
+
+## 你第 1 輪的結論（Tech Lead 已收下，摘要）
+A：skill＝有觸發描述的 playbook，sync 生成索引（名稱＋觸發條件＋絕對路徑）寫進各工具指示檔；MCP server 化與現狀資料夾複製都是假解法。你要求用行為驗證，不採信模型自稱。
+B：Agent tool 的 model 參數含 fable，所以共享 context 的 Fable 可得；claude -p 的價值在獨立無狀態驗收。判準＝「Sonnet 答錯你發現得了嗎？發現不了才派 Fable」。
+C：1M 窗口下 13k 字佔比不是問題，問題是規則條數多→單條遵從率降；砍「事後被內聯的鐵律全文」，並在 maintenance-protocol 立規收口。
+D：型號表 → A → C → B。
+
+## Tech Lead 依你要求做的兩項驗證（其中一項推翻原本的診斷）
+
+驗證 1：Codex 行為測試（你是對的）
+交辦 codex exec「請幫我為目前這個工作階段產出交接文件…」，不提 skill 兩字。Codex 回答「有實際讀到 skill 定義檔」並列出 ~/.codex/skills/session-start/SKILL.md、~/.codex/skills/handover/SKILL.md。
+→ 結論修正：Codex 沒有原生 Skill 工具（自稱屬實），但走 ~/.codex/AGENTS.md 的文字協議＋shell 讀檔，實際成功發現並讀取了正確的 SKILL.md。所以 ~/.codex/skills/ 不是死檔，是靠文字協議驅動的。你提的「文字路由表」解法其實已經半成型地在運作。
+→ 剩餘風險（請評估嚴重性）：(a) 這是模型自律的偶然成功，沒有索引、沒有觸發詞，Codex 靠 glob 資料夾名稱猜；(b) 換模型／換版本可能就不做了；(c) Antigravity 端完全未驗證。
+
+驗證 2：Agent tool 的 model 參數（你說對了）
+model enum 實際值＝["sonnet","opus","haiku","fable"]。派 Fable 有兩條路：Agent tool（共享 context、結構化回傳、同額度池）與 claude -p（獨立無狀態）。
+
+## 權威型號資料（可直接寫進型號表）
+Fable 5.1＝claude-fable-5-1／Opus 5＝claude-opus-5／Sonnet 5＝claude-sonnet-5／Haiku 4.5＝claude-haiku-4-5-20251001
+Agent tool model 參數值：opus / sonnet / haiku / fable
+現行 model-dispatch.md 第 0 節寫「高階判斷＝Opus 4.8 claude-opus-4-8」「Fable 5 已不可得、日常勿指定」——兩條都過時。
+
+## 第 2 輪要你給「可直接落地的設計」，不要再給方向
+1. skill 索引的具體規格：sync_config.py 要生成什麼？給出索引檔的實際欄位與一列範例（含觸發詞怎麼寫才能讓非 Claude 系工具可靠命中）。寫進哪裡（各工具指示檔內聯？還是獨立檔＋指示檔一行指標？）？Claude 系有原生 Skill 工具、會不會與索引重複觸發、要不要對 Claude 系隱藏索引？17 個 skill 的索引若內聯，會不會反而加重你 C 段警告的 context 稅——給取捨判準。
+2. model-dispatch 第 0 節與第 4 節改寫：直接給出「型號表」與「派工對照表」兩張表的完整 markdown，含 Opus 5 與 Fable 5.1 兩列，並明確區分「Agent tool 派 fable」與「claude -p 派 fable」各自適用情境。成本意識寫進判準（PO 指示：妥善使用額度）。
+3. GLOBAL.md 瘦身的具體刀法：現有大節為——開場協議／派工與判斷（含按需路由表）／Claude_cowork 版控鐵律（最長，約佔四分之一）／工作品質底線（含數據引用鐵律、交付即預覽、存檔預設路徑鐵律三大段）／全域設定的維護／檔案命名與輸出規範。逐節判定「常駐全文／降級成一行指標＋playbook／刪除」，說明每個判定用的是 C 段哪一條判準。具體到節名。
+4. 這次的執行順序與驗收方式：依 ai-team 協議動工後要輪流驗收、不自驗自過。提出 Tech Lead 該自己做哪幾項、哪幾項派出去、以及你作為驗收者要看什麼證據才算 PASS。
+
+輸出四段 ## 1 ## 2 ## 3 ## 4。表格完整寫出可直接貼用。總長 1400 字內。

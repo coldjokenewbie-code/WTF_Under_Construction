@@ -1,0 +1,89 @@
+真相源: /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/AGENTS.md
+  v 保留 WTF_Under_Construction/AGENTS.md（內容一致）
+  v 保留 ai-roundtable/AGENTS.md（內容一致）
+  v 保留 HuaNan_Bank/AGENTS.md（內容一致）
+  v 保留 ai-team-todo/AGENTS.md（內容一致）
+  v 保留 Assembly_Plant_Mobile_Guide/AGENTS.md（內容一致）
+  v 保留 Planner2Line/AGENTS.md（內容一致）
+  v 保留 Remotion_fun/AGENTS.md（內容一致）
+  v 保留 claude_CDIC_O4/AGENTS.md（內容一致）
+  v 保留 capture_app/AGENTS.md（內容一致）
+  v 保留 say-something/AGENTS.md（內容一致）
+  v 保留 say-something-android/AGENTS.md（內容一致）
+  v 保留 gen-tools/AGENTS.md（內容一致）
+  v 保留 VoiceInk/AGENTS.md（內容一致）
+  v 保留 attendance-dashboard/AGENTS.md（內容一致）
+  v 保留 Aseembly_Plant_Interactive_machine/AGENTS.md（內容一致）
+  v 保留 HsinchuScienceEducationCenter/AGENTS.md（內容一致）
+  v 保留 cowork_CDIC/AGENTS.md（內容一致）
+  v 保留 南科再生水廠/AGENTS.md（內容一致）
+  v 保留 國圖南/AGENTS.md（內容一致）
+  v 保留 ppt_map_mark/AGENTS.md（內容一致）
+  v 保留 Asembly_PPT/AGENTS.md（內容一致）
+  v 保留 md-editor/AGENTS.md（內容一致）
+  v 保留 3Dstudy/AGENTS.md（內容一致）
+  v 保留 e-reader-stuff/AGENTS.md（內容一致）
+  v 保留 ChildrenFuture/AGENTS.md（內容一致）
+  v 寫入 ~/.claude/wtf-root.txt（/Users/coma/git_mirror/WTF_Under_Construction）
+  v 寫入 ~/.claude/CLAUDE.md
+  v 寫入 ~/.claude/CLAUDE.md session bundle import（SHA 3903654bb38d…）
+  v 寫入 ~/.claude/agents/（1 個 agent）
+  v 寫入 /Users/coma/.codex/AGENTS.md（全域指令）
+  v 寫入 /Users/coma/.gemini/GEMINI.md（全域指令）
+  v 寫入 /Users/coma/.claude/skills（17 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/.claude/wtf-skills-index.md
+  v 寫入 /Users/coma/.codex/skills（17 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/.codex/wtf-skills-index.md
+  v 寫入 /Users/coma/.gemini/skills（17 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/.gemini/wtf-skills-index.md
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/.claude/skills（1 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/._agents/skills-index.md
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/.agents/skills（1 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/._agents/skills-index.md
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/.claude/skills（2 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/._agents/skills-index.md
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/.agents/skills（2 個 SSOT skill；只新增/覆蓋，不刪額外目錄）
+  v 寫入 /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/._agents/skills-index.md
+真相源: /Users/coma/git_mirror/WTF_Under_Construction/wtf-config/AGENTS.md
+掃描來源: projects-registry.md（本機 comaMacBookAir.local）
+  v [OK     ] WTF_Under_Construction/AGENTS.md — 與真相源一致
+  v [OK     ] ai-roundtable/AGENTS.md — 與真相源一致
+  v [OK     ] HuaNan_Bank/AGENTS.md — 與真相源一致
+  v [OK     ] ai-team-todo/AGENTS.md — 與真相源一致
+  v [OK     ] Assembly_Plant_Mobile_Guide/AGENTS.md — 與真相源一致
+  v [OK     ] Planner2Line/AGENTS.md — 與真相源一致
+  v [OK     ] Remotion_fun/AGENTS.md — 與真相源一致
+  v [OK     ] claude_CDIC_O4/AGENTS.md — 與真相源一致
+  v [OK     ] capture_app/AGENTS.md — 與真相源一致
+  v [OK     ] say-something/AGENTS.md — 與真相源一致
+  v [OK     ] say-something-android/AGENTS.md — 與真相源一致
+  v [OK     ] gen-tools/AGENTS.md — 與真相源一致
+  v [OK     ] VoiceInk/AGENTS.md — 與真相源一致
+  v [OK     ] attendance-dashboard/AGENTS.md — 與真相源一致
+  v [OK     ] Aseembly_Plant_Interactive_machine/AGENTS.md — 與真相源一致
+  v [OK     ] HsinchuScienceEducationCenter/AGENTS.md — 與真相源一致
+  v [OK     ] cowork_CDIC/AGENTS.md — 與真相源一致
+  v [OK     ] 南科再生水廠/AGENTS.md — 與真相源一致
+  v [OK     ] 國圖南/AGENTS.md — 與真相源一致
+  v [OK     ] ppt_map_mark/AGENTS.md — 與真相源一致
+  v [OK     ] Asembly_PPT/AGENTS.md — 與真相源一致
+  v [OK     ] md-editor/AGENTS.md — 與真相源一致
+  v [OK     ] 3Dstudy/AGENTS.md — 與真相源一致
+  v [OK     ] e-reader-stuff/AGENTS.md — 與真相源一致
+  v [OK     ] ChildrenFuture/AGENTS.md — 與真相源一致
+  v [OK     ] ~/.claude/CLAUDE.md
+  v [OK     ] session bundle import SHA/manifest/SSOT 三者一致（3903654bb38d…）
+  v [OK     ] ~/.claude/agents/ （1 個 agent）
+  v [OK     ] /Users/coma/.codex/AGENTS.md（全域指令內容）
+  v [OK     ] /Users/coma/.gemini/GEMINI.md（全域指令內容）
+  v [OK     ] /Users/coma/.claude/skills（17 skills／20 檔內容＋索引）
+  ! [EXTRA  ] /Users/coma/.codex/skills: .system（非 SSOT／可能退役；保留，不判失效）
+  v [OK     ] /Users/coma/.codex/skills（17 skills／20 檔內容＋索引）
+  v [OK     ] /Users/coma/.gemini/skills（17 skills／20 檔內容＋索引）
+  ! [EXTRA  ] /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/.claude/skills: auto-approve, codex-global-instruction, data-verify（非 SSOT／可能退役；保留，不判失效）
+  v [OK     ] /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/.claude/skills（1 skills／1 檔內容＋索引）
+  v [OK     ] /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/cowork_CDIC/.agents/skills（1 skills／1 檔內容＋索引）
+  v [OK     ] /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/.claude/skills（2 skills／2 檔內容＋索引）
+  v [OK     ] /Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/.agents/skills（2 skills／2 檔內容＋索引）
+  OK: 25
+[OK] 設定、SSOT skill 內容與索引一致；不代表各工具行為皆已驗證。

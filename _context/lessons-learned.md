@@ -1,5 +1,11 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-09-15（跨工具 skill：手動入口與執行要分開驗）
+
+* **問題**：以「17份SKILL.md副本一致、AI讀得到」回答使用者「不能使用skill」，漏查使用者實際卡在輸入`/se`後沒有`/session-start`選項。
+* **修正**：Codex CLI／IDE用`$技能名`或`/skills`選技能，不會因部署SKILL.md就自動建立同名斜線指令；來源：[OpenAI技能說明](https://learn.chatgpt.com/docs/build-skills)（2026-09-15實開）。本對話在使用者送出`$session-end`後收到完整技能內容，確認該次明示叫用已送達；這不等於已實測所有選單的自動補完。
+* **下次驗法**：把「檔案部署／模型發現」、「使用者手動選取」、「任務自動匹配」、「依規則執行與所需權限」分開記錄；先確認使用者失敗的入口，不以檔案一致替代操作驗收。不能把Codex已驗證的取用推廣成Antigravity也已驗證。
+
 ## 2026-09-14 (registry 路徑欄夾括號 → sync 靜默略過)
 
 * **`projects-registry.md` 機器路徑欄禁夾括號備註**：`sync_config.py` 把「有括號的整串」當路徑判定不存在→靜默略過（`check` 也不報 ERROR，只在 sync stderr 出 WARN），導致 3Dstudy／ai-roundtable／e-reader-stuff／HuaNan_Bank／md-editor 5 個專案長期未收到 AGENTS.md 部署、部署數低報（20 而非 25）。備註一律移入 `github` 欄，路徑欄只留乾淨路徑；維護規則已補入 registry 表頭防再犯。

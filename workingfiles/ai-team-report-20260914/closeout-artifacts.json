@@ -1,0 +1,24 @@
+{
+  "local_links": {
+    "base.css": true,
+    "styles.css": true,
+    "app.js": true,
+    "../../../_context/archive/ClosedTaskLog_2026-09-14_ai-team制度優化.md": true,
+    "../../ai-team-20260914/verification.md": true,
+    "../../ai-team-20260914/review2.response.txt": true,
+    "../../ai-team-20260914/deployment-result.txt": true
+  },
+  "engineering_sources_unchanged": 18,
+  "delivery_files": {
+    "index.html": "00fd4d3d21b5f1f2f685dfca2bd48b3a3196ed2e79cf14ecb050f5309744f03c",
+    "styles.css": "b8e426fdbc36a84259f19d52d784e694c4ee3ba3d9af679dae6fd894a2b37380",
+    "base.css": "d4e20c19ad8da32bb980d68d4c2d6394c33ae7e6a0448e927ac54743227b5593",
+    "app.js": "1ad82feef56b8c953b53d78207ecc4a828fc323f012eeff3fdf7722a3e0a385d"
+  },
+  "screenshot_cleanup_candidates": [],
+  "css_concat_matches_agy_original": true,
+  "css_line_counts": {
+    "base.css": 247,
+    "styles.css": 242
+  }
+}

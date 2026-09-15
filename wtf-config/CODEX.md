@@ -13,7 +13,8 @@
 ## Codex 專屬差異
 
 - **全域 skills 位置**：真相源 `wtf-config/skills/` 由 sync 實體複製到 `~/.codex/skills/`（保留工具自有 skill 如 find-skills）；載入規則照 AGENTS.md「Skills 載入協議」。
+- **skill 備援索引**：`~/.codex/wtf-skills-index.md`，原生清單缺列／截斷時才讀；索引不取代原生技能目錄。`~/.codex/skills/` 為本機已驗證取用位置，不能據此推定所有版本的原生掃描路徑。
 - **監控指令檔**：若專案有 `_context/MONITOR_INSTRUCTION_codex.md`：a) 先讀「現在的待處理請求」欄位，有待辦立即執行，不等 tail 觸發；b) 在背景執行檔中的監控指令（`tail -n 0 -f ... | grep ...`），讓後續 REQUEST 信號自動觸發；執行新任務後繼續保持監控。
 - **工具呼叫權限慣例**：需要重複呼叫外部服務或會觸發 sandbox escalation 的流程（Vertex AI 生圖、gcloud、網路生成工具），先固定成同一個 wrapper 腳本或固定命令前綴再批次執行；不要每次臨時換 prompt 檔/輸出檔組成不同命令，否則 Codex 會把每條視為不同前綴而反覆要求授權。
 - **任務通訊**：照 AGENTS.md「任務通訊協議」，AgentID 用 `Codex`。
-- **存入全域設定**：照 GLOBAL.md「存入協議」；本工具專屬檔＝`wtf-config/CODEX.md`。
+- **存入全域設定**：照 `playbooks/maintenance-protocol.md`「存入協議與工具資源路由」；本工具專屬檔＝`wtf-config/CODEX.md`。
