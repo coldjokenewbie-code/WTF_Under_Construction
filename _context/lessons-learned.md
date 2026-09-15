@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-09-15（ai-team session-end → main 合併需 PO 授權）
+
+* **ai-team Codex session-end 以 parallel worktree 獨立提交工作分支後，合併至 main 需 PO 直接授權**：Codex 完成工作後透過 `$session-end` 建立 worktree 提交工作分支並推送 origin，但 merge 至 main 被 Claude Code auto-mode 安全分類器擋下（push/merge-to-main 被判為高風險操作，agent 不可自行執行）。PO 需在收到通知後自行在本機執行合併，或在 Claude Code 對話中明確授權。session-end TaskLog 收尾時須明列「合併 main 需 PO 手動執行」，不讓 agent 嘗試自行推 main。
+
 ## 2026-09-15（跨工具 skill：手動入口與執行要分開驗）
 
 * **問題**：以「17份SKILL.md副本一致、AI讀得到」回答使用者「不能使用skill」，漏查使用者實際卡在輸入`/se`後沒有`/session-start`選項。

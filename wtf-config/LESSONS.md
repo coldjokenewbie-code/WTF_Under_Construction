@@ -358,3 +358,9 @@
 - cowork_CDIC｜2026-09-15｜共編 docx 被使用者存檔後 Word 會把句子拆成多個 run，run 層比對必落空——改以 `<w:br/>` 切段比對、只改該段第一個 w:t，命中數寫進斷言；「以來信或以定稿為準」是 PO 的決定，agent 只攤開差異並標疑似誤植，錯字不照抄到每一欄｜projects/cowork_CDIC/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-15｜開發期寫死的播放邊界與速度檔位要抽成參數並保留舊預設；腳本文字上畫面前先分「指示／標籤／輸出字」，導演資訊層在投影模式一律關閉｜`projects/南科再生水廠/_context/lessons-learned.md`
 - WTF_Under_Construction｜2026-09-15｜跨工具skill須分驗部署、手動選取、自動匹配與執行；Codex以$技能名或/skills叫用，檔案一致不代表斜線選單可用｜_context/lessons-learned.md#2026-09-15跨工具-skill手動入口與執行要分開驗
+- Interactive_machine｜2026-09-15｜PowerShell 5.1 無 BOM 的 UTF-8 .ps1 當 ANSI 解讀，中文格式字串報 "Error formatting a string"（真正的錯誤被蓋掉）；PS1 腳本一律存 utf-8-sig｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-15｜Word 轉純文字不用 SaveAs（無頭情境卡編碼對話框 12 分鐘 0 產出），直接讀 doc.Content.Text 自行寫 UTF-8 平均 0.6 秒；檔名有空格要 os.path.normpath｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-15｜派 agent 視覺辨識只收「看得到的事實」（立牌數字/銘板原文/取景），判斷由主控複核定案；有價值的是「可覆核的依據欄」而非 agent 的結論｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-15｜同型機具無編號牌不要歸屬：硬派一個編號後查不出是猜的，一律留白標「待確認」｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-15｜索引 HTML 相對路徑要以 HTML 自身位置為準；驗收攔 requestfailed 印實際 URL 比看截圖快；<img src=""> 空字串會去抓網頁自身是同類隱形錯誤｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- WTF_Under_Construction｜2026-09-15｜ai-team session-end worktree 提交工作分支後合併至 main 需 PO 直接授權；auto-mode 安全分類器會把 push/merge-to-main 擋下，agent 不可強推，TaskLog 須明列「合併 main 需 PO 手動執行」｜_context/lessons-learned.md#2026-09-15-ai-team-session-end
