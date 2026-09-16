@@ -13,7 +13,14 @@ def digest(path: Path) -> str:
         for chunk in iter(lambda: source.read(65536), b""):
             hasher.update(chunk)
     return hasher.hexdigest()
-def canonical(path: Path) -> str: return os.path.normcase(str(path.resolve()))
+def canonical(path: Path) -> str:
+    """正規化路徑。resolve() 在不可讀／未掛載的外部路徑（如 Google Drive 串流目錄）可能拋 OSError；
+    此時退回 abspath 字串比對並在 stderr 警告，不讓單一外部路徑升級成全域 deny（2026-09-16）。"""
+    try:
+        return os.path.normcase(str(path.resolve()))
+    except OSError as error:
+        print(f"wtf-session-gate: canonical fallback for {path} ({error})", file=sys.stderr)
+        return os.path.normcase(os.path.abspath(str(path)))
 def atomic_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.parent / f".{path.name}.{secrets.token_hex(8)}.tmp"
@@ -318,6 +325,18 @@ def parse_stdin() -> dict:
     if not isinstance(value, dict):
         raise GateError("hook input must be a JSON object")
     return value
+def describe_failure(error: Exception, event: dict | None) -> str:
+    """失敗訊息帶上工具名與 tool_input 內的路徑候選，讓收到 deny 的 session 能直接定位是哪個路徑出事。"""
+    reason = f"{type(error).__name__}: {error}"
+    if isinstance(event, dict):
+        tool_input = event.get("tool_input") or {}
+        paths = [str(v) for k, v in tool_input.items()
+                 if isinstance(v, str) and ("/" in v or "\\" in v) and k in {"file_path", "path", "notebook_path", "command"}]
+        context = f" [tool={event.get('tool_name')}"
+        if paths:
+            context += " inputs=" + "; ".join(p[:200] for p in paths[:3])
+        reason += context + "]"
+    return reason
 def emit_failure(command: str, reason: str) -> int:
     print(f"wtf-session-gate: {reason}", file=sys.stderr)
     if command == "pretool":
@@ -328,6 +347,7 @@ def emit_failure(command: str, reason: str) -> int:
         return 0
     return 2
 def main() -> int:
+    event = None
     command = sys.argv[1] if len(sys.argv) == 2 else ""
     commands = {"init", "init-agent", "instructions", "pretool", "postread", "stop", "stop-agent"}
     if command not in commands: return emit_failure(command, "expected one supported subcommand")
@@ -353,6 +373,6 @@ def main() -> int:
                 print(json.dumps(output))
         return 0
     except Exception as error:
-        return emit_failure(command, str(error))
+        return emit_failure(command, describe_failure(error, event))
 if __name__ == "__main__":
     raise SystemExit(main())

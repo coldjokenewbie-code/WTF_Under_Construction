@@ -516,14 +516,23 @@ def cmd_check():
 
 def cmd_sync():
     sys.stdout.reconfigure(encoding="utf-8")
-    # metadata 預檢在所有寫入之前，避免半套索引部署。
+    # metadata 預檢在所有寫入之前，避免半套索引部署。全域 SSOT 壞＝整體中止；
+    # 專案來源壞（含 Drive 路徑不可讀）＝只略過該專案並警告，不拖垮其他目標（2026-09-16）。
     try:
-        sources = {SSOT_SKILLS} | {target["source"] for target in _skill_targets()}
-        for source in sources:
-            read_skills(source)
+        read_skills(SSOT_SKILLS)
     except (ValueError, OSError) as error:
         print(f"[INVALID] {error}")
         return 1
+    skipped = {}
+    for target in _skill_targets():
+        source = target["source"]
+        if source == SSOT_SKILLS or source in skipped:
+            continue
+        try:
+            read_skills(source)
+        except (ValueError, OSError) as error:
+            skipped[source] = str(error)
+            print(f"  ! [WARN] 專案 skill 預檢失敗，本次略過：{source} → {error}")
     ssot_body = read_ssot()
     _, content = build_copy(ssot_body, socket.gethostname())
     print(f"真相源: {SSOT}")
@@ -543,14 +552,27 @@ def cmd_sync():
     try:
         for note in deploy_claude_dir() + deploy_other_tools():
             print(note)
-        for target in _skill_targets():
-            for note in deploy_skill_set(**target):
-                print(note)
     except (ValueError, OSError) as error:
         print(f"[ERROR] 部署失敗：{error}")
         return 1
-    # 不把部分部署／被舊邏輯略過的例外當成功。
-    return cmd_check()
+    # 專案 skill 逐目標隔離：單一專案（如 Drive 路徑不可讀）失敗只警告該項並繼續，
+    # 不讓一個專案的故障拖垮全域與其他專案的部署（2026-09-16 cowork_CDIC 實例）。
+    failed = []
+    for target in _skill_targets():
+        if target["source"] in skipped:
+            continue
+        try:
+            for note in deploy_skill_set(**target):
+                print(note)
+        except (ValueError, OSError) as error:
+            failed.append(target["source"])
+            print(f"  ! [WARN] 專案 skill 部署失敗，略過：{target['source']} → {error}")
+    # 不把部分部署／被舊邏輯略過的例外當成功：其餘目標照常 check，但只要有略過或失敗就回 1。
+    rc = cmd_check()
+    if skipped or failed:
+        print(f"[ERROR] 專案 skill 預檢略過 {len(skipped)} 個、部署失敗 {len(failed)} 個（其餘已部署並檢查）")
+        return 1
+    return rc
 
 
 def cmd_register():
