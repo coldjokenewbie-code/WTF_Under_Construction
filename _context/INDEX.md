@@ -4,7 +4,7 @@
 - 2026-09-14 ai-team 制度優化，Codex 接手 Tech Lead：[交接](archive/Handover_2026-09-14_ai-team跨工具skill與模型調度優化.md) → [工程紀錄](archive/ClosedTaskLog_2026-09-14_ai-team制度優化.md)（獨立驗收完成，e8aceea已推工作分支）。
 - 2026-09-14 案例分析 skill 全域化：跨專案彙整完成、三項拍板已記，skill 未動工（暫停）：[TaskLog](TaskLog_2026-09-14_案例分析skill全域化.md)。ChildrenFuture 專案同日建立並登記。
 - 2026-09-15 制度優化六頁[互動簡報](../workingfiles/outputs/簡報_2026-09-14_制度優化/index.html)（agy 製作、Codex 獨立驗收通過，PO授權結案提交）：[TaskLog](archive/ClosedTaskLog_2026-09-14_制度優化互動簡報.md)。
-- 2026-09-15 本次session-end待合併main：工作分支已提交推送，main合併遭自動權限審查拒絕；[當前TaskLog](TaskLog_2026-09-15_結案待合併main.md)。
+- 2026-09-15 Codex 結案分支已由 PO 親自合併進 main（`ea27a7a`），制度優化全套生效；[結案紀錄](archive/ClosedTaskLog_2026-09-15_結案待合併main.md)。
 
 ## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
 - 查證 output style 跟 CLAUDE.md 一樣無強制力，確認 ody-lint Stop hook（Tyrion）不可省略。GLOBAL.md「交付即預覽」擴大到文件/圖檔/影片/音檔，`open` 補 `-g` 背景開啟。新增三個 skill：`W_colab`（共編檔守則）、`index-this`（快速記 INDEX）、`resume-id-info`（手動標記 session 供接續）。**附記：本 session 兩度發生「改名 commit 漏帶內容」，已修正並記教訓**。詳見 `_context/TaskLog_2026-08-20_output-style討論與三個新skill.md`（**當前 TaskLog**）。

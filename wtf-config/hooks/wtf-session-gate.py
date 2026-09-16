@@ -253,11 +253,14 @@ def recovery_read(directory: Path, current: dict, manifest: dict,
     path = directory / "recovery.json"
     recovery = read_json(path) if path.exists() else {"schema": 1, "used": {}}
     generation_id = current["generation"]
-    previous = current.get("previous_generation")
-    if recovery.get("fused") or (previous and recovery.get("last_recovery_generation") == previous):
-        recovery.update({"fused": True, "warning": "consecutive generations require recovery",
-                         "warning_at": now()})
-        atomic_json(path, recovery)
+    # 2026-09-16 移除「連續兩代都靠補讀→熔斷」規則：resume／compact 會換代，但 harness 是否重發
+    # InstructionsLoaded 不可靠（HsinchuSEC 第六章 session 105 次 deny 永久死鎖；互動機具 session 則
+    # 2 分鐘後才收到事件）。補讀本身已受「每代每檔一次」限制，連續代熔斷只把 harness 的不可靠
+    # 升級成無法自救的死鎖。舊版寫下的該類熔斷視為過期，自動解除。
+    if recovery.get("fused") and recovery.get("warning") == "consecutive generations require recovery":
+        recovery.pop("fused", None); recovery["warning"] = "legacy consecutive-generation fuse cleared"
+        recovery["warning_at"] = now()
+    if recovery.get("fused"):
         return False
     used = recovery.setdefault("used", {}).setdefault(generation_id, [])
     if matches[0] in used:

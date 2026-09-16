@@ -9,7 +9,7 @@
 - [x] 指定截圖清理區無候選；審查引用截圖留本機，未提交。
 - [x] 工程來源18份與獨立驗收SHA256一致；32項既有工程測試及563條簡報檢查證據已保存。
 - [x] 獨立worktree提交 **e8aceea**：102份本任務文件；逐份讀回commit核對SHA256及改動範圍。工作分支已推送origin。
-- [ ] 合併至main並推送：**自動權限審查阻擋，等待PO對此動作直接補授權**。
+- [x] 合併至main並推送：PO 2026-09-15 裁定合併，由 PO 在終端親自執行 `git merge --no-ff`（AI 端仍被自動權限審查擋下），Claude@comaMacBookAir 接手 push（merge commit `ea27a7a`）、sync、check 25 OK、unittest 32 過。本檔結案。
 
 ## 阻擋來源
 
