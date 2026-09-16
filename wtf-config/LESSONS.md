@@ -360,3 +360,5 @@
 - WTF_Under_Construction｜2026-09-15｜跨工具skill須分驗部署、手動選取、自動匹配與執行；Codex以$技能名或/skills叫用，檔案一致不代表斜線選單可用｜_context/lessons-learned.md#2026-09-15跨工具-skill手動入口與執行要分開驗
 WTF｜2026-09-16｜單一專案路徑故障不得升級成 sync 全域中止或 gate 全域 deny；預檢與部署逐專案隔離、deny 訊息帶路徑｜_context/lessons-learned.md
 - HsinchuSEC｜2026-09-16｜HTML 視覺驗證必須逐 h2/h3 截圖全部看過（scrollIntoView 找關鍵字會捲到導覽列）＋DOM 掃 scrollWidth 找溢出；長 URL 欄位加 overflow-wrap:anywhere｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- WTF｜2026-09-16｜Drive Finder 改名後行程 cwd 失效→getcwd() EPERM→gate protected() 每次呼叫 Path.resolve() 炸→全工具呼叫 deny 死鎖；修：相對路徑不 resolve，絕對路徑 resolve 失敗退回原字串，except 內禁呼叫碰 cwd 函式；hook 腳本狀態一律走 home()/絕對路徑｜_context/lessons-learned.md
+- WTF｜2026-09-16｜fail-closed gate 熔斷後若封鎖唯一復原路徑（讀 GLOBAL/AGENTS）→永久死鎖（HsinchuSEC 105 次 deny）；harness InstructionsLoaded 不可靠，依賴它的熔斷規則必須留模型自己走得通的復原路徑；已移除「連續兩代補讀→熔斷」規則｜_context/lessons-learned.md
