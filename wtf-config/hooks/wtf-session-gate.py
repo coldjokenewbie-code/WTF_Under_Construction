@@ -13,7 +13,22 @@ def digest(path: Path) -> str:
         for chunk in iter(lambda: source.read(65536), b""):
             hasher.update(chunk)
     return hasher.hexdigest()
-def canonical(path: Path) -> str: return os.path.normcase(str(path.resolve()))
+def canonical(path: Path) -> str:
+    """正規化路徑。兩個不得依賴 cwd 的理由（2026-09-16 文件主控 session 實例）：
+    1) 相對字串（Bash 指令文字等）resolve() 會呼叫 getcwd()，session 的 cwd 在 Drive 上被
+       FileProvider 重建 inode 後 getcwd 直接 EPERM，每次工具呼叫都被 fail-closed 成全域 deny；
+    2) 不可讀／未掛載的外部絕對路徑 resolve() 也可能拋 OSError。
+    因此：相對路徑一律不 resolve、只做字串正規化（受保護路徑全是絕對路徑，commonpath 對相對
+    字串本來就不可能命中，子字串檢查另在 protected() 內保留）；絕對路徑 resolve 失敗退回原字串，
+    絕不在 except 內再呼叫任何會碰 cwd 的函式（abspath 也會）。"""
+    raw = str(path)
+    if not path.is_absolute():
+        return os.path.normcase(os.path.normpath(raw))
+    try:
+        return os.path.normcase(str(path.resolve()))
+    except OSError as error:
+        print(f"wtf-session-gate: canonical fallback for {raw} ({error})", file=sys.stderr)
+        return os.path.normcase(os.path.normpath(raw))
 def atomic_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.parent / f".{path.name}.{secrets.token_hex(8)}.tmp"
@@ -171,7 +186,10 @@ def cmd_instructions(event: dict) -> None:
     if not (directory / "generation.json").exists():
         # 事件先於 init 到達：自建 generation（O_EXCL 並行安全）。bundle 由事件 file_path 推導，
         # 不靠 choose_bundle（多 bundle 過渡期會 ambiguous）。事件本身即 loader 已處理檔案的證據。
-        fp = Path(str(event.get("file_path", ""))).resolve()
+        try:
+            fp = Path(str(event.get("file_path", ""))).resolve()
+        except OSError as error:
+            raise GateError(f"cannot resolve InstructionsLoaded file_path {event.get('file_path')!r}: {error}") from error
         bdir = fp.parent
         bhash = bdir.name
         if re.fullmatch(r"[0-9a-f]{64}", bhash) and (bdir / "manifest.json").is_file() \
@@ -318,6 +336,18 @@ def parse_stdin() -> dict:
     if not isinstance(value, dict):
         raise GateError("hook input must be a JSON object")
     return value
+def describe_failure(error: Exception, event: dict | None) -> str:
+    """失敗訊息帶上工具名與 tool_input 內的路徑候選，讓收到 deny 的 session 能直接定位是哪個路徑出事。"""
+    reason = f"{type(error).__name__}: {error}"
+    if isinstance(event, dict):
+        tool_input = event.get("tool_input") or {}
+        paths = [str(v) for k, v in tool_input.items()
+                 if isinstance(v, str) and ("/" in v or "\\" in v) and k in {"file_path", "path", "notebook_path", "command"}]
+        context = f" [tool={event.get('tool_name')}"
+        if paths:
+            context += " inputs=" + "; ".join(p[:200] for p in paths[:3])
+        reason += context + "]"
+    return reason
 def emit_failure(command: str, reason: str) -> int:
     print(f"wtf-session-gate: {reason}", file=sys.stderr)
     if command == "pretool":
@@ -328,6 +358,7 @@ def emit_failure(command: str, reason: str) -> int:
         return 0
     return 2
 def main() -> int:
+    event = None
     command = sys.argv[1] if len(sys.argv) == 2 else ""
     commands = {"init", "init-agent", "instructions", "pretool", "postread", "stop", "stop-agent"}
     if command not in commands: return emit_failure(command, "expected one supported subcommand")
@@ -353,6 +384,6 @@ def main() -> int:
                 print(json.dumps(output))
         return 0
     except Exception as error:
-        return emit_failure(command, str(error))
+        return emit_failure(command, describe_failure(error, event))
 if __name__ == "__main__":
     raise SystemExit(main())

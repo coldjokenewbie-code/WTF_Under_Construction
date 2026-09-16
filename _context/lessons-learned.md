@@ -10,6 +10,14 @@
 
 * **`projects-registry.md` 機器路徑欄禁夾括號備註**：`sync_config.py` 把「有括號的整串」當路徑判定不存在→靜默略過（`check` 也不報 ERROR，只在 sync stderr 出 WARN），導致 3Dstudy／ai-roundtable／e-reader-stuff／HuaNan_Bank／md-editor 5 個專案長期未收到 AGENTS.md 部署、部署數低報（20 而非 25）。備註一律移入 `github` 欄，路徑欄只留乾淨路徑；維護規則已補入 registry 表頭防再犯。
 
+## 2026-09-16 (單一專案路徑故障升級成全域失敗：sync 預檢與 gate 路徑正規化)
+
+* **坑**：另一 session 回報 wtf-session-gate 的 PreToolUse 對所有工具呼叫回 deny、wtf-sync 同時死在 cowork_CDIC/._agents/，該路徑在它的環境 OS 層讀不到（本機重現不了，屬環境差異）。查證：`sync_config.py` 合併 Codex 制度優化後的預檢把全域＋所有專案 skill 來源放在同一個 try 裡，任一專案 `read_skills` 拋錯就 `[INVALID]` 整體中止、一個都不部署；gate 的 `canonical()` 直接 `path.resolve()` 無錯誤處理，`protected()` 對 tool_input 每個字串都呼叫，外部路徑拋 OSError 即被 main 的總捕捉轉成全域 deny，且訊息不帶工具名與路徑。
+* **修**：sync 預檢改「全域 SSOT 壞才中止；專案來源壞只 WARN 並略過該專案」，部署迴圈逐目標 try/except，最後照常 `check`、有略過或失敗才回 1（模擬 cowork_CDIC 放壞 SKILL.md 驗證：其餘 24 項照常部署）。gate `canonical()` 捕捉 OSError 退回 abspath 字串比對並 stderr 警告；deny 訊息附 `[tool=… inputs=…]`。四種沙盒情境（正常／受保護／無收據／壞 JSON）行為不變。
+* **根因補記（文件主控 session，PO 實跑證實）**：不是 App 層 TCC，是該行程的 cwd 在 Drive 上，PO 在 Finder 對專案資料夾改名搬移後 FileProvider 重建 inode，舊行程持有的目錄 handle 失效——`getcwd()` 直接 EPERM，Node 層 Read Drive 路徑也 EPERM，後開的 session 拿到新 handle 一切正常。gate 之所以每次工具呼叫全 deny：`protected()` 對 Bash 指令等**相對字串**呼叫 `Path.resolve()`，內部先 `getcwd()` 就炸；我第一版 fallback 用 `abspath` 又呼叫 `getcwd()`，在 except 裡再炸，所以沒接住。**修**：相對路徑一律不 resolve、只做字串正規化；絕對路徑 resolve 失敗退回原字串；except 內絕不再呼叫任何碰 cwd 的函式。沙盒用「cd 進暫存目錄後 rmdir」即可重現死 cwd。sync 的逐專案 AGENTS.md 迴圈同樣補了隔離（ai-roundtable EPERM 曾拖垮整支）。
+* **防（補）**：hook 腳本不得依賴 cwd——所有狀態走 home()／絕對路徑；對 tool_input 內任意字串做路徑運算前先判 `is_absolute()`。session 壞掉時連讀 hook 原始碼都被受保護路徑擋住、無法自救，這是 fail-closed 的必然代價；環境層故障（Drive handle 失效）的正確處置是另開 session，不是改 gate。
+* **防**：任何「掃一批外部路徑」的邏輯，爆炸半徑要跟故障來源同級——單一路徑失敗只能影響該路徑，不得升級成全域中止或全域 deny；失敗訊息必帶實際路徑。合併別人重寫的部署腳本時，逐 skill／逐專案容錯（2026-06-03 教訓）要當驗收項重驗，不能假設重寫版保留。
+
 ## 2026-08-20 (output style 討論＋三個新 skill＋SSD 選購協助)
 
 * **skill 改名（`git mv`＋Edit 改 frontmatter）後，一律用 `git show <commit>:<path>` 核對內容，不能只看 `git add`/`git status` 沒報錯**：本 session 內兩次改名（`W_Doc_Guard→W_colab`、`mark-resume→resume-id-info`）都發生同一個模式——`git status --short` 顯示 `RM`（rename detected）、commit 也成功執行無錯誤，但事後用 `git show <commit>:<path>` 核對，commit 裡的 frontmatter/標題內容其實還是改名前的舊版，得再補一個 commit 修正。原因未完全查明，但兩次都重現同一症狀：中間夾了其他工具呼叫（例如跑 `sync_config.py sync`）才做 `git add`。**因應**：改名／整檔覆寫類操作，commit 後務必 `git show HEAD:<path> | head` 核對關鍵行，不能假設 `git add` 沒報錯就代表內容真的進了 commit。

@@ -358,3 +358,4 @@
 - cowork_CDIC｜2026-09-15｜共編 docx 被使用者存檔後 Word 會把句子拆成多個 run，run 層比對必落空——改以 `<w:br/>` 切段比對、只改該段第一個 w:t，命中數寫進斷言；「以來信或以定稿為準」是 PO 的決定，agent 只攤開差異並標疑似誤植，錯字不照抄到每一欄｜projects/cowork_CDIC/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-15｜開發期寫死的播放邊界與速度檔位要抽成參數並保留舊預設；腳本文字上畫面前先分「指示／標籤／輸出字」，導演資訊層在投影模式一律關閉｜`projects/南科再生水廠/_context/lessons-learned.md`
 - WTF_Under_Construction｜2026-09-15｜跨工具skill須分驗部署、手動選取、自動匹配與執行；Codex以$技能名或/skills叫用，檔案一致不代表斜線選單可用｜_context/lessons-learned.md#2026-09-15跨工具-skill手動入口與執行要分開驗
+WTF｜2026-09-16｜單一專案路徑故障不得升級成 sync 全域中止或 gate 全域 deny；預檢與部署逐專案隔離、deny 訊息帶路徑｜_context/lessons-learned.md
