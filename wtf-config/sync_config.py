@@ -536,19 +536,26 @@ def cmd_sync():
     ssot_body = read_ssot()
     _, content = build_copy(ssot_body, socket.gethostname())
     print(f"真相源: {SSOT}")
+    agents_failed = []
     for directory in registry_dirs():
         target = directory / "AGENTS.md"
-        status, note = classify(target, ssot_body)
-        if status == "FOREIGN":
-            print(f"  - 略過 {directory.name}/AGENTS.md（{note}）")
-            continue
-        if status == "OK":
-            print(f"  v 保留 {directory.name}/AGENTS.md（內容一致）")
-            continue
-        if target.is_symlink():
-            target.unlink()
-        target.write_text(content, encoding="utf-8")
-        print(f"  v 寫入 {directory.name}/AGENTS.md")
+        # 逐專案隔離：Drive 路徑失去存取權（EPERM）等 OSError 只略過該專案並警告，不整支崩
+        # （2026-09-16 文件主控 session：ai-roundtable/AGENTS.md read_text EPERM 拖垮整個 sync）。
+        try:
+            status, note = classify(target, ssot_body)
+            if status == "FOREIGN":
+                print(f"  - 略過 {directory.name}/AGENTS.md（{note}）")
+                continue
+            if status == "OK":
+                print(f"  v 保留 {directory.name}/AGENTS.md（內容一致）")
+                continue
+            if target.is_symlink():
+                target.unlink()
+            target.write_text(content, encoding="utf-8")
+            print(f"  v 寫入 {directory.name}/AGENTS.md")
+        except OSError as error:
+            agents_failed.append(directory)
+            print(f"  ! [WARN] {directory.name}/AGENTS.md 讀寫失敗，略過該專案：{error}")
     try:
         for note in deploy_claude_dir() + deploy_other_tools():
             print(note)
@@ -569,8 +576,9 @@ def cmd_sync():
             print(f"  ! [WARN] 專案 skill 部署失敗，略過：{target['source']} → {error}")
     # 不把部分部署／被舊邏輯略過的例外當成功：其餘目標照常 check，但只要有略過或失敗就回 1。
     rc = cmd_check()
-    if skipped or failed:
-        print(f"[ERROR] 專案 skill 預檢略過 {len(skipped)} 個、部署失敗 {len(failed)} 個（其餘已部署並檢查）")
+    if skipped or failed or agents_failed:
+        print(f"[ERROR] AGENTS.md 略過 {len(agents_failed)} 個、專案 skill 預檢略過 {len(skipped)} 個、"
+              f"部署失敗 {len(failed)} 個（其餘已部署並檢查）")
         return 1
     return rc
 

@@ -14,13 +14,21 @@ def digest(path: Path) -> str:
             hasher.update(chunk)
     return hasher.hexdigest()
 def canonical(path: Path) -> str:
-    """正規化路徑。resolve() 在不可讀／未掛載的外部路徑（如 Google Drive 串流目錄）可能拋 OSError；
-    此時退回 abspath 字串比對並在 stderr 警告，不讓單一外部路徑升級成全域 deny（2026-09-16）。"""
+    """正規化路徑。兩個不得依賴 cwd 的理由（2026-09-16 文件主控 session 實例）：
+    1) 相對字串（Bash 指令文字等）resolve() 會呼叫 getcwd()，session 的 cwd 在 Drive 上被
+       FileProvider 重建 inode 後 getcwd 直接 EPERM，每次工具呼叫都被 fail-closed 成全域 deny；
+    2) 不可讀／未掛載的外部絕對路徑 resolve() 也可能拋 OSError。
+    因此：相對路徑一律不 resolve、只做字串正規化（受保護路徑全是絕對路徑，commonpath 對相對
+    字串本來就不可能命中，子字串檢查另在 protected() 內保留）；絕對路徑 resolve 失敗退回原字串，
+    絕不在 except 內再呼叫任何會碰 cwd 的函式（abspath 也會）。"""
+    raw = str(path)
+    if not path.is_absolute():
+        return os.path.normcase(os.path.normpath(raw))
     try:
         return os.path.normcase(str(path.resolve()))
     except OSError as error:
-        print(f"wtf-session-gate: canonical fallback for {path} ({error})", file=sys.stderr)
-        return os.path.normcase(os.path.abspath(str(path)))
+        print(f"wtf-session-gate: canonical fallback for {raw} ({error})", file=sys.stderr)
+        return os.path.normcase(os.path.normpath(raw))
 def atomic_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.parent / f".{path.name}.{secrets.token_hex(8)}.tmp"
@@ -178,7 +186,10 @@ def cmd_instructions(event: dict) -> None:
     if not (directory / "generation.json").exists():
         # 事件先於 init 到達：自建 generation（O_EXCL 並行安全）。bundle 由事件 file_path 推導，
         # 不靠 choose_bundle（多 bundle 過渡期會 ambiguous）。事件本身即 loader 已處理檔案的證據。
-        fp = Path(str(event.get("file_path", ""))).resolve()
+        try:
+            fp = Path(str(event.get("file_path", ""))).resolve()
+        except OSError as error:
+            raise GateError(f"cannot resolve InstructionsLoaded file_path {event.get('file_path')!r}: {error}") from error
         bdir = fp.parent
         bhash = bdir.name
         if re.fullmatch(r"[0-9a-f]{64}", bhash) and (bdir / "manifest.json").is_file() \
