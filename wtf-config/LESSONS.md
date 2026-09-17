@@ -372,3 +372,4 @@ HsinchuSEC｜2026-09-17｜Word 可編輯圖表用原生表格構成；docx 視�
 HsinchuSEC｜2026-09-17｜Hook 互鎖：resume 後 gate 擋下 stop_dispatcher 指定的 Read，需新 session；制度層應放行該路徑｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#hook-互鎖stop_dispatcher-要求的-read-被-pretooluse-gate-擋下
 - e-reader-stuff｜2026-09-16｜原始碼算式與實機不符時改做直接實驗（參數壓到安全範圍），不繼續讀碼｜projects/e-reader-stuff/_context/lessons-learned.md
 - e-reader-stuff｜2026-09-16｜Android 外接螢幕字太大先調 `wm density -d <id>` 不調解析度；Pixel 對 300 ppi 面板預設 410 dpi｜projects/e-reader-stuff/_context/lessons-learned.md
+WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是規則；PO 偏好分品味／約束／偏見並以其反證驗；溝通冗長只靠逐句自問、不設上限｜_context/lessons-learned.md

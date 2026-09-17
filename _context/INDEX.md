@@ -1,9 +1,12 @@
 # WTF_Under_Construction — 現況總覽 (INDEX)
-> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-09-15
+> 進場先讀。**本檔只指路，不複製 todo**（todo 真相源＝當前 TaskLog）。最後更新：2026-09-17
+
+- 2026-09-17 GLOBAL 新增「分流先於執行」派工鐵律（PO 裁定，commit cccb8bc），已通告全 session。
 
 - 2026-09-14 ai-team 制度優化，Codex 接手 Tech Lead：[交接](archive/Handover_2026-09-14_ai-team跨工具skill與模型調度優化.md) → [工程紀錄](archive/ClosedTaskLog_2026-09-14_ai-team制度優化.md)（獨立驗收完成，e8aceea已推工作分支）。
-- 2026-09-14 案例分析 skill 全域化：跨專案彙整完成、三項拍板已記，skill 未動工（暫停）：[TaskLog](TaskLog_2026-09-14_案例分析skill全域化.md)。ChildrenFuture 專案同日建立並登記。
+- 2026-09-14~17 案例分析 skill 全域化＝**結案**：`reference-study` 全域版部署、美學偏好側寫錨點、PO 三條非通則裁定：[ClosedTaskLog](archive/ClosedTaskLog_2026-09-14_案例分析skill全域化.md)。ChildrenFuture 專案 09-14 建立並登記。
 - 2026-09-15 制度優化六頁[互動簡報](../workingfiles/outputs/簡報_2026-09-14_制度優化/index.html)（agy 製作、Codex 獨立驗收通過，PO授權結案提交）：[TaskLog](archive/ClosedTaskLog_2026-09-14_制度優化互動簡報.md)。
+- 2026-09-16 session-gate 兩起死鎖修復（ai-team 三輪＋三方驗收 GO，09-17 已 commit；延後四項待 PO）：[TaskLog](TaskLog_2026-09-16_session-gate死鎖修復.md)。
 - 2026-09-15 Codex 結案分支已由 PO 親自合併進 main（`ea27a7a`），制度優化全套生效；[結案紀錄](archive/ClosedTaskLog_2026-09-15_結案待合併main.md)。
 
 ## 2026-08-20 output style 討論＋三個新 skill（W_colab／index-this／resume-id-info）
