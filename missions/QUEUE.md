@@ -3,13 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-17 08:30**：昨夜4循環棒（19:33/21:33/23:33/01:33）全秒退零增量，QUEUE全程無待規劃/active項（待核准×2／parked×2／done×2／提名×5，狀態未變），**連續61天零 active 增量**（01:33心跳記數）。main 側新增3條非mission commit尚未併入night-relay：`746c8d4`（Codex結案TaskLog歸檔）／`bde839e`（gate：移除連續兩代補讀熔斷規則）／`5085ef2`（nightly gate/cwd死鎖lesson補登）——合併時會一併帶入。
-**chain-capability**：續FAIL（23:33補測，CronCreate durable參數仍明寫「Has no effect — durable persistence is not available」），連續PASS計數仍為0。
-**blockers新增項**：無。沿用兩項待決：互動機具設計報告書驗收未過待補充具體修改點（機具驗收，2026-07-21掛起，**58天**）；guide-app anchor升級提案裁決（定錨棒提案，2026-07-09掛起，**70天**）。
-**待核准清單未變**：20260706-guide-app（優先序2，剩唯一卡點＝anchor升級提案裁決）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
-**chain-capability**：續FAIL（CronCreate durable參數仍明寫無持久化），連續PASS計數仍為0。
-**blockers新增項**：無。沿用同上兩項。
+**提醒棒 2026-09-17 19:00**：night-relay 已併入 main（新增5條非mission commit：`94eeae7` gate死鎖修法/reference-study skill/美學偏好側寫、`cccb8bc` 分流先於執行派工鐵律、`a35f689`/`e4bcac7`/`5085ef2` LESSONS補登，均非本迴圈產出，未動 QUEUE）。QUEUE 全程無「待規劃」/「active」項（整欄精確相等）：parked×2／待核准×2／done×2／提名×5，狀態未變，**連續61天零 active 增量**（01:33心跳最後記數），今晚4循環棒（19:30/21:30/23:30/01:30）預期同樣秒退。
+**待核准清單**：20260706-guide-app（優先序2，唯一卡點＝anchor升級提案裁決）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
+**提名清單（候選，未經核准棒子不碰）**：ody-evidence-gate／southlibrary-fonts（待掛SouthLibrary）／cowork-c-tasks（待掛cowork_CDIC）／sreclaim-verify-b（待掛S-reclaimed-water-plant）／pptmap-skill（待掛ppt_map_mark）。
+**blockers待決**（無新增，沿用）：互動機具設計報告書驗收未過待補充具體修改點（machine-report，2026-07-21掛起，**58天**）；guide-app anchor升級提案裁決（2026-07-09掛起，**70天**）。
+**產能算術**：0個active mission，0筆待推進backlog項；今晚排定4棒（19:30/21:30/23:30/01:30）依現況預計全數秒退零增量；以「每棒一項」推算之預計完成日＝不適用（無使用者核准前無法起算）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
