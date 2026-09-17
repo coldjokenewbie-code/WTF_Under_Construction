@@ -360,3 +360,16 @@
 - WTF_Under_Construction｜2026-09-15｜跨工具skill須分驗部署、手動選取、自動匹配與執行；Codex以$技能名或/skills叫用，檔案一致不代表斜線選單可用｜_context/lessons-learned.md#2026-09-15跨工具-skill手動入口與執行要分開驗
 WTF｜2026-09-16｜單一專案路徑故障不得升級成 sync 全域中止或 gate 全域 deny；預檢與部署逐專案隔離、deny 訊息帶路徑｜_context/lessons-learned.md
 - HsinchuSEC｜2026-09-16｜HTML 視覺驗證必須逐 h2/h3 截圖全部看過（scrollIntoView 找關鍵字會捲到導覽列）＋DOM 掃 scrollWidth 找溢出；長 URL 欄位加 overflow-wrap:anywhere｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- WTF｜2026-09-16｜Drive Finder 改名後行程 cwd 失效→getcwd() EPERM→gate protected() 每次呼叫 Path.resolve() 炸→全工具呼叫 deny 死鎖；修：相對路徑不 resolve，絕對路徑 resolve 失敗退回原字串，except 內禁呼叫碰 cwd 函式；hook 腳本狀態一律走 home()/絕對路徑｜_context/lessons-learned.md
+- WTF｜2026-09-16｜fail-closed gate 熔斷後若封鎖唯一復原路徑（讀 GLOBAL/AGENTS）→永久死鎖（HsinchuSEC 105 次 deny）；harness InstructionsLoaded 不可靠，依賴它的熔斷規則必須留模型自己走得通的復原路徑；已移除「連續兩代補讀→熔斷」規則｜_context/lessons-learned.md
+- e-reader-stuff｜2026-09-16｜Android「請改用其他傳輸線」通知三個入口中兩個與線材無關，先抓 bugreport 核心 log 再判｜projects/e-reader-stuff/_context/lessons-learned.md
+- e-reader-stuff｜2026-09-16｜無 root Pixel 用 `adb bugreport` 取核心 dmesg；sysfs 顯示驅動節點無 root 讀不到｜projects/e-reader-stuff/_context/lessons-learned.md
+- e-reader-stuff｜2026-09-16｜單一樣本相關不是因果（接頭方向假設翻面即推翻）；至少兩次一致再當假設｜projects/e-reader-stuff/_context/lessons-learned.md
+- e-reader-stuff｜2026-09-16｜USB 裝置＋DP sink 合一的板子接手機，USB 列舉搶 PHY，鎖屏插線讓 DP 先到｜projects/e-reader-stuff/_context/lessons-learned.md
+HsinchuSEC｜2026-09-17｜子代理整段改寫會把 Tech Lead 已修句子改回舊稿，每輪改寫後必重跑 fresh 複驗並把已刪句列入機檢｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#子代理整段改寫會把先前人工修正改回舊稿每輪改寫後必重跑-fresh-複驗
+HsinchuSEC｜2026-09-17｜子代理宣稱「實開」須 Tech Lead 可重現，否則標未驗證交 PO 核對｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#子代理宣稱實開不等於已驗證tech-lead-須能重現
+HsinchuSEC｜2026-09-17｜Word 可編輯圖表用原生表格構成；docx 視覺驗證用 Mac LibreOffice headless 轉 PDF 逐頁看｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#可編輯圖表用原生表格構成png-只當草稿
+HsinchuSEC｜2026-09-17｜Hook 互鎖：resume 後 gate 擋下 stop_dispatcher 指定的 Read，需新 session；制度層應放行該路徑｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#hook-互鎖stop_dispatcher-要求的-read-被-pretooluse-gate-擋下
+- e-reader-stuff｜2026-09-16｜原始碼算式與實機不符時改做直接實驗（參數壓到安全範圍），不繼續讀碼｜projects/e-reader-stuff/_context/lessons-learned.md
+- e-reader-stuff｜2026-09-16｜Android 外接螢幕字太大先調 `wm density -d <id>` 不調解析度；Pixel 對 300 ppi 面板預設 410 dpi｜projects/e-reader-stuff/_context/lessons-learned.md
+WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是規則；PO 偏好分品味／約束／偏見並以其反證驗；溝通冗長只靠逐句自問、不設上限｜_context/lessons-learned.md

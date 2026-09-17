@@ -1,6 +1,6 @@
 # TaskLog 2026-09-14 — 案例分析 skill 全域化（跨專案彙整已完成，skill 未動工）
 
-> session：`claude_wtf`（id `908f5241-8947-4ee4-a941-437d68b14273`）。狀態：**暫停，等三藏指示再動工**。
+> session：`claude_wtf`。狀態：**2026-09-17 結案**——全域 `reference-study` 已部署三工具（79 行＋gen_case_report.py），互動機具 session 首次獨立套用成功（22 案、拓展組 3、爭議組 3）。
 
 ## 三藏已拍板（2026-09-14）
 1. 以南科 `reference-study` skill（`南科再生水廠/._agents/skills/reference-study/SKILL.md`，67 行）為底升到全域 `wtf-config/skills/`，再補其他專案教訓；不重寫。
@@ -21,8 +21,12 @@
 - 產生器雛形：`ChildrenFuture/tools/gen_case_report.py`（cases.json → index.html，含 shots/ 抓圖與 contact sheet QC），可直接搬進全域 skill 當附件。
 
 ## 待辦
-- [ ] 讀南科 SKILL.md 全文＋上列教訓，寫 `wtf-config/skills/reference-study/SKILL.md`（全域版）＋附 `gen_case_report.py`
-- [ ] 補「決策檔範本」節；補「第 0 步 PO 不在線」處理
-- [ ] `sync_config.py sync` 部署三工具，`check` 全綠
+- [x] 全域版 SKILL.md＋gen_case_report.py（2026-09-17）
+- [x] 決策檔必產物、PO 不在線假設明標、決策層次改「命名不選單」（PO 裁定四選項非通則）
+- [x] sync 部署，check 25 全綠
 - [ ] 建 `wtf-config/anchors/報告書.md` 錨點檔（README 已預留但未建）
 - [ ] 南科專案層同名 skill 保留（專案版優先），或改為指向全域＋專案差異
+
+## 2026-09-17 追加
+- 美學偏好側寫：`wtf-config/anchors/美學偏好側寫_2026-09-17.md`（16 列證據、8 條偏狹風險、9 條反偏見規則）；PO 裁定三條非通則（光明莊重限法規語域；teamLab 類載體相符即可入選；以圖為主限視覺型交付物）。skill 內建反偏見四條。
+- 殘留（低優先）：`wtf-config/anchors/報告書.md` 錨點檔未建；南科專案版 skill 保留（專案優先）。

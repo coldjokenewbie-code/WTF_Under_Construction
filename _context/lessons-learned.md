@@ -10,12 +10,19 @@
 
 * **`projects-registry.md` 機器路徑欄禁夾括號備註**：`sync_config.py` 把「有括號的整串」當路徑判定不存在→靜默略過（`check` 也不報 ERROR，只在 sync stderr 出 WARN），導致 3Dstudy／ai-roundtable／e-reader-stuff／HuaNan_Bank／md-editor 5 個專案長期未收到 AGENTS.md 部署、部署數低報（20 而非 25）。備註一律移入 `github` 欄，路徑欄只留乾淨路徑；維護規則已補入 registry 表頭防再犯。
 
+## 2026-09-17 (案例分析 skill 全域化＋美學偏好側寫＋溝通漂移)
+
+* **從單一專案萃取的分類清單不能直接當全域預設**：南科版「決策層次＝畫風／版面／工藝／載體」是印刷物的切法，ChildrenFuture 一用就得自己加「互動機制」。通用的是規則（一次一層、混層必退），不是清單。全域版改「先命名本次層次，附各專案對照表當例子」。同理「載體一致」改「情境條件由第 0 步定義」。
+* **PO 的偏好要分「品味」「商業約束」「偏見」三類，且偏見要拿同一 PO 的反證去驗**：暗色否定、teamLab 排除、以圖為主，三條經證據對照都是語域或載體限定，PO 親裁「都不是通則」。做法已固化為側寫檔＋skill 反偏見四條（拓展組、剔除只許三種理由、不預先過濾、刻意違反清單）。
+* **溝通冗長是 Claude 長 session 的系統性漂移（PO 估三成），Codex／agy 互動對話沒有**：字數規則只在 prompt 層。PO 否決「加長度上限」：10 字能講完的會被撐到 30 字，增加閱讀負荷。正確判準只有一條——逐句問「刪掉會少資訊嗎」。
+
 ## 2026-09-16 (單一專案路徑故障升級成全域失敗：sync 預檢與 gate 路徑正規化)
 
 * **坑**：另一 session 回報 wtf-session-gate 的 PreToolUse 對所有工具呼叫回 deny、wtf-sync 同時死在 cowork_CDIC/._agents/，該路徑在它的環境 OS 層讀不到（本機重現不了，屬環境差異）。查證：`sync_config.py` 合併 Codex 制度優化後的預檢把全域＋所有專案 skill 來源放在同一個 try 裡，任一專案 `read_skills` 拋錯就 `[INVALID]` 整體中止、一個都不部署；gate 的 `canonical()` 直接 `path.resolve()` 無錯誤處理，`protected()` 對 tool_input 每個字串都呼叫，外部路徑拋 OSError 即被 main 的總捕捉轉成全域 deny，且訊息不帶工具名與路徑。
 * **修**：sync 預檢改「全域 SSOT 壞才中止；專案來源壞只 WARN 並略過該專案」，部署迴圈逐目標 try/except，最後照常 `check`、有略過或失敗才回 1（模擬 cowork_CDIC 放壞 SKILL.md 驗證：其餘 24 項照常部署）。gate `canonical()` 捕捉 OSError 退回 abspath 字串比對並 stderr 警告；deny 訊息附 `[tool=… inputs=…]`。四種沙盒情境（正常／受保護／無收據／壞 JSON）行為不變。
 * **根因補記（文件主控 session，PO 實跑證實）**：不是 App 層 TCC，是該行程的 cwd 在 Drive 上，PO 在 Finder 對專案資料夾改名搬移後 FileProvider 重建 inode，舊行程持有的目錄 handle 失效——`getcwd()` 直接 EPERM，Node 層 Read Drive 路徑也 EPERM，後開的 session 拿到新 handle 一切正常。gate 之所以每次工具呼叫全 deny：`protected()` 對 Bash 指令等**相對字串**呼叫 `Path.resolve()`，內部先 `getcwd()` 就炸；我第一版 fallback 用 `abspath` 又呼叫 `getcwd()`，在 except 裡再炸，所以沒接住。**修**：相對路徑一律不 resolve、只做字串正規化；絕對路徑 resolve 失敗退回原字串；except 內絕不再呼叫任何碰 cwd 的函式。沙盒用「cd 進暫存目錄後 rmdir」即可重現死 cwd。sync 的逐專案 AGENTS.md 迴圈同樣補了隔離（ai-roundtable EPERM 曾拖垮整支）。
 * **第二個死鎖（同日，HsinchuSEC 第六章 session，105 次 deny）**：gate 的「連續兩代都靠補讀→熔斷」規則。resume／compact 會換代並要求新收據，但 harness 是否重發 InstructionsLoaded 不可靠（第六章從一開始就沒收到、靠補讀；互動機具 resume 後 2 分鐘才收到）。第二次換代再補讀就被熔斷，且熔斷後連讀 GLOBAL／AGENTS 這條唯一復原路徑也被擋，永久死鎖。**修**：移除連續代熔斷（補讀本已受「每代每檔一次」限制），舊版寫下的該類熔斷載入時自動解除；保留「補讀後沒產生收據」熔斷。沙盒重現：state 放 fused＋previous 已用過補讀 → 完整 Read GLOBAL → postread 寫收據 → Read AGENTS → 之後放行。**防**：任何依賴 harness 事件的 fail-closed 規則，先查該事件是否可靠（同 2026-07-30 SubagentStart 教訓）；熔斷類規則必須留一條模型自己走得通的復原路徑，否則就是把 harness 的不可靠變成使用者的停工。
+* **第三個教訓（同日，ai-team 審查抓到）**：我修 canonical() 時把相對字串改成不 resolve，讓 protected() 裡 `commonpath(相對, 絕對)` 拋 ValueError、`continue` 連同一行 `or` 後面的子字串檢查一起跳過——含受保護路徑的 Bash 指令文字從此漏攔，而且 hook 直指 repo 工作區、改檔當下就對全機生效，這個回歸在 commit 前就已經跑在所有 session 上。自己的沙盒四情境全綠是因為沒測「Bash 文字含受保護路徑」與「相對路徑 Write」。**防**：改 protected()／canonical() 必配這兩種測試；同一個 `if` 裡不要把「可能拋錯的比對」和「保底比對」用 `or` 串在一起；hook 直指工作區的部署方式列入 PO 待決（改指向已驗證版本目錄）。
 * **防（補）**：hook 腳本不得依賴 cwd——所有狀態走 home()／絕對路徑；對 tool_input 內任意字串做路徑運算前先判 `is_absolute()`。session 壞掉時連讀 hook 原始碼都被受保護路徑擋住、無法自救，這是 fail-closed 的必然代價；環境層故障（Drive handle 失效）的正確處置是另開 session，不是改 gate。
 * **防**：任何「掃一批外部路徑」的邏輯，爆炸半徑要跟故障來源同級——單一路徑失敗只能影響該路徑，不得升級成全域中止或全域 deny；失敗訊息必帶實際路徑。合併別人重寫的部署腳本時，逐 skill／逐專案容錯（2026-06-03 教訓）要當驗收項重驗，不能假設重寫版保留。
 
