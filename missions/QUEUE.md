@@ -3,9 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-18 08:30**：origin/main..origin/night-relay 領先6 commits，但**全數非 mission 增量**——5條為09-17 19:00提醒棒併入的main非mission commit（gate死鎖修法/reference-study skill等，昨報已彙報），1條為01:30循環棒心跳（秒退）。昨夜4循環棒（19:30/21:30/23:30/01:30，證據見`missions/heartbeat.log`）**全數秒退，連續62天零 active 增量**；QUEUE 狀態不變：parked×2／待核准×2／done×2／提名×5。chain-capability 續 FAIL。另main已比night-relay多1條新commit（`38b92a2` nightly-20260918，無淨新lesson，非mission）尚未併入，不影響本報。
-**blockers新增**：無。沿用兩項逾期：machine-report 驗收未過待補充修改點（2026-07-21掛起，**59天**）；guide-app anchor升級提案裁決（2026-07-09掛起，**71天**）。
-**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
+**提醒棒 2026-09-18 19:00**：night-relay 已併入 main（新增1條非mission commit：`38b92a2` nightly-20260918 session-logs 歸檔，無淨新lesson，未動 QUEUE）。QUEUE 全程無「待規劃」/「active」項（整欄精確相等）：parked×2／待核准×2／done×2／提名×5，狀態未變，**連續62天零 active 增量**（01:33心跳最後記數，見`missions/heartbeat.log`），今晚4循環棒（19:30/21:30/23:30/01:30）預期同樣秒退。
+**待核准清單**：20260706-guide-app（優先序2，唯一卡點＝anchor升級提案裁決）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
+**提名清單（候選，未經核准棒子不碰）**：ody-evidence-gate／southlibrary-fonts（待掛SouthLibrary）／cowork-c-tasks（待掛cowork_CDIC）／sreclaim-verify-b（待掛S-reclaimed-water-plant）／pptmap-skill（待掛ppt_map_mark）。
+**blockers待決**（無新增，沿用）：互動機具設計報告書驗收未過待補充具體修改點（machine-report，2026-07-21掛起，**59天**）；guide-app anchor升級提案裁決（2026-07-09掛起，**71天**）。
+**產能算術**：0個active mission，0筆待推進backlog項；今晚排定4棒（19:30/21:30/23:30/01:30）依現況預計全數秒退零增量；以「每棒一項」推算之預計完成日＝不適用（無使用者核准前無法起算）。
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
