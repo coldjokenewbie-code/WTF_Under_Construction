@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-18 19:00**：night-relay 已併入 main（新增1條非mission commit：`38b92a2` nightly-20260918 session-logs 歸檔，無淨新lesson，未動 QUEUE）。QUEUE 全程無「待規劃」/「active」項（整欄精確相等）：parked×2／待核准×2／done×2／提名×5，狀態未變，**連續62天零 active 增量**（01:33心跳最後記數，見`missions/heartbeat.log`），今晚4循環棒（19:30/21:30/23:30/01:30）預期同樣秒退。
+**晨報棒 2026-09-19 08:30**：night-relay 領先 main 7 commits，全數為 19:00 提醒棒＋4 循環棒的心跳/秒退記錄（無 mission 增量）；本棒已併入 main 帶來的 1 條非mission commit（`6462b67` nightly-20260919 session-logs 歸檔，無淨新lesson）。**各 mission 昨夜增量：0**（QUEUE 全程無「待規劃」/「active」項，整欄精確相等：parked×2／待核准×2／done×2／提名×5，**連續63天零 active 增量**，證據＝`missions/heartbeat.log` 01:33 最後一行）。
+**blockers 新增項**：無（machine-report 驗收卡點延續，2026-07-21掛起→**60天**；guide-app anchor裁決延續，2026-07-09掛起→**72天**；均見各 mission `_blockers.md`）。
 **待核准清單**：20260706-guide-app（優先序2，唯一卡點＝anchor升級提案裁決）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
 **提名清單（候選，未經核准棒子不碰）**：ody-evidence-gate／southlibrary-fonts（待掛SouthLibrary）／cowork-c-tasks（待掛cowork_CDIC）／sreclaim-verify-b（待掛S-reclaimed-water-plant）／pptmap-skill（待掛ppt_map_mark）。
-**blockers待決**（無新增，沿用）：互動機具設計報告書驗收未過待補充具體修改點（machine-report，2026-07-21掛起，**59天**）；guide-app anchor升級提案裁決（2026-07-09掛起，**71天**）。
-**產能算術**：0個active mission，0筆待推進backlog項；今晚排定4棒（19:30/21:30/23:30/01:30）依現況預計全數秒退零增量；以「每棒一項」推算之預計完成日＝不適用（無使用者核准前無法起算）。
+**合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 **合併建議（收貨＝以下指令原文）**：`git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main`
 
 ## 佇列
