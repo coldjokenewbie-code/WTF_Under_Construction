@@ -74,7 +74,7 @@
 | `tools/` | 本專案處理腳本 |
 
 - 根目錄只放設定與入口檔；所有作業與產出一律在 `workingfiles/` 內進行；腳本進 `tools/`。專案檔案進 `projects/<專案名>/`。
-- `workingfiles/` 內部規則：草稿、半成品、中間產物直接放 `workingfiles/` 下（正式定案前都留在這裡）；定案交付物移入 `workingfiles/outputs/`（一律複數）——最外層＝目前最新版本，舊版進 `workingfiles/outputs/<子專案>/archive/`（禁止多版本平鋪）；跨子專案共用過程檔進 `workingfiles/outputs/_shared/`。
+- `workingfiles/` 內部規則：草稿、半成品、中間產物直接放 `workingfiles/` 下（正式定案前都留在這裡）；定案交付物移入 `workingfiles/outputs/`（一律複數）——最外層＝目前最新版本，舊版進 `workingfiles/outputs/<子專案>/archive/`（禁止多版本平鋪）；跨子專案共用過程檔進 `workingfiles/outputs/_shared/`。**整理規則（PO 2026-09-17 裁定，所有 session 適用）**：`workingfiles/` 與 `workingfiles/outputs/` 最外層只留「目前最新、給 PO 看或交付」的檔案；舊版進 `archive/`；不是給 PO 看的（腳本、驗證截圖、子代理原始報告、log／json、給其他 agent 的施工文件、擷圖素材）進 `outputs/_shared/`（`_scripts/`、`_screenshots/`、`_reports/`、`_assets/`）；用不到的（鎖檔、`.DS_Store`、重複複本、空資料夾）移 `workingfiles/archive/_待刪_YYYY-MM-DD/` 待 PO 確認後才刪，AI 不直接 rm；`W_` 共編檔與其他 agent 使用中的資料夾不移動；整理只 mv／mkdir、不改內容、不 commit；交付只回報外層路徑。
 - Drive 端出現非 `.retired-` 結尾的 `.git` 視為異常，回報並停用（見 `playbooks/git-mirror.md`）。
 
 **命名慣例**（一律「類型_日期_主題」，不用通用檔名如 `prd.md`、`task.md`）：
