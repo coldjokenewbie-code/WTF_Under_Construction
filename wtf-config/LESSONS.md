@@ -275,6 +275,9 @@
 - 3Dstudy｜2026-08-17｜cadquery 的 Assembly.add(子組件) 加的是複本，先掛空節點再塞零件會產出「表頭完整但只有 1.6 KB」的空檔且不報錯；驗收要對檔案大小與讀回的實體數設下限，不能只看 exit code｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-08-17｜分享包要解壓到別的目錄實跑才算驗過：起伺服器載入每一頁、攔所有非本機請求確認零外部連線、並在解壓目錄直接跑工具腳本，才知道相對路徑與相依檔在對方電腦成不成立｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-08-17｜內網分享的主網址用 IP，mDNS 的 .local 只當備援（Edge 預設的自動 HTTPS 升級／安全 DNS 會擋掉，Safari 可開）；要換好記的名字又不改電腦名稱，用 `dns-sd -P <別名> _http._tcp local <port> <別名>.local <IP>` 做代理註冊｜projects/3Dstudy/_context/lessons-learned.md
+- 3Dstudy｜2026-09-18｜「視角沒記住」多半是 localStorage 以 origin 分開（內網 IP／127.0.0.1／單檔版互不共用）；使用者調整後要保留的參數最終固化進程式預設值，localStorage 只當草稿；Chromium 系瀏覽器的 localStorage 可用純 Python 解析 leveldb 撈回，不必請使用者重調｜projects/3Dstudy/_context/lessons-learned.md
+- 3Dstudy｜2026-09-18｜宣稱「外觀一致」前，用 PO 實際在看的伺服器與 origin、帶破快取近拍，並對 PO 貼的參考圖並排比；別拿自己的無頭截圖或設計文件推論代替視覺驗證｜projects/3Dstudy/_context/lessons-learned.md
+- 3Dstudy｜2026-09-18｜共用材質函式的「校準」會連基準台一起改：環境反射、clearcoat、邊角磨白任一被歸零就是換材質不是校準；改共用函式必對基準台前後截圖｜projects/3Dstudy/_context/lessons-learned.md
 - cowork_CDIC｜2026-08-17｜兩個相乘的不透明度旋鈕讓規格 30% 實看 21%＝業主「看不到」；對外規格必寫實際呈現值。視覺深淺是多輪收斂，每輪只擷圖呈現、等 PO 說採用才 commit＋改規格文件；被否決方案記 TaskLog 防重提｜projects/cowork_CDIC/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-08-17｜Opening 片尾文件畫面七版迭代教訓：①語意先於美學（法規公文語域＝公開莊重光明，暗桌孤燈必被退）；②多版本提案先驗差異可辨性（graded 後亮度兩兩差≥25% 或構圖本身不同）；③低解析掃描件縮小佔比＋景深扛質感；④平面素材體積感＝AI 生成安全背景＋確定性幾何/調光（文字零風險）；⑤Remotion 兩鏡 crossfade 亮度下陷→改單一 Sequence 連續運鏡；⑥PDF 原件優於現場照（pdftoppm 200dpi 完全平正）｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-08-18｜Deck 牆面透視教訓：①CSS 3D 透視參數不可公式外插，必渲染→像素擬合邊緣斜率→迭代（五輪才貼合目標線）；②與 PO 用「畫線」溝通視覺目標，顏色遮罩擬合線斜率量化再回推參數；③整面平移透視會把邊緣元素推出畫面、逐塊原位旋轉又成折線——把布景切片與內容物放同一透視平面才兩全；④交付檔音量對齊走渲染後 ffmpeg 後製（volumedetect+gain+alimiter），不動 props，跨 session 交接要明說｜projects/claude_CDIC_O4/_context/lessons-learned.md
@@ -373,3 +376,4 @@ HsinchuSEC｜2026-09-17｜Hook 互鎖：resume 後 gate 擋下 stop_dispatcher �
 - e-reader-stuff｜2026-09-16｜原始碼算式與實機不符時改做直接實驗（參數壓到安全範圍），不繼續讀碼｜projects/e-reader-stuff/_context/lessons-learned.md
 - e-reader-stuff｜2026-09-16｜Android 外接螢幕字太大先調 `wm density -d <id>` 不調解析度；Pixel 對 300 ppi 面板預設 410 dpi｜projects/e-reader-stuff/_context/lessons-learned.md
 WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是規則；PO 偏好分品味／約束／偏見並以其反證驗；溝通冗長只靠逐句自問、不設上限｜_context/lessons-learned.md
+- 南科再生水廠｜2026-09-18｜cmux 派工要指定 surface 不能只指 workspace（首次送錯 session）；PO 加頁後 pptx media 編號整批位移要重抽；材質規格（乳白 60%）憑印象下會擋掉螢幕，先回看渲染圖；PO 要 5 分鐘一輪交當下最好版、Tech Lead 也要投入子代理與 agy 按檔案所有權分工｜projects/南科再生水廠/_context/lessons-learned.md
