@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-19 19:00**：已依分支制併 origin/main（`git merge origin/main --no-edit` → already up to date；night-relay 已含全部 main commit，今早晨報棒已併入唯一非mission commit，晚間無新增）。
-**產能算術（義務）**：active 案＝0（QUEUE 狀態整欄精確相等：待核准×2／parked×2／done×2／提名×5，連續63天零 active 增量）；今晚排定循環棒 4 棒（19:30/21:30/23:30/01:30，各棒≤2h）；因無 active 項可推進，各棒預期秒退，「每棒一項」完成日推算＝N/A（無分母可算）。
-**待核准清單**：20260706-guide-app（優先序2，唯一卡點＝anchor升級提案裁決，2026-07-09掛起→72天）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案，無需續跑）。
-**提名清單（候選，未經核准棒子不碰）**：ody-evidence-gate／southlibrary-fonts（待掛SouthLibrary）／cowork-c-tasks（待掛cowork_CDIC）／sreclaim-verify-b（待掛S-reclaimed-water-plant）／pptmap-skill（待掛ppt_map_mark）。
-**blockers 待決**：無新增。machine-report 使用者驗收未過待補具體修正意見（2026-07-21掛起→60天）；guide-app anchor升級提案待裁決（同上72天）。design-training／o4-soundtrack 卡點均已由使用者裁決結案，非待決。
+**晨報棒 2026-09-20 08:30**：`git rev-list --count origin/main..origin/night-relay` = **1138**——**此數字異常，非昨夜產出，勿直接merge**。真實昨夜增量（昨08:30晨報基準31aff8d→今night-relay HEAD c5f0c09）僅5條，全為心跳/秒退（提醒棒19:00、19:33、21:30、23:30、01:32），零mission增量，連續64天零active。
+**異常根因**：main最早commit僅到2026-08-31（共53條，多為另一套nightly LESSONS索引自動化直推main，與mission-loop無關）；night-relay仍存自2026-04-03起完整1190條歷史，兩者在此之前分屬不同commit鏈（如"Initial commit"在main端不可達）。裸比對把整段舊歷史誤算成「領先」。
+**合併建議**：**不建議**執行`git merge origin/night-relay`到main——會拉入1138條舊/已被main壓縮取代的commit。請使用者先確認main是否曾被reset/squash（08-31前後），再決定night-relay要不要以main重新對齊。昨夜本身無實質內容可收貨。
+**待核准清單**：20260706-guide-app（優先序2，anchor升級提案掛起→73天）／test-baton-pickup-0706（優先序9，backlog全勾，建議使用者直接結案）。
+**blockers 待決**：無新增。machine-report 驗收未過待補修正意見（掛起→61天）；guide-app anchor升級提案待裁決（同上73天）。
 **合併建議**：night-relay 目前無 main 未收之新 commit，本輪無需合併動作；今晚循環棒若有新增量，明早晨報棒會再給合併指令原文。
 
 ## 佇列
