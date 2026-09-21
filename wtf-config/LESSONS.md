@@ -378,3 +378,7 @@ HsinchuSEC｜2026-09-17｜Hook 互鎖：resume 後 gate 擋下 stop_dispatcher �
 - e-reader-stuff｜2026-09-16｜Android 外接螢幕字太大先調 `wm density -d <id>` 不調解析度；Pixel 對 300 ppi 面板預設 410 dpi｜projects/e-reader-stuff/_context/lessons-learned.md
 WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是規則；PO 偏好分品味／約束／偏見並以其反證驗；溝通冗長只靠逐句自問、不設上限｜_context/lessons-learned.md
 - 南科再生水廠｜2026-09-18｜cmux 派工要指定 surface 不能只指 workspace（首次送錯 session）；PO 加頁後 pptx media 編號整批位移要重抽；材質規格（乳白 60%）憑印象下會擋掉螢幕，先回看渲染圖；PO 要 5 分鐘一輪交當下最好版、Tech Lead 也要投入子代理與 agy 按檔案所有權分工｜projects/南科再生水廠/_context/lessons-learned.md
+- HsinchuSEC｜2026-09-20｜自家設計簡報不是外部依據，示意圖只寫「本案設計示意圖（年月）」｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#本案自己的設計簡報不是委託機關提供之依據
+- HsinchuSEC｜2026-09-20｜非 Word 另存的母檔用「範本容器＋樣式名稱對映灌入」修格式；numId 0 不能刪；樓層正則排除「每一樓層」｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md#第二章整合2026-09-20
+- Assembly_Plant_Mobile_Guide｜2026-09-20｜共編 pptx 先查 lock/lsof（對方開著就改複本）；Drive 檔名可能夾不可見控制字元；pptx 換圖只需同尺寸覆寫 media；headless getUserMedia 會懸置要加逾時｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
+- Assembly_Plant_Mobile_Guide｜2026-09-21｜pptx 插頁＝六處同步且「第 N 頁」≠slideN.xml（須由 sldIdLst 實算）；共編檔動手前先 diff 對方存檔；Playwright 捲動前先量誰在捲；分鏡圖前先跑一次流程驗功能存在；交付即背景預覽｜projects/Assembly_Plant_Mobile_Guide/_context/lessons-learned.md
