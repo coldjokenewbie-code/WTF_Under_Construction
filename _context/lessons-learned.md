@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-09-22（git_mirror 首次建立：孤立分支導致分岔補救）
+
+* **首次為既有專案建 git_mirror 時，應以 `git clone` 拿到正確歷史後再覆蓋檔案，不要另開孤立分支**：若另開孤立分支並讓本地 main 追蹤它，兩條線無共同祖先，後續 `git push origin main` 報非快轉（non-fast-forward）。已分岔補救步驟：① `git tag archive/<name>-<date>` 保留舊歷史 ② `git push origin <tag>` 推上遠端保留 ③ `git push --force-with-lease=main:<舊SHA> origin HEAD:main` 改寫 ④ `git branch -u origin/main` 更新追蹤。改寫前用 `comm -23 <(git ls-tree -r --name-only origin/main|sort) <(git ls-tree -r --name-only main|sort)` 列出「舊有新無」的檔案，確認只有二進位與已移路徑者才動手。（HsinchuScienceEducationCenter 2026-09-22 實例）
+
 ## 2026-09-15（跨工具 skill：手動入口與執行要分開驗）
 
 * **問題**：以「17份SKILL.md副本一致、AI讀得到」回答使用者「不能使用skill」，漏查使用者實際卡在輸入`/se`後沒有`/session-start`選項。
