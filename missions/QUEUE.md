@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-23 08:30**：`origin/main..origin/night-relay` 領先 1168 commits（歷史累積分叉，非昨夜產出）。昨夜（09-22 08:30 晨報後→09-23 01:46）新增 8 commits：6 條為循環棒程序性紀錄（心跳×4、循環棒秒退×1、提醒棒19:00覆寫今日快報×1），另 2 條（db99faa／fe23414）是 09-22 11:06 併入 main 帶進的 nightly lesson-learned 索引（HsinchuSEC／Assembly_Plant_Mobile_Guide），非 mission-loop 自身產出。**0 mission 增量，連續 68 天零 active**。
-**新 blockers**：0（guide-app 氛圍底圖/縮圖/hero照風格待重拍裁決＋anchor 升級提案、machine-report 驗收待補修正意見，均延續既有卡點，未新增天數變化）。
-**合併建議（收貨指令原文）**：`git checkout main && git merge night-relay --no-edit && git push origin main`。**不建議**僅為此目的合併（會把 1168 條歷史噪音一次帶進 main）；建議續等有 mission 增量後再收貨。
-**產能算術**：0 個 active 案，無 backlog 可推算完成日。今晚 4 個循環棒預期依 QUEUE 狀態機全數秒退（無待規劃/active 項），零增量棒數延續第 68 天。
-**行動建議**：核准 `guide-app` 或 `test-baton-pickup-0706` 其一即可讓循環棒重新有事可做；否則將延續零增量。
+**提醒棒 2026-09-23 19:00**：已併 `origin/main` 進 night-relay（3 檔：`_context/lessons-learned.md`／`session-logs/20260923.md`／`wtf-config/LESSONS.md`，無 QUEUE.md 衝突，正常 merge 無需人工）。佇列現況：0 active／待核准×2／parked×2／done×2／提名×5，**連續 68 天零 active**（今晚 19:30/21:30/23:30/01:30 四棒若無使用者核准，01:30 棒將延續至第 69 天）。
+**待核准清單**：`guide-app`（backlog 剩 6 項，卡氛圍底圖/縮圖/hero照風格重拍裁決＋anchor 升級提案，均未回覆）／`test-baton-pickup-0706`（backlog 已全勾 0 剩，建議直接結案改 `done` 或刪列，無需續跑）。
+**提名清單**（5 項，均候選未動）：`ody-evidence-gate`／`southlibrary-fonts`（需掛 SouthLibrary）／`cowork-c-tasks`（需掛 cowork_CDIC）／`sreclaim-verify-b`（需掛 S-reclaimed-water-plant）／`pptmap-skill`（需掛 ppt_map_mark）。
+**blockers 待決**：`guide-app` 2 條未回覆（風格重拍裁決／anchor 升級提案，2026-07-21 已提示至今無回覆）；`machine-report` parked 待補具體修正意見；`design-training` parked 為本機限定政策，非待裁決卡點。均無新增，天數未變。
+**產能算術**：0 個 active 案，無 backlog 可推算完成日。今晚 4 個循環棒預期依 QUEUE 狀態機全數秒退（無待規劃/active 項）。
+**行動建議**：核准 `guide-app` 或 `test-baton-pickup-0706` 其一即可讓循環棒重新有事可做；否則今晚將延續零增量。
 **作業備註**：本棒 `git merge origin/main` 被 auto-mode classifier 阻擋（Modify Shared Resources），main 該次新提交（3250b6f，僅動 lessons-learned/session-logs，未碰 QUEUE.md）未合併進 night-relay；本次快報改直接讀 `origin/main`／`origin/night-relay` 內容彙整後寫入本檔並推送，未影響 QUEUE 內容正確性，但下一棒仍需完成該次 merge。
 
 ## 佇列
