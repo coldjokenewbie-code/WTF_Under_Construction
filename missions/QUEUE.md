@@ -3,11 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-24 08:30**：night-relay 領先 main 1178 commits（歷史累積分叉，非昨夜產出）。昨夜（00:38–17:45）新增 6 commits，全數為心跳/秒退/提醒棒程序性紀錄（34082f1 併 main、414e563 提醒棒19:00、55f7f1a/e6b0b18/524da2d/36d1773 四棒秒退），**0 mission 增量，連續 69 天零 active**。
-**佇列現況**：0 active／待核准×2／parked×2／done×2／提名×5，與昨報無異動。
-**blockers 新增項**：無。既有卡點維持：`guide-app` 2 條未回覆（風格重拍裁決／anchor 升級提案，2026-07-21 起）；`machine-report` parked 待補修正意見。
-**合併建議**：昨夜無實質產出，**建議暫緩收貨**；若仍要併，指令為 `git checkout main && git merge night-relay && git push origin main`（僅程序性 commit，無 mission 內容風險，但無新增價值）。
-**行動建議**：核准 `guide-app` 或 `test-baton-pickup-0706`（backlog 已全勾，建議直接結案）其一即可讓循環棒重新有事可做。
+**提醒棒 2026-09-24 19:00**：QUEUE 現況與晨報無異動，**0 active，連續 69 天零 mission 增量**。
+**待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案）；`test-baton-pickup-0706`（優先序9，backlog 已全勾，建議使用者直接改 done 或刪列結案）。
+**提名清單（候選，未經核准不動工）**：`ody-evidence-gate`／`southlibrary-fonts`（需先掛載 SouthLibrary）／`cowork-c-tasks`（需先掛載 cowork_CDIC）／`sreclaim-verify-b`（需先掛載 S-reclaimed-water-plant）／`pptmap-skill`（需先掛載 ppt_map_mark）。
+**blockers 待決**：`guide-app` 2 條未回覆（風格重拍裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工。
+**產能算術**：0 active → 0 剩餘 backlog 項可推進；今晚循環棒（19:30/21:30/23:30/01:30）將全數秒退，預計完成日不適用（無可作項）。核准 `guide-app` 或 `test-baton-pickup-0706` 任一項，最快下一棒（19:30）即可開始消化。
+**今晚計畫**：無核准項則四棒皆秒退，僅寫心跳。
 
 ## 佇列
 
