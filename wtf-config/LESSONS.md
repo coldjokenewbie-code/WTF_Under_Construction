@@ -392,3 +392,4 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - HsinchuSEC｜2026-09-22｜AI文體改寫：中文句長統計必須以段為界（跨段串接會誤得假長句）；「很AI」成因是段無句號＋法規腔＋自創術語，不是用詞浮誇；「不是A而是B」排比禁用；口語化≠易讀（意義密度才是判準）；機檢門檻須有規範來源，不可自訂無據數字｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - Interactive_machine｜2026-09-23｜verify 失敗先看失敗指向的檔案與修改時間，早於本次改動即列既有問題回報不擴大修改；build_single_drill 不內嵌 `_shared/lib` 腳本，新增共用腳本要一併處理單檔版｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-24｜EPERM 別反射性歸因權限：外接 NTFS 原本可讀、中途失效，實為 FSKit NTFS 驅動程序掛掉（mount 在、ps 無 ntfs 擴充），unmount/mount 即恢復；判準「先前可用＋使用者沒改設定→不是權限」，先查 mount／ps／diskutil／log 有證據才請使用者動設定｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- Interactive_machine｜2026-09-24｜現地機具擬真 3D：先量照片再建（反推相機＋量測表＋同相機疊圖，單台 ≥30 分鐘）、驗收含零件干涉；同型機照片歸屬以編號牌／可辨特徵為準；平行報告需交叉驗收；清冊英文規格欄必讀、部件名稱親眼確認｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
