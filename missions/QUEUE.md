@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-24 19:00**：QUEUE 現況與晨報無異動，**0 active，連續 69 天零 mission 增量**。
+**提醒棒 2026-09-25 19:13**：QUEUE 現況與昨日無異動，**0 active，連續 71 天零 mission 增量**。
 **待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案）；`test-baton-pickup-0706`（優先序9，backlog 已全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單（候選，未經核准不動工）**：`ody-evidence-gate`／`southlibrary-fonts`（需先掛載 SouthLibrary）／`cowork-c-tasks`（需先掛載 cowork_CDIC）／`sreclaim-verify-b`（需先掛載 S-reclaimed-water-plant）／`pptmap-skill`（需先掛載 ppt_map_mark）。
 **blockers 待決**：`guide-app` 2 條未回覆（風格重拍裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工。
