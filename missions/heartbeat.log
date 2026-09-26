@@ -347,3 +347,4 @@
 2026-09-25 21:46 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等；現況待核准×2/parked×2/done×2/提名×5，連續72天零增量）
 2026-09-25 23:45 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項
 2026-09-26 01:45 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等；現況待核准×2/parked×2/done×2/提名×5，連續73天零增量）
+2026-09-26 19:45 台北｜棒醒了｜model=claude-sonnet-5｜chain-capability: FAIL（CronCreate durable參數仍明寫「Has no effect — durable persistence is not available」，session-only無法跨session自續鏈，與既有判定一致，連續PASS計數仍為0）｜秒退:QUEUE無待規劃/active項（整欄精確相等；現況待核准×2/parked×2/done×2/提名×5，連續74天零增量）
