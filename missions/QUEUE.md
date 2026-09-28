@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-27 19:13**：night-relay 已併 origin/main（無新分歧，`git merge origin/main` 回報 already up to date）。自上次提醒棒(09-26 19:45)以來僅 1 筆心跳（09-27 01:46，秒退），**0 mission 增量（連續 75 天零 active）**，無新 blockers（既有 guide-app 2條、machine-report parked 皆未變動）。
+**晨報棒 2026-09-28 08:30**：night-relay 領先 main 1211 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`d942ef3` nightly-20260927 lesson索引，無淨新lesson，尚未併入 night-relay）。自上次晨報(09-27 08:30)以來 5 commits（70e1573/d914e2b/0ac0175/3747725/d5df679）全為心跳/秒退/提醒棒程序性紀錄，**0 mission 增量（連續 76 天零 active）**，無新 blockers（既有 guide-app 2條、machine-report parked 皆未變動）。
 **待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案）；`test-baton-pickup-0706`（優先序9，backlog 已全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單（候選，未經核准不動工）**：`ody-evidence-gate`／`southlibrary-fonts`（需先掛載 SouthLibrary）／`cowork-c-tasks`（需先掛載 cowork_CDIC）／`sreclaim-verify-b`（需先掛載 S-reclaimed-water-plant）／`pptmap-skill`（需先掛載 ppt_map_mark）。
 **blockers 待決**：`guide-app` 2 條未回覆（氛圍底圖/縮圖/hero 風格統一路線裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工。
-**產能算術**：0 active → 0 剩餘 backlog 項可推進；核准 `guide-app` 或 `test-baton-pickup-0706` 任一項，最快下一循環棒即可開始消化。
+**合併建議（收貨指令原文）**：`git fetch origin main night-relay && git checkout night-relay && git merge origin/main && git push origin night-relay`（僅彙報不動工不合併，合併是使用者的決定）。
 **今晚計畫**：無核准項則四棒皆秒退，僅寫心跳。
 
 ## 佇列
