@@ -393,3 +393,5 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - Interactive_machine｜2026-09-23｜verify 失敗先看失敗指向的檔案與修改時間，早於本次改動即列既有問題回報不擴大修改；build_single_drill 不內嵌 `_shared/lib` 腳本，新增共用腳本要一併處理單檔版｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-24｜EPERM 別反射性歸因權限：外接 NTFS 原本可讀、中途失效，實為 FSKit NTFS 驅動程序掛掉（mount 在、ps 無 ntfs 擴充），unmount/mount 即恢復；判準「先前可用＋使用者沒改設定→不是權限」，先查 mount／ps／diskutil／log 有證據才請使用者動設定｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - Interactive_machine｜2026-09-24｜現地機具擬真 3D：先量照片再建（反推相機＋量測表＋同相機疊圖，單台 ≥30 分鐘）、驗收含零件干涉；同型機照片歸屬以編號牌／可辨特徵為準；平行報告需交叉驗收；清冊英文規格欄必讀、部件名稱親眼確認｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
+- HsinchuSEC｜2026-09-28｜docx 併書：容器無 comments 部件時各章殘留註解標記會讓 Word 拒讀（機檢全過也抓不到）；腳註全書重編後「同註N」純文字不會跟著改；Word 載入大檔途中覆蓋同路徑會卡死該路徑（先 lsof、用迴圈等載入）｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- HsinchuSEC｜2026-09-28｜審閱建議以業主需求為基準、給最少改動並紅字標示讓 PO 看得見；照抄需求說明書的段落禁列問題；監看外部 agent 完成勿 grep 派工訊息內的字串｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
