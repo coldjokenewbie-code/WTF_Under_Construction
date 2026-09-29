@@ -33,6 +33,7 @@
 | 交辦 prompt 怎麼寫（五種任務型態範本） | `delegation-templates.md` |
 | 判斷：何時升級／何時算完成／該不該問使用者／方向錯換路／品質底線 | `judgment-rubrics.md` |
 | 引用統計數據、畫數據圖表、跨年或同期比較、多來源數字打架 | `data-citation.md` |
+| 撰寫或審閱正式報告書（研究規劃案、公部門業主） | `formal-report-writing.md`＋`formal-report-checks.md` |
 | 決定讀寫位置、啟動服務、git／commit／push | `git-mirror.md` |
 | 交付預覽、可存檔程式／網頁、匯報格式 | `delivery-conventions.md` |
 | 要改制度檔、教訓寫回哪裡 | `maintenance-protocol.md` |
