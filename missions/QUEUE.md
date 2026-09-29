@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-09-29 08:30**：night-relay 領先 main 1219 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`dacb8ea` nightly lesson 索引，無淨新 lesson，未併入）。自上次晨報(09-28 08:30，`e6ddc26`)以來 9 commits，全為心跳/秒退/提醒棒程序性紀錄＋一則 lesson 索引合併——**0 mission 增量，連續 77 天零 active**，無新增 blockers。
-**待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案）；`test-baton-pickup-0706`（優先序9，backlog 已全勾，建議使用者直接改 done 或刪列結案）。
+**提醒棒 2026-09-29 19:00**：依 3.5 分支制進 night-relay 併 origin/main（新增 2 篇 formal-report 相關 playbook＋今日 session-log，無 QUEUE 衝突，乾淨合併）。佇列現況：0 個 active／0 個待規劃（沿續晨報 09-29 08:30 記錄的連續 77 天零 active，今日仍無變化）；今晚 4 棒循環棒（19:30/21:30/23:30/01:30）依第 2 節步驟 1 秒退檢查，將因「QUEUE 無待規劃/active 項」全數秒退。
+**待核准清單**：`20260706-guide-app`（優先序2，backlog 實查 13勾/6未勾——訂正晨報誤植的「8勾/4未勾」；卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案，2026-07-21 起懸而未決）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單（候選，未經核准不動工）**：`ody-evidence-gate`／`southlibrary-fonts`（需先掛載 SouthLibrary）／`cowork-c-tasks`（需先掛載 cowork_CDIC）／`sreclaim-verify-b`（需先掛載 S-reclaimed-water-plant）／`pptmap-skill`（需先掛載 ppt_map_mark）。
-**blockers 待決（無新增）**：`guide-app` 2 條未回覆（氛圍底圖/縮圖/hero 風格統一路線裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工。
-**合併建議（收貨指令原文）**：`git fetch origin main night-relay && git checkout night-relay && git merge origin/main && git push origin night-relay`（僅彙報不動工不合併，合併是使用者的決定）。
+**blockers 待決（無新增）**：`guide-app` 2 條未回覆（風格統一路線裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工；`design-training`（parked）案例包裁定僅限本機執行，雲端本週無可作項，非待裁決卡點。
+**產能算術（義務）**：active mission 數＝0，故雲端可執行 backlog 剩餘項數＝0；今晚排定 4 棒循環棒，皆無項可推進（預計完成日：不適用）。要重啟推進，請在 main 的 QUEUE.md 把`20260706-guide-app`或`test-baton-pickup-0706`的狀態由「待核准」改「active」，或加新行派工。
 
 ## 佇列
 
