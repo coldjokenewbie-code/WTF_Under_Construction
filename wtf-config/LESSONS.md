@@ -396,3 +396,4 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - HsinchuSEC｜2026-09-28｜docx 併書：容器無 comments 部件時各章殘留註解標記會讓 Word 拒讀（機檢全過也抓不到）；腳註全書重編後「同註N」純文字不會跟著改；Word 載入大檔途中覆蓋同路徑會卡死該路徑（先 lsof、用迴圈等載入）｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - HsinchuSEC｜2026-09-28｜審閱建議以業主需求為基準、給最少改動並紅字標示讓 PO 看得見；照抄需求說明書的段落禁列問題；監看外部 agent 完成勿 grep 派工訊息內的字串｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - Planner2Line｜2026-09-30｜GUI 自動化目標視窗放工作區右上角並在操作期間先 TOPMOST（左上＝Outlook 提示框、右下＝通知）；跨系統功能先問源頭負責方，能源頭擋就只源頭擋，免方案翻轉重工｜projects/Planner2Line/_context/lessons-learned.md
+- attendance-dashboard｜2026-09-30｜改動範圍要掃最新 definition 的 Send 類 operationId 判定，不照 TaskLog 舊敘述（米米信其實不寄信、線上流程會改名）；全天事件台北日＝start+8h 可同時涵蓋 UTC／台北錨定；假期另建專用行事曆勝過混入預設｜projects/attendance-dashboard/_context/lessons-learned.md
