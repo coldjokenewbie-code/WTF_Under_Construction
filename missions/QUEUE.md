@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-29 19:00**：依 3.5 分支制進 night-relay 併 origin/main（新增 2 篇 formal-report 相關 playbook＋今日 session-log，無 QUEUE 衝突，乾淨合併）。佇列現況：0 個 active／0 個待規劃（沿續晨報 09-29 08:30 記錄的連續 77 天零 active，今日仍無變化）；今晚 4 棒循環棒（19:30/21:30/23:30/01:30）依第 2 節步驟 1 秒退檢查，將因「QUEUE 無待規劃/active 項」全數秒退。
-**待核准清單**：`20260706-guide-app`（優先序2，backlog 實查 13勾/6未勾——訂正晨報誤植的「8勾/4未勾」；卡在氛圍底圖/縮圖/hero 風格統一路線裁決＋anchor 升級提案，2026-07-21 起懸而未決）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
-**提名清單（候選，未經核准不動工）**：`ody-evidence-gate`／`southlibrary-fonts`（需先掛載 SouthLibrary）／`cowork-c-tasks`（需先掛載 cowork_CDIC）／`sreclaim-verify-b`（需先掛載 S-reclaimed-water-plant）／`pptmap-skill`（需先掛載 ppt_map_mark）。
-**blockers 待決（無新增）**：`guide-app` 2 條未回覆（風格統一路線裁決、anchor 升級提案，2026-07-21 起懸而未決）；`machine-report`（parked）待使用者補充具體修正意見才能復工；`design-training`（parked）案例包裁定僅限本機執行，雲端本週無可作項，非待裁決卡點。
-**產能算術（義務）**：active mission 數＝0，故雲端可執行 backlog 剩餘項數＝0；今晚排定 4 棒循環棒，皆無項可推進（預計完成日：不適用）。要重啟推進，請在 main 的 QUEUE.md 把`20260706-guide-app`或`test-baton-pickup-0706`的狀態由「待核准」改「active」，或加新行派工。
+**晨報棒 2026-09-30 08:30**：night-relay 領先 main 1230 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`71830ca` nightly-20260930 lesson 索引：今日全 repo 無活動＋補記09-29漏掃的 formal-report playbooks＋建議改掃昨日，無淨新 lesson，未併入）。自上次晨報(09-29 08:30，`ec3c7b6`)以來 7 commits：2 條為併 main 帶進的資產（`847231e` 新增 formal-report-writing/formal-report-checks 2 篇 playbook＋GLOBAL 路由一列，彙整自 HsinchuSEC P550 期末報告書裁定；`dacb8ea` nightly lesson 索引無新增）＋提醒棒19:00覆寫快報1條＋循環棒/心跳秒退4條——**0 mission 增量，連續80天零active**。`feb5a29` chain-capability 檢查結果 FAIL（CronCreate durable 參數仍明寫無效，屬既有已知限制重複確認，非新增 blocker）；**無新增 blockers**。
+**待核准清單**：`20260706-guide-app`（優先序2，backlog 13勾/6未勾，卡風格統一路線裁決＋anchor 升級提案，2026-07-21起懸而未決）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
+**提名清單**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`（後4項需先補掛對應 repo）。
+**blockers 待決（無新增）**：`guide-app` 2條未回覆；`machine-report`（parked）待補充修正意見；`design-training`（parked）本機限定,非待裁決卡點。
+**合併建議（收貨指令原文）**：`git fetch origin main night-relay && git checkout night-relay && git merge origin/main && git push origin night-relay`（僅彙報不動工不合併，合併是使用者的決定）。
 
 ## 佇列
 
