@@ -395,3 +395,7 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - Interactive_machine｜2026-09-24｜現地機具擬真 3D：先量照片再建（反推相機＋量測表＋同相機疊圖，單台 ≥30 分鐘）、驗收含零件干涉；同型機照片歸屬以編號牌／可辨特徵為準；平行報告需交叉驗收；清冊英文規格欄必讀、部件名稱親眼確認｜projects/Aseembly_Plant_Interactive_machine/_context/lessons-learned.md
 - HsinchuSEC｜2026-09-28｜docx 併書：容器無 comments 部件時各章殘留註解標記會讓 Word 拒讀（機檢全過也抓不到）；腳註全書重編後「同註N」純文字不會跟著改；Word 載入大檔途中覆蓋同路徑會卡死該路徑（先 lsof、用迴圈等載入）｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - HsinchuSEC｜2026-09-28｜審閱建議以業主需求為基準、給最少改動並紅字標示讓 PO 看得見；照抄需求說明書的段落禁列問題；監看外部 agent 完成勿 grep 派工訊息內的字串｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- Planner2Line｜2026-09-30｜GUI 自動化目標視窗放工作區右上角並在操作期間先 TOPMOST（左上＝Outlook 提示框、右下＝通知）；跨系統功能先問源頭負責方，能源頭擋就只源頭擋，免方案翻轉重工｜projects/Planner2Line/_context/lessons-learned.md
+- attendance-dashboard｜2026-09-30｜改動範圍要掃最新 definition 的 Send 類 operationId 判定，不照 TaskLog 舊敘述（米米信其實不寄信、線上流程會改名）；全天事件台北日＝start+8h 可同時涵蓋 UTC／台北錨定；假期另建專用行事曆勝過混入預設｜projects/attendance-dashboard/_context/lessons-learned.md
+- HsinchuSEC｜2026-09-28｜派工「N 處」以腳本出現次數斷言為準；標紅只拆差異段 run、純刪除另列；PO 開著 Word 未存時只能等其存檔再 diff 為底，手改疑似錯字只回報；暫存檔一律絕對路徑防 cwd 漂移｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
+- 南科再生水廠｜2026-09-29｜W_ 複本檔（新檔名＋舊日期）動手前先 diff 同系列最新檔；官網發布日≠證書日期，先找附圖原件；含 customXml 的共編 xlsx 走 XML 層改、不用 openpyxl 存；每輪寫入前重算 MD5 防 PO 已改檔｜projects/南科再生水廠/_context/lessons-learned.md
