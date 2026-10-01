@@ -399,3 +399,4 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - attendance-dashboard｜2026-09-30｜改動範圍要掃最新 definition 的 Send 類 operationId 判定，不照 TaskLog 舊敘述（米米信其實不寄信、線上流程會改名）；全天事件台北日＝start+8h 可同時涵蓋 UTC／台北錨定；假期另建專用行事曆勝過混入預設｜projects/attendance-dashboard/_context/lessons-learned.md
 - HsinchuSEC｜2026-09-28｜派工「N 處」以腳本出現次數斷言為準；標紅只拆差異段 run、純刪除另列；PO 開著 Word 未存時只能等其存檔再 diff 為底，手改疑似錯字只回報；暫存檔一律絕對路徑防 cwd 漂移｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-29｜W_ 複本檔（新檔名＋舊日期）動手前先 diff 同系列最新檔；官網發布日≠證書日期，先找附圖原件；含 customXml 的共編 xlsx 走 XML 層改、不用 openpyxl 存；每輪寫入前重算 MD5 防 PO 已改檔｜projects/南科再生水廠/_context/lessons-learned.md
+- phonic_keyboard｜2026-10-01｜候選讀取與選字 API 索引不可因註解相同就視為相同，須跨頁驗 raw buffer；語料常用度須保留字詞＋完整讀音，未知讀音不套加權；使用中輸入法部署前先切 ABC，驗備份與資料差異後恢復來源｜projects/phonic_keyboard/_context/lessons-learned.md
