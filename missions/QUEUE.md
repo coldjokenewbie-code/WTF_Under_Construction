@@ -3,12 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-01 08:30**：night-relay領先main 1243 commits（歷史累積分叉，非昨夜產出）；main領先night-relay 1 commit（nightly session-log補完，無新lesson，未併入）；自上次晨報(09-30 08:30)以來10 commits，全為心跳/秒退/提醒棒程序性紀錄＋4條lesson-add/merge（南科再生水廠、HsinchuSEC、attendance-dashboard、Planner2Line），0 mission增量（連續81天零active），無新blockers，寫今日快報段（含合併指令原文，僅彙報不動工不合併）。
-**待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡風格統一路線裁決＋anchor 升級提案，2026-07-21起懸而未決，逾70天無回覆）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
+**提醒棒 2026-10-01 19:13**：與今晨08:30晨報相比，QUEUE/各mission _blockers.md/journal 均無變化（0 active，連續81天零增量延續；main↔night-relay 無新 commit 落差）。
+**待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡氛圍底圖/展品縮圖/hero照風格統一路線裁決＋anchor 升級提案，2026-07-21起懸而未決，逾70天無回覆）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`（後4項需先補掛對應 repo）。
-**blockers 待決（無新增）**：`guide-app` 2條未回覆；`machine-report`（parked）待補充修正意見；`design-training`（parked）本機限定,非待裁決卡點。
-**產能算術**：0 個 active mission → 今晚循環棒（19:30/21:30/23:30/01:30，共4棒）將全數秒退，0 增量、預計完成日 N/A；要重啟推進，需使用者先核准上述待核准清單其中一項，或對 `guide-app`/`machine-report` blockers 給裁決。
-**合併建議（收貨指令原文）**：`git fetch origin main night-relay && git checkout night-relay && git merge origin/main && git push origin night-relay`（僅彙報不動工不合併，合併是使用者的決定）。
+**blockers 待決（無新增）**：`guide-app` 2條未回覆（風格統一路線＋anchor升級提案）；`machine-report`（parked）待補充具體修正意見；`design-training`（parked）本機限定,非待裁決卡點。
+**產能算術**：0 個 active mission，backlog 剩餘項數 0（無案可推）→ 今晚循環棒（19:30/21:30/23:30/01:30，共4棒）將全數秒退，0 增量、預計完成日 N/A；要重啟推進，需使用者先核准上述待核准清單其中一項，或對 `guide-app`/`machine-report` blockers 給裁決。
 
 ## 佇列
 
