@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-09-30 19:00**：QUEUE 無 `待規劃`/`active` 項（整欄精確相等；現況待核准×2/parked×2/done×2/提名×5）——**連續80天零active**，與今早08:30晨報一致；今日白天無使用者新指令、無新 commit、無新 blockers。
+**晨報棒 2026-10-01 08:30**：night-relay領先main 1243 commits（歷史累積分叉，非昨夜產出）；main領先night-relay 1 commit（nightly session-log補完，無新lesson，未併入）；自上次晨報(09-30 08:30)以來10 commits，全為心跳/秒退/提醒棒程序性紀錄＋4條lesson-add/merge（南科再生水廠、HsinchuSEC、attendance-dashboard、Planner2Line），0 mission增量（連續81天零active），無新blockers，寫今日快報段（含合併指令原文，僅彙報不動工不合併）。
 **待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡風格統一路線裁決＋anchor 升級提案，2026-07-21起懸而未決，逾70天無回覆）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`（後4項需先補掛對應 repo）。
 **blockers 待決（無新增）**：`guide-app` 2條未回覆；`machine-report`（parked）待補充修正意見；`design-training`（parked）本機限定,非待裁決卡點。
