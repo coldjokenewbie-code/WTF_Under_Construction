@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-01 19:13**：與今晨08:30晨報相比，QUEUE/各mission _blockers.md/journal 均無變化（0 active，連續81天零增量延續；main↔night-relay 無新 commit 落差）。
+**提醒棒 2026-10-02 19:13**：與昨日快報相比，QUEUE/各mission _blockers.md/journal 均無變化（0 active，連續83天零增量延續）；main↔night-relay 本次合併僅帶入 nightly routine 產出（`session-logs/20261002.md`＋`_context/nightly-notify.md` 新增一條待裁決建議：補登 `phonic_keyboard` 專案到 projects-registry.md），與本佇列無關，不影響下方清單。
 **待核准清單**：`20260706-guide-app`（優先序2，backlog 8勾/4未勾，卡氛圍底圖/展品縮圖/hero照風格統一路線裁決＋anchor 升級提案，2026-07-21起懸而未決，逾70天無回覆）；`test-baton-pickup-0706`（優先序9，backlog 全勾，建議使用者直接改 done 或刪列結案）。
 **提名清單**：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`（後4項需先補掛對應 repo）。
 **blockers 待決（無新增）**：`guide-app` 2條未回覆（風格統一路線＋anchor升級提案）；`machine-report`（parked）待補充具體修正意見；`design-training`（parked）本機限定,非待裁決卡點。
