@@ -16,3 +16,5 @@
 - [ ] 2026-09-30 nightly 建議修改 Nightly Routine 排程邏輯（待用戶核准）
   - 觸發原因：nightly 03:11 AM 跑 `--since="$TODAY 00:00"`，TODAY=09-30，掃不到 09-29 12:09 PM 的 commit 847231e（在 09-29 nightly 03:15 AM 之後才 push、09-30 掃描範圍又未涵蓋）。每天凌晨跑的 nightly 實際只掃當日 00:00–03:xx 這三小時，前一天下午到深夜的工作全數落在兩次 nightly 的縫隙。
   - 建議：將 Nightly Routine 提示的掃描日改為「昨日」（`TODAY=$(date -d '-1 day' +%Y-%m-%d)` 或 macOS `TODAY=$(date -v-1d +%Y-%m-%d)`），使每次 nightly 掃描前一個完整自然日（00:00–23:59）的 commit，確保下午到深夜的工作不遺漏。（注意：若採用，兩次 nightly 交接的重疊期須接受少量重複掃描，仍比漏掃好。）
+- [ ] 2026-10-02 nightly 建議補登新專案到 projects-registry.md（待用戶核准）
+  - `wtf-config/projects-registry.md`：`phonic_keyboard` 專案在 2026-10-01 已有教訓索引進 LESSONS.md，但未出現在 projects-registry 表格。若該專案已有 GitHub remote，請補一列（含 github 欄）；若純本機，加一列標「無 remote，本機 only」。已掛載後 nightly 才能掃描其 commit 活動。
