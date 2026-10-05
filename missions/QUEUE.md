@@ -3,10 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-05 08:30**：night-relay 領先 main 1276 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（57a0c95 nightly log，3條lesson，未併入）。
-自上次晨報(10-04 08:30)以來 6 commits：1 merge＋1 提醒棒(19:13今日快報覆寫)＋3 心跳/棒醒了秒退(19:48/21:30/23:30起~01:30)皆因QUEUE無待規劃/active項，0 mission增量，連續90天零active。chain-capability 再度 FAIL（CronCreate durable 仍不可用）。
-**無新blockers**：`guide-app` 2條（氛圍底圖/縮圖風格統一；anchor升級提案）仍逾70天未裁決；`machine-report`（parked）待補修正意見；`design-training`（parked）僅本機限定非卡點。
-**待核准**：`20260706-guide-app`(優先2)／`test-baton-pickup-0706`(優先9，backlog全勾，建議直接done或刪列)。**提名**5項未改待規劃，候選未啟動。
+**提醒棒 2026-10-05 19:14**（已併 origin/main 進 night-relay）：QUEUE 現況＝待核准×2／parked×2／done×2／提名×5，**連續 90 天零 active**，今晚循環棒（19:30/21:30/23:30/01:30）預期全數秒退。
+**待核准（需使用者核准才能續跑）**：`20260706-guide-app`(優先2，backlog 剩 4 項皆卡 anchor 升級提案待裁決)／`test-baton-pickup-0706`(優先9，backlog 全勾，建議直接 done 或刪列，無需續跑)。
+**提名（候選，棒子不碰，改「待規劃」即啟動）**：5 項（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）——後 4 項需先補掛對應 repo 才能雲端跑。
+**blockers 待決**：`guide-app` anchor 升級提案（字級收斂/元件一致性驗收方法論）逾 80 天未裁決；`machine-report`（parked）待補具體修正意見（內容方向 vs 文字/視覺）；`design-training`（parked）僅本機限定，非卡點。
+**產能算術**：0 個 active mission，無可推進項，今晚排定 4 棒預計全數秒退（0 項/棒），無完成日可算；待核准 2 項一經使用者核准改 active，下個循環棒起才重新計入輪替制。
+chain-capability 仍 FAIL（CronCreate durable 不可用，累計 PASS 計數 0）。
 **合併建議（收貨指令原文）**：`git checkout main && git merge night-relay --no-edit && git push origin main`
 只彙報不動工不合併，合併是使用者的決定。
 
