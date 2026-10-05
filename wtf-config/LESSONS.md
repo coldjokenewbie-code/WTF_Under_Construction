@@ -400,3 +400,9 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - HsinchuSEC｜2026-09-28｜派工「N 處」以腳本出現次數斷言為準；標紅只拆差異段 run、純刪除另列；PO 開著 Word 未存時只能等其存檔再 diff 為底，手改疑似錯字只回報；暫存檔一律絕對路徑防 cwd 漂移｜projects/HsinchuScienceEducationCenter/_context/lessons-learned.md
 - 南科再生水廠｜2026-09-29｜W_ 複本檔（新檔名＋舊日期）動手前先 diff 同系列最新檔；官網發布日≠證書日期，先找附圖原件；含 customXml 的共編 xlsx 走 XML 層改、不用 openpyxl 存；每輪寫入前重算 MD5 防 PO 已改檔｜projects/南科再生水廠/_context/lessons-learned.md
 - phonic_keyboard｜2026-10-01｜候選讀取與選字 API 索引不可因註解相同就視為相同，須跨頁驗 raw buffer；語料常用度須保留字詞＋完整讀音，未知讀音不套加權；使用中輸入法部署前先切 ABC，驗備份與資料差異後恢復來源｜projects/phonic_keyboard/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-01｜展廳照明要按展項廳別查（不從其他主題借）；品質門檻動工前先用正錨影格定調（style frame），達標才擴全段；高階模型只做診斷與策略拍板，執行一律交 sonnet/codex｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-02｜重建型標註程式一旦 PO 手調即視為只讀（之後只就地改文字不重建 shape）；W_ 整檔重建前比磁碟 MD5 與上次產出，不同即停手改就地增量｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-04｜codex exec 需加 `< /dev/null` 防 stdin 空等；three.js 無頭渲染審閱只需縮圖改 FHD（速度從 2h → 10min）；機檢 PASS ≠ 美術過關，Tech Lead 必須自己縮圖驗並先交樣張；授權查證必讀條款原文不信搜尋摘要；PO 通告變版面規範時集中一處產生器參數即可全頁重產；術語查核只查專有名詞；交付 pptx 動手前比磁碟 mtime 判 PO 是否存過｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-05｜腳本段落示意依操作階段選代表狀態，避免每段與動畫變體各出一圖；張數填專用數量欄，說明欄只留製圖內容｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-05｜「不得打擾 PO」的要求要落在共用底層（Playwright 啟動器強制 headless），交辦單禁令擋不住執行者自寫腳本｜projects/南科再生水廠/_context/lessons-learned.md
+- Remotion_fun｜2026-10-05｜位置指示先畫保留/移除/新位置示意圖給 PO 確認再生圖；建築場景不外擴改裁切；人物重定位須逐像素去背；貼螢幕合成要保留前景遮擋；斜板 QR 用 homography｜Remotion_fun/_context/lessons-learned.md
