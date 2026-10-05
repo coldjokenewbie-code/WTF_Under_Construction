@@ -405,3 +405,4 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - 南科再生水廠｜2026-10-04｜codex exec 需加 `< /dev/null` 防 stdin 空等；three.js 無頭渲染審閱只需縮圖改 FHD（速度從 2h → 10min）；機檢 PASS ≠ 美術過關，Tech Lead 必須自己縮圖驗並先交樣張；授權查證必讀條款原文不信搜尋摘要；PO 通告變版面規範時集中一處產生器參數即可全頁重產；術語查核只查專有名詞；交付 pptx 動手前比磁碟 mtime 判 PO 是否存過｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-05｜腳本段落示意依操作階段選代表狀態，避免每段與動畫變體各出一圖；張數填專用數量欄，說明欄只留製圖內容｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-05｜「不得打擾 PO」的要求要落在共用底層（Playwright 啟動器強制 headless），交辦單禁令擋不住執行者自寫腳本｜projects/南科再生水廠/_context/lessons-learned.md
+- Remotion_fun｜2026-10-05｜位置指示先畫保留/移除/新位置示意圖給 PO 確認再生圖；建築場景不外擴改裁切；人物重定位須逐像素去背；貼螢幕合成要保留前景遮擋；斜板 QR 用 homography｜Remotion_fun/_context/lessons-learned.md
