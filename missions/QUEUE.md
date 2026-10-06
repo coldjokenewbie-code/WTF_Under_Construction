@@ -3,14 +3,15 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-05 19:14**（已併 origin/main 進 night-relay）：QUEUE 現況＝待核准×2／parked×2／done×2／提名×5，**連續 90 天零 active**，今晚循環棒（19:30/21:30/23:30/01:30）預期全數秒退。
-**待核准（需使用者核准才能續跑）**：`20260706-guide-app`(優先2，backlog 剩 4 項皆卡 anchor 升級提案待裁決)／`test-baton-pickup-0706`(優先9，backlog 全勾，建議直接 done 或刪列，無需續跑)。
-**提名（候選，棒子不碰，改「待規劃」即啟動）**：5 項（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）——後 4 項需先補掛對應 repo 才能雲端跑。
-**blockers 待決**：`guide-app` anchor 升級提案（字級收斂/元件一致性驗收方法論）逾 80 天未裁決；`machine-report`（parked）待補具體修正意見（內容方向 vs 文字/視覺）；`design-training`（parked）僅本機限定，非卡點。
-**產能算術**：0 個 active mission，無可推進項，今晚排定 4 棒預計全數秒退（0 項/棒），無完成日可算；待核准 2 項一經使用者核准改 active，下個循環棒起才重新計入輪替制。
-chain-capability 仍 FAIL（CronCreate durable 不可用，累計 PASS 計數 0）。
-**合併建議（收貨指令原文）**：`git checkout main && git merge night-relay --no-edit && git push origin main`
-只彙報不動工不合併，合併是使用者的決定。
+**晨報棒 2026-10-06 08:30**：night-relay 領先 main 1283 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`nightly-20261006` session log，全repo今日無活動，未併入）。
+**自上次晨報(10-05 08:30)以來9 commits明細**：2條LESSONS索引（Remotion_fun／南科再生水廠）＋1條nightly session log（南科1 commit，萃取3條lesson）＋1條merge main→night-relay＋1條提醒棒（19:14，覆寫0 active延續，連續90天零增量）＋1條能力探測棒醒了（19:46秒退，連續91天零增量，chain-capability仍FAIL）＋3條心跳（21:30/23:45/01:45，全秒退）。
+**mission增量**：0（連續91天零active）。
+**新blockers**：無新增。既有：`guide-app` anchor升級提案逾80天未裁決；`machine-report`（parked）待補具體修正意見；`design-training`（parked）本機限定非卡點。
+**待核准/提名**：`20260706-guide-app`(優先2)／`test-baton-pickup-0706`(優先9,backlog全勾建議直接結案)；提名5項詳下方佇列表。
+**合併建議（收貨指令原文）**：
+- 收貨（正常合併1283commits累積）：`git checkout main && git merge night-relay --no-edit && git push origin main`
+- 不收（重置night-relay回main）：`git push origin +main:night-relay`
+只彙報不動工不合併，合併由使用者決定。
 
 ## 佇列
 
