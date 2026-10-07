@@ -3,13 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-06 19:15**：QUEUE現況0 active（整欄精確相等；待核准×2/parked×2/done×2/提名×5，連續92天零增量）；今晚循環棒（19:30/21:30/23:30/01:30）因無待規劃/active項，依規秒退，不產生增量。
-**產能算術（義務）**：0 active案，故無剩餘backlog可排。若使用者今晚核准：`20260706-guide-app`剩6/19項backlog，核准後以每棒一項推算約6棒可完成（最快10-07 01:30前，視輪替制與是否撞定錨棒而定）；`test-baton-pickup-0706`剩0/4項，核准＝可直接標`done`，不需再排棒。
-**待核准清單**：`20260706-guide-app`(優先2，M2達成，剩氛圍底圖/anchor升級提案待裁決)／`test-baton-pickup-0706`(優先9，backlog全勾，建議直接結案)。
-**提名清單（5項，棒子不碰，需使用者改「待規劃」才啟動）**：`ody-evidence-gate`／`southlibrary-fonts`(需掛SouthLibrary)／`cowork-c-tasks`(需掛cowork_CDIC)／`sreclaim-verify-b`(需掛S-reclaimed-water-plant)／`pptmap-skill`(需掛ppt_map_mark)。
-**blockers待決**：`guide-app` anchor升級提案（2026-07-09起，逾80天未裁決）；`machine-report`（parked）待使用者補充具體修正意見才能動；`design-training`（parked）案例包本機限定，屬本週無可作項非待裁決。
-**合併建議（收貨指令原文，沿用晨報棒）**：
-- 收貨（合併night-relay累積進main）：`git checkout main && git merge night-relay --no-edit && git push origin main`
+**晨報棒 2026-10-07 08:30**：night-relay 領先 main 1290 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`nightly-20261007` session log，全repo今日無活動，未併入）。
+**自上次晨報(10-06 08:30)以來7 commits明細**：1條nightly session log(10-06,全repo無活動)＋1條merge main→night-relay＋1條提醒棒(19:15,覆寫0 active延續，連續92天零增量)＋2條心跳(19:48/21:46，19:48那棒回報chain-capability FAIL)＋2條心跳(23:44/01:30,01:30那棒連續93天零增量)。
+**mission增量**：0（連續93天零active）。
+**新blockers**：無新增。既有：`guide-app` anchor升級提案逾81天未裁決；`machine-report`（parked）待補具體修正意見；`design-training`（parked）本機限定非卡點。
+**待核准/提名**：`20260706-guide-app`(優先2)／`test-baton-pickup-0706`(優先9,backlog全勾建議直接結案)；提名5項詳下方佇列表，狀態不變。
+**合併建議（收貨指令原文）**：
+- 收貨（正常合併1290commits累積）：`git checkout main && git merge night-relay --no-edit && git push origin main`
 - 不收（重置night-relay回main）：`git push origin +main:night-relay`
 只彙報不動工不合併，合併由使用者決定。
 
