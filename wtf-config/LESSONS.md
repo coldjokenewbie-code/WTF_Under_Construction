@@ -406,3 +406,7 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - 南科再生水廠｜2026-10-05｜腳本段落示意依操作階段選代表狀態，避免每段與動畫變體各出一圖；張數填專用數量欄，說明欄只留製圖內容｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-05｜「不得打擾 PO」的要求要落在共用底層（Playwright 啟動器強制 headless），交辦單禁令擋不住執行者自寫腳本｜projects/南科再生水廠/_context/lessons-learned.md
 - Remotion_fun｜2026-10-05｜位置指示先畫保留/移除/新位置示意圖給 PO 確認再生圖；建築場景不外擴改裁切；人物重定位須逐像素去背；貼螢幕合成要保留前景遮擋；斜板 QR 用 homography｜Remotion_fun/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-05｜設計簡報標註要以箭頭終點座標換算到圖片像素判讀指向哪棟，不靠文字框位置；pptx 加黃底句拆單一 run 三段＋highlight 依 rPr 順序插入｜projects/南科再生水廠/_context/lessons-learned.md
+- e-reader-stuff｜2026-10-06｜代印報價要讀機台限制（尺寸、單件時數上限、超時加價），不只看每克單價；五金規格先看官方照片判型（README "flat head" 實為 CM 薄頭，中文搜「平頭」會落到沉頭）｜projects/e-reader-stuff/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-07｜業主意見逐字照放、有錯寫理由請業主改（與中文出入不算錯）；xlsx zip 層改格 regex 須防自閉合空格吞到下一格，先複本試跑；Drive 上 pptx 開著不一定有 ~$ 鎖檔｜projects/南科再生水廠/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-07｜pptx 插頁產線不可跑 postprocess 清理（會刪 PO 章節），新頁寫入章節並斷言章節＝頁序；PO 調版後套用他頁要以幾何條件選物件，同名物件會抓錯｜projects/南科再生水廠/_context/lessons-learned.md
