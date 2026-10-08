@@ -3,13 +3,14 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-07 19:14**：已併 origin/main（新增 2 commits：`session-logs/20261007.md`＋`wtf-config/LESSONS.md`，皆無 QUEUE 相關內容，無衝突）。
-**產能算術（義務）**：active 案數＝**0**，故無剩餘 backlog 項數／預計完成日可算。今晚循環棒（19:30/21:30/23:30/01:30）在 QUEUE 無待規劃/active 項下將全數秒退——連續 93 天零增量（見 heartbeat.log 01:45 棒最新記錄）。
-**待核准/提名清單**：`20260706-guide-app`(優先2，M2界達成，卡 anchor 升級提案待裁)／`test-baton-pickup-0706`(優先9，backlog全勾，建議直接改 done 或刪列結案)；提名 5 項（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）皆需補掛對應 repo 或待使用者核准轉「待規劃」，狀態不變。
-**blockers 待決**：`guide-app` anchor升級提案（2026-07-21提示至今逾83天未裁決）；`machine-report`（parked）仍待補具體修正意見（驗收未過但無修改點）；`design-training`（parked，本機限定，非待裁決卡點）。
-**合併建議（收貨指令原文，night-relay 累積領先約1290+ commits，歷史分叉非今夜產出）**：
-- 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
-- 不收：`git push origin +main:night-relay`
+**晨報棒 2026-10-08 08:30**：night-relay 領先 main 1305 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`nightly-20261008` session log，全repo今日無活動，3項舊設定建議待核准，未併入）。
+**自上次晨報(10-07 08:30)以來6 commits明細**：1條merge main→night-relay（併入10-07 session log＋LESSONS，無QUEUE相關內容）＋1條提醒棒(19:14,覆寫0 active延續,連續93天零增量)＋2條心跳(19:46 chain-capability FAIL／21:47)＋2條心跳(23:45/01:45,01:45那棒連續95天零增量)。
+**mission增量**：0（連續95天零active）。
+**新blockers**：無新增。既有：`guide-app` anchor升級提案逾84天未裁決；`machine-report`（parked）待補具體修正意見；`design-training`（parked）本機限定非卡點。
+**待核准/提名**：`20260706-guide-app`(優先2)／`test-baton-pickup-0706`(優先9,backlog全勾建議直接結案)；提名5項詳下方佇列表，狀態不變。
+**合併建議（收貨指令原文）**：
+- 收貨（正常合併1305commits累積）：`git checkout main && git merge night-relay --no-edit && git push origin main`
+- 不收（重置night-relay回main）：`git push origin +main:night-relay`
 只彙報不動工不合併，合併由使用者決定。
 
 ## 佇列
