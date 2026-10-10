@@ -3,13 +3,14 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-09 19:13**：0 active mission（連續97天零增量，以最近循環棒 2026-10-09 01:45 回報為準,本棒未再新增增量故沿用此數）；night-relay 領先 main 1313 commits（已併入今日 main 新增的 session-logs/20261009.md 1 commit，仍未收貨）。
-**待核准清單**：`20260706-guide-app`(優先2,M2達成,卡底圖/縮圖/hero照風格統一路線＋anchor升級提案待裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案)。
-**提名清單（候選,棒子不碰）**：`ody-evidence-gate`／`southlibrary-fonts`(需掛SouthLibrary)／`cowork-c-tasks`(需掛cowork_CDIC)／`sreclaim-verify-b`(需掛S-reclaimed-water-plant)／`pptmap-skill`(需掛ppt_map_mark)。
-**blockers待決**：`guide-app` anchor升級提案逾86天未裁決；`machine-report`（parked）待補具體修正意見；`design-training`（parked）本機限定非卡點,非待裁決。
-**產能算術**：0 active→無剩餘backlog可排；今晚循環棒(19:30/21:30/23:30/01:30)在佇列無新核准前預計全數秒退，無完成日可算。
+**晨報棒 2026-10-10 08:30**：night-relay 領先 main 1320 commits（歷史累積分叉，非昨夜產出）；main 領先 night-relay 1 commit（`nightly-20261010` session log，全repo今日無活動，3項全域設定建議待核准，未併入）。
+**異常**：昨日 10-09 08:30 晨報棒未留下紀錄（本記錄無對應commit）——疑似該次trigger未執行或未推送，建議使用者檢查該trigger排程狀態。
+**自上次有紀錄晨報(10-08 08:30)以來12 commits明細**：merge×2(併入main的10-09 session log)＋提醒棒×2(10-08 19:13/10-09 19:13,皆覆寫0 active延續)＋心跳/秒退×8(含10-09 19:47 chain-capability FAIL回報連續98天零增量,其餘21:46/23:45/01:45循環棒秒退)。
+**mission增量**：0（連續98天零active，以10-09 19:47棒回報為最新數字）。
+**新blockers**：無新增。既有：`guide-app` anchor升級提案逾86天未裁決；`machine-report`（parked）待補具體修正意見；`design-training`（parked）本機限定非卡點。
+**待核准/提名**：`20260706-guide-app`(優先2)／`test-baton-pickup-0706`(優先9,backlog全勾建議直接結案)；提名5項詳下方佇列表，狀態不變。
 **合併建議（收貨指令原文）**：
-- 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
+- 收貨（正常合併1320commits累積）：`git checkout main && git merge night-relay --no-edit && git push origin main`
 - 不收（重置night-relay回main）：`git push origin +main:night-relay`
 只彙報不動工不合併，合併由使用者決定。
 
