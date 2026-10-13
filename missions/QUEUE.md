@@ -3,10 +3,10 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-12 19:00**：QUEUE現況——待核准×2／parked×2／done×2／提名×5；無`待規劃`/`active`項，連續99天零增量（今日全掛載repo亦無任何commit活動，見nightly session-logs/20261012.md；今晚19:30/21:45/23:30/01:30四棒預計依規秒退）。
+**提醒棒 2026-10-13 19:00**：QUEUE現況——待核准×2／parked×2／done×2／提名×5；無`待規劃`/`active`項，連續100天零增量（今日全掛載repo亦無任何commit活動，見nightly session-logs/20261013.md；今晚19:30/21:45/23:30/01:30四棒預計依規秒退）。
 **待核准**：`20260706-guide-app`(優先2)backlog剩2項未勾（字級收斂／元件一致性），卡anchor升級提案；`test-baton-pickup-0706`(優先9)backlog全勾，建議使用者直接結案（改done或刪列）。
 **提名**（候選，棒子不碰）：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill（需掛ppt_map_mark）。
-**blockers待決**：`guide-app` anchor升級提案逾95天未裁決（2026-07-09起）；`machine-report`（parked）待補具體修正意見才能動；`design-training`（parked）本機限定非卡點。
+**blockers待決**：`guide-app` anchor升級提案逾96天未裁決（2026-07-09起）；`machine-report`（parked）待補具體修正意見才能動；`design-training`（parked）本機限定非卡點。另nightly session-logs累積3項全域設定修改建議（0930改掃昨日／1002補登phonic_keyboard／1005補AGENTS.md原則）連續多日未核准。
 **產能算術**：0個active mission，無剩餘backlog項數／預計完成日可算；派工請把QUEUE任一行狀態改「待規劃」或「active」才會有今晚增量。
 **今晚計畫**：維持輪替待命，四棒依規心跳＋秒退，不空轉。
 
