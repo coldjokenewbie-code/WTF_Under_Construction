@@ -410,3 +410,5 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - e-reader-stuff｜2026-10-06｜代印報價要讀機台限制（尺寸、單件時數上限、超時加價），不只看每克單價；五金規格先看官方照片判型（README "flat head" 實為 CM 薄頭，中文搜「平頭」會落到沉頭）｜projects/e-reader-stuff/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-07｜業主意見逐字照放、有錯寫理由請業主改（與中文出入不算錯）；xlsx zip 層改格 regex 須防自閉合空格吞到下一格，先複本試跑；Drive 上 pptx 開著不一定有 ~$ 鎖檔｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-07｜pptx 插頁產線不可跑 postprocess 清理（會刪 PO 章節），新頁寫入章節並斷言章節＝頁序；PO 調版後套用他頁要以幾何條件選物件，同名物件會抓錯｜projects/南科再生水廠/_context/lessons-learned.md
+- cowork_CDIC｜2026-10-14｜多端程式更新須驗已開舊頁重載；SSE重連與no-store不會替換已載入JS，本機新頁PASS與現場確認必須分列｜projects/cowork_CDIC/_context/lessons-learned.md
+- cowork_CDIC｜2026-10-14｜現場步驟要指「一鍵更新」入口（停舊行程→覆蓋安裝目錄→重啟），不可寫只會原地啟動的 bat；Windows 背景腳本以 Get-Process 找 Chrome 視窗搶焦點不可靠，HID 讀卡機焦點以真實點擊為準｜projects/cowork_CDIC/_context/lessons-learned.md
