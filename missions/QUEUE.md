@@ -3,14 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-15 08:30**：night-relay領先main 1361 commits（歷史累積分叉，非昨夜產出）；main領先night-relay 1 commit（nightly-20261015全repo今日無活動＋3項全域設定建議持續待核准，未併入）；無trigger異常。
-**各mission昨夜增量**：無——QUEUE全程無`待規劃`/`active`項，19:00/19:46/21:45/23:48/01:45各棒皆秒退或程序性心跳（證據：missions/heartbeat.log對應時段＋commit ed91396/8e5d9c3/6ac002d/0df6263/9b405f2/1864334）。自上次晨報(10-14 08:30，4219b9d)以來累計6 commits（merge×1/提醒棒×1/心跳或秒退×4），皆程序性紀錄，0 mission增量（連續102天零active，10-15 01:45棒回報）。
-**chain-capability**：仍FAIL（10-13 19:46棒16ae302回報：CronCreate `durable`無效，無法自建下一顆trigger接手；昨夜未見新探測，連續PASS計數仍為0）。
-**新blockers**：無新增。既有：`guide-app` anchor升級提案逾99天未裁決（2026-07-09起）；`machine-report`（parked）待補具體修正意見才能動；`design-training`（parked）本機限定非卡點，非待裁決；nightly session-logs累積3項全域設定建議連續多日未核准。
-**待核准/提名**：`20260706-guide-app`(優先2,backlog剩2項未勾)／`test-baton-pickup-0706`(優先9,backlog全勾,建議直接結案)；提名5項不變（ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill）。
+**提醒棒 2026-10-15 19:13**：已進night-relay並併main（1 commit：nightly-20261015 session-log，無衝突，commit見log）。QUEUE現況維持——**連續第102夜**無`待規劃`/`active`項（整欄精確相等；待核准×2/parked×2/done×2/提名×5），今晚循環棒（19:30/21:30/23:30/01:30台北）預期全數秒退。
+**待核准/提名清單**：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案)；提名5項不變待使用者挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers待決**：`guide-app`——氛圍底圖/縮圖/hero風格路線裁決（待重拍截圖）；定錨棒anchor升級提案逾99天未裁決(2026-07-09起)。`machine-report`(parked)——待補具體修正意見才能重啟。`design-training`(parked)——本機限定，非待裁決。nightly session-logs：3項全域設定建議持續待核准（見`_context/nightly-notify.md`）。
+**產能算術**：目前0個active案，故無剩餘backlog/排定棒數/預計完成日可算；全部待核准/提名項尚未進入執行序列。
+**chain-capability**：仍FAIL（10-13 19:46棒回報CronCreate `durable`無效，無法自建下一顆trigger；連續PASS計數為0）。
 **合併建議（收貨指令原文）**：
-- 收貨（合併night-relay累積1361 commits進main）：`git checkout main && git merge night-relay --no-edit && git push origin main`
-- 若要先補main側nightly-20261015再收貨：`git checkout night-relay && git merge main --no-edit && git push origin night-relay`（接著跑上一條收貨指令）
+- 收貨（合併night-relay累積commits進main）：`git checkout main && git merge night-relay --no-edit && git push origin main`
 - 不收（重置night-relay回main）：`git push origin +main:night-relay`
 只彙報不動工不合併，合併由使用者決定。
 
