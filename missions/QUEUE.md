@@ -3,9 +3,9 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-16 19:15**：已進night-relay並併main（night-relay已領先main，含main最新nightly-20261015 session-log，無衝突）。QUEUE現況維持——**連續第103夜**無`待規劃`/`active`項（整欄精確相等；待核准×2/parked×2/done×2/提名×5），今晚循環棒（19:30/21:30/23:30/01:30台北）預期全數秒退。
+**晨報棒 2026-10-17 08:30**：`origin/main..origin/night-relay`領先1373commits——全屬歷史分叉舊帳，昨夜（10-16 19:15提醒棒之後）僅4顆19:30/21:45/23:45/01:30循環棒心跳秒退，**0 mission增量**。main領先night-relay 1commit未併入（`11c7e06` nightly-20261017零活動+補錄字體本機化lesson）。QUEUE現況不變——**連續第104夜**無`待規劃`/`active`項（待核准×2/parked×2/done×2/提名×5）。
 **待核准/提名清單**：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案)；提名5項不變待使用者挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers待決**：`guide-app`——氛圍底圖/縮圖/hero風格路線裁決（待重拍截圖）；定錨棒anchor升級提案已99天未裁決(2026-07-09起)。`machine-report`(parked)——待補具體修正意見才能重啟。`design-training`(parked)——本機限定，非待裁決。nightly session-logs：3項全域設定建議持續待核准（見`_context/nightly-notify.md`）。
+**blockers新增項**：無。既有：`guide-app`——氛圍底圖/縮圖/hero風格路線裁決（待重拍截圖）；定錨棒anchor升級提案**滿100天未裁決**(2026-07-09起)。`machine-report`(parked)——待補具體修正意見才能重啟。`design-training`(parked)——本機限定，非待裁決。nightly session-logs：3項全域設定建議持續待核准（見`_context/nightly-notify.md`）。
 **產能算術**：目前0個active案，故無剩餘backlog/排定棒數/預計完成日可算；全部待核准/提名項尚未進入執行序列。
 **chain-capability**：仍FAIL（10-15 19:44棒回報CronCreate `durable`無效，無法自建下一顆trigger；連續PASS計數為0）。
 **合併建議（收貨指令原文）**：
