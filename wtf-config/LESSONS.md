@@ -12,6 +12,8 @@
 
 | 專案 | 日期 | 一句話 | 連結 |
 |---|---|---|---|
+| cowork_CDIC | 2026-10-15 | 交接／維護文件先寫下讀者與用途，每句過「他動手時用得到嗎」：實測、驗證紀錄、大小、日期比較、歷史一律不進；過時文件直接刪不加註；術語首見即定義；業主可能已在現場改過內容，修改前先備回 | `projects/cowork_CDIC/_context/lessons-learned.md` |
+| cowork_CDIC | 2026-10-15 | 去重清理「同資料夾內重複」會打破交付資料夾自足性（最終版網頁缺圖兩個月沒人發現）：交付物列不可刪範圍、清完實開每個交付頁 | `projects/cowork_CDIC/_context/lessons-learned.md` |
 | 3Dstudy | 2026-09-20 | 【短期／模型升級重審】Codex最高階模型階段的額度檢討：固定量測、單一重型驗證執行者、重用證據與限縮重驗；更強模型可用／額度規則改變即重審，最遲2026-10-20，不作永久限制 | `projects/3Dstudy/_context/lessons-learned.md`（#69） |
 | 南科再生水廠 | 2026-09-04 | 主題10 留言牆重構：文案一句話會斷別展項的生產鏈（10.1 取消電子簽名→10.4 雷雕圖檔來源整條斷），裁定當下要追載體鏈並列候選路徑；實績與目標並列須寫「已達成並超越」、集團合計口徑標在數字旁不只放註腳；「不標目標數字」要拆目標與實績（已發生實績可放、須帶年度口徑）；docx 主題區間以頂層元素字串區間純字串替換＋逐頂層元素比對驗「只動一區」；macOS TCC 按負責行程歸屬，harness fork 後子行程不繼承授權、Drive 路徑全回 EPERM | `projects/南科再生水廠/_context/lessons-learned.md` |
 | 南科再生水廠 | 2026-09-03 | 客戶技術資料的證據等級三則：①技術歸屬題要同時查「型式名」與「該型特性」兩層，只查一層會誤以為補完（業主書面只寫 Sand Filter、無 Continuous＝型式歸屬本身未驗證，技術上正確的推論≠可寫進業主文件的事實）②被指定當語體範本的檔案本身可能載著校正前的技術內容，引用時切分「抄語體骨架」與「抄事實內容」③「依業主書面為準」只在雙方都有書面時是判準，單邊有書面時是授權，兩邊都沒有時幫不上忙——無書面者標【待複核】不寫機制斷言 | `projects/南科再生水廠/_context/lessons-learned.md` |
@@ -410,6 +412,9 @@ WTF｜2026-09-17｜專案萃取的分類清單不當全域預設，通用的是�
 - e-reader-stuff｜2026-10-06｜代印報價要讀機台限制（尺寸、單件時數上限、超時加價），不只看每克單價；五金規格先看官方照片判型（README "flat head" 實為 CM 薄頭，中文搜「平頭」會落到沉頭）｜projects/e-reader-stuff/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-07｜業主意見逐字照放、有錯寫理由請業主改（與中文出入不算錯）；xlsx zip 層改格 regex 須防自閉合空格吞到下一格，先複本試跑；Drive 上 pptx 開著不一定有 ~$ 鎖檔｜projects/南科再生水廠/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-07｜pptx 插頁產線不可跑 postprocess 清理（會刪 PO 章節），新頁寫入章節並斷言章節＝頁序；PO 調版後套用他頁要以幾何條件選物件，同名物件會抓錯｜projects/南科再生水廠/_context/lessons-learned.md
+南科再生水廠｜2026-10-09｜實體裝置＋螢幕的展項，交辦先寫清螢幕畫面邊界與哪些是實體不必畫；前提錯則三輪視覺把關全作廢｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-09
+南科再生水廠｜2026-10-09｜pptx 封裝部件被 ElementTree 寫成 ns0: 前綴→LibreOffice 打不開；鎖檔狀態每次當下用 ~$ ＋ lsof 重查再回報｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-09
+HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統資料庫；MDF 可免 SQL Server 直接解析資料頁，但須以 sysallocunits 確認現行配置單元，避開重建殘留舊頁｜projects/HuaNan_Bank/_context/lessons-learned.md#2026-10-13
 - cowork_CDIC｜2026-10-14｜多端程式更新須驗已開舊頁重載；SSE重連與no-store不會替換已載入JS，本機新頁PASS與現場確認必須分列｜projects/cowork_CDIC/_context/lessons-learned.md
 - cowork_CDIC｜2026-10-14｜現場步驟要指「一鍵更新」入口（停舊行程→覆蓋安裝目錄→重啟），不可寫只會原地啟動的 bat；Windows 背景腳本以 Get-Process 找 Chrome 視窗搶焦點不可靠，HID 讀卡機焦點以真實點擊為準｜projects/cowork_CDIC/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-10-15｜Remotion 字體本機化：woff2 收入 public/fonts/、改讀 fonts-local.css，算繪不連網；驗收＝含字幕畫面前後逐位元相同；工具腳本找 ffmpeg 順序：環境變數→PATH→homebrew，不鎖路徑｜projects/claude_CDIC_O4/_context/lessons-learned.md
