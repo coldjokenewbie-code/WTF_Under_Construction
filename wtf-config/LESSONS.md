@@ -419,3 +419,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - cowork_CDIC｜2026-10-14｜現場步驟要指「一鍵更新」入口（停舊行程→覆蓋安裝目錄→重啟），不可寫只會原地啟動的 bat；Windows 背景腳本以 Get-Process 找 Chrome 視窗搶焦點不可靠，HID 讀卡機焦點以真實點擊為準｜projects/cowork_CDIC/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-10-15｜Remotion 字體本機化：woff2 收入 public/fonts/、改讀 fonts-local.css，算繪不連網；驗收＝含字幕畫面前後逐位元相同；工具腳本找 ffmpeg 順序：環境變數→PATH→homebrew，不鎖路徑｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-13｜「為何建廠」論述只能用建廠決策前的資料；AI 生成設備圖要逐單元對照知識點核機構（交辦單寫明必須有／不得有）；配圖引用新事實要回補知識點與來源｜projects/南科再生水廠/_context/lessons-learned.md
+- Planner2Line｜2026-10-20｜長駐程式的外部連線（COM/RPC）會悄悄死掉：失敗即重建並探活、不假設啟動時物件永遠有效；同一錯誤連續 N 次須升級告警（本案 10 次≈5 分鐘發 LINE），恢復再通知；心跳附「上次成功操作時間」才能證明功能正常，不只是程序存活；讀日誌先統計（grep|sort|uniq -c）再看細節｜projects/Planner2Line/_context/lessons-learned.md#2026-10-20
