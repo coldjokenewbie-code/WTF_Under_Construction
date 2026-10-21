@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-20 19:07**：覆寫今日快報（依分支制已併origin/main進night-relay，純文字檔無衝突）。QUEUE現況不變：待核准×2/parked×2/done×2/提名×5，白天0 active無增量，延續昨夜**113夜**零active紀錄，今晚19:30/21:30/23:30/01:30四顆循環棒預期仍秒退。
-**待核准/提名清單**：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項不變待使用者挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers待決**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決（待重拍截圖，已裁定暗色工業風則不受影響）；(2)定錨棒anchor升級提案（2026-07-09起）已**104天未裁決**。`machine-report`(parked)——待補具體修正意見才能重啟，無新回覆。`design-training`(parked)——本機限定，非待裁決。nightly session-logs：3項全域設定建議持續待核准（見`_context/nightly-notify.md`，2026-09-30/10-02/10-05）＋**3Dstudy額度重審今天到期**，待使用者確認模型能力/額度政策是否已可解除限制。
-**產能算術**：目前0個active案，故無剩餘backlog項數/排定棒數/預計完成日可算；全部待核准/提名項尚未進入執行序列——卡點全部是使用者決策，不是產能。
-**chain-capability**：仍FAIL（CronCreate `durable`參數無效，無法自建下一顆trigger；連續PASS計數為0）。
+**晨報棒 2026-10-21 08:30**：覆寫今日快報。night-relay領先main **1415 commits**（歷史分叉，非昨夜產出）；main領先night-relay **2 commits**未併入（`c3007fd` nightly-20261021教訓彙整、`4cb7617` VoiceInk教訓補錄，皆非mission內容）。昨夜提醒棒(19:07)+四顆循環棒(19:36/21:36/23:35/01:35)**全數心跳秒退，0 mission增量**，QUEUE整欄精確相等檢查持續命中「無待規劃/active項」，零增量連續夜數延續至**117夜**。
+**待核准/提名清單**（與昨日不變）：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項待挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**104天未裁決**。`machine-report`/`design-training`(parked)無新回覆。nightly session-logs：3項全域設定建議持續待核准（`_context/nightly-notify.md`）；**新blocker**：昨日提示的「3Dstudy額度重審到期」尚無使用者裁示，續卡。無其他新blocker。
+**產能算術**：0個active案，無剩餘backlog項數/排定棒數/預計完成日可算；卡點全部是使用者決策，非產能。
+**chain-capability**：仍FAIL（CronCreate `durable`參數無效；連續PASS計數為0）。
 **合併建議（收貨指令原文）**：
 - 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
 - 不收：`git push origin +main:night-relay`
