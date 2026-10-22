@@ -1,0 +1,31 @@
+{
+  "task_id": "cdicO4-en-frame-critique-agy-20260818",
+  "goal": "質疑：對 frame_zh_v2/frame_en_v2 與中文版原框比對，找樣式不一致（字型款式、燈泡密度、發光、對齊、補牆接縫、殘影）",
+  "created": "2026-08-17T21:46:59.784398+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "cfb7339924902eabb5b0077a36090db5d8fecae8",
+  "preexisting_dirty": [
+    "wtf-config/LESSONS.md",
+    "tools/ody/data/contracts/cdicO4-en-deck-frame-20260818.contract.json",
+    "tools/ody/data/contracts/cdicO4-en-frame-art-codex-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-agy質疑-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-codex-20260818.contract.json"
+  ],
+  "scope_allowlist": [
+    "workingfiles/影片素材/EN布景重製_20260818/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "逐項列出發現的問題與座標（無問題須明說核過哪些檢查點）",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "open",
+  "parent_task_id": "cdicO4-en-deck-frame-20260818"
+}

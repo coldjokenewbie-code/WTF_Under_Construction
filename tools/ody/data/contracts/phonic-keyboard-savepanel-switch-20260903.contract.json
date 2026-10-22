@@ -1,0 +1,98 @@
+{
+  "task_id": "phonic-keyboard-savepanel-switch-20260903",
+  "goal": "存檔檔名欄中英鍵切換不再切離Nina輸入來源，避免openAndSavePanelService的IMK session競態，並保留可見模式提示與英文Shift大寫",
+  "created": "2026-09-03T12:48:07.901082+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/PhonicInputController.swift",
+    "Sources/PhonicKeyboard/KeyMapper.swift",
+    "Sources/PhonicKeyboard/CapsLockLanguageMode.swift",
+    "Sources/PhonicKeyboard/ToastWindow.swift",
+    "Tests/PhonicKeyboardTests/CapsLockLanguageModeTests.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-30_macOS注音輸入法.md",
+    "_context/lessons-learned.md",
+    "workingfiles/implementation_plan.md",
+    "workingfiles/task.md",
+    "workingfiles/walkthrough.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權修改上述專案檔、建置、安裝與重啟PhonicKeyboard直到驗收通過"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "回歸測試證明CapsLock實體狀態可決定中文或英數且重複事件不反覆切換",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib --filter CapsLockLanguageModeTests.physicalStateDeterminesLanguage",
+        "exit": 0,
+        "output_tail": "atform: arm64e-apple-macos14.0\n◇ Suite \"Caps Lock 內部中英模式\" started.\n◇ Test \"Caps Lock 實際狀態直接決定模式\" started.\n✔ Test \"Caps Lock 實際狀態直接決定模式\" passed after 0.001 seconds.\n✔ Suite \"Caps Lock 內部中英模式\" passed after 0.001 seconds.\n✔ Test run with 1 test in 1 suite passed after 0.001 seconds.\n[0/1] Planning build\nBuilding for debugging...\n[0/4] Write swift-version--58304C5D6DBC2206.txt\nBuild complete! (0.14s)\n",
+        "ts": "2026-09-03T12:57:13.761422+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "英文模式下CapsLock殘留只校正ASCII字母大小寫，Shift仍能大寫且Command Option Control 數字標點不受破壞",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib --filter CapsLockLanguageModeTests.capsLockNormalizesLettersOnly",
+        "exit": 0,
+        "output_tail": "rm64e-apple-macos14.0\n◇ Suite \"Caps Lock 內部中英模式\" started.\n◇ Test \"Caps Lock 只校正 ASCII 字母且 Shift 仍輸出大寫\" started.\n✔ Test \"Caps Lock 只校正 ASCII 字母且 Shift 仍輸出大寫\" passed after 0.001 seconds.\n✔ Suite \"Caps Lock 內部中英模式\" passed after 0.001 seconds.\n✔ Test run with 1 test in 1 suite passed after 0.001 seconds.\nBuilding for debugging...\n[0/4] Write swift-version--58304C5D6DBC2206.txt\nBuild complete! (0.07s)\n",
+        "ts": "2026-09-03T12:57:18.613892+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "Info.plist不再宣告TICapsLockLanguageSwitchCapable且controller接收flagsChanged，存檔欄切換時輸入來源維持Nina",
+      "evidence": {
+        "cmd": "test ! -e /tmp/impossible-placeholder && test \"$(plutil -extract CFBundleVersion raw Resources/Info.plist)\" = 25 && ! rg -q TICapsLockLanguageSwitchCapable Resources/Info.plist && rg -q flagsChanged Sources/PhonicKeyboard/PhonicInputController.swift && ! rg -q TISSelectInputSource Sources/PhonicKeyboard",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-03T12:57:24.027953+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "swift test與libchewing回歸測試全數通過",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib && ./tools/test.sh",
+        "exit": 0,
+        "output_tail": "」（共 12 個）\n[PASS] 詞首開候選後保留原游標位置 — 游標=2（期望 2＝「天」的位置）\n[PASS] 關掉候選後游標回到字後面 — 游標=6（期望 6＝句尾）\n[PASS] 使用者詞庫最近寫入者勝，重複 add 不累積權重 — 預設依序=「弒實」→「試石」→「弒實」\n[PASS] 加入使用者詞前後候選順序不變、預設組字改變 — 前=「各」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」；後=「虼」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n[PASS] 同一候選層所有候選字數一致 — 候選=「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n\n全部通過（失敗 0 項）\nBuilding for debugging...\n[0/4] Write swift-version--58304C5D6DBC2206.txt\nBuild complete! (0.07s)\n",
+        "ts": "2026-09-03T12:57:30.542913+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "版本25建置安裝、簽章雜湊與單一行程檢查通過",
+      "evidence": {
+        "cmd": "test \"$(plutil -extract CFBundleVersion raw \"$HOME/Library/Input Methods/PhonicKeyboard.app/Contents/Info.plist\")\" = 25 && codesign --verify --deep --strict \"$HOME/Library/Input Methods/PhonicKeyboard.app\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$HOME/Library/Input Methods/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"/Users/coma/Library/Input Methods/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-03T12:57:36.452679+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "agy完成三輪動工前對抗質疑與實作後獨立複驗PASS",
+      "evidence": {
+        "note": "Antigravity 完成三輪動工前對抗質疑：否決無法保證收斂且可能吞首字的 TIS kickback，收斂為不切輸入來源的 Caps Lock 實際狀態同步；實作後以 fresh context 審查 controller、KeyMapper、Info.plist、新 helper、Toast 與測試，第一行回覆 PASS。",
+        "ts": "2026-09-03T12:57:41.474523+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib",
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-09-03T12:57:57.573256+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

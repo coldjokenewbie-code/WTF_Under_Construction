@@ -1,0 +1,53 @@
+{
+  "task_id": "南科再生水廠-手拿板RO_AFB_尿素三風格-20260823",
+  "goal": "比照 UF 模式產出 RO(4塊)/AFB(4塊)/尿素(2塊)三風格手拿板概念稿SVG＋各子題比對HTML；經 agy 強力挑戰（知識口徑V02_260821、多媒體視覺設定、P514呈現手法）與獨立驗收後交 PO",
+  "created": "2026-08-23T14:47:36.959897+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "f089b8db47aebb5225b011570b9e7d72ba4633b2",
+  "preexisting_dirty": [
+    "wtf-config/AGENTS.md",
+    "wtf-config/GLOBAL.md",
+    "wtf-config/machines.md",
+    "wtf-config/skills/heart-beat/SKILL.md",
+    "tools/ody/data/contracts/cdicO4-en-deck-frame-20260818.contract.json",
+    "tools/ody/data/contracts/cdicO4-en-frame-art-codex-20260818.contract.json",
+    "tools/ody/data/contracts/cdicO4-en-frame-critique-agy-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-agy質疑-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-codex-20260818.contract.json",
+    "wtf-config/hooks/wtf-session-gate.py.bak",
+    "wtf-config/playbooks/data-citation.md",
+    "session-logs/20260824.md",
+    "wtf-config/LESSONS.md"
+  ],
+  "scope_allowlist": [
+    "workingfiles/09.2關鍵技術/手拿板重繪_260823/**"
+  ],
+  "preflight_permissions": [
+    "在 手拿板重繪_260823/ 資料夾內新增/修改檔案；headless 呼叫 codex 與 agy；不 commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "1) RO 4塊×3風格=12張SVG、AFB 4塊×3風格=12張、尿素 2塊×3風格=6張，共30張，viewBox 1680x945、598x336mm、每子題三風格同版面同文案\n2) 每子題一頁比對HTML（RO比對_260823.html、AFB比對_260823.html、尿素比對_260823.html），連結 target=_blank，含概念稿註記\n3) 知識文字逐字有據：符合 infomation/備_...知識點_V02_260821.docx 口徑（RO不寫單一孔徑、對尿素去除率約35%、1樓21支水平；AFB=缺氧脫氮去除RO濃縮水硝酸鹽、排放端副流；尿素<5ppb、加藥在廠外本廠監測），用語一律南科工業再生水廠\n4) 呈現手法沿用 P514 一主題一種：RO=抽拉、AFB=光柵、尿素=聚光燈，互動板含機構示意與打樣註記\n5) 視覺依多媒體視覺設定（白底、藍+青綠、色彩即狀態）＋PO 指定風格錨（軸1 S105/S106/S114、軸2 S202、軸4 S402/S403），配色比全展鮮明\n6) agy 強力挑戰報告產出且高嚴重度問題全數修正或標註 PO 待決\n7) ody-verifier 獨立驗收 PASS\n8) XML 全數可解析、字級≥24px、無 foreignObject/textLength/image",
+      "evidence": {
+        "note": "30張 v1 SVG（RO12/AFB12/尿素6）＋UF v2 六張＝42 SVG 全數 ElementTree 解析通過；比對頁 5 份（UF/RO/AFB/尿素/UF_v2）連結 target=_blank 齊；三子題 Codex 自檢逐條 PASS（含關鍵句 grep：不以單一孔徑描述×3、約僅35%×3、21支膜殼水平×3、懸浮擾動12、砂0、厭氧等號0、<5ppb 6、300毫升3、不對應5ppb濃度3）；agy 三維度強力挑戰 53 行報告產出，高嚴重度 3 項已修（RO1分子量>100、RO3/尿素1紫灰狀態色、暴雷→PO 雙面設計裁定收斂於 v2）；PO 260824 退修四點以 UF v2 六張回應（海報式+手持操作示意+文字1/3+雙面），Codex 修正輪複驗 PASS",
+        "ts": "2026-08-23T19:38:55.955406+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "python3 -c \"import glob,xml.etree.ElementTree as ET;fs=glob.glob('/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/南科再生水廠/workingfiles/09.2關鍵技術/手拿板重繪_260823/*.svg');assert len(fs)>=36,len(fs);[ET.parse(f) for f in fs];print('OK',len(fs))\""
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-08-23T19:42:23.623038+00:00",
+    "ok": true,
+    "fails": []
+  },
+  "notes": [
+    "2026-08-24 Tech Lead 修約：verify_cmd 改 Drive 絕對路徑（原 repo 相對路徑撲空＝立約錯誤，違反既有教訓）；session-logs/20260824.md 與 wtf-config/LESSONS.md 為 nightly 自動產出、非本任務寫入，列入 preexisting_dirty。"
+  ]
+}

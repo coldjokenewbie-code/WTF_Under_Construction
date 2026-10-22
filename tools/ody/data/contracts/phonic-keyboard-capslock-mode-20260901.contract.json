@@ -1,0 +1,79 @@
+{
+  "task_id": "phonic-keyboard-capslock-mode-20260901",
+  "goal": "中／英鍵改成依大寫鎖定的實際狀態決定中／英數模式，取代目前用 IOKit 清除鎖定狀態的做法（會與系統開關狀態不同步，導致每隔一次按鍵不切換、模式卡在英數而打不出中文）",
+  "created": "2026-08-31T18:32:27.309645+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "fc858abe41816cf0c8f0cad95cab7289022e312d",
+  "preexisting_dirty": [
+    "wtf-config/AGENTS.md",
+    "wtf-config/machines.md",
+    "wtf-config/skills/heart-beat/SKILL.md",
+    "tools/ody/data/contracts/cdicO4-en-deck-frame-20260818.contract.json",
+    "tools/ody/data/contracts/cdicO4-en-frame-art-codex-20260818.contract.json",
+    "tools/ody/data/contracts/cdicO4-en-frame-critique-agy-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-agy質疑-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-codex-20260818.contract.json",
+    "tools/ody/data/contracts/南科再生水廠-手拿板RO_AFB_尿素三風格-20260823.contract.json",
+    "wtf-config/hooks/wtf-session-gate.py.bak",
+    "wtf-config/playbooks/data-citation.md"
+  ],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/*.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "_context/*.md"
+  ],
+  "preflight_permissions": [
+    "可改 projects/phonic_keyboard 內程式碼與文件、可執行 tools/build.sh 與 tools/test.sh、可安裝到 ~/Library/Input Methods"
+  ],
+  "po_authorized_protected_paths": true,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "不再呼叫 IOHIDSetModifierLockState 改動系統大寫鎖定狀態（CapsLockState 移除或不再被呼叫）",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "handleFlagsChanged 依 flags.contains(.capsLock) 決定模式（有=英數、無=中文）而非 toggle，連按多次每次都與實際鎖定狀態一致",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "activateServer 依當下 NSEvent.modifierFlags 同步一次模式，避免切 App 後模式卡住",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "KeyMapper 在 capsLock 生效時反轉大小寫：capsLock 且無 shift 送小寫、capsLock+shift 送大寫",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "./tools/test.sh 21 項全過",
+      "evidence": null
+    },
+    {
+      "no": 6,
+      "desc": "swift test 4 項全過（需帶 -Xcc -I$(brew --prefix libchewing)/include）",
+      "evidence": null
+    },
+    {
+      "no": 7,
+      "desc": "tools/build.sh install 建置簽章安裝成功、行程只剩一個",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "open",
+  "children": [
+    {
+      "task_id": "phonic-keyboard-capslock-mode-20260901-codex",
+      "agent": "codex"
+    }
+  ]
+}

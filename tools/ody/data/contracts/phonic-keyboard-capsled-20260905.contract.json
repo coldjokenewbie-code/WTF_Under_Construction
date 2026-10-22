@@ -1,0 +1,125 @@
+{
+  "task_id": "phonic-keyboard-capsled-20260905",
+  "goal": "P0:在不新增系統權限下找出實體CapsLock LED真正控制路徑並讓Nina切換後熄燈(或證明已測路徑均未成功並給PO取捨);P1:唯讀比對小麥注音與Nina的Info.plist/TIS/簽章/lsregister差異",
+  "created": "2026-09-05T09:30:29.565240+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/CapsLockState.swift",
+    "Sources/PhonicKeyboard/PhonicInputController.swift",
+    "Tests/PhonicKeyboardTests/CapsLockLanguageModeTests.swift",
+    "Tests/PhonicKeyboardTests/CapsLockStateTests.swift",
+    "Resources/Info.plist",
+    "tools/probe_capslock_led.swift",
+    "workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md",
+    "workingfiles/outputs/capsled_probe_2026-09-05/**",
+    "workingfiles/task.md",
+    "workingfiles/implementation_plan.md",
+    "README.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-30_macOS注音輸入法.md",
+    "_context/TaskLog_2026-09-05_Nina中英切換與候選浮窗.md",
+    "_context/lessons-learned.md",
+    "_context/AGENT_SPEC_2026-09-05_CapsLED與SavePanel.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權:讀寫scope內檔案、執行hidutil/ioreg/IOKit探測、建置安裝並重啟PhonicKeyboard；禁止申請TCC權限、defaults write、改使用者詞庫、commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "報告含Phase0質疑表且H1/H1b/H2/H3/H4每條有命令、exit、前後屬性值、PO目視欄；未執行者有理由",
+      "evidence": {
+        "cmd": "grep -q 'Phase 0' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md' && grep -q '有效成功路徑: 無' workingfiles/outputs/capsled_probe_2026-09-05/interactive_nina_results.txt && test $(grep -c '前=亮 後=亮' workingfiles/outputs/capsled_probe_2026-09-05/interactive_nina_results.txt) = 9",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:14.855877+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "若改Sources:swift test零失敗、tools/test.sh 21/21、build.sh install成功、安裝版CFBundleVersion=31、codesign deep strict通過、建置與安裝執行檔cmp一致、PhonicKeyboard行程恰1",
+      "evidence": {
+        "note": "P0 探測階段未改 Sources/（決策規則：全部失敗不改碼）；後續版本 31–34 另立契約 v31/v32/v33/v34，各自機檢通過，本條不適用。",
+        "ts": "2026-09-05T11:15:14.888120+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "candidate-learning.json與chewing.dat安裝前後皆存在且SHA-256相同",
+      "evidence": {
+        "cmd": "test -f 'workingfiles/outputs/capsled_probe_2026-09-05/initial_shasum.txt' && test -f 'workingfiles/outputs/capsled_probe_2026-09-05/current_shasum.txt' && grep -q 'chewing.dat' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md' && grep -q '跑完' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:14.926543+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "若改Sources:日誌列出中→英→中各一次flagsChanged/切換/延遲清除後active=false並附清鎖後hidutil與ioreg讀值",
+      "evidence": {
+        "note": "P0 階段未改 Sources/，本條不適用（見 #2）。",
+        "ts": "2026-09-05T11:15:14.958723+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "若未改Sources:報告寫已測路徑均未成功＋逐條證據＋A/B取捨，且Sources/無檔案晚於任務開始時間",
+      "evidence": {
+        "cmd": "grep -q '零權限路徑已窮盡' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md' && grep -q '(A) 申請 Input Monitoring' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md' && grep -q '(B) 回到版本 25 路線' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:14.997998+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "P1三欄表(差異/相同/未取得)逐鍵完成，TIS只比Nina實際取得項，TIS清單仍只有Bopomofo",
+      "evidence": {
+        "cmd": "grep -q '差異' workingfiles/outputs/capsled_probe_2026-09-05/p1_comparison_table.txt && grep -q '未取得' workingfiles/outputs/capsled_probe_2026-09-05/p1_comparison_table.txt && grep -q 'kTISPropertyInputSourceType' workingfiles/outputs/capsled_probe_2026-09-05/p1_tis_dump.txt && swift tools/switch_input.swift 2>/dev/null | grep -c 'im.wtf.inputmethod.PhonicKeyboard' | grep -qE '^[12]$'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:15.301892+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "Drive專案根find -maxdepth 2 -name .git無輸出",
+      "evidence": {
+        "cmd": "test -z \"$(find . -maxdepth 2 -name .git -not -name '.retired-*')\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:15.344775+00:00"
+      }
+    },
+    {
+      "no": 8,
+      "desc": "實體燈結論標待PO目視或附PO確認時間，未確認前不得寫已修復",
+      "evidence": {
+        "cmd": "grep -q '真人互動探測後定稿' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md' && ! grep -q 'P0 已修復' 'workingfiles/outputs/report_2026-09-05_CapsLED與SavePanel.md'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:15:15.383901+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib",
+    "./tools/test.sh"
+  ],
+  "handoff_file": "_context/Handover_2026-09-05_版本34結案.md",
+  "status": "passed",
+  "children": [
+    {
+      "task_id": "phonic-keyboard-capsled-20260905-agy",
+      "agent": "agy"
+    }
+  ],
+  "last_check": {
+    "ts": "2026-09-05T11:15:55.761624+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
