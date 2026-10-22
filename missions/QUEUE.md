@@ -3,7 +3,7 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-22 08:39**：覆寫今日快報。night-relay領先main **1423 commits**（歷史分叉，非昨夜產出）；main領先night-relay **0 commits**，已全數併入無新未併入項。昨夜（10-21 19:11提醒棒＋四顆循環棒19:36/21:35/23:36/01:35）全數心跳秒退，0 mission增量，QUEUE整欄精確相等檢查持續命中「無待規劃/active項」，零增量連續夜數延續至**119夜**。
+**提醒棒 2026-10-22 19:06**：覆寫今日快報。night-relay領先main **1425 commits**（歷史分叉，非昨夜產出）；main領先night-relay **0 commits**，已全數併入無新未併入項。QUEUE整欄精確相等檢查持續命中「無待規劃/active項」，零增量連續夜數維持**119夜**（今晚19:30/21:30/23:30/01:30 四顆循環棒跑完後預期延續至120夜）。
 **待核准/提名清單**（與昨日不變）：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項待挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
 **blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**106天未裁決**。`machine-report`/`design-training`(parked)無新回覆。nightly session-logs：4項全域設定建議持續待核准（`_context/nightly-notify.md`，含2026-10-20「3Dstudy額度重審到期」已逾期**2天**未裁示）。無其他新blocker。
 **產能算術**：0個active案，無剩餘backlog項數/排定棒數/預計完成日可算；今晚循環棒（19:30/21:30/23:30/01:30）預期同樣秒退。卡點全部是使用者決策，非產能。
