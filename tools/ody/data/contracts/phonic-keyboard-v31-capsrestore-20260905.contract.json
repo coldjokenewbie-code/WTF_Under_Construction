@@ -1,0 +1,111 @@
+{
+  "task_id": "phonic-keyboard-v31-capsrestore-20260905",
+  "goal": "版本31：恢復TICapsLockLanguageSwitchCapable讓macOS管中/英鍵與Caps燈（同小麥注音），Nina不再攔Caps與清鎖；新增LSUIElement=true作為SavePanel競態的單變因修正；移除NinaModeStatusItem解決選單列重複",
+  "created": "2026-09-05T10:45:21.032362+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Resources/Info.plist",
+    "Sources/PhonicKeyboard/PhonicInputController.swift",
+    "Sources/PhonicKeyboard/AppDelegate.swift",
+    "Sources/PhonicKeyboard/CapsLockState.swift",
+    "Sources/PhonicKeyboard/NinaModeStatusItem.swift",
+    "Sources/PhonicKeyboard/CapsLockLanguageMode.swift",
+    "Tests/PhonicKeyboardTests/CapsLockLanguageModeTests.swift",
+    "README.md",
+    "workingfiles/outputs/_shared/archive/v31-removed/**",
+    "workingfiles/task.md",
+    "workingfiles/implementation_plan.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-30_macOS注音輸入法.md",
+    "_context/TaskLog_2026-09-05_Nina中英切換與候選浮窗.md",
+    "_context/lessons-learned.md",
+    "_context/AGENT_SPEC_2026-09-05_CapsLED與SavePanel.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權(2026-09-05「你再想其它方式，先前版本是正常的」)：改上述檔、建置安裝重啟Nina；不commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "Info.plist含TICapsLockLanguageSwitchCapable=true與LSUIElement=true且CFBundleVersion=31",
+      "evidence": {
+        "cmd": "test \"$(plutil -extract TICapsLockLanguageSwitchCapable raw Resources/Info.plist)\" = true && test \"$(plutil -extract LSUIElement raw Resources/Info.plist)\" = true && test \"$(plutil -extract CFBundleVersion raw Resources/Info.plist)\" = 31",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:46:46.948459+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "Sources/不再引用CapsLockState、NinaModeStatusItem、CapsLockPressGate；handleFlagsChanged對Caps一律回false",
+      "evidence": {
+        "cmd": "! grep -rq \"CapsLockState\\|NinaModeStatusItem\\|CapsLockPressGate.shared\" Sources/ && grep -A2 \"private func handleFlagsChanged\" Sources/PhonicKeyboard/PhonicInputController.swift | grep -q \"return false\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:46:46.994579+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "swift test零失敗且tools/test.sh 21/21",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib 2>&1 | grep -q \"Test run with 7 tests in 2 suites passed\" && ./tools/test.sh 2>&1 | grep -q \"全部通過（失敗 0 項）\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:50:37.150142+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "build.sh install成功：安裝版CFBundleVersion=31、codesign deep strict通過、建置與安裝執行檔cmp一致、Nina行程恰1",
+      "evidence": {
+        "cmd": "APP=\"$HOME/Library/Input Methods/PhonicKeyboard.app\"; test \"$(plutil -extract CFBundleVersion raw \"$APP/Contents/Info.plist\")\" = 31 && codesign --verify --deep --strict \"$APP\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$APP/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"$APP/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:50:37.229702+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "candidate-learning.json與chewing.dat安裝前後SHA-256相同",
+      "evidence": {
+        "cmd": "test \"$(cut -d\" \" -f1 workingfiles/outputs/capsled_probe_2026-09-05/v31_pre_install_shasum.txt)\" = \"$(cut -d\" \" -f1 workingfiles/outputs/capsled_probe_2026-09-05/v31_post_install_shasum.txt)\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:51:50.657781+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "fresh-context獨立複審PASS（diff只動scope、無殘留Caps攔截）",
+      "evidence": {
+        "note": "fresh-context Claude subagent（opus）獨立複審 PASS：Sources/ 無 CapsLockState/NinaModeStatusItem/turnOff/IOHIDSetModifierLockState 殘留；handleFlagsChanged 回 false 無副作用；LSUIElement 與 main.swift setActivationPolicy(.accessory) 一致；指出 KeyMapper 大小寫校正為回歸並已移除（連同 CapsLockLanguageMode.swift 與其測試，備份於 workingfiles/outputs/_shared/archive/v31-removed/）；main.swift 錯誤註解已修。",
+        "ts": "2026-09-05T10:50:37.306397+00:00"
+      }
+    },
+    {
+      "no": 7,
+      "desc": "PO登出再登入後實測：Caps燈行為同小麥注音、選單列只剩系統Nina項、PowerPoint存檔面板中→英→中連按10次皆可打注音",
+      "evidence": {
+        "note": "PO 2026-09-05 19:00 登出登入後實測：Caps 切換 OK（燈與選單列正常）；PowerPoint 存檔面板中→英 OK、英→中切不過去。日誌 18:55:02.509 面板 session activate 後 0ms 被母 App session 頂掉，競態仍在 → LSUIElement 非解，第 7 條 FAIL，轉版本 32 契約。",
+        "ts": "2026-09-05T10:58:26.439475+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib",
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "failed",
+  "last_check": {
+    "ts": "2026-09-05T10:51:51.747322+00:00",
+    "ok": false,
+    "fails": [
+      "[閘2 自驗] 驗收 #7「PO登出再登入後實測：Caps燈行為同小麥注音、選單列只剩系統Nina項、PowerPoint存檔面板中→英→中連按10次皆可打注音」無證據"
+    ]
+  }
+}

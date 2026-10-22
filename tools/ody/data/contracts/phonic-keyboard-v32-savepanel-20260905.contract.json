@@ -1,0 +1,84 @@
+{
+  "task_id": "phonic-keyboard-v32-savepanel-20260905",
+  "goal": "版本32：比照小麥注音，deactivateServer/commitComposition 在無組字時不對 client 呼叫 setMarkedText/insertText，作為 Save Panel 競態的單變因修正",
+  "created": "2026-09-05T10:58:26.475448+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/PhonicInputController.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "workingfiles/task.md",
+    "workingfiles/implementation_plan.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-09-05_Nina中英切換與候選浮窗.md",
+    "_context/lessons-learned.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權：改上述檔、建置安裝重啟Nina；不commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "PO 以小麥注音做同流程對照並記錄結果（過/不過）",
+      "evidence": {
+        "note": "PO 2026-09-05 19:05 實測：小麥注音在同一 PowerPoint 存檔面板流程中→英→中正常（沒問題）→ 差異在 Nina 自身",
+        "ts": "2026-09-05T10:58:55.423298+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "deactivateServer 與 commitComposition 在 engine.snapshot().isEmpty 時不呼叫 setMarkedText/insertText；CFBundleVersion=32",
+      "evidence": {
+        "cmd": "grep -q \"let hadComposition = !(engine?.snapshot().isEmpty ?? true)\" Sources/PhonicKeyboard/PhonicInputController.swift && grep -q \"guard !(engine?.snapshot().isEmpty ?? true) else { return }\" Sources/PhonicKeyboard/PhonicInputController.swift && test \"$(plutil -extract CFBundleVersion raw Resources/Info.plist)\" = 32",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:58:55.468230+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "swift test 零失敗且 tools/test.sh 21/21",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib 2>&1 | grep -q \"Test run with 7 tests in 2 suites passed\" && ./tools/test.sh 2>&1 | grep -q \"全部通過（失敗 0 項）\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:58:56.581031+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "安裝版32：codesign deep strict、建置與安裝執行檔 cmp 一致、行程恰1、詞庫雜湊不變",
+      "evidence": {
+        "cmd": "APP=\"$HOME/Library/Input Methods/PhonicKeyboard.app\"; test \"$(plutil -extract CFBundleVersion raw \"$APP/Contents/Info.plist\")\" = 32 && codesign --verify --deep --strict \"$APP\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$APP/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"$APP/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1 && cmp workingfiles/outputs/capsled_probe_2026-09-05/v32_pre.txt workingfiles/outputs/capsled_probe_2026-09-05/v32_post.txt",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T10:58:56.660903+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "fresh-context 複審 PASS",
+      "evidence": {
+        "note": "fresh-context Claude subagent（opus）複審 PASS：snapshot() 無副作用；未完成音節計入 composing 不會漏清；preferredPreview 由 reset 涵蓋；commitOnSwitchApp 行為不變。次要風險（非阻斷）：SharedEngine 共用，新 session activate 先於舊 session deactivate 時舊視窗可能殘留組字底線；建議 per-controller hasMarkedText 旗標，列入待辦。",
+        "ts": "2026-09-05T11:04:03.695413+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "PO 實測 PowerPoint 存檔面板中→英→中連按 10 次皆可打注音；一般 App 切換時組字區仍會正確送出/清空",
+      "evidence": {
+        "note": "PO 2026-09-05 19:00 實測版本32：存檔面板中→英 OK，英→中切不過去（未解）。日誌18:59:54.984面板session activate同毫秒即被系統deactivate、之後無keyDown；deactivate source=Nina。設MarkedText非病因，競態仍在。第6條FAIL。",
+        "ts": "2026-09-05T11:01:39.410402+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib",
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "open"
+}

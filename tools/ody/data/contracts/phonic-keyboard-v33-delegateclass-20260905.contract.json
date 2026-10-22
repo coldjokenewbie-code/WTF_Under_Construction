@@ -1,0 +1,54 @@
+{
+  "task_id": "phonic-keyboard-v33-delegateclass-20260905",
+  "goal": "版本33：Info.plist 加 InputMethodServerDelegateClass=PhonicInputController（對齊小麥注音），作為 Save Panel 競態的單變因修正",
+  "created": "2026-09-05T11:03:32.990214+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Resources/Info.plist",
+    "README.md",
+    "workingfiles/task.md",
+    "workingfiles/implementation_plan.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-09-05_Nina中英切換與候選浮窗.md",
+    "_context/lessons-learned.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權：改上述檔、建置安裝重啟Nina；不commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "Info.plist 含 InputMethodServerDelegateClass=PhonicInputController 且 CFBundleVersion=33",
+      "evidence": {
+        "cmd": "test \"$(plutil -extract InputMethodServerDelegateClass raw Resources/Info.plist)\" = PhonicInputController && test \"$(plutil -extract CFBundleVersion raw Resources/Info.plist)\" = 33",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:03:50.869382+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "安裝版33：codesign deep strict、執行檔 cmp 一致、行程恰1、詞庫雜湊不變、Nina 啟動日誌 server=ok",
+      "evidence": {
+        "cmd": "APP=\"$HOME/Library/Input Methods/PhonicKeyboard.app\"; test \"$(plutil -extract CFBundleVersion raw \"$APP/Contents/Info.plist\")\" = 33 && codesign --verify --deep --strict \"$APP\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$APP/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"$APP/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1 && cmp workingfiles/outputs/capsled_probe_2026-09-05/v33_pre.txt workingfiles/outputs/capsled_probe_2026-09-05/v33_post.txt && tail -5 ~/Library/Logs/PhonicKeyboard.log | grep -q \"server=ok\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:03:51.035016+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "PO 實測 PowerPoint 存檔面板中→英→中連按 10 次皆可打注音；一般 App 中文輸入正常",
+      "evidence": {
+        "note": "PO 2026-09-05 19:05 實測版本33：存檔面板中→英 OK、英→中切不過去。日誌19:04:39.866 面板 session activate 後 1ms 被 deactivate，序列與 v31/v32 相同。InputMethodServerDelegateClass 非解，第3條 FAIL。",
+        "ts": "2026-09-05T11:05:56.918638+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "open"
+}

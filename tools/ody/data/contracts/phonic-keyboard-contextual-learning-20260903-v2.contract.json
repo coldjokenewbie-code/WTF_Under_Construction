@@ -1,0 +1,86 @@
+{
+  "task_id": "phonic-keyboard-contextual-learning-20260903-v2",
+  "goal": "移除所有組字中隱式選候選，恢復libchewing上下文斷詞，保留候選視窗學習排序並完成版本24安裝與獨立複驗",
+  "created": "2026-09-03T08:43:13.694738+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/CandidateLearningStore.swift",
+    "Sources/PhonicKeyboard/ChewingEngine+CandidateLearning.swift",
+    "Sources/PhonicKeyboard/ChewingEngine.swift",
+    "Tests/PhonicKeyboardTests/CandidateLearningStoreTests.swift",
+    "Tests/PhonicKeyboardTests/PreferredCompositionTests.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-30_macOS注音輸入法.md",
+    "workingfiles/implementation_plan.md",
+    "workingfiles/task.md",
+    "workingfiles/walkthrough.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權修改上述專案檔、建置、安裝與重啟PhonicKeyboard直到驗收通過"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "回歸測試證明歷史單字偏好不會在未開候選視窗時覆寫組字或拼出未學怪詞",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib --filter learnedSinglesDoNotLockFutureComposition",
+        "exit": 0,
+        "output_tail": "UserPhrases.swift\n[19/24] Compiling PhonicKeyboard ChewingEngine.swift\n[20/24] Compiling PhonicKeyboard main.swift\nld: warning: building for macOS-13.0, but linking with dylib '/opt/homebrew/opt/libchewing/lib/libchewing.3.dylib' which was built for newer version 26.0\n[20/23] Linking PhonicKeyboard\n[21/23] Applying PhonicKeyboard\n[23/24] Emitting module PhonicKeyboardTests\nBuild complete! (2.40s)\n",
+        "ts": "2026-09-03T08:59:46.009133+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "主動開啟候選視窗時學習排序與選字映射仍正常",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib --filter CandidateLearningStoreTests",
+        "exit": 0,
+        "output_tail": "t \"不同注音的學習互不污染\" passed after 0.001 seconds.\n✔ Test \"句中選一次就提高同注音候選順位\" passed after 0.001 seconds.\n✔ Test \"學習結果跨行程保存\" passed after 0.001 seconds.\n✔ Test \"既有語料直接成為初始順位\" passed after 0.002 seconds.\n✔ Suite \"候選選字學習\" passed after 0.002 seconds.\n✔ Test run with 4 tests in 1 suite passed after 0.002 seconds.\nBuilding for debugging...\n[0/4] Write swift-version--58304C5D6DBC2206.txt\nBuild complete! (0.07s)\n",
+        "ts": "2026-09-03T08:59:51.406497+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "swift test與libchewing回歸測試全數通過",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib && ./tools/test.sh",
+        "exit": 0,
+        "output_tail": "」（共 12 個）\n[PASS] 詞首開候選後保留原游標位置 — 游標=2（期望 2＝「天」的位置）\n[PASS] 關掉候選後游標回到字後面 — 游標=6（期望 6＝句尾）\n[PASS] 使用者詞庫最近寫入者勝，重複 add 不累積權重 — 預設依序=「弒實」→「試石」→「弒實」\n[PASS] 加入使用者詞前後候選順序不變、預設組字改變 — 前=「各」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」；後=「虼」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n[PASS] 同一候選層所有候選字數一致 — 候選=「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n\n全部通過（失敗 0 項）\nBuilding for debugging...\n[0/4] Write swift-version--58304C5D6DBC2206.txt\nBuild complete! (0.07s)\n",
+        "ts": "2026-09-03T08:59:58.450232+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "版本24建置安裝完成且簽章雜湊與單一行程檢查通過",
+      "evidence": {
+        "cmd": "test \"$(plutil -extract CFBundleVersion raw \"$HOME/Library/Input Methods/PhonicKeyboard.app/Contents/Info.plist\")\" = 24 && codesign --verify --deep --strict \"$HOME/Library/Input Methods/PhonicKeyboard.app\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$HOME/Library/Input Methods/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"/Users/coma/Library/Input Methods/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-03T09:00:03.775454+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "agy完成實作後獨立複驗PASS",
+      "evidence": {
+        "note": "Antigravity 完成三輪動工前對抗質疑；實作後以 fresh context 比對版本23基準、審查6個程式與測試檔並重跑 Swift 6/6、libchewing 21/21、release build，最終第一行回覆 PASS。",
+        "ts": "2026-09-03T09:00:09.391378+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-09-03T09:00:57.684265+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

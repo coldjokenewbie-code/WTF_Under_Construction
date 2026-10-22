@@ -18,7 +18,5 @@
   - 建議：將 Nightly Routine 提示的掃描日改為「昨日」（`TODAY=$(date -d '-1 day' +%Y-%m-%d)` 或 macOS `TODAY=$(date -v-1d +%Y-%m-%d)`），使每次 nightly 掃描前一個完整自然日（00:00–23:59）的 commit，確保下午到深夜的工作不遺漏。（注意：若採用，兩次 nightly 交接的重疊期須接受少量重複掃描，仍比漏掃好。）
 - [ ] 2026-10-02 nightly 建議補登新專案到 projects-registry.md（待用戶核准）
   - `wtf-config/projects-registry.md`：`phonic_keyboard` 專案在 2026-10-01 已有教訓索引進 LESSONS.md，但未出現在 projects-registry 表格。若該專案已有 GitHub remote，請補一列（含 github 欄）；若純本機，加一列標「無 remote，本機 only」。已掛載後 nightly 才能掃描其 commit 活動。
-- [ ] 2026-10-05 nightly 建議修改 AGENTS.md（待用戶核准）
-  - `wtf-config/AGENTS.md`「作業慣例」或「AI 團隊協作」節：補一條「**高階模型只用在診斷與策略拍板，不下場執行**：動手（程式碼／排版／渲染）一律交 sonnet/codex；高階模型（Fable/Opus）負責看圖驗收、寫施工單、判卡關根因。」來源：南科再生水廠 2026-10-01 Codex lesson，多輪 Fable 親做（數十萬 token）仍停在簡報感，改法後品質推進較快，具跨專案複用價值。
 - [ ] 2026-10-20 nightly 時效提醒：3Dstudy 模型升級重審已到期（待用戶確認）
   - `wtf-config/LESSONS.md` 第 17 行記：「Codex 最高階模型階段額度檢討，最遲 2026-10-20 重審，不作永久限制」。今天（2026-10-20）就是截止日。請評估目前更強模型（Sonnet/Opus 5.5 等）可用性與額度政策是否已改變，決定是否解除或更新該策略限制。確認後可刪除 LESSONS.md 第 17 行的「最遲 2026-10-20」期限描述，或更新為新的審查期限。

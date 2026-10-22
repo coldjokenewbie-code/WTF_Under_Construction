@@ -419,6 +419,7 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - cowork_CDIC｜2026-10-14｜現場步驟要指「一鍵更新」入口（停舊行程→覆蓋安裝目錄→重啟），不可寫只會原地啟動的 bat；Windows 背景腳本以 Get-Process 找 Chrome 視窗搶焦點不可靠，HID 讀卡機焦點以真實點擊為準｜projects/cowork_CDIC/_context/lessons-learned.md
 - claude_CDIC_O4｜2026-10-15｜Remotion 字體本機化：woff2 收入 public/fonts/、改讀 fonts-local.css，算繪不連網；驗收＝含字幕畫面前後逐位元相同；工具腳本找 ffmpeg 順序：環境變數→PATH→homebrew，不鎖路徑｜projects/claude_CDIC_O4/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-13｜「為何建廠」論述只能用建廠決策前的資料；AI 生成設備圖要逐單元對照知識點核機構（交辦單寫明必須有／不得有）；配圖引用新事實要回補知識點與來源｜projects/南科再生水廠/_context/lessons-learned.md
+- e-reader-stuff｜2026-10-20｜calibre 外掛報 Qt 屬性不存在先查外掛版號與相容版（Apprentice Harper 7.x→noDRM 10.x），不手改 zip；裝置「藏書集」標籤的判定看 calibre 驅動原始碼（Kobo Plus＝Accessibility=8），不看 Shelf 表；Obok 匯入書對回裝置檔用 epub zip 檔名指紋，標題模糊比對會漏 1/3｜projects/e-reader-stuff/_context/lessons-learned.md
 - Planner2Line｜2026-10-20｜長駐程式的外部連線（COM/RPC）會悄悄死掉：失敗即重建並探活、不假設啟動時物件永遠有效；同一錯誤連續 N 次須升級告警（本案 10 次≈5 分鐘發 LINE），恢復再通知；心跳附「上次成功操作時間」才能證明功能正常，不只是程序存活；讀日誌先統計（grep|sort|uniq -c）再看細節｜projects/Planner2Line/_context/lessons-learned.md#2026-10-20
-
-| VoiceInk | 2026-10-21 | 模型升級須驗證推理參數並遷移既有模式；合成音訊先驗時長與 sample 數，避免零秒 WAV 的 400 被誤判為模型問題 | `projects/VoiceInk/_context/lessons-learned.md` |
+- 南科再生水廠｜2026-10-20｜Argon 規劃＋Flash 執行分工、agy headless 指令自動拒、Argon 自驗只信數字｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-20
+- VoiceInk｜2026-10-21｜模型升級須驗證推理參數並遷移既有模式；合成音訊先驗時長與 sample 數，避免零秒 WAV 的 400 被誤判為模型問題｜projects/VoiceInk/_context/lessons-learned.md

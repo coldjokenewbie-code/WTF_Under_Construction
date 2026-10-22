@@ -1,0 +1,67 @@
+{
+  "task_id": "cdicO4-en-deck-frame-20260818",
+  "goal": "Deck 布景框中英重製：frame_zh 刪金線副標帶（補牆面）；frame_en 以 frame_zh 為基底重製（英文主標燈字同款、燈箱英文同款、無副標帶）；工程連動 en* 幾何切 zh 值；Deck2019/Deck2019EN 測試渲染出比對頁供 PO 審（全量 24 支重渲待 PO 確認後另行）",
+  "created": "2026-08-17T21:46:38.351904+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "cfb7339924902eabb5b0077a36090db5d8fecae8",
+  "preexisting_dirty": [
+    "wtf-config/LESSONS.md",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-agy質疑-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-codex-20260818.contract.json"
+  ],
+  "scope_allowlist": [
+    "public/images/deck/**",
+    "tools/build_en_frame*.py",
+    "src/compositions/Decks.tsx",
+    "src/compositions/deckWallPics.ts",
+    "workingfiles/文件/EN布景比對*",
+    "workingfiles/影片素材/EN布景重製_20260818/**"
+  ],
+  "preflight_permissions": [
+    "動 public/images/deck 布景資產與 Decks.tsx en 幾何；全量重渲另行請示"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "frame_zh_v2：副標帶區無殘留文字與金線、補牆無縫；帶區以外與原 frame_zh 逐像素一致（機檢 diff=0）",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "frame_en_v2：英文主標為 zh 同款奶油白圓燈泡扁平字；燈箱英文置中同款；無副標帶；文字區以外與 frame_zh_v2 逐像素一致（機檢）",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "Decks.tsx en* cardRect/videoRect 切 zh 值、beam_en 沿用 beam_zh，npx tsc --noEmit 通過",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "Deck2019 與 Deck2019EN 各渲測試幀，新舊/中英比對頁產出且已開啟給 PO",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "agy（或代打質疑者）審查記錄在案，問題已修正或列待決",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "npx tsc --noEmit"
+  ],
+  "handoff_file": null,
+  "status": "open",
+  "children": [
+    {
+      "task_id": "cdicO4-en-frame-art-codex-20260818",
+      "agent": "codex"
+    },
+    {
+      "task_id": "cdicO4-en-frame-critique-agy-20260818",
+      "agent": "agy"
+    }
+  ]
+}

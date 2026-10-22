@@ -1,0 +1,93 @@
+{
+  "task_id": "phonic-keyboard-v34-overridekeyboard-20260905",
+  "goal": "版本34：activateServer 一律對 client 呼叫 overrideKeyboard(withKeyboardNamed: ABC)（同小麥注音），修沙盒存檔面板切回 Nina 後 session 被 deactivate 的競態；移除 overrideKeyboardLayout 偏好開關",
+  "created": "2026-09-05T11:10:15.680156+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/PhonicInputController.swift",
+    "Sources/PhonicKeyboard/Preferences.swift",
+    "Sources/PhonicKeyboard/PreferencesWindow.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "workingfiles/task.md",
+    "workingfiles/implementation_plan.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-09-05_Nina中英切換與候選浮窗.md",
+    "_context/lessons-learned.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權：改上述檔、建置安裝重啟Nina；不commit"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "系統日誌差分：小麥在面板 session activate 時有 Overriding keyboard 且無後續 Deactivate；Nina 無 override 且 0.5ms 後 Deactivate（syslog_mcb.txt 18:57:34.33 vs syslog_1904.txt 19:04:39.855）",
+      "evidence": {
+        "cmd": "grep -q \"18:57:34.331277.*McBopomofo: (InputMethodKit) Overriding keyboard\" workingfiles/outputs/capsled_probe_2026-09-05/syslog_mcb.txt && ! awk \"\\$2>=\\\"18:57:34.331\\\" && \\$2<=\\\"18:57:34.700\\\"\" workingfiles/outputs/capsled_probe_2026-09-05/syslog_mcb.txt | grep -q \"McBopomofo: (InputMethodKit) Deactivate Server\" && grep -q \"19:04:39.855254.*PhonicKeyboard: (InputMethodKit) Deactivate Server\" workingfiles/outputs/capsled_probe_2026-09-05/syslog_1904.txt && ! awk \"\\$2>=\\\"19:04:39.849\\\" && \\$2<=\\\"19:04:39.856\\\"\" workingfiles/outputs/capsled_probe_2026-09-05/syslog_1904.txt | grep -q \"PhonicKeyboard: (InputMethodKit) Overriding keyboard\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:11:16.355038+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "activateServer 無條件呼叫 overrideKeyboard；Sources/ 不再引用 overrideKeyboardLayout；CFBundleVersion=34",
+      "evidence": {
+        "cmd": "grep -q \"textInput(sender)?.overrideKeyboard(withKeyboardNamed: \\\"com.apple.keylayout.ABC\\\")\" Sources/PhonicKeyboard/PhonicInputController.swift && ! grep -rq overrideKeyboardLayout Sources/ && test \"$(plutil -extract CFBundleVersion raw Resources/Info.plist)\" = 34",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:11:16.399033+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "swift test 零失敗且 tools/test.sh 21/21",
+      "evidence": {
+        "cmd": "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib 2>&1 | grep -q \"Test run with 7 tests in 2 suites passed\" && ./tools/test.sh 2>&1 | grep -q \"全部通過（失敗 0 項）\"",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:11:17.149476+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "安裝版34：codesign deep strict、執行檔 cmp 一致、行程恰1、詞庫雜湊不變",
+      "evidence": {
+        "cmd": "APP=\"$HOME/Library/Input Methods/PhonicKeyboard.app\"; test \"$(plutil -extract CFBundleVersion raw \"$APP/Contents/Info.plist\")\" = 34 && codesign --verify --deep --strict \"$APP\" && cmp \"$HOME/Library/Caches/PhonicKeyboardBuild/PhonicKeyboard.app/Contents/MacOS/PhonicKeyboard\" \"$APP/Contents/MacOS/PhonicKeyboard\" && test \"$(pgrep -f \"$APP/Contents/MacOS/PhonicKeyboard\" | wc -l | tr -d \" \")\" = 1 && cmp workingfiles/outputs/capsled_probe_2026-09-05/v34_pre.txt workingfiles/outputs/capsled_probe_2026-09-05/v34_post.txt",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-09-05T11:11:17.219278+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "fresh-context 複審 PASS",
+      "evidence": {
+        "note": "fresh-context Claude subagent（opus）複審 PASS：三檔零殘留、register defaults 15 鍵對應完整；textInput fallback 無破壞性副作用。待處理風險（非阻斷）：KeyMapper 用 event.characters，無條件 override 到 ABC 後偏好設定「鍵盤配置」的 Dvorak／Colemak／Workman／Carpalx 六項失效，小麥留有 basisKeyboardLayout 逃生口而 Nina 已無；建議補進階開關或 Picker 加註，列入待辦。",
+        "ts": "2026-09-05T11:12:51.491197+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "PO 實測 PowerPoint 存檔面板中→英→中連按 10 次皆可打注音；一般 App 中文輸入正常",
+      "evidence": {
+        "note": "PO 2026-09-05 19:14 實測版本34：PowerPoint 存檔面板中→英→中「可以正常切換了」；一般 App 中文輸入正常。",
+        "ts": "2026-09-05T11:13:45.720649+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "swift test -Xcc -I/opt/homebrew/opt/libchewing/include -Xlinker -L/opt/homebrew/opt/libchewing/lib",
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "last_check": {
+    "ts": "2026-09-05T11:13:46.721944+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

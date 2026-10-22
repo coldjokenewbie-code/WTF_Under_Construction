@@ -1,0 +1,86 @@
+{
+  "task_id": "phonic-keyboard-capslock-mode-20260901-codex",
+  "goal": "實作：中／英鍵依大寫鎖定實際狀態決定中／英數模式",
+  "created": "2026-08-31T19:01:00.640232+00:00",
+  "repo_root": "/Users/coma/git_mirror/phonic_keyboard",
+  "base_ref": "6730aa4f22343f086c8b435685f9352f53433f18",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/*.swift"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "不再呼叫 IOHIDSetModifierLockState（CapsLockState 移除或不再被呼叫）",
+      "evidence": {
+        "cmd": "test ! -e Sources/PhonicKeyboard/CapsLockState.swift && ! rg -n 'IOHIDSetModifierLockState|CapsLockState' Sources/PhonicKeyboard",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-31T19:01:56.446296+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "handleFlagsChanged 依 flags.contains(.capsLock) 決定模式（有=英數、無=中文）而非 toggle",
+      "evidence": {
+        "cmd": "rg -q 'let wantChinese = !flags\\.contains\\(\\.capsLock\\)' Sources/PhonicKeyboard/PhonicInputController.swift && rg -q 'setChineseMode\\(wantChinese, client: client, showsToast: true\\)' Sources/PhonicKeyboard/PhonicInputController.swift",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-31T19:01:59.160152+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "activateServer 依當下 NSEvent.modifierFlags 同步一次模式",
+      "evidence": {
+        "cmd": "sed -n '/override func activateServer/,/override func deactivateServer/p' Sources/PhonicKeyboard/PhonicInputController.swift | rg -q 'let wantChinese = !NSEvent\\.modifierFlags\\.contains\\(\\.capsLock\\)' && sed -n '/override func activateServer/,/override func deactivateServer/p' Sources/PhonicKeyboard/PhonicInputController.swift | rg -q 'setChineseMode\\(wantChinese, client: client, showsToast: false\\)'",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-31T19:02:01.714291+00:00"
+      }
+    },
+    {
+      "no": 4,
+      "desc": "KeyMapper 在 capsLock 生效時反轉大小寫（capsLock 無 shift→小寫、capsLock+shift→大寫）",
+      "evidence": {
+        "cmd": "rg -q 'if capsLock' Sources/PhonicKeyboard/KeyMapper.swift && rg -q 'if !shift, value >= 0x41, value <= 0x5A' Sources/PhonicKeyboard/KeyMapper.swift && rg -q 'else if shift, value >= 0x61, value <= 0x7A' Sources/PhonicKeyboard/KeyMapper.swift",
+        "exit": 0,
+        "output_tail": "",
+        "ts": "2026-08-31T19:02:04.368091+00:00"
+      }
+    },
+    {
+      "no": 5,
+      "desc": "./tools/test.sh 21 項全過",
+      "evidence": {
+        "cmd": "./tools/test.sh",
+        "exit": 0,
+        "output_tail": "會改變中段游標位置 — 開候選後游標=3（期望 3）\n[PASS] 游標停在詞首按 ↓ 先給詞候選 — 第一候選=「天氣」（共 2 個）\n[PASS] 再按 ↓ 切到單字候選層 — 第一候選=「天」（共 12 個）\n[PASS] 詞首開候選後保留原游標位置 — 游標=2（期望 2＝「天」的位置）\n[PASS] 關掉候選後游標回到字後面 — 游標=6（期望 6＝句尾）\n[PASS] 使用者詞庫最近寫入者勝，重複 add 不累積權重 — 預設依序=「弒實」→「試石」→「弒實」\n[PASS] 加入使用者詞前後候選順序不變、預設組字改變 — 前=「各」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」；後=「虼」/「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n[PASS] 同一候選層所有候選字數一致 — 候選=「個 各 鉻 虼 箇 詻 佫 硌 个 亇 狢 貈」\n\n全部通過（失敗 0 項）\n",
+        "ts": "2026-08-31T19:02:08.450535+00:00"
+      }
+    },
+    {
+      "no": 6,
+      "desc": "swift test 4 項全過",
+      "evidence": {
+        "cmd": "swift test --scratch-path \"$HOME/Library/Caches/PhonicKeyboardBuild\" -Xcc -I\"$(brew --prefix libchewing)/include\" -Xlinker -L\"$(brew --prefix libchewing)/lib\"",
+        "exit": 0,
+        "output_tail": " CandidateLearningStoreTests.swift\n[29/32] Compiling PhonicKeyboardPackageTests runner.swift\n[30/32] Emitting module PhonicKeyboardPackageTests\n[30/32] Write Objects.LinkFileList\nld: warning: building for macOS-14.0, but linking with dylib '/opt/homebrew/opt/libchewing/lib/libchewing.3.dylib' which was built for newer version 26.0\n[31/32] Linking PhonicKeyboardPackageTests\nBuild complete! (2.30s)\n",
+        "ts": "2026-08-31T19:02:14.837410+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [
+    "./tools/test.sh"
+  ],
+  "handoff_file": null,
+  "status": "passed",
+  "parent_task_id": "phonic-keyboard-capslock-mode-20260901",
+  "last_check": {
+    "ts": "2026-08-31T19:02:25.984732+00:00",
+    "ok": true,
+    "fails": []
+  }
+}

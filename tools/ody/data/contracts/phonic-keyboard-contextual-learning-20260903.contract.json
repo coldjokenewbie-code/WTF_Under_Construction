@@ -1,0 +1,55 @@
+{
+  "task_id": "phonic-keyboard-contextual-learning-20260903",
+  "goal": "修正版本23把舊單字偏好跨情境自動拼成怪詞，保留完整詞自動套用與候選排序，完成建置安裝與獨立複驗",
+  "created": "2026-09-03T08:33:46.131931+00:00",
+  "repo_root": "/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/phonic_keyboard",
+  "base_ref": "",
+  "preexisting_dirty": [],
+  "scope_allowlist": [
+    "Sources/PhonicKeyboard/ChewingEngine+CandidateLearning.swift",
+    "Tests/PhonicKeyboardTests/PreferredCompositionTests.swift",
+    "Resources/Info.plist",
+    "README.md",
+    "_context/INDEX.md",
+    "_context/TaskLog_2026-07-30_macOS注音輸入法.md",
+    "workingfiles/implementation_plan.md",
+    "workingfiles/task.md",
+    "workingfiles/walkthrough.md"
+  ],
+  "preflight_permissions": [
+    "PO已授權修改上述專案檔、建置、安裝與重啟PhonicKeyboard直到驗收通過"
+  ],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "回歸測試證明單字偏好不會在一般組字時直接覆寫並拼出未學怪詞",
+      "evidence": null
+    },
+    {
+      "no": 2,
+      "desc": "既有兩字以上完整詞偏好仍會自動套用",
+      "evidence": null
+    },
+    {
+      "no": 3,
+      "desc": "swift test與libchewing回歸測試全數通過",
+      "evidence": null
+    },
+    {
+      "no": 4,
+      "desc": "版本24建置安裝完成且簽章雜湊與單一行程檢查通過",
+      "evidence": null
+    },
+    {
+      "no": 5,
+      "desc": "agy完成三輪設計質疑與實作後獨立複驗PASS",
+      "evidence": null
+    }
+  ],
+  "verify_cmds": [
+    "swift test"
+  ],
+  "handoff_file": null,
+  "status": "open"
+}

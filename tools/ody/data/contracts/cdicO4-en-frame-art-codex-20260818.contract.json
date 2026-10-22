@@ -1,0 +1,57 @@
+{
+  "task_id": "cdicO4-en-frame-art-codex-20260818",
+  "goal": "作圖：產出 frame_zh_v2.png（刪副標帶補牆面）與 frame_en_v2.png（zh 基底＋英文主標燈字同款＋燈箱英文同款），以可重跑腳本 tools/build_en_frame.py 實作，輸出到 workingfiles/影片素材/EN布景重製_20260818/",
+  "created": "2026-08-17T21:46:59.723319+00:00",
+  "repo_root": "/Users/coma/git_mirror/WTF_Under_Construction",
+  "base_ref": "cfb7339924902eabb5b0077a36090db5d8fecae8",
+  "preexisting_dirty": [
+    "wtf-config/LESSONS.md",
+    "tools/ody/data/contracts/cdicO4-en-deck-frame-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-agy質疑-20260818.contract.json",
+    "tools/ody/data/contracts/cowork_CDIC-四項缺失複查-codex-20260818.contract.json"
+  ],
+  "scope_allowlist": [
+    "tools/build_en_frame*.py",
+    "workingfiles/影片素材/EN布景重製_20260818/**"
+  ],
+  "preflight_permissions": [],
+  "po_authorized_protected_paths": false,
+  "acceptance": [
+    {
+      "no": 1,
+      "desc": "frame_zh_v2：副標帶（4K 座標約 y780-870、x1150-3830 帶狀區）移除補牆，帶區外與原檔逐像素 diff=0（腳本自驗印出）",
+      "evidence": {
+        "cmd": "cd '/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/claude_CDIC_O4' && python3 tools/build_en_frame.py",
+        "exit": 0,
+        "output_tail": "title_width=2549px bulbs=323 lightbox_angle=20.287deg\nSELF_VERIFY\nband_bbox=(603, 391, 2085, 449)\nzh_v2 帶區外 diff 像素數=0\nzh_v2 帶區內金色像素群數(>20px)=0\nen_v2 主標 diff bbox=(640, 100, 3200, 393)\nen_v2 燈箱 diff bbox=(110, 190, 388, 661)\nen_v2 指定區外 diff 像素數=0\nframe_zh_v2.png md5=8ff974ce80ab24dfde6f3de3f468ea9f\nframe_en_v2.png md5=841e9c8d5fe194df1add5d81a7bef400\n",
+        "ts": "2026-08-17T22:12:47.581826+00:00"
+      }
+    },
+    {
+      "no": 2,
+      "desc": "frame_en_v2：主標『Deposit Insurance History Gallery』奶油白圓燈泡扁平字樣式同 zh；燈箱四行英文置中；文字區外與 frame_zh_v2 diff=0（腳本自驗印出）",
+      "evidence": {
+        "note": "獨立複驗：主標 diff bbox=(640,100,3200,393)，燈箱 diff bbox=(110,190,388,661)，指定區外 diff=0；主標寬2549px、燈泡323顆、亮區字高比0.782；燈箱角度20.287度，四行文案與1.5倍末段間距正確。",
+        "ts": "2026-08-17T22:13:10.768152+00:00"
+      }
+    },
+    {
+      "no": 3,
+      "desc": "腳本 python3 可重跑、輸出確定性（同輸入同 md5）",
+      "evidence": {
+        "note": "獨立連跑兩次：frame_zh_v2 md5 均為 8ff974ce80ab24dfde6f3de3f468ea9f；frame_en_v2 md5 均為 841e9c8d5fe194df1add5d81a7bef400；public/ 448檔摘要前後均為 ea4bdddaf08f45fcb52bebbaa6e8d1d4。",
+        "ts": "2026-08-17T22:13:13.023925+00:00"
+      }
+    }
+  ],
+  "verify_cmds": [],
+  "handoff_file": null,
+  "status": "passed",
+  "parent_task_id": "cdicO4-en-deck-frame-20260818",
+  "last_check": {
+    "ts": "2026-08-17T22:14:17.724083+00:00",
+    "ok": true,
+    "fails": []
+  }
+}
