@@ -14,10 +14,11 @@
 
 ## 1. Git Log 掃描（從 `projects-registry.md` 動態取全部 github repo）
 
-**不要硬編 repo 清單**——一律從 `wtf-config/projects-registry.md` 的 `github` 欄取（新增專案免改本檔）。雲端先 clone WTF 取得 registry，再逐 repo clone/pull＋掃今日 commit：
+**不要硬編 repo 清單**——一律從 `wtf-config/projects-registry.md` 的 `github` 欄取（新增專案免改本檔）。雲端先 clone WTF 取得 registry，再逐 repo clone/pull＋掃昨日整天 commit（`TODAY`＝昨日）：
 
 ```
-TODAY=$(date +%Y-%m-%d)
+# 掃「昨日」整天（前一完整自然日 00:00 起至現在，含少量重疊；2026-10-22 PO 核准，解決 03:xx 跑時只掃到當日三小時的縫隙）
+TODAY=$(date -d '-1 day' +%Y-%m-%d)
 cd /home/user
 REG=/home/user/WTF_Under_Construction/wtf-config/projects-registry.md
 # 解析表格：col1=project、col2=github；跳過表頭/分隔/未確認「（」開頭；git@ 轉 https 供雲端 token 認證
