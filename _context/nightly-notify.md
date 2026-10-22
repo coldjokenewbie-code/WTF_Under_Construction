@@ -13,10 +13,10 @@
 - [x] 2026-07-10 確認部署狀態：2026-07-14 已確認 Windows 部署完成，關閉此項。
 - [x] 2026-08-11 nightly 建議修改全域設定（使用者已核准，2026-08-11 套用）
   - 原建議指 `wtf-config/GLOBAL.md`，但該條目實際位置是 `tools/ai-team/cli-reference.html`（GLOBAL.md 內無此條目，nightly 指錯檔）；已在該檔 agy headless 警告框內補 Mac 平台解法：stdin 進不了模型，改用 `agy --print "<prompt>" --dangerously-skip-permissions` 命令列參數傳入，不需 node-pty。（來源：HsinchuSEC 2026-08-11 session）
-- [ ] 2026-09-30 nightly 建議修改 Nightly Routine 排程邏輯（待用戶核准）
+- [x] 2026-09-30 nightly 建議修改 Nightly Routine 排程邏輯（2026-10-22 PO 核准，`wtf-config/nightly-prompt.md` 已改掃昨日；**待三藏貼回 claude.ai/code 排程 trigger 才生效**）
   - 觸發原因：nightly 03:11 AM 跑 `--since="$TODAY 00:00"`，TODAY=09-30，掃不到 09-29 12:09 PM 的 commit 847231e（在 09-29 nightly 03:15 AM 之後才 push、09-30 掃描範圍又未涵蓋）。每天凌晨跑的 nightly 實際只掃當日 00:00–03:xx 這三小時，前一天下午到深夜的工作全數落在兩次 nightly 的縫隙。
   - 建議：將 Nightly Routine 提示的掃描日改為「昨日」（`TODAY=$(date -d '-1 day' +%Y-%m-%d)` 或 macOS `TODAY=$(date -v-1d +%Y-%m-%d)`），使每次 nightly 掃描前一個完整自然日（00:00–23:59）的 commit，確保下午到深夜的工作不遺漏。（注意：若採用，兩次 nightly 交接的重疊期須接受少量重複掃描，仍比漏掃好。）
-- [ ] 2026-10-02 nightly 建議補登新專案到 projects-registry.md（待用戶核准）
+- [x] 2026-10-02 nightly 建議補登新專案到 projects-registry.md（2026-10-22 PO 核准，已補一列：無 remote、本機 only）
   - `wtf-config/projects-registry.md`：`phonic_keyboard` 專案在 2026-10-01 已有教訓索引進 LESSONS.md，但未出現在 projects-registry 表格。若該專案已有 GitHub remote，請補一列（含 github 欄）；若純本機，加一列標「無 remote，本機 only」。已掛載後 nightly 才能掃描其 commit 活動。
-- [ ] 2026-10-20 nightly 時效提醒：3Dstudy 模型升級重審已到期（待用戶確認）
+- [x] 2026-10-20 nightly 時效提醒：3Dstudy 模型升級重審已到期（2026-10-22 PO 重審：期限解除、併入 GLOBAL 分流鐵律；LESSONS.md 第 17 行已改）
   - `wtf-config/LESSONS.md` 第 17 行記：「Codex 最高階模型階段額度檢討，最遲 2026-10-20 重審，不作永久限制」。今天（2026-10-20）就是截止日。請評估目前更強模型（Sonnet/Opus 5.5 等）可用性與額度政策是否已改變，決定是否解除或更新該策略限制。確認後可刪除 LESSONS.md 第 17 行的「最遲 2026-10-20」期限描述，或更新為新的審查期限。
