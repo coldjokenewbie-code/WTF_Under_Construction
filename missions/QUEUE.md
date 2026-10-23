@@ -3,9 +3,9 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-22 19:06**：覆寫今日快報。night-relay領先main **1425 commits**（歷史分叉，非昨夜產出）；main領先night-relay **0 commits**，已全數併入無新未併入項。QUEUE整欄精確相等檢查持續命中「無待規劃/active項」，零增量連續夜數維持**119夜**（今晚19:30/21:30/23:30/01:30 四顆循環棒跑完後預期延續至120夜）。
+**晨報棒 2026-10-23 08:30**：覆寫今日快報。night-relay領先main **1434 commits**（歷史分叉，非昨夜產出）；main領先night-relay **1 commit**未併入（`4e85057` nightly三項建議套用，內容已隨循環棒merge帶入night-relay，僅缺快報本身尚未回main）。昨夜19:00提醒棒＋四顆循環棒（19:30/21:30/23:30/01:30）全數心跳秒退，0 mission增量，QUEUE整欄精確相等檢查持續命中「無待規劃/active項」，**連續120夜零增量**。
 **待核准/提名清單**（與昨日不變）：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項待挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**106天未裁決**。`machine-report`/`design-training`(parked)無新回覆。nightly session-logs：4項全域設定建議持續待核准（`_context/nightly-notify.md`，含2026-10-20「3Dstudy額度重審到期」已逾期**2天**未裁示）。無其他新blocker。
+**blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**107天未裁決**。`machine-report`/`design-training`(parked)無新回覆。**nightly session-logs 4項全域設定建議已於2026-10-22由PO全數核准處理**（含3Dstudy額度重審逾期解除、projects-registry補登phonic_keyboard、nightly掃描邏輯改掃昨日）——`_context/nightly-notify.md`已無未勾項；**殘留一項待使用者動作**：`wtf-config/nightly-prompt.md`的「改掃昨日」需使用者手動貼回claude.ai/code排程trigger才生效。無其他新blocker。
 **產能算術**：0個active案，無剩餘backlog項數/排定棒數/預計完成日可算；今晚循環棒（19:30/21:30/23:30/01:30）預期同樣秒退。卡點全部是使用者決策，非產能。
 **chain-capability**：仍FAIL（CronCreate `durable`參數無效；連續PASS計數為0）。
 **合併建議（收貨指令原文）**：
