@@ -3,9 +3,9 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-23 19:00**：覆寫今日快報（取代本日08:30晨報棒內容）。先fetch+merge origin/main進night-relay（僅帶入session-logs/20261023.md，無QUEUE.md異動，即無新派工）。QUEUE整欄精確相等檢查：現況待核准×2／parked×2／done×2／提名×5，無待規劃/active項，**連續120夜零增量延續**（今晚19:30/21:30/23:30/01:30四棒跑完後進連續121夜）。
-**待核准/提名清單**（與今晨不變）：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項待挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**106天未裁決**。`machine-report`/`design-training`(parked)無新回覆。`_context/nightly-notify.md`無未勾項；殘留一項待使用者動作：`wtf-config/nightly-prompt.md`的「改掃昨日」仍需使用者手動貼回claude.ai/code排程trigger才生效。無其他新blocker。
+**晨報棒 2026-10-24 08:30**：覆寫今日快報（night-relay領先main共1442commits＝歷史分叉累積非昨夜產出；main已全併，無未併入項）。昨夜（10-23 19:00提醒棒起至01:30循環棒）提醒棒＋四顆循環棒全數心跳秒退，0 mission增量，**連續121夜零active**（證據：`missions/heartbeat.log` 19:34/21:36/23:36/10-24 01:35四行）。QUEUE整欄精確相等：待核准×2／parked×2／done×2／提名×5，仍無待規劃/active項，無新blocker。
+**待核准/提名清單**（與昨同）：`20260706-guide-app`(優先2,backlog剩2項未勾,卡在氛圍底圖/縮圖/hero風格統一路線待重拍裁決)／`test-baton-pickup-0706`(優先9,backlog全勾,建議使用者直接結案改done或刪列)；提名5項待挑選改「待規劃」：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers**：`guide-app`——(1)氛圍底圖/縮圖/hero風格路線裁決待重拍截圖；(2)定錨棒anchor升級提案（2026-07-09起）已**108天未裁決**。`machine-report`/`design-training`(parked)無新回覆。`_context/nightly-notify.md`無未勾項；殘留一項待使用者動作：`wtf-config/nightly-prompt.md`的「改掃昨日」仍需使用者手動貼回claude.ai/code排程trigger才生效。無其他新blocker。
 **產能算術**：0個active案，無剩餘backlog項數/排定棒數/預計完成日可算；今晚循環棒預期同樣秒退。卡點全部是使用者決策，非產能。
 **chain-capability**：仍FAIL（CronCreate `durable`參數無效；連續PASS計數為0）。
 **合併建議（收貨指令原文）**：
