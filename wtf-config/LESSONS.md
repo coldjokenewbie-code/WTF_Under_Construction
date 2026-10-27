@@ -426,3 +426,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - 南科再生水廠｜2026-10-26｜回稿檢查直接對施工圖、不以自家說明為準；施工圖高度分地上／地下與屋頂／女兒牆；跨模型分歧派裁決者看原圖（agy flash 圖面判讀不可靠）；軸測插畫標註用投影算｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-26
 - 南科再生水廠｜2026-10-27｜pptx_postprocess 參數為「檔案 --verify」，誤下 --help 會進清理模式；soffice 靜默無輸出改獨立 UserInstallation；換分鏡圖後紅字標註逐一對新圖重定位｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-27
 - 南科再生水廠｜2026-10-27｜他線數字轉給 PO 前先查出處、不放進裁定題；判定先對施工圖再下不改口；單字回覆先複述行動；on/off 匯出版比對先對位用容差｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-27
+- ChildrenFuture｜2026-10-27｜後補資料要回推前段投影片（S5 只剩臺史博）；跨案歸類先看細項（國圖大廳＝多媒體）；審閱意見逐條回原件核；Codex＋Gemini flash 雙審互補；codex exec 非 git 目錄加 --skip-git-repo-check 與 </dev/null｜projects/ChildrenFuture/_context/lessons-learned.md#2026-10-27
