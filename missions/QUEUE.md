@@ -3,11 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-26 19:00**：併main（night-relay已領先，無新增可併）＋覆寫今日快報。QUEUE整欄仍無待規劃/active項，**連續126夜零active延續**（晨報棒08:30已計入今日，詳見`missions/heartbeat.log`）。
+**晨報棒 2026-10-27 08:30**：覆寫今日快報。昨夜（10-26 19:06提醒棒後）四顆循環棒（19:35/21:55/23:35/01:35）全數心跳秒退，19:36 chain-capability探測仍FAIL，QUEUE整欄仍無待規劃/active項，**0 mission增量**。證據：`missions/heartbeat.log`尾5行。night-relay領先main共1471 commits（歷史分叉累積，非昨夜新增）；**main另有1個未併入commit**（`003d771` nightly-20261027，與本mission無關之其他repo lesson更新）尚未併入night-relay。連續**127夜零active**。
 **待核准/提名清單**（無變動）：`20260706-guide-app`(優先2,卡氛圍底圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾待使用者結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers待決**（無新增）：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**110天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點（內容方向 vs 文字/視覺）；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
-**產能算術**：0 active案→0 backlog剩餘項；今晚排定4棒（19:30/21:30/23:30/01:30），因QUEUE無待規劃/active項，**全數將秒退**，預計完成日＝不適用（無案可推）。
+**blockers新增項**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**111天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
 **chain-capability**：仍FAIL（連續PASS計數0）。
+**合併建議（收貨＝merge night-relay 進 main 的指令原文）**：
+- 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
+- 不收：`git push origin +main:night-relay`
 佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
 
 ## 佇列
