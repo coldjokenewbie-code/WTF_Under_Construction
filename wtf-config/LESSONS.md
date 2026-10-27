@@ -424,3 +424,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - 南科再生水廠｜2026-10-20｜Argon 規劃＋Flash 執行分工、agy headless 指令自動拒、Argon 自驗只信數字｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-20
 - VoiceInk｜2026-10-21｜模型升級須驗證推理參數並遷移既有模式；合成音訊先驗時長與 sample 數，避免零秒 WAV 的 400 被誤判為模型問題｜projects/VoiceInk/_context/lessons-learned.md
 - 南科再生水廠｜2026-10-26｜回稿檢查直接對施工圖、不以自家說明為準；施工圖高度分地上／地下與屋頂／女兒牆；跨模型分歧派裁決者看原圖（agy flash 圖面判讀不可靠）；軸測插畫標註用投影算｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-26
+- 南科再生水廠｜2026-10-27｜pptx_postprocess 參數為「檔案 --verify」，誤下 --help 會進清理模式；soffice 靜默無輸出改獨立 UserInstallation；換分鏡圖後紅字標註逐一對新圖重定位｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-27
