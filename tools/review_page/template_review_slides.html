@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>期末報告書品質審閱</title>
+<style>
+  :root{
+    --bg:#f4f6f5; --paper:#ffffff; --ink:#1a1a1a; --ink2:#444; --ink3:#777;
+    --line:#dfe5e3; --accent:#2A8E8B; --accent2:#D9EFEE; --pink:#C98880; --pink2:#FBEFEC;
+    --ok:#2f7d4f; --part:#b7791f; --no:#b3382b; --mid:#FBF3E6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:18px;line-height:1.5}
+  .slide{display:none;min-height:100vh;padding:44px 64px 84px;max-width:1440px;margin:0 auto}
+  .slide.active{display:block}
+  .kicker{font-size:13px;letter-spacing:.14em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+  h1{font-size:44px;line-height:1.2;margin:0 0 18px;font-weight:800}
+  h2{font-size:30px;line-height:1.25;margin:0 0 10px;font-weight:800}
+  h3{font-size:20px;margin:0 0 8px;font-weight:700}
+  .lead{color:var(--ink2);font-size:19px;margin:0 0 24px;max-width:1000px}
+  p{margin:0 0 8px}
+  ul,ol{margin:0;padding-left:22px}
+  li{margin:0 0 8px}
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .card.accent{background:var(--accent2);border-color:#bfe0dd}
+  .card.pink{background:var(--pink2);border-color:#eccfc8}
+  .tag{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;background:#e9edec;color:var(--ink2);font-weight:700;vertical-align:middle}
+  .tag.p0{background:#f7d9cd;color:#8a2f0e}.tag.p1{background:#f6e6c2;color:#7a4e00}.tag.p2{background:#dfeee4;color:#1f5b39}.tag.p3{background:#e6e6e6;color:#444}
+  .tag.c{background:#D9EFEE;color:#1d5f5d}.tag.x{background:#ece4f7;color:#4b2e83}.tag.cx{background:#f6e6c2;color:#7a4e00}.tag.v{background:#dfeee4;color:#1f5b39}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .stat{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .stat .n{font-size:50px;font-weight:800;color:var(--accent);line-height:1.05}
+  .stat .n small{font-size:20px;color:var(--ink2);font-weight:700;margin-left:4px}
+  .stat .l{font-size:16px;color:var(--ink2);margin-top:6px}
+  .kv{display:grid;grid-template-columns:1fr 34px 1.4fr;gap:0 14px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin-bottom:10px}
+  .kv .f{font-weight:700}
+  .kv .arrow{color:var(--accent);font-size:22px;text-align:center}
+  .kv .m{color:var(--ink2)}
+  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .board .col{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .board .col h3{padding-bottom:8px;border-bottom:2px solid var(--line)}
+  .board .col.ok h3{color:var(--ok);border-color:var(--ok)}
+  .board .col.part h3{color:var(--part);border-color:var(--part)}
+  .board .col.no h3{color:var(--no);border-color:var(--no)}
+  .board .it{padding:8px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:10px}
+  .board .it:last-child{border-bottom:0}
+  .board .it span:last-child{color:var(--ink3);font-size:14px;white-space:nowrap}
+  .flow{display:flex;gap:10px;align-items:stretch;margin:14px 0}
+  .flow .st{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .flow .st b{display:block;color:var(--accent);margin-bottom:4px}
+  .flow .st small{color:var(--ink3);display:block;font-size:13px}
+  .flow .ar{align-self:center;color:var(--accent);font-size:26px}
+  .decide{counter-reset:d}
+  .decide .card{display:flex;gap:18px;align-items:center;margin-bottom:12px;font-size:17px;font-weight:600;flex-wrap:wrap}
+  .decide .card::before{counter-increment:d;content:counter(d);flex:0 0 44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .decide .card small{flex-basis:100%;display:block;font-size:15px;color:var(--ink3);font-weight:400;margin-top:2px;padding-left:62px}
+  .decide .card .rec{margin-left:auto;flex:0 0 auto}
+  table{border-collapse:collapse;width:100%;background:var(--paper);font-size:14px}
+  th,td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;text-align:left}
+  th{background:#e9f4f3;font-weight:700}
+  td.hi{background:var(--accent2);font-weight:700;color:var(--accent)}
+  td.mid{background:var(--mid)}
+  td.gA{background:#dfeee4;font-weight:700;text-align:center}
+  td.gB{background:#FBF3E6;font-weight:700;text-align:center}
+  td.gC{background:#f7d9cd;font-weight:700;text-align:center}
+  .quote{font-size:16px;line-height:1.5;padding:12px 16px;border-left:4px solid var(--accent);background:var(--paper);border-radius:0 12px 12px 0;margin-bottom:10px}
+  .src{font-size:12px;color:var(--ink3);margin-top:12px}
+  .small{font-size:14px;color:var(--ink2)}
+  code{font-family:Menlo,monospace;font-size:.85em;background:#e9edec;padding:1px 5px;border-radius:4px}
+  #nav{position:fixed;left:0;right:0;bottom:0;height:46px;background:rgba(244,246,245,.95);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:14px;z-index:10}
+  #nav button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:13px;margin-left:6px}
+  #nav .title{font-weight:700;color:var(--ink)}
+  #toc{position:fixed;top:0;right:0;bottom:46px;width:320px;background:#fff;border-left:1px solid var(--line);overflow:auto;padding:16px;display:none;z-index:11}
+  #toc.open{display:block}
+  #toc a{display:block;padding:5px 6px;border-radius:6px;color:var(--ink2);text-decoration:none;font-size:13px}
+  #toc a:hover,#toc a.cur{background:var(--accent2);color:var(--ink)}
+  @media print{.slide{display:block;page-break-after:always;min-height:auto}#nav,#toc{display:none}}
+  @media (max-width:900px){.slide{padding:24px 20px 80px}.g2,.g3,.stats,.board{grid-template-columns:1fr}.flow{flex-direction:column}.kv{grid-template-columns:1fr}.kv .arrow{display:none}h1{font-size:32px}h2{font-size:26px}}
+</style>
+</head><body>
+
+<section class="slide" data-title="封面">
+<div class="kicker">期末報告書品質審閱｜Claude ＋ Codex 整併版｜2026-09-27</div>
+<h1>語氣已不像交差報告；缺的是文化局拿去發包要用的數字，和第二層讀者要查的來源</h1>
+<p class="lead">審閱對象：章檔 W_01／02／03／04／06（2026-09-26 版），依需求說明書與兩層讀者（文化局；民眾、機關人員、研究者、投標廠商）六個面向逐章評等。Claude 五個子代理分章審閱、Codex 獨立審閱全書，總控核對原文後整併。<b>本報告未動任何章檔。</b></p>
+<div class="stats">
+<div class="stat"><div class="n">29<small>項</small></div><div class="l">P1 問題（整併後）<br>第六章 9、第二章 9、第三章 5、第一章 3、第四章 3</div></div>
+<div class="stat"><div class="n">14<small>處</small></div><div class="l">跨章矛盾<br>其中 9 處總控已對回原文確認</div></div>
+<div class="stat"><div class="n">A／B</div><div class="l">語氣評等（五章）<br>交差口吻幾乎沒有；問題轉為 AI 套路與「（推測）」</div></div>
+<div class="stat"><div class="n">12<small>件</small></div><div class="l">需要你決定<br>其餘可依既有規範直接施工</div></div>
+</div>
+<p class="src">基準檔 sha1：W_01 bd5198e2｜W_02 bf572edd｜W_03 f3af0db8｜W_04 5d474361｜W_06 4daaaac3｜審閱原稿：workingfiles/_ai_share/_review0927/（claude_ch0X.md、codex_ch0X.md、REVIEW_SPEC.md）｜第五章為佔位未審</p>
+</section>
+
+<section class="slide" data-title="結論">
+<div class="kicker">結論</div>
+<h2>三件事決定這本報告書對兩層讀者的價值：補可發包數字、消除跨章矛盾、把「推測」改成依據</h2>
+<div class="kv"><div class="f">語氣目標已達成：五章「語氣」評等 A 或 B，交差句（依…會議要求、據此、已完成）幾乎清零</div><div class="arrow">→</div><div class="m">先前四輪文體改寫有效。剩下的是 AI 套路：「不是…而是」第二章 14 處、「不把」14 處、自創詞「回看」21 處；「（推測）」第二章 11 行、第三章 13 行，讀起來像內部工作稿。</div></div>
+<div class="kv"><div class="f">第一層讀者（文化局）最缺的是「可以抄進下一個標案」的規格</div><div class="arrow">→</div><div class="m">作業基金的特定財源沒有金額、行政法人四條件沒有判準值、設備規範沒有數量與驗收、5樓沒有投影台數與經費、1樓三檔特展沒有合作單位與經費、2樓沒有三年排程、整備時程用相對年而開館前2年（114年）已過。「可發包性」是五章裡最低的面向（三章 C）。</div></div>
+<div class="kv"><div class="f">兩章對同一件事寫相反：5樓國際標／不開國際標、風效開館啟用／升級選配、主秀8場／試營運4場、6,000／10,000流明</div><div class="arrow">→</div><div class="m">文化局引用時無法選邊。14 處矛盾裡 4 處要你裁示（國際標、風效、1樓共製定位、每班人數），其餘 10 處可直接改一致。</div></div>
+<div class="kv"><div class="f">第二層讀者要查證，卻找不到來源：第四章 33 張圖 0 來源行、第一章 0 腳註、第三章兩處腳註回指錯號</div><div class="arrow">→</div><div class="m">第四章補來源行與每節 2–3 句導讀；第一章補願景使命句與樓層分工表；第三章改註 15、18 回指，並補「與國內科學展館定位區隔」（需求說明書第 77 行明文要求，本章沒有回答）。</div></div>
+</section>
+
+<section class="slide" data-title="兩層讀者 vs 現況">
+<div class="kicker">讀者分析</div>
+<h2>對文化局，報告書是「下一個標案的規格底稿」；對第二層讀者，是「能找到答案與來源的公開文件」——現況兩邊都差一步</h2>
+<div class="grid g2">
+<div class="card accent"><h3>第一層：新竹市政府文化局</h3>
+<p class="small"><b>要拿到什麼</b>：空間、設備、展項、人力、經費、期程、委外範圍的具體數字與條件；每個決策點有判準。</p>
+<table>
+<tr><th>能直接用</th><th>還不能用</th></tr>
+<tr><td>表 3-1-1 逐空間自營／委外＋理由；委外契約 2 年一期、權利金與分成方式；表 6-4／6-5 標的、法定路徑、收入歸屬；委外契約七條款與六項介面；3樓建置費 5,000 萬、260 工作天、更新費每年 200–300 萬；票價、時段、場租、團體門檻</td>
+<td>作業基金「適足特定財源」金額；行政法人四條件的判準值；30–40 人從哪來（第 72 行寫編制內派充）；整備時程的民國年月；設備數量、驗收、保固、原始碼交付；5樓投影台數與經費；1樓三檔特展的合作單位、檔期、規模、經費與預備期程（0831 會議紀錄第 1 頁明文要求）；2樓九模組三年排程；4樓合作單位具名與台座規格</td></tr>
+</table></div>
+<div class="card pink"><h3>第二層：民眾、機關人員、研究者、投標廠商</h3>
+<p class="small"><b>要拿到什麼</b>：不看會議紀錄也讀得懂；每個數字有出處；術語有定義；投標者看得出工作範圍與成果形式。</p>
+<table>
+<tr><th>做到了</th><th>還沒做到</th></tr>
+<tr><td>第三章 18 則腳註、第六章法源腳註完整；第二章圖下來源含圖號；推算過程公開可驗算（年開館 321 日、主秀月人次）；表 2-2-13、表 2-5-4 可改寫成交付項目</td>
+<td>第四章 33 張圖沒有來源行也沒有導讀；第一章 0 腳註、「公道五軸線」「藝文高地」未定義；第三章註 15／18 回指錯號、日本科學未來館與 NEMO 無出處；「回看」「回流卡」「作業帶」「創新沙盒」「敲敲打打實驗室」未定義；「原團隊」「期初報告書」「前期」屬內部脈絡；「（推測）」26 行無依據</td></tr>
+</table></div>
+</div>
+</section>
+
+<section class="slide" data-title="評等矩陣">
+<div class="kicker">六面向評等（Claude／Codex）</div>
+<h2>五章的短板一致落在「可發包性」與「可查證性」，長板一致是「語氣」</h2>
+<table>
+<tr><th style="width:14%">章</th><th>需求對應</th><th>可發包性</th><th>可讀性與可查證性</th><th>語氣</th><th>論述品質</th><th>實務參考性</th><th style="width:30%">一句話</th></tr>
+<tr><td><b>第一章</b> 本館目標及任務</td><td class="gB">B／B</td><td class="gC">C／B</td><td class="gB">B／B</td><td class="gB">B／B</td><td class="gB">B／B</td><td class="gC">C／B</td><td>定位句可引用；沒有願景、使命句，沒有樓層分工與年齡分段表，0 腳註</td></tr>
+<tr><td><b>第二章</b> 展示架構</td><td class="gB">B／B</td><td class="gC">C／B</td><td class="gB">B／B</td><td class="gB">B／A</td><td class="gB">B／B</td><td class="gB">B／B</td><td>2樓九案結構最完整；1、4樓合作單位只有類型，5樓缺片名與台數，與第六章三處相反</td></tr>
+<tr><td><b>第三章</b> 營運策略研擬</td><td class="gC">C／B</td><td class="gB">B／B</td><td class="gB">B／B</td><td class="gA">A／A</td><td class="gB">B／B</td><td class="gB">B／B</td><td>數字最多、可驗算；但需求第 77 行「定位區隔」「短中長期規劃」沒有正面回答</td></tr>
+<tr><td><b>第四章</b> 各區展示空間模擬圖</td><td class="gA">A／A</td><td class="gB">B／B</td><td class="gC">C／B</td><td class="gB">B／A</td><td class="gB">B／B</td><td class="gB">B／B</td><td>圖數達標、動線可用；33 張圖 0 來源行，一至六節 0 正文</td></tr>
+<tr><td><b>第六章</b> 短中長期營運制度</td><td class="gB">B／B</td><td class="gC">C／B</td><td class="gB">B／B</td><td class="gA">A／A</td><td class="gB">B／B</td><td class="gB">B／B</td><td>制度三層與委外表可直接用；作業基金金額、改制判準、設備數量三個核心欄位是空的</td></tr>
+</table>
+<p class="small" style="margin-top:12px">Codex 整體給分較寬（可發包性五章皆 B），Claude 較嚴（三章 C）。差異來源：Codex 以「有方向與量級」計 B；Claude 以「文化局能否直接抄進標案」計。總控採後者作為本報告口徑，因為這是 PO 定義的第一層讀者需求。</p>
+</section>
+
+<section class="slide" data-title="跨章矛盾">
+<div class="kicker">跨章一致性</div>
+<h2>14 處矛盾：4 處要你選邊，10 處直接改一致</h2>
+<table>
+<tr><th>#</th><th>事項</th><th>A 章寫法</th><th>B 章寫法</th><th>處置</th><th>核對</th></tr>
+<tr><td>1</td><td>5樓國際內容採購路線</td><td>第二章表 2-6-10「展示設計採國際標，與工程標分開」；章末圖兩處「國際標」</td><td>第六章第 366 行「現階段不主張另開國際標」</td><td class="mid"><b>待你決定</b>（決定 1）</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>2</td><td>5樓風效與中央機械裝置</td><td>第二章表 2-6-7 自製主秀「風效體感 ●」、全館節「風效與中央動態裝置」</td><td>第六章第 421 行「特效設備建議列為未來升級選配，開館時以投影與音場效果為主」</td><td class="mid"><b>待你決定</b>（決定 2）</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>3</td><td>1樓在地共製展的內容來源</td><td>全館節第 8 行「由本地大學、研究單位及科技產業提供正在發生的研究議題」</td><td>1樓節第 214 行「由新竹的生活議題、公開資料、材料樣本、學校課程與場域觀察共同形成內容」</td><td class="mid"><b>待你決定</b>（決定 5）</td><td><span class="tag c">Claude</span></td></tr>
+<tr><td>4</td><td>學校團體每班人數</td><td>第三章第 134 行、表 3-6-2、第四章七（三）「單班30人」</td><td>第三章第 153 行、第四章七（三）後段「每班約25人」；上限 100 人算式因此不明</td><td class="mid"><b>待你決定</b>（決定 9）</td><td><span class="tag v">第三章已核</span></td></tr>
+<tr><td>5</td><td>投影機亮度</td><td>第六章第 435 行「全館…高階工程級投影設備規格（6,000流明以上）」</td><td>第二章第 1429 行 5樓「額定光輸出須達10,000 ANSI流明以上」</td><td>第六章加適用範圍句：6,000 為 1–4 樓一般展區；5樓依第二章</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>6</td><td>5樓場次</td><td>第二章第 1135 行「開館首年建議每日主秀8場、放映6場」</td><td>第三章第 130 行「開館首6個月試營運期，主秀與放映各降為4場」</td><td>第二章改「試營運後常態排播示意」，並指向第三章</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>7</td><td>常設展免費對象</td><td>第三章第 24 行「設籍市民、市內在校學生、未滿12歲、65歲以上及身障者免費」</td><td>表 3-2-4 第 100 行「未滿6歲…市內學校團體…志工、低收入戶、55歲以上原住民族國民、博物館學會會員」</td><td>表 3-2-4 拆為基本方案／備選方案兩段；第 24 行補完整名單指向表</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>8</td><td>正式員額來源</td><td>第六章第 72 行（政府機關形態）「員額須自文化局編制員額內派充，不另增編制」</td><td>第六章第 104 行「正式員額初估為30至40人」</td><td>補一段：編制內調派／修組織規程增列／作業基金進用三類各多少人；文化局現有編制數未取得則標</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>9</td><td>主秀時長</td><td>第四章圖 4-7-1「主秀約12分鐘」</td><td>第四章七（二）「主秀30分鐘」</td><td>寫成「一輪30分鐘（含入場引導，主秀本身約12分鐘）」</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>10</td><td>本館定位範圍</td><td>第一章第 46 行「打造全國孩子的科學教育夢想基地」</td><td>第一章第 68 行「地方型科學探索館」；需求說明書「新竹市3~18歲觀眾為核心」</td><td>改「新竹孩子」或「以新竹孩子為核心、吸引外地親子」</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>11</td><td>取票動線</td><td>第四章七（一）只寫 1樓入口取票</td><td>第三章第 202 行「1樓與5樓入口並設取票等候動線」</td><td>第四章補 5樓劇場入口</td><td><span class="tag c">Claude</span></td></tr>
+<tr><td>12</td><td>「敲敲打打」名稱</td><td>第二章「敲敲打打實驗室」</td><td>第三章「敲敲打打兒童實驗互動工作坊」、第六章「敲敲打打工作坊」</td><td>三章統一一個名稱，首次出現補「原兒童探索館○樓既有展區」</td><td><span class="tag c">Claude</span></td></tr>
+<tr><td>14</td><td>「科教館」簡稱指兩個機構</td><td>第一章第 46 行「科學教育館（以下簡稱科教館）」＝本館</td><td>第三章第 25 行「中央層級之科教館、科博館與科工館」、第六章比較表＝國立臺灣科學教育館</td><td>本館一律「本館」；國立臺灣科學教育館首次具名後稱「國立科教館」</td><td><span class="tag v">總控已核</span></td></tr>
+<tr><td>13</td><td>AI 題目重複</td><td>1樓第二年「會思考的城市」、4樓台座 A、5樓開館版「AI與永續城市」</td><td>3樓第三年試辦「AI與晶片」；全館節第 31 行「不宜讓每一層都重複出現」</td><td>3樓第三年改 3樓特有方向（先進封裝、晶片與能源效率），或加一欄各層 AI 分工</td><td><span class="tag c">Claude</span></td></tr>
+</table>
+<p class="src">「總控已核」＝總控以 grep 對回 ch0X.md 原文行號確認；「Claude」＝子代理報告，總控未逐句重開，改法施工前再核一次。</p>
+</section>
+
+<section class="slide" data-title="可發包缺口總表">
+<div class="kicker">第一層讀者｜可發包性</div>
+<h2>文化局要啟動的每一項作業，報告書現在缺哪一個數字</h2>
+<table>
+<tr><th style="width:18%">文化局下一步作業</th><th style="width:26%">報告書現況</th><th>缺的欄位</th><th style="width:26%">改法（都能用報告書既有數字填）</th></tr>
+<tr><td>作業基金可行性評估</td><td>第六章表 6-2 設立條件「須具備…適足且長期穩定之特定財源」；第 101 行只列收入科目</td><td>自有收入金額</td><td>新增「開館首年自有收入量級推估表」：科目／計價基準（引第三章票價、LAB B 每組 500 元、場租 15,000 元）／數量假設（日承載 2,210–2,480、年開館 321 日）／低中高／占 1.0–1.6 億歲出比率</td></tr>
+<tr><td>行政法人改制評估案何時啟動</td><td>表 6-7 四條件只有「觀察指標」；第 233 行「均成熟則改制」</td><td>成熟判準值</td><td>表 6-7 加「成熟判準（建議值）」欄；財務比率以臺南市美術館 31.27%–44.99% 為參照區間（數值待決定 10）</td></tr>
+<tr><td>人事：員額從哪來</td><td>第 72 行編制內派充 vs 第 104 行 30–40 人；內插實得約 34 人</td><td>三類來源各幾人；文化局現有編制數</td><td>補一段三類來源；內插句改「約 34 人（採法定編制 25 人則約 36 人），考量互動密度取 30–40」</td></tr>
+<tr><td>排整備作業</td><td>圖 6-3 用「開館前 2 年／前 1 年」；116 年開館基準下前 2 年＝114 年已過</td><td>工作項／主辦／民國年月／產出文件</td><td>圖後加「整備工作排程表」，逾期項標「須壓縮或順延」（決定 10）</td></tr>
+<tr><td>多媒體設備採購需求書</td><td>第六章四、有條文形式；i5／i7、Crestron 指定廠牌未加「或同等品」</td><td>數量與樓層配置、驗收、保固、備品、原始碼與授權交付、兒童使用條款</td><td>節首加適用範圍與「設備配置量級表」；節末加共通條款；廠牌後加「或同等品」（決定 12）</td></tr>
+<tr><td>5樓影音設備預算</td><td>第二章第 1425 行「台數須依實際投影面積…估列」；第六章第 420 行「參考第二章」——兩章都沒數字</td><td>投影機台數、設備經費量級</td><td>補規劃估算：投影面約 1,350 ㎡，依案例密度約 35–47 台（10,000 流明級），標明依圖說與投影模擬確定；經費「待詢價」並列詢價範圍</td></tr>
+<tr><td>1樓三年特展發包</td><td>表 2-2-11 三主題只有名稱與類型；0831 會議紀錄第 1 頁要求列「合作模式、經費及預備期程」</td><td>各檔合作單位、檔期、規模（特展區 1,235 ㎡）、本館費用工作包、預備期程</td><td>表 2-2-11 加三欄；另加前置作業列（詢價授權、運輸保險、中文化、在地製作、安裝）與期程；金額未取得標「待詢價」，不用他館案例價冒充</td></tr>
+<tr><td>2樓 LAB 課程委外</td><td>換展週期三種（每四個月、每季、每學期）；開館組合與表 2-3-6 對不上；表 6-5 未列 LAB B／C 適用程序</td><td>三年排程表；場地使用權／課程服務的併標或分標判斷</td><td>圖 2-3-3 後加三年排程表（決定 7）；表 6-5 後加「LAB B／C 標的判斷」短表；第 299 行「評估原團隊延續」改為「取得既有教材授權或等效替代」</td></tr>
+<tr><td>4樓 Next Tech 合作邀約</td><td>三台座 1.3 只寫「外部企業、研發團隊與法人單位」；全館節具名的清華、陽明交大、工研院在 4樓節消失</td><td>可接洽對象（例）、台座尺寸／承重／電源網路點、每期更新費量級</td><td>三方案各補「可接洽對象（例）」與台座規格欄；Science Box 補進台座或刪全館節文字</td></tr>
+<tr><td>5樓片源詢價</td><td>表 2-6-9 只有四類取得方式與題材</td><td>候選片名、持有／授權單位、片長、格式、適齡</td><td>加「候選片單（例）」5–8 部，查不到欄位標「未取得」</td></tr>
+</table>
+</section>
+
+<section class="slide" data-title="第一章">
+<div class="kicker">第一章｜本館目標及任務</div>
+<h2>定位句寫得對，但文化局引用時找不到「願景」「使命」兩句，也看不到樓層分工</h2>
+<div class="grid g2" style="grid-template-columns:1fr 1.6fr">
+<div class="card accent"><h3>優點</h3>
+<ul class="small">
+<li>「小而精、具地方特色、高互動」（第 51 行）直接對應需求說明書「與國內各科學展館定位區隔」。</li>
+<li>「新竹特色」界定為轉譯而非產業宣傳（第 52 行），並給館方內容審核權立場（第 79 行）。</li>
+<li>教育三層次對應樓層（第 63 行）；典藏列具體物件與授權替代條件（第 72 行）；研究有方法與結果去處（第 75 行）。</li>
+</ul></div>
+<div class="card"><h3>P1（3）與主要 P2</h3>
+<table>
+<tr><th>#</th><th>位置／原句</th><th>問題</th><th>改法</th><th></th></tr>
+<tr><td>P1</td><td>全章</td><td>需求說明書第 10、73 行要求「願景、使命」，本章沒有任何一句標明；第三章第 160 行「本館使命年齡」回指落空</td><td>（一）段首加「願景：…」「使命：…」兩句；文字優先採期初與機關共同擬定版（決定 3），否則以需求說明書第 74 行後半為底稿</td><td><span class="tag cx">共識</span></td></tr>
+<tr><td>P1</td><td>（二）第 56 行「分齡規劃依各階段」</td><td>沒有年齡界線；第三章「分齡分眾策略詳第一章」，但 6歲以下／7–10／11–15 只出現在第三章</td><td>加 5 欄表：年齡段／特性／主要空間／參與方式／對應章節，數字取自第二章第 42 行與第三章第 175、177 行</td><td><span class="tag c">C</span></td></tr>
+<tr><td>P1</td><td>（三）第 61 行「各樓層分別負責不同的學習功能」</td><td>宣稱有分工卻沒列出；4、5 樓完全沒出現</td><td>改「各樓層分工如下表，細節見第二章」＋ 5 列表（定位、更新週期照抄第二章）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>P2</td><td>第 46 行「全國孩子」／第 47 行「目前…暫定為『藝術風格的科學實驗場』」</td><td>與「地方型」矛盾；期末定稿不宜「暫定」；同一標語第二章第 783 行用作 3樓定位</td><td>改「新竹孩子」；刪「目前」「暫定」；歸屬待決定 4；Codex 另建議（三）補一句「美感表現須連結可觀察或可操作的科學現象」</td><td><span class="tag cx">共識</span></td></tr>
+<tr><td>P2</td><td>第 50 行「內容轉譯能力、教育活動密度、地方連結程度及持續更新能力」；第 59、53、52、77 行「不只是…而是」</td><td>抽象四並列與模板句</td><td>改可觀察表述（固定場次、換展週期、簽訂長期合作）；模板句改直陳</td><td><span class="tag cx">共識</span></td></tr>
+<tr><td>P2</td><td>（四）第 64 行「2樓LAB B於假日邀請清華大學、陽明交通大學…」；「展示體驗不需預約」</td><td>合作寫成既定事實；「不需預約」與第三章假日尖峰分場不合</td><td>加「（合作意向待洽）」；改「原則上不需預約；3樓假日及寒暑假依第三章分場」</td><td><span class="tag cx">共識</span></td></tr>
+</table>
+<p class="small">P3：「公道五軸線」「藝文高地」「創新沙盒」未定義；「大量科技產業工作者」無數字、0 腳註；（六）語法不通。完整 14 條見 claude_ch01.md，Codex 5 條見 codex_ch01.md。</p></div>
+</div>
+</section>
+
+<section class="slide" data-title="第二章">
+<div class="kicker">第二章｜展示架構（7.4 萬字，六節逐行審）</div>
+<h2>2樓九案已合需求；需求明文要求的缺口只剩 5 處，3 句、2 格、1 欄就夠</h2>
+<div class="grid g2" style="grid-template-columns:1fr 1.6fr">
+<div class="card accent"><h3>優點</h3>
+<ul class="small">
+<li>2樓九案每案都有 1.1 主題／1.2 案例調查／1.3 合作團體／1.4 換展期程，且合作團體具名（第 479、541 行）。</li>
+<li>3樓有可直接發包的數字：建置費約 5,000 萬、工期 260 工作天（第 862 行）、更新費每年 200–300 萬（第 738 行）、表 2-4-2 實物尺寸。</li>
+<li>表 2-2-13、表 2-5-4 寫到「合約載明…使用範圍」「內容與權利／操作與復歸／維護與撤換」，可直接改成交付項目。</li>
+<li>限制講清楚：第 1426 行「分母不同，僅供量級參考，不作為採購數量依據」。</li>
+</ul></div>
+<div class="card"><h3>最少改動方案（定版：需求第 76 行＋0831 會議；Codex 討論後由 11 處減為 5 處）</h3>
+<table>
+<tr><th style="width:20%">需求項目</th><th style="width:22%">現況</th><th>最少改動（紅字寫入）</th><th style="width:14%">位置</th><th style="width:8%">規模</th></tr>
+<tr><td>各樓層三年內展示主題至少三式</td><td>3 樓室內一常設展＋戶外三案，已達「每樓至少三式」</td><td>只加指引 1 句：「本樓戶外三案詳（三），室內維持半導體常設核心。」不寫豁免、不湊試辦</td><td>第 667 行段末</td><td>1 句</td></tr>
+<tr><td>可合作或進駐之團體</td><td>1 樓表 2-2-12 已具名；4 樓全館節第 13 行已具名</td><td>1 樓不動；4 樓（二）三方案前加 1 句「合作來源參第一節 4樓定位所列單位」</td><td>4 樓（二）開頭</td><td>1 句</td></tr>
+<tr><td>換展建議期程</td><td>2 樓第 359、367 行已有交錯換展；415、549 行是圖卡與機構更新（不同層次）</td><td>不加三年表、不改週期；第 367 行段末補 1 句區分主題換展與圖卡／機構更新</td><td>第 367 行段末</td><td>1 句</td></tr>
+<tr><td>5樓未來可能之片單</td><td>只有取得方式與題材</td><td>表 2-6-9 科學影片、新竹影片兩格補具名候選（例）；查不到標「未取得」；不加欄、不硬湊</td><td>表 2-6-9</td><td>2 格</td></tr>
+<tr><td>0831 會議：國際巡迴展合作模式、經費、預備期程</td><td>合作模式有；經費、預備期程無</td><td>表 2-2-11 加 1 欄「經費初估與預備期程」，只填國際引進方案：經費待詢價（量級參照第六章表 6-13）、期程為規劃假設；表下 1 則估價範圍註。金額未取得前保留未完成標記</td><td>表 2-2-11</td><td>1 欄＋1 註</td></tr>
+</table>
+<p class="small">Codex 刪減理由：需求是「每樓至少三式」非每一室內空間；未要求每方案各列機構名單；換主題、更新圖卡、更動機構是不同層次；片單無數量格式要求。已派寫二施工。</p></div>
+</div>
+</section>
+
+<section class="slide" data-title="第三章">
+<div class="kicker">第三章｜營運策略研擬</div>
+<h2>數字最齊、語氣最好；需求要的「定位區隔」補 1 段、「短中長期」補 1 句，其餘不動</h2>
+<div class="grid g2" style="grid-template-columns:1fr 1.6fr">
+<div class="card accent"><h3>優點</h3>
+<ul class="small">
+<li>表 3-1-1 逐空間自營／委外＋理由，可直接切分標的。</li>
+<li>契約條件到位：「2年一期，後續可設定擴充12至24個月。商業性空間採每年固定權利金，課程性空間按實收營收之固定比例分配」（第 20 行）。</li>
+<li>推算公開可驗算：年開館 321 日（第 117 行）、主秀月 7,280–8,736 人次（第 132 行），總控驗算正確。</li>
+<li>三、六章分界清楚：制度法源一律「詳第六章」。</li>
+<li>表 3-6-2 學校團體四種行程可直接排課。</li>
+</ul></div>
+<div class="card"><h3>最少改動方案（定版：需求第 77 行；Codex 討論後由 2 段＋2 句減為 1 段＋2 句）</h3>
+<table>
+<tr><th style="width:20%">需求項目</th><th style="width:22%">現況</th><th>最少改動（紅字寫入）</th><th style="width:14%">位置</th><th style="width:8%">規模</th></tr>
+<tr><td>與國內各科學展館定位區隔</td><td>只有票價、團體門檻、休館日比較</td><td>「一、後續營運方針」標題後加 1 段 2–3 句：承接第一章定位，以可核實資料（市屬館舍、3–18 歲、在地內容、課程密度與反覆到館）對照中央層級三館；票價不展開；不寫未查證的他館受眾或主軸</td><td>節首、「場館營運方式」之前</td><td>1 段</td></tr>
+<tr><td>經營策略、特色發展、短中長期規劃</td><td>短期有；第 61 行已有第 3 年後評估商業策展、第 20 行契約擴充</td><td>第 4 行末句替換 1 句：短期依上述營運；第 3 年後評估商業策展與委外擴充（指本章既有段）；組織形態、委外程序與中長期制度轉型評估時點與條件詳第六章</td><td>第 4 行末句</td><td>1 句</td></tr>
+<tr><td>參觀容納人數</td><td>表 3-4-1 已回答；690 為規劃值加總</td><td>第 139 行首句改「依表 3-4-1 各空間規劃值加總約690人，並非消防核定容留上限」；第 150 行「推估日服務量」不改</td><td>第 139 行</td><td>1 句</td></tr>
+<tr><td>收費模式、營運時間、受眾年齡層、營運方針</td><td>已回答</td><td>不動（免費名單、25至30 人、腳註錯號、（推測）→（估算）已另派撰寫三，一併紅字）</td><td>—</td><td>—</td></tr>
+</table>
+<p class="small">Codex 刪減理由：容納人數已有表回答、不必重算改名；定位段不做三館×四面向全面比較（腳註 3、13 只支持票價與開放時間）；短中長期不重組新期程。已派撰寫三施工。</p></div>
+</div>
+</section>
+
+<section class="slide" data-title="第四章">
+<div class="kicker">第四章｜各區展示空間模擬圖</div>
+<h2>圖的數量與動線文字都達標；缺的是 33 張圖的來源行與每節一段導讀</h2>
+<div class="grid g2" style="grid-template-columns:1fr 1.6fr">
+<div class="card accent"><h3>優點</h3>
+<ul class="small">
+<li>需求三項全數到位：5 張平面配置圖、每層 5–6 張模擬圖、全館／親子／學校三類動線。</li>
+<li>動線一句交代四種入場機制：「5樓主秀與3樓…採場次分流；2樓LAB課程與4樓工作坊採預約；LAB A非課程時段…可自由參觀」。</li>
+<li>分眾有年齡層與規則（6歲以下→LAB A；7–15 歲→3樓九關卡）；學校團體「半日、單班30人、一堂課加一個展區」可直接排程。</li>
+<li>表 4-7-1 十類觀眾停留時間與第三章表 3-6-1／3-6-2 一致。</li>
+</ul></div>
+<div class="card"><h3>P1（3）與主要 P2</h3>
+<table>
+<tr><th>位置</th><th>問題</th><th>改法</th><th></th></tr>
+<tr><td>P1 圖 4-1-1～4-1-5</td><td>5 張平面配置圖沒有來源行；第二章同類圖有「需求說明書附件〈一層平面放樣圖〉（圖號A103）；配置標示：本案規劃」</td><td>每張加同格式來源行；1F A103、3F A303；2F／4F／5F 圖號待從 0需求書附件 PDF 核（待查證）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>P1 圖 4-2-1～4-6-6</td><td>27 張模擬圖沒有來源行，也沒聲明是示意；投標廠商可能當成設計規格</td><td>每張加「資料來源：本案繪製」（用文化局細設簡報為底者註明）；章首加一句「模擬圖呈現空間氛圍與使用情境，展項尺寸、材質與設備以第二章及後續設計標案為準」（Codex 同建議）</td><td><span class="tag cx">共識</span></td></tr>
+<tr><td>P1 一至六節</td><td>只有圖題、0 正文；「圖 4-5-3 展示台座模擬圖」看不出台座展示什麼</td><td>每節圖組前 2–3 句導讀，只用既有數字並指回第二章（審閱檔附 3樓範例句）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>P2 圖 4-5-2「半導體製程體驗台」</td><td>與第二章 4樓 Next Tech 可替換台座定位不合，易使廠商以為 4樓必設此展項</td><td>核原圖後改題「更新型台座展示情境模擬圖」並註明題材隨展期更新（決定 12）</td><td><span class="tag x">X</span></td></tr>
+<tr><td>P2 圖 4-7-1「特展區自由參觀」</td><td>特展已定獨立售票，「自由參觀」易讀成免費</td><td>改「持特展票自主參觀；每日定時導覽」；七（二）補「選購特展票者可先參觀 1樓特展區」</td><td><span class="tag x">X</span></td></tr>
+<tr><td>P2 七（二）（三）</td><td>主秀 12／30 分鐘並列；每班 25／30 人；「導覽任務」未定義；「（推測）」3 處；取票動線只寫 1樓；「主要限制」句意循環</td><td>寫成「一輪30分鐘（主秀本身約12分鐘）」；人數見決定 9；補導覽任務定義；「（推測）」改「依表 3-6-2 分段加總」；補 5樓入口；改寫為「日承載由場次數決定，是全館動線的時間錨點」</td><td><span class="tag c">C</span></td></tr>
+</table>
+<p class="small">P3：LAB C「新開發之進階課程」無指向；教師簡報由誰製作；表 4-7-1 成人「5樓特殊活動」每週僅 1 場；圖 4-7-1 抽出文字重複兩遍（疑有重疊文字框，須開檔查）。完整 13 條見 claude_ch04.md、4 條見 codex_ch04.md。</p></div>
+</div>
+</section>
+
+<section class="slide" data-title="第六章">
+<div class="kicker">第六章｜展館短中長期營運制度建議</div>
+<h2>制度路線與委外表已接近可發包；作業基金金額、改制判準、設備數量三個核心欄位是空的</h2>
+<div class="grid g2" style="grid-template-columns:1fr 1.6fr">
+<div class="card accent"><h3>優點</h3>
+<ul class="small">
+<li>三層制度（組織形態／預算會計／執行方式）各註變更程序（圖 6-1）。</li>
+<li>表 6-4 逐空間「營運方式／館方角色／收入歸屬」；表 6-5 三條法定路徑附法源與「▲本館建議」。</li>
+<li>同類館舍對照標年度與口徑（表 6-3、表 6-8 兩種口徑並列）。</li>
+<li>50% 正確定性為預算監督門檻、非改制資格（第 232 行）。</li>
+<li>委外契約七條款、六項介面、資料回傳要求可直接取用。</li>
+</ul></div>
+<div class="card"><h3>P1（9）</h3>
+<table>
+<tr><th>位置</th><th>問題</th><th>改法</th><th></th></tr>
+<tr><td>表 6-2／第 101 行</td><td>作業基金設立條件「適足特定財源」，本章只有科目沒有金額</td><td>新增「開館首年自有收入量級推估表」（見可發包缺口表）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>表 6-7</td><td>四條件只有觀察指標，沒有「達到多少算成熟」</td><td>加「成熟判準（建議值）」欄（決定 10）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>第 72 vs 104 行</td><td>編制內派充 vs 30–40 人（矛盾 8）</td><td>補三類來源與人數；文化局現有編制數未取得則標</td><td><span class="tag v">已核</span></td></tr>
+<tr><td>圖 6-3／第 361 行</td><td>時程用相對年，開館前 2 年（114 年）已過；無文字版排程</td><td>加「整備工作排程表」（工作項／主辦／前置條件／民國年月／產出）；逾期項標「須壓縮或順延」（決定 10）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>第 104 行</td><td>兩館內插實得約 34 人，非 30–40 區間；兩館員額口徑不一</td><td>改「內插約34人（採法定編制25人則約36人），考量互動密度取30至40人」；補鶯歌 41 人口徑與面積來源</td><td><span class="tag v">已核</span></td></tr>
+<tr><td>第 221 行／表 6-3</td><td>1.0–1.6 億只寫「期初報告書」無頁碼、無組成（第二層讀者拿不到）</td><td>補「本案期初報告書修正版 p.117–118」（總控已核原件）；加「年度歲出推估組成表」（人事、委外服務、展示維護更新、水電、特展教育）；門檻值不動</td><td><span class="tag cx">共識</span></td></tr>
+<tr><td>四、設備規範全節</td><td>無數量、驗收、保固、原始碼授權交付；i5／i7、Crestron 無「或同等品」；無兒童使用條款；兩小節重複</td><td>節首適用範圍＋配置量級表；節末共通條款；廠牌後加「或同等品」；觸控補兒童條款；刪重複（決定 12）</td><td><span class="tag c">C</span></td></tr>
+<tr><td>第 96 行「標題所稱OT泛指部分空間與服務之委外經營」</td><td>表 6-5 已把促參法 OT、市有財產委託經營、勞務委外分三路徑，「泛指」讓讀者當成一種</td><td>保留核定標題；句改「首期部分委外以市有財產委託經營與勞務委外為主；促參法 OT 僅在民間須大額投入時另行評估」</td><td><span class="tag x">X</span></td></tr>
+<tr><td>第 124 行／表 6-5</td><td>LAB B／C 是主要委託範圍，表 6-5 卻未列其適用程序；第三章第 6 行預寫「兩種契約」</td><td>表 6-5 後加「LAB B／C 標的判斷」短表（場地使用權／課程服務／收費分成／併標分標條件）</td><td><span class="tag x">X</span></td></tr>
+</table>
+<p class="small">P2 重點：6,000／10,000 流明適用範圍（矛盾 5）；第 213 行「與鶯歌及十三行相當」不成立（0.71 vs 1.57 億）；「地方行政法人 12 個」無年份來源；促參小組停止適用無腳註；「4 個作業基金」只點名 1 個；「原團隊」內部脈絡；9% 設計比例無本館工程費可套。完整 24 條見 claude_ch06.md、6 條見 codex_ch06.md。</p></div>
+</div>
+</section>
+
+<section class="slide" data-title="語氣與可讀性">
+<div class="kicker">第二層讀者｜語氣、AI 套路、可查證</div>
+<h2>交差口吻已清；剩下三類讀起來「像 AI 或像工作稿」的痕跡，可用 grep 定位逐條改</h2>
+<div class="grid g3">
+<div class="card"><h3>模板句</h3>
+<table><tr><th>句型</th><th>出現</th><th>改法</th></tr>
+<tr><td>「不是／並非…而是」</td><td>第二章 14 處、第一章 4 處</td><td>保留論證必需的 3–4 處，其餘直陳 B</td></tr>
+<tr><td>「不把…」</td><td>第二章 14 處</td><td>同上</td></tr>
+<tr><td>「可操作、可比較、可○○」三連排比</td><td>第二章第 56、60、77 行</td><td>改具體例子</td></tr>
+<tr><td>抽象四並列</td><td>第一章第 50 行</td><td>改可觀察表述</td></tr>
+</table></div>
+<div class="card"><h3>自創詞與未定義詞</h3>
+<table><tr><th>詞</th><th>出現</th><th>改法</th></tr>
+<tr><td>回看</td><td>第二章 21 處</td><td>依上下文改「回顧」「成果展示」</td></tr>
+<tr><td>回流卡、作業帶、閱讀帶、共同畫布</td><td>第二章</td><td>首次出現補定義或改慣用詞</td></tr>
+<tr><td>創新沙盒、公道五軸線、藝文高地</td><td>第一章</td><td>改白話或加腳註</td></tr>
+<tr><td>敲敲打打實驗室、原團隊、期初報告書、前期、五（三）</td><td>二、三、六章</td><td>補全名與出處；內部代碼改章節指向</td></tr>
+</table></div>
+<div class="card"><h3>「（推測）」與來源</h3>
+<table><tr><th>項</th><th>現況</th><th>改法</th></tr>
+<tr><td>「（推測）」</td><td>第三章 13 行、第二章 11 行、第四章 2 行</td><td>改「（估算，依據：○○）」，首次出現處加一句總說明（決定 8）</td></tr>
+<tr><td>腳註數</td><td>第一章 0、第二章 7（7.4 萬字）、第三章 18、第四章 32、第六章 11</td><td>第一章補產業與人口數字出處；第二章補案例出處</td></tr>
+<tr><td>腳註錯號</td><td>第三章註 15、18 回指錯</td><td>改「同註13」「同註9」</td></tr>
+<tr><td>圖來源行</td><td>第四章 33 張 0 行</td><td>依 citation-rules 4.4／4.6 補</td></tr>
+</table></div>
+</div>
+<p class="small" style="margin-top:12px">「不是…而是」「回看」的計數由子代理統計，總控以 grep 複核「而是」第二章 14 行、「推測」三章行數相符。這些改法都是就地增量修改，不重寫段落。</p>
+</section>
+
+<section class="slide" data-title="Claude 與 Codex 差異">
+<div class="kicker">整併原則</div>
+<h2>兩方 90% 重疊；分歧在嚴重度口徑，總控依 PO 的讀者定義裁定</h2>
+<div class="grid g2">
+<div class="card"><h3>只有一方提出、總控採納</h3>
+<table>
+<tr><th>項</th><th>提出</th><th>總控裁定</th></tr>
+<tr><td>5樓「國際標」與第六章相反</td><td>Codex</td><td>P1；原文兩處已核，需 PO 選邊</td></tr>
+<tr><td>0831 會議要求特展「合作模式、經費及預備期程」</td><td>Codex</td><td>P1；會議紀錄第 48–49 行已核</td></tr>
+<tr><td>腳註 7「無電子版本」不實；基金會全名在期初報告書 p.27</td><td>Codex</td><td>P2；兩份原件已核</td></tr>
+<tr><td>「OT 泛指」、LAB B／C 適用程序</td><td>Codex</td><td>P1；第 96 行已核</td></tr>
+<tr><td>第四章 33 張圖無來源行</td><td>Claude</td><td>P1；PO 9/26「圖都要有來源」裁定</td></tr>
+<tr><td>第三章「定位區隔」「短中長期」未答</td><td>Claude</td><td>P1；需求說明書第 77 行明文</td></tr>
+<tr><td>員額內插約 34 人、時程相對年已過、免費名單矛盾、690 口徑</td><td>Claude</td><td>P1；前三項總控已核</td></tr>
+</table></div>
+<div class="card"><h3>嚴重度分歧</h3>
+<table>
+<tr><th>項</th><th>Claude</th><th>Codex</th><th>採</th><th>理由</th></tr>
+<tr><td>第一章願景、使命句</td><td>P1</td><td>P2</td><td>P1</td><td>需求說明書第 10、73 行明文要求</td></tr>
+<tr><td>可發包性評等</td><td>三章 C</td><td>五章 B</td><td>C</td><td>以「能否直接抄進標案」計</td></tr>
+<tr><td>第四章</td><td>P1×3</td><td>無 P1</td><td>P1</td><td>Codex 自述只審抽文、不判圖下注記；Claude 以 grep 確認 0「資料來源」</td></tr>
+</table>
+<h3 style="margin-top:14px">兩方一致的前 5 項</h3>
+<ol class="small">
+<li>5樓風效／中央機械：第二章開館啟用 vs 第六章升級選配</li>
+<li>5樓片單沒有片名</li>
+<li>1樓三檔特展沒有合作單位、經費、預備期程</li>
+<li>6,000／10,000 流明要標適用範圍</li>
+<li>採購中立：「原團隊」「評估原團隊延續」改為程序性用語</li>
+</ol></div>
+</div>
+</section>
+
+<section class="slide" data-title="Codex 全書前 10 大改進">
+<div class="kicker">Codex 全書總表（codex_all.md）</div>
+<h2>Codex 的前 10 大改進與本報告一致；它額外要求每項寫「完成判準」，施工 spec 直接沿用</h2>
+<table>
+<tr><th style="width:4%">#</th><th style="width:26%">改進</th><th style="width:30%">位置與交付</th><th>完成判準</th></tr>
+<tr><td>1</td><td>統一國際內容與設計發包路徑</td><td>第二章表 2-6-10、章末圖；第六章招標段</td><td>內容授權／共製、設計／製作、工程三者範圍可分辨；不再同時出現採與不採國際標</td></tr>
+<tr><td>2</td><td>設備的基準、選配、適用範圍</td><td>第二章 5樓定位、表 2-6-4、2-6-7；第六章表 6-10 與設備規範</td><td>風效、天燈造形燈光、機械動作各自身分一致；6,000／10,000 流明的使用空間明確</td></tr>
+<tr><td>3</td><td>三年引展的本館經費與準備期程</td><td>第二章三年特展表；第三章財源段引用同表</td><td>每個金額有假設與來源；未取得者明標並列取得方式；不用他館案例價</td></tr>
+<tr><td>4</td><td>既有經費整成全館工作包</td><td>第六章增本館費用範圍表（一次性建置／年度更新／人事／委外）</td><td>3樓 5,000 萬、年維運約 6%、更新 200–300 萬與歲出 1.0–1.6 億可區分、不重算；撥補門檻不變</td></tr>
+<tr><td>5</td><td>LAB 委託標的與 OT 用語</td><td>第二章 LAB B 敘述、第三章契約段、第六章表 6-4／6-5</td><td>既有案例不等於指定得標者；場地與課程分項約定；「部分OT」標題保留、正文不以統稱代替程序</td></tr>
+<tr><td>6</td><td>來源回指與機構身分</td><td>第三章註 15→13、18→9、註 7 刪「無電子版本」；三章統一館名；第二章補基金會全名與期初頁碼</td><td>每一回指可接到資料；「本館」與「國立科教館」不混稱</td></tr>
+<tr><td>7</td><td>開放方式與營運階段</td><td>第二、三章主秀試營運／常態期；第三章 LAB A 非上課條件；第四章特展購票條件</td><td>同一情境只有一種說法；不增時刻表</td></tr>
+<tr><td>8</td><td>素養雷達圖的資料用途 <span class="tag x">新增</span></td><td>第二章圖 2-4-4 與 3樓卡冊說明</td><td>可分辨參與紀錄與能力評量；不以互動數據宣稱個人能力、不新增觀眾排名</td></tr>
+<tr><td>9</td><td>5樓片源改成候選清單</td><td>表 2-6-9 增候選片目、權利單位、格式、待確認事項</td><td>已取得者具名、未取得者明標；題材不冒充片名</td></tr>
+<tr><td>10</td><td>模擬圖如何供標案引用</td><td>第四章第一節補與第二、六章關係；圖 4-5-2 補台座對應</td><td>廠商可分辨確定功能、示意造形、替換題材</td></tr>
+</table>
+<p class="small" style="margin-top:12px">Codex 判斷「真正需要 PO 的決策」只有兩件（國際標路徑、風效是否開館基準），其餘屬編輯補強；本報告的 12 件待決包含 Claude 子代理提出的政策值與歸屬問題，總控保留讓你一次裁示。Codex 另提「科教館」簡稱跨章指不同機構（X8），已列入跨章矛盾第 14 項。</p>
+</section>
+
+<section class="slide" data-title="待人工查證">
+<div class="kicker">程式抓不到的項目</div>
+<h2>8 項要人工查；查不到就照規範標「未取得」，不臆測</h2>
+<table>
+<tr><th>#</th><th>要查什麼</th><th>去哪查</th><th>查不到影響哪句</th></tr>
+<tr><td>1</td><td>願景、使命是否已與文化局定稿</td><td>期初報告書、0618 期初審查紀錄、顧問會議紀錄（information/會議記錄）</td><td>第一章（一）用需求說明書第 74 行為底稿</td></tr>
+<tr><td>2</td><td>2F／4F／5F 平面圖圖號</td><td>information/_業主需求/0需求書附件-科教館各層平面.pdf</td><td>第四章圖 4-1-2／4／5 來源行</td></tr>
+<tr><td>3</td><td>文化局現有編制員額數</td><td>文化局組織規程、人事單位</td><td>第六章員額來源段標「未取得，須由人事單位提供」</td></tr>
+<tr><td>4</td><td>新竹市 4 個作業基金全名與收支保管運用辦法</td><td>新竹市法規查詢系統</td><td>表 6-2 只點名世博台灣館</td></tr>
+<tr><td>5</td><td>促參推動小組停止適用之文號；「地方行政法人 12 個」年份來源</td><td>新竹市法規系統；行政院人事總處</td><td>表 6-5 程序欄、第 65 行</td></tr>
+<tr><td>6</td><td>科工館民國 113 年常設展票價</td><td>科工館官網收費標準歷史版</td><td>第 62 行差額法改同年相減</td></tr>
+<tr><td>7</td><td>國際引進展詢價（會思考的城市／巴黎科學工業城）</td><td>需洽館方或代理</td><td>表 2-2-11 經費欄標「待詢價」</td></tr>
+<tr><td>8</td><td>日本科學未來館、NEMO 票價頁</td><td>兩館官網（需實開）</td><td>第三章第 163 行補腳註或刪句</td></tr>
+</table>
+<p class="small" style="margin-top:12px">總控本次已實開核對：0831 工作會議紀錄第 48–49 行；LAB 課程規劃 PDF（2022/10/18）；期初報告書 p.27（財團法人聯發科技教育基金會）、p.117–118（30–40 人、1.0–1.6 億元）。</p>
+</section>
+
+<section class="slide" data-title="狀態板">
+<div class="kicker">狀態</div>
+<h2>審閱完成、章檔未動；施工要等你裁示 12 件事，其餘 P1 可立即分派各章 session</h2>
+<div class="board">
+<div class="col ok"><h3>已完成</h3>
+<div class="it"><span>Claude 5 章審閱（六面向、優點、問題表、待決）</span><span>claude_ch0X.md</span></div>
+<div class="it"><span>Codex 5 章獨立審閱</span><span>codex_ch0X.md</span></div>
+<div class="it"><span>總控原文核對 8 處矛盾＋4 份原件</span><span>本頁</span></div>
+<div class="it"><span>整併報告</span><span>本 HTML</span></div></div>
+<div class="col part"><h3>可直接施工（不需裁示）</h3>
+<div class="it"><span>跨章矛盾 5–13 改一致</span><span>各章 session</span></div>
+<div class="it"><span>第四章來源行＋導讀；第三章註 15／18、定位比較表、分期表</span><span>總控／撰寫三</span></div>
+<div class="it"><span>第六章自有收入表、歲出組成表、排程表、員額來源段、設備共通條款</span><span>撰寫六</span></div>
+<div class="it"><span>模板句、自創詞、「（推測）」改寫</span><span>各章</span></div></div>
+<div class="col no"><h3>卡在你</h3>
+<div class="it"><span>國際標／風效／1樓共製／每班人數 4 處選邊</span><span>決定 1、2、5、9</span></div>
+<div class="it"><span>願景使命、藝術風格歸屬、3樓三式、經費公開、排程組合</span><span>決定 3、4、6、7</span></div>
+<div class="it"><span>判準值、開館基準年、弱勢名額、場租、設備數量</span><span>決定 10–12</span></div>
+<div class="it"><span>Codex 全書總表已到（前 10 大改進見第 14 頁）</span><span>已整併</span></div></div>
+</div>
+</section>
+
+<section class="slide" data-title="待你決定">
+<div class="kicker">待決</div>
+<h2>12 件事要你點頭，回「編號＋選項」即可（本頁 1–6：四處選邊與兩個歸屬）</h2>
+<div class="decide">
+<div class="card"><span style="flex:1;min-width:0">5樓國際內容採購：<b>A</b> 依第六章「內容授權／共製獨立標案，不另開國際標」，改第二章表 2-6-10 與章末圖 ｜ <b>B</b> 依第二章「展示設計採國際標」，改第六章第 366 行</span><span class="tag p0 rec">建議 A</span><small>第六章有法定路徑分析支撐；第二章「國際標」只出現在表格與圖，沒有論證。</small></div>
+<div class="card"><span style="flex:1;min-width:0">5樓開館是否啟用風效與中央機械裝置：<b>A</b> 依第六章列升級選配，第二章表 2-6-7 改「選配」 ｜ <b>B</b> 開館即啟用，第六章表 6-10 改寫</span><span class="tag p0 rec">建議 A</span><small>第六章已分析結構荷重與機電圖說未確認；主秀敘事以投影呈現升空畫面即可保留。</small></div>
+<div class="card"><span style="flex:1;min-width:0">願景、使命正式文字：<b>A</b> 已有期初核定版，提供原文放入第一章（一） ｜ <b>B</b> 沒有，以需求說明書第 74 行使命句為底稿由 AI 擬</span><span class="tag p1 rec">請告知</span><small>information/ 未查到明文，屬「未取得」。</small></div>
+<div class="card"><span style="flex:1;min-width:0">「藝術風格的科學實驗場」：<b>A</b> 全館主題風格（第一章刪「暫定」，第二章第 783 行 3樓定位另寫） ｜ <b>B</b> 只屬 3樓（第一章該段改寫）</span><span class="tag p1 rec">請告知</span><small>兩章共用同一標語，指涉不清。</small></div>
+<div class="card"><span style="flex:1;min-width:0">1樓在地共製展內容來源：<b>A</b> 生活議題、學校課程、公開資料（1樓節寫法），大學研究單位提供方法 ｜ <b>B</b> 大學、研究單位、產業提供科研議題（全館節寫法）</span><span class="tag p1 rec">建議 A</span><small>1樓節有完整方案支撐；全館節只有一句。</small></div>
+<div class="card"><span style="flex:1;min-width:0">3樓「三式」：<b>A</b> 接受「室內單一常設展＋戶外三案＋第三年換展試辦」對應需求，補一句說明 ｜ <b>B</b> 補三個常設展替代方案</span><span class="tag p1 rec">建議 A</span><small>3樓依前案單一方案為 PO 先前裁定；B 工作量大且與前案衝突。</small></div>
+</div>
+</section>
+
+<section class="slide" data-title="待你決定（7–12）">
+<div class="kicker">待決（續）</div>
+<h2>第 7 至 12 件：經費與排程、寫法統一、判準值、政策值、設備與模擬圖</h2>
+<div class="decide" style="counter-reset:d 6">
+<div class="card"><span style="flex:1;min-width:0">第二章經費與排程：各樓層經費量級 <b>A</b> 在第二章公開 ｜ <b>B</b> 統一引用第六章；2樓三年排程 <b>A</b> 第 1 年方案一、第 2 年方案二、第 3 年方案三 ｜ <b>B</b> 依第 315 行開館組合另排</span><span class="tag p1 rec">建議 B＋A</span><small>經費集中第六章一處維護；排程 A 可直接對應表 2-3-6。</small></div>
+<div class="card"><span style="flex:1;min-width:0">「（推測）」全書寫法：<b>A</b> 改「（估算）」並於各章首次出現處加一句總說明，能寫依據者寫依據 ｜ <b>B</b> 維持</span><span class="tag p1 rec">建議 A</span><small>report-tone 第 10 條保留「（推測）」，但 26 行無依據在公開文件像工作稿；A 不牴觸第 24 條去重。</small></div>
+<div class="card"><span style="flex:1;min-width:0">學校團體每班人數：<b>A</b> 統一 30 人（規劃值），分組輪替寫「每班以 25 人計」並寫出算式 ｜ <b>B</b> 統一 25 人 ｜ <b>C</b> 兩數並存並說明差異</span><span class="tag p1 rec">建議 C</span><small>30 是排課單位、25 是 LAB 容量；只要寫出 100 人上限算式即可。</small></div>
+<div class="card"><span style="flex:1;min-width:0">第六章判準與時程：行政法人財務判準 <b>A</b> 以臺南市美術館 31.27% 為參照下限 ｜ <b>B</b> 只列指標不設值；116 年開館基準 <b>A</b> 維持，逾期項標「須壓縮」 ｜ <b>B</b> 順延</span><span class="tag p1 rec">建議 A＋A</span><small>50% 仍為預算監督門檻不動；撥補門檻 1.0／1.6 億不動。</small></div>
+<div class="card"><span style="flex:1;min-width:0">第三章政策值：弱勢名額量化（每學期○校○人次、委外課程○%）；5樓場租 <b>A</b> 維持 15,000 元單一價並補設備差異論據 ｜ <b>B</b> 分教育／商業兩級；定位比較表是否納入兒童新樂園、科教館兒探館</span><span class="tag p2 rec">請告知</span><small>弱勢名額屬政策決定，報告書需要一個數字才能寫進契約。</small></div>
+<div class="card"><span style="flex:1;min-width:0">設備與模擬圖：設備數量 <b>A</b> 本報告給量級表 ｜ <b>B</b> 留展示設計標，設備節改「規格範本」；模擬圖來源 <b>A</b> 一律「本案繪製」 ｜ <b>B</b> 逐張註底圖；圖 4-5-2「半導體製程體驗台」<b>A</b> 改題為更新型台座 ｜ <b>B</b> 保留</span><span class="tag p2 rec">建議 A／A／A</span><small>A 讓文化局可先編概算；模擬圖若確有用細設簡報底圖者再逐張註。</small></div>
+</div>
+</section>
+
+<section class="slide" data-title="檔案位置與下一步">
+<div class="kicker">檔案</div>
+<h2>審閱原稿與本報告位置；你裁示後的施工順序</h2>
+<div class="flow">
+<div class="st"><b>審閱對象</b><small>workingfiles/W_章節分工區/<br>W_01／02／03／04／06_期末報告書_第X章_2026-09-26.docx<br>（未動）</small></div><div class="ar">→</div>
+<div class="st"><b>抽文與 SPEC</b><small>workingfiles/_ai_share/_review0927/<br>ch0X.md、需求說明書.md、REVIEW_SPEC.md</small></div><div class="ar">→</div>
+<div class="st"><b>審閱原稿</b><small>claude_ch01～06.md（5 份）<br>codex_ch01～06.md（5 份）＋ codex_all.md</small></div><div class="ar">→</div>
+<div class="st"><b>本報告</b><small>workingfiles/彙報_期末報告書品質審閱_2026-09-27/index.html</small></div>
+</div>
+<h3 style="margin-top:22px">你確認後的執行順序</h3>
+<div class="flow">
+<div class="st"><b>1 裁示</b><small>回 12 件決定的編號＋選項</small></div><div class="ar">→</div>
+<div class="st"><b>2 分派</b><small>第二章→寫二；第三章→撰寫三；第六章→撰寫六；第一、四章→總控。每章 spec json 只列改動段與新增表</small></div><div class="ar">→</div>
+<div class="st"><b>3 寫入</b><small>W_colab：備份→diff 拆檔基準→就地增量→部件解析、標題清單不變、腳註參照⊆定義、註解 0</small></div><div class="ar">→</div>
+<div class="st"><b>4 驗收</b><small>Codex 複審跨章一致性 13 項；LibreOffice 渲染抽頁；你在 Word 目視</small></div>
+</div>
+<p class="small">章、節、（一）小節標題全程不動；PO 已裁定事項（動線由下而上、特展 100／50、撥補門檻、作業基金＋部分委外→行政法人、時刻表等不補）本報告未提出任何推翻。</p>
+</section>
+
+<div id="toc"></div>
+<div id="nav"><span class="title">期末報告書品質審閱｜Claude ＋ Codex 整併｜2026-09-27</span><span><span id="pos"></span> <button onclick="go(-1)">←</button><button onclick="go(1)">→</button><button onclick="toggleToc()">目錄</button></span></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const toc=document.getElementById('toc');
+slides.forEach((s,k)=>{const a=document.createElement('a');a.href='#';a.textContent=(k+1)+'. '+s.dataset.title;a.onclick=e=>{e.preventDefault();show(k);toc.classList.remove('open')};toc.appendChild(a)});
+function show(k){i=Math.max(0,Math.min(slides.length-1,k));slides.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('pos').textContent=(i+1)+' / '+slides.length;[...toc.children].forEach((a,j)=>a.classList.toggle('cur',j===i));location.hash='s'+(i+1);window.scrollTo(0,0)}
+function go(d){show(i+d)}
+function toggleToc(){toc.classList.toggle('open')}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}if(e.key==='Escape')toc.classList.remove('open')});
+const m=location.hash.match(/^#s(\d+)$/);show(m?parseInt(m[1])-1:0);
+</script>
+</body></html>
