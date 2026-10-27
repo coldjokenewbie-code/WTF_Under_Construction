@@ -3,13 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-27 08:30**：覆寫今日快報。昨夜（10-26 19:06提醒棒後）四顆循環棒（19:35/21:55/23:35/01:35）全數心跳秒退，19:36 chain-capability探測仍FAIL，QUEUE整欄仍無待規劃/active項，**0 mission增量**。證據：`missions/heartbeat.log`尾5行。night-relay領先main共1471 commits（歷史分叉累積，非昨夜新增）；**main另有1個未併入commit**（`003d771` nightly-20261027，與本mission無關之其他repo lesson更新）尚未併入night-relay。連續**127夜零active**。
-**待核准/提名清單**（無變動）：`20260706-guide-app`(優先2,卡氛圍底圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾待使用者結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers新增項**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**111天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
-**chain-capability**：仍FAIL（連續PASS計數0）。
-**合併建議（收貨＝merge night-relay 進 main 的指令原文）**：
-- 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
-- 不收：`git push origin +main:night-relay`
+**提醒棒 2026-10-27 19:13**：覆寫今日快報。先併main（0衝突；新增`session-logs/20261027.md`、`tools/review_page/template_review_slides.html`、`wtf-config/LESSONS.md`、`wtf-config/playbooks/delivery-conventions.md`，皆與本mission無關），main現已**全數併入night-relay（0未併commit）**。QUEUE整欄仍**無待規劃/active項**（現況：parked×2／待核准×2／done×2／提名×5），今日凌晨01:35棒前連續四棒心跳皆秒退。連續**128夜零active**。
+**待核准/提名清單**：`20260706-guide-app`(優先2,卡氛圍底圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾，待使用者直接結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**產能算術（義務）**：目前**0個active案**，無backlog可燃燒；今晚排定4棒（19:30/21:30/23:30/01:30），因QUEUE無待規劃/active項，預期全數秒退，**無完成日可推算**。若今晚核准`guide-app`改active（剩4項backlog），以「每棒一項」估最快4棒（約2天）可到下個milestone；`test-baton-pickup-0706`backlog已全勾，核准後可直接改`done`，無需再排棒。
+**blockers待決**：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**111天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
+**chain-capability**：仍FAIL（連續PASS計數0，CronCreate durable參數仍無效）。
 佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
 
 ## 佇列
