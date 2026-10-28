@@ -169,6 +169,7 @@ def registry_rows():
     registry 表頭：| project | github | <hostname-A> | <hostname-B> | ...
     依本機 hostname 找對應「機器欄」，回傳 [{project, github, path}]。
     只含 path 非佔位（非全形「（」開頭）且非空的列；不檢查目錄是否存在。
+    路徑欄以「；」分隔多條時，每條路徑各回傳一個 row（project 相同）。
     """
     if not REGISTRY.exists():
         sys.exit(f"[錯誤] 找不到專案註冊表: {REGISTRY}")
@@ -196,11 +197,13 @@ def registry_rows():
         if len(cols) <= host_idx:
             continue
         project = cols[0]
-        path = cols[host_idx]
         github = cols[gh_idx] if (gh_idx is not None and len(cols) > gh_idx) else ""
-        if not path or path.startswith("（"):          # 佔位/未部署
-            continue
-        rows.append({"project": project, "github": github, "path": path})
+        # 路徑欄可用全形分號「；」列多條路徑（例：Drive 工作夾；git_mirror 副本），每條各自部署與檢查
+        # （2026-10-28 PO 核准：此前每專案只取一格，另一軌副本從不更新、check 也不驗）
+        for path in (seg.strip() for seg in cols[host_idx].split("；")):
+            if not path or path.startswith("（"):      # 佔位/未部署
+                continue
+            rows.append({"project": project, "github": github, "path": path})
     if host_idx is None:
         print(f"  ! [WARN] registry 表頭無本機 hostname 欄: {hostname}", file=sys.stderr)
     return rows
