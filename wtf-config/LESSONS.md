@@ -429,3 +429,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - ChildrenFuture｜2026-10-27｜後補資料要回推前段投影片（S5 只剩臺史博）；跨案歸類先看細項（國圖大廳＝多媒體）；審閱意見逐條回原件核；Codex＋Gemini flash 雙審互補；codex exec 非 git 目錄加 --skip-git-repo-check 與 </dev/null｜projects/ChildrenFuture/_context/lessons-learned.md#2026-10-27
 - ChildrenFuture｜2026-10-28｜審閱頁一律套提交格式不等提醒；業主已有用語（介面）直接用、不另取白話代稱；用書面語不寫「要你看」；轉給同事的頁面來源只給官方網址；採購網人工下載用 ⌘P 存 PDF｜projects/ChildrenFuture/_context/lessons-learned.md#2026-10-28
 - 南科再生水廠｜2026-10-28｜PowerPoint 開著的 pptx 被改寫會報「內容有問題」，關掉重開即正常；特急只省樣張不省驗收、已知錯誤不交；刪除被引用的元素（頁碼）前先點出依賴；多線並行時 PO 決策集中一頁可勾選回覆｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-28
+- Planner2Line｜2026-10-28｜CloudStorage 讀到「不存在」先重讀或換 find/stat 再下缺檔結論（Drive 同步延遲曾誤報）；多版本比對讓每段輸出自帶標籤，不靠 diff 方向推斷｜projects/Planner2Line/_context/lessons-learned.md#2026-10-28
