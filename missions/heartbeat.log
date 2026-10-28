@@ -486,4 +486,4 @@
 2026-10-28 01:38 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（parked×2／待核准×2／done×2／提名×5）
 2026-10-28 19:21 台北｜棒醒了｜model=claude-sonnet-5｜提醒棒19:00：先併main（0未併commit）＋QUEUE無待規劃/active項，彙整快報（連續129夜零active）
 2026-10-28 19:39 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確相等；現況parked×2/待核准×2/done×2/提名×5）
-2026-10-28 21:38 台北｜棒醒了｜model=Sonnet 5
+2026-10-28 21:38 台北｜棒醒了｜model=Sonnet 5｜秒退:QUEUE無待規劃/active項(整欄精確比對：parked×2/待核准×2/done×2/提名×5)
