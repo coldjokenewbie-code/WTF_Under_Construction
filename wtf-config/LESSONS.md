@@ -431,3 +431,5 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - 南科再生水廠｜2026-10-28｜PowerPoint 開著的 pptx 被改寫會報「內容有問題」，關掉重開即正常；特急只省樣張不省驗收、已知錯誤不交；刪除被引用的元素（頁碼）前先點出依賴；多線並行時 PO 決策集中一頁可勾選回覆｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-28
 - Planner2Line｜2026-10-28｜CloudStorage 讀到「不存在」先重讀或換 find/stat 再下缺檔結論（Drive 同步延遲曾誤報）；多版本比對讓每段輸出自帶標籤，不靠 diff 方向推斷｜projects/Planner2Line/_context/lessons-learned.md#2026-10-28
 - 南科再生水廠｜2026-10-28｜launchd 觸發 cmux 發訊被拒，排程須驗證端到端送達｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-28
+- 3Dstudy｜2026-10-15｜Codex 沙盒內開不了 Chromium 時，由主 agent 背景跑白名單代跑器（佇列檔一次一支），Codex 照常做瀏覽器驗證與錄影｜projects/3Dstudy/_context/lessons-learned.md
+- 3Dstudy｜2026-10-15｜分享包以無頭瀏覽器追蹤實際請求決定收錄檔，解壓到新位置另開埠實測；提示詞內本機絕對路徑先替換｜projects/3Dstudy/_context/lessons-learned.md
