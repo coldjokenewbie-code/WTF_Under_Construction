@@ -3,15 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-29 08:30**：覆寫今日快報（night-relay領先main 1498 commits歷史分叉累積非昨夜產出；main另有1個未併入commit `ec4b936` nightly-20261029同步，與本mission無關）。昨夜19:00提醒棒併main後，19:30/21:38/23:30/01:30四顆循環棒QUEUE仍無待規劃/active項，全數心跳秒退，**0 mission增量**，連續**130夜零active**。
-**新增內容（非mission，待三藏核准）**：22:19一次性提案「規範整理優化提案2026-10-28」，審查`wtf-config/`共44檔，提15條建議（自創名詞統一、失效引用修正、驗證規則三處矛盾等），**未改任何規範檔**，證據：`_context/Plan_2026-10-28_規範整理優化.md`＋簡報`workingfiles/outputs/規範整理_2026-10-28/index.html`（commit `7140fec`）。
-**待核准/提名清單**（無變動）：`20260706-guide-app`(優先2,卡氛圍底圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾，待使用者直接結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**提醒棒 2026-10-29 19:00**：先併main（1 commit `ec4b936` nightly-20261029同步，已無衝突合併）。QUEUE仍無待規劃/active項，**連續130夜零active**，今晚19:30/21:30/23:30/01:30四顆循環棒預期全數秒退。
+**待核准/提名清單**（無變動）：`20260706-guide-app`(優先2,backlog剩4項未勾,卡氛圍底圖/縮圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾，待使用者直接結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**產能算術**：0 active案，今晚排定4棒，無可推進項目→預計完成日N/A。若`guide-app`風格裁決後改回active，剩4項backlog，以每棒一項計約需4棒（~1天）可清；`test-baton-pickup-0706`backlog已全勾，0棒即可結案（僅待使用者改狀態）。
 **blockers**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**113天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
 **chain-capability**：仍FAIL（CronCreate durable參數無效，連續PASS計數0）。
-**合併建議（收貨＝merge night-relay 進 main 的指令原文）**：
-- 收貨：`git checkout main && git merge night-relay --no-edit && git push origin main`
-- 不收：`git push origin +main:night-relay`
-main的`ec4b936`屬獨立nightly同步，收貨時一併帶入；規範整理提案核准/駁回請直接回覆本報告。佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
+佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
 
 ## 佇列
 
