@@ -501,7 +501,25 @@ def audit_bypass(event: dict) -> None:
                 {"schema": 1, "warning": "WTF_SESSION_GATE_BYPASS=1", "created_at": now()})
 def parse_stdin() -> dict:
     try:
-        value = json.load(sys.stdin)
+        raw = sys.stdin.read()
+        if raw.strip() == "":
+            try:
+                log_path = os.path.expanduser("~/.claude/wtf-session-state/empty-stdin.log")
+                os.makedirs(os.path.dirname(log_path), exist_ok=True)
+                try:
+                    cwd = os.getcwd()
+                except Exception:
+                    cwd = "cwd-unavailable"
+                timestamp = datetime.now().astimezone().isoformat(timespec="seconds")
+                subcommand = sys.argv[1] if len(sys.argv) > 1 else ""
+                program = f"wtf-session-gate {subcommand}".strip()
+                argv_text = " ".join(sys.argv[1:])
+                with open(log_path, "a", encoding="utf-8") as log_file:
+                    log_file.write(f"{timestamp}\t{program}\t{cwd}\t{argv_text}\n")
+            except Exception:
+                pass
+            sys.exit(0)
+        value = json.loads(raw)
     except Exception as error:
         raise GateError(f"malformed hook JSON: {error}") from error
     if not isinstance(value, dict):
