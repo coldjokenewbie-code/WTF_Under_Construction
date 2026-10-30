@@ -3,11 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-29 19:00**：先併main（1 commit `ec4b936` nightly-20261029同步，已無衝突合併）。QUEUE仍無待規劃/active項，**連續130夜零active**，今晚19:30/21:30/23:30/01:30四顆循環棒預期全數秒退。
-**待核准/提名清單**（無變動）：`20260706-guide-app`(優先2,backlog剩4項未勾,卡氛圍底圖/縮圖/hero風格路線裁決)／`test-baton-pickup-0706`(優先9,backlog全勾，待使用者直接結案)；提名5項未挑：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**產能算術**：0 active案，今晚排定4棒，無可推進項目→預計完成日N/A。若`guide-app`風格裁決後改回active，剩4項backlog，以每棒一項計約需4棒（~1天）可清；`test-baton-pickup-0706`backlog已全勾，0棒即可結案（僅待使用者改狀態）。
-**blockers**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**113天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
+**晨報棒 2026-10-30 08:30**：昨夜提醒棒19:00後四顆循環棒（19:35/21:59/23:58/01:35）全數心跳秒退，**0 mission增量，連續132夜零active**。main另有1個未併入commit `9e40aec`（nightly-20261030同步，無工作活動，與本mission無關）。
+**證據位置**：`missions/heartbeat.log`（night-relay）各秒退行；QUEUE狀態整欄比對：parked×2／待核准×2／done×2／提名×5，無`待規劃`/`active`。
+**新blockers**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**114天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
 **chain-capability**：仍FAIL（CronCreate durable參數無效，連續PASS計數0）。
+**合併指令原文**：收貨（併進main）＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
 
 ## 佇列
