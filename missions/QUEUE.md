@@ -3,10 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-10-30 08:30**：昨夜提醒棒19:00後四顆循環棒（19:35/21:59/23:58/01:35）全數心跳秒退，**0 mission增量，連續132夜零active**。main另有1個未併入commit `9e40aec`（nightly-20261030同步，無工作活動，與本mission無關）。
-**證據位置**：`missions/heartbeat.log`（night-relay）各秒退行；QUEUE狀態整欄比對：parked×2／待核准×2／done×2／提名×5，無`待規劃`/`active`。
-**新blockers**：無新增。既有未決：`guide-app`風格路線裁決（氛圍底圖/縮圖/hero統一路線）＋anchor升級提案，2026-07-09起已**114天未裁決**；`machine-report`驗收未過，待使用者補充具體修改點；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
-**chain-capability**：仍FAIL（CronCreate durable參數無效，連續PASS計數0）。
+**提醒棒 2026-10-30 19:00**：已併main（1 commit `97e993b`：session-logs/20261030同步＋stop_dispatcher/session-gate hook微調，無衝突）。QUEUE整欄比對：待核准×2／parked×2／done×2／提名×5，無`待規劃`/`active`項——**連續133夜零active**。
+**待核准清單**：`20260706-guide-app`（優先2，M2已達成，卡氛圍底圖/縮圖/hero風格統一路線裁決）；`test-baton-pickup-0706`（優先9，探針backlog全勾，建議使用者直接結案）。
+**提名清單**（候選，棒子不碰，待改「待規劃」才啟動）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers待決**：`guide-app` anchor升級提案（字級收斂驗收法）自07-09起**113天未裁決**；`machine-report`驗收未過自07-21起**101天**待補具體修改點（否則無法判斷小修或整篇重寫）；`wtf-config/nightly-prompt.md`排程貼回仍待使用者手動操作。
+**產能算術**：目前 0 active案，無剩餘backlog可供「每棒一項」倒數；2個待核准案需使用者核准改`active`才能排入今晚循環棒。
+**chain-capability**：仍FAIL（CronCreate `durable`參數無效，連續PASS計數0）。
+**今晚計畫**：循環棒19:30/21:30/23:30/01:30共4棒；若main無新核准動作，4棒將依規秒退（QUEUE無待規劃/active項）。
 **合併指令原文**：收貨（併進main）＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 佇列非空（待核准×2／提名×5）但無可作項；派工／核准請在main的QUEUE.md編輯。
 
