@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -30,7 +32,25 @@ def run_hook(path: Path, payload: dict, args: list[str] = []) -> tuple[dict | No
 
 def main() -> int:
     try:
-        payload = json.load(sys.stdin)
+        raw = sys.stdin.read()
+        if raw.strip() == "":
+            try:
+                log_path = os.path.expanduser("~/.claude/wtf-session-state/empty-stdin.log")
+                os.makedirs(os.path.dirname(log_path), exist_ok=True)
+                try:
+                    cwd = os.getcwd()
+                except Exception:
+                    cwd = "cwd-unavailable"
+                timestamp = datetime.now().astimezone().isoformat(timespec="seconds")
+                subcommand = sys.argv[1] if len(sys.argv) > 1 else ""
+                program = f"stop_dispatcher {subcommand}".strip()
+                argv_text = " ".join(sys.argv[1:])
+                with open(log_path, "a", encoding="utf-8") as log_file:
+                    log_file.write(f"{timestamp}\t{program}\t{cwd}\t{argv_text}\n")
+            except Exception:
+                pass
+            sys.exit(0)
+        payload = json.loads(raw)
         if not isinstance(payload, dict):
             raise ValueError("hook input must be an object")
     except Exception as error:
