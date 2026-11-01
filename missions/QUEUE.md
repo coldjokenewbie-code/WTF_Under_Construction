@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-10-31 19:00**：已進night-relay並併main（新增1 commit `7d5b0ca`，nightly同步無工作活動，與mission無關）。
+**晨報棒 2026-11-01 08:30**：已進night-relay並併main（新增1 commit `2cd71ca`，nightly同步同樣無工作活動，與mission無關）。昨夜（10-31 19:00提醒棒後）4顆循環棒心跳（19:36/21:35/23:35/01:35）全秒退，**0 mission增量**。
 **待核准清單**：`20260706-guide-app`（優2，卡氛圍底圖/縮圖/hero風格裁決）；`test-baton-pickup-0706`（優9，backlog全勾，建議直接結案）。
 **提名清單**（候選，未啟動）：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——後4項掛載repo未補掛，詳第6節。
-**blockers待決**：`guide-app`氛圍底圖/縮圖/hero風格統一路線（待重拍截圖裁決，07-08起）＋anchor升級提案（自07-09起**115天未裁決**）；`machine-report`驗收未過待補具體修改點（自07-21起**103天**）。均無新增。
+**blockers待決**：`guide-app`氛圍底圖/縮圖/hero風格統一路線（待重拍截圖裁決，07-08起）＋anchor升級提案（自07-09起**116天未裁決**）；`machine-report`驗收未過待補具體修改點（自07-21起**104天**）。均無新增。
 **產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆（19:30/21:30/23:30/01:30），因QUEUE無`待規劃`/`active`項，**全數將秒退，預計完成日＝無（無可作項）**。要恢復產出，需使用者將上述待核准任一行改`active`，或提名清單改`待規劃`。
-**連續天數**：**137夜零active**（自基準日起算）。
+**連續天數**：**140夜零active**。chain-capability探測仍延續FAIL。
 **合併建議（收貨指令原文）**：收貨＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 
 ## 佇列
