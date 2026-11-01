@@ -433,3 +433,6 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - 南科再生水廠｜2026-10-28｜launchd 觸發 cmux 發訊被拒，排程須驗證端到端送達｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-28
 - 3Dstudy｜2026-10-15｜Codex 沙盒內開不了 Chromium 時，由主 agent 背景跑白名單代跑器（佇列檔一次一支），Codex 照常做瀏覽器驗證與錄影｜projects/3Dstudy/_context/lessons-learned.md
 - 3Dstudy｜2026-10-15｜分享包以無頭瀏覽器追蹤實際請求決定收錄檔，解壓到新位置另開埠實測；提示詞內本機絕對路徑先替換｜projects/3Dstudy/_context/lessons-learned.md
+- 南科再生水廠｜2026-10-30｜寫入 PO 開著的簡報後，PO 存檔會蓋掉 AI 寫入；動檔與送審前都要比對自己上次寫入的 MD5，不符就以 PO 版為底重套｜projects/南科再生水廠/_context/lessons-learned.md#2026-10-30
+- VoiceInk｜2026-11-01｜潤飾失效先看 App log：上游模型（3.8 Flash）不回應會被 7 秒逾時吞成空白潤飾；`defaults read` 的 Data 值要解碼再判斷金鑰｜projects/VoiceInk/_context/lessons-learned.md
+- 南科再生水廠｜2026-11-01｜pptx「內容有問題」第三次重演，真因皆為 PowerPoint 開著時 AI 覆寫；改為寫入前必查 ~$ 鎖檔＋lsof、命中即改存複本不覆寫｜`wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo）
