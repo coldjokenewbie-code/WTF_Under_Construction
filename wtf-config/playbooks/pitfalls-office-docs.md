@@ -102,3 +102,5 @@ python-pptx／XML 手改產出的 pptx，LibreOffice 轉檔與 ElementTree 解�
 4. 回報「已寫入」時附上鎖檔與 `lsof` 的查證結果，沒附＝沒查。
 
 **為什麼每次都要讀本檔**：GLOBAL.md 路由表已規定「pptx／docx／gen 腳本」情境先開本檔；本段是第一道，刪頁／改 rPr 等後段規則都以檔案已安全可寫為前提。
+
+**機檢（PO 2026-11-01 核准）**：PreToolUse hook `office-lock-gate.py` 對 Bash／Write／Edit 輸入裡的 `.pptx/.docx/.xlsx` 路徑做上述第 1 項檢查，檔案開著即拒絕執行；只認字面路徑，腳本內組出的路徑仍靠本段規則。失效即放行（空 stdin、壞 JSON、例外、lsof 逾時都 exit 0）。停用：建立空檔 `~/.claude/wtf-session-state/office-lock-gate.off`；擋下與放行紀錄在同目錄 `office-lock-gate.log`。
