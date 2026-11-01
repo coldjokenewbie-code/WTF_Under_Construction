@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""審閱頁交付：Edge 已開著同一頁就重新整理該分頁（不搶前景），沒有才背景開新分頁。
+"""審閱頁交付：Edge 已開著同一頁就重新整理該分頁（實測不搶前景）；沒開著就 open -g 開新分頁，並立刻把前景還給原本的 app。
+2026-11-01 實測（Edge 156）：open -g、AppleScript 新增分頁、改分頁網址都會讓 Edge 跳到前景；只有 reload 不會。
+開完立刻 open -b 原 app，Edge 只在前景約 0.05 秒。
 用法：python3 reload_or_open.py <html 絕對或相對路徑>"""
 import os, subprocess, sys, urllib.parse
 
@@ -25,8 +27,13 @@ def main(path):
             subprocess.run(['osascript', '-e', f'tell application "Microsoft Edge" to reload tab {t} of window {w}'])
             print(f'reloaded window {w} tab {t}')
             return
+    front = subprocess.run(['lsappinfo', 'info', '-only', 'bundleID', subprocess.run(['lsappinfo', 'front'], capture_output=True, text=True).stdout.strip()],
+                           capture_output=True, text=True).stdout.split('"')
+    prev = front[3] if len(front) > 3 else ''
     subprocess.run(['/usr/bin/open', '-g', target])
-    print('opened new')
+    if prev and prev != 'com.microsoft.edgemac':
+        subprocess.run(['/usr/bin/open', '-b', prev])
+    print(f'opened new (前景還給 {prev or "未知"})')
 
 if __name__ == '__main__':
     main(sys.argv[1])
