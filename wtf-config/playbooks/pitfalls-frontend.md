@@ -40,3 +40,4 @@
 - 平整片層即使幾何正確，暈渲與平滑法向仍可能造成雕刻凹凸的視覺誤解；預設平面著色，印刷另開關，另讀回 STEP 面型與上下 Z。
 - 展開變形只作用於地形／水系，不重設背景 mesh 的 Z，否則照片牆共面閃爍。
 - 長頁高 DPR 全頁截圖失敗可改逐區擷取；PDF 須實際驗頁碼，長網址／SHA256 要可換行，避免手機溢出。
+- macOS Edge 156 開本機審閱頁：`open -g`、AppleScript `make new tab`、改既有分頁 URL 都會讓 Edge 變前景 app（lsappinfo 每 0.05 秒取樣實測，2026-11-01）；只有 AppleScript `reload` 已開分頁不會。用 `tools/review_page/reload_or_open.py`：已開就 reload，沒開就 `open -g` 後立刻 `open -b <原前景 bundleID>` 還回前景（40 次取樣未見 Edge）。
