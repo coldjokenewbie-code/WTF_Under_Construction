@@ -437,3 +437,5 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - VoiceInk｜2026-11-01｜潤飾失效先看 App log：上游模型（3.8 Flash）不回應會被 7 秒逾時吞成空白潤飾；`defaults read` 的 Data 值要解碼再判斷金鑰｜projects/VoiceInk/_context/lessons-learned.md
 - 南科再生水廠｜2026-11-01｜pptx「內容有問題」第三次重演，真因皆為 PowerPoint 開著時 AI 覆寫；改為寫入前必查 ~$ 鎖檔＋lsof、命中即改存複本不覆寫｜`wtf-config/playbooks/pitfalls-office-docs.md`（WTF repo）
 - 南科再生水廠｜2026-11-02｜pptx「內容有問題」無鎖檔時查 zip 部件名：中文 media 檔名 PowerPoint 判損毀、LibreOffice 照開；候選檔開給 PO 前必在獨立程序 testzip＋XML 解析｜`wtf-config/playbooks/pitfalls-office-docs.md` 末段
+- 南科再生水廠｜2026-11-02｜替實體展項渲染圖加標示前先確認是解說標註還是裝置上的實際輸出，後者用小樣讓 PO 選（包管標籤帶／印刷／銘牌）；圖有裁切先算可見範圍｜projects/南科再生水廠/_context/lessons-learned.md#2026-11-02
+- 南科再生水廠｜2026-11-02｜Claude Code 背景對話 /exit 關不掉要 claude stop；轉背景後原 cmux 分頁變 shell，cmux --paste 會被當指令執行，跨對話聯絡改 SendMessage｜projects/南科再生水廠/_context/lessons-learned.md#2026-11-02
