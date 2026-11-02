@@ -103,4 +103,16 @@ python-pptx／XML 手改產出的 pptx，LibreOffice 轉檔與 ElementTree 解�
 
 **為什麼每次都要讀本檔**：GLOBAL.md 路由表已規定「pptx／docx／gen 腳本」情境先開本檔；本段是第一道，刪頁／改 rPr 等後段規則都以檔案已安全可寫為前提。
 
-**機檢（PO 2026-11-01 核准）**：PreToolUse hook `office-lock-gate.py` 對 Bash／Write／Edit 輸入裡的 `.pptx/.docx/.xlsx` 路徑做上述第 1 項檢查，檔案開著即拒絕執行；只認字面路徑，腳本內組出的路徑仍靠本段規則。失效即放行（空 stdin、壞 JSON、例外、lsof 逾時都 exit 0）。停用：建立空檔 `~/.claude/wtf-session-state/office-lock-gate.off`；擋下與放行紀錄在同目錄 `office-lock-gate.log`。
+**機檢（PO 2026-11-01 核准）**：PreToolUse hook `office-lock-gate.py` 對 Bash／Write／Edit 輸入裡的 `.pptx/.docx/.xlsx` 路徑做上述第 1 項檢查，檔案開著即拒絕執行；只認字面路徑，腳本內組出的路徑仍靠本段規則。失效即放行（空 stdin、壞 JSON、例外、lsof 逾時都 exit 0）。停用：建立空檔 `~/.claude/wtf-session-state/office-lock-gate.off`；擋下與放行紀錄在同目錄 `office-lock-gate.log`。 **其他機器**（PO 2026-11-02 核准全機安裝）：pull 後各跑一次 `python3 workingfiles/outputs/_shared/_scripts/office-lock-gate_install.py`（複製 hook 進 `~/.claude` 設定並備份 settings.json），只對之後新開的 session 生效。
+
+## zip 層新增的 media 部件名必須 ASCII——中文檔名＝PowerPoint 判損毀、LibreOffice 照開（2026-11-02 南科再生水廠）
+
+**症狀**：PO 開 `W_A-2廠區互動模型.pptx` 跳「內容有問題，可以嘗試修復」。無鎖檔、無 `lsof`，不是開著被覆寫；zip testzip、全部 XML 解析、rels／Content_Types／sldIdLst 一致、無重複 id 全過；LibreOffice 轉 PDF 正常。
+
+**真因**：zip 層插圖時把兩張圖命名 `ppt/media/slide5_p4區名_1101.png`、`slide5_p4套疊_1101.png`（非 ASCII，zip 旗標 2048）。OPC 部件名只允許 ASCII（含百分比編碼）；PowerPoint 嚴格、LibreOffice 寬鬆。二分法證據：插頁前備份不跳；只把兩張圖改名 `image35/36.png`＋同步 `slide5.xml.rels` 就不跳（PO 2026-11-02 親見）。同檔 `docProps/app.xml` 標題清單過時（19 vs 20 張）**不是**本次觸發因素，單修 app.xml 仍跳。
+
+**規則**：
+1. zip 層新增任何部件（media／slide／rels）一律 ASCII 檔名，沿用 `imageNN.png`、`slideNN.xml` 慣例；靜態檢查加一項「`namelist()` 全部 `isascii()`」。
+2. 候選檔開給 PO 看之前，必在**另一個 python 程序**跑 testzip＋全部 XML 解析；`zipfile.writestr(info, …)` 會改寫傳入的 ZipInfo，改寫過的項目要用新建的 `ZipInfo`，否則後續讀取報 Bad magic number（本次候選 D 因此壞檔，多耗 PO 一次開檔）。
+3. 排查順序：先鎖檔＋lsof（上一段）→ 再 zip 部件名 ASCII → 再 08-24 四類根因；不要一開始就拆 XML。
+4. 二分法工具：以最近一份不跳的備份為起點，每次只改一個變因另存候選，`open -g` 請 PO 回報跳／不跳；候選集中放 `workingfiles/outputs/_shared/<主題>bisect/`。
