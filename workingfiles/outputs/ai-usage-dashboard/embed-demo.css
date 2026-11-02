@@ -1,0 +1,6 @@
+  body{margin:0;background:#14232d;color:#eee3c9;font:14px/1.5 "PingFang TC","Noto Sans TC",sans-serif;padding:24px}
+  .hub{--panel:#1b2e39;--panel-2:#233b48;--line:#5a4f35;--accent:#c79a3e;--ink:#eee3c9;--ink-2:#a89b7d;--ink-3:#6e6550;width:360px}
+  .light{background:#f6f2e8;color:#222;padding:16px;border-radius:8px;width:360px;margin-top:24px;--panel:#fff;--panel-2:#f1ece0;--line:#cfc6b0;--accent:#8a6d2f;--ink:#222;--ink-2:#6b6253;--ink-3:#a39a88}
+  h2{font-size:14px;margin:0 0 8px;color:#a89b7d;font-weight:500}
+  code{font-family:"IBM Plex Mono",Menlo,monospace;font-size:12px}
+.gap{margin-top:24px}

@@ -4,3 +4,5 @@ outputs/dashboard.html
 .DS_Store
 .antigravitycli/
 __pycache__/
+# ai-usage 額度監看的執行期資料（快照、歷史、心跳），不進版控
+workingfiles/outputs/_shared/ai-usage-20261019/runtime/

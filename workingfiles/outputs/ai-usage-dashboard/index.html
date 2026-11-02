@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>AI 額度</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="pace.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><h1>AI 額度</h1><span id="service-dot" class="dot"></span><span id="service-status">正在連線</span><span class="muted" id="service-detail"></span></div>
+    <div class="actions"><span class="muted">心跳 <time id="heartbeat">—</time></span><button id="refresh" type="button">↻ 刷新</button><span id="refresh-result" role="status" aria-live="polite"></span></div>
+  </header>
+  <main>
+    <section class="board" aria-label="目前剩餘額度">
+      <div class="row"><h2>本期剩餘<small>五小時池 · 距重置</small></h2><div id="mini-period" class="cells" aria-live="polite"></div></div>
+      <div class="row"><h2>本週剩餘<small>七日池 · 距重置</small></h2><div id="mini-weekly" class="cells" aria-live="polite"></div></div>
+      <p class="legend">長條＝剩餘比例；本週格的白色刻線＝本週時間剩餘比例，長條短於刻線＝用得比均速快。提醒 ≤20%、保留 ≤5%。三家百分比不能相加。</p>
+    </section>
+    <details class="more" id="history">
+      <summary><span>七日剩餘軌跡</span><span class="tabs" role="group" aria-label="供應商"><button data-provider="claude" aria-pressed="true">Claude</button><button data-provider="codex" aria-pressed="false">Codex</button><button data-provider="agy" aria-pressed="false">Antigravity</button></span></summary>
+      <div class="more-body"><div id="chart" class="chart" aria-live="polite"></div><div id="chart-legend" class="chart-legend"></div><p class="muted">台北時間 · 重置後曲線上升 · 無效採樣留斷線</p></div>
+    </details>
+    <details class="more" id="resets">
+      <summary><span>重置時序</span></summary>
+      <div class="more-body"><div id="reset-schedule"></div></div>
+    </details>
+    <details class="more" id="rules">
+      <summary><span>資料與派工規則</span></summary>
+      <div class="more-body rules">
+        <p>每格數字來自各家官方 CLI；未知、過期或連線中斷時改顯示狀態字，不顯示舊數字。到達重置時間後仍須等待有效採樣。Antigravity 內的 Claude／GPT 池不等於直訂 Claude／Codex 的額度。<span id="monitor-config"></span></p>
+        <p>派工前共用檢查：<code>python3 tools/ai_usage/monitor.py check --provider claude</code>　結束碼 0 可派工、1 提醒（≤20%）、2 暫停（≤5%／耗盡／受限）、3 無法判定。</p>
+        <p id="sources"></p>
+      </div>
+    </details>
+    <footer>資料留在本機 · 時間皆為台北 · 每 <span id="cadence">—</span> 採樣一次，畫面每 15 秒更新</footer>
+  </main>
+</body>
+</html>

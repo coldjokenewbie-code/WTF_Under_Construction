@@ -103,7 +103,7 @@ python-pptx／XML 手改產出的 pptx，LibreOffice 轉檔與 ElementTree 解�
 
 **為什麼每次都要讀本檔**：GLOBAL.md 路由表已規定「pptx／docx／gen 腳本」情境先開本檔；本段是第一道，刪頁／改 rPr 等後段規則都以檔案已安全可寫為前提。
 
-**機檢（PO 2026-11-01 核准）**：PreToolUse hook `office-lock-gate.py` 對 Bash／Write／Edit 輸入裡的 `.pptx/.docx/.xlsx` 路徑做上述第 1 項檢查，檔案開著即拒絕執行；只認字面路徑，腳本內組出的路徑仍靠本段規則。失效即放行（空 stdin、壞 JSON、例外、lsof 逾時都 exit 0）。停用：建立空檔 `~/.claude/wtf-session-state/office-lock-gate.off`；擋下與放行紀錄在同目錄 `office-lock-gate.log`。
+**機檢（PO 2026-11-01 核准）**：PreToolUse hook `office-lock-gate.py` 對 Bash／Write／Edit 輸入裡的 `.pptx/.docx/.xlsx` 路徑做上述第 1 項檢查，檔案開著即拒絕執行；只認字面路徑，腳本內組出的路徑仍靠本段規則。失效即放行（空 stdin、壞 JSON、例外、lsof 逾時都 exit 0）。停用：建立空檔 `~/.claude/wtf-session-state/office-lock-gate.off`；擋下與放行紀錄在同目錄 `office-lock-gate.log`。 **其他機器**（PO 2026-11-02 核准全機安裝）：pull 後各跑一次 `python3 workingfiles/outputs/_shared/_scripts/office-lock-gate_install.py`（複製 hook 進 `~/.claude` 設定並備份 settings.json），只對之後新開的 session 生效。
 
 ## zip 層新增的 media 部件名必須 ASCII——中文檔名＝PowerPoint 判損毀、LibreOffice 照開（2026-11-02 南科再生水廠）
 
