@@ -586,6 +586,19 @@ def cmd_sync():
     return rc
 
 
+REGISTER_TOUCH_DAYS = 30
+
+
+def _within_days(last_seen, now, days):
+    """兩個 ts() 字串（YYYY-MM-DD HH:MM:SS）相差是否在 days 天內；解析失敗視為超過。"""
+    try:
+        from datetime import datetime
+        fmt = "%Y-%m-%d %H:%M:%S"
+        return 0 <= (datetime.strptime(now, fmt) - datetime.strptime(last_seen, fmt)).days < days
+    except ValueError:
+        return False
+
+
 def cmd_register():
     sys.stdout.reconfigure(encoding="utf-8")
     hostname = socket.gethostname()
@@ -602,6 +615,13 @@ def cmd_register():
         if l.startswith(f"| {hostname} |"):
             cols = [c.strip() for c in l.strip().strip("|").split("|")]
             alias = cols[3] if len(cols) > 3 else "(待填)"
+            last_seen = cols[4] if len(cols) > 4 else ""
+            # 2026-11-02 PO 裁定：OS／根路徑沒變且 30 天內出現過就不改寫，
+            # 否則每個 session 的 hook 都把 machines.md 弄髒一次。
+            if (cols[1:3] == [osname, f"`{root}`"]
+                    and _within_days(last_seen, now, REGISTER_TOUCH_DAYS)):
+                print(f"[已存在] {hostname} 最後出現 {last_seen}，{REGISTER_TOUCH_DAYS} 天內不改寫")
+                return 0
             lines[i] = f"| {hostname} | {osname} | `{root}` | {alias} | {now} |"
             found = True
             break
