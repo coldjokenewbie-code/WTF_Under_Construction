@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-11-02 08:30**：main..night-relay領先1539 commits。昨夜（11-01 19:00晨報後）4顆心跳全秒退（19:35/21:35/23:35/01:35），**0 mission增量**；期間併入main維護類commit 4個（`b3eb72e`office鎖檔規範、`5345884`/`5a6cb3c`reload_or_open交付規範、`efee2c4`/`ac68f9b`office-lock-gate機檢，均與mission無關）。main另有2個尚未併入commit（`5aa2e34`/`9a31786`，南科zip媒體名修復，與mission無關）。
+**提醒棒 2026-11-02 19:08**：已併`origin/main`進`night-relay`（25檔變更，主為`tools/ai_usage`額度監控系統新增＋南科zip媒體名修復等，均與mission無關，無衝突）。
 **待核准清單**：`20260706-guide-app`（優2，卡氛圍底圖/縮圖/hero風格裁決）；`test-baton-pickup-0706`（優9，backlog全勾，建議直接結案）。
 **提名清單**（候選，未啟動）：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——後4項掛載repo未補掛，詳第6節。
-**blockers待決**：`guide-app`氛圍底圖/縮圖/hero風格統一路線（待重拍截圖裁決，07-08起）＋anchor升級提案（自07-09起**118天未裁決**）；`machine-report`驗收未過待補具體修改點（自07-21起**106天**）。均無新增。
-**產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆，因QUEUE無`待規劃`/`active`項，**預計將秒退，完成日＝無（無可作項）**。要恢復產出，需使用者將待核准任一行改`active`，或提名清單改`待規劃`。
-**連續天數**：**142夜零active**。chain-capability探測仍延續FAIL（CronCreate durable仍不可用）。
+**blockers待決**：`guide-app`氛圍底圖/縮圖/hero風格統一路線（自07-08起**117天**未裁決）＋anchor升級提案（自07-09起**116天**未裁決）；`machine-report`驗收未過待補具體修改點（自07-21起**104天**）。均無新增。
+**產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆（19:30/21:30/23:30/01:30），因QUEUE無`待規劃`/`active`項，**預計全秒退，完成日＝無（無可作項）**。要恢復產出，需使用者將待核准任一行改`active`，或提名清單改`待規劃`。
+**連續天數**：**142夜零active**（晨報08:30確認值；若今晚維持0 active，明晨將確認143夜）。chain-capability探測仍延續FAIL（CronCreate durable仍不可用）。
 **合併建議（收貨指令原文）**：收貨＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 
 ## 佇列
