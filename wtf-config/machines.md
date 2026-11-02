@@ -18,5 +18,3 @@
 |---|---|---|---|---|
 | DESKTOP-7SF21LR | Windows 10 | `E:\git_mirror\WTF_Under_Construction` | tachart_ihuy | 2026-07-19 18:20:18 |
 | comaMacBookAir.local | Darwin 25.6.0 | `/Users/coma/git_mirror/WTF_Under_Construction` | comaMacBookAir | 2026-11-02 10:27:23 |
-| Mac.home | Darwin 25.5.0 | `/Users/coma/git_mirror/WTF_Under_Construction` | (待填) | 2026-06-14 19:27:22 |
-| Mac | Darwin 25.6.0 | `/Users/coma/git_mirror/WTF_Under_Construction` | (待填) | 2026-10-14 10:51:17 |
