@@ -19,7 +19,9 @@ HOME = os.path.expanduser("~")
 GLOBAL = os.path.join(HOME, ".claude", "settings.json")
 PROJECTS = ("/Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/"
             "其他電腦/tachart_ihuy/Claude_cowork/projects")
-PAIRS = {"南科再生水廠": ["3Dstudy"], "3Dstudy": ["南科再生水廠"]}
+# 每個 Drive 專案都把整個 projects 根目錄加為附加工作目錄：跨專案讀寫、子代理 cd 都不再問（PO 2026-11-05：專案夾本來就是中文，不能改名）。
+PAIRS = {p: ["."] for p in ("南科再生水廠", "3Dstudy", "Planner2Line", "cowork_CDIC")}
+SCRATCH = "/private/tmp/claude-501"
 
 # 唯讀或只碰本機 loopback 的命令；寫檔、刪檔、起服務、python 執行任意碼都不在內。
 READ_ONLY = [
@@ -32,6 +34,11 @@ READ_ONLY = [
     "Bash(unzip -l:*)", "Bash(zipinfo:*)", "Bash(echo:*)", "Bash(printf:*)", "Bash(date:*)",
     "Bash(mkdir -p:*)", "Bash(git status:*)", "Bash(git log:*)", "Bash(git diff:*)", "Bash(git show:*)",
     "Bash(python3 -m json.tool:*)", "Bash(mdfind:*)", "Bash(which:*)",
+    # 暫存區（Claude Code 2.1.318 起，含中文路徑專案的 session 對自己暫存區 Read／cd／寫檔都會被問）
+    "Read(//private/tmp/claude-501/**)", "Edit(//private/tmp/claude-501/**)", "Write(//private/tmp/claude-501/**)",
+    "Bash(cd /private/tmp/claude-501/*)", "Bash(mkdir -p /private/tmp/claude-501/*)",
+    # 所有 Drive 專案互相可讀
+    "Read(//Users/coma/Library/CloudStorage/GoogleDrive-coldjokenewbie@gmail.com/其他電腦/tachart_ihuy/Claude_cowork/projects/**)",
 ]
 
 DRY = "--dry-run" in sys.argv
@@ -76,7 +83,10 @@ def main():
             continue
         d = load(path)
         ad = d.setdefault("permissions", {}).setdefault("additionalDirectories", [])
-        new = [os.path.join(PROJECTS, o) for o in others if os.path.join(PROJECTS, o) not in ad]
+        new = [os.path.normpath(os.path.join(PROJECTS, o)) for o in others
+               if os.path.normpath(os.path.join(PROJECTS, o)) not in ad]
+        if SCRATCH not in ad:
+            new.append(SCRATCH)
         ad.extend(new)
         save(path, d)
         print(f"[{proj}] additionalDirectories 新增 {[os.path.basename(n) for n in new]}"
