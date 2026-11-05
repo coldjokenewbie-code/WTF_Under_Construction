@@ -58,6 +58,7 @@
 
 **規則**：
 - 跨專案要讀寫，先由三藏在該 session 下 `/add-dir <對方專案>`，或由三藏跑 `workingfiles/outputs/_shared/_scripts/permission-prompt-reduce.py`（全域唯讀白名單＋南科↔3Dstudy 互加 additionalDirectories）。AI 不得自改 settings（分類器判 Self-Modification 直接擋）。
+- **跨專案資料優先向對方專案的 agent 索取（PO 2026-11-05 通告）**：用 ListAgents 找到對方專案正在跑的 session，SendMessage 要素材路徑、內容摘要、config 數值或請它登錄審閱頁，由它在自己工作目錄內讀寫後回傳；反之被要也照給。自己 cd／讀寫別的專案是最後手段。
 - 子代理 prompt 寫明：不 `cd`、絕對路徑、一批一目的、不含 `$(...)`。
 - 寫檔用 Write／Edit，不用 shell 重導向；動態值（時間戳、config 取值）進腳本，不在 Bash 輸入展開。
 - 可能被問的指令單獨一批；唯讀檢查與 SendMessage 另批，避免連坐取消。
