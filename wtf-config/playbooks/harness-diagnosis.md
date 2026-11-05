@@ -47,3 +47,19 @@
 
 - ody 三道閘（`tools/ody/`）已在做第 3 名的機檢版，本診斷與其一致；ody 未覆蓋的日常小任務用上面的輕量版。
 - 第 1、2 名的修法已分別落實在現行 GLOBAL.md／CLAUDE_CODE.md 與 `playbooks/model-dispatch.md`，本檔是「為什麼」的存證，供未來懷疑制度時回查。
+
+## 權限提示減量（PO 2026-11-05 裁定：無意義的審閱要減到最少）
+
+**現象**：auto 模式下各 session 仍頻繁跳「requires approval」，使用者按 No 後 session 原樣重送、再問，工作卡住。11-05 實查三種觸發，全部是命令寫法，不是設定壞掉：
+
+1. **跨專案路徑**：南科 session 的子代理 `cd` 進 3Dstudy 讀素材、3Dstudy session 跑南科的 report.py 寫審閱頁——工作目錄外的 cd／讀寫一律問人，auto 不豁免。
+2. **一批多目的**：sed＋curl＋lsof＋cat 用 `&&`／`;` 串一條，任一段看不懂整條問；同批送出的其他工具呼叫在使用者按 No 時一起被取消。
+3. **分類器讀不出的輸入**：`$(...)` 命令替換（尤其拿來組寫入路徑）、`cat > 檔 <<EOF` heredoc 寫檔、起伺服器／開瀏覽器的腳本內容塞在 Bash 輸入裡。
+
+**規則**：
+- 跨專案要讀寫，先由三藏在該 session 下 `/add-dir <對方專案>`，或由三藏跑 `workingfiles/outputs/_shared/_scripts/permission-prompt-reduce.py`（全域唯讀白名單＋南科↔3Dstudy 互加 additionalDirectories）。AI 不得自改 settings（分類器判 Self-Modification 直接擋）。
+- 子代理 prompt 寫明：不 `cd`、絕對路徑、一批一目的、不含 `$(...)`。
+- 寫檔用 Write／Edit，不用 shell 重導向；動態值（時間戳、config 取值）進腳本，不在 Bash 輸入展開。
+- 可能被問的指令單獨一批；唯讀檢查與 SendMessage 另批，避免連坐取消。
+- 三藏看到唯讀命令（grep／lsof／Read）的提示就按允許；按 No 只會讓它重送。
+- 分類器「gave no verdict」是暫時性錯誤→直接拒絕並退避，不是提示；照指示換做別的事，不連續重試。
