@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-11-05 08:30**：`main..night-relay`領先1571 commits；昨夜（提醒棒19:00起）4顆心跳棒（19:36/21:35/23:35/01:35）全秒退，0 mission增量（證據：`missions/heartbeat.log`末4行）；main新增1筆尚未併入（`nightly-20261105`：今日全repo無使用者工作commit，S-reclaimed-water-plant／SouthLibrary本次已成功掛載，與mission無關，待今晚19:00提醒棒併入）。
+**提醒棒 2026-11-05 19:05**：先併`origin/main`進night-relay（3檔，`session-logs/20261105.md`新增＋`GLOBAL.md`/`model-dispatch.md`各1處修訂，皆與mission無關的制度層微調，無衝突）；QUEUE無`待規劃`/`active`項，今晚循環棒（19:30/21:30/23:35/01:30）預計全秒退。
 **待核准清單**：`20260706-guide-app`（優2，卡氛圍底圖/縮圖/hero風格裁決）；`test-baton-pickup-0706`（優9，backlog全勾，建議直接結案）。
-**提名清單**（候選，未啟動）：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`——後4項掛載repo未補掛，詳第6節。
+**提名清單**（候選，未啟動）：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`。**掛載狀態更新**：今日session-log顯示S-reclaimed-water-plant與SouthLibrary已成功掛載（前次11-04仍標未掛載）——`southlibrary-fonts`／`sreclaim-verify-b`的掛載硬條件已解除；僅`cowork-c-tasks`／`pptmap-skill`仍待補掛。
 **blockers新增項**：無。既有未決：`guide-app`氛圍底圖/縮圖/hero風格統一路線（自07-08起**120天**未裁決）＋anchor升級提案（自07-09起**119天**未裁決）；`machine-report`驗收未過待補具體修改點（自07-21起**107天**）。
-**產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆（19:30/21:30/23:30/01:30），因QUEUE無`待規劃`/`active`項，**預計全秒退，完成日＝無（無可作項）**。要恢復產出，需使用者將待核准任一行改`active`，或提名清單改`待規劃`。
-**連續天數**：**145夜零active**（晨報08:30確認值）。chain-capability探測仍延續FAIL（CronCreate durable仍不可用）。
+**產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆（19:30/21:30/23:30/01:30），因QUEUE無`待規劃`/`active`項，**預計全秒退，完成日＝無（無可作項）**。要恢復產出，需使用者將待核准任一行改`active`，或提名清單改`待規劃`（含剛解除掛載限制的`southlibrary-fonts`/`sreclaim-verify-b`）。
+**連續天數**：**145夜零active**（晨報08:30確認值，今晚起算第146夜，待明晨確認）。chain-capability探測仍延續FAIL（CronCreate durable仍不可用）。
 **合併建議（收貨指令原文）**：收貨＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 
 ## 佇列
