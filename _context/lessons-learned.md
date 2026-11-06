@@ -1,5 +1,9 @@
 # Lessons Learned (實戰教訓)
 
+## 2026-11-06 (W_ 共編檔機器層把關：w-colab-gate hook)
+
+* **共編檔防護需機器層 hook 而非純文字規則**：GLOBAL.md 的文字鐵律無法阻止 AI 意外整檔覆蓋 W_ 共編檔。w-colab-gate hook（PreToolUse 層）退回兩種危險寫入：①直接 Write 覆蓋既有 W_ 檔；②同層 `archive/` 沒有現行版備份就寫入。各機須 PO 手動跑 `w-colab-gate_install.py` 一次才生效（hook 安裝非自動部署）；其他工具（Codex/agy）無 hook，仍靠自律。scripts 位置：`workingfiles/outputs/_shared/_scripts/`。（2026-11-06 PO 裁定）
+
 ## 2026-09-22（git_mirror 首次建立：孤立分支導致分岔補救）
 
 * **首次為既有專案建 git_mirror 時，應以 `git clone` 拿到正確歷史後再覆蓋檔案，不要另開孤立分支**：若另開孤立分支並讓本地 main 追蹤它，兩條線無共同祖先，後續 `git push origin main` 報非快轉（non-fast-forward）。已分岔補救步驟：① `git tag archive/<name>-<date>` 保留舊歷史 ② `git push origin <tag>` 推上遠端保留 ③ `git push --force-with-lease=main:<舊SHA> origin HEAD:main` 改寫 ④ `git branch -u origin/main` 更新追蹤。改寫前用 `comm -23 <(git ls-tree -r --name-only origin/main|sort) <(git ls-tree -r --name-only main|sort)` 列出「舊有新無」的檔案，確認只有二進位與已移路徑者才動手。（HsinchuScienceEducationCenter 2026-09-22 實例）
