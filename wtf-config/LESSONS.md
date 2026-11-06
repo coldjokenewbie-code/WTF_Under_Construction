@@ -442,3 +442,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - WTF｜2026-11-05｜Claude Code 權限提示三種觸發：①跨專案路徑（cd 進工作目錄外）②一批多目的（&&/; 串多工具，任一段看不懂整條問）③分類器讀不出的輸入（$() 命令替換、heredoc 寫檔）；解法：跨專案先 /add-dir 或跑 permission-prompt-reduce.py，子代理 prompt 寫絕對路徑+一批一目的；寫檔用 Write/Edit 不用 shell 重導向｜`wtf-config/playbooks/harness-diagnosis.md`（WTF repo）
 - WTF｜2026-11-05｜跨專案資料優先向對方 session 索取：用 ListAgents 找到對方正在跑的 session，SendMessage 要素材路徑或請它登錄結果，由它在自己工作目錄讀寫後回傳；自行 cd 或讀寫別的專案目錄是最後手段｜`wtf-config/playbooks/harness-diagnosis.md`（WTF repo）
 - WTF｜2026-11-05｜模型分層裁定：Fable/Astra/Argon 等頂級模型只做策略規劃研究審閱，不下場製作；Opus 歸執行層最高一級（非頂級皆可，型號依狀況定、不另指定）｜`wtf-config/playbooks/model-dispatch.md`（WTF repo）
+- WTF｜2026-11-06｜「以前不會、現在一直問授權」根因＝Claude Code 2.1.317 內建 cc-plugin-privacy：Bash 輸入同時含帳號 email（Drive 掛載路徑自帶）與 http 網址／curl 就問；解法是 Drive 專案 Bash 一律相對路徑，不是加白名單｜`wtf-config/playbooks/harness-diagnosis.md` 末段

@@ -94,6 +94,6 @@
 - **待辦系統**：入口＝Obsidian Inbox（標題「工作」開頭的速記），用 `/inbox` skill 分流——專案工作→該專案 TaskLog（真相源）＋鏡像到待辦 App（owner=AI）；個人雜務→只進待辦 App（owner=user）。`_context/INBOX.md` 已廢除，看到即視為過時檔。
 - **結案歸檔**：TaskLog 結案＝改前綴 `ClosedTaskLog_` **並**移入 `_context/archive/`；Handover 被接手後同樣歸檔。`_context/` 只留進行中的檔案。
 - **教訓兩層**：工作層（詳述）寫各專案 `_context/lessons-learned.md`；雲端層（索引）在 `wtf-config/LESSONS.md`，每條格式「專案｜日期｜一句話｜連結」。工作層新增後須同步登錄索引一行。
-- **共編檔鐵律（`W_` 前綴，2026-08-14 PO 裁定；2026-10-09 補：凡動 `W_` 檔一律先套用 `/W_colab` skill）**：檔名以 `W_` 開頭的文件＝使用者與 AI 共編，預設使用者可能已直接編輯。使用者說「我已編輯」後：**禁止用產生器／整檔重建腳本改檔**（會覆蓋使用者編輯）；動檔前必先重新讀取檔案最新內容（以 Drive 最新存檔版為基準），之後只做就地增量修改，改前備份至 archive。
+- **共編檔鐵律（`W_` 前綴，2026-08-14 PO 裁定；2026-10-09 補：凡動 `W_` 檔一律先套用 `/W_colab` skill）**：檔名以 `W_` 開頭的文件＝使用者與 AI 共編，預設使用者可能已直接編輯。使用者說「我已編輯」後：**禁止用產生器／整檔重建腳本改檔**（會覆蓋使用者編輯）；動檔前必先重新讀取檔案最新內容（以 Drive 最新存檔版為基準），之後只做就地增量修改，改前備份至 archive。 **機器把關（2026-11-06）**：Claude Code 以 `w-colab-gate` hook 退回兩種寫入——Write 覆蓋既有 `W_` 檔、同層 `archive/` 沒有現行版備份就寫入；各機須跑一次安裝腳本，細節見 `/W_colab`。其他工具無 hook，照本條自律。
 - **Excel／CSV 輸出**：先讀 `playbooks/pitfalls-office-docs.md`（含 xlsx 字體及匯出規範）。
 - **選擇匯報／交付格式**：PO 匯報優先 HTML（有 `rules/html-preferences.md` 須先讀）；業主／廠商正式交付依專案格式。審閱頁同一工作只用一頁（目錄＋選項 tab＋過去版本區），交付重整既有分頁、不另開。見 `playbooks/delivery-conventions.md`。
