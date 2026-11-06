@@ -217,6 +217,42 @@ class HttpTests(unittest.TestCase):
         response = connection.getresponse()
         return response.status, response.read(), response.getheader('Cache-Control')
 
+    def csp(self, method, path, headers=None):
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        self.addCleanup(connection.close)
+        connection.request(method, path, headers=headers or {})
+        response = connection.getresponse()
+        response.read()
+        return response.status, response.getheader('Content-Security-Policy')
+
+    EMBED = {'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Dest': 'iframe',
+             'Sec-Fetch-Mode': 'navigate'}
+
+    def test_embed_home_allowed(self):
+        code, csp = self.csp('GET', '/', self.EMBED)
+        self.assertEqual(code, 200)
+        self.assertIn('frame-ancestors http://127.0.0.1:8780', csp)
+        self.assertNotIn("'none'", csp)
+        headers = dict(self.EMBED, Referer='http://127.0.0.1:8780/index.html')
+        self.assertEqual(self.request('GET', '/', headers)[0], 200)
+
+    def test_embed_rejections(self):
+        cases = [dict(self.EMBED, Referer='http://127.0.0.1:9999/'),
+                 dict(self.EMBED, **{'Sec-Fetch-Site': 'cross-site'}),
+                 dict(self.EMBED, **{'Sec-Fetch-Dest': 'document'})]
+        for headers in cases:
+            self.assertEqual(self.request('GET', '/', headers)[0], 403)
+        for path in ('/api/history', '/style.css'):
+            self.assertEqual(self.request('GET', path, self.EMBED)[0], 403)
+
+    def test_embed_does_not_loosen_others(self):
+        code, csp = self.csp('GET', '/api/status')
+        self.assertEqual(code, 200)
+        self.assertIn("frame-ancestors 'none'", csp)
+        headers = {'X-Usage-Request': '1', 'Sec-Fetch-Site': 'same-site'}
+        self.assertEqual(self.request('POST', '/api/refresh', headers)[0], 403)
+        self.assertEqual(self.request('GET', '/')[0], 200)
+
     def test_read_and_path_limits(self):
         code, body, cache = self.request('GET', '/api/status')
         self.assertEqual(code, 200)

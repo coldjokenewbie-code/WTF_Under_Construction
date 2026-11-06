@@ -19,6 +19,8 @@ FILES = {'/': ('index.html', 'text/html; charset=utf-8'),
          '/embed-demo.css': ('embed-demo.css', 'text/css; charset=utf-8')}
 # 允許其他本機網頁服務（任一 loopback 埠）跨來源讀取的 GET 路徑；POST /api/refresh 仍限同來源。
 CROSS_ORIGIN_GET = {'/api/status', '/ai-quota-board.js'}
+# 只允許這些來源以 iframe 內嵌首頁 `/`；其餘路徑與來源維持禁止內嵌。
+FRAME_ANCESTORS = ('http://127.0.0.1:8780',)
 LOOPBACK_ORIGIN = re.compile(r'^https?://(127\.0\.0\.1|localhost|\[::1\])(:\d+)?$')
 
 
@@ -79,7 +81,7 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return
 
-    def respond(self, code, data, content_type='application/json; charset=utf-8', allow_origin=None):
+    def respond(self, code, data, content_type='application/json; charset=utf-8', allow_origin=None, frameable=False):
         payload = (json.dumps(data, ensure_ascii=False, allow_nan=False).encode()
                    if isinstance(data, (dict, list)) else data)
         self.send_response(code)
@@ -90,7 +92,9 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(payload)))
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
-        self.send_header('Content-Security-Policy', "default-src 'self'; frame-ancestors 'none'")
+        # 僅首頁 `/` 的成功回應可被 FRAME_ANCESTORS 內嵌，其餘一律禁止
+        ancestors = ' '.join(FRAME_ANCESTORS) if frameable else "'none'"
+        self.send_header('Content-Security-Policy', f"default-src 'self'; frame-ancestors {ancestors}")
         self.end_headers()
         self.wfile.write(payload)
 
@@ -112,12 +116,31 @@ class Handler(BaseHTTPRequestHandler):
             return '*' if self.headers.get('Sec-Fetch-Site') in (None, 'same-site', 'same-origin') else None
         return origin if LOOPBACK_ORIGIN.match(origin) else None
 
+    def embed_allowed(self, path):
+        """首頁 `/` 的 iframe 內嵌導覽：所有條件同時成立才放行。"""
+        if path != '/' or self.headers.get('Host') != f'127.0.0.1:{self.server.server_port}':
+            return False
+        if self.headers.get('Origin') is not None:
+            return False
+        if (self.headers.get('Sec-Fetch-Site') != 'same-site'
+                or self.headers.get('Sec-Fetch-Dest') != 'iframe'
+                or self.headers.get('Sec-Fetch-Mode') != 'navigate'):
+            return False
+        referer = self.headers.get('Referer')
+        if referer is not None:
+            parts = urlsplit(referer)
+            if f'{parts.scheme}://{parts.netloc}' not in FRAME_ANCESTORS:
+                return False
+        return True
+
     def do_GET(self):
         path = urlsplit(self.path).path
         allow_origin = None
+        embedded = False
         if not self.is_local_request():
             allow_origin = self.cross_origin_allowed(path)
-            if not allow_origin:
+            embedded = not allow_origin and self.embed_allowed(path)
+            if not allow_origin and not embedded:
                 return self.respond(403, {'error': 'forbidden'})
         if path == '/api/status':
             return self.respond(200, monitor.status(self.application.runtime), allow_origin=allow_origin)
@@ -133,7 +156,7 @@ class Handler(BaseHTTPRequestHandler):
             payload = (STATIC / filename).read_bytes()
         except OSError:
             return self.respond(404, {'error': 'not_found'})
-        self.respond(200, payload, mime, allow_origin=allow_origin)
+        self.respond(200, payload, mime, allow_origin=allow_origin, frameable=(path == '/'))
 
     def do_POST(self):
         if not self.is_local_request() or self.headers.get('X-Usage-Request') != '1':
