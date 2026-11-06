@@ -52,4 +52,4 @@ API：
 python3 -m unittest tools.ai_usage.test_monitor -v
 ```
 
-內嵌：首頁 `/` 僅允許 `http://127.0.0.1:8780` 以 iframe 內嵌，來源清單在 `server.py` 的 `FRAME_ANCESTORS`；其餘路徑仍禁止內嵌。改完須重啟服務。
+內嵌：首頁 `/` 僅允許 `http://127.0.0.1:8780` 以 iframe 內嵌，來源清單在 `server.py` 的 `FRAME_ANCESTORS`；同一來源清單也適用於另開視窗的導覽；其餘路徑仍禁止。改完須重啟服務。

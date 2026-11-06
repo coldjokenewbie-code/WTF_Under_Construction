@@ -19,7 +19,7 @@ FILES = {'/': ('index.html', 'text/html; charset=utf-8'),
          '/embed-demo.css': ('embed-demo.css', 'text/css; charset=utf-8')}
 # 允許其他本機網頁服務（任一 loopback 埠）跨來源讀取的 GET 路徑；POST /api/refresh 仍限同來源。
 CROSS_ORIGIN_GET = {'/api/status', '/ai-quota-board.js'}
-# 只允許這些來源以 iframe 內嵌首頁 `/`；其餘路徑與來源維持禁止內嵌。
+# 只允許這些來源以 iframe 內嵌或另開視窗導覽至首頁 `/`；其餘路徑與來源維持禁止。
 FRAME_ANCESTORS = ('http://127.0.0.1:8780',)
 LOOPBACK_ORIGIN = re.compile(r'^https?://(127\.0\.0\.1|localhost|\[::1\])(:\d+)?$')
 
@@ -116,14 +116,14 @@ class Handler(BaseHTTPRequestHandler):
             return '*' if self.headers.get('Sec-Fetch-Site') in (None, 'same-site', 'same-origin') else None
         return origin if LOOPBACK_ORIGIN.match(origin) else None
 
-    def embed_allowed(self, path):
-        """首頁 `/` 的 iframe 內嵌導覽：所有條件同時成立才放行。"""
+    def navigation_allowed(self, path):
+        """首頁 `/` 的 iframe 內嵌或另開視窗導覽：所有條件同時成立才放行。"""
         if path != '/' or self.headers.get('Host') != f'127.0.0.1:{self.server.server_port}':
             return False
         if self.headers.get('Origin') is not None:
             return False
         if (self.headers.get('Sec-Fetch-Site') != 'same-site'
-                or self.headers.get('Sec-Fetch-Dest') != 'iframe'
+                or self.headers.get('Sec-Fetch-Dest') not in ('iframe', 'document')
                 or self.headers.get('Sec-Fetch-Mode') != 'navigate'):
             return False
         referer = self.headers.get('Referer')
@@ -139,7 +139,7 @@ class Handler(BaseHTTPRequestHandler):
         embedded = False
         if not self.is_local_request():
             allow_origin = self.cross_origin_allowed(path)
-            embedded = not allow_origin and self.embed_allowed(path)
+            embedded = not allow_origin and self.navigation_allowed(path)
             if not allow_origin and not embedded:
                 return self.respond(403, {'error': 'forbidden'})
         if path == '/api/status':
