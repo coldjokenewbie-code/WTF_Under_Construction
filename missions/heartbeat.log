@@ -531,3 +531,4 @@
 2026-11-05 21:36 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確比對：待核准×2/parked×2/done×2/提名×5；台北21:36<04:30門檻，非時間觸發）
 2026-11-05 23:35 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項
 2026-11-06 01:35 台北｜棒醒了｜model=claude-sonnet-5｜秒退:QUEUE無待規劃/active項（整欄精確比對：待核准×2/parked×2/done×2/提名×5；末棒，待明晨08:30晨報確認146夜）
+2026-11-06 19:05 台北｜棒醒了｜model=claude-sonnet-5｜提醒棒19:00：先併main（已併入night-relay 5檔，ai_usage/W_colab/harness-diagnosis/nightly維護類，與mission無關）＋QUEUE無待規劃/active項，彙整快報（連續146夜零active，待核准×2/parked×2/done×2/提名×5）
