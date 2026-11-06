@@ -3,12 +3,12 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-11-05 19:05**：先併`origin/main`進night-relay（3檔，`session-logs/20261105.md`新增＋`GLOBAL.md`/`model-dispatch.md`各1處修訂，皆與mission無關的制度層微調，無衝突）；QUEUE無`待規劃`/`active`項，今晚循環棒（19:30/21:30/23:35/01:30）預計全秒退。
-**待核准清單**：`20260706-guide-app`（優2，卡氛圍底圖/縮圖/hero風格裁決）；`test-baton-pickup-0706`（優9，backlog全勾，建議直接結案）。
-**提名清單**（候選，未啟動）：`ody-evidence-gate`／`southlibrary-fonts`／`cowork-c-tasks`／`sreclaim-verify-b`／`pptmap-skill`。**掛載狀態更新**：今日session-log顯示S-reclaimed-water-plant與SouthLibrary已成功掛載（前次11-04仍標未掛載）——`southlibrary-fonts`／`sreclaim-verify-b`的掛載硬條件已解除；僅`cowork-c-tasks`／`pptmap-skill`仍待補掛。
-**blockers新增項**：無。既有未決：`guide-app`氛圍底圖/縮圖/hero風格統一路線（自07-08起**120天**未裁決）＋anchor升級提案（自07-09起**119天**未裁決）；`machine-report`驗收未過待補具體修改點（自07-21起**107天**）。
-**產能算術**：目前0個active案，backlog剩餘項數=0可排程；今晚循環棒排定4顆（19:30/21:30/23:30/01:30），因QUEUE無`待規劃`/`active`項，**預計全秒退，完成日＝無（無可作項）**。要恢復產出，需使用者將待核准任一行改`active`，或提名清單改`待規劃`（含剛解除掛載限制的`southlibrary-fonts`/`sreclaim-verify-b`）。
-**連續天數**：**145夜零active**（晨報08:30確認值，今晚起算第146夜，待明晨確認）。chain-capability探測仍延續FAIL（CronCreate durable仍不可用）。
+**晨報棒 2026-11-06 08:30**：`origin/main..origin/night-relay`領先1587 commits（全為心跳/秒退/merge，無mission實質增量）。昨夜（提醒棒19:05起）循環棒4顆（19:35/21:36/23:35/01:35）全秒退，原因一致：QUEUE無`待規劃`/`active`項（待核准×2/parked×2/done×2/提名×5，整欄精確比對）。
+**各mission昨夜增量**：**0**——guide-app／machine-report／o4-soundtrack／design-training／session-gate-fix／test-baton-pickup均無新journal條目。證據位置：`missions/heartbeat.log`末4行（01:35止）；各mission`journal.md`最後條目仍停留在舊棒，未更新。
+**main新增**：1 commit已併入night-relay（`nightly-20261106`：今日全repo無使用者工作commit，補錄11-05下午5 commits的LESSONS.md索引條目，與mission無關，無衝突）。
+**blockers新增項**：無。既有未決：`guide-app`氛圍底圖/縮圖/hero風格統一路線（自07-08起**121天**未裁決）＋anchor升級提案（自07-09起**120天**未裁決）；`machine-report`驗收未過待補具體修改點（自07-21起**108天**）。
+**chain-capability**：延續FAIL（CronCreate durable仍明寫session-only，無法棒內自建續鏈）。
+**連續天數**：**146夜零active**（晨報08:30確認值）。
 **合併建議（收貨指令原文）**：收貨＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
 
 ## 佇列
