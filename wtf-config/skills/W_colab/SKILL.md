@@ -27,3 +27,13 @@ description: 共編檔守則。檔名以 W_ 開頭的文件＝使用者與 AI �
 - **憑對話裡的舊版內容直接改**：中間使用者可能已經另外存檔，對話 context 裡的版本已經過期，改下去等於用舊版覆蓋新版。
 - **用「重新生成整份文件」代替局部修改**：即使只是想調整一小段，只要走的是整檔重建路徑（模板引擎、產生器腳本、整份 Write 覆蓋），就是本守則要擋的行為，改用鎖定段落的增量編輯。
 - **跳過備份直接改**：沒有備份，一旦增量修改判斷錯段落或使用者事後想找回舊版，沒有任何復原依據。
+
+## 機器把關（2026-11-06，Claude Code）
+
+- hook 名稱 `w-colab-gate`，原始檔：`workingfiles/outputs/_shared/_scripts/w-colab-gate.py`（PreToolUse，matcher `Bash|Write|Edit|MultiEdit|NotebookEdit`）。
+- 退回兩種情況：Write 覆蓋既有 `W_` 檔；其他寫入時同層 `archive/` 沒有涵蓋現行版本的備份。`archive/`、`_待刪_*` 內的檔與不存在的新檔不擋。
+- 「備份涵蓋現行版本」：`archive/` 內有同副檔名、檔名含完整主檔名（主檔名後接分隔符或副檔名）的檔案，且其 mtime 不早於現行檔；AI 自己被放行寫入後 180 秒內的連續修改免重複備份。
+- 標準備份指令：`mkdir -p "<dir>/archive" && cp -p "<檔>" "<dir>/archive/<主檔名>_<YYMMDD-HHMM><副檔名>"`（退回訊息會逐檔給出）。
+- 看不到的情況：腳本內部的整檔重建、變數與 glob 展開的路徑、非 Claude Code 工具，仍靠守則本文自律。
+- 各機安裝（在 WTF repo 根由 PO 執行）：`python3 workingfiles/outputs/_shared/_scripts/w-colab-gate_install.py`。
+- 緊急關閉：在 home 的 `.claude` 底下 `wtf-session-state` 資料夾放一個名為 `w-colab-gate.off` 的空檔，刪除即恢復。
