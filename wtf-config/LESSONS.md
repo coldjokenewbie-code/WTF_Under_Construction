@@ -443,3 +443,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - WTF｜2026-11-05｜跨專案資料優先向對方 session 索取：用 ListAgents 找到對方正在跑的 session，SendMessage 要素材路徑或請它登錄結果，由它在自己工作目錄讀寫後回傳；自行 cd 或讀寫別的專案目錄是最後手段｜`wtf-config/playbooks/harness-diagnosis.md`（WTF repo）
 - WTF｜2026-11-05｜模型分層裁定：Fable/Astra/Argon 等頂級模型只做策略規劃研究審閱，不下場製作；Opus 歸執行層最高一級（非頂級皆可，型號依狀況定、不另指定）｜`wtf-config/playbooks/model-dispatch.md`（WTF repo）
 - WTF｜2026-11-06｜「以前不會、現在一直問授權」根因＝Claude Code 2.1.317 內建 cc-plugin-privacy：Bash 輸入同時含帳號 email（Drive 掛載路徑自帶）與 http 網址／curl 就問；解法是 Drive 專案 Bash 一律相對路徑，不是加白名單｜`wtf-config/playbooks/harness-diagnosis.md` 末段
+- WTF｜2026-11-06｜W_ 共編檔加 w-colab-gate hook 機器層把關：退回兩種危險寫入（直接覆蓋現行版 W_ 檔、archive/ 無現行備份時寫入）；各機須手動跑 install.py（非自動部署），其他工具無 hook 靠自律｜`wtf-config/GLOBAL.md` 共編檔鐵律＋`workingfiles/outputs/_shared/_scripts/`（WTF repo）
