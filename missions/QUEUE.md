@@ -3,13 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-11-07 08:30**：`origin/main..origin/night-relay`領先1599 commits（全為心跳/秒退/merge，無mission實質增量）。昨夜（提醒棒19:05起）循環棒4顆（19:35/21:35/23:35/01:36）全秒退，原因一致：QUEUE無`待規劃`/`active`項（待核准×2/parked×2/done×2/提名×5，整欄精確比對）。
-**各mission昨夜增量**：**0**——guide-app／machine-report／o4-soundtrack／design-training／session-gate-fix／test-baton-pickup均無新journal條目。證據位置：`missions/heartbeat.log`末4行（01:36止）；各mission`journal.md`最後條目仍停留在舊棒，未更新。
-**main新增**：5 commits已併入night-relay（`ai_usage`南科總控台iframe嵌入＋另開視窗導覽／`W_colab`機器把關hook／`harness-diagnosis`權限提示根因改寫，皆與mission無關的制度層或工具維護，無衝突）。
-**blockers新增項**：無。既有未決：`guide-app`氛圍底圖/縮圖/hero風格統一路線（自07-08起**122天**未裁決）＋anchor升級提案（自07-09起**121天**未裁決）；`machine-report`驗收未過待補具體修改點（自07-21起**109天**）。
-**chain-capability**：延續FAIL（CronCreate durable仍明寫session-only，無法棒內自建續鏈）。
-**連續天數**：**147夜零active**（晨報08:30確認值）。
-**合併建議（收貨指令原文）**：收貨＝使用者在GitHub將`night-relay`合併進`main`；不收貨＝任一session代跑 `git push origin +main:night-relay`。
+**提醒棒 2026-11-07 19:05**：先併main（night-relay已merge 3檔：`_context/lessons-learned.md`／`session-logs/20261107.md`／`wtf-config/LESSONS.md`，皆制度層維護，與mission無關，無衝突）。
+**待核准清單**（2項）：`20260706-guide-app`（優先2，M2達成，剩anchor升級提案待裁）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案改done或刪列）。
+**提名清單**（5項，候選未啟動，棒子不碰）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
+**blockers待決**：guide-app氛圍底圖/縮圖/hero風格統一路線（自07-08起**122天**未裁決，待重拍截圖後裁決）；guide-app anchor升級提案（自07-09起**121天**未裁決）；machine-report驗收未過待補具體修改點（自07-21起**109天**未裁決）。
+**產能算術**：active案數＝**0**，故無剩餘backlog項數/預計完成日可算。今晚循環棒4顆（19:35/21:35/23:35/01:35）因QUEUE無`待規劃`/`active`項，預期全數秒退。
+**連續天數**：147夜零active（晨報08:30確認值），今夜持續則明晨08:30確認148夜。
+**佇列全空提示**：派工請在main的QUEUE.md加一行（狀態填「待規劃」）。
 
 ## 佇列
 
