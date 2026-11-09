@@ -444,3 +444,6 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - WTF｜2026-11-05｜模型分層裁定：Fable/Astra/Argon 等頂級模型只做策略規劃研究審閱，不下場製作；Opus 歸執行層最高一級（非頂級皆可，型號依狀況定、不另指定）｜`wtf-config/playbooks/model-dispatch.md`（WTF repo）
 - WTF｜2026-11-06｜「以前不會、現在一直問授權」根因＝Claude Code 2.1.317 內建 cc-plugin-privacy：Bash 輸入同時含帳號 email（Drive 掛載路徑自帶）與 http 網址／curl 就問；解法是 Drive 專案 Bash 一律相對路徑，不是加白名單｜`wtf-config/playbooks/harness-diagnosis.md` 末段
 - WTF｜2026-11-06｜W_ 共編檔加 w-colab-gate hook 機器層把關：退回兩種危險寫入（直接覆蓋現行版 W_ 檔、archive/ 無現行備份時寫入）；各機須手動跑 install.py（非自動部署），其他工具無 hook 靠自律｜`wtf-config/GLOBAL.md` 共編檔鐵律＋`workingfiles/outputs/_shared/_scripts/`（WTF repo）
+- 南科再生水廠｜2026-11-07｜Codex 製作的 pptx 自驗全過仍有無效 XML：刪除線寫成 a:strike 元素，畫面沒有刪除線、可能跳修復；交辦方每輪自己轉圖放大看，驗收者不用製作方腳本，黃底比對先比整段才比句｜`_context/lessons-learned.md`（南科再生水廠）2026-11-07
+- 南科再生水廠｜2026-11-08｜審閱頁亂、看不懂、看到舊版反覆發生：根因是只靠各線自律、總控只驗載入；改由總控台服務讓 #錨點開頁只顯示該項，並逐卡跑一項檢查；一則意見一張卡、改 W_ 同步更新卡片 MD5｜`_context/lessons-learned.md`（南科再生水廠）2026-11-08
+- Planner2Line｜2026-11-05｜「已部署」≠新版在跑：長駐程式換檔沒重啟就沒生效，核對日誌啟動時間／連續運行時數；失敗紀錄與日誌逐筆對照，某來源有、另一來源無＝另有行程在寫（GUI 自動化重複執行會互搶滑鼠鍵盤剪貼簿，日誌仍記成功）；回報「沒資料」前先 find -newermt 掃整個專案｜projects/Planner2Line/_context/lessons-learned.md#2026-11-05
