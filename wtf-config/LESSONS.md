@@ -447,3 +447,4 @@ HuaNan_Bank｜2026-10-13｜業主圖檔無說明時先找同批交付的系統�
 - 南科再生水廠｜2026-11-07｜Codex 製作的 pptx 自驗全過仍有無效 XML：刪除線寫成 a:strike 元素，畫面沒有刪除線、可能跳修復；交辦方每輪自己轉圖放大看，驗收者不用製作方腳本，黃底比對先比整段才比句｜`_context/lessons-learned.md`（南科再生水廠）2026-11-07
 - 南科再生水廠｜2026-11-08｜審閱頁亂、看不懂、看到舊版反覆發生：根因是只靠各線自律、總控只驗載入；改由總控台服務讓 #錨點開頁只顯示該項，並逐卡跑一項檢查；一則意見一張卡、改 W_ 同步更新卡片 MD5｜`_context/lessons-learned.md`（南科再生水廠）2026-11-08
 - Planner2Line｜2026-11-05｜「已部署」≠新版在跑：長駐程式換檔沒重啟就沒生效，核對日誌啟動時間／連續運行時數；失敗紀錄與日誌逐筆對照，某來源有、另一來源無＝另有行程在寫（GUI 自動化重複執行會互搶滑鼠鍵盤剪貼簿，日誌仍記成功）；回報「沒資料」前先 find -newermt 掃整個專案｜projects/Planner2Line/_context/lessons-learned.md#2026-11-05
+- 南科再生水廠｜2026-11-09｜程式加黃底未查既有 highlight，rPr 重複兩個 highlight 致 PowerPoint 修復框，pptx_postprocess --verify 抓不到；另 rPr regex 截斷會讓 LibreOffice 後段不渲染。加黃底前見任何 highlight 即不加，寫入前加跑 check_rpr_dupes.py 並轉圖對照｜`_context/lessons-learned.md`（南科再生水廠）2026-11-09
