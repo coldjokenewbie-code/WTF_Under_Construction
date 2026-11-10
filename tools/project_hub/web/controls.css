@@ -1,0 +1,45 @@
+/* 僅新增控制：沿用原色票、字級、邊線與間距。 */
+.project-tools{position:relative;z-index:1;background:var(--panel);padding:12px 12px 4px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center}
+.project-tools label{color:var(--mute);font-size:12px}
+.project-tools select,.project-tools button{min-width:0;background:var(--night);border:1px solid var(--line);border-radius:4px;padding:5px;color:var(--ink);font-size:12px}
+.project-tools button{cursor:pointer;white-space:nowrap}
+.say .bind-line{grid-column:1/-1;width:auto;height:auto;min-height:28px;border-radius:4px;background:transparent;color:var(--mute);font-size:12px}
+button:disabled{opacity:.5;cursor:default}
+.project-chip{font:12px var(--f-body);vertical-align:middle;margin-right:8px}
+.candidate-mode{grid-column:1/-1;color:var(--gold);font-size:12px}
+#hub-dialog{width:min(620px,calc(100vw - 28px));max-height:85vh;overflow:auto;background:var(--panel);border:1px solid var(--brass);border-radius:6px;color:var(--ink);padding:20px}
+#hub-dialog::backdrop{background:rgba(8,15,20,.75)}
+#hub-dialog header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#hub-dialog h2{font-size:18px;margin:0}
+#dialog-close{border:1px solid var(--line);border-radius:4px;background:var(--night);cursor:pointer;padding:3px 8px}
+#dialog-body{min-width:0}#dialog-body p{overflow-wrap:anywhere}
+.candidate-list{display:grid;gap:8px;margin:12px 0}
+.candidate{display:flex;gap:10px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:4px;cursor:pointer}
+.candidate input{margin-top:5px;accent-color:var(--gold)}
+.candidate span{min-width:0;overflow-wrap:anywhere}
+.candidate small{display:block;color:var(--mute);font-size:12px}
+.candidate.unavailable{opacity:.55;cursor:default}
+#dialog-status{min-height:20px}
+@media(max-width:1100px){
+  .side .ghost{display:none}
+  .project-tools{position:relative;z-index:1;background:var(--panel)}
+  .stage.has-qb .ov{grid-template-columns:1fr;justify-items:center}
+  .stage.has-qb .kpis{width:100%}
+  .stage.has-qb .ring{width:240px;height:240px}
+  .stage.has-qb .eq{min-width:0;width:100%}
+  .top{min-width:0}.tabs{min-width:0;gap:2px}.tab{padding:6px 10px}
+  .due{max-width:100%;min-width:0}.due small{overflow-wrap:anywhere}
+  .det,.tdg,.row,.pgv,.pg-hd{min-width:0;max-width:100%}
+  .rv-hd,.pg-hd,.act{flex-wrap:wrap}.det h2{overflow-wrap:anywhere}
+}
+/* 桌面長待決題：每區有自己的高度與捲動，不能擠掉中央舞台／側欄指示。 */
+@media(min-width:1101px){
+  .app{grid-template-rows:56px auto auto minmax(120px,1fr) auto}
+  .stage{isolation:isolate}
+  .deck{max-height:34vh;min-height:0;overflow:hidden;position:relative;z-index:1}
+  .deck-hd,.card .ch,.say,.project-tools,.side-hd{flex-shrink:0}
+  .list{min-height:0}
+}
+@media(min-width:1101px) and (max-height:1000px){.qb{--qs:.5}}
+@media(min-width:1101px) and (max-height:800px){.qb{--qs:.38}}
+.ref-text{font-size:12px;color:var(--mute);overflow-wrap:anywhere}

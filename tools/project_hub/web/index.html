@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>指揮中心</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/static/hub.css">
+<link rel="stylesheet" href="/static/controls.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="logo"><b>■</b> CONTROL <span id="pname">指揮中心</span></div>
+    <nav class="tabs" aria-label="檢視">
+      <button class="tab on" data-view="ov">總覽</button>
+      <button class="tab" data-view="todos">待辦 <span class="n" id="n-todo"></span></button>
+      <button class="tab" data-view="rvlist">審閱 <span class="n" id="n-rev"></span></button>
+      <button class="tab" data-view="pages">審閱網頁</button>
+      <button class="tab" data-view="sent">已送出 <span class="n" id="n-bad"></span></button>
+      <a class="tab" id="quota-open" href="http://127.0.0.1:8766/" target="ai_quota" style="text-decoration:none" onclick="window.open(this.href,'ai_quota','width=1200,height=900');return false">AI 額度 ↗</a>
+    </nav>
+    <div class="due" title="交付倒數"><i></i><b id="due">—</b><small id="due-l">距離交付</small></div>
+    <div class="srv" id="srv"><i></i><span>連線中</span></div>
+  </header>
+  <div class="tick calm" id="tick"><span>讀取中…</span></div>
+  <aside class="side">
+    <div class="ghost">EXHIBITS</div>
+    <div class="project-tools"><label for="project-select">專案</label><select id="project-select" aria-label="切換專案"></select><button id="project-add" title="新增專案">＋ 新增</button></div>
+    <div class="side-hd"><span>工作項目</span><span>軟體異常 <b id="n-warn">0</b></span></div>
+    <div class="list" id="list"></div>
+    <form class="say" id="say">
+      <label for="say-t">對 <b id="say-to">（先在上方點選工作項目）</b> 下指示</label>
+      <textarea id="say-t" placeholder="輸入指示，送進負責的工作線"></textarea>
+      <button type="submit" title="送出指示" aria-label="送出指示">➤</button>
+      <div class="st" id="say-st"></div><button type="button" class="bind-line" id="say-bind">重新連結工作線</button>
+    </form>
+  </aside>
+  <main class="stage" id="stage"></main>
+  <section class="qb" id="qb" hidden aria-label="AI 額度與工作線健康度">
+    <div class="qb-q"><iframe src="http://127.0.0.1:8766/" title="AI 額度" scrolling="no"></iframe></div>
+    <div class="scene" id="scene" aria-label="工作線對話健康度"><canvas aria-hidden="true"></canvas><div class="sc-layer"></div><div class="sc-lg"></div><div class="sc-tip" hidden></div><div class="sc-msg" role="status" hidden></div></div>
+  </section>
+  <section class="deck">
+    <div class="deck-hd" id="deck-hd" role="button" tabindex="0" aria-controls="cards"><h3>待你決定</h3><small id="deck-n">0 題　選好按送出，直接送進負責的工作線</small><span class="tg" id="deck-tg">收起 ▼</span></div>
+    <div class="cards" id="cards"></div>
+  </section>
+  <nav class="rail" aria-label="工具">
+    <button data-view="ov" title="回到總覽" aria-label="回到總覽">◎</button>
+    <button id="refresh" title="立即更新" aria-label="立即更新">↻</button>
+    <button data-view="sent" title="已送出的回覆" aria-label="已送出的回覆">✉</button>
+  </nav>
+</div>
+<dialog id="hub-dialog" aria-labelledby="dialog-title"><header><h2 id="dialog-title"></h2><button type="button" id="dialog-close" aria-label="關閉">✕</button></header><div id="dialog-body"></div></dialog>
+<div id="lb"><img alt=""></div>
+
+
+<script defer src="/static/scope.js"></script>
+<script defer src="/static/hub.js"></script>
+<script defer src="/static/controls.js"></script>
+<script defer src="/static/events.js"></script>
+<script defer src="/static/scene.js"></script>
+</body>
+</html>
