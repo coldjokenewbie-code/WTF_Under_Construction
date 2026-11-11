@@ -3,14 +3,13 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-11-11 08:30**：覆寫今日快報（`main..night-relay`領先1639 commits，昨夜19:36/21:39/23:35/01:35共4顆心跳全秒退（19:36首棒chain-capability探測延續FAIL），0 mission增量）。
-**各mission昨晚增量**：全部0。原因：QUEUE無`待規劃`/`active`項，循環棒依規則秒退。證據：`missions/heartbeat.log`（19:36/21:39/23:35/01:35四筆）＋本檔上次快報(0f9c823)。
-**main新增1 commit尚未併入**：`1691090` nightly-20261111（今日各repo無活動，無新lesson），與mission無關；併入留給下次提醒棒(19:00)處理，本棒不動工不合併。
+**提醒棒 2026-11-11 19:10**：已先併`origin/main`進night-relay（新增1 commit `1691090` nightly-20261111，日常lesson掃描檔，與mission無關）。QUEUE仍無`待規劃`/`active`項，延續晨報確認的151夜零active，今夜循環棒（19:30/21:30/23:35/01:35）預期將繼續秒退，待明晨08:30晨報確認152夜。
 **待核准清單**（2項，未變動）：`20260706-guide-app`（優先2，M2達成，剩anchor升級提案待裁）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案改done或刪列）。
 **提名清單**（5項，候選未啟動，棒子不碰）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers新增項**：無。既有累計：guide-app氛圍底圖/縮圖/hero風格統一路線（自07-08起**126天**未裁決）；guide-app anchor升級提案（自07-09起**125天**未裁決）；machine-report驗收未過待補具體修改點（自07-21起**113天**未裁決）。
-**連續天數**：151夜零active（晨報確認值）。
-**合併建議（收貨＝merge night-relay進main）**：本次night-relay無mission實質產出，僅心跳/快報。使用者要收這些紀錄即執行：
+**blockers待決**（累計未變）：guide-app氛圍底圖/縮圖/hero風格統一路線（自07-08起**126天**未裁決）；guide-app anchor升級提案（自07-09起**125天**未裁決）；machine-report驗收未過待補具體修改點（自07-21起**113天**未裁決）。
+**產能算術**：無active案，故無剩餘backlog項數可算；今晚排定4棒（19:30/21:30/23:35/01:35），若維持0 active則全數秒退，完成日無法估算——卡點在「派工」而非「執行力」。
+**派工請求**：QUEUE無可作項已151夜，若待核准2項仍無裁決意願，建議至少明示保留或結案，避免清單長期佔位。
+**合併建議（收貨＝merge night-relay進main）**：本次night-relay僅心跳/快報，無mission實質產出。使用者要收這些紀錄即執行：
 ```
 git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main
 ```
