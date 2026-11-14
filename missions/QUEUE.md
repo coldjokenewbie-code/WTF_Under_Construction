@@ -3,12 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**提醒棒 2026-11-13 19:00**：延續**153夜零active**（晨報08:30已確認）；已先併main進night-relay（無衝突，session-logs/20261113.md一併併入）。QUEUE狀態未變：待核准×2／parked×2／done×2／提名×5，無`待規劃`/`active`項，預期今晚19:30/21:30/23:30/01:30四棒沿用秒退，若持續則明晨08:30確認154夜。main..night-relay領先1656 commits（絕大多數為歷史心跳/快報紀錄，非mission產出）；night-relay已追平main，0落後。
-**待核准清單**（2項，未變動）：`20260706-guide-app`（優先2，M2達成，剩anchor升級提案待裁）／`test-baton-pickup-0706`（優先9，backlog全勾，建議使用者直接結案改done或刪列）。
-**提名清單**（5項，未變動）：ody-evidence-gate／southlibrary-fonts／cowork-c-tasks／sreclaim-verify-b／pptmap-skill。
-**blockers待決**（累計未變，無新增項）：guide-app氛圍底圖/縮圖/hero風格統一路線（自07-08起**128天**未裁決）；guide-app anchor升級提案（自07-09起**127天**未裁決）；machine-report驗收未過待補具體修改點（自07-21起**115天**未裁決）。
-**產能算術**：目前0個active mission，無進行中backlog可估算完成日；今晚排定4棒，若狀態無變動則4棒皆秒退＝0增量。
-**合併指令原文（收貨＝merge night-relay進main）**：本次night-relay僅心跳/快報，無mission實質產出。使用者要收這些紀錄即執行：
+**晨報棒 2026-11-14 08:30**：main..night-relay領先1661 commits（main同期新增1 commit `0680123`=nightly log，與mission無關；git merge權限被拒，本棒未併，留待下次提醒棒處理，無衝突風險）。昨夜19:00提醒棒＋19:30/21:30/23:30/01:30四顆循環棒**全數秒退**（QUEUE無`待規劃`/`active`項），延續至**154夜零active**。
+**mission增量**：0。證據：`missions/heartbeat.log`新增4行心跳（均標「秒退:QUEUE無待規劃/active項」）；`missions/QUEUE.md`今日快報段（19:00提醒棒寫入）。
+**狀態未變**：待核准×2（`20260706-guide-app`優先2／`test-baton-pickup-0706`優先9，backlog全勾建議使用者直接結案）；parked×2；done×2；提名×5（未經核准不碰）。
+**blockers待決（無新增）**：guide-app氛圍底圖/hero風格路線（自07-08起**129天**）；guide-app anchor升級提案（自07-09起**128天**）；machine-report驗收修改點（自07-21起**116天**）。
+**合併指令原文（收貨＝merge night-relay進main）**：
 ```
 git fetch origin && git checkout main && git merge origin/night-relay --no-edit && git push origin main
 ```
