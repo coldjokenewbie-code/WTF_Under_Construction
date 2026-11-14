@@ -3,9 +3,11 @@
 > 狀態機：待規劃 → 待核准 → active → done；旁路 parked（零進展/偏航，待使用者處置）。
 
 ## 今日快報
-**晨報棒 2026-11-14 08:30**：main..night-relay領先1661 commits（main同期新增1 commit `0680123`=nightly log，與mission無關；git merge權限被拒，本棒未併，留待下次提醒棒處理，無衝突風險）。昨夜19:00提醒棒＋19:30/21:30/23:30/01:30四顆循環棒**全數秒退**（QUEUE無`待規劃`/`active`項），延續至**154夜零active**。
-**mission增量**：0。證據：`missions/heartbeat.log`新增4行心跳（均標「秒退:QUEUE無待規劃/active項」）；`missions/QUEUE.md`今日快報段（19:00提醒棒寫入）。
-**狀態未變**：待核准×2（`20260706-guide-app`優先2／`test-baton-pickup-0706`優先9，backlog全勾建議使用者直接結案）；parked×2；done×2；提名×5（未經核准不碰）。
+**提醒棒 2026-11-14 19:00**：先併main（已併入night-relay，`session-logs/20261114.md`，與mission無關，無衝突）。QUEUE仍無`待規劃`/`active`項，延續**154夜零active**（今夜循環棒持續秒退則明晨08:30確認155夜）。
+**產能算術**：0個active案——無可推算剩餘backlog項數/排定棒數/預計完成日。
+**待核准×2**（需使用者動作才能續跑）：`20260706-guide-app`（優先2，剩餘卡點＝anchor升級提案待裁決，見下）／`test-baton-pickup-0706`（優先9，backlog全勾，建議直接改`done`或刪列，無需續跑）。
+**提名×5**（候選，未核准不碰）：ody-evidence-gate／southlibrary-fonts（需掛SouthLibrary）／cowork-c-tasks（需掛cowork_CDIC）／sreclaim-verify-b（需掛S-reclaimed-water-plant）／pptmap-skill（需掛ppt_map_mark）。
+**parked×2**：20260706-machine-report（優先1，待使用者補充具體修正意見）／20260707-design-training（優先4，本機限定，非卡點）。
 **blockers待決（無新增）**：guide-app氛圍底圖/hero風格路線（自07-08起**129天**）；guide-app anchor升級提案（自07-09起**128天**）；machine-report驗收修改點（自07-21起**116天**）。
 **合併指令原文（收貨＝merge night-relay進main）**：
 ```
